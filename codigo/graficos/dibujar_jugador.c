@@ -1,0 +1,26 @@
+#include <ultra64.h>
+#include <juego/macros.h>
+#include <juego/estructuras_comunes.h>
+#include <juego/definiciones.h>
+#include <juego/mk64.h>
+#include <juego/pista.h>
+
+#include "carrera/preparacion_carrera.h"
+#include "carrera/camara.h"
+#include "sistema/matematicas.h"
+#include "sistema/matematicas_2.h"
+#include "sistema/bucle_principal.h"
+#include "juego/decodificacion.h"
+#include "graficos/texturas_kart.h"
+#include "juego/objetos.h"
+#include "graficos/dibujar_jugador.h"
+#include "carrera/objetos_y_efectos.h"
+#include "carrera/efectos.h"
+#include "memoria/buffers.h"
+#include "juego/camino.h"
+#include "carrera/control_jugador.h"
+#include "graficos/dibujar_objetos.h"
+#include <recursos/datos_comunes.h>
+#include "graficos/cielo_y_pantalla_dividida.h"
+#include "dibujar_jugador/preparar_jugadores.inc.c"
+#include "dibujar_jugador/dibujar_kart_y_sombra.inc.c"

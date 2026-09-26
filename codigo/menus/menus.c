@@ -1,0 +1,25 @@
+#include <ultra64.h>
+#include <juego/macros.h>
+#include <juego/definiciones.h>
+#include <juego/estructuras_comunes.h>
+#include <juego/mk64.h>
+#include <juego/pista.h>
+
+#include "menus/menus.h"
+#include "sistema/bucle_principal.h"
+#include "carrera/preparacion_carrera.h"
+#include "carrera/actores.h"
+#include "audio/externo.h"
+#include "carrera/preparacion_carrera.h"
+#include "carrera/ia_vehiculos_y_camara.h"
+#include "menus/elementos_menu.h"
+#include "graficos/vertices_luces_800AF9B0.h"
+#include "sistema/guardado.h"
+#include "carrera/repeticiones.h"
+#include "juego/datos_guardado.h"
+#include <juego/sonidos.h>
+#include "carrera/aparicion_jugadores.h"
+#include "juego/ids_musica.h"
+#include "menus/tablas_menus.inc.c"
+#include "menus/menus_principales.inc.c"
+#include "menus/estados_menu.inc.c"

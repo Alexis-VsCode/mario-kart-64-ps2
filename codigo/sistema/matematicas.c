@@ -1,0 +1,12 @@
+#include <ultra64.h>
+#include <juego/mk64.h>
+#include <juego/macros.h>
+#include <sistema/matematicas.h>
+#include <sistema/bucle_principal.h>
+#include "memoria/buffers.h"
+#include <PR/rcp.h>
+#include "memoria/tablas_trigonometricas.h"
+#include "math.h"
+#include "memoria/memoria_carrera.h"
+#include "matematicas/vectores_y_matrices.inc.c"
+#include "matematicas/angulos_y_aleatorio.inc.c"

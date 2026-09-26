@@ -1,0 +1,21 @@
+#include <ultra64.h>
+#include <juego/macros.h>
+#include <juego/definiciones.h>
+#include <juego/mk64.h>
+#include <juego/pista.h>
+
+#include "carrera/camara.h"
+#include "sistema/matematicas_2.h"
+#include <juego/sonidos.h>
+#include "audio/externo.h"
+#include "audio/carga.h"
+#include "audio/datos.h"
+#include "audio/puerto_eu.h"
+#include "carrera/preparacion_carrera.h"
+#include "carrera/ia_vehiculos_y_camara.h"
+#include "menus/elementos_menu.h"
+#include "juego/ids_musica.h"
+#include "externo/sesion_audio.inc.c"
+#include "externo/efectos_sonido.inc.c"
+#include "externo/sonidos_jugadores.inc.c"
+#include "externo/secuencias_musica.inc.c"

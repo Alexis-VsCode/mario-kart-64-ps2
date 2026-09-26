@@ -1,0 +1,46 @@
+#ifndef GCC
+#define carrera_estado_as_u16
+#endif
+#include <ultra64.h>
+#include <PR/os.h>
+#include <PR/ucode.h>
+#include <juego/macros.h>
+#include <juego/decodificacion.h>
+#include <juego/mk64.h>
+#include <juego/pista.h>
+
+#include "sistema/perfilador.h"
+#include "sistema/bucle_principal.h"
+#include "memoria/memoria_carrera.h"
+#include "menus/menus.h"
+#include <juego/segmentos.h>
+#include <juego/estructuras_comunes.h>
+#include <juego/definiciones.h>
+#include "memoria/buffers.h"
+#include "carrera/camara.h"
+#include "sistema/perfilador.h"
+#include "carrera/logica_carrera.h"
+#include "graficos/cielo_y_pantalla_dividida.h"
+#include "graficos/dibujar_objetos.h"
+#include "carrera/efectos.h"
+#include "ceremonia/carga_ceremonia.h"
+#include "audio/externo.h"
+#include "carrera/preparacion_carrera.h"
+#include "ceremonia/bucle_creditos.h"
+#include "ceremonia/actores_podio.h"
+#include "menus/elementos_menu.h"
+#include "carrera/objetos_y_efectos.h"
+#include "sistema/perfilador.h"
+#include "carrera/control_jugador.h"
+#include "graficos/dibujar_jugador.h"
+#include "graficos/dibujar_pistas.h"
+#include "carrera/actores.h"
+#include "carrera/repeticiones.h"
+#include <depuracion/depuracion_juego.h>
+#include "sistema/pantalla_fallo.h"
+#include "memoria/buffer_salida_graficos.h"
+#ifdef TARGET_PS2
+#include "sistema/perfilado.h"
+#endif
+#include "bucle_principal/tareas_y_mandos.inc.c"
+#include "bucle_principal/hilos_video_y_audio.inc.c"

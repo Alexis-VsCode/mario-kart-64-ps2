@@ -1,0 +1,5 @@
+#include "datos/texturas.h"
+#include "texturas/vistas_previas_pistas.inc.c"
+#include "texturas/fuente_letras.inc.c"
+#include "texturas/fuentes_y_menus.inc.c"
+#include "texturas/animaciones_menu.inc.c"

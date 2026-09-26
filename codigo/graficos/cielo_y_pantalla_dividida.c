@@ -1,0 +1,22 @@
+#include <ultra64.h>
+#include <juego/macros.h>
+#include <PR/gbi.h>
+#include <juego/mk64.h>
+#include <juego/pista.h>
+
+#include "graficos/cielo_y_pantalla_dividida.h"
+#include "carrera/preparacion_carrera.h"
+#include <juego/estructuras_comunes.h>
+#include "memoria/memoria_carrera.h"
+#include "carrera/camara.h"
+#include <recursos/datos_comunes.h>
+#include "graficos/dibujar_jugador.h"
+#include "carrera/objetos_y_efectos.h"
+#include "menus/elementos_menu.h"
+#include "carrera/actores.h"
+#include "graficos/dibujar_pistas.h"
+#include "sistema/matematicas.h"
+#include "sistema/bucle_principal.h"
+#include "menus/menus.h"
+#include "cielo_y_pantalla_dividida/cielo_y_viewport.inc.c"
+#include "cielo_y_pantalla_dividida/pantallas_jugadores.inc.c"

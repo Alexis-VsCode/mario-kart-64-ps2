@@ -1,0 +1,8 @@
+# Salida de la compilación
+build/
+compilaciones/
+__pycache__/
+# ROM original (no se distribuye)
+*.n64
+*.z64
+*.v64

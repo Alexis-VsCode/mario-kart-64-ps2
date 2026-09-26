@@ -1,0 +1,21 @@
+#include <ultra64.h>
+#include <juego/macros.h>
+#include <juego/mk64.h>
+#include <juego/estructuras_comunes.h>
+#include <juego/definiciones.h>
+#include <juego/pista.h>
+
+#include "graficos/dibujar_pistas.h"
+#include "carrera/preparacion_carrera.h"
+#include "sistema/bucle_principal.h"
+#include "carrera/actores.h"
+#include "sistema/matematicas.h"
+#include "memoria/memoria_carrera.h"
+#include "ceremonia/carga_ceremonia.h"
+#include "carrera/colision.h"
+#include "graficos/cielo_y_pantalla_dividida.h"
+#include "recursos/pistas/todos_datos_pistas.h"
+#include "recursos/pistas/todas_listas_empaquetadas.h"
+#include "recursos/pistas/todos_desplazamientos_pistas.h"
+#include "dibujar_pistas/pistas_mario_a_moo_moo.inc.c"
+#include "dibujar_pistas/pistas_toads_a_big_donut.inc.c"

@@ -1,0 +1,21 @@
+#include <ultra64.h>
+#include <juego/macros.h>
+#include <juego/estructuras_comunes.h>
+#include <juego/mk64.h>
+#include <juego/pista.h>
+
+#include "carrera/utilidades_objetos.h"
+#include "carrera/camara.h"
+#include "juego/objetos.h"
+#include "sistema/matematicas.h"
+#include "sistema/matematicas_2.h"
+#include "memoria/memoria_carrera.h"
+#include "carrera/actualizar_objetos.h"
+#include "carrera/colision.h"
+#include "audio/externo.h"
+#include "sistema/bucle_principal.h"
+#include "carrera/objetos_y_efectos.h"
+#include "juego/definiciones.h"
+#include "utilidades_objetos/distancias_y_angulos.inc.c"
+#include "utilidades_objetos/posicion_y_origen.inc.c"
+#include "utilidades_objetos/desplazamiento_nuevo.inc.c"
