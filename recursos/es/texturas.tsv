@@ -2,23 +2,31 @@ id	origen	formato	tamanio	alfa	png	texto_es	retocado	motivo_no
 100cc	recursos/texturas/menus/tkmk00/100cc.rgba16.tkmk00	rgba16	64x18	clave_00BE			no	unidad
 150cc	recursos/texturas/menus/tkmk00/150cc.rgba16.tkmk00	rgba16	64x18	clave_00BE			no	unidad
 50cc	recursos/texturas/menus/tkmk00/50cc.rgba16.tkmk00	rgba16	64x18	clave_00BE			no	unidad
+abandonar_texto	recursos/texturas/generales/abandonar_texto.ia16.mio0	ia16	24x10	formato			no	no se muestra
 atardecer_fondo	recursos/texturas/menus/tkmk00/atardecer_fondo.rgba16.tkmk00	rgba16	320x240	opaco			no	sin texto
 barra_oro	recursos/texturas/menus/tkmk00/barra_oro.rgba16.tkmk00	rgba16	256x40	opaco			no	sin texto
 barra_rosa	recursos/texturas/menus/tkmk00/barra_rosa.rgba16.tkmk00	rgba16	90x16	opaco			no	sin texto
 batalla_modo	recursos/texturas/menus/tkmk00/batalla_modo.rgba16.tkmk00	rgba16	64x18	clave_00BE	recursos/es/mio0/menus/batalla_modo.rgba16.png		no	
+borrar_datos_registro_confirmacion	recursos/texturas/generales/borrar_datos_registro_confirmacion.ia16.mio0	ia16	180x32	formato			no	no se muestra
+borrar_texto	recursos/texturas/generales/borrar_texto.ia16.mio0	ia16	28x10	formato			no	no se muestra
 cielo_azul_fondo	recursos/texturas/menus/tkmk00/cielo_azul_fondo.rgba16.tkmk00	rgba16	320x240	opaco			no	sin texto
 datos	recursos/texturas/menus/tkmk00/datos.rgba16.tkmk00	rgba16	64x18	clave_00BE	recursos/es/mio0/menus/datos.rgba16.png		no	
+datos_juego_texto	recursos/texturas/generales/datos_juego_texto.ia16.mio0	ia16	56x10	formato			no	no se muestra
 datos_r	recursos/texturas/menus/tkmk00/datos_r.rgba16.tkmk00	rgba16	58x19	clave_00BE	recursos/es/mio0/menus/datos_r.rgba16.png		no	
 empezar	recursos/texturas/menus/tkmk00/empezar.rgba16.tkmk00	rgba16	64x18	clave_00BE	recursos/es/mio0/menus/empezar.rgba16.png		no	
 extra	recursos/texturas/menus/tkmk00/extra.rgba16.tkmk00	rgba16	64x18	clave_00BE			no	se escribe igual
 fantasma_menu	recursos/texturas/menus/tkmk00/fantasma_menu.rgba16.tkmk00	rgba16	64x18	clave_00BE	recursos/es/mio0/menus/fantasma_menu.rgba16.png		no	
+fin_texto	recursos/texturas/generales/fin_texto.ia16.mio0	ia16	20x10	formato			no	no se muestra
 franja_blanco	recursos/texturas/menus/tkmk00/franja_blanco.rgba16.tkmk00	rgba16	256x10	opaco			no	sin texto
 franja_oro	recursos/texturas/menus/tkmk00/franja_oro.rgba16.tkmk00	rgba16	256x15	opaco			no	sin texto
 franja_oro_verde	recursos/texturas/menus/tkmk00/franja_oro_verde.rgba16.tkmk00	rgba16	256x29	opaco			no	sin texto
+hash_texto	recursos/texturas/generales/hash_texto.ia16.mio0	ia16	8x10	formato			no	no se muestra
 juego_menu_1j	recursos/texturas/menus/tkmk00/juego_menu_1j.rgba16.tkmk00	rgba16	64x54	clave_00BE	recursos/es/mio0/menus/juego_menu_1j.rgba16.png		no	
 juego_menu_2j	recursos/texturas/menus/tkmk00/juego_menu_2j.rgba16.tkmk00	rgba16	64x54	clave_00BE	recursos/es/mio0/menus/juego_menu_2j.rgba16.png		no	
 juego_menu_3j	recursos/texturas/menus/tkmk00/juego_menu_3j.rgba16.tkmk00	rgba16	64x54	clave_00BE	recursos/es/mio0/menus/juego_menu_3j.rgba16.png		no	
 juego_menu_4j	recursos/texturas/menus/tkmk00/juego_menu_4j.rgba16.tkmk00	rgba16	64x54	clave_00BE	recursos/es/mio0/menus/juego_menu_4j.rgba16.png		no	
+libre_paginas_texto	recursos/texturas/generales/libre_paginas_texto.ia16.mio0	ia16	56x10	formato			no	no se muestra
+lugar_n64_controller_pak_en_mando_1	recursos/texturas/generales/lugar_n64_controller_pak_en_mando_1.ia16.mio0	ia16	180x32	formato			no	no se muestra
 menu_con_item	recursos/texturas/menus/tkmk00/menu_con_item.rgba16.tkmk00	rgba16	64x18	clave_00BE			no	no se muestra
 menu_copa_especial	recursos/texturas/menus/tkmk00/menu_copa_especial.rgba16.tkmk00	rgba16	65x40	clave_00BE	recursos/es/mio0/menus/menu_copa_especial.rgba16.png		no	
 menu_copa_estrella	recursos/texturas/menus/tkmk00/menu_copa_estrella.rgba16.tkmk00	rgba16	65x40	clave_00BE	recursos/es/mio0/menus/menu_copa_estrella.rgba16.png		no	
@@ -28,6 +36,7 @@ menu_sin_item	recursos/texturas/menus/tkmk00/menu_sin_item.rgba16.tkmk00	rgba16	
 modo_contrarreloj	recursos/texturas/menus/tkmk00/modo_contrarreloj.rgba16.tkmk00	rgba16	64x18	clave_00BE	recursos/es/mio0/menus/modo_contrarreloj.rgba16.png		no	
 modo_mario_gp	recursos/texturas/menus/tkmk00/modo_mario_gp.rgba16.tkmk00	rgba16	64x18	clave_00BE			no	nombre del modo
 modo_vs	recursos/texturas/menus/tkmk00/modo_vs.rgba16.tkmk00	rgba16	64x18	clave_00BE			no	se escribe igual
+n64_controller_pak_seleccion_datos	recursos/texturas/generales/n64_controller_pak_seleccion_datos.ia16.mio0	ia16	180x32	formato			no	no se muestra
 nombre_bowser	recursos/texturas/menus/tkmk00/nombre_bowser.rgba16.tkmk00	rgba16	64x12	opaco			no	nombre propio
 nombre_dk	recursos/texturas/menus/tkmk00/nombre_dk.rgba16.tkmk00	rgba16	64x12	opaco			no	nombre propio
 nombre_luigi	recursos/texturas/menus/tkmk00/nombre_luigi.rgba16.tkmk00	rgba16	64x12	opaco			no	nombre propio
@@ -39,9 +48,15 @@ nombre_yoshi	recursos/texturas/menus/tkmk00/nombre_yoshi.rgba16.tkmk00	rgba16	64
 ok	recursos/texturas/menus/tkmk00/ok.rgba16.tkmk00	rgba16	31x19	clave_00BE	recursos/es/mio0/menus/ok.rgba16.png		no	
 opcion	recursos/texturas/menus/tkmk00/opcion.rgba16.tkmk00	rgba16	130x32	opaco	recursos/es/mio0/menus/opcion.rgba16.png		no	
 opcion_l	recursos/texturas/menus/tkmk00/opcion_l.rgba16.tkmk00	rgba16	58x19	clave_00BE	recursos/es/mio0/menus/opcion_l.rgba16.png		no	
+original_n64_reinsertar_por_favor_controller_pak	recursos/texturas/generales/original_n64_reinsertar_por_favor_controller_pak.ia16.mio0	ia16	180x32	formato			no	no se muestra
+paginas_texto	recursos/texturas/generales/paginas_texto.ia16.mio0	ia16	32x10	formato			no	no se muestra
+registro_no_borrado	recursos/texturas/generales/registro_no_borrado.ia16.mio0	ia16	180x32	formato			no	no se muestra
+registro_seleccion	recursos/texturas/generales/registro_seleccion.ia16.mio0	ia16	68x10	formato			no	no se muestra
+registro_seleccionado_borrando	recursos/texturas/generales/registro_seleccionado_borrando.ia16.mio0	ia16	180x32	formato			no	no se muestra
 seleccion_juego	recursos/texturas/menus/tkmk00/seleccion_juego.rgba16.tkmk00	rgba16	200x32	opaco	recursos/es/mio0/menus/seleccion_juego.rgba16.png		no	
 seleccion_jugador	recursos/texturas/menus/tkmk00/seleccion_jugador.rgba16.tkmk00	rgba16	220x32	opaco	recursos/es/mio0/menus/seleccion_jugador.rgba16.png		no	
 seleccion_mapa	recursos/texturas/menus/tkmk00/seleccion_mapa.rgba16.tkmk00	rgba16	190x32	opaco	recursos/es/mio0/menus/seleccion_mapa.rgba16.png		no	
+tabla_de_contenido	recursos/texturas/generales/tabla_de_contenido.ia16.mio0	ia16	88x10	formato			no	no se muestra
 titulo_banshee_boardwalk	recursos/texturas/menus/tkmk00/titulo_banshee_boardwalk.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_banshee_boardwalk.rgba16.png		no	
 titulo_big_donut	recursos/texturas/menus/tkmk00/titulo_big_donut.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_big_donut.rgba16.png		no	
 titulo_block_fort	recursos/texturas/menus/tkmk00/titulo_block_fort.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_block_fort.rgba16.png		no	

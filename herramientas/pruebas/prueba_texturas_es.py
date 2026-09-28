@@ -31,6 +31,13 @@ NO_SE_TRADUCEN = ["nombre_bowser", "nombre_dk", "nombre_luigi", "nombre_mario", 
                   "menu_sin_item", "cielo_azul_fondo", "atardecer_fondo", "barra_oro", "barra_rosa",
                   "franja_blanco", "franja_oro", "franja_oro_verde"]
 
+# Pantalla del Controller Pak: el port no la abre
+CONTROLLER_PAK = ["n64_controller_pak_seleccion_datos", "borrar_datos_registro_confirmacion", "registro_no_borrado",
+                  "lugar_n64_controller_pak_en_mando_1", "original_n64_reinsertar_por_favor_controller_pak",
+                  "registro_seleccionado_borrando", "registro_seleccion", "fin_texto", "tabla_de_contenido",
+                  "hash_texto", "datos_juego_texto", "paginas_texto", "libre_paginas_texto", "borrar_texto",
+                  "abandonar_texto"]
+
 fallos = 0
 comprobaciones = 0
 
@@ -84,6 +91,10 @@ def probar_manifiesto(filas, refs):
         comprobar(not (f["texto_es"] and f["motivo_no"]), "%s: tiene texto_es y motivo_no a la vez" % f["id"])
     for id_ in NO_SE_TRADUCEN:
         comprobar(por_id.get(id_, {}).get("motivo_no"), "%s tiene que llevar motivo_no" % id_)
+    for id_ in CONTROLLER_PAK:
+        f = por_id.get(id_, {})
+        comprobar(f.get("motivo_no") == "no se muestra" and f.get("origen") == "recursos/texturas/generales/%s.ia16.mio0"
+                  % id_, "%s (Controller Pak) tiene que estar como 'no se muestra'" % id_)
 
 
 def probar_ida_y_vuelta(filas, refs, herramienta, tmp):
