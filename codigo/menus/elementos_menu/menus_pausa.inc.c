@@ -168,7 +168,7 @@ void renderizar_menu_pausa_versus(MenuItem* parametro0) {
             variable_s1 = variable_s0;
         }
         efecto_rainbow_texto(parametro0->state - 0x15, variable_s0, AMARILLO_TEXTO);
-        imprimir_modo_texto_1(temporal_s3->column - 2, temporal_s3->row + (13 * variable_s0), boton_pausa_texto[variable_s1], 0, 0.75f, 0.75f);
+        imprimir_modo_texto_1(temporal_s3->column - 2, temporal_s3->row + (13 * variable_s0), boton_pausa_texto[variable_s1], 0, 0.72f, 0.75f);
     }
 }
 
@@ -232,7 +232,7 @@ void renderizar_batalla_pausa(MenuItem* parametro0) {
             variable_s1 = variable_a1;
         }
         efecto_rainbow_texto(parametro0->state - 0x29, variable_a1, AMARILLO_TEXTO);
-        imprimir_modo_texto_1(temporal_s3->column - 2, temporal_s3->row + 13 * variable_a1, boton_pausa_texto[variable_s1], 0, 0.75f, 0.75f);
+        imprimir_modo_texto_1(temporal_s3->column - 2, temporal_s3->row + 13 * variable_a1, boton_pausa_texto[variable_s1], 0, 0.72f, 0.75f);
     }
 }
 
@@ -618,7 +618,7 @@ void funcion_800A69C8(SIN_USO MenuItem* parametro0) {
         }
         funcion_800A79F4(variable_s4[0], sp74);
         dibujar_texto(cosa->column + 0x10, cosa->row + 0x75, sp74, 0, 1.0f, 1.0f);
-        imprimir_modo_centro_texto1_2(dato_800E7380[variable_s0].column, dato_800E7380[variable_s0].row, temporal_s3, 0, 0.65f, 1.0f);
+        imprimir_modo_centro_texto1_2(dato_800E7380[variable_s0].column, dato_800E7380[variable_s0].row, temporal_s3, 0, 0.55f, 1.0f);
     }
     fijar_color_texto(AZUL_TEXTO);
     dibujar_texto(0x0000009E, dato_800E7300[0].row + 0x6D, "ー", 0, 1.0f, 1.0f);

@@ -65,13 +65,13 @@ PAREJA(nombres_copa, 0, 3, dato_800E76DC, 0, 3, 0xA0, 1.0f, 10, ZONA_SEGURA_IZQ,
 LUGAR(L_PAUSA_CONTRARRELOJ, boton_pausa_texto, 0, 4, 5, IZQ, 0x69, 0.75f, 0.75f, 0, 13, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; dato_800E8538, menus_pausa.inc.c:141")
 // Versus y batalla dibujan las entradas 0, 2, 3 y 4
-LUGAR(L_PAUSA_4J_IZQUIERDA, boton_pausa_texto, 0, 0, 1, IZQ, 0x28 - 2, 0.75f, 0.75f, 0, 13, ZONA_SEGURA_IZQ, 160,
+LUGAR(L_PAUSA_4J_IZQUIERDA, boton_pausa_texto, 0, 0, 1, IZQ, 0x28 - 2, 0.72f, 0.75f, 0, 13, ZONA_SEGURA_IZQ, 160,
       "G: cuadrante del jugador 1 y 3 en 4 jugadores (x < 160), dato_800E8540, menus_pausa.inc.c:171,235")
-LUGAR(L_PAUSA_4J_IZQUIERDA_2, boton_pausa_texto, 2, 4, 3, IZQ, 0x28 - 2, 0.75f, 0.75f, 0, 13, ZONA_SEGURA_IZQ, 160,
+LUGAR(L_PAUSA_4J_IZQUIERDA_2, boton_pausa_texto, 2, 4, 3, IZQ, 0x28 - 2, 0.72f, 0.75f, 0, 13, ZONA_SEGURA_IZQ, 160,
       "G: cuadrante del jugador 1 y 3 en 4 jugadores (x < 160), dato_800E8540, menus_pausa.inc.c:171,235")
-LUGAR(L_PAUSA_4J_DERECHA, boton_pausa_texto, 0, 0, 1, IZQ, 0xB2 - 2, 0.75f, 0.75f, 0, 13, ZONA_SEGURA_IZQ,
+LUGAR(L_PAUSA_4J_DERECHA, boton_pausa_texto, 0, 0, 1, IZQ, 0xB2 - 2, 0.72f, 0.75f, 0, 13, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; jugadores 2 y 4, dato_800E8540, menus_pausa.inc.c:171,235")
-LUGAR(L_PAUSA_4J_DERECHA_2, boton_pausa_texto, 2, 4, 3, IZQ, 0xB2 - 2, 0.75f, 0.75f, 0, 13, ZONA_SEGURA_IZQ,
+LUGAR(L_PAUSA_4J_DERECHA_2, boton_pausa_texto, 2, 4, 3, IZQ, 0xB2 - 2, 0.72f, 0.75f, 0, 13, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; jugadores 2 y 4, dato_800E8540, menus_pausa.inc.c:171,235")
 // Gran premio: entradas 0 y 4
 LUGAR(L_PAUSA_GRAN_PREMIO, boton_pausa_texto, 0, 0, 1, IZQ, 0x78, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
@@ -80,7 +80,7 @@ LUGAR(L_PAUSA_GRAN_PREMIO_2, boton_pausa_texto, 4, 4, 1, IZQ, 0x78, 0.75f, 0.75f
       ZONA_SEGURA_DER, "S; dato_800E85C0, menus_pausa.inc.c:206")
 LUGAR(L_FIN_CONTRARRELOJ, boton_pausa_texto, 1, 6, 6, IZQ, 0x69, 0.75f, 0.75f, 0, 0xD, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; menus_pausa.inc.c:352")
-LUGAR(L_FIN_CONTRARRELOJ_PANEL, boton_pausa_texto, 1, 6, 6, IZQ, 0xB2, 0.75f, 0.75f, 0, 0xD, ZONA_SEGURA_IZQ,
+LUGAR(L_FIN_CONTRARRELOJ_PANEL, boton_pausa_texto, 1, 6, 6, IZQ, 0xB2, 0.63f, 0.75f, 0, 0xD, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; columna final 0 (entrada_menus.inc.c:3), info_pistas_y_tiempos.inc.c:719-723")
 LUGAR(L_REPETICION, boton_pausa_texto, 5, 5, 1, IZQ, 0xBF, 0.8f, 0.8f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
       "S; menus_pausa.inc.c:304")
@@ -93,9 +93,9 @@ LUGAR(L_FIN_VERSUS, boton_pausa_texto, 1, 4, 4, IZQ, 0x69, 0.8f, 0.8f, 0, 0xF, Z
       "S; menus_pausa.inc.c:540")
 LUGAR(L_CLASIFICACION, dato_800E7778, 0, 1, 1, CENTRO, 0xA0, 1.0f, 1.0f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
       "S; menus_pausa.inc.c:505,509")
-LUGAR(L_VICTORIA_IZQUIERDA, texto_perder_victoria, 0, 1, 1, CENTRO, 0x30, 0.65f, 1.0f, 0, 0, ZONA_SEGURA_IZQ,
+LUGAR(L_VICTORIA_IZQUIERDA, texto_perder_victoria, 0, 1, 1, CENTRO, 0x30, 0.55f, 1.0f, 0, 0, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; dato_800E7380[0], menus_pausa.inc.c:621")
-LUGAR(L_VICTORIA_DERECHA, texto_perder_victoria, 0, 1, 1, CENTRO, 0x109, 0.65f, 1.0f, 0, 0, ZONA_SEGURA_IZQ,
+LUGAR(L_VICTORIA_DERECHA, texto_perder_victoria, 0, 1, 1, CENTRO, 0x109, 0.55f, 1.0f, 0, 0, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; dato_800E7380[1], menus_pausa.inc.c:621")
 LUGAR(L_RECORDS_DATOS, texto_tiempo_mejor, 0, 1, 1, IZQ, 0xA0, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
       "S; info_pistas_y_tiempos.inc.c:18,25")
@@ -105,15 +105,15 @@ LUGAR(L_RECORDS_PAUSA, texto_tiempo_mejor, 0, 1, 1, CENTRO, 0x9D, 0.8f, 0.8f, 0,
       "S; menus_pausa.inc.c:117,128,328,339")
 LUGAR(L_RECORDS_CAJA_1, texto_tiempo_mejor, 0, 0, 1, IZQ, 0x17 + 8, 0.6f, 0.8f, 0, 0, ZONA_SEGURA_IZQ, 0x17 + 0x64 - 2,
       "G: caja de 100 px en x=0x17 (dato_800E7258, manejar_menus.inc.c:518); dibujar_menus.inc.c:320")
-LUGAR(L_RECORDS_CAJA_2, texto_tiempo_mejor, 1, 1, 1, IZQ, 0xC5 + 8, 0.8f, 0.8f, 0, 0, ZONA_SEGURA_IZQ, 0xC5 + 0x64 - 2,
+LUGAR(L_RECORDS_CAJA_2, texto_tiempo_mejor, 1, 1, 1, IZQ, 0xC5 + 8, 0.6f, 0.8f, 0, 0, ZONA_SEGURA_IZQ, 0xC5 + 0x64 - 2,
       "G: caja de 100 px en x=0xC5 (dato_800E7258, manejar_menus.inc.c:518); dibujar_menus.inc.c:320")
-LUGAR(L_VUELTAS_META, texto_tiempo_vuelta, 0, 0, 1, CENTRO, 0xA0 + 0x46, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
+LUGAR(L_VUELTAS_META, texto_tiempo_vuelta, 0, 0, 1, CENTRO, 0xA0 + 0x40, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; columna final 0xA0, info_pistas_y_tiempos.inc.c:645")
 LUGAR(L_VUELTAS_PANEL, texto_tiempo_vuelta, 0, 0, 1, CENTRO, 0x55, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; columna final 0, info_pistas_y_tiempos.inc.c:688")
-LUGAR(L_PREFIJO_META, texto_tiempo_prefijo, 0, 3, 1, DER, 0xA0 + 0x17 + 0x21, 0.7f, 0.7f, 0, 0, ZONA_SEGURA_IZQ,
+LUGAR(L_PREFIJO_META, texto_tiempo_prefijo, 0, 3, 1, DER, 0xA0 + 0x17 + 0x21, 0.65f, 0.7f, 0, 0, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; columna final 0xA0, info_pistas_y_tiempos.inc.c:833")
-LUGAR(L_PREFIJO_PANEL, texto_tiempo_prefijo, 0, 3, 1, DER, 0x26 + 0x21, 0.7f, 0.7f, 0, 0, ZONA_SEGURA_IZQ,
+LUGAR(L_PREFIJO_PANEL, texto_tiempo_prefijo, 0, 3, 1, DER, 0x26 + 0x21, 0.65f, 0.7f, 0, 0, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; columna final 0, info_pistas_y_tiempos.inc.c:833")
 LUGAR(L_PUESTO_RECORD, dato_800E7744, 0, 5, 1, MONO, 0x14, 0.65f, 0.65f, 2, 0, -1000, 37,
       "I: relativo a la columna; las cifras de los minutos empiezan en 0x27 (menus_pausa.inc.c:32-51)")
