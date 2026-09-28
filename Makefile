@@ -249,6 +249,7 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES))
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -O1 -Iincluir -Iincluir/libultra -Icodigo -o $(PRUEBAS)/prueba_glifos \
 	    herramientas/pruebas/prueba_glifos.c codigo/sistema/caracteres_es.c
 	$(V)$(PRUEBAS)/prueba_glifos
+	$(V)$(PYTHON) herramientas/pruebas/prueba_glifos_es.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_tablas_glifos.py codigo/menus/elementos_menu/lista_glifos.inc.c
 	$(V)$(PYTHON) herramientas/comprobar_lineas.py
 
@@ -306,6 +307,14 @@ $(BUILD)/%.o: %.c $(FLAGS_STAMP) $(SWAP_STAMP)
 	@mkdir -p $(dir $@)
 	@echo "  CC      $<"
 	$(V)$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
+
+# Glifos del espanol, generados a partir de los de la fuente original
+GLIFOS_ES_NOMBRES := diacritico_a_aguda diacritico_e_aguda diacritico_i_aguda diacritico_o_aguda \
+                     diacritico_u_aguda diacritico_n_virgulilla diacritico_u_dieresis \
+                     abre_exclamacion abre_interrogacion ordinal_o ordinal_a
+GLIFOS_ES := $(addprefix $(BUILD)/glifos_es/,$(addsuffix .i4,$(GLIFOS_ES_NOMBRES)))
+$(GLIFOS_ES) &: herramientas/generar_glifos_es.py $(wildcard recursos/texturas/sin_comprimir/fuente_*.i4)
+	$(V)$(PYTHON) herramientas/generar_glifos_es.py $(BUILD)/glifos_es
 
 $(BUILD)/icono_partida.ico: herramientas/crear_icono.py
 	@mkdir -p $(dir $@)
