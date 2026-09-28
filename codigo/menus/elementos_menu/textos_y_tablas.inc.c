@@ -866,41 +866,41 @@ TexturaMenu* lut_textura_glifo[] = {
     dato_02002BE4,
     dato_02002C0C,
     dato_020031AC,
-};
-
-TexturaMenu* dato_800E7FF0[] = {
-    dato_02003274, dato_02002C34, dato_020031D4, dato_0200329C, dato_02002C5C, dato_020031FC, dato_020032C4, dato_02002C84, dato_02003224,
-    dato_020032EC, dato_02002CAC, dato_0200324C, dato_02003314, dato_02002CD4, dato_02002CFC, dato_02002D24, dato_02002D4C, dato_02002D74,
-    dato_0200333C, dato_02002D9C, dato_02003364, dato_02002DC4, dato_0200338C, dato_02002DEC, dato_02002E14, dato_02002E3C, dato_02002E64,
-    dato_02002E8C, dato_02002EB4, dato_02002EDC, dato_02002F04, dato_02002F2C, dato_020033DC, dato_02003404, dato_0200342C, dato_02003454,
-    dato_0200347C, dato_020034A4, dato_020034CC, dato_020034F4, dato_0200351C, dato_02003544, dato_0200356C, dato_02003BD4,
-};
-
-TexturaMenu* dato_800E80A0[] = {
-    dato_02003594, dato_02003BFC, dato_020035BC, dato_02003C24, dato_020035E4, dato_02003C4C, dato_0200360C, dato_02003C74,
-    dato_02003634, dato_02003C9C, dato_0200365C, dato_02003CC4, dato_02003684, dato_02003CEC, dato_020036AC, dato_02003D14,
-    dato_020036D4, dato_02003D3C, dato_020036FC, dato_02003D64, dato_02003724, dato_02003D8C, dato_02004034, dato_0200374C,
+    // 91-134 (en la N64, dato_800E7FF0)
+    dato_02003274, dato_02002C34, dato_020031D4, dato_0200329C, dato_02002C5C, dato_020031FC,
+    dato_020032C4, dato_02002C84, dato_02003224, dato_020032EC, dato_02002CAC, dato_0200324C,
+    dato_02003314, dato_02002CD4, dato_02002CFC, dato_02002D24, dato_02002D4C, dato_02002D74,
+    dato_0200333C, dato_02002D9C, dato_02003364, dato_02002DC4, dato_0200338C, dato_02002DEC,
+    dato_02002E14, dato_02002E3C, dato_02002E64, dato_02002E8C, dato_02002EB4, dato_02002EDC,
+    dato_02002F04, dato_02002F2C, dato_020033DC, dato_02003404, dato_0200342C, dato_02003454,
+    dato_0200347C, dato_020034A4, dato_020034CC, dato_020034F4, dato_0200351C, dato_02003544,
+    dato_0200356C, dato_02003BD4,
+    // 135-163 (en la N64, dato_800E80A0)
+    dato_02003594, dato_02003BFC, dato_020035BC, dato_02003C24, dato_020035E4, dato_02003C4C,
+    dato_0200360C, dato_02003C74, dato_02003634, dato_02003C9C, dato_0200365C, dato_02003CC4,
+    dato_02003684, dato_02003CEC, dato_020036AC, dato_02003D14, dato_020036D4, dato_02003D3C,
+    dato_020036FC, dato_02003D64, dato_02003724, dato_02003D8C, dato_02004034, dato_0200374C,
     dato_02003DB4, dato_02003774, dato_02003DDC, dato_0200379C, dato_02003E04,
+    // 164-187 (en la N64, dato_800E8114)
+    dato_020037C4, dato_020037EC, dato_02003814, dato_0200383C, dato_02003864, dato_0200388C,
+    dato_02003E2C, dato_02003EF4, dato_020038B4, dato_02003E54, dato_02003F1C, dato_020038DC,
+    dato_02003E7C, dato_02003F44, dato_02003904, dato_02003EA4, dato_02003F6C, dato_0200392C,
+    dato_02003ECC, dato_02003F94, dato_02003954, dato_0200397C, dato_020039A4, dato_020039CC,
+    // 188-189 (en la N64, dato_800E8174)
+    dato_020039F4, dato_02003FBC,
+    // 190-215 (en la N64, dato_800E817C)
+    dato_02003A1C, dato_02003FE4, dato_02003A44, dato_0200400C, dato_02003A6C, dato_02003A94,
+    dato_02003ABC, dato_02003AE4, dato_02003B0C, dato_02003B34, dato_02003B5C, dato_02003B84,
+    dato_02003BAC, dato_0200405C, dato_02004084, dato_020040AC, dato_020040D4, dato_020040FC,
+    dato_020043CC, dato_02004444, dato_0200437C, dato_020043F4, dato_02004124, dato_0200414C,
+    dato_02004174, dato_0200419C,
+    // 216-233 (en la N64, dato_800E81E4)
+    dato_020041C4, dato_020041EC, dato_02004214, dato_0200423C, dato_02004264, dato_0200428C,
+    dato_020042B4, dato_020042DC, dato_02004354, dato_020043A4, dato_0200441C, dato_0200446C,
+    dato_02004494, dato_020044BC, dato_02004304, dato_0200432C, dato_020044E4, dato_0200450C,
+    // 234-235 (en la N64, dato_800E822C)
+    seg_2_textura_fuente_coma, dato_0200455C,
 };
 
-TexturaMenu* dato_800E8114[] = {
-    dato_020037C4, dato_020037EC, dato_02003814, dato_0200383C, dato_02003864, dato_0200388C, dato_02003E2C, dato_02003EF4,
-    dato_020038B4, dato_02003E54, dato_02003F1C, dato_020038DC, dato_02003E7C, dato_02003F44, dato_02003904, dato_02003EA4,
-    dato_02003F6C, dato_0200392C, dato_02003ECC, dato_02003F94, dato_02003954, dato_0200397C, dato_020039A4, dato_020039CC,
-};
-
-TexturaMenu* dato_800E8174[] = {
-    dato_020039F4,
-    dato_02003FBC,
-};
-
-TexturaMenu* dato_800E817C[] = {
-    dato_02003A1C, dato_02003FE4, dato_02003A44, dato_0200400C, dato_02003A6C, dato_02003A94, dato_02003ABC, dato_02003AE4, dato_02003B0C,
-    dato_02003B34, dato_02003B5C, dato_02003B84, dato_02003BAC, dato_0200405C, dato_02004084, dato_020040AC, dato_020040D4, dato_020040FC,
-    dato_020043CC, dato_02004444, dato_0200437C, dato_020043F4, dato_02004124, dato_0200414C, dato_02004174, dato_0200419C,
-};
-
-TexturaMenu* dato_800E81E4[] = {
-    dato_020041C4, dato_020041EC, dato_02004214, dato_0200423C, dato_02004264, dato_0200428C, dato_020042B4, dato_020042DC, dato_02004354,
-    dato_020043A4, dato_0200441C, dato_0200446C, dato_02004494, dato_020044BC, dato_02004304, dato_0200432C, dato_020044E4, dato_0200450C,
-};
+ASSERT_ESTATICO(CANTIDAD_ARREGLO(lut_textura_glifo) == CANTIDAD_ARREGLO(ancho_pantalla_glifo),
+                "cada glifo necesita su textura");

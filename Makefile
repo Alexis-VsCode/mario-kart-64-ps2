@@ -243,6 +243,7 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES))
 	$(V)$(PYTHON) herramientas/pruebas/prueba_convertir_eucjp.py $(JP_SRC) $(JP_PARTES)
 	$(V)$(PYTHON) herramientas/pruebas/prueba_metadatos_eucjp.py $(BUILD)/jp/codigo/menus/elementos_menu.c -- \
 	    $(INCLUDES) -iquote codigo/menus/ $(JP_IQUOTE)
+	$(V)$(PYTHON) herramientas/pruebas/prueba_tablas_glifos.py codigo/menus/elementos_menu/textos_y_tablas.inc.c
 	$(V)$(PYTHON) herramientas/comprobar_lineas.py
 
 # --- Herramientas del PC ------------------------------------------------------------

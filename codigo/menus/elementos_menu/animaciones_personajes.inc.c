@@ -1,10 +1,5 @@
 // Animaciones personajes
 
-TexturaMenu* dato_800E822C[] = {
-    seg_2_textura_fuente_coma,
-    dato_0200455C,
-};
-
 TexturaMenu* dato_800E8234[] = {
     columna_menu_1j_seg2, dato_020047DC, columna_menu_2j_seg2, dato_02004804,
     columna_menu_3j_seg2, dato_0200482C, columna_menu_4j_seg2, dato_02004854,

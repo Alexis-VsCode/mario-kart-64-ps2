@@ -771,13 +771,6 @@ extern AnimacionMk* dato_800E7E20[];
 #endif
 extern AnimacionMk* dato_800E7E34[];
 extern TexturaMenu* lut_textura_glifo[];
-extern TexturaMenu* dato_800E7FF0[];
-extern TexturaMenu* dato_800E80A0[];
-extern TexturaMenu* dato_800E8114[];
-extern TexturaMenu* dato_800E8174[];
-extern TexturaMenu* dato_800E817C[];
-extern TexturaMenu* dato_800E81E4[];
-extern TexturaMenu* dato_800E822C[];
 extern TexturaMenu* dato_800E8234[];
 extern TexturaMenu* dato_800E8254[];
 extern TexturaMenu* dato_800E8274[];
