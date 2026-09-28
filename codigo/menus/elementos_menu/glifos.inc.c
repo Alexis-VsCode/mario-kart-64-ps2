@@ -1,5 +1,7 @@
 // Glifos de la fuente del menu: de caracter a indice de glifo y ancho de una cadena
 
+#include "sistema/caracteres_es.h"
+
 s32 car_a_indice_glifo(char* character) {
     s32 index;
     s8 temporal_v0;
@@ -207,11 +209,25 @@ s32 funcion_80092EE4(char* character) {
     return variable_v1;
 }
 
+// Primer glifo del espanol en la lista; siguen en el orden de CaracterEs
+#define GLIFO_ES_PRIMERO 0xEC
+#define EUC_SS3 0x8F
+
 // Indice del glifo que empieza en car y, en *bytes, cuanto ocupa en la
 // cadena. Es la unica regla de avance: todas las impresoras la usan.
 s32 leer_glifo(char* car, s32* bytes) {
-    s32 indice = car_a_indice_glifo(car);
+    s32 indice;
+    int caracter;
+    int ocupa;
 
+    // Paso 1: letras y signos del espanol (EUC-JP de 3 bytes, 8F xx xx)
+    if ((u8) car[0] == EUC_SS3) {
+        caracter = leer_caracter_es(car, &ocupa, NULL);
+        *bytes = ocupa;
+        return (caracter != CAR_ES_NINGUNO) ? GLIFO_ES_PRIMERO + caracter - 1 : -2;
+    }
+    // Paso 2: ASCII, kana y signos japoneses, como en la N64
+    indice = car_a_indice_glifo(car);
     *bytes = (indice >= 0x30) ? 2 : 1;
     return indice;
 }

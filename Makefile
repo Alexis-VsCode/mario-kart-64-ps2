@@ -166,7 +166,8 @@ PS2_SRC := \
   codigo/sistema/segmentos.c codigo/sistema/doble_precision.c codigo/sistema/cronometro_fases.c \
   codigo/graficos/memoria_texturas.c codigo/graficos/pantallas_gigantes.c \
   codigo/carrera/ia/caminos_vehiculos.c \
-  codigo/sistema/descompresion_tkmk00.c codigo/sistema/descompresion_mio0.c $(EXTRA_SRC)
+  codigo/sistema/descompresion_tkmk00.c codigo/sistema/descompresion_mio0.c codigo/sistema/caracteres_es.c \
+  $(EXTRA_SRC)
 
 # Caminos 2D del tren y del barco, calculados al compilar
 CAMINOS := $(BUILD)/tabla_caminos_vehiculos.h
