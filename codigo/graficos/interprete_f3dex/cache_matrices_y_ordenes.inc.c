@@ -150,7 +150,7 @@ static void cmd_movemem(u32 w0, u32 w1)
         St.sucio_estado = 1; /* el scissor de los triangulos depende del viewport */
 #ifdef SMK64_DEV
         if (diag_frame) {
-            registrar("viewport %p escala %d %d trasl %d %d", (const void *) vp, (int) vp->vscale[0], (int) vp->vscale[1],
+            registrar("vista %p escala %d %d trasl %d %d", (const void *) vp, (int) vp->vscale[0], (int) vp->vscale[1],
                     (int) vp->vtrans[0], (int) vp->vtrans[1]);
         }
 #endif
@@ -523,7 +523,7 @@ static int viejo_usa_tri(u8 op, u32 w0, u32 w1)
     usa_viejo++;
 #ifdef SMK64_DEV
     if (usa_viejo <= 8) {
-        registrar("descarte de listas: un triangulo usa vertices de una lista descartada (%08x %08x)", (unsigned) w0,
+        registrar("descarte de listas: un triángulo usa vértices de una lista descartada (%08x %08x)", (unsigned) w0,
                 (unsigned) w1);
     }
 #endif
@@ -569,7 +569,7 @@ static void dl_corte_2(const char *por_que, const Gfx *dl)
 {
     dl_corte = 1;
     if (dl_cuts++ < 4) {
-        registrar("display list cortada (%s): %u comandos, en %p: %08x %08x", por_que, (unsigned) dl_cantidad,
+        registrar("lista de dibujo cortada (%s): %u comandos, en %p: %08x %08x", por_que, (unsigned) dl_cantidad,
                 (const void *) (dl - 1), (unsigned) dl[-1].words.w0, (unsigned) dl[-1].words.w1);
     }
 }
@@ -581,7 +581,7 @@ int ps2_gfx_cuelgue_info(char *salida, int size)
     if (!dl_ocupado || dl == NULL) {
         return 0;
     }
-    snprintf(salida, size, " Render: dl %p %08x %08x, %u comandos; cortes %u, cargas malas %u", (const void *) dl,
+    snprintf(salida, size, " Dibujo: lista %p %08x %08x, %u comandos; cortes %u, cargas malas %u", (const void *) dl,
              (unsigned) dl->words.w0, (unsigned) dl->words.w1, (unsigned) dl_cantidad, (unsigned) dl_cuts,
              (unsigned) loads_malo_tmem);
     return 1;

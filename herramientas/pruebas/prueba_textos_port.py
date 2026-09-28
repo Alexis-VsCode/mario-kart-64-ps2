@@ -30,6 +30,9 @@ REGISTRO = (
     "codigo/sistema/*.c",
     "codigo/memoria/memoria_carrera/pools_y_segmentos.inc.c",
     "codigo/depuracion/*.c",
+    "codigo/graficos/*.c",
+    "codigo/graficos/interprete_f3dex/*.inc.c",
+    "codigo/graficos/memoria_texturas/*.inc.c",
 )
 
 # (que se revisa, archivos, llamadas o tablas cuyos literales se leen)
@@ -96,6 +99,16 @@ INGLES = {
     "debug": "depuración",
     "autotest": "autoprueba",
     "ckpt": "punto de control",
+    "viewport": "vista",
+    "status": "estado",
+    "scissor": "tijera",
+    "clip": "recorte",
+    "cull": "caras ocultas",
+    "fill": "relleno",
+    "opcode": "orden",
+    "hash": "huella",
+    "sigmap": "mapa de firmas",
+    "perf": "rendimiento",
 }
 SIN_TILDE = {
     "musica": "música",
@@ -125,6 +138,14 @@ SIN_TILDE = {
     "vacia": "vacía",
     "envios": "envíos",
     "ordenes": "órdenes",
+    "triangulo": "triángulo",
+    "triangulos": "triángulos",
+    "imagenes": "imágenes",
+    "menu": "menú",
+    "linea": "línea",
+    "cache": "caché",
+    "indices": "índices",
+    "leido": "leído",
 }
 # Verbo en pasado salvo detras de un determinante (el fallo, un cambio)
 AMBIGUAS = {"fallo": "falló", "cambio": "cambió"}
@@ -132,7 +153,7 @@ DETERMINANTES = {"el", "un", "del", "al", "sin", "cada", "otro", "su", "este", "
 # (expresion, como se escribe)
 REGLAS = (
     (re.compile(r"^si$"), "sí"),
-    (re.compile(r"\bcon el(?=\s*(%|[,;:)]|$))"), "con él"),
+    (re.compile(r"\b(con|sin) el(?=\s*(%|[,;:)]|$))"), "con él, sin él"),
 )
 
 PEGADA = re.compile(r"\w+(?=%)")  # etiqueta pegada a un formato: tex%d, frame%05u

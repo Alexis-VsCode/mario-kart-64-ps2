@@ -212,8 +212,8 @@ void ejecutar_tarea_graficos(Gfx *dl)
     if ((s_frame % 120) == 1) {
         int i;
 
-        rend_registro_ps2("perf: render %u ms/frame, frame completo %u ms (media de 120)", (unsigned) (render_ciclos / 120 / 294912),
-                (unsigned) (frame_ciclos / 120 / 294912));
+        rend_registro_ps2("rendimiento: dibujo %u ms/cuadro, cuadro completo %u ms (media de 120)",
+                (unsigned) (render_ciclos / 120 / 294912), (unsigned) (frame_ciclos / 120 / 294912));
 #ifdef SMK64_PROF
         {
             static const char *const nombres[CANTIDAD_PROF] = { "render", "dl", "vtx", "tri", "rect", "state",
@@ -223,13 +223,13 @@ void ejecutar_tarea_graficos(Gfx *dl)
             int k, largo = 0;
 
             /* Microsegundos por frame (ciclos / 294,912 / 120 frames). */
-            largo += snprintf(line + largo, sizeof(line) - largo, "prof us/f:");
+            largo += snprintf(line + largo, sizeof(line) - largo, "prof us/c:");
             for (k = 0; k < CANTIDAD_PROF && largo < (int) sizeof(line) - 16; k++) {
                 largo += snprintf(line + largo, sizeof(line) - largo, " %s %u", nombres[k],
                                 (unsigned) ((ciclos_prof[k] / 295u) / 120u));
             }
-            rend_registro_ps2("%s frame %u", line, (unsigned) ((frame_ciclos / 295u) / 120u));
-            largo = snprintf(line, sizeof(line), "prof llamadas/f:");
+            rend_registro_ps2("%s cuadro %u", line, (unsigned) ((frame_ciclos / 295u) / 120u));
+            largo = snprintf(line, sizeof(line), "prof llamadas/c:");
             for (k = 1; k < CANTIDAD_PROF && largo < (int) sizeof(line) - 16; k++) {
                 largo += snprintf(line + largo, sizeof(line) - largo, " %s %u", nombres[k], (unsigned) (prof_calls[k] / 120u));
             }
@@ -237,7 +237,7 @@ void ejecutar_tarea_graficos(Gfx *dl)
             {
                 extern u32 prof_x[8], prof_xn[8];
 
-                rend_registro_ps2("prof estado us/f: analiza %u (%u) afecta %u (%u) aditiva %u (%u) gs %u (%u) generaciones %u (%u)",
+                rend_registro_ps2("prof estado us/c: analiza %u (%u) afecta %u (%u) aditiva %u (%u) gs %u (%u) generaciones %u (%u)",
                         (unsigned) (prof_x[0] / 295 / 120), (unsigned) (prof_xn[0] / 120), (unsigned) (prof_x[1] / 295 / 120),
                         (unsigned) (prof_xn[1] / 120), (unsigned) (prof_x[2] / 295 / 120), (unsigned) (prof_xn[2] / 120),
                         (unsigned) (prof_x[3] / 295 / 120), (unsigned) (prof_xn[3] / 120), (unsigned) (prof_x[4] / 295 / 120),
@@ -245,7 +245,7 @@ void ejecutar_tarea_graficos(Gfx *dl)
                 memset(prof_x, 0, sizeof(prof_x));
                 memset(prof_xn, 0, sizeof(prof_xn));
             }
-            rend_registro_ps2("prof tmem/f: copia %u B hash %u B (paletas %u B) firmas %u B; memo %u claves %u firmas: paleta %u "
+            rend_registro_ps2("prof tmem/c: copia %u B huella %u B (paletas %u B) firmas %u B; memo %u claves %u firmas: paleta %u "
                     "carga %u",
                     (unsigned) (estadisticas_tmem.bytes_carga / 120), (unsigned) (estadisticas_tmem.hash_bytes / 120),
                     (unsigned) (estadisticas_tmem.bytes_hash_paleta / 120), (unsigned) (estadisticas_tmem.bytes_firmas / 120),
@@ -257,7 +257,8 @@ void ejecutar_tarea_graficos(Gfx *dl)
                 extern uintptr_t tabla_segmento[16];
                 int j, mejor;
 
-                rend_registro_ps2("sigmap: seg1 %x seg2 %x seg3 %x seg4 %x seg5 %x seg6 %x seg7 %x seg9 %x segD %x segF %x",
+                rend_registro_ps2("mapa de firmas: seg1 %x seg2 %x seg3 %x seg4 %x seg5 %x seg6 %x seg7 %x seg9 %x "
+                        "segD %x segF %x",
                         (unsigned) tabla_segmento[1], (unsigned) tabla_segmento[2], (unsigned) tabla_segmento[3],
                         (unsigned) tabla_segmento[4], (unsigned) tabla_segmento[5], (unsigned) tabla_segmento[6],
                         (unsigned) tabla_segmento[7], (unsigned) tabla_segmento[9], (unsigned) tabla_segmento[13],
@@ -272,14 +273,14 @@ void ejecutar_tarea_graficos(Gfx *dl)
                     if (mejor < 0) {
                         break;
                     }
-                    rend_registro_ps2("sigmap: %06x-%06x %u B/f", (unsigned) (mejor << 16), (unsigned) ((mejor + 1) << 16),
-                            (unsigned) (mapa_sig[mejor] / 120));
+                    rend_registro_ps2("mapa de firmas: %06x-%06x %u B/c", (unsigned) (mejor << 16),
+                            (unsigned) ((mejor + 1) << 16), (unsigned) (mapa_sig[mejor] / 120));
                     mapa_sig[mejor] = 0;
                 }
                 memset(mapa_sig, 0, sizeof(mapa_sig));
             }
 #endif
-            rend_registro_ps2("prof firmas/f: memorizadas %u, viejas (SMK64_SIGMEMO_CHECK) %u total",
+            rend_registro_ps2("prof firmas/c: memorizadas %u, viejas (SMK64_SIGMEMO_CHECK) %u total",
                     (unsigned) (estadisticas_tmem.golpes_memo_sig / 120), (unsigned) estadisticas_tmem.malo_memo_sig);
             estadisticas_tmem.golpes_memo_sig = 0;
             estadisticas_tmem.bytes_carga = estadisticas_tmem.hash_bytes = estadisticas_tmem.golpes_memo = estadisticas_tmem.bytes_firmas = 0;
@@ -290,22 +291,23 @@ void ejecutar_tarea_graficos(Gfx *dl)
 #endif
         render_ciclos = frame_ciclos = 0;
         rend_registro_ps2("60 FPS: %s, intermedios %u, omitidos %u, costo real %u us intermedio %u us, cambios de pantalla %u, "
-                     "libre %u us sin intermedio y %u us con el",
-                interp_user ? "si" : "no", (unsigned) interp_frames, (unsigned) interp_salteado,
+                     "libre %u us sin intermedio y %u us con él",
+                interp_user ? "sí" : "no", (unsigned) interp_frames, (unsigned) interp_salteado,
                 (unsigned) (real_costo / 295), (unsigned) (interp_costo / 295), (unsigned) estadisticas_gs.volteos,
                 (unsigned) (apagado_libre / 295), (unsigned) (libre_en / 295));
 #ifdef SMK64_PROF
-        rend_registro_ps2("60 FPS descartes: I tex %u recorrido %u lleno %u cull %u; N desalojo %u subidas %u matrices %u",
+        rend_registro_ps2("60 FPS descartes: I tex %u recorrido %u lleno %u caras ocultas %u; "
+                "N desalojo %u subidas %u matrices %u",
                 (unsigned) por_que_interp[0], (unsigned) por_que_interp[1], (unsigned) por_que_interp[2], (unsigned) por_que_interp[3],
                 (unsigned) por_que_interp[4], (unsigned) por_que_interp[5], (unsigned) por_que_interp[6]);
 #endif
-        rend_registro_ps2("60 FPS sin intermedio por: tope %u, libre con el %u, libre sin el %u, pausa %u, matrices %u",
+        rend_registro_ps2("60 FPS sin intermedio por: tope %u, libre con él %u, libre sin él %u, pausa %u, matrices %u",
                 (unsigned) por_que_saltear_interp[0], (unsigned) por_que_saltear_interp[1], (unsigned) por_que_saltear_interp[2],
                 (unsigned) por_que_saltear_interp[3], (unsigned) por_que_saltear_interp[4]);
         memset(por_que_saltear_interp, 0, sizeof(por_que_saltear_interp));
         rend_registro_ps2("ritmo: %u.%02u retrazos por tarea (media de 120)", (unsigned) (suma_periodos / 120),
                 (unsigned) (suma_periodos % 120 * 100 / 120));
-        rend_registro_ps2("listas fuera de la vista: %u de %u probadas por tarea; triangulos con vertices sin cargar %u; "
+        rend_registro_ps2("listas fuera de la vista: %u de %u probadas por tarea; triángulos con vértices sin cargar %u; "
                 "estado del intermedio sin reproducir %u",
                 (unsigned) (dlc_descartado / 120), (unsigned) (dlc_tested / 120), (unsigned) usa_viejo,
                 (unsigned) miss_rec_estado);
@@ -317,11 +319,11 @@ void ejecutar_tarea_graficos(Gfx *dl)
                     (unsigned) (subidas_ci / 120), (unsigned) (golpes_ci / 120), (unsigned) estadisticas_tmem.decodificaciones);
             subidas_ci = golpes_ci = 0;
         }
-        rend_registro_ps2("imagenes: %u de 1 retrazo, %u de 2, %u de 3, %u de 4 o mas", (unsigned) estadisticas_gs.mantenido[0],
+        rend_registro_ps2("imágenes: %u de 1 retrazo, %u de 2, %u de 3, %u de 4 o más", (unsigned) estadisticas_gs.mantenido[0],
                 (unsigned) estadisticas_gs.mantenido[1], (unsigned) estadisticas_gs.mantenido[2], (unsigned) estadisticas_gs.mantenido[3]);
         memset(estadisticas_gs.mantenido, 0, sizeof(estadisticas_gs.mantenido));
         suma_periodos = 0;
-        rend_registro_ps2("frame %u estado %d: tris %u rect %u subidas %u (%u KB) cache %u/%u paquete %u KB", (unsigned) s_frame,
+        rend_registro_ps2("cuadro %u estado %d: tri %u rect %u subidas %u (%u KB) caché %u/%u paquete %u KB", (unsigned) s_frame,
                 (int) estado_juego, (unsigned) estadisticas_gs.triangulos, (unsigned) estadisticas_gs.sprites,
                 (unsigned) estadisticas_gs.subidas, (unsigned) (estadisticas_gs.bytes_subidos / 1024), (unsigned) estadisticas_tmem.golpes,
                 (unsigned) estadisticas_tmem.decodificaciones, (unsigned) (estadisticas_gs.bytes_paquete / 1024));
@@ -333,7 +335,7 @@ void ejecutar_tarea_graficos(Gfx *dl)
             extern s8 tipo_transicion[];
             extern u16 juego_en_pausa;
 
-            rend_registro_ps2("  menu %d pausa %d transiciones: %d:%u/%u %d:%u/%u %d:%u/%u %d:%u/%u 4:%d:%u/%u",
+            rend_registro_ps2("  menú %d pausa %d transiciones: %d:%u/%u %d:%u/%u %d:%u/%u %d:%u/%u 4:%d:%u/%u",
                     (int) seleccion_menu, (int) juego_en_pausa, tipo_transicion[0], (unsigned) tiempo_transicion_actual[0],
                     (unsigned) duracion_transicion[0], tipo_transicion[1], (unsigned) tiempo_transicion_actual[1],
                     (unsigned) duracion_transicion[1], tipo_transicion[2], (unsigned) tiempo_transicion_actual[2],
@@ -344,7 +346,7 @@ void ejecutar_tarea_graficos(Gfx *dl)
 #endif
         for (i = 0; i < 256; i++) {
             if (ops_desconocido[i]) {
-                registrar("  opcode desconocido %02x x%u", i, (unsigned) ops_desconocido[i]);
+                registrar("  orden desconocida %02x x%u", i, (unsigned) ops_desconocido[i]);
                 ops_desconocido[i] = 0;
             }
         }
@@ -357,7 +359,7 @@ void ejecutar_tarea_graficos(Gfx *dl)
         suma_periodos = 0;
         for (i = 0; i < 256; i++) {
             if (ops_desconocido[i]) {
-                registrar("opcode desconocido %02x x%u", i, (unsigned) ops_desconocido[i]);
+                registrar("orden desconocida %02x x%u", i, (unsigned) ops_desconocido[i]);
                 ops_desconocido[i] = 0;
             }
         }
