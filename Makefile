@@ -230,12 +230,14 @@ clean:
 
 # Pruebas en el PC: combinador de color y caminos del tren y del barco
 PRUEBAS := $(BUILD)/pruebas
+# char con signo como en el R5900 (en ARM el char del PC no lleva signo)
+CC_PRUEBAS := gcc -fsigned-char
 test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES))
 	@mkdir -p $(PRUEBAS)
-	$(V)gcc -std=gnu99 -Wall -Wextra -O1 -D_LANGUAGE_C -DF3DEX_GBI -DTARGET_PS2 -Iincluir -Iincluir/libultra \
+	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -D_LANGUAGE_C -DF3DEX_GBI -DTARGET_PS2 -Iincluir -Iincluir/libultra \
 	    -o $(PRUEBAS)/prueba_combinador herramientas/pruebas/prueba_combinador.c codigo/graficos/combinador_color.c -lm
 	$(V)$(PRUEBAS)/prueba_combinador
-	$(V)gcc -std=gnu99 -Wall -O2 -ffp-contract=off -I$(BUILD) -DTABLA='"tabla_caminos_vehiculos.h"' \
+	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -O2 -ffp-contract=off -I$(BUILD) -DTABLA='"tabla_caminos_vehiculos.h"' \
 	    -o $(PRUEBAS)/prueba_caminos_vehiculos herramientas/pruebas/prueba_caminos_vehiculos.c -lm
 	$(V)$(PRUEBAS)/prueba_caminos_vehiculos
 	$(V)$(PYTHON) herramientas/pruebas/prueba_convertir_eucjp.py $(JP_SRC) $(JP_PARTES)
