@@ -1,15 +1,15 @@
 // Textos del menu: nombres, mensajes y avisos que se dibujan con la fuente del menu
 
 char* nombres_copa[] = {
-    "mushroom cup",
-    "flower cup",
-    "star cup",
-    "special cup",
-    "battle",
-    "mushroom cup",
-    "flower cup",
-    "star cup",
-    "special cup",
+    "COPA CHAMPIÑÓN",
+    "COPA FLOR",
+    "COPA ESTRELLA",
+    "COPA ESPECIAL",
+    "BATALLA",
+    "COPA CHAMPIÑÓN",
+    "COPA FLOR",
+    "COPA ESTRELLA",
+    "COPA ESPECIAL",
 };
 
 #if !ACTIVACION_PERSONALIZADO_CIRCUITO_MOTOR
@@ -47,10 +47,10 @@ s8 seleccion_copa_por_id_circuito[] = {
 };
 
 char* texto_copa[] = {
-    "none",
-    "bronze",
-    "silver",
-    "gold",
+    "NINGUNA",
+    "BRONCE",
+    "PLATA",
+    "ORO",
 };
 
 char* nombres_personaje_depuracion[] = {
@@ -66,14 +66,14 @@ char* dato_800E76CC[] = {
     "50(",
     "100(",
     "150(",
-    "extra",
+    "EXTRA",
 };
 
 char* dato_800E76DC[] = {
     "50(",
     "100(",
     "150(",
-    "extra",
+    "EXTRA",
 };
 
 char* depuracion_pantalla_modo_nombres[] = {

@@ -7,19 +7,19 @@
 // TABLAS_PENDIENTES solo puede bajar. Una tabla ES pasa la lista negra y
 // tiene un texto esperado por entrada.
 
-#define TABLAS_PENDIENTES 46
+#define TABLAS_PENDIENTES 42
 
 // Copas, pistas y personajes
-TABLA(nombres_copa, 9, 0, 8, FUENTE_MENU, 0, PENDIENTE)
+TABLA(nombres_copa, 9, 0, 8, FUENTE_MENU, 0, ES)
 TABLA(nombres_circuito, 20, 0, 19, FUENTE_MENU, 0, PENDIENTE)
 TABLA(duplicar_nombres_circuito, 20, 0, 19, FUENTE_MENU, 0, PENDIENTE)
 TABLA(duplicar_nombres_circuito_2, 20, 0, 19, FUENTE_MENU, 0, PENDIENTE)
 TABLA(nombres_circuito_depuracion, 20, 0, 19, FUENTE_DEPURACION, 0, PENDIENTE)
-TABLA(texto_copa, 4, 0, 3, FUENTE_MENU, 0, PENDIENTE)
+TABLA(texto_copa, 4, 0, 3, FUENTE_MENU, 0, ES)
 TABLA(nombres_personaje_depuracion, 8, 0, 7, FUENTE_DEPURACION, 0, PENDIENTE)
 TABLA(dato_800E76A8, 9, 0, 8, FUENTE_MENU, PERMITE_RAYA, ES)
-TABLA(dato_800E76CC, 4, 0, 3, FUENTE_MENU, PERMITE_CC, PENDIENTE)
-TABLA(dato_800E76DC, 4, 0, 3, FUENTE_MENU, PERMITE_CC, PENDIENTE)
+TABLA(dato_800E76CC, 4, 0, 3, FUENTE_MENU, PERMITE_CC, ES)
+TABLA(dato_800E76DC, 4, 0, 3, FUENTE_MENU, PERMITE_CC, ES)
 TABLA(depuracion_pantalla_modo_nombres, 5, 0, 4, FUENTE_DEPURACION, 0, PENDIENTE)
 TABLA(depuracion_sonido_modo_nombres, 4, 0, 3, FUENTE_DEPURACION, 0, PENDIENTE)
 
