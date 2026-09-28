@@ -47,7 +47,7 @@ LUGAR(L_REGISTROS_ERROR, dato_800E7860, 0, 1, 2, IZQ, 0x2A, 0.75f, 0.75f, 0, 0x1
 
 LUGAR(L_COPA_TITULO, nombres_copa, 0, 4, 1, CENTRO, 0xA0, 1.0f, 1.0f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
       "S; centrado en 160 al llegar (actualizar_seleccion.inc.c:242), dibujar_menus.inc.c:390")
-LUGAR(L_COPA_PRESENTACION, nombres_copa, 0, 4, 1, CENTRO, 0xA0 + 0x41, 0.85f, 1.0f, 0, 0, ZONA_SEGURA_IZQ,
+LUGAR(L_COPA_PRESENTACION, nombres_copa, 0, 4, 1, CENTRO, 0xA0 + 0x3C, 0.85f, 1.0f, 0, 0, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; columna final 0xA0 (actualizar_seleccion.inc.c:550), menus_pausa.inc.c:452")
 LUGAR(L_COPA_TROFEO, texto_copa, 1, 3, 1, IZQ, 0x28 + 0x20, 0.7f, 0.7f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
       "S; columna dato_800E7268, manejar_menus.inc.c:641")
@@ -55,8 +55,8 @@ PAREJA(nombres_copa, 0, 3, dato_800E76CC, 0, 3, 0xA0, 1.0f, 10, ZONA_SEGURA_IZQ,
        "S; pausa del gran premio, menus_pausa.inc.c:195-200")
 PAREJA(nombres_copa, 0, 4, dato_800E76CC, 0, 3, 0xF5 - 0xA0, 0.6f, 8, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
        "S; resultados, columna final 0xA0 (actualizar_seleccion.inc.c:369), info_pistas_y_tiempos.inc.c:445")
-PAREJA(nombres_copa, 0, 4, dato_800E76CC, 0, 3, 0xE6, 0.6f, 8, ZONA_SEGURA_IZQ, 298,
-       "I: el ingles llegaba a 298; puntos, columna final 0 (entrada_menus.inc.c:3), info_pistas_y_tiempos.inc.c:563")
+PAREJA(nombres_copa, 0, 4, dato_800E76CC, 0, 3, 0xE0, 0.6f, 8, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
+       "S; puntos, columna final 0 (entrada_menus.inc.c:3), info_pistas_y_tiempos.inc.c:563")
 PAREJA(nombres_copa, 0, 3, dato_800E76DC, 0, 3, 0xA0, 1.0f, 10, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
        "S; ceremonia, posicion final dato_800E7480[0], menus_pausa.inc.c:756-762")
 

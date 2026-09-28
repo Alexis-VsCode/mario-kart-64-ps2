@@ -450,10 +450,10 @@ void funcion_800A6034(MenuItem* parametro0) {
         gDPSetPrimColor(display_list_cabeza++, 0, 0, 0x00, 0x00, 0x00, parametro0->param1);
         text = nombres_copa[dato_800DC540];
         fijar_color_texto(TEXTO_AZUL_VERDE_ROJO_CICLO_2);
-        imprimir_modo_centro_texto1_2(parametro0->column + 0x41, parametro0->row + 0xA0, text, 0, 0.85f, 1.0f);
+        imprimir_modo_centro_texto1_2(parametro0->column + 0x3C, parametro0->row + 0xA0, text, 0, 0.85f, 1.0f);
         text = nombres_circuito[id_circuito_actual];
         fijar_color_texto((s32) id_circuito_actual % 4);
-        imprimir_modo_centro_texto1_2(parametro0->column + 0x41, parametro0->row + 0xC3, text, 0, 0.65f, 0.85f);
+        imprimir_modo_centro_texto1_2(parametro0->column + 0x3C, parametro0->row + 0xC3, text, 0, 0.65f, 0.85f);
     }
 }
 

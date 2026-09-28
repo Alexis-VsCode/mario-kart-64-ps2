@@ -562,10 +562,10 @@ void funcion_800A34A8(MenuItem* parametro0) {
         fijar_color_texto(TEXTO_AZUL_VERDE_ROJO_CICLO_2);
         temporal_s0_3 = ((obtener_ancho_cadena(nombres_copa[seleccion_copa]) + 8) * 0.6f) / 2;
         imprimir_modo_centro_texto1_1(
-            (-(s32) (((obtener_ancho_cadena(dato_800E76CC[seleccion_cc]) + 8) * 0.6f) / 2) - parametro0->column) + 0xE6,
+            (-(s32) (((obtener_ancho_cadena(dato_800E76CC[seleccion_cc]) + 8) * 0.6f) / 2) - parametro0->column) + 0xE0,
             parametro0->row + 0xE1, nombres_copa[dato_800DC540], 0, 0.6f, 0.6f);
         imprimir_modo_centro_texto1_1(
-            (temporal_s0_3 - parametro0->column) + 0xE6, parametro0->row + 0xE1,
+            (temporal_s0_3 - parametro0->column) + 0xE0, parametro0->row + 0xE1,
             dato_800E76CC[juego_modo_sub_menu_columna[cantidad_jugador - 1][juego_modo_menu_columna[cantidad_jugador - 1]]], 0, 0.6f, 0.6f);
     }
 }
