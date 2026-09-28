@@ -251,6 +251,13 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES))
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -O1 -Iincluir -Iincluir/libultra -Icodigo -o $(PRUEBAS)/prueba_glifos \
 	    herramientas/pruebas/prueba_glifos.c codigo/sistema/caracteres_es.c
 	$(V)$(PRUEBAS)/prueba_glifos
+	$(V)$(PYTHON) herramientas/pruebas/prueba_textos_tinta.py codigo/menus/elementos_menu/lista_glifos.inc.c \
+	    $(PRUEBAS)/prueba_textos_tinta.h
+	$(V)$(PYTHON) $(CONVERTIR_EUCJP) herramientas/pruebas/prueba_textos_esperados.inc.c \
+	    $(PRUEBAS)/prueba_textos_esperados.eucjp.inc.c
+	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -O1 -Iincluir -Iincluir/libultra -Icodigo -I$(PRUEBAS) -iquote $(BUILD)/jp \
+	    -o $(PRUEBAS)/prueba_textos herramientas/pruebas/prueba_textos.c codigo/sistema/caracteres_es.c -lm
+	$(V)$(PRUEBAS)/prueba_textos
 	$(V)$(PYTHON) herramientas/pruebas/prueba_glifos_es.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_tablas_glifos.py codigo/menus/elementos_menu/lista_glifos.inc.c
 	$(V)$(PYTHON) herramientas/comprobar_lineas.py
