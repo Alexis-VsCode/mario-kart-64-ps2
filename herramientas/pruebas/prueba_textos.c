@@ -332,7 +332,8 @@ static void probar_glifos_menu(const TablaTexto* t, s32 i) {
                      t->nombre, i);
         if (indice >= GLIFO_JAPONES_PRIMERO && indice < GLIFO_ES_PRIMERO) {
             s32 raya = (indice == GLIFO_RAYA) && (t->permisos & PERMITE_RAYA);
-            s32 sufijo = (indice >= GLIFO_SUFIJO_PRIMERO && indice <= GLIFO_SUFIJO_ULTIMO) && (t->permisos & PERMITE_SUFIJO);
+            s32 sufijo =
+                (indice >= GLIFO_SUFIJO_PRIMERO && indice <= GLIFO_SUFIJO_ULTIMO) && (t->permisos & PERMITE_SUFIJO);
             COMPROBACION(raya || sufijo, "%s[%d]: glifo japones 0x%02X", t->nombre, i, indice);
         }
         if (indice < 0 && indice != -1) {
