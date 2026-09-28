@@ -129,14 +129,14 @@ char* texto_puntos_piloto = "CLASIFICACIÓN";
 // Puestos del resumen de versus (1.o, 2.o y 3.o) antes de las veces que se consiguieron
 char* texto_puesto_versus[] = { "1.º ー", "2.º ー", "3.º ー" };
 
-char texto_menu_anuncio_fantasma[] = "NOW-MEET THE COURSE GHOST!!!";
+char texto_menu_anuncio_fantasma[] = "¡YA PUEDES RETAR AL FANTASMA!";
 
-char* mando_sin_texto[] = { "CONNECT A CONTROLLER TO SOCKET 1,", "THEN POWER ON AGAIN" };
+char* mando_sin_texto[] = { "CONECTA UN MANDO AL PUERTO 1", "Y VUELVE A ENCENDER LA CONSOLA." };
 
 char* introduccion_batalla_texto[] = {
-    "BATTLE GAME",
-    "POP OPPOSING PLAYER'S BALLOONS",
-    "WHEN ALL 3 ARE GONE,THEY ARE OUT!",
+    "MODO BATALLA",
+    "¡REVIENTA LOS GLOBOS RIVALES!",
+    "SI PIERDES LOS 3, ¡QUEDAS FUERA!",
 };
 
 char datos_menu_texto[] = "CRUZ*VER DATOS  CUADRADO*SALIR";

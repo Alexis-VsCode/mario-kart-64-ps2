@@ -7,7 +7,7 @@
 // TABLAS_PENDIENTES solo puede bajar. Una tabla ES pasa la lista negra y
 // tiene un texto esperado por entrada.
 
-#define TABLAS_PENDIENTES 10
+#define TABLAS_PENDIENTES 7
 
 // Copas, pistas y personajes
 TABLA(nombres_copa, 9, 0, 8, FUENTE_MENU, 0, ES)
@@ -50,9 +50,9 @@ PUNTERO(texto_puntos_piloto, FUENTE_MENU, 0, ES)
 TABLA(texto_puesto_versus, 3, 0, 2, FUENTE_MENU, PERMITE_RAYA, ES)
 
 // Intro de la batalla, avisos y banner del fantasma
-ARREGLO(texto_menu_anuncio_fantasma, FUENTE_MENU, 0, PENDIENTE)
-TABLA(mando_sin_texto, 2, 0, 1, FUENTE_MENU, 0, PENDIENTE)
-TABLA(introduccion_batalla_texto, 3, 0, 2, FUENTE_MENU, 0, PENDIENTE)
+ARREGLO(texto_menu_anuncio_fantasma, FUENTE_MENU, 0, ES)
+TABLA(mando_sin_texto, 2, 0, 1, FUENTE_MENU, 0, ES)
+TABLA(introduccion_batalla_texto, 3, 0, 2, FUENTE_MENU, 0, ES)
 
 // Memory Card y fantasmas
 TABLA(dato_800E7890, 16, 0, 15, FUENTE_MENU, 0, ES)

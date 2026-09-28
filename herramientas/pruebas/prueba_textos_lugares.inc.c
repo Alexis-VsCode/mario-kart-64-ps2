@@ -206,8 +206,9 @@ PAREJA(texto_lugar, 0, 0, texto_lugar, 1, 8, 0x9B, 1.2f, 5, ZONA_SEGURA_IZQ, ZON
 
 // --- Intro de la batalla, avisos y banner --------------------------------------------
 
-LUGAR(L_ANUNCIO_FANTASMA, texto_menu_anuncio_fantasma, 0, 0, 1, CENTRO, 0xA0, 0.85f, 0.85f, 0, 0, -1000, 1000,
-      "cruza la pantalla de derecha a izquierda (entrada_menus.inc.c:705-732): sin limite")
+LUGAR(L_ANUNCIO_FANTASMA, texto_menu_anuncio_fantasma, 0, 0, 1, CENTRO, 0xA0 - 3, 0.85f, 0.85f, 0, 0, ZONA_SEGURA_IZQ,
+      ZONA_SEGURA_DER, "S; se para 61 cuadros con la columna en 0xA0 y luego sale por la izquierda "
+      "(entrada_menus.inc.c:710-734); menus_pausa.inc.c:81")
 LUGAR(L_SIN_MANDO, mando_sin_texto, 0, 1, 2, CENTRO, 0x9F, 0.75f, 0.75f, 0, 13, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
       "S; escala 0.75 y paso 0x12 * 0.75, dibujar_menus.inc.c:15,112-116")
 LUGAR(L_BATALLA_TITULO, introduccion_batalla_texto, 0, 0, 1, CENTRO, 0x98, 1.0f, 1.0f, 0, 0, ZONA_SEGURA_IZQ,

@@ -334,3 +334,11 @@ ESPERADO(texto_creditos, 59, "super mario club")
 ESPERADO(texto_creditos, 60, "modelo 3d de donkey kong por cortesía de rare u.k.")
 ESPERADO(texto_creditos, 61, "fin")
 ESPERADO(texto_creditos, 62, "equipo de mario kart 64")
+
+// Intro de la batalla, avisos y banner del fantasma
+ESPERADO(introduccion_batalla_texto, 0, "MODO BATALLA")
+ESPERADO(introduccion_batalla_texto, 1, "¡REVIENTA LOS GLOBOS RIVALES!")
+ESPERADO(introduccion_batalla_texto, 2, "SI PIERDES LOS 3, ¡QUEDAS FUERA!")
+ESPERADO(mando_sin_texto, 0, "CONECTA UN MANDO AL PUERTO 1")
+ESPERADO(mando_sin_texto, 1, "Y VUELVE A ENCENDER LA CONSOLA.")
+ESPERADO(texto_menu_anuncio_fantasma, 0, "¡YA PUEDES RETAR AL FANTASMA!")
