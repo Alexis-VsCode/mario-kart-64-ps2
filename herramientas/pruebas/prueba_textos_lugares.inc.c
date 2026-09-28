@@ -60,6 +60,31 @@ PAREJA(nombres_copa, 0, 4, dato_800E76CC, 0, 3, 0xE0, 0.6f, 8, ZONA_SEGURA_IZQ, 
 PAREJA(nombres_copa, 0, 3, dato_800E76DC, 0, 3, 0xA0, 1.0f, 10, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
        "S; ceremonia, posicion final dato_800E7480[0], menus_pausa.inc.c:756-762")
 
+// --- Nombres de las pistas (se traducen aparte; los lugares ya quedan medidos) ---------
+
+LUGAR(L_PISTA_TITULO, nombres_circuito, 0, 19, 1, CENTRO, 0xA0, 1.0f, 1.0f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
+      "S; centrado en 160 al llegar (actualizar_seleccion.inc.c:301), dibujar_menus.inc.c:394")
+LUGAR(L_PISTA_PRESENTACION, nombres_circuito, 0, 19, 1, CENTRO, 0xA0 + 0x3C, 0.65f, 0.85f, 0, 0, ZONA_SEGURA_IZQ,
+      ZONA_SEGURA_DER, "S; columna final 0xA0 (actualizar_seleccion.inc.c:550), menus_pausa.inc.c:455")
+LUGAR(L_PISTA_DATOS, duplicar_nombres_circuito, 0, 19, 1, CENTRO, 0x69, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
+      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:11")
+LUGAR(L_PISTA_META, duplicar_nombres_circuito, 0, 19, 1, CENTRO, 0xA0 + 0x43, 0.6f, 0.6f, 0, 0, ZONA_SEGURA_IZQ,
+      ZONA_SEGURA_DER, "S; columna final 0xA0, info_pistas_y_tiempos.inc.c:642")
+LUGAR(L_PISTA_PANEL, duplicar_nombres_circuito, 0, 19, 1, CENTRO, 0x55, 0.6f, 0.6f, 0, 0, ZONA_SEGURA_IZQ,
+      ZONA_SEGURA_DER, "S; columna final 0, info_pistas_y_tiempos.inc.c:686")
+LUGAR(L_PISTA_PAUSA, duplicar_nombres_circuito, 0, 19, 1, CENTRO, 0xA0, 1.0f, 1.0f, 0, 0, ZONA_SEGURA_IZQ,
+      ZONA_SEGURA_DER, "S; menus_pausa.inc.c:115,203,318")
+LUGAR(L_PISTA_RECORD_INICIO, duplicar_nombres_circuito, 0, 0, 1, CENTRO, 0x9B, 0.9f, 0.9f, 0, 0, ZONA_SEGURA_IZQ,
+      ZONA_SEGURA_DER, "S; la caja se ajusta al texto, dibujar_menus.inc.c:76-80")
+LUGAR(L_PISTA_FANTASMA_1, duplicar_nombres_circuito_2, 0, 19, 1, IZQ, 0x2A, 0.5f, 0.5f, 0, 0, ZONA_SEGURA_IZQ,
+      0x20 + 0x89 - 2, "G: la lista de la segunda tarjeta empieza en x=0xA9; info_pistas_y_tiempos.inc.c:260")
+LUGAR(L_PISTA_FANTASMA_2, duplicar_nombres_circuito_2, 0, 19, 1, IZQ, 0x2A + 0x89, 0.5f, 0.5f, 0, 0, ZONA_SEGURA_IZQ,
+      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:260")
+LUGAR(L_PISTA_FANTASMA_PANEL, duplicar_nombres_circuito_2, 0, 19, 1, IZQ, 0xBB, 0.45f, 0.45f, 0, 0, ZONA_SEGURA_IZQ,
+      ZONA_SEGURA_DER, "S; columna final 0, info_pistas_y_tiempos.inc.c:753")
+LUGAR(L_PISTA_FANTASMA_PAUSA, duplicar_nombres_circuito_2, 0, 19, 1, IZQ, 0x69, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
+      ZONA_SEGURA_DER, "S; menus_pausa.inc.c:383")
+
 // --- Pausa y resultados --------------------------------------------------------------
 
 LUGAR(L_PAUSA_CONTRARRELOJ, boton_pausa_texto, 0, 4, 5, IZQ, 0x69, 0.75f, 0.75f, 0, 13, ZONA_SEGURA_IZQ,
