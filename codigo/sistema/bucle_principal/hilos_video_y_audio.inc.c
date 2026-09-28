@@ -219,7 +219,7 @@ void actualizar_estado_juego(void) {
             ahora_cargado_circuito_id = NULO_CIRCUITO;
             break;
         case CARRERA:
-            EMPEZAR_TIEMPOS_PS2("carga de pista");
+            EMPEZAR_TIEMPOS_PS2(GRUPO_CARGA_PISTA);
             inicializar_carrera_segmento();
             MARCAR_TIEMPOS_PS2("segmento de carrera");
             preparar_carrera();

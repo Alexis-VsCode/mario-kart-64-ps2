@@ -11,6 +11,7 @@
 #include "depuracion/estadisticas_memoria.h"
 #include "depuracion/texto_pantalla.h"
 #include "depuracion/medidor_rendimiento.h"
+#include "depuracion/marcas_registro.h"
 
 #define VBLANKS_POR_VENTANA 60
 #define VBLANKS_POR_SEGUNDO_X100 5994u
@@ -308,8 +309,8 @@ static void cerrar_ventana(u32 ahora, u32 vblank_ahora)
              (unsigned) (rom_total != 0 ? rom_cargados * 100 / rom_total : 100));
     texto_escribir_linea(&texto, 8, linea, (rom_total != 0 && rom_cargados < rom_total) ? TEXTO_AMARILLO : TEXTO_BLANCO);
 
-    hay_arranque = summary_tiempos_ps2("arranque", &arranque_us, &paso_largo_arranque, &largo_arranque_us);
-    hay_carga = summary_tiempos_ps2("carga de pista", &carga_us, &paso_largo, &largo_us);
+    hay_arranque = summary_tiempos_ps2(GRUPO_ARRANQUE, &arranque_us, &paso_largo_arranque, &largo_arranque_us);
+    hay_carga = summary_tiempos_ps2(GRUPO_CARGA_PISTA, &carga_us, &paso_largo, &largo_us);
     ms_o_guion(t1, sizeof(t1), hay_arranque, arranque_us);
     ms_o_guion(t2, sizeof(t2), hay_carga, carga_us);
     snprintf(linea, sizeof(linea), "ARRANQUE %s MS  CARGA PISTA %s MS", t1, t2);

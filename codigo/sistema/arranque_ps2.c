@@ -12,6 +12,7 @@
 #include "audio/salida_audio.h"
 #include "sistema/guardado_ps2.h"
 #include "sistema/cronometro_fases.h"
+#include "depuracion/marcas_registro.h"
 
 extern void funcion_principal(void);
 
@@ -53,7 +54,7 @@ int main(int argc, char *argv[])
 {
 
     ETAPA(0);
-    empezar_tiempos_ps2("arranque");
+    empezar_tiempos_ps2(GRUPO_ARRANQUE);
 #ifndef SMK64_NO_IOP_RESET
     reiniciar_iop();
 #else

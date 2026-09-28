@@ -11,6 +11,9 @@ salvo en los nombres de fase, que no pueden ser nombres de funcion.
 
 En los fuentes que el build pasa a EUC-JP los textos del port van solo en
 ASCII: el registro se lee en UTF-8.
+
+Las palabras que el registro busca y los grupos del cronometro salen de
+marcas_registro.h: ningun fuente las escribe a mano.
 """
 import os
 import re
@@ -29,6 +32,14 @@ REVISIONES = (
 )
 # En estas revisiones un nombre con '_' es un nombre de funcion
 SIN_IDENTIFICADORES = ("fase", "punto de control")
+
+MARCAS_REGISTRO = "incluir/depuracion/marcas_registro.h"
+# Llamadas que solo reciben macros de MARCAS_REGISTRO, nunca literales
+SOLO_MACROS = (
+    ("palabra clave", ("codigo/depuracion/depuracion.c",), ("strstr",)),
+    ("grupo del cronometro", TODO_EL_CODIGO,
+     ("empezar_tiempos_ps2", "EMPEZAR_TIEMPOS_PS2", "summary_tiempos_ps2", "informe_tiempos_ps2")),
+)
 
 # Palabra (en minuscula) -> como se escribe
 INGLES = {
@@ -106,9 +117,14 @@ def fichas(texto):
 
 
 def literales_de(ruta, llamadas):
-    """Literales (linea, texto) dentro de las llamadas o tablas con esos nombres."""
+    """Literales (linea, texto) dentro de las llamadas o tablas con esos nombres (None: todos)."""
     with open(os.path.join(RAIZ, ruta), encoding="utf-8") as f:
         lista = list(fichas(f.read()))
+    if llamadas is None:
+        for tipo, valor, linea in lista:
+            if tipo == "lit":
+                yield linea, valor
+        return
     i = 0
     while i < len(lista):
         tipo, valor, _ = lista[i]
@@ -166,8 +182,29 @@ def fuentes_del_codigo():
                 yield ruta
 
 
+def revisar_marcas():
+    for que, archivos, llamadas in SOLO_MACROS:
+        for ruta in (archivos if archivos is not TODO_EL_CODIGO else fuentes_del_codigo()):
+            for linea, literal in literales_de(ruta, llamadas):
+                comprobar(False, "%s:%d (%s): '%s' va con su macro de %s" % (ruta, linea, que, literal, MARCAS_REGISTRO))
+    existe = os.path.exists(os.path.join(RAIZ, MARCAS_REGISTRO))
+    comprobar(existe, "falta " + MARCAS_REGISTRO)
+    if not existe:
+        return
+    with open(os.path.join(RAIZ, MARCAS_REGISTRO), encoding="utf-8") as f:
+        marcas = re.findall(r'#define\s+(MARCA_\w+)\s+"([^"]*)"', f.read())
+    comprobar(marcas, "%s no define ninguna MARCA_" % MARCAS_REGISTRO)
+    # Quien escribe la marca en un mensaje tambien usa la macro
+    for ruta in fuentes_del_codigo():
+        for linea, literal in literales_de(ruta, None):
+            for nombre, palabra in marcas:
+                comprobar(palabra not in PALABRA.findall(literal),
+                          "%s:%d: '%s' lleva '%s'; usa %s" % (ruta, linea, literal, palabra, nombre))
+
+
 def main():
     en_eucjp = set(sys.argv[1:])
+    revisar_marcas()
     for que, archivos, llamadas in REVISIONES:
         for ruta in (archivos if archivos is not TODO_EL_CODIGO else fuentes_del_codigo()):
             for linea, literal in literales_de(ruta, llamadas):

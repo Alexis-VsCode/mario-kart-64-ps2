@@ -10,6 +10,7 @@
 #include "graficos/interprete_f3dex.h"
 #include "sistema/sistema_ps2.h"
 #include "sistema/cronometro_fases.h"
+#include "depuracion/marcas_registro.h"
 
 #define LINEAS_REGISTRO 32
 #define ANCHO_REGISTRO 200
@@ -96,8 +97,8 @@ static void escribir_host(const char *line)
     if (n > 0) {
         largo_host += (n < lugar) ? n : lugar - 1; /* snprintf da la longitud sin recortar */
     }
-    if (en_panico_ps2 || strstr(line, "PANIC") != NULL || strstr(line, "cuelgue") != NULL ||
-        strstr(line, "GIF") != NULL || contador_vblank() - host_vaciado >= 60) {
+    if (en_panico_ps2 || strstr(line, MARCA_PANICO) != NULL || strstr(line, MARCA_CUELGUE) != NULL ||
+        strstr(line, MARCA_GIF) != NULL || contador_vblank() - host_vaciado >= 60) {
         vaciar_host();
     }
     desbloquear_host();
@@ -217,7 +218,7 @@ void marcar_punto_control(const char *where)
     cantidad_punto_control++;
 #ifdef SMK64_TRAZA
     if (contador_vblank() >= SMK64_TRAZA) {
-        registrar("traza cuelgue hilo %d: %s", (int) id, where);
+        registrar("traza " MARCA_CUELGUE " hilo %d: %s", (int) id, where);
     }
 #endif
 #ifdef SMK64_DEV_TRACE
@@ -250,7 +251,7 @@ static void rescate_gif(void)
     if (!(*chcr & 0x100)) {
         return;
     }
-    snprintf(estado_gif, sizeof(estado_gif), "GIF atascado: D2_CHCR %08x MADR %08x QWC %x GIF_STAT %08x",
+    snprintf(estado_gif, sizeof(estado_gif), MARCA_GIF " atascado: D2_CHCR %08x MADR %08x QWC %x GIF_STAT %08x",
              (unsigned) *chcr, (unsigned) *madr, (unsigned) *qwc, (unsigned) *est_gif);
     *activar_w = *activar_r | 0x10000; /* suspende el DMA */
     *chcr &= ~0x100u;
@@ -398,7 +399,7 @@ void detener_por_error(const char *mens)
         }
     }
     en_panico_ps2 = 1;
-    registrar("PANIC: %s", mens);
+    registrar(MARCA_PANICO ": %s", mens);
     /* Nada mas debe correr */
     ChangeThreadPriority(GetThreadId(), 0);
     mostrar_pantalla("ERROR");
@@ -478,7 +479,7 @@ static void hilo_perro(void *parametro)
             snprintf(titulo, sizeof(titulo), "CUELGUE (sin frames en %d s)", limite);
             mostrar_pantalla(titulo);
             freeze_others();
-            registrar("sin frames en %d s: cuelgue", limite);
+            registrar("sin frames en %d s: " MARCA_CUELGUE, limite);
             if (estado_gif[0] != '\0') {
                 registrar("%s", estado_gif);
             }
