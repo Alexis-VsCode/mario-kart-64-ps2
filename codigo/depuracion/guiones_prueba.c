@@ -445,7 +445,7 @@ void inicializar_guiones_prueba(void)
     guion = malloc(size + 1);
     if (guion == NULL || fread(guion, 1, size, f) != (size_t) size) {
         fclose(f);
-        registrar("autotest: no se pudo leer el guion");
+        registrar("autoprueba: no se pudo leer el guion");
         return;
     }
     fclose(f);
@@ -490,7 +490,7 @@ void inicializar_guiones_prueba(void)
     }
     activo = 1;
     probar_registro("guion cargado: %d ordenes", pasos_num);
-    registrar("autotest: guion de %d ordenes", pasos_num);
+    registrar("autoprueba: guion de %d órdenes", pasos_num);
 }
 
 int guion_prueba_activo(void)

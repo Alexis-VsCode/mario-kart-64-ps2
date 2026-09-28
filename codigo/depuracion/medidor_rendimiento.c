@@ -346,19 +346,19 @@ static void cerrar_ventana(u32 ahora, u32 vblank_ahora)
     if ((++ventanas_registro % 5) != 0) {
         return;
     }
-    registrar("medidor: escena %d fps %u.%02u min %u max %u prom %u (x100) frame %u pico %u (0,1 ms)", (int) estado_juego,
+    registrar("medidor: escena %d fps %u.%02u mín %u máx %u prom %u (x100) cuadro %u pico %u (0,1 ms)", (int) estado_juego,
             (unsigned) (fps / 100), (unsigned) (fps % 100), (unsigned) a->fps_minimo, (unsigned) a->fps_maximo,
             (unsigned) fps_promedio, (unsigned) ciclos_a_decimas_ms(transcurrido, frames),
             (unsigned) ciclos_a_decimas_ms(v->periodo_maximo, 1));
-    registrar("medidor: cpu %u%% video %u%% juego %u%% audio %u%% otros %u%% libre %u%%; por frame (0,1 ms) render %u "
-            "audio %u espgs %u dma %u; audio cortes %u cola min %u ms",
+    registrar("medidor: cpu %u%% video %u%% juego %u%% audio %u%% otros %u%% libre %u%%; por cuadro (0,1 ms) dibujo %u "
+            "audio %u espgs %u dma %u; audio cortes %u cola mín %u ms",
             (unsigned) pct_cpu, (unsigned) pct_video, (unsigned) pct_juego, (unsigned) pct_audio, (unsigned) pct_otros,
             (unsigned) pct_libre,
             (unsigned) ciclos_a_decimas_ms(v->render_ciclos, frames), (unsigned) ciclos_a_decimas_ms(v->ciclos_audio, frames),
             (unsigned) ciclos_a_decimas_ms(v->ciclos_espera_gs, frames),
             (unsigned) ciclos_a_decimas_ms(v->ciclos_espera_dma, frames), (unsigned) a->cortes_audio, (unsigned) cola_ms);
-    registrar("medidor: por frame envios %u paquete %uKB subidas %u %uKB tris %u rect %u; tex %u %u/%uKB libre %uKB "
-            "pool %uKB audio %u/%uKB",
+    registrar("medidor: por cuadro envíos %u paquete %uKB subidas %u %uKB tri %u rect %u; tex %u %u/%uKB libre %uKB "
+            "reserva %uKB audio %u/%uKB",
             (unsigned) (v->envios / frames), (unsigned) (v->bytes_paquete / frames / 1024),
             (unsigned) (v->subidas / frames), (unsigned) (v->bytes_subidas / frames / 1024),
             (unsigned) (v->triangulos / frames), (unsigned) (v->rectangulos / frames),

@@ -29,6 +29,7 @@ LLAMADAS_REGISTRO = ("registrar", "rend_registro_ps2", "detener_por_error", "det
 REGISTRO = (
     "codigo/sistema/*.c",
     "codigo/memoria/memoria_carrera/pools_y_segmentos.inc.c",
+    "codigo/depuracion/*.c",
 )
 
 # (que se revisa, archivos, llamadas o tablas cuyos literales se leen)
@@ -88,6 +89,13 @@ INGLES = {
     "ending": "final",
     "heap": "montón",
     "memcard": "memory card",
+    "seqplayer": "secuenciador",
+    "on": "activo",
+    "delay": "retardo",
+    "kernel": "núcleo",
+    "debug": "depuración",
+    "autotest": "autoprueba",
+    "ckpt": "punto de control",
 }
 SIN_TILDE = {
     "musica": "música",
@@ -115,6 +123,8 @@ SIN_TILDE = {
     "contesto": "contestó",
     "espero": "esperó",
     "vacia": "vacía",
+    "envios": "envíos",
+    "ordenes": "órdenes",
 }
 # Verbo en pasado salvo detras de un determinante (el fallo, un cambio)
 AMBIGUAS = {"fallo": "falló", "cambio": "cambió"}

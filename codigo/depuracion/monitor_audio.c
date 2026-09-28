@@ -151,7 +151,7 @@ void ps2_audio_monitor_frame(void)
     }
     n = ps2_audio_monitor_lineas(lineas_2, 8);
     for (i = 0; i < n; i++) {
-        rend_registro_ps2("debug_audio: %s", lineas_2[i]);
+        rend_registro_ps2("página de audio: %s", lineas_2[i]);
     }
 #endif
 }

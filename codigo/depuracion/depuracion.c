@@ -188,7 +188,7 @@ void rango_vigilancia_ps2(const void *dst, u32 size, void *llamador)
 {
     if (direccion_vigilancia != NULL && (const u8 *) direccion_vigilancia >= (const u8 *) dst &&
         (const u8 *) direccion_vigilancia < (const u8 *) dst + size) {
-        registrar("DMA sobre la direccion vigilada: destino %p +%x (llamante %p)", dst, (unsigned) size, llamador);
+        registrar("DMA sobre la dirección vigilada: destino %p +%x (llamante %p)", dst, (unsigned) size, llamador);
     }
 }
 
@@ -198,7 +198,7 @@ void comprobar_vigilancia(const char *where, void *llamador)
         int i;
 
         vigilancia_disparado = 1;
-        registrar("VIGILANCIA: %p cambio %08x -> %08x, visto en %s (llamante %p, hilo %d)", (void *) direccion_vigilancia,
+        registrar("VIGILANCIA: %p cambió %08x -> %08x, visto en %s (llamante %p, hilo %d)", (void *) direccion_vigilancia,
                 (unsigned) valor_vigilancia, (unsigned) *direccion_vigilancia, where, llamador, (int) GetThreadId());
         for (i = 0; i < RANURAS_CKPT; i++) {
             if (punto_control[i] != NULL) {
@@ -223,7 +223,7 @@ void marcar_punto_control(const char *where)
     }
 #endif
 #ifdef SMK64_DEV_TRACE
-    registrar("ckpt %d hilo %d: %s", cantidad_punto_control, (int) id, where);
+    registrar("punto de control %d, hilo %d: %s", cantidad_punto_control, (int) id, where);
 #endif
 #ifdef SMK64_CKPT_STOP
     if (cantidad_punto_control == SMK64_CKPT_STOP) {
@@ -455,7 +455,7 @@ static void hilo_perro(void *parametro)
         WaitSema(sema_perro);
 #ifdef SMK64_THREAD_DUMP
         if (++segundos % SMK64_THREAD_DUMP == 0) {
-            rend_registro_ps2("hilos (VBlank %u, frames %u):", (unsigned) contador_vblank(), (unsigned) alimentacion);
+            rend_registro_ps2("hilos (retrazo %u, cuadros %u):", (unsigned) contador_vblank(), (unsigned) alimentacion);
             {
                 char line[ANCHO_REGISTRO];
                 int i;
@@ -532,7 +532,7 @@ static void instalar_manejadores_excepcion(void)
     unsigned i;
 
     if (ee_dbg_install(1) != 0) {
-        registrar("ee_dbg_install fallo: sin manejador de excepciones");
+        registrar("ee_dbg_install falló: sin manejador de excepciones");
         return;
     }
     for (i = 0; i < sizeof(causas) / sizeof(causas[0]); i++) {
