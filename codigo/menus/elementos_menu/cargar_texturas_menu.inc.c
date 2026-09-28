@@ -74,7 +74,12 @@ Gfx* funcion_80095BD0(Gfx* display_list_cabeza_2, u8* parametro1, f32 parametro2
     Vtx* variable_a1;
     Mtx* sp28;
 
+#ifdef AVOID_UB
+    // El pool tiene MTX_EFECTO_POOL_TAMANIO matrices; el tope de la N64 lo pasaba
+    if (cantidad_efecto_matriz >= MTX_EFECTO_POOL_TAMANIO) {
+#else
     if (cantidad_efecto_matriz >= 0x2F7) {
+#endif
         goto func_80095BD0_etiqueta_1;
     }
     sp28 = &gfx_pool->efecto_mtx[cantidad_efecto_matriz];
