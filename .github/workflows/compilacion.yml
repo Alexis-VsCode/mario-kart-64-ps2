@@ -1,0 +1,44 @@
+# Compila el port y corre las pruebas en cada push y pull request.
+name: compilacion
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  pruebas-pc:
+    name: Pruebas en el PC
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: make test
+        run: make test
+
+  compilar-ps2:
+    name: Compilar para PS2
+    runs-on: ubuntu-latest
+    # Imagen oficial de ps2dev fijada por digest (amd64) para que el build sea reproducible
+    container: ps2dev/ps2dev@sha256:7327334ab94e273b1723761fcd4a3591a31b78bbc28e4c281ad0fa42b3c8264d
+    steps:
+      - name: Dependencias del PC
+        run: apk add --no-cache bash build-base python3 git coreutils findutils cdrkit
+      - uses: actions/checkout@v4
+      - name: make (release)
+        run: . herramientas/entorno.sh && make -j"$(nproc)"
+      - name: make DEBUG=1
+        run: . herramientas/entorno.sh && make DEBUG=1 -j"$(nproc)"
+      - name: make test
+        run: make test
+      - name: make iso
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE" && . herramientas/entorno.sh && make iso
+      - name: Guardar los binarios
+        uses: actions/upload-artifact@v4
+        with:
+          name: smk64-ps2
+          path: |
+            build/ps2/SLUS_999.99
+            build/ps2/SMK64ROM.BIN
+            build/ps2/smk64.map
+            build/ps2/debug/SLUS_999.99
+            compilaciones/*.iso
