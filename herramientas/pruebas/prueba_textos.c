@@ -173,12 +173,12 @@ static const SinSolape sin_solapes[] = {
 
 typedef struct {
     const char* palabra;
-    const char* motivo;
+    s32 sin_tilde; // la fuente de depuracion no tiene tildes: ahi no cuenta
 } Prohibida;
 
 static const Prohibida prohibidas[] = {
-#define INGLES(p) { p, "en ingles" },
-#define SIN_TILDE(p) { p, "sin tilde" },
+#define INGLES(p) { p, 0 },
+#define SIN_TILDE(p) { p, 1 },
 #include "prueba_textos_lista_negra.inc.c"
 #undef INGLES
 #undef SIN_TILDE
@@ -368,8 +368,11 @@ static void probar_lista_negra(const TablaTexto* t, s32 i) {
         }
         palabra[n] = 0;
         for (k = 0; n > 0 && k < CANTIDAD_ARREGLO(prohibidas); k++) {
+            if (prohibidas[k].sin_tilde && t->fuente == FUENTE_DEPURACION) {
+                continue;
+            }
             COMPROBACION(strcmp(palabra, prohibidas[k].palabra) != 0, "%s[%d]: \"%s\" %s", t->nombre, i, palabra,
-                         prohibidas[k].motivo);
+                         prohibidas[k].sin_tilde ? "sin tilde" : "en ingles");
         }
         if (*c != 0) {
             c++;
