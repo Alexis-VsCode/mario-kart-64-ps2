@@ -29,6 +29,7 @@ PYTHON  ?= python3
 
 HERRAMIENTAS := build/herramientas
 MIO0TOOL     := $(HERRAMIENTAS)/mio0
+TKMK00TOOL   := $(HERRAMIENTAS)/tkmk00
 DLPACKER     := $(HERRAMIENTAS)/empaquetador_listas
 
 V ?= @
@@ -223,7 +224,7 @@ iso: $(ELF)
 	    ISO_CONTENIDO=compilaciones/disco/contenido$(if $(filter 1,$(DEBUG)),_debug) \
 	    sh herramientas/crear_iso.sh $(OBJDIR)/SLUS_999.99 $(ISO_NAME)
 
-herramientas: $(MIO0TOOL) $(DLPACKER)
+herramientas: $(MIO0TOOL) $(DLPACKER) $(TKMK00TOOL)
 
 clean:
 	rm -rf $(BUILD) $(HERRAMIENTAS)
@@ -232,7 +233,7 @@ clean:
 PRUEBAS := $(BUILD)/pruebas
 # char con signo como en el R5900 (en ARM el char del PC no lleva signo)
 CC_PRUEBAS := gcc -fsigned-char
-test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL)
+test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(TKMK00TOOL)
 	@mkdir -p $(PRUEBAS)
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -D_LANGUAGE_C -DF3DEX_GBI -DTARGET_PS2 -Iincluir -Iincluir/libultra \
 	    -o $(PRUEBAS)/prueba_combinador herramientas/pruebas/prueba_combinador.c codigo/graficos/combinador_color.c -lm
@@ -245,6 +246,7 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL)
 	    $(INCLUDES) -iquote codigo/menus/ $(JP_IQUOTE)
 	$(V)$(PYTHON) herramientas/pruebas/prueba_png_simple.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_formatos_textura.py $(MIO0TOOL)
+	$(V)$(PYTHON) herramientas/pruebas/prueba_tkmk00.py $(TKMK00TOOL)
 	$(V)$(PYTHON) herramientas/comprobar_lineas.py
 
 # --- Herramientas del PC ------------------------------------------------------------
@@ -254,6 +256,12 @@ HOST_CFLAGS := -Iincluir -Wall -Wextra -Wno-unused-parameter -pedantic -std=c99 
 $(MIO0TOOL): codigo/sistema/descompresion_mio0.c incluir/sistema/descompresion_mio0.h
 	@mkdir -p $(dir $@)
 	$(V)gcc $(HOST_CFLAGS) -DMIO0_STANDALONE $< -o $@
+
+# Decodificador TKMK00 del juego como herramienta del PC
+$(TKMK00TOOL): codigo/sistema/descompresion_tkmk00.c herramientas/archivos_host.c \
+               incluir/sistema/descompresion_tkmk00.h incluir/sistema/utilidades.h
+	@mkdir -p $(dir $@)
+	$(V)gcc $(HOST_CFLAGS) -DTKMK00_STANDALONE codigo/sistema/descompresion_tkmk00.c herramientas/archivos_host.c -o $@
 
 $(DLPACKER): herramientas/empaquetador_listas.c
 	@mkdir -p $(dir $@)
