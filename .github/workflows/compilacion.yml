@@ -24,6 +24,9 @@ jobs:
       - name: Dependencias del PC
         run: apk add --no-cache bash build-base python3 git coreutils findutils cdrkit
       - uses: actions/checkout@v4
+      # build/ esta versionado: sin esto make podria reutilizar objetos del repo
+      - name: make clean
+        run: make clean
       - name: make (release)
         run: . herramientas/entorno.sh && make -j"$(nproc)"
       - name: make DEBUG=1
@@ -42,3 +45,4 @@ jobs:
             build/ps2/smk64.map
             build/ps2/debug/SLUS_999.99
             compilaciones/*.iso
+
