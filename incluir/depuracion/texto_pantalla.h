@@ -27,7 +27,7 @@ typedef struct {
 } TexturaTexto;
 
 void texto_limpiar(TexturaTexto *tex);
-/* Escribe una linea (se corta en TEXTO_COLUMNAS) */
+/* Escribe una linea, un caracter por columna (se corta en TEXTO_COLUMNAS) */
 void texto_escribir_linea(TexturaTexto *tex, int linea, const char *cadena, u32 color);
 void texto_dibujar(TexturaTexto *tex, float x, float y, int lineas);
 

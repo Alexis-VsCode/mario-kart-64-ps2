@@ -10,9 +10,10 @@
 #define FUENTE_5X7_ANCHO  5
 #define FUENTE_5X7_AVANCE 6 /* 5 de glifo + 1 de separacion */
 
-/* Deja en filas la celda del caracter de c y devuelve los bytes que ocupa.
-   Las minusculas dan la mayuscula; lo que no esta en la fuente, la celda
-   vacia. */
+/* Deja en filas la celda del caracter de c y devuelve los bytes que ocupa:
+   1 en ASCII y 2 o 3 en los caracteres del espanol (UTF-8 o EUC-JP, ver
+   caracteres_es.h). Las minusculas dan la mayuscula; lo que no esta en la
+   fuente, la celda vacia. */
 int glifo_5x7(const char *c, unsigned char filas[FUENTE_5X7_FILAS]);
 
 /* Escribe cadena en pixeles (ancho_textura por fila), un caracter por

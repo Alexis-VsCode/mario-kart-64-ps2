@@ -1,6 +1,7 @@
 #include <string.h>
 
 #include "depuracion/fuente_5x7.h"
+#include "sistema/caracteres_es.h"
 
 #define PRIMER_CARACTER ' '
 #define ULTIMO_CARACTER 'Z'
@@ -68,6 +69,22 @@ static const uint8_t fuente[ULTIMO_CARACTER - PRIMER_CARACTER + 1][FUENTE_5X7_FI
     { 0x1F, 0x01, 0x02, 0x04, 0x08, 0x10, 0x1F },
 };
 
+/* Fila 0 de las letras que llevan el signo sobre la letra ASCII */
+static const uint8_t fila_signo[] = {
+    [MARCA_AGUDA] = 0x06,
+    [MARCA_DIERESIS] = 0x0A,
+};
+
+/* Celdas enteras del resto: la enie (virgulilla de 2 filas y N de 6), los
+   signos de apertura (! y ? girados) y los ordinales */
+static const uint8_t celdas_es[CAR_ES_TOTAL][FUENTE_5X7_FILAS] = {
+    [CAR_ES_ENIE] = { 0x0D, 0x16, 0x11, 0x19, 0x15, 0x13, 0x11, 0x11 },
+    [CAR_ES_ABRE_EXCLAMACION] = { 0x00, 0x04, 0x00, 0x04, 0x04, 0x04, 0x04, 0x04 },
+    [CAR_ES_ABRE_INTERROGACION] = { 0x00, 0x04, 0x00, 0x04, 0x08, 0x10, 0x11, 0x0E },
+    [CAR_ES_ORDINAL_O] = { 0x00, 0x0E, 0x11, 0x0E, 0x00, 0x1F, 0x00, 0x00 },
+    [CAR_ES_ORDINAL_A] = { 0x00, 0x0E, 0x12, 0x0F, 0x00, 0x1F, 0x00, 0x00 },
+};
+
 static void copiar_letra(char c, unsigned char filas[FUENTE_5X7_FILAS])
 {
     if (c >= 'a' && c <= 'z') {
@@ -80,9 +97,20 @@ static void copiar_letra(char c, unsigned char filas[FUENTE_5X7_FILAS])
 
 int glifo_5x7(const char *c, unsigned char filas[FUENTE_5X7_FILAS])
 {
+    int bytes;
+    int car = leer_caracter_es(c, &bytes, NULL);
+    int signo = caracter_es_marca(car);
+
     memset(filas, 0, FUENTE_5X7_FILAS);
-    copiar_letra(*c, filas);
-    return 1;
+    if (car == CAR_ES_NINGUNO) {
+        copiar_letra(*c, filas);
+    } else if (signo == MARCA_AGUDA || signo == MARCA_DIERESIS) {
+        copiar_letra(caracter_es_base(car), filas);
+        filas[0] = fila_signo[signo];
+    } else {
+        memcpy(filas, celdas_es[car], FUENTE_5X7_FILAS);
+    }
+    return bytes;
 }
 
 int escribir_linea_5x7(uint32_t *pixeles, int ancho_textura, int x0, int y0, const char *cadena, int columnas_max,
