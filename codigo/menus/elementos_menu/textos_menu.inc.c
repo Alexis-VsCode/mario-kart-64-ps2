@@ -87,7 +87,7 @@ char* depuracion_sonido_modo_nombres[] = {
     "monaural",
 };
 
-char* sonido_nombres_modo[MODOS_SONIDO_NUM] = { "STEREO", "HEADPHONE", "", "MONO" };
+char* sonido_nombres_modo[MODOS_SONIDO_NUM] = { "ESTÉREO", "AURICULARES", "", "MONO" };
 
 char* texto_perder_victoria[] = {
     "WINNER!",
@@ -131,53 +131,53 @@ char* introduccion_batalla_texto[] = {
     "WHEN ALL 3 ARE GONE,THEY ARE OUT!",
 };
 
-char datos_menu_texto[] = "a BUTTON*SEE DATA  B BUTTON*EXIT";
+char datos_menu_texto[] = "CRUZ*VER DATOS  CUADRADO*SALIR";
 
-char distancia_texto[] = "distance";
+char distancia_texto[] = "LONGITUD";
 
 char* longitudes_circuito[] = {
 #include "recursos/pistas/metadatos/longitudes_circuito.inc.c"
 };
 
 char* opcion_menu_texto[] = {
-    "return to menu",
-    "erase records for this course",
-    "erase ghost from this course",
+    "VOLVER AL MENÚ",
+    "BORRAR RÉCORDS DE LA PISTA",
+    "BORRAR FANTASMA DE LA PISTA",
 };
 
 char* dato_800E7840[] = {
-    "quit",
-    "erase",
+    "SALIR",
+    "BORRAR",
 };
 
 char* borrar_mejor_fantasma_texto[] = {
-    "THE BEST RECORDS AND BEST", "LAP FOR THIS COURSE WILL BE", "ERASED.  IS THIS OK?",
+    "SE BORRARÁN LOS RÉCORDS", "Y LA MEJOR VUELTA DE", "ESTA PISTA. ¿DE ACUERDO?",
 
-    "GHOST DATA FOR THIS",       "COURSE WILL BE ERASED.",      "IS THIS OK?",
+    "SE BORRARÁ EL FANTASMA",  "DE ESTA PISTA.",       "¿DE ACUERDO?",
 };
 
 char* dato_800E7860[] = {
-    "UNABLE TO ERASE ",
-    "GHOST DATA",
+    "NO SE PUEDE BORRAR",
+    "EL FANTASMA",
 };
 
 char* menu_opcion_texto[] = {
-    "RETURN TO GAME SELECT",
-    "SOUND MODE",
-    "COPY N64 CONTROLLER PAK",
-    "ERASE ALL DATA",
+    "VOLVER AL MENÚ PRINCIPAL",
+    "SONIDO",
+    "COPIAR FANTASMAS",
+    "BORRAR TODOS LOS DATOS",
 };
 
 char* dato_800E7878[] = {
-    "ALL SAVED DATA WILL BE",
-    "PERMANENTLY ERASED.",
-    "ARE YOU REALLY SURE?",
+    "SE BORRARÁN TODOS LOS",
+    "DATOS PARA SIEMPRE.",
+    "¿QUIERES CONTINUAR?",
 };
 
 char* dato_800E7884[] = {
     "",
-    "ALL SAVED DATA",
-    "HAS BEEN NOW ERASED.",
+    "SE HAN BORRADO",
+    "TODOS LOS DATOS.",
 };
 
 char* dato_800E7890[] = {

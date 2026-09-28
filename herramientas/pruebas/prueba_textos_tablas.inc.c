@@ -7,7 +7,7 @@
 // TABLAS_PENDIENTES solo puede bajar. Una tabla ES pasa la lista negra y
 // tiene un texto esperado por entrada.
 
-#define TABLAS_PENDIENTES 56
+#define TABLAS_PENDIENTES 46
 
 // Copas, pistas y personajes
 TABLA(nombres_copa, 9, 0, 8, FUENTE_MENU, 0, PENDIENTE)
@@ -24,17 +24,17 @@ TABLA(depuracion_pantalla_modo_nombres, 5, 0, 4, FUENTE_DEPURACION, 0, PENDIENTE
 TABLA(depuracion_sonido_modo_nombres, 4, 0, 3, FUENTE_DEPURACION, 0, PENDIENTE)
 
 // Opciones, sonido y datos de las pistas
-TABLA(sonido_nombres_modo, 4, 0, 3, FUENTE_MENU, 0, PENDIENTE)
-TABLA(menu_opcion_texto, 4, 0, 3, FUENTE_MENU, 0, PENDIENTE)
-TABLA(dato_800E7878, 3, 0, 2, FUENTE_MENU, 0, PENDIENTE)
-TABLA(dato_800E7884, 3, 0, 2, FUENTE_MENU, 0, PENDIENTE)
-ARREGLO(datos_menu_texto, FUENTE_MENU, PERMITE_ASTERISCO, PENDIENTE)
-ARREGLO(distancia_texto, FUENTE_MENU, 0, PENDIENTE)
+TABLA(sonido_nombres_modo, 4, 0, 3, FUENTE_MENU, 0, ES)
+TABLA(menu_opcion_texto, 4, 0, 3, FUENTE_MENU, 0, ES)
+TABLA(dato_800E7878, 3, 0, 2, FUENTE_MENU, 0, ES)
+TABLA(dato_800E7884, 3, 0, 2, FUENTE_MENU, 0, ES)
+ARREGLO(datos_menu_texto, FUENTE_MENU, PERMITE_ASTERISCO, ES)
+ARREGLO(distancia_texto, FUENTE_MENU, 0, ES)
 TABLA(longitudes_circuito, 20, 0, 19, FUENTE_MENU, 0, ES)
-TABLA(opcion_menu_texto, 3, 0, 2, FUENTE_MENU, 0, PENDIENTE)
-TABLA(dato_800E7840, 2, 0, 1, FUENTE_MENU, 0, PENDIENTE)
-TABLA(borrar_mejor_fantasma_texto, 6, 0, 5, FUENTE_MENU, 0, PENDIENTE)
-TABLA(dato_800E7860, 2, 0, 1, FUENTE_MENU, 0, PENDIENTE)
+TABLA(opcion_menu_texto, 3, 0, 2, FUENTE_MENU, 0, ES)
+TABLA(dato_800E7840, 2, 0, 1, FUENTE_MENU, 0, ES)
+TABLA(borrar_mejor_fantasma_texto, 6, 0, 5, FUENTE_MENU, 0, ES)
+TABLA(dato_800E7860, 2, 0, 1, FUENTE_MENU, 0, ES)
 
 // Pausa, tiempos y resultados
 TABLA(texto_perder_victoria, 2, 0, 1, FUENTE_MENU, 0, PENDIENTE)
