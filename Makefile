@@ -5,11 +5,15 @@
 #   make DEBUG=1         panel de rendimiento y registro (build/ps2/debug)
 #   make DEV=1           DEBUG + registro y guiones por host: (build/ps2/dev)
 #   make MONOLITICO=1    un solo ELF con toda la ROM adentro
-#   make test            pruebas en el PC
+#   make test            pruebas en el PC (no necesita el SDK de PS2)
 #   make clean           borra build/ps2
 
-ifeq ($(PS2SDK),)
-  $(error PS2SDK no definido: ejecuta '. herramientas/entorno.sh')
+# Objetivos que corren en el PC y no necesitan el SDK de PS2
+OBJETIVOS_PC := test clean herramientas
+ifneq ($(filter-out $(OBJETIVOS_PC),$(or $(MAKECMDGOALS),all)),)
+  ifeq ($(PS2SDK),)
+    $(error PS2SDK no definido: ejecuta '. herramientas/entorno.sh')
+  endif
 endif
 PS2DEV ?= /usr/local/ps2dev
 
