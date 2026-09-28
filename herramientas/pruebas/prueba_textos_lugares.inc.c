@@ -115,6 +115,17 @@ LUGAR(L_PREFIJO_META, texto_tiempo_prefijo, 0, 3, 1, DER, 0xA0 + 0x17 + 0x21, 0.
       ZONA_SEGURA_DER, "S; columna final 0xA0, info_pistas_y_tiempos.inc.c:833")
 LUGAR(L_PREFIJO_PANEL, texto_tiempo_prefijo, 0, 3, 1, DER, 0x26 + 0x21, 0.65f, 0.7f, 0, 0, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; columna final 0, info_pistas_y_tiempos.inc.c:833")
+LUGAR(L_RESULTADOS, texto_resultados, 0, 0, 1, IZQ, 0xA0 + 7, 1.0f, 1.0f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
+      "S; columna final 0xA0 (actualizar_seleccion.inc.c:369), info_pistas_y_tiempos.inc.c:421")
+LUGAR(L_RONDA_RESULTADOS, texto_ronda, 0, 0, 1, IZQ, 0xA0 + 0x2C, 0.7f, 0.7f, 0, 0, ZONA_SEGURA_IZQ, 250.5f,
+      "I: el numero de la ronda va en 0xA0 + 0x57 y 'round' llegaba a 250.2; info_pistas_y_tiempos.inc.c:423-425")
+LUGAR(L_PUNTOS, texto_puntos_piloto, 0, 0, 1, IZQ, 0x19, 0.8f, 0.8f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
+      "S; columna final 0 (entrada_menus.inc.c:3), info_pistas_y_tiempos.inc.c:502")
+LUGAR(L_RONDA_PUNTOS, texto_ronda, 0, 0, 1, IZQ, 0x36, 0.7f, 0.7f, 0, 0, ZONA_SEGURA_IZQ, 100.5f,
+      "I: el numero de la ronda va en 0x61 y 'round' llegaba a 100.2; info_pistas_y_tiempos.inc.c:504-506")
+LUGAR(L_PUESTO_VERSUS, texto_puesto_versus, 0, 2, 1, MONO, 4, 0.8f, 0.8f, 0, 0, -1000, 41,
+      "G: relativo a la columna; la tinta de las veces (en 0x2D, centradas) empieza en 41.4 como pronto; "
+      "menus_pausa.inc.c:697-716")
 LUGAR(L_PUESTO_RECORD, dato_800E7744, 0, 5, 1, MONO, 0x14, 0.65f, 0.65f, 2, 0, -1000, 37,
       "I: relativo a la columna; las cifras de los minutos empiezan en 0x27 (menus_pausa.inc.c:32-51)")
 

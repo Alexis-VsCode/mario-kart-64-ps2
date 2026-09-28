@@ -7,7 +7,7 @@
 // TABLAS_PENDIENTES solo puede bajar. Una tabla ES pasa la lista negra y
 // tiene un texto esperado por entrada.
 
-#define TABLAS_PENDIENTES 42
+#define TABLAS_PENDIENTES 36
 
 // Copas, pistas y personajes
 TABLA(nombres_copa, 9, 0, 8, FUENTE_MENU, 0, ES)
@@ -37,13 +37,17 @@ TABLA(borrar_mejor_fantasma_texto, 6, 0, 5, FUENTE_MENU, 0, ES)
 TABLA(dato_800E7860, 2, 0, 1, FUENTE_MENU, 0, ES)
 
 // Pausa, tiempos y resultados
-TABLA(texto_perder_victoria, 2, 0, 1, FUENTE_MENU, 0, PENDIENTE)
-TABLA(texto_tiempo_mejor, 2, 0, 1, FUENTE_MENU, 0, PENDIENTE)
-PUNTERO(texto_tiempo_vuelta, FUENTE_MENU, 0, PENDIENTE)
-TABLA(texto_tiempo_prefijo, 4, 0, 3, FUENTE_MENU, 0, PENDIENTE)
+TABLA(texto_perder_victoria, 2, 0, 1, FUENTE_MENU, 0, ES)
+TABLA(texto_tiempo_mejor, 2, 0, 1, FUENTE_MENU, 0, ES)
+PUNTERO(texto_tiempo_vuelta, FUENTE_MENU, 0, ES)
+TABLA(texto_tiempo_prefijo, 4, 0, 3, FUENTE_MENU, 0, ES)
 TABLA(dato_800E7744, 6, 0, 5, FUENTE_MENU, PERMITE_SUFIJO, PENDIENTE)
-TABLA(boton_pausa_texto, 7, 0, 6, FUENTE_MENU, 0, PENDIENTE)
-TABLA(dato_800E7778, 2, 0, 1, FUENTE_MENU, 0, PENDIENTE)
+TABLA(boton_pausa_texto, 7, 0, 6, FUENTE_MENU, 0, ES)
+TABLA(dato_800E7778, 2, 0, 1, FUENTE_MENU, 0, ES)
+PUNTERO(texto_resultados, FUENTE_MENU, 0, ES)
+PUNTERO(texto_ronda, FUENTE_MENU, 0, ES)
+PUNTERO(texto_puntos_piloto, FUENTE_MENU, 0, ES)
+TABLA(texto_puesto_versus, 3, 0, 2, FUENTE_MENU, PERMITE_RAYA, ES)
 
 // Intro de la batalla, avisos y banner del fantasma
 ARREGLO(texto_menu_anuncio_fantasma, FUENTE_MENU, 0, PENDIENTE)

@@ -90,21 +90,21 @@ char* depuracion_sonido_modo_nombres[] = {
 char* sonido_nombres_modo[MODOS_SONIDO_NUM] = { "ESTÉREO", "AURICULARES", "", "MONO" };
 
 char* texto_perder_victoria[] = {
-    "WINNER!",
-    "LOSER!",
+    "¡VICTORIA!",
+    "¡DERROTA!",
 };
 
 char* texto_tiempo_mejor[] = {
-    "BEST RECORDS",
-    "BEST LAP",
+    "RÉCORDS",
+    "MEJOR VUELTA",
 };
 
-char* texto_tiempo_vuelta = "LAP TIME";
+char* texto_tiempo_vuelta = "TIEMPOS DE VUELTA";
 
 char* texto_tiempo_prefijo[] = {
-    "LAP 1",
-    "LAP 2",
-    "LAP 3",
+    "VUELTA 1",
+    "VUELTA 2",
+    "VUELTA 3",
     "TOTAL",
 };
 
@@ -113,21 +113,21 @@ char* dato_800E7744[] = {
 };
 
 char* boton_pausa_texto[] = {
-    "CONTINUE GAME", "RETRY", "COURSE CHANGE", "DRIVER CHANGE", "QUIT", "REPLAY", "SAVE GHOST",
+    "CONTINUAR", "REINTENTAR", "CAMBIAR PISTA", "CAMBIAR PILOTO", "SALIR", "REPETICIÓN", "GRABAR FANTASMA",
 };
 
 char* dato_800E7778[] = {
-    "VS MATCH RANKING",
-    "BATTLE RANKING",
+    "CLASIFICACIÓN VS",
+    "CLASIFICACIÓN BATALLA",
 };
 
 // Titulos de los paneles de resultados del gran premio
-char* texto_resultados = "results";
-char* texto_ronda = "round";
-char* texto_puntos_piloto = "driver's points";
+char* texto_resultados = "RESULTADOS";
+char* texto_ronda = "RONDA";
+char* texto_puntos_piloto = "CLASIFICACIÓN";
 
 // Puestos del resumen de versus (1.o, 2.o y 3.o) antes de las veces que se consiguieron
-char* texto_puesto_versus[] = { "1 ｓ ー", "2 ｎ ー", "3 ｒ ー" };
+char* texto_puesto_versus[] = { "1.º ー", "2.º ー", "3.º ー" };
 
 char texto_menu_anuncio_fantasma[] = "NOW-MEET THE COURSE GHOST!!!";
 
