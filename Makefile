@@ -248,6 +248,7 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(
 	$(V)$(PYTHON) herramientas/pruebas/prueba_png_simple.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_formatos_textura.py $(MIO0TOOL)
 	$(V)$(PYTHON) herramientas/pruebas/prueba_tkmk00.py $(TKMK00TOOL)
+	$(V)$(PYTHON) herramientas/pruebas/prueba_invertir_texturas.py
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -Iincluir -o $(PRUEBAS)/prueba_textura_menu \
 	    herramientas/pruebas/prueba_textura_menu.c codigo/sistema/descompresion_textura_menu.c \
 	    codigo/sistema/descompresion_tkmk00.c codigo/sistema/descompresion_mio0.c herramientas/archivos_host.c
