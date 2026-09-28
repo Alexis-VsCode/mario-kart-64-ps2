@@ -3,12 +3,14 @@
 
 #include <tamtypes.h>
 
+#include "depuracion/fuente_5x7.h"
+
 #define TEXTO_ANCHO_TEXTURA 256
 /* 96 filas */
 #define TEXTO_ALTO_TEXTURA  96
 #define TEXTO_ALTO_GS_LOG2  7
-#define TEXTO_ANCHO_LETRA   6 /* 5 de glifo + 1 de separacion */
-#define TEXTO_ALTO_LINEA    8 /* 7 de glifo + 1 de separacion */
+#define TEXTO_ANCHO_LETRA   FUENTE_5X7_AVANCE
+#define TEXTO_ALTO_LINEA    FUENTE_5X7_FILAS /* fila del signo + 7 de letra */
 #define TEXTO_COLUMNAS      (TEXTO_ANCHO_TEXTURA / TEXTO_ANCHO_LETRA)
 #define TEXTO_LINEAS        (TEXTO_ALTO_TEXTURA / TEXTO_ALTO_LINEA)
 
