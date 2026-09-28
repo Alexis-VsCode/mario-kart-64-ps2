@@ -52,9 +52,14 @@ REVISIONES = (
      ("mostrar_pantalla", "linea_pantalla", "snprintf", "nombres_situacion", "nombres_causa")),
     ("aviso de arranque", ("codigo/sistema/arranque_ps2.c",), None),
     ("registro", REGISTRO, LLAMADAS_REGISTRO),
+    ("fuente de depuracion", ("codigo/sistema/bucle_principal/tareas_y_mandos.inc.c",),
+     ("funcion_80057A50", "imprimir_cad2_depuracion", "imprimir_num_cad")),
 )
 # En estas revisiones un nombre con '_' es un nombre de funcion
 SIN_IDENTIFICADORES = ("fase", "punto de control")
+# En estas revisiones los literales de un archivo tienen el mismo ancho: el
+# numero que va detras queda en la misma columna
+MISMO_ANCHO = ("fuente de depuracion",)
 
 # scr_printf solo tiene ASCII: en estos archivos, la funcion que lo llama
 # pasa antes el texto por quitar_diacriticos
@@ -121,6 +126,10 @@ INGLES = {
     "mixer": "mezcla",
     "resample": "remuestreo",
     "btns": "botones",
+    "south": "sur",
+    "east": "este",
+    "north": "norte",
+    "west": "oeste",
 }
 SIN_TILDE = {
     "musica": "música",
@@ -348,8 +357,12 @@ def main():
     revisar_pantalla_ascii()
     for que, archivos, llamadas in REVISIONES:
         for ruta in archivos_de(archivos):
+            anchos = set()
             for linea, literal in literales_de(ruta, llamadas):
                 revisar(que, ruta, linea, literal, ruta in en_eucjp)
+                anchos.add(len(literal))
+            if que in MISMO_ANCHO:
+                comprobar(len(anchos) <= 1, "%s (%s): literales de anchos distintos %s" % (ruta, que, sorted(anchos)))
     print("%d comprobaciones, %d fallos" % (comprobaciones, fallos))
     sys.exit(1 if fallos else 0)
 
