@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """La tabla de texturas de glifos tiene que cubrir todos los glifos.
 
-    prueba_tablas_glifos.py <textos_y_tablas.inc.c>
+    prueba_tablas_glifos.py <lista_glifos.inc.c>
 
 car_a_indice_glifo devuelve indices de 0 a 235 (ancho_pantalla_glifo tiene
 236 anchos). En la N64 lut_textura_glifo tenia 91 entradas y el resto
@@ -43,20 +43,18 @@ def comprobar(cond, mensaje):
         print("FALLO " + mensaje)
 
 
-def elementos(texto, nombre):
-    m = re.search(r"\b%s\[\]\s*=\s*\{(.*?)\};" % re.escape(nombre), texto, re.S)
-    if not m:
-        return None
-    cuerpo = re.sub(r"//[^\n]*|/\*.*?\*/", "", m.group(1), flags=re.S)
-    return [e.strip() for e in cuerpo.split(",") if e.strip()]
+def glifos(texto):
+    """Pares (textura, ancho) de las lineas GLIFO(textura, ancho)."""
+    return re.findall(r"^GLIFO\(\s*(\w+)\s*,\s*(\w+)\s*\)", texto, re.M)
 
 
 def main():
     if len(sys.argv) != 2:
         sys.exit(__doc__)
     texto = open(sys.argv[1], encoding="utf-8").read()
-    anchos = elementos(texto, "ancho_pantalla_glifo")
-    lut = elementos(texto, "lut_textura_glifo")
+    lista = glifos(texto)
+    lut = [textura for textura, _ in lista]
+    anchos = [ancho for _, ancho in lista]
     comprobar(anchos is not None and len(anchos) == GLIFOS_TOTAL, "ancho_pantalla_glifo: %s anchos" % (anchos and len(anchos)))
     comprobar(lut is not None and len(lut) == GLIFOS_TOTAL, "lut_textura_glifo: %s texturas" % (lut and len(lut)))
     if lut:
