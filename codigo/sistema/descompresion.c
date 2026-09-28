@@ -39,7 +39,7 @@ static void mio0decode_impl(u8 *orig_, u8 *dst)
     const u8 *bits = &orig_[LONGITUD_CABECERA_MIO0];
 
     if (orig_[0] != 'M' || orig_[1] != 'I' || orig_[2] != 'O' || orig_[3] != '0') {
-        registrar("mio0decode: cabecera invalida en %p", orig_);
+        registrar("mio0decode: cabecera inválida en %p", orig_);
         detener_por_error("datos MIO0 corruptos");
     }
 

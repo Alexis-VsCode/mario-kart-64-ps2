@@ -15,6 +15,7 @@ ASCII: el registro se lee en UTF-8.
 Las palabras que el registro busca y los grupos del cronometro salen de
 marcas_registro.h: ningun fuente las escribe a mano.
 """
+import glob
 import os
 import re
 import sys
@@ -22,6 +23,13 @@ import sys
 RAIZ = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 TODO_EL_CODIGO = None
+
+# Mensajes del registro; los ultimos salen tambien en la pantalla de fallo
+LLAMADAS_REGISTRO = ("registrar", "rend_registro_ps2", "detener_por_error", "detener_por_gif_trabado", "snprintf")
+REGISTRO = (
+    "codigo/sistema/*.c",
+    "codigo/memoria/memoria_carrera/pools_y_segmentos.inc.c",
+)
 
 # (que se revisa, archivos, llamadas o tablas cuyos literales se leen)
 REVISIONES = (
@@ -33,16 +41,17 @@ REVISIONES = (
     ("pantalla de fallo", ("codigo/depuracion/depuracion.c",),
      ("mostrar_pantalla", "linea_pantalla", "snprintf", "nombres_situacion", "nombres_causa")),
     ("aviso de arranque", ("codigo/sistema/arranque_ps2.c",), None),
+    ("registro", REGISTRO, LLAMADAS_REGISTRO),
 )
 # En estas revisiones un nombre con '_' es un nombre de funcion
 SIN_IDENTIFICADORES = ("fase", "punto de control")
 
-MARCAS_REGISTRO = "incluir/depuracion/marcas_registro.h"
-# Llamadas que solo reciben macros de MARCAS_REGISTRO, nunca literales
 # scr_printf solo tiene ASCII: en estos archivos, la funcion que lo llama
 # pasa antes el texto por quitar_diacriticos
 PANTALLA_ASCII = ("codigo/depuracion/depuracion.c", "codigo/sistema/arranque_ps2.c")
 
+MARCAS_REGISTRO = "incluir/depuracion/marcas_registro.h"
+# Llamadas que solo reciben macros de MARCAS_REGISTRO, nunca literales
 SOLO_MACROS = (
     ("palabra clave", ("codigo/depuracion/depuracion.c",), ("strstr",)),
     ("grupo del cronometro", TODO_EL_CODIGO,
@@ -73,6 +82,12 @@ INGLES = {
     "break": "punto de parada",
     "trap": "trampa",
     "vblank": "retrazo",
+    "vblanks": "retrazos",
+    "build": "compilación",
+    "racing": "carrera",
+    "ending": "final",
+    "heap": "montón",
+    "memcard": "memory card",
 }
 SIN_TILDE = {
     "musica": "música",
@@ -91,8 +106,26 @@ SIN_TILDE = {
     "instruccion": "instrucción",
     "excepcion": "excepción",
     "monolitico": "monolítico",
+    "invalida": "inválida",
+    "encontro": "encontró",
+    "deberia": "debería",
+    "guardara": "guardará",
+    "reintentara": "reintentará",
+    "generacion": "generación",
+    "contesto": "contestó",
+    "espero": "esperó",
+    "vacia": "vacía",
 }
+# Verbo en pasado salvo detras de un determinante (el fallo, un cambio)
+AMBIGUAS = {"fallo": "falló", "cambio": "cambió"}
+DETERMINANTES = {"el", "un", "del", "al", "sin", "cada", "otro", "su", "este", "ese", "primer"}
+# (expresion, como se escribe)
+REGLAS = (
+    (re.compile(r"^si$"), "sí"),
+    (re.compile(r"\bcon el(?=\s*(%|[,;:)]|$))"), "con él"),
+)
 
+PEGADA = re.compile(r"\w+(?=%)")  # etiqueta pegada a un formato: tex%d, frame%05u
 FORMATO = re.compile(r"%[-+ #0]*(\d+|\*)?(\.(\d+|\*))?[hlLqjzt]*[diouxXeEfFgGaAcspn%]")
 ESCAPE = re.compile(r"\\(x[0-9A-Fa-f]+|[0-7]{1,3}|.)")
 PALABRA = re.compile(r"\w+")
@@ -185,8 +218,8 @@ def literales_de(ruta, llamadas):
 
 
 def palabras(literal):
-    """Palabras de un literal, sin formatos de printf, escapes ni identificadores."""
-    texto = ESCAPE.sub(" ", FORMATO.sub(" ", literal))
+    """Palabras de un literal, sin formatos de printf, escapes, etiquetas ni identificadores."""
+    texto = ESCAPE.sub(" ", FORMATO.sub(" ", PEGADA.sub(" ", literal)))
     for p in PALABRA.findall(texto):
         if "_" not in p and not any(ch.isdigit() for ch in p):
             yield p
@@ -194,9 +227,15 @@ def palabras(literal):
 
 def revisar(que, ruta, linea, literal, en_eucjp):
     lugar = "%s:%d (%s)" % (ruta, linea, que)
+    anterior = ""
     for p in palabras(literal):
         bien = INGLES.get(p.lower()) or (None if en_eucjp else SIN_TILDE.get(p.lower()))
+        if bien is None and not en_eucjp and anterior not in DETERMINANTES:
+            bien = AMBIGUAS.get(p.lower())
         comprobar(bien is None, "%s: '%s' se escribe '%s'" % (lugar, p, bien))
+        anterior = p.lower()
+    for expresion, bien in REGLAS if not en_eucjp else ():
+        comprobar(not expresion.search(literal), "%s: '%s' se escribe '%s'" % (lugar, literal, bien))
     if que in SIN_IDENTIFICADORES:
         codigo = [p for p in PALABRA.findall(ESCAPE.sub(" ", literal)) if "_" in p]
         comprobar(not codigo, "%s: '%s' es un nombre de funcion; describe el paso" % (lugar, " ".join(codigo)))
@@ -252,12 +291,19 @@ def revisar_pantalla_ascii():
                 nombres.add(valor)
 
 
+def archivos_de(archivos):
+    if archivos is TODO_EL_CODIGO:
+        return list(fuentes_del_codigo())
+    return [os.path.relpath(r, RAIZ).replace(os.sep, "/")
+            for patron in archivos for r in sorted(glob.glob(os.path.join(RAIZ, patron)))]
+
+
 def main():
     en_eucjp = set(sys.argv[1:])
     revisar_marcas()
     revisar_pantalla_ascii()
     for que, archivos, llamadas in REVISIONES:
-        for ruta in (archivos if archivos is not TODO_EL_CODIGO else fuentes_del_codigo()):
+        for ruta in archivos_de(archivos):
             for linea, literal in literales_de(ruta, llamadas):
                 revisar(que, ruta, linea, literal, ruta in en_eucjp)
     print("%d comprobaciones, %d fallos" % (comprobaciones, fallos))

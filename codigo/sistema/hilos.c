@@ -203,7 +203,7 @@ void osCreateThread(OSThread *t, OSId id, void (*entry)(void *), void *parametro
     th.initial_priority = prioridad_ee(prio);
     p->ee_id = CreateThread(&th);
     if (p->ee_id < 0) {
-        detener_por_error("CreateThread fallo");
+        detener_por_error("CreateThread falló");
     }
 }
 

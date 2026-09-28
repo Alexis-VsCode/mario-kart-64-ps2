@@ -71,7 +71,7 @@ void* obtener_siguiente_disponible_memoria_direccion(uintptr_t size) {
 #if defined(TARGET_PS2) && defined(SMK64_DEV)
     if (size >= 0x2000) {
         void registrar(const char* fmt, ...);
-        registrar("heap: +%x en %x (fin %x, techo %x) desde %p", (unsigned) size, (unsigned) liberar_espacio,
+        registrar("montón: +%x en %x (fin %x, techo %x) desde %p", (unsigned) size, (unsigned) liberar_espacio,
                 (unsigned) siguiente_libre_memoria_direccion, (unsigned) ptr_fin_monton, __builtin_return_address(0));
     }
 #endif

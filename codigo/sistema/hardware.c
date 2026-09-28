@@ -109,7 +109,7 @@ static void comprobar_rango_rom(uintptr_t direccion_dev, size_t size, void *llam
         return;
     }
     registrar("PI DMA fuera de la ROM: %08x +%x (llamado desde %p)", (unsigned) direccion_dev, (unsigned) size, llamador);
-    detener_por_error("osPiStartDma: direccion de cartucho invalida");
+    detener_por_error("osPiStartDma: dirección de cartucho inválida");
 }
 
 s32 osPiStartDma(OSIoMesg *mb, s32 prioridad, s32 sentido, uintptr_t direccion_dev, void *direccion_v, size_t nbytes,
