@@ -47,7 +47,10 @@ def ejecutar(*args):
     """(codigo, salida, errores) de texturas_es.main sin ensuciar la salida de la prueba."""
     salida, errores = io.StringIO(), io.StringIO()
     with contextlib.redirect_stdout(salida), contextlib.redirect_stderr(errores):
-        codigo = texturas_es.main(list(args))
+        try:
+            codigo = texturas_es.main(list(args))
+        except SystemExit as e:
+            codigo = e.code
     return codigo, salida.getvalue(), errores.getvalue()
 
 
@@ -60,19 +63,24 @@ def leer_referencias():
     return refs
 
 
+def filas_tkmk00(filas):
+    return [f for f in filas if f["origen"].startswith(CARPETA_TKMK00 + "/")]
+
+
 def probar_manifiesto(filas, refs):
     """Paso 1: una fila por textura TKMK00, con el alfa del juego y los motivos del diseno."""
-    comprobar(len(filas) == 63, "se esperaban 63 filas, hay %d" % len(filas))
-    origenes = sorted(os.path.basename(f["origen"]) for f in filas)
+    tkmk00 = filas_tkmk00(filas)
+    comprobar(len(tkmk00) == 63, "se esperaban 63 filas TKMK00, hay %d" % len(tkmk00))
+    origenes = sorted(os.path.basename(f["origen"]) for f in tkmk00)
     comprobar(origenes == sorted(refs), "el manifiesto no lista las mismas texturas que %s" % CARPETA_TKMK00)
     por_id = {f["id"]: f for f in filas}
-    for f in filas:
+    for f in tkmk00:
         nombre = os.path.basename(f["origen"])
-        comprobar(f["origen"] == "%s/%s" % (CARPETA_TKMK00, nombre), "%s: origen %s" % (f["id"], f["origen"]))
         comprobar(f["id"] == nombre.split(".")[0] and f["formato"] == "rgba16", "%s: id o formato" % f["id"])
         alfa = refs.get(nombre, ("?",))[0]
         comprobar({"0xBE": "clave_00BE", "0x01": "opaco"}.get(alfa) == f["alfa"],
                   "%s: alfa %s, la referencia usa %s" % (f["id"], f["alfa"], alfa))
+    for f in filas:
         comprobar(not (f["texto_es"] and f["motivo_no"]), "%s: tiene texto_es y motivo_no a la vez" % f["id"])
     for id_ in NO_SE_TRADUCEN:
         comprobar(por_id.get(id_, {}).get("motivo_no"), "%s tiene que llevar motivo_no" % id_)
@@ -92,10 +100,13 @@ def probar_ida_y_vuelta(filas, refs, herramienta, tmp):
         pngs.append(png)
         codigo, _, errores = ejecutar("importar", png, binario)
         comprobar(codigo == 0, "%s: importar fallo: %s" % (f["id"], errores.strip()))
-        sha1 = hashlib.sha1(open(binario, "rb").read()).hexdigest() if codigo == 0 else ""
-        comprobar(sha1 == refs.get(os.path.basename(f["origen"]), ("", ""))[1],
-                  "%s: exportar + importar no da los bytes originales" % f["id"])
-    codigo, salida, errores = ejecutar("comprobar", "--manifiesto", MANIFIESTO, "--tkmk00", herramienta, *pngs)
+        datos = open(binario, "rb").read() if codigo == 0 else b""
+        if f in filas_tkmk00(filas):
+            esperado = refs.get(os.path.basename(f["origen"]), ("", ""))[1] == hashlib.sha1(datos).hexdigest()
+        else:
+            esperado = datos == texturas_es.decodificar_original(f, herramienta)[0]
+        comprobar(esperado, "%s: exportar + importar no da los bytes originales" % f["id"])
+    codigo, salida, errores = ejecutar("comprobar", "--manifiesto", MANIFIESTO, *pngs)
     comprobar(codigo == 0, "comprobar rechaza las originales: %s%s" % (salida, errores))
     r = subprocess.run([sys.executable, os.path.join(RAIZ, "herramientas", "texturas_es.py"), "importar",
                         pngs[0], os.path.join(tmp, "cli.bin")], capture_output=True, text=True)
@@ -111,7 +122,7 @@ def cambiar_pixel(png, destino, x, y, rgba):
 
 
 def rechaza(herramienta, png):
-    codigo, _, _ = ejecutar("comprobar", "--manifiesto", MANIFIESTO, "--tkmk00", herramienta, png)
+    codigo, _, _ = ejecutar("comprobar", "--manifiesto", MANIFIESTO, png)
     return codigo != 0
 
 

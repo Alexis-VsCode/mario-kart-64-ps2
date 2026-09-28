@@ -46,8 +46,9 @@ def leer_referencias():
 
 def tipos_texturas_menu():
     """{archivo: conjunto de types de las TexturaMenu que lo usan}"""
-    simbolos = re.findall(r'glabel\s+(\w+)\s*\n\s*\.incbin\s+"([^"]+\.tkmk00)"', open(LISTA_S).read())
-    archivo = {s: os.path.basename(r) for s, r in simbolos}
+    # Las traducidas apuntan a su .mio0 del build (es/mio0/menus/<id>.rgba16.mio0)
+    simbolos = re.findall(r'glabel\s+(\w+)\s*\n\s*\.incbin\s+"([^"]+\.(?:tkmk00|mio0))"', open(LISTA_S).read())
+    archivo = {s: re.sub(r"\.mio0$", ".tkmk00", os.path.basename(r)) for s, r in simbolos}
     tipos = {}
     for tabla in TABLAS:
         for tipo, simbolo in re.findall(r"\{\s*(\d+),\s*(\w+),", open(tabla).read()):

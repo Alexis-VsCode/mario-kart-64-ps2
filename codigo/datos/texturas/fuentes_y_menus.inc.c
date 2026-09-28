@@ -535,41 +535,41 @@ TexturaMenu empujar_textura_boton_inicio_seg2[2] = {
 };
 
 TexturaMenu dato_02004638[2] = {
-    { 0, textura_opcion, 130, 32, 95, 16, 0x0, 0 },
+    { 0, textura_opcion, 130, 32, 95, 16, TAMANIO_ES_OPCION, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu seleccionar_textura_juego_seg2[2] = {
-    { 0, textura_seleccion_juego, 200, 32, 0, 0, 0x0, 0 },
+    { 0, textura_seleccion_juego, 200, 32, 0, 0, TAMANIO_ES_SELECCION_JUEGO, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu columna_menu_1j_seg2[4] = {
-    { 1, textura_juego_menu_1j, 64, 54, 0, 0, 0x0, 0 },
+    { 1, textura_juego_menu_1j, 64, 54, 0, 0, TAMANIO_ES_JUEGO_MENU_1J, 0 },
     { 1, textura_modo_mario_gp, 64, 18, 0, 65, 0x0, 0 },
-    { 1, textura_modo_contrarreloj, 64, 18, 0, 83, 0x0, 0 },
+    { 1, textura_modo_contrarreloj, 64, 18, 0, 83, TAMANIO_ES_MODO_CONTRARRELOJ, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu columna_menu_2j_seg2[5] = {
-    { 1, textura_juego_menu_2j, 64, 54, 0, 0, 0x0, 0 },
+    { 1, textura_juego_menu_2j, 64, 54, 0, 0, TAMANIO_ES_JUEGO_MENU_2J, 0 },
     { 1, textura_modo_mario_gp, 64, 18, 0, 65, 0x0, 0 },
     { 1, textura_modo_vs, 64, 18, 0, 83, 0x0, 0 },
-    { 1, textura_batalla_modo, 64, 18, 0, 101, 0x0, 0 },
+    { 1, textura_batalla_modo, 64, 18, 0, 101, TAMANIO_ES_BATALLA_MODO, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu columna_menu_3j_seg2[4] = {
-    { 1, textura_juego_menu_3j, 64, 54, 0, 0, 0x0, 0 },
+    { 1, textura_juego_menu_3j, 64, 54, 0, 0, TAMANIO_ES_JUEGO_MENU_3J, 0 },
     { 1, textura_modo_vs, 64, 18, 0, 65, 0x0, 0 },
-    { 1, textura_batalla_modo, 64, 18, 0, 83, 0x0, 0 },
+    { 1, textura_batalla_modo, 64, 18, 0, 83, TAMANIO_ES_BATALLA_MODO, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu columna_menu_4j_seg2[4] = {
-    { 1, textura_juego_menu_4j, 64, 54, 0, 0, 0x0, 0 },
+    { 1, textura_juego_menu_4j, 64, 54, 0, 0, TAMANIO_ES_JUEGO_MENU_4J, 0 },
     { 1, textura_modo_vs, 64, 18, 0, 65, 0x0, 0 },
-    { 1, textura_batalla_modo, 64, 18, 0, 83, 0x0, 0 },
+    { 1, textura_batalla_modo, 64, 18, 0, 83, TAMANIO_ES_BATALLA_MODO, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
@@ -594,17 +594,17 @@ TexturaMenu dato_02004854[2] = {
 };
 
 TexturaMenu dato_0200487C[2] = {
-    { 1, textura_ok, 31, 19, 0, 0, 0x0, 0 },
+    { 1, textura_ok, 31, 19, 0, 0, TAMANIO_ES_OK, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu textura_opcion_menu_l[2] = {
-    { 1, textura_opcion_l, 58, 19, 0, 0, 0x0, 0 },
+    { 1, textura_opcion_l, 58, 19, 0, 0, TAMANIO_ES_OPCION_L, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu seg_2_textura_menu_r_datos[2] = {
-    { 1, textura_datos_r, 58, 19, 0, 0, 0x0, 0 },
+    { 1, textura_datos_r, 58, 19, 0, 0, TAMANIO_ES_DATOS_R, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
@@ -639,17 +639,17 @@ TexturaMenu dato_020049BC[2] = {
 };
 
 TexturaMenu dato_020049E4[2] = {
-    { 1, textura_empezar, 64, 18, 0, 0, 0x0, 0 },
+    { 1, textura_empezar, 64, 18, 0, 0, TAMANIO_ES_EMPEZAR, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_02004A0C[2] = {
-    { 1, textura_fantasma_menu, 64, 18, 0, 0, 0x0, 0 },
+    { 1, textura_fantasma_menu, 64, 18, 0, 0, TAMANIO_ES_FANTASMA_MENU, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu textura_datos_seg2[2] = {
-    { 1, textura_datos, 64, 18, 0, 0, 0x0, 0 },
+    { 1, textura_datos, 64, 18, 0, 0, TAMANIO_ES_DATOS, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
@@ -678,37 +678,37 @@ TexturaMenu seg_2_p4_borde_textura[3] = {
 };
 
 TexturaMenu dato_02004B4C[2] = {
-    { 0, textura_seleccion_jugador, 220, 32, 51, 16, 0x0, 0 },
+    { 0, textura_seleccion_jugador, 220, 32, 51, 16, TAMANIO_ES_SELECCION_JUGADOR, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_02004B74[2] = {
-    { 1, textura_ok, 31, 19, 264, 202, 0x0, 0 },
+    { 1, textura_ok, 31, 19, 264, 202, TAMANIO_ES_OK, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu seleccionar_textura_menu_seg2[2] = {
-    { 0, textura_seleccion_mapa, 190, 32, 65, 18, 0x0, 0 },
+    { 0, textura_seleccion_mapa, 190, 32, 65, 18, TAMANIO_ES_SELECCION_MAPA, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu seg2_copa_hongo_textura[2] = {
-    { 1, textura_menu_copa_hongo, 65, 40, 0, 0, 0x0, 0 },
+    { 1, textura_menu_copa_hongo, 65, 40, 0, 0, TAMANIO_ES_MENU_COPA_HONGO, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu seg2_copa_flor_textura[2] = {
-    { 1, textura_menu_copa_flor, 65, 40, 0, 0, 0x0, 0 },
+    { 1, textura_menu_copa_flor, 65, 40, 0, 0, TAMANIO_ES_MENU_COPA_FLOR, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu seg2_copa_estrella_textura[2] = {
-    { 1, textura_menu_copa_estrella, 65, 40, 0, 0, 0x0, 0 },
+    { 1, textura_menu_copa_estrella, 65, 40, 0, 0, TAMANIO_ES_MENU_COPA_ESTRELLA, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu seg2_copa_especial_textura[2] = {
-    { 1, textura_menu_copa_especial, 65, 40, 0, 0, 0x0, 0 },
+    { 1, textura_menu_copa_especial, 65, 40, 0, 0, TAMANIO_ES_MENU_COPA_ESPECIAL, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
@@ -718,147 +718,147 @@ TexturaMenu seg2_mario_raceway_textura_chico_vista_previa[2] = {
 };
 
 TexturaMenu seg2_copa_hongo_textura_titulo[5] = {
-    { 1, textura_titulo_luigi_raceway, 140, 18, 157, 112, 0x0, 0 },
-    { 1, textura_titulo_moo_moo_farm, 140, 18, 157, 136, 0x0, 0 },
-    { 1, textura_titulo_koopa_troopa_beach, 140, 18, 157, 160, 0x0, 0 },
-    { 1, textura_titulo_kalimari_desert, 140, 18, 157, 184, 0x0, 0 },
+    { 1, textura_titulo_luigi_raceway, 140, 18, 157, 112, TAMANIO_ES_TITULO_LUIGI_RACEWAY, 0 },
+    { 1, textura_titulo_moo_moo_farm, 140, 18, 157, 136, TAMANIO_ES_TITULO_MOO_MOO_FARM, 0 },
+    { 1, textura_titulo_koopa_troopa_beach, 140, 18, 157, 160, TAMANIO_ES_TITULO_KOOPA_TROOPA_BEACH, 0 },
+    { 1, textura_titulo_kalimari_desert, 140, 18, 157, 184, TAMANIO_ES_TITULO_KALIMARI_DESERT, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu seg2_copa_flor_textura_titulo[5] = {
-    { 1, textura_titulo_toads_turnpike, 140, 18, 157, 112, 0x0, 0 },
-    { 1, textura_titulo_frappe_snowland, 140, 18, 157, 136, 0x0, 0 },
-    { 1, textura_titulo_choco_mountain, 140, 18, 157, 160, 0x0, 0 },
-    { 1, textura_titulo_mario_raceway, 140, 18, 157, 184, 0x0, 0 },
+    { 1, textura_titulo_toads_turnpike, 140, 18, 157, 112, TAMANIO_ES_TITULO_TOADS_TURNPIKE, 0 },
+    { 1, textura_titulo_frappe_snowland, 140, 18, 157, 136, TAMANIO_ES_TITULO_FRAPPE_SNOWLAND, 0 },
+    { 1, textura_titulo_choco_mountain, 140, 18, 157, 160, TAMANIO_ES_TITULO_CHOCO_MOUNTAIN, 0 },
+    { 1, textura_titulo_mario_raceway, 140, 18, 157, 184, TAMANIO_ES_TITULO_MARIO_RACEWAY, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu seg2_copa_estrella_textura_titulo[5] = {
-    { 1, textura_titulo_wario_stadium, 140, 18, 157, 112, 0x0, 0 },
-    { 1, textura_titulo_sherbet_land, 140, 18, 157, 136, 0x0, 0 },
-    { 1, textura_titulo_royal_raceway, 140, 18, 157, 160, 0x0, 0 },
-    { 1, textura_titulo_bowsers_castle, 140, 18, 157, 184, 0x0, 0 },
+    { 1, textura_titulo_wario_stadium, 140, 18, 157, 112, TAMANIO_ES_TITULO_WARIO_STADIUM, 0 },
+    { 1, textura_titulo_sherbet_land, 140, 18, 157, 136, TAMANIO_ES_TITULO_SHERBET_LAND, 0 },
+    { 1, textura_titulo_royal_raceway, 140, 18, 157, 160, TAMANIO_ES_TITULO_ROYAL_RACEWAY, 0 },
+    { 1, textura_titulo_bowsers_castle, 140, 18, 157, 184, TAMANIO_ES_TITULO_BOWSERS_CASTLE, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu seg2_copa_especial_textura_titulo[5] = {
-    { 1, textura_titulo_dks_jungle_parkway, 140, 18, 157, 112, 0x0, 0 },
-    { 1, textura_titulo_yoshi_valley, 140, 18, 157, 136, 0x0, 0 },
-    { 1, textura_titulo_banshee_boardwalk, 140, 18, 157, 160, 0x0, 0 },
-    { 1, textura_titulo_rainbow_road, 140, 18, 157, 184, 0x0, 0 },
+    { 1, textura_titulo_dks_jungle_parkway, 140, 18, 157, 112, TAMANIO_ES_TITULO_DKS_JUNGLE_PARKWAY, 0 },
+    { 1, textura_titulo_yoshi_valley, 140, 18, 157, 136, TAMANIO_ES_TITULO_YOSHI_VALLEY, 0 },
+    { 1, textura_titulo_banshee_boardwalk, 140, 18, 157, 160, TAMANIO_ES_TITULO_BANSHEE_BOARDWALK, 0 },
+    { 1, textura_titulo_rainbow_road, 140, 18, 157, 184, TAMANIO_ES_TITULO_RAINBOW_ROAD, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu seg2_batalla_titulo_textura[5] = {
-    { 1, textura_titulo_big_donut, 140, 18, 157, 112, 0x0, 0 },
-    { 1, textura_titulo_block_fort, 140, 18, 157, 136, 0x0, 0 },
-    { 1, textura_titulo_double_deck, 140, 18, 157, 160, 0x0, 0 },
-    { 1, textura_titulo_skyscraper, 140, 18, 157, 184, 0x0, 0 },
+    { 1, textura_titulo_big_donut, 140, 18, 157, 112, TAMANIO_ES_TITULO_BIG_DONUT, 0 },
+    { 1, textura_titulo_block_fort, 140, 18, 157, 136, TAMANIO_ES_TITULO_BLOCK_FORT, 0 },
+    { 1, textura_titulo_double_deck, 140, 18, 157, 160, TAMANIO_ES_TITULO_DOUBLE_DECK, 0 },
+    { 1, textura_titulo_skyscraper, 140, 18, 157, 184, TAMANIO_ES_TITULO_SKYSCRAPER, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_02004E80[2] = {
-    { 1, textura_ok, 31, 19, 265, 208, 0x0, 0 },
+    { 1, textura_ok, 31, 19, 265, 208, TAMANIO_ES_OK, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu seg2_mario_raceway_textura_titulo[2] = {
-    { 1, textura_titulo_mario_raceway, 140, 18, 0, 0, 0x0, 0 },
+    { 1, textura_titulo_mario_raceway, 140, 18, 0, 0, TAMANIO_ES_TITULO_MARIO_RACEWAY, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu seg2_choco_mountain_textura_titulo[2] = {
-    { 1, textura_titulo_choco_mountain, 140, 18, 0, 0, 0x0, 0 },
+    { 1, textura_titulo_choco_mountain, 140, 18, 0, 0, TAMANIO_ES_TITULO_CHOCO_MOUNTAIN, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_02004EF8[2] = {
-    { 1, textura_titulo_bowsers_castle, 140, 18, 0, 0, 0x0, 0 },
+    { 1, textura_titulo_bowsers_castle, 140, 18, 0, 0, TAMANIO_ES_TITULO_BOWSERS_CASTLE, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_02004F20[2] = {
-    { 1, textura_titulo_banshee_boardwalk, 140, 18, 0, 0, 0x0, 0 },
+    { 1, textura_titulo_banshee_boardwalk, 140, 18, 0, 0, TAMANIO_ES_TITULO_BANSHEE_BOARDWALK, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_02004F48[2] = {
-    { 1, textura_titulo_yoshi_valley, 140, 18, 0, 0, 0x0, 0 },
+    { 1, textura_titulo_yoshi_valley, 140, 18, 0, 0, TAMANIO_ES_TITULO_YOSHI_VALLEY, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_02004F70[2] = {
-    { 1, textura_titulo_frappe_snowland, 140, 18, 0, 0, 0x0, 0 },
+    { 1, textura_titulo_frappe_snowland, 140, 18, 0, 0, TAMANIO_ES_TITULO_FRAPPE_SNOWLAND, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_02004F98[2] = {
-    { 1, textura_titulo_koopa_troopa_beach, 140, 18, 0, 0, 0x0, 0 },
+    { 1, textura_titulo_koopa_troopa_beach, 140, 18, 0, 0, TAMANIO_ES_TITULO_KOOPA_TROOPA_BEACH, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_02004FC0[2] = {
-    { 1, textura_titulo_royal_raceway, 140, 18, 0, 0, 0x0, 0 },
+    { 1, textura_titulo_royal_raceway, 140, 18, 0, 0, TAMANIO_ES_TITULO_ROYAL_RACEWAY, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_02004FE8[2] = {
-    { 1, textura_titulo_luigi_raceway, 140, 18, 0, 0, 0x0, 0 },
+    { 1, textura_titulo_luigi_raceway, 140, 18, 0, 0, TAMANIO_ES_TITULO_LUIGI_RACEWAY, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_02005010[2] = {
-    { 1, textura_titulo_moo_moo_farm, 140, 18, 0, 0, 0x0, 0 },
+    { 1, textura_titulo_moo_moo_farm, 140, 18, 0, 0, TAMANIO_ES_TITULO_MOO_MOO_FARM, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_02005038[2] = {
-    { 1, textura_titulo_toads_turnpike, 140, 18, 0, 0, 0x0, 0 },
+    { 1, textura_titulo_toads_turnpike, 140, 18, 0, 0, TAMANIO_ES_TITULO_TOADS_TURNPIKE, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_02005060[2] = {
-    { 1, textura_titulo_kalimari_desert, 140, 18, 0, 0, 0x0, 0 },
+    { 1, textura_titulo_kalimari_desert, 140, 18, 0, 0, TAMANIO_ES_TITULO_KALIMARI_DESERT, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_02005088[2] = {
-    { 1, textura_titulo_sherbet_land, 140, 18, 0, 0, 0x0, 0 },
+    { 1, textura_titulo_sherbet_land, 140, 18, 0, 0, TAMANIO_ES_TITULO_SHERBET_LAND, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_020050B0[2] = {
-    { 1, textura_titulo_rainbow_road, 140, 18, 0, 0, 0x0, 0 },
+    { 1, textura_titulo_rainbow_road, 140, 18, 0, 0, TAMANIO_ES_TITULO_RAINBOW_ROAD, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_020050D8[2] = {
-    { 1, textura_titulo_wario_stadium, 140, 18, 0, 0, 0x0, 0 },
+    { 1, textura_titulo_wario_stadium, 140, 18, 0, 0, TAMANIO_ES_TITULO_WARIO_STADIUM, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_02005100[2] = {
-    { 1, textura_titulo_block_fort, 140, 18, 0, 0, 0x0, 0 },
+    { 1, textura_titulo_block_fort, 140, 18, 0, 0, TAMANIO_ES_TITULO_BLOCK_FORT, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_02005128[2] = {
-    { 1, textura_titulo_skyscraper, 140, 18, 0, 0, 0x0, 0 },
+    { 1, textura_titulo_skyscraper, 140, 18, 0, 0, TAMANIO_ES_TITULO_SKYSCRAPER, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_02005150[2] = {
-    { 1, textura_titulo_double_deck, 140, 18, 0, 0, 0x0, 0 },
+    { 1, textura_titulo_double_deck, 140, 18, 0, 0, TAMANIO_ES_TITULO_DOUBLE_DECK, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_02005178[2] = {
-    { 1, textura_titulo_dks_jungle_parkway, 140, 18, 0, 0, 0x0, 0 },
+    { 1, textura_titulo_dks_jungle_parkway, 140, 18, 0, 0, TAMANIO_ES_TITULO_DKS_JUNGLE_PARKWAY, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu dato_020051A0[2] = {
-    { 1, textura_titulo_big_donut, 140, 18, 0, 0, 0x0, 0 },
+    { 1, textura_titulo_big_donut, 140, 18, 0, 0, TAMANIO_ES_TITULO_BIG_DONUT, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 

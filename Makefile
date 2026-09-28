@@ -6,10 +6,11 @@
 #   make DEV=1           DEBUG + registro y guiones por host: (build/ps2/dev)
 #   make MONOLITICO=1    un solo ELF con toda la ROM adentro
 #   make test            pruebas en el PC (no necesita el SDK de PS2)
+#   make es              texturas en espanol desde recursos/es (no necesita el SDK)
 #   make clean           borra build/ps2
 
 # Objetivos que corren en el PC y no necesitan el SDK de PS2
-OBJETIVOS_PC := test clean herramientas
+OBJETIVOS_PC := test clean herramientas es
 ifneq ($(filter-out $(OBJETIVOS_PC),$(or $(MAKECMDGOALS),all)),)
   ifeq ($(PS2SDK),)
     $(error PS2SDK no definido: ejecuta '. herramientas/entorno.sh')
@@ -211,7 +212,7 @@ ELF        := $(OBJDIR)/smk64.elf
 
 # --- Objetivos --------------------------------------------------------------------
 
-.PHONY: all elf iso clean herramientas test
+.PHONY: all elf iso clean herramientas test es
 .NOTINTERMEDIATE:
 
 all: elf
@@ -230,11 +231,12 @@ herramientas: $(MIO0TOOL) $(DLPACKER) $(TKMK00TOOL)
 clean:
 	rm -rf $(BUILD) $(HERRAMIENTAS)
 
-# Pruebas en el PC: combinador de color y caminos del tren y del barco
+# Pruebas en el PC: combinador de color, caminos del tren y del barco, texto en EUC-JP,
+# herramientas de texturas y texturas en espanol
 PRUEBAS := $(BUILD)/pruebas
 # char con signo como en el R5900 (en ARM el char del PC no lleva signo)
 CC_PRUEBAS := gcc -fsigned-char
-test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(TKMK00TOOL)
+test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(TKMK00TOOL) es
 	@mkdir -p $(PRUEBAS)
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -D_LANGUAGE_C -DF3DEX_GBI -DTARGET_PS2 -Iincluir -Iincluir/libultra \
 	    -o $(PRUEBAS)/prueba_combinador herramientas/pruebas/prueba_combinador.c codigo/graficos/combinador_color.c -lm
@@ -250,6 +252,7 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(
 	$(V)$(PYTHON) herramientas/pruebas/prueba_tkmk00.py $(TKMK00TOOL)
 	$(V)$(PYTHON) herramientas/pruebas/prueba_invertir_texturas.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_texturas_es.py $(TKMK00TOOL)
+	$(V)$(PYTHON) herramientas/pruebas/prueba_cableado_es.py $(BUILD)
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -Iincluir -o $(PRUEBAS)/prueba_textura_menu \
 	    herramientas/pruebas/prueba_textura_menu.c codigo/sistema/descompresion_textura_menu.c \
 	    codigo/sistema/descompresion_tkmk00.c codigo/sistema/descompresion_mio0.c herramientas/archivos_host.c
@@ -280,6 +283,30 @@ SWAP_SOURCES := $(shell find codigo recursos -name '*.c' 2>/dev/null)
 $(SWAP_STAMP): herramientas/invertir_texturas.py $(SWAP_SOURCES)
 	@mkdir -p $(dir $@)
 	$(V)$(PYTHON) herramientas/invertir_texturas.py --stamp $@ $(BUILD)/be codigo recursos
+
+# --- Texturas en espanol ------------------------------------------------------------
+# PNG versionados en recursos/es/ (ver herramientas/texturas_es.py). mio0/: texturas de
+# menu que el juego guardaba en TKMK00; el build las guarda como MIO0 de su RGBA16.
+
+ES_PY    := herramientas/texturas_es.py herramientas/formatos_textura.py herramientas/png_simple.py
+ES_MIO0  := $(patsubst recursos/es/%.png,$(BUILD)/es/%.mio0,$(sort $(shell find recursos/es/mio0 -name '*.png' 2>/dev/null)))
+ES_TAMANIOS := $(BUILD)/es/tamanios_es.h
+
+es: $(ES_MIO0) $(ES_TAMANIOS)
+.SECONDARY: $(ES_MIO0:.mio0=.bin)
+
+$(BUILD)/es/%.bin: recursos/es/%.png $(ES_PY)
+	@mkdir -p $(dir $@)
+	$(V)$(PYTHON) herramientas/texturas_es.py importar $< $@
+
+# TAMANIO_ES_*: el campo size de las TexturaMenu de esas texturas
+$(ES_TAMANIOS): $(ES_MIO0) recursos/es/texturas.tsv $(ES_PY)
+	@mkdir -p $(dir $@)
+	$(V)$(PYTHON) herramientas/texturas_es.py tamanios $(BUILD)/es $@
+
+# gas y gcc no ven estas dependencias a tiempo con -j
+$(BUILD)/codigo/datos/texturas_tkmk00.o: $(ES_MIO0)
+$(BUILD)/codigo/datos/texturas.o: $(ES_TAMANIOS)
 
 # --- Compilacion ----------------------------------------------------------------------
 

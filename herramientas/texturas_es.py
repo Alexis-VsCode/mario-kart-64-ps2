@@ -3,14 +3,19 @@
 
     texturas_es.py exportar [--manifiesto M] [--salida CARPETA] [--tkmk00 HERRAMIENTA]
     texturas_es.py importar <id>.<formato>.png <salida.bin>
-    texturas_es.py comprobar [--manifiesto M] [--tkmk00 HERRAMIENTA] <id>.<formato>.png [...]
+    texturas_es.py comprobar [--manifiesto M] <id>.<formato>.png [...]
     texturas_es.py hoja <original.png> <nuevo.png> <salida.png>
+    texturas_es.py tamanios [--manifiesto M] <carpeta es del build> <salida.h>
 
 El manifiesto (recursos/es/texturas.tsv) tiene una fila por textura
-revisada: id, origen, formato, alfa (opaco o clave_00BE), texto_es,
-retocado (si/no) y motivo_no (por que no se traduce). Los PNG se llaman
-<id>.<formato>.png: importar saca el formato del sufijo y rechaza lo que
-no se pueda guardar sin perdida.
+revisada: id, origen, formato, tamanio (ANCHOxALTO), alfa (opaco o
+clave_00BE para las TKMK00, formato si el alfa va en los datos), png (el
+PNG en espanol, vacio si no se traduce), texto_es, retocado (si/no) y
+motivo_no (por que no se traduce). Los PNG se llaman <id>.<formato>.png:
+importar saca el formato del sufijo y rechaza lo que no se pueda guardar
+sin perdida. La carpeta dentro de recursos/es/ dice que genera el build:
+mio0/ un MIO0 del binario, crudo/ el binario, inc/ un .inc.c en la ruta
+original (para superponer).
 """
 import argparse
 import os
@@ -25,9 +30,12 @@ RAIZ = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)),
 MANIFIESTO = os.path.join(RAIZ, "recursos", "es", "texturas.tsv")
 TKMK00 = os.path.join(RAIZ, "build", "herramientas", "tkmk00")
 ORIGINALES = os.path.join(RAIZ, "build", "ps2", "es", "originales")
-COLUMNAS = ["id", "origen", "formato", "alfa", "texto_es", "retocado", "motivo_no"]
+COLUMNAS = ["id", "origen", "formato", "tamanio", "alfa", "png", "texto_es", "retocado", "motivo_no"]
 # Alfa con el que el juego decodifica el TKMK00 (TexturaMenu type 1 -> 0xBE)
 ALFA_TKMK00 = {"opaco": "0x01", "clave_00BE": "0xBE"}
+ALFAS = ("opaco", "clave_00BE", "formato")
+# Lo que genera el build segun la carpeta del PNG dentro de recursos/es/
+SALIDAS = {"mio0": ".mio0", "crudo": ".bin", "inc": ".inc.c"}
 CLAVE = 0x00BE
 ESCALA = 3
 SEPARACION = 4
@@ -49,8 +57,12 @@ def leer_manifiesto(ruta):
         if len(campos) != len(COLUMNAS):
             raise ErrorManifiesto("%s:%d: %d columnas, se esperaban %d" % (ruta, numero, len(campos), len(COLUMNAS)))
         fila = dict(zip(COLUMNAS, campos))
-        if fila["formato"] not in ft.FORMATOS or fila["alfa"] not in ALFA_TKMK00 or fila["retocado"] not in ("si", "no"):
+        if fila["formato"] not in ft.FORMATOS or fila["alfa"] not in ALFAS or fila["retocado"] not in ("si", "no"):
             raise ErrorManifiesto("%s:%d: formato, alfa o retocado invalido" % (ruta, numero))
+        try:
+            dimensiones(fila)
+        except ValueError:
+            raise ErrorManifiesto("%s:%d: tamanio %r no es ANCHOxALTO" % (ruta, numero, fila["tamanio"]))
         filas.append(fila)
     ids = [f["id"] for f in filas]
     if len(set(ids)) != len(ids):
@@ -58,21 +70,52 @@ def leer_manifiesto(ruta):
     return filas
 
 
+def dimensiones(fila):
+    """(ancho, alto) de la columna tamanio."""
+    ancho, alto = fila["tamanio"].split("x")
+    return int(ancho), int(alto)
+
+
+def salida_build(png, carpeta_es):
+    """Archivo que el build genera a partir de un PNG de recursos/es/."""
+    partes = os.path.normpath(png).split(os.sep)
+    if partes[:2] != ["recursos", "es"] or len(partes) < 4 or partes[2] not in SALIDAS:
+        raise ErrorManifiesto("%s: el PNG tiene que estar en recursos/es/{%s}/" % (png, ",".join(SALIDAS)))
+    resto = os.path.join(*partes[3:])[:-len(".png")]
+    if partes[2] == "inc":
+        return os.path.join(carpeta_es, resto + SALIDAS["inc"])
+    return os.path.join(carpeta_es, partes[2], resto + SALIDAS[partes[2]])
+
+
+def leer_origen(fila, tkmk00):
+    """Bytes de la textura original tal como los usa el juego."""
+    origen = os.path.join(RAIZ, fila["origen"])
+    if origen.endswith(".tkmk00"):
+        with open(origen, "rb") as f:
+            cabecera = f.read(12)
+        propias = (int.from_bytes(cabecera[8:10], "big"), int.from_bytes(cabecera[10:12], "big"))
+        if propias != dimensiones(fila):
+            raise ErrorManifiesto("%s: la cabecera TKMK00 dice %dx%d" % ((fila["id"],) + propias))
+        with tempfile.TemporaryDirectory() as tmp:
+            salida = os.path.join(tmp, "textura.bin")
+            r = subprocess.run([tkmk00, "-a", ALFA_TKMK00[fila["alfa"]], origen, salida], capture_output=True,
+                               text=True)
+            if r.returncode != 0:
+                raise ErrorManifiesto("%s: tkmk00 fallo: %s" % (fila["id"], r.stderr.strip()))
+            with open(salida, "rb") as f:
+                return f.read()
+    if origen.endswith(".inc.c"):
+        with open(origen) as f:
+            return ft.leer_inc_c(f.read())[0]
+    with open(origen, "rb") as f:
+        datos = f.read()
+    return ft.descomprimir_mio0(datos) if origen.endswith(".mio0") else datos
+
+
 def decodificar_original(fila, tkmk00):
     """(bytes, ancho, alto) de la textura original tal como la usa el juego."""
-    origen = os.path.join(RAIZ, fila["origen"])
-    if not origen.endswith(".tkmk00"):
-        raise ErrorManifiesto("%s: origen %s todavia no soportado" % (fila["id"], fila["origen"]))
-    with open(origen, "rb") as f:
-        cabecera = f.read(12)
-    ancho, alto = int.from_bytes(cabecera[8:10], "big"), int.from_bytes(cabecera[10:12], "big")
-    with tempfile.TemporaryDirectory() as tmp:
-        salida = os.path.join(tmp, "textura.bin")
-        r = subprocess.run([tkmk00, "-a", ALFA_TKMK00[fila["alfa"]], origen, salida], capture_output=True, text=True)
-        if r.returncode != 0:
-            raise ErrorManifiesto("%s: tkmk00 fallo: %s" % (fila["id"], r.stderr.strip()))
-        with open(salida, "rb") as f:
-            return f.read(), ancho, alto
+    ancho, alto = dimensiones(fila)
+    return leer_origen(fila, tkmk00)[:ancho * alto * ft.BITS[fila["formato"]] // 8], ancho, alto
 
 
 def partes_nombre(ruta):
@@ -110,7 +153,7 @@ def importar(args):
     return 0
 
 
-def problemas(ruta, filas, tkmk00):
+def problemas(ruta, filas):
     """Lista de motivos por los que el PNG no puede reemplazar a su original."""
     id_, formato = partes_nombre(ruta)
     fila = next((f for f in filas if f["id"] == id_), None)
@@ -118,7 +161,7 @@ def problemas(ruta, filas, tkmk00):
         return ["%s no esta en el manifiesto" % id_]
     if formato != fila["formato"]:
         return ["formato %s, el manifiesto dice %s" % (formato, fila["formato"])]
-    _, ancho, alto = decodificar_original(fila, tkmk00)
+    ancho, alto = dimensiones(fila)
     imagen = png_simple.leer(ruta)
     if (imagen.ancho, imagen.alto) != (ancho, alto):
         return ["mide %dx%d, la original %dx%d" % (imagen.ancho, imagen.alto, ancho, alto)]
@@ -137,7 +180,7 @@ def comprobar(args):
     malos = 0
     for ruta in args.pngs:
         try:
-            lista = problemas(ruta, filas, args.tkmk00)
+            lista = problemas(ruta, filas)
         except (ErrorManifiesto, ft.ErrorFormato, png_simple.ErrorPng) as e:
             lista = [str(e)]
         for motivo in lista:
@@ -173,6 +216,26 @@ def hoja(args):
     return 0
 
 
+def tamanios(args):
+    """Cabecera con el tamanio de cada .mio0 en espanol (el campo size de sus TexturaMenu)."""
+    lineas = ["/* Generado por herramientas/texturas_es.py desde recursos/es/texturas.tsv: no editar */",
+              "#ifndef ES_TAMANIOS_ES_H", "#define ES_TAMANIOS_ES_H", ""]
+    for fila in leer_manifiesto(args.manifiesto):
+        if not fila["png"].startswith("recursos/es/mio0/"):
+            continue
+        with open(salida_build(fila["png"], args.carpeta), "rb") as f:
+            datos = f.read()
+        ancho, alto = dimensiones(fila)
+        if datos[:4] != b"MIO0" or int.from_bytes(datos[4:8], "big") != ancho * alto * 2:
+            raise ErrorManifiesto("%s: el .mio0 no es de un RGBA16 de %dx%d" % (fila["id"], ancho, alto))
+        lineas.append("#define TAMANIO_ES_%s 0x%X" % (fila["id"].upper(), len(datos)))
+    texto = "\n".join(lineas + ["", "#endif", ""])
+    if not os.path.exists(args.salida) or open(args.salida).read() != texto:
+        with open(args.salida, "w") as f:
+            f.write(texto)
+    return 0
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Texturas con texto en espanol")
     sub = parser.add_subparsers(dest="orden", required=True)
@@ -187,7 +250,6 @@ def main(argv=None):
     p.set_defaults(funcion=importar)
     p = sub.add_parser("comprobar", help="el PNG puede reemplazar a su original")
     p.add_argument("--manifiesto", default=MANIFIESTO)
-    p.add_argument("--tkmk00", default=TKMK00)
     p.add_argument("pngs", nargs="+")
     p.set_defaults(funcion=comprobar)
     p = sub.add_parser("hoja", help="hoja de contacto: original, nuevo y diferencias")
@@ -195,6 +257,11 @@ def main(argv=None):
     p.add_argument("nuevo")
     p.add_argument("salida")
     p.set_defaults(funcion=hoja)
+    p = sub.add_parser("tamanios", help="cabecera TAMANIO_ES_* de los .mio0")
+    p.add_argument("--manifiesto", default=MANIFIESTO)
+    p.add_argument("carpeta")
+    p.add_argument("salida")
+    p.set_defaults(funcion=tamanios)
     args = parser.parse_args(argv)
     try:
         return args.funcion(args)

@@ -1,64 +1,64 @@
-id	origen	formato	alfa	texto_es	retocado	motivo_no
-100cc	recursos/texturas/menus/tkmk00/100cc.rgba16.tkmk00	rgba16	clave_00BE		no	unidad
-150cc	recursos/texturas/menus/tkmk00/150cc.rgba16.tkmk00	rgba16	clave_00BE		no	unidad
-50cc	recursos/texturas/menus/tkmk00/50cc.rgba16.tkmk00	rgba16	clave_00BE		no	unidad
-atardecer_fondo	recursos/texturas/menus/tkmk00/atardecer_fondo.rgba16.tkmk00	rgba16	opaco		no	sin texto
-barra_oro	recursos/texturas/menus/tkmk00/barra_oro.rgba16.tkmk00	rgba16	opaco		no	sin texto
-barra_rosa	recursos/texturas/menus/tkmk00/barra_rosa.rgba16.tkmk00	rgba16	opaco		no	sin texto
-batalla_modo	recursos/texturas/menus/tkmk00/batalla_modo.rgba16.tkmk00	rgba16	clave_00BE		no	
-cielo_azul_fondo	recursos/texturas/menus/tkmk00/cielo_azul_fondo.rgba16.tkmk00	rgba16	opaco		no	sin texto
-datos	recursos/texturas/menus/tkmk00/datos.rgba16.tkmk00	rgba16	clave_00BE		no	
-datos_r	recursos/texturas/menus/tkmk00/datos_r.rgba16.tkmk00	rgba16	clave_00BE		no	
-empezar	recursos/texturas/menus/tkmk00/empezar.rgba16.tkmk00	rgba16	clave_00BE		no	
-extra	recursos/texturas/menus/tkmk00/extra.rgba16.tkmk00	rgba16	clave_00BE		no	se escribe igual
-fantasma_menu	recursos/texturas/menus/tkmk00/fantasma_menu.rgba16.tkmk00	rgba16	clave_00BE		no	
-franja_blanco	recursos/texturas/menus/tkmk00/franja_blanco.rgba16.tkmk00	rgba16	opaco		no	sin texto
-franja_oro	recursos/texturas/menus/tkmk00/franja_oro.rgba16.tkmk00	rgba16	opaco		no	sin texto
-franja_oro_verde	recursos/texturas/menus/tkmk00/franja_oro_verde.rgba16.tkmk00	rgba16	opaco		no	sin texto
-juego_menu_1j	recursos/texturas/menus/tkmk00/juego_menu_1j.rgba16.tkmk00	rgba16	clave_00BE		no	
-juego_menu_2j	recursos/texturas/menus/tkmk00/juego_menu_2j.rgba16.tkmk00	rgba16	clave_00BE		no	
-juego_menu_3j	recursos/texturas/menus/tkmk00/juego_menu_3j.rgba16.tkmk00	rgba16	clave_00BE		no	
-juego_menu_4j	recursos/texturas/menus/tkmk00/juego_menu_4j.rgba16.tkmk00	rgba16	clave_00BE		no	
-menu_con_item	recursos/texturas/menus/tkmk00/menu_con_item.rgba16.tkmk00	rgba16	clave_00BE		no	no se muestra
-menu_copa_especial	recursos/texturas/menus/tkmk00/menu_copa_especial.rgba16.tkmk00	rgba16	clave_00BE		no	
-menu_copa_estrella	recursos/texturas/menus/tkmk00/menu_copa_estrella.rgba16.tkmk00	rgba16	clave_00BE		no	
-menu_copa_flor	recursos/texturas/menus/tkmk00/menu_copa_flor.rgba16.tkmk00	rgba16	clave_00BE		no	
-menu_copa_hongo	recursos/texturas/menus/tkmk00/menu_copa_hongo.rgba16.tkmk00	rgba16	clave_00BE		no	
-menu_sin_item	recursos/texturas/menus/tkmk00/menu_sin_item.rgba16.tkmk00	rgba16	clave_00BE		no	no se muestra
-modo_contrarreloj	recursos/texturas/menus/tkmk00/modo_contrarreloj.rgba16.tkmk00	rgba16	clave_00BE		no	
-modo_mario_gp	recursos/texturas/menus/tkmk00/modo_mario_gp.rgba16.tkmk00	rgba16	clave_00BE		no	nombre del modo
-modo_vs	recursos/texturas/menus/tkmk00/modo_vs.rgba16.tkmk00	rgba16	clave_00BE		no	se escribe igual
-nombre_bowser	recursos/texturas/menus/tkmk00/nombre_bowser.rgba16.tkmk00	rgba16	opaco		no	nombre propio
-nombre_dk	recursos/texturas/menus/tkmk00/nombre_dk.rgba16.tkmk00	rgba16	opaco		no	nombre propio
-nombre_luigi	recursos/texturas/menus/tkmk00/nombre_luigi.rgba16.tkmk00	rgba16	opaco		no	nombre propio
-nombre_mario	recursos/texturas/menus/tkmk00/nombre_mario.rgba16.tkmk00	rgba16	opaco		no	nombre propio
-nombre_peach	recursos/texturas/menus/tkmk00/nombre_peach.rgba16.tkmk00	rgba16	opaco		no	nombre propio
-nombre_toad	recursos/texturas/menus/tkmk00/nombre_toad.rgba16.tkmk00	rgba16	opaco		no	nombre propio
-nombre_wario	recursos/texturas/menus/tkmk00/nombre_wario.rgba16.tkmk00	rgba16	opaco		no	nombre propio
-nombre_yoshi	recursos/texturas/menus/tkmk00/nombre_yoshi.rgba16.tkmk00	rgba16	opaco		no	nombre propio
-ok	recursos/texturas/menus/tkmk00/ok.rgba16.tkmk00	rgba16	clave_00BE		no	
-opcion	recursos/texturas/menus/tkmk00/opcion.rgba16.tkmk00	rgba16	opaco		no	
-opcion_l	recursos/texturas/menus/tkmk00/opcion_l.rgba16.tkmk00	rgba16	clave_00BE		no	
-seleccion_juego	recursos/texturas/menus/tkmk00/seleccion_juego.rgba16.tkmk00	rgba16	opaco		no	
-seleccion_jugador	recursos/texturas/menus/tkmk00/seleccion_jugador.rgba16.tkmk00	rgba16	opaco		no	
-seleccion_mapa	recursos/texturas/menus/tkmk00/seleccion_mapa.rgba16.tkmk00	rgba16	opaco		no	
-titulo_banshee_boardwalk	recursos/texturas/menus/tkmk00/titulo_banshee_boardwalk.rgba16.tkmk00	rgba16	clave_00BE		no	
-titulo_big_donut	recursos/texturas/menus/tkmk00/titulo_big_donut.rgba16.tkmk00	rgba16	clave_00BE		no	
-titulo_block_fort	recursos/texturas/menus/tkmk00/titulo_block_fort.rgba16.tkmk00	rgba16	clave_00BE		no	
-titulo_bowsers_castle	recursos/texturas/menus/tkmk00/titulo_bowsers_castle.rgba16.tkmk00	rgba16	clave_00BE		no	
-titulo_choco_mountain	recursos/texturas/menus/tkmk00/titulo_choco_mountain.rgba16.tkmk00	rgba16	clave_00BE		no	
-titulo_dks_jungle_parkway	recursos/texturas/menus/tkmk00/titulo_dks_jungle_parkway.rgba16.tkmk00	rgba16	clave_00BE		no	
-titulo_double_deck	recursos/texturas/menus/tkmk00/titulo_double_deck.rgba16.tkmk00	rgba16	clave_00BE		no	
-titulo_frappe_snowland	recursos/texturas/menus/tkmk00/titulo_frappe_snowland.rgba16.tkmk00	rgba16	clave_00BE		no	
-titulo_kalimari_desert	recursos/texturas/menus/tkmk00/titulo_kalimari_desert.rgba16.tkmk00	rgba16	clave_00BE		no	
-titulo_koopa_troopa_beach	recursos/texturas/menus/tkmk00/titulo_koopa_troopa_beach.rgba16.tkmk00	rgba16	clave_00BE		no	
-titulo_luigi_raceway	recursos/texturas/menus/tkmk00/titulo_luigi_raceway.rgba16.tkmk00	rgba16	clave_00BE		no	
-titulo_mario_raceway	recursos/texturas/menus/tkmk00/titulo_mario_raceway.rgba16.tkmk00	rgba16	clave_00BE		no	
-titulo_moo_moo_farm	recursos/texturas/menus/tkmk00/titulo_moo_moo_farm.rgba16.tkmk00	rgba16	clave_00BE		no	
-titulo_rainbow_road	recursos/texturas/menus/tkmk00/titulo_rainbow_road.rgba16.tkmk00	rgba16	clave_00BE		no	
-titulo_royal_raceway	recursos/texturas/menus/tkmk00/titulo_royal_raceway.rgba16.tkmk00	rgba16	clave_00BE		no	
-titulo_sherbet_land	recursos/texturas/menus/tkmk00/titulo_sherbet_land.rgba16.tkmk00	rgba16	clave_00BE		no	
-titulo_skyscraper	recursos/texturas/menus/tkmk00/titulo_skyscraper.rgba16.tkmk00	rgba16	clave_00BE		no	
-titulo_toads_turnpike	recursos/texturas/menus/tkmk00/titulo_toads_turnpike.rgba16.tkmk00	rgba16	clave_00BE		no	
-titulo_wario_stadium	recursos/texturas/menus/tkmk00/titulo_wario_stadium.rgba16.tkmk00	rgba16	clave_00BE		no	
-titulo_yoshi_valley	recursos/texturas/menus/tkmk00/titulo_yoshi_valley.rgba16.tkmk00	rgba16	clave_00BE		no	
+id	origen	formato	tamanio	alfa	png	texto_es	retocado	motivo_no
+100cc	recursos/texturas/menus/tkmk00/100cc.rgba16.tkmk00	rgba16	64x18	clave_00BE			no	unidad
+150cc	recursos/texturas/menus/tkmk00/150cc.rgba16.tkmk00	rgba16	64x18	clave_00BE			no	unidad
+50cc	recursos/texturas/menus/tkmk00/50cc.rgba16.tkmk00	rgba16	64x18	clave_00BE			no	unidad
+atardecer_fondo	recursos/texturas/menus/tkmk00/atardecer_fondo.rgba16.tkmk00	rgba16	320x240	opaco			no	sin texto
+barra_oro	recursos/texturas/menus/tkmk00/barra_oro.rgba16.tkmk00	rgba16	256x40	opaco			no	sin texto
+barra_rosa	recursos/texturas/menus/tkmk00/barra_rosa.rgba16.tkmk00	rgba16	90x16	opaco			no	sin texto
+batalla_modo	recursos/texturas/menus/tkmk00/batalla_modo.rgba16.tkmk00	rgba16	64x18	clave_00BE	recursos/es/mio0/menus/batalla_modo.rgba16.png		no	
+cielo_azul_fondo	recursos/texturas/menus/tkmk00/cielo_azul_fondo.rgba16.tkmk00	rgba16	320x240	opaco			no	sin texto
+datos	recursos/texturas/menus/tkmk00/datos.rgba16.tkmk00	rgba16	64x18	clave_00BE	recursos/es/mio0/menus/datos.rgba16.png		no	
+datos_r	recursos/texturas/menus/tkmk00/datos_r.rgba16.tkmk00	rgba16	58x19	clave_00BE	recursos/es/mio0/menus/datos_r.rgba16.png		no	
+empezar	recursos/texturas/menus/tkmk00/empezar.rgba16.tkmk00	rgba16	64x18	clave_00BE	recursos/es/mio0/menus/empezar.rgba16.png		no	
+extra	recursos/texturas/menus/tkmk00/extra.rgba16.tkmk00	rgba16	64x18	clave_00BE			no	se escribe igual
+fantasma_menu	recursos/texturas/menus/tkmk00/fantasma_menu.rgba16.tkmk00	rgba16	64x18	clave_00BE	recursos/es/mio0/menus/fantasma_menu.rgba16.png		no	
+franja_blanco	recursos/texturas/menus/tkmk00/franja_blanco.rgba16.tkmk00	rgba16	256x10	opaco			no	sin texto
+franja_oro	recursos/texturas/menus/tkmk00/franja_oro.rgba16.tkmk00	rgba16	256x15	opaco			no	sin texto
+franja_oro_verde	recursos/texturas/menus/tkmk00/franja_oro_verde.rgba16.tkmk00	rgba16	256x29	opaco			no	sin texto
+juego_menu_1j	recursos/texturas/menus/tkmk00/juego_menu_1j.rgba16.tkmk00	rgba16	64x54	clave_00BE	recursos/es/mio0/menus/juego_menu_1j.rgba16.png		no	
+juego_menu_2j	recursos/texturas/menus/tkmk00/juego_menu_2j.rgba16.tkmk00	rgba16	64x54	clave_00BE	recursos/es/mio0/menus/juego_menu_2j.rgba16.png		no	
+juego_menu_3j	recursos/texturas/menus/tkmk00/juego_menu_3j.rgba16.tkmk00	rgba16	64x54	clave_00BE	recursos/es/mio0/menus/juego_menu_3j.rgba16.png		no	
+juego_menu_4j	recursos/texturas/menus/tkmk00/juego_menu_4j.rgba16.tkmk00	rgba16	64x54	clave_00BE	recursos/es/mio0/menus/juego_menu_4j.rgba16.png		no	
+menu_con_item	recursos/texturas/menus/tkmk00/menu_con_item.rgba16.tkmk00	rgba16	64x18	clave_00BE			no	no se muestra
+menu_copa_especial	recursos/texturas/menus/tkmk00/menu_copa_especial.rgba16.tkmk00	rgba16	65x40	clave_00BE	recursos/es/mio0/menus/menu_copa_especial.rgba16.png		no	
+menu_copa_estrella	recursos/texturas/menus/tkmk00/menu_copa_estrella.rgba16.tkmk00	rgba16	65x40	clave_00BE	recursos/es/mio0/menus/menu_copa_estrella.rgba16.png		no	
+menu_copa_flor	recursos/texturas/menus/tkmk00/menu_copa_flor.rgba16.tkmk00	rgba16	65x40	clave_00BE	recursos/es/mio0/menus/menu_copa_flor.rgba16.png		no	
+menu_copa_hongo	recursos/texturas/menus/tkmk00/menu_copa_hongo.rgba16.tkmk00	rgba16	65x40	clave_00BE	recursos/es/mio0/menus/menu_copa_hongo.rgba16.png		no	
+menu_sin_item	recursos/texturas/menus/tkmk00/menu_sin_item.rgba16.tkmk00	rgba16	64x18	clave_00BE			no	no se muestra
+modo_contrarreloj	recursos/texturas/menus/tkmk00/modo_contrarreloj.rgba16.tkmk00	rgba16	64x18	clave_00BE	recursos/es/mio0/menus/modo_contrarreloj.rgba16.png		no	
+modo_mario_gp	recursos/texturas/menus/tkmk00/modo_mario_gp.rgba16.tkmk00	rgba16	64x18	clave_00BE			no	nombre del modo
+modo_vs	recursos/texturas/menus/tkmk00/modo_vs.rgba16.tkmk00	rgba16	64x18	clave_00BE			no	se escribe igual
+nombre_bowser	recursos/texturas/menus/tkmk00/nombre_bowser.rgba16.tkmk00	rgba16	64x12	opaco			no	nombre propio
+nombre_dk	recursos/texturas/menus/tkmk00/nombre_dk.rgba16.tkmk00	rgba16	64x12	opaco			no	nombre propio
+nombre_luigi	recursos/texturas/menus/tkmk00/nombre_luigi.rgba16.tkmk00	rgba16	64x12	opaco			no	nombre propio
+nombre_mario	recursos/texturas/menus/tkmk00/nombre_mario.rgba16.tkmk00	rgba16	64x12	opaco			no	nombre propio
+nombre_peach	recursos/texturas/menus/tkmk00/nombre_peach.rgba16.tkmk00	rgba16	64x12	opaco			no	nombre propio
+nombre_toad	recursos/texturas/menus/tkmk00/nombre_toad.rgba16.tkmk00	rgba16	64x12	opaco			no	nombre propio
+nombre_wario	recursos/texturas/menus/tkmk00/nombre_wario.rgba16.tkmk00	rgba16	64x12	opaco			no	nombre propio
+nombre_yoshi	recursos/texturas/menus/tkmk00/nombre_yoshi.rgba16.tkmk00	rgba16	64x12	opaco			no	nombre propio
+ok	recursos/texturas/menus/tkmk00/ok.rgba16.tkmk00	rgba16	31x19	clave_00BE	recursos/es/mio0/menus/ok.rgba16.png		no	
+opcion	recursos/texturas/menus/tkmk00/opcion.rgba16.tkmk00	rgba16	130x32	opaco	recursos/es/mio0/menus/opcion.rgba16.png		no	
+opcion_l	recursos/texturas/menus/tkmk00/opcion_l.rgba16.tkmk00	rgba16	58x19	clave_00BE	recursos/es/mio0/menus/opcion_l.rgba16.png		no	
+seleccion_juego	recursos/texturas/menus/tkmk00/seleccion_juego.rgba16.tkmk00	rgba16	200x32	opaco	recursos/es/mio0/menus/seleccion_juego.rgba16.png		no	
+seleccion_jugador	recursos/texturas/menus/tkmk00/seleccion_jugador.rgba16.tkmk00	rgba16	220x32	opaco	recursos/es/mio0/menus/seleccion_jugador.rgba16.png		no	
+seleccion_mapa	recursos/texturas/menus/tkmk00/seleccion_mapa.rgba16.tkmk00	rgba16	190x32	opaco	recursos/es/mio0/menus/seleccion_mapa.rgba16.png		no	
+titulo_banshee_boardwalk	recursos/texturas/menus/tkmk00/titulo_banshee_boardwalk.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_banshee_boardwalk.rgba16.png		no	
+titulo_big_donut	recursos/texturas/menus/tkmk00/titulo_big_donut.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_big_donut.rgba16.png		no	
+titulo_block_fort	recursos/texturas/menus/tkmk00/titulo_block_fort.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_block_fort.rgba16.png		no	
+titulo_bowsers_castle	recursos/texturas/menus/tkmk00/titulo_bowsers_castle.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_bowsers_castle.rgba16.png		no	
+titulo_choco_mountain	recursos/texturas/menus/tkmk00/titulo_choco_mountain.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_choco_mountain.rgba16.png		no	
+titulo_dks_jungle_parkway	recursos/texturas/menus/tkmk00/titulo_dks_jungle_parkway.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_dks_jungle_parkway.rgba16.png		no	
+titulo_double_deck	recursos/texturas/menus/tkmk00/titulo_double_deck.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_double_deck.rgba16.png		no	
+titulo_frappe_snowland	recursos/texturas/menus/tkmk00/titulo_frappe_snowland.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_frappe_snowland.rgba16.png		no	
+titulo_kalimari_desert	recursos/texturas/menus/tkmk00/titulo_kalimari_desert.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_kalimari_desert.rgba16.png		no	
+titulo_koopa_troopa_beach	recursos/texturas/menus/tkmk00/titulo_koopa_troopa_beach.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_koopa_troopa_beach.rgba16.png		no	
+titulo_luigi_raceway	recursos/texturas/menus/tkmk00/titulo_luigi_raceway.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_luigi_raceway.rgba16.png		no	
+titulo_mario_raceway	recursos/texturas/menus/tkmk00/titulo_mario_raceway.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_mario_raceway.rgba16.png		no	
+titulo_moo_moo_farm	recursos/texturas/menus/tkmk00/titulo_moo_moo_farm.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_moo_moo_farm.rgba16.png		no	
+titulo_rainbow_road	recursos/texturas/menus/tkmk00/titulo_rainbow_road.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_rainbow_road.rgba16.png		no	
+titulo_royal_raceway	recursos/texturas/menus/tkmk00/titulo_royal_raceway.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_royal_raceway.rgba16.png		no	
+titulo_sherbet_land	recursos/texturas/menus/tkmk00/titulo_sherbet_land.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_sherbet_land.rgba16.png		no	
+titulo_skyscraper	recursos/texturas/menus/tkmk00/titulo_skyscraper.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_skyscraper.rgba16.png		no	
+titulo_toads_turnpike	recursos/texturas/menus/tkmk00/titulo_toads_turnpike.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_toads_turnpike.rgba16.png		no	
+titulo_wario_stadium	recursos/texturas/menus/tkmk00/titulo_wario_stadium.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_wario_stadium.rgba16.png		no	
+titulo_yoshi_valley	recursos/texturas/menus/tkmk00/titulo_yoshi_valley.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_yoshi_valley.rgba16.png		no	
