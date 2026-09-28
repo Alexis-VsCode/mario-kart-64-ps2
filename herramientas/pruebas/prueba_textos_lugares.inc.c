@@ -18,7 +18,7 @@ LUGAR(L_OPCIONES, menu_opcion_texto, 0, 3, 4, IZQ, 0x32, 0.9f, 1.0f, 0, 0x23, ZO
       "S; info_pistas_y_tiempos.inc.c:146")
 LUGAR(L_OPCION_SONIDO, menu_opcion_texto, 1, 1, 1, IZQ, 0x32, 0.9f, 1.0f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
       "S; info_pistas_y_tiempos.inc.c:146")
-LUGAR(L_SONIDO_VALOR, sonido_nombres_modo, 0, 3, 1, CENTRO, 0xE6, 1.0f, 1.0f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
+LUGAR(L_SONIDO_VALOR, sonido_nombres_modo, 0, 3, 1, CENTRO, 0xE4, 1.0f, 1.0f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
       "S; info_pistas_y_tiempos.inc.c:153")
 SIN_SOLAPE(L_OPCION_SONIDO, L_SONIDO_VALOR, 4, "G: el modo de sonido va en la fila de la opcion")
 LUGAR(L_BORRAR_TODO, dato_800E7878, 0, 2, 3, IZQ, 0x28, 1.0f, 1.0f, 0, 0x14, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,

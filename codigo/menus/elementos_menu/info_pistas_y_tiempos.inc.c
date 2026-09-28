@@ -150,7 +150,7 @@ void funcion_800A1FB0(MenuItem* parametro0) {
                 }
             }
             fijar_color_texto(VERDE_TEXTO);
-            imprimir_modo_centro_texto1_1(0x000000E6, 0x55 + 0x23, sonido_nombres_modo[sonido_modo], 0, 1.0f, 1.0f);
+            imprimir_modo_centro_texto1_1(0x000000E4, 0x55 + 0x23, sonido_nombres_modo[sonido_modo], 0, 1.0f, 1.0f);
             break;
         case SUB_MENU_BORRAR_ABANDONAR:
         case SUB_MENU_BORRAR_BORRAR:
