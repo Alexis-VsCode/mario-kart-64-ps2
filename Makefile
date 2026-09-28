@@ -234,6 +234,7 @@ test: $(CAMINOS)
 	$(V)gcc -std=gnu99 -Wall -O2 -ffp-contract=off -I$(BUILD) -DTABLA='"tabla_caminos_vehiculos.h"' \
 	    -o $(PRUEBAS)/prueba_caminos_vehiculos herramientas/pruebas/prueba_caminos_vehiculos.c -lm
 	$(V)$(PRUEBAS)/prueba_caminos_vehiculos
+	$(V)$(PYTHON) herramientas/pruebas/prueba_convertir_eucjp.py $(JP_SRC) $(JP_PARTES)
 
 # --- Herramientas del PC ------------------------------------------------------------
 
@@ -256,13 +257,15 @@ $(SWAP_STAMP): herramientas/invertir_texturas.py $(SWAP_SOURCES)
 
 # --- Compilacion ----------------------------------------------------------------------
 
-$(BUILD)/jp/%.c: %.c
-	@mkdir -p $(dir $@)
-	$(V)iconv -f UTF-8 -t EUC-JP $< > $@
+CONVERTIR_EUCJP := herramientas/convertir_eucjp.py
 
-$(addprefix $(BUILD)/jp/,$(JP_PARTES)): $(BUILD)/jp/%: %
+$(BUILD)/jp/%.c: %.c $(CONVERTIR_EUCJP)
 	@mkdir -p $(dir $@)
-	$(V)iconv -f UTF-8 -t EUC-JP $< > $@
+	$(V)$(PYTHON) $(CONVERTIR_EUCJP) $< $@
+
+$(addprefix $(BUILD)/jp/,$(JP_PARTES)): $(BUILD)/jp/%: % $(CONVERTIR_EUCJP)
+	@mkdir -p $(dir $@)
+	$(V)$(PYTHON) $(CONVERTIR_EUCJP) $< $@
 
 $(addprefix $(OBJDIR)/jp/,$(JP_SRC:.c=.o)): $(addprefix $(BUILD)/jp/,$(JP_PARTES))
 
