@@ -29,6 +29,7 @@ REVISIONES = (
      ("snprintf", "texto_escribir_linea", "LINEA")),
     ("fase", TODO_EL_CODIGO, ("marcar_tiempos_ps2", "MARCAR_TIEMPOS_PS2")),
     ("punto de control", TODO_EL_CODIGO, ("marcar_punto_control", "MARCAR_PUNTO_CONTROL")),
+    ("marca del registro", ("incluir/depuracion/marcas_registro.h",), None),
 )
 # En estas revisiones un nombre con '_' es un nombre de funcion
 SIN_IDENTIFICADORES = ("fase", "punto de control")
@@ -54,6 +55,7 @@ INGLES = {
     "lists": "listas",
     "offsets": "desplazamientos",
     "render": "dibujo",
+    "panic": "PANICO",
 }
 SIN_TILDE = {
     "musica": "música",

@@ -4,7 +4,7 @@
 /* Palabras que el registro busca en cada linea para volcarla al PC en el
    momento (depuracion.c). Quien las escribe en un mensaje y quien las busca
    usan estas macros. */
-#define MARCA_PANICO  "PANIC"
+#define MARCA_PANICO  "PANICO"
 #define MARCA_CUELGUE "cuelgue"
 #define MARCA_GIF     "GIF"
 
