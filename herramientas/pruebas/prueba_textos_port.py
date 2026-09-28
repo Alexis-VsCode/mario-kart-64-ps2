@@ -36,6 +36,7 @@ REGISTRO = (
     "codigo/audio/salida_audio.c",
     "codigo/audio/microcodigo_audio.c",
     "codigo/audio/microcodigo_audio/*.inc.c",
+    "codigo/entrada/*.c",
 )
 
 # (que se revisa, archivos, llamadas o tablas cuyos literales se leen)
@@ -117,6 +118,7 @@ INGLES = {
     "envmixer": "envolvente",
     "mixer": "mezcla",
     "resample": "remuestreo",
+    "btns": "botones",
 }
 SIN_TILDE = {
     "musica": "música",

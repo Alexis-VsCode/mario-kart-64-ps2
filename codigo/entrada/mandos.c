@@ -115,12 +115,12 @@ void inicializar_mandos_ps2(void)
     }
     cargar_modulos();
     if (padInit(0) != 1) {
-        registrar("padInit fallo");
+        registrar("padInit falló");
     }
     for (puerto = 0; puerto < PUERTOS_PS2; puerto++) {
         estado_puerto[puerto] = padPortOpen(puerto, 0, buffer_relleno[puerto]) ? ESTABLE_ESPERA_PUERTO : PUERTO_CERRADO;
         if (estado_puerto[puerto] == PUERTO_CERRADO) {
-            registrar("padPortOpen(%d) fallo", puerto);
+            registrar("padPortOpen(%d) falló", puerto);
         }
     }
     memset(s_rellenos, 0, sizeof(s_rellenos));
@@ -175,7 +175,7 @@ static void sondear_puerto(int puerto, OSContPad *salida)
             struct padButtonStatus b;
             int r = padRead(puerto, 0, &b);
 
-            registrar("pad%d estado %d/%d leido %d ok %02x modo %02x btns %04x ejes %d,%d id %d", puerto, estado_puerto[puerto],
+            registrar("pad%d estado %d/%d leído %d ok %02x modo %02x botones %04x ejes %d,%d id %d", puerto, estado_puerto[puerto],
                     estado, r, b.ok, b.mode, b.btns, b.ljoy_h, b.ljoy_v, padInfoMode(puerto, 0, PAD_MODECURID, 0));
         }
     }
