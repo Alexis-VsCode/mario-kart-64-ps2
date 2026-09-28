@@ -138,6 +138,10 @@ JUEGO_SRC := \
 # Texto japones: el juego lo espera en EUC-JP (tambien sus partes .inc.c)
 JP_SRC := codigo/carrera/ia/ia_vehiculos_y_camara.c codigo/menus/elementos_menu.c codigo/ceremonia/creditos.c
 JP_PARTES := $(foreach f,$(JP_SRC),$(wildcard $(basename $(f))/*.inc.c))
+# Metadatos de pistas que esos fuentes incluyen (nombres con tilde); se buscan
+# primero en su copia convertida
+JP_PARTES += $(wildcard recursos/pistas/metadatos/*.inc.c)
+JP_IQUOTE := -iquote $(BUILD)/jp
 
 # libultra portable (matematicas, printf, cadenas, tablas)
 LIBULTRA_SRC := \
@@ -226,7 +230,7 @@ clean:
 
 # Pruebas en el PC: combinador de color y caminos del tren y del barco
 PRUEBAS := $(BUILD)/pruebas
-test: $(CAMINOS)
+test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES))
 	@mkdir -p $(PRUEBAS)
 	$(V)gcc -std=gnu99 -Wall -Wextra -O1 -D_LANGUAGE_C -DF3DEX_GBI -DTARGET_PS2 -Iincluir -Iincluir/libultra \
 	    -o $(PRUEBAS)/prueba_combinador herramientas/pruebas/prueba_combinador.c codigo/graficos/combinador_color.c -lm
@@ -235,6 +239,8 @@ test: $(CAMINOS)
 	    -o $(PRUEBAS)/prueba_caminos_vehiculos herramientas/pruebas/prueba_caminos_vehiculos.c -lm
 	$(V)$(PRUEBAS)/prueba_caminos_vehiculos
 	$(V)$(PYTHON) herramientas/pruebas/prueba_convertir_eucjp.py $(JP_SRC) $(JP_PARTES)
+	$(V)$(PYTHON) herramientas/pruebas/prueba_metadatos_eucjp.py $(BUILD)/jp/codigo/menus/elementos_menu.c -- \
+	    $(INCLUDES) -iquote codigo/menus/ $(JP_IQUOTE)
 
 # --- Herramientas del PC ------------------------------------------------------------
 
@@ -272,7 +278,7 @@ $(addprefix $(OBJDIR)/jp/,$(JP_SRC:.c=.o)): $(addprefix $(BUILD)/jp/,$(JP_PARTES
 $(OBJDIR)/jp/%.o: $(BUILD)/jp/%.c $(FLAGS_STAMP) $(SWAP_STAMP)
 	@mkdir -p $(dir $@)
 	@echo "  CC(jp)  $<"
-	$(V)$(CC) $(CFLAGS) -iquote $(dir $(patsubst $(BUILD)/jp/%,%,$<)) -MMD -MP -c $< -o $@
+	$(V)$(CC) $(CFLAGS) -iquote $(dir $(patsubst $(BUILD)/jp/%,%,$<)) $(JP_IQUOTE) -MMD -MP -c $< -o $@
 
 $(FLAGS_STAMP):
 	@mkdir -p $(dir $@)
