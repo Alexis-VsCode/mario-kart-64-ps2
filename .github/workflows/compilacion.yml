@@ -5,6 +5,11 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+    inputs:
+      base:
+        description: "Referencia para comparar el binario (vacio: no se compara)"
+        required: false
+        default: ""
 
 jobs:
   pruebas-pc:
@@ -46,3 +51,18 @@ jobs:
             build/ps2/debug/SLUS_999.99
             compilaciones/*.iso
 
+  mismo-binario:
+    name: Comparar el binario con la base
+    if: github.event_name == 'workflow_dispatch' && inputs.base != ''
+    runs-on: ubuntu-latest
+    container: ps2dev/ps2dev@sha256:7327334ab94e273b1723761fcd4a3591a31b78bbc28e4c281ad0fa42b3c8264d
+    steps:
+      - name: Dependencias del PC
+        run: apk add --no-cache bash build-base python3 git coreutils findutils
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Release
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE" && . herramientas/entorno.sh && sh herramientas/comparar_binario.sh "${{ inputs.base }}"
+      - name: DEBUG=1
+        run: . herramientas/entorno.sh && sh herramientas/comparar_binario.sh "${{ inputs.base }}" DEBUG=1
