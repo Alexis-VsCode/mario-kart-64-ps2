@@ -7,7 +7,8 @@ Lee los literales de cadena que el port manda a sus pantallas y a su
 registro y falla si alguno lleva una palabra en ingles o sin la tilde que
 le toca. Es una lista negra: solo encuentra las palabras que conoce. Los
 nombres con '_' o con cifras (funciones, registros, formatos) no se miran,
-salvo en los nombres de fase, que no pueden ser nombres de funcion.
+salvo en los pasos del cronometro y los puntos de control, que no pueden
+ser nombres de funcion.
 
 En los fuentes que el build pasa a EUC-JP los textos del port van solo en
 ASCII: el registro se lee en UTF-8.
@@ -307,7 +308,7 @@ def fuentes_del_codigo():
 
 def revisar_marcas():
     for que, archivos, llamadas in SOLO_MACROS:
-        for ruta in (archivos if archivos is not TODO_EL_CODIGO else fuentes_del_codigo()):
+        for ruta in archivos_de(archivos):
             for linea, literal in literales_de(ruta, llamadas):
                 comprobar(False, "%s:%d (%s): '%s' va con su macro de %s" % (ruta, linea, que, literal, MARCAS_REGISTRO))
     existe = os.path.exists(os.path.join(RAIZ, MARCAS_REGISTRO))
