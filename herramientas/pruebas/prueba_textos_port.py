@@ -33,6 +33,9 @@ REGISTRO = (
     "codigo/graficos/*.c",
     "codigo/graficos/interprete_f3dex/*.inc.c",
     "codigo/graficos/memoria_texturas/*.inc.c",
+    "codigo/audio/salida_audio.c",
+    "codigo/audio/microcodigo_audio.c",
+    "codigo/audio/microcodigo_audio/*.inc.c",
 )
 
 # (que se revisa, archivos, llamadas o tablas cuyos literales se leen)
@@ -109,6 +112,11 @@ INGLES = {
     "hash": "huella",
     "sigmap": "mapa de firmas",
     "perf": "rendimiento",
+    "cmds": "órdenes",
+    "reverb": "reverberación",
+    "envmixer": "envolvente",
+    "mixer": "mezcla",
+    "resample": "remuestreo",
 }
 SIN_TILDE = {
     "musica": "música",
@@ -146,6 +154,7 @@ SIN_TILDE = {
     "cache": "caché",
     "indices": "índices",
     "leido": "leído",
+    "ultimos": "últimos",
 }
 # Verbo en pasado salvo detras de un determinante (el fallo, un cambio)
 AMBIGUAS = {"fallo": "falló", "cambio": "cambió"}

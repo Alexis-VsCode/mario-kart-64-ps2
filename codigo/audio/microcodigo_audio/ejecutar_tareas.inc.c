@@ -276,11 +276,12 @@ static void ejecutar_lista_audio(u64 *lista_cmd, u32 bytes_tamanio)
         trazar_vaciar();
     }
     if ((cantidad_tarea % 300) == 1) {
-        registrar("audio: tarea %u, %u cmds; hist ADPCM %u RES %u ENVMIX %u MIX %u LOADBUF %u SAVEBUF %u INTERL %u; pico %u",
+        registrar("audio: tarea %u, %u órdenes; hist ADPCM %u RES %u ENVMIX %u MIX %u LOADBUF %u SAVEBUF %u "
+                "INTERL %u; pico %u",
                 (unsigned) cantidad_tarea, (unsigned) n, (unsigned) cmd_hist[A_ADPCM], (unsigned) cmd_hist[A_RESAMPLE],
                 (unsigned) cmd_hist[A_ENVMIXER], (unsigned) cmd_hist[A_MIXER], (unsigned) cmd_hist[A_LOADBUFF],
                 (unsigned) cmd_hist[A_SAVEBUFF], (unsigned) cmd_hist[A_INTERLEAVE], (unsigned) salida_pico);
-        registrar("audio: envmixer %u (%u muestras): mudos %u, sin reverb %u; remuestreos %u, sin salida %u",
+        registrar("audio: envolvente %u (%u muestras): mudos %u, sin reverberación %u; remuestreos %u, sin salida %u",
                 (unsigned) envolventes_totales, (unsigned) muestras_envolventes, (unsigned) envolventes_mudas, (unsigned) envolventes_sin_reverb,
                 (unsigned) remuestreos_totales, (unsigned) remuestreos_sin_salida);
 #ifdef ASPMAIN_MMI
@@ -665,8 +666,8 @@ int autoprueba_aspmain(int vueltas)
     atajos_audio = saltear_guardado;
     memset(s_dmem.u8, 0, sizeof(s_dmem.u8));
     memset(&Rsp, 0, sizeof(Rsp));
-    registrar("aspmain MMI: autoprueba %d comandos (envmixer %d, mixer %d, resample %d, adpcm %d): %d diferencias", vueltas,
-            cantidades[0], cantidades[1], cantidades[2], cantidades[3], errores);
+    registrar("aspmain MMI: autoprueba %d comandos (envolvente %d, mezcla %d, remuestreo %d, adpcm %d): %d diferencias",
+            vueltas, cantidades[0], cantidades[1], cantidades[2], cantidades[3], errores);
     return errores;
 }
 #endif
