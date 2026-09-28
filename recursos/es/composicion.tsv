@@ -1,0 +1,5 @@
+id	familia	caja	texto_en	x_en	opciones
+opcion	titulos_menu	0,0,128,31	OPTION	3	juntar=-3 condensar=0.8
+seleccion_juego	titulos_menu	0,0,199,31	GAME SELECT	3	juntar=-2
+seleccion_jugador	titulos_menu	0,0,220,31	PLAYER SELECT	4	juntar=-2
+seleccion_mapa	titulos_menu	0,0,189,31	MAP SELECT	4	juntar=-2

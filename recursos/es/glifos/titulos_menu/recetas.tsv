@@ -1,0 +1,3 @@
+caracter	receta
+# D: el palo de la P con la mitad derecha de la O
+D	junto(cols(glifo("P"), 0, 10), cols(glifo("O"), 14, 28))

@@ -1,0 +1,451 @@
+#!/usr/bin/env python3
+"""Compone las texturas en espanol con glifos recortados de las propias texturas del juego.
+
+    compositor_es.py componer [--solo ID ...]     reescribe los PNG de recursos/es/
+    compositor_es.py autoprueba [--solo ID ...]   recompone el ingles y mide cuanto coincide
+
+Cada familia (recursos/es/glifos/<familia>/) tiene:
+  familia.tsv  parametros: fondo (negro o transparente), filas (y0,y1 de la linea),
+               ventana (columnas a cada lado donde buscar el corte), umbral (luminancia
+               que separa contorno de relleno)
+  cajas.tsv    un glifo por fila: caracter, textura (id del manifiesto) y las columnas
+               aproximadas de su corte izquierdo y derecho. El corte real es el camino
+               mas oscuro que baja por esa zona, asi dos letras que se tocan se separan
+               por su contorno. Dos glifos seguidos comparten el corte; 'espacio' es el
+               hueco entre palabras.
+  recetas.tsv  glifos que no existen, armados con otros (ver RECETAS) y con partes
+               dibujadas en partes/<nombre>.txt ('#' contorno, '+' relleno, '.' nada).
+
+recursos/es/composicion.tsv dice, por textura: familia, caja (x,y,ancho,alto) donde se
+reescribe, texto en ingles y columna de su primer corte (autoprueba) y opciones. El
+texto en espanol sale de la columna texto_es del manifiesto ('|' separa lineas).
+
+Cada pixel pegado se recolorea por fila: si viene de la misma textura y la misma fila
+queda igual; si no, conserva su diferencia con el color mediano de su clase (contorno o
+relleno) en su fila de origen y la suma al de la fila de destino. Se pega en dos pasadas,
+primero contornos y despues rellenos, para que una letra no tape el relleno de la otra.
+"""
+import argparse
+import ast
+import os
+import sys
+
+import formatos_textura as ft
+import png_simple
+import texturas_es
+
+RAIZ = texturas_es.RAIZ
+GLIFOS = os.path.join(RAIZ, "recursos", "es", "glifos")
+COMPOSICION = os.path.join(RAIZ, "recursos", "es", "composicion.tsv")
+MINIMO_AUTOPRUEBA = 0.95
+CLAVE_RGBA = (0, 16, 255, 0)
+
+
+class ErrorComposicion(ValueError):
+    pass
+
+
+def leer_tsv(ruta, columnas):
+    """Filas de un TSV con cabecera fija; '#' al principio es comentario."""
+    with open(ruta, encoding="utf-8") as f:
+        lineas = [l for l in f.read().splitlines() if l and not l.startswith("#")]
+    if not lineas or lineas[0].split("\t") != columnas:
+        raise ErrorComposicion("%s: la cabecera tiene que ser: %s" % (ruta, " ".join(columnas)))
+    filas = []
+    for linea in lineas[1:]:
+        campos = linea.split("\t")
+        if len(campos) != len(columnas):
+            raise ErrorComposicion("%s: fila con %d columnas: %r" % (ruta, len(campos), linea))
+        filas.append(dict(zip(columnas, campos)))
+    return filas
+
+
+def lum(p):
+    return 0.299 * p[0] + 0.587 * p[1] + 0.114 * p[2]
+
+
+def cuantizar(v):
+    """Canal de 8 bits al valor mas cercano que guarda rgba16."""
+    v = max(0, min(255, int(round(v))))
+    c = (v * 31 + 127) // 255
+    return (c << 3) | (c >> 2)
+
+
+class Textura:
+    """Una textura original decodificada a RGBA."""
+    _cache = {}
+
+    def __init__(self, id_, ancho, alto, pixeles):
+        self.id, self.ancho, self.alto, self.pixeles = id_, ancho, alto, pixeles
+
+    @classmethod
+    def cargar(cls, id_):
+        if id_ not in cls._cache:
+            filas = {f["id"]: f for f in texturas_es.leer_manifiesto(texturas_es.MANIFIESTO)}
+            if id_ not in filas:
+                raise ErrorComposicion("textura %s no esta en el manifiesto" % id_)
+            datos, ancho, alto = texturas_es.decodificar_original(filas[id_], texturas_es.TKMK00)
+            imagen = ft.a_imagen(filas[id_]["formato"], datos, ancho, alto)
+            cls._cache[id_] = cls(id_, ancho, alto, imagen.a_rgba())
+        return cls._cache[id_]
+
+    def pixel(self, x, y):
+        return self.pixeles[y * self.ancho + x]
+
+
+class Familia:
+    def __init__(self, nombre):
+        carpeta = os.path.join(GLIFOS, nombre)
+        self.nombre, self.carpeta = nombre, carpeta
+        params = {f["clave"]: f["valor"] for f in leer_tsv(os.path.join(carpeta, "familia.tsv"), ["clave", "valor"])}
+        self.fondo = params.get("fondo", "transparente")
+        self.filas = tuple(int(v) for v in params["filas"].split(","))
+        self.ventana = int(params.get("ventana", "2"))
+        self.umbral = float(params.get("umbral", "60"))
+        self.cajas = leer_tsv(os.path.join(carpeta, "cajas.tsv"), ["caracter", "textura", "x_izq", "x_der"])
+        ruta = os.path.join(carpeta, "recetas.tsv")
+        self.recetas = {f["caracter"]: f["receta"] for f in leer_tsv(ruta, ["caracter", "receta"])} \
+            if os.path.exists(ruta) else {}
+        self._cortes = {}
+        self._refs = {}
+
+    def es_fondo(self, p):
+        if self.fondo == "negro":
+            return p[3] == 255 and max(p[:3]) == 0
+        return p[3] == 0
+
+    def clase(self, p):
+        return "c" if lum(p) < self.umbral else "r"
+
+    def corte(self, textura, x):
+        """Por fila, la primera columna a la derecha del corte (camino mas oscuro, 1 px por fila)."""
+        clave = (textura.id, x)
+        if clave not in self._cortes:
+            y0, y1 = self.filas
+            xs = list(range(max(0, x - self.ventana), min(textura.ancho, x + self.ventana + 1)))
+
+            def energia(cx, y):
+                p = textura.pixel(cx, y)
+                return (0 if self.es_fondo(p) else 1 + lum(p)) + abs(cx - x) * 0.01
+
+            costo = {cx: energia(cx, y0) for cx in xs}
+            atras = []
+            for y in range(y0 + 1, y1):
+                nuevo, paso = {}, {}
+                for cx in xs:
+                    previo = min((c for c in (cx - 1, cx, cx + 1) if c in costo), key=lambda c: costo[c])
+                    nuevo[cx], paso[cx] = costo[previo] + energia(cx, y), previo
+                costo = nuevo
+                atras.append(paso)
+            cx = min(costo, key=lambda c: costo[c])
+            camino = [cx]
+            for paso in reversed(atras):
+                cx = paso[cx]
+                camino.append(cx)
+            self._cortes[clave] = list(reversed(camino))
+        return self._cortes[clave]
+
+    def glifo_de_caja(self, caja):
+        """Sprite de una fila de cajas.tsv: {(x relativo al corte izquierdo, y): pixel}."""
+        textura = Textura.cargar(caja["textura"])
+        izq, der = int(caja["x_izq"]), int(caja["x_der"])
+        y0, y1 = self.filas
+        ci, cd = self.corte(textura, izq), self.corte(textura, der)
+        sprite = {}
+        for y in range(y0, y1):
+            for x in range(ci[y - y0], cd[y - y0]):
+                p = textura.pixel(x, y)
+                if not self.es_fondo(p):
+                    sprite[(x - izq, y)] = (p, self.clase(p), textura.id, y)
+        return Glifo(sprite, der - izq)
+
+    def instancias(self, caracter):
+        nombre = "espacio" if caracter == " " else caracter
+        return [c for c in self.cajas if c["caracter"] == nombre]
+
+    def glifo(self, caracter, preferida=None, indice=None):
+        """Glifo de un caracter: la instancia 'indice' de la textura preferida o la primera de
+        esa textura; si no tiene, la receta del caracter o la primera instancia de otra."""
+        lista = self.instancias(caracter)
+        propias = [c for c in lista if c["textura"] == preferida]
+        if indice is not None and indice < len(propias):
+            return self.glifo_de_caja(propias[indice])
+        if propias:
+            return self.glifo_de_caja(propias[0])
+        if caracter in self.recetas:
+            return evaluar_receta(self, self.recetas[caracter], preferida)
+        if lista:
+            return self.glifo_de_caja(lista[0])
+        raise ErrorComposicion("familia %s: no hay glifo para %r" % (self.nombre, caracter))
+
+    def referencia(self, textura_id, clase, y):
+        """Color mediano de una clase en una fila, sobre los glifos de esa textura."""
+        if textura_id not in self._refs:
+            por_fila = {}
+            for caja in self.cajas:
+                if caja["textura"] == textura_id:
+                    for p, cl, _, fy in self.glifo_de_caja(caja).pixeles.values():
+                        por_fila.setdefault((cl, fy), []).append(p)
+            self._refs[textura_id] = {k: tuple(sorted(c[i] for c in v)[len(v) // 2] for i in range(3))
+                                      for k, v in por_fila.items()}
+        refs = self._refs[textura_id]
+        filas = [fy for (cl, fy) in refs if cl == clase] or [fy for (_, fy) in refs]
+        if not filas:
+            raise ErrorComposicion("textura %s sin glifos en la familia %s" % (textura_id, self.nombre))
+        cercana = min(filas, key=lambda fy: (abs(fy - y), fy))
+        return refs.get((clase, cercana)) or refs[next(k for k in refs if k[1] == cercana)]
+
+
+class Glifo:
+    """pixeles: {(x, y): (rgba, clase, textura de origen o None, fila de origen)}"""
+
+    def __init__(self, pixeles, avance):
+        self.pixeles, self.avance = pixeles, avance
+
+
+# --- Recetas -------------------------------------------------------------------------
+
+def _cols(g, a, b):
+    return Glifo({(x - a, y): p for (x, y), p in g.pixeles.items() if a <= x < b}, b - a)
+
+
+def _filas(g, a, b):
+    return Glifo({(x, y): p for (x, y), p in g.pixeles.items() if a <= y < b}, g.avance)
+
+
+def _espejo(g):
+    return Glifo({(g.avance - 1 - x, y): p for (x, y), p in g.pixeles.items()}, g.avance)
+
+
+def _junto(a, b, solape=0):
+    pix = dict(a.pixeles)
+    for (x, y), p in b.pixeles.items():
+        pix[(x + a.avance - solape, y)] = p
+    return Glifo(pix, a.avance + b.avance - solape)
+
+
+def _encima(a, b, dx=0, dy=0):
+    pix = dict(a.pixeles)
+    for (x, y), p in b.pixeles.items():
+        pix[(x + dx, y + dy)] = p
+    return Glifo(pix, a.avance)
+
+
+def _mover(g, dx=0, dy=0):
+    return Glifo({(x + dx, y + dy): p for (x, y), p in g.pixeles.items()}, g.avance)
+
+
+def _condensar(g, factor):
+    """Estrecha el glifo tomando columnas salteadas (vecino mas cercano)."""
+    if not g.pixeles:
+        return Glifo({}, int(round(g.avance * factor)))
+    x0 = min(x for x, _ in g.pixeles)
+    x1 = max(x for x, _ in g.pixeles) + 1
+    pix = {}
+    for nx in range(int(x0 * factor) - 1, int(x1 * factor) + 2):
+        ox = int((nx + 0.5) / factor)
+        for (x, y), p in g.pixeles.items():
+            if x == ox:
+                pix[(nx, y)] = p
+    return Glifo(pix, int(round(g.avance * factor)))
+
+
+def _avance(g, n):
+    return Glifo(dict(g.pixeles), n)
+
+
+def _borrar(g, x0, y0, x1, y1):
+    return Glifo({(x, y): p for (x, y), p in g.pixeles.items() if not (x0 <= x < x1 and y0 <= y < y1)}, g.avance)
+
+
+def _parte(familia, nombre, y0):
+    """Parte dibujada: '#' contorno, '+' relleno; y0 es la fila de su primera linea."""
+    with open(os.path.join(familia.carpeta, "partes", nombre + ".txt")) as f:
+        lineas = f.read().splitlines()
+    pix = {}
+    for dy, linea in enumerate(lineas):
+        for x, ch in enumerate(linea):
+            if ch in "#+":
+                pix[(x, y0 + dy)] = (None, "c" if ch == "#" else "r", None, y0 + dy)
+    return Glifo(pix, max(len(l) for l in lineas))
+
+
+RECETAS = {"cols": _cols, "filas": _filas, "espejo": _espejo, "junto": _junto, "encima": _encima,
+           "mover": _mover, "avance": _avance, "borrar": _borrar, "condensar": _condensar}
+
+
+def evaluar_receta(familia, texto, preferida):
+    """Expresion con llamadas a RECETAS, glifo("X") y parte("nombre", fila)."""
+    def valor(nodo):
+        if isinstance(nodo, ast.Constant) and isinstance(nodo.value, (int, str)):
+            return nodo.value
+        if isinstance(nodo, ast.UnaryOp) and isinstance(nodo.op, ast.USub):
+            return -valor(nodo.operand)
+        if isinstance(nodo, ast.Call) and isinstance(nodo.func, ast.Name) and not nodo.keywords:
+            args = [valor(a) for a in nodo.args]
+            if nodo.func.id == "glifo":
+                return familia.glifo(args[0], preferida)
+            if nodo.func.id == "parte":
+                return _parte(familia, *args)
+            if nodo.func.id in RECETAS:
+                return RECETAS[nodo.func.id](*args)
+        raise ErrorComposicion("receta invalida: %s" % texto)
+    return valor(ast.parse(texto, mode="eval").body)
+
+
+# --- Composicion ---------------------------------------------------------------------
+
+def leer_composicion():
+    filas = leer_tsv(COMPOSICION, ["id", "familia", "caja", "texto_en", "x_en", "opciones"])
+    return {f["id"]: f for f in filas}
+
+
+def opciones(texto):
+    res = {}
+    for par in texto.split():
+        clave, valor = par.split("=")
+        res[clave] = valor
+    return res
+
+
+def colocar(familia, destino, lineas, caja, opc, en_ingles=False, x_en=None):
+    """[(x0, dy, glifo)] de cada letra. En ingles usa las letras de la propia textura en orden."""
+    cx, cy, cw, ch = caja
+    espacio = int(opc.get("espacio", "0")) if not en_ingles else 0
+    factor = float(opc.get("condensar", "1")) if not en_ingles else 1.0
+    desplaz = [int(v) for v in opc.get("lineas", "0").split(",")] if not en_ingles else [0]
+    if len(desplaz) != len(lineas):
+        raise ErrorComposicion("%s: %d lineas y %d desplazamientos" % (destino.id, len(lineas), len(desplaz)))
+    colocados = []
+    usados = {}
+    for texto, dy in zip(lineas, desplaz):
+        glifos = []
+        for c in texto:
+            indice = usados.get(c, 0) if en_ingles else None
+            usados[c] = usados.get(c, 0) + 1
+            g = familia.glifo(c, destino.id, indice)
+            glifos.append(_condensar(g, factor) if factor != 1.0 else g)
+        if "juntar" in opc and not en_ingles:
+            xs = juntar(glifos, int(opc["juntar"]))
+        else:
+            xs = [sum(g.avance + espacio for g in glifos[:i]) for i in range(len(glifos))]
+        pixeles = [x + px for x, g in zip(xs, glifos) for (px, _) in g.pixeles]
+        izq, der = (min(pixeles), max(pixeles) + 1) if pixeles else (0, 0)
+        if en_ingles:
+            base = x_en
+        elif opc.get("alinear", "centro") == "izquierda":
+            base = cx - izq
+        else:
+            base = cx + (cw - (der - izq)) // 2 - izq
+        colocados += [(base + x, dy, g) for x, g in zip(xs, glifos)]
+    return colocados
+
+
+def juntar(glifos, hueco):
+    """Posicion de cada glifo acercandolo por filas: entre lo ya puesto y el siguiente quedan
+    al menos 'hueco' columnas en cada fila (negativo: se montan). Un glifo sin pixeles (el
+    espacio) deja su avance libre despues de lo ya puesto."""
+    derecha = {}
+    xs, siguiente, minimo = [], 0, None
+    for g in glifos:
+        izquierda = {}
+        for (px, py) in g.pixeles:
+            izquierda[py] = min(px, izquierda.get(py, px))
+        if not izquierda:
+            x = max(derecha.values()) + 1 if derecha else siguiente
+            minimo = x + g.avance
+        else:
+            comunes = [y for y in izquierda if y in derecha]
+            x = max([derecha[y] + 1 + hueco - izquierda[y] for y in comunes] or [siguiente])
+            if minimo is not None:
+                x = max(x, minimo - min(izquierda.values()))
+        xs.append(x)
+        for (px, py) in g.pixeles:
+            derecha[py] = max(x + px, derecha.get(py, x + px))
+        siguiente = x + g.avance
+    return xs
+
+
+def componer(id_, texto, comp, destino=None, en_ingles=False):
+    """Pixeles RGBA de la textura con el texto compuesto en la caja."""
+    familia = Familia(comp["familia"])
+    destino = destino or Textura.cargar(id_)
+    caja = tuple(int(v) for v in comp["caja"].split(","))
+    cx, cy, cw, ch = caja
+    opc = opciones(comp["opciones"])
+    colocados = colocar(familia, destino, texto.split("|"), caja, opc, en_ingles, int(comp["x_en"] or "0"))
+    salida = list(destino.pixeles)
+    vacio = (0, 0, 0, 255) if familia.fondo == "negro" else CLAVE_RGBA
+    for y in range(cy, cy + ch):
+        for x in range(cx, cx + cw):
+            salida[y * destino.ancho + x] = vacio
+    puntos = [(x0 + x, y + dy) for x0, dy, g in colocados for (x, y) in g.pixeles]
+    if puntos:
+        xs, ys = [p[0] for p in puntos], [p[1] for p in puntos]
+        if min(xs) < cx or max(xs) >= cx + cw or min(ys) < cy or max(ys) >= cy + ch:
+            raise ErrorComposicion("%s: %r no cabe en la caja %s: ocupa x %d..%d, y %d..%d"
+                                   % (id_, texto, comp["caja"], min(xs), max(xs), min(ys), max(ys)))
+    for pasada in ("c", "r"):
+        for x0, dy, g in colocados:
+            for (x, y), (p, clase, fuente, fy) in g.pixeles.items():
+                if clase == pasada:
+                    salida[(y + dy) * destino.ancho + x0 + x] = recolorear(familia, p, clase, fuente, fy,
+                                                                           destino.id, y + dy)
+    return salida
+
+
+def recolorear(familia, p, clase, fuente, fy, destino, ty):
+    if fuente == destino and fy == ty:
+        return p
+    ref = familia.referencia(destino, clase, ty)
+    if fuente is None:
+        return tuple(cuantizar(c) for c in ref) + (255,)
+    origen = familia.referencia(fuente, clase, fy)
+    return tuple(cuantizar(r + c - o) for r, c, o in zip(ref, p, origen)) + (255,)
+
+
+def autoprueba(id_, comp):
+    """Fraccion de pixeles de la caja iguales al original al recomponer el texto en ingles."""
+    destino = Textura.cargar(id_)
+    salida = componer(id_, comp["texto_en"], comp, destino, en_ingles=True)
+    cx, cy, cw, ch = (int(v) for v in comp["caja"].split(","))
+    iguales = sum(salida[y * destino.ancho + x] == destino.pixel(x, y)
+                  for y in range(cy, cy + ch) for x in range(cx, cx + cw))
+    return iguales / float(cw * ch)
+
+
+def png_compuesto(id_, fila, comp):
+    """png_simple.Imagen de la textura en espanol, en su formato (sin perdida)."""
+    destino = Textura.cargar(id_)
+    pixeles = componer(id_, fila["texto_es"], comp, destino)
+    imagen = png_simple.Imagen(destino.ancho, destino.alto, "rgba", bytes(c for p in pixeles for c in p))
+    return ft.a_imagen(fila["formato"], ft.de_imagen(fila["formato"], imagen), destino.ancho, destino.alto)
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description="Compositor de texturas en espanol")
+    parser.add_argument("orden", choices=["componer", "autoprueba"])
+    parser.add_argument("--solo", nargs="*")
+    args = parser.parse_args(argv)
+    manifiesto = {f["id"]: f for f in texturas_es.leer_manifiesto(texturas_es.MANIFIESTO)}
+    comps = leer_composicion()
+    ids = args.solo or sorted(comps)
+    malos = 0
+    try:
+        for id_ in ids:
+            comp, fila = comps[id_], manifiesto[id_]
+            if args.orden == "autoprueba":
+                parecido = autoprueba(id_, comp)
+                malos += parecido < MINIMO_AUTOPRUEBA
+                print("%s: %.1f%% de la caja" % (id_, 100 * parecido))
+            else:
+                png_simple.escribir(os.path.join(RAIZ, fila["png"]), png_compuesto(id_, fila, comp))
+                print("%s: %s" % (id_, fila["texto_es"]))
+    except (ErrorComposicion, texturas_es.ErrorManifiesto, ft.ErrorFormato, KeyError) as e:
+        print("compositor_es: error: %s" % e, file=sys.stderr)
+        return 1
+    return 1 if malos else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -46,16 +46,16 @@ nombre_toad	recursos/texturas/menus/tkmk00/nombre_toad.rgba16.tkmk00	rgba16	64x1
 nombre_wario	recursos/texturas/menus/tkmk00/nombre_wario.rgba16.tkmk00	rgba16	64x12	opaco			no	nombre propio
 nombre_yoshi	recursos/texturas/menus/tkmk00/nombre_yoshi.rgba16.tkmk00	rgba16	64x12	opaco			no	nombre propio
 ok	recursos/texturas/menus/tkmk00/ok.rgba16.tkmk00	rgba16	31x19	clave_00BE	recursos/es/mio0/menus/ok.rgba16.png		no	
-opcion	recursos/texturas/menus/tkmk00/opcion.rgba16.tkmk00	rgba16	130x32	opaco	recursos/es/mio0/menus/opcion.rgba16.png		no	
+opcion	recursos/texturas/menus/tkmk00/opcion.rgba16.tkmk00	rgba16	130x32	opaco	recursos/es/mio0/menus/opcion.rgba16.png	OPCIONES	no	
 opcion_l	recursos/texturas/menus/tkmk00/opcion_l.rgba16.tkmk00	rgba16	58x19	clave_00BE	recursos/es/mio0/menus/opcion_l.rgba16.png		no	
 original_n64_reinsertar_por_favor_controller_pak	recursos/texturas/generales/original_n64_reinsertar_por_favor_controller_pak.ia16.mio0	ia16	180x32	formato			no	no se muestra
 paginas_texto	recursos/texturas/generales/paginas_texto.ia16.mio0	ia16	32x10	formato			no	no se muestra
 registro_no_borrado	recursos/texturas/generales/registro_no_borrado.ia16.mio0	ia16	180x32	formato			no	no se muestra
 registro_seleccion	recursos/texturas/generales/registro_seleccion.ia16.mio0	ia16	68x10	formato			no	no se muestra
 registro_seleccionado_borrando	recursos/texturas/generales/registro_seleccionado_borrando.ia16.mio0	ia16	180x32	formato			no	no se muestra
-seleccion_juego	recursos/texturas/menus/tkmk00/seleccion_juego.rgba16.tkmk00	rgba16	200x32	opaco	recursos/es/mio0/menus/seleccion_juego.rgba16.png		no	
-seleccion_jugador	recursos/texturas/menus/tkmk00/seleccion_jugador.rgba16.tkmk00	rgba16	220x32	opaco	recursos/es/mio0/menus/seleccion_jugador.rgba16.png		no	
-seleccion_mapa	recursos/texturas/menus/tkmk00/seleccion_mapa.rgba16.tkmk00	rgba16	190x32	opaco	recursos/es/mio0/menus/seleccion_mapa.rgba16.png		no	
+seleccion_juego	recursos/texturas/menus/tkmk00/seleccion_juego.rgba16.tkmk00	rgba16	200x32	opaco	recursos/es/mio0/menus/seleccion_juego.rgba16.png	ELIGE MODO	no	
+seleccion_jugador	recursos/texturas/menus/tkmk00/seleccion_jugador.rgba16.tkmk00	rgba16	220x32	opaco	recursos/es/mio0/menus/seleccion_jugador.rgba16.png	ELIGE PILOTO	no	
+seleccion_mapa	recursos/texturas/menus/tkmk00/seleccion_mapa.rgba16.tkmk00	rgba16	190x32	opaco	recursos/es/mio0/menus/seleccion_mapa.rgba16.png	ELIGE PISTA	no	
 tabla_de_contenido	recursos/texturas/generales/tabla_de_contenido.ia16.mio0	ia16	88x10	formato			no	no se muestra
 titulo_banshee_boardwalk	recursos/texturas/menus/tkmk00/titulo_banshee_boardwalk.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_banshee_boardwalk.rgba16.png		no	
 titulo_big_donut	recursos/texturas/menus/tkmk00/titulo_big_donut.rgba16.tkmk00	rgba16	140x18	clave_00BE	recursos/es/mio0/menus/titulo_big_donut.rgba16.png		no	
