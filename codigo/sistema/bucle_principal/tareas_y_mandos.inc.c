@@ -174,7 +174,7 @@ void funcion_principal(void) {
 }
 
 void hilo1_inactivo(void* parametro) {
-    MARCAR_PUNTO_CONTROL("thread1_idle");
+    MARCAR_PUNTO_CONTROL("hilo 1: inactivo");
     osCreateViManager(OS_PRIORITY_VIMGR);
 #ifdef VERSION_EU
     osViSetMode(&osViModeTable[OS_VI_PAL_LAN1]);
@@ -503,7 +503,7 @@ void preparar_memoria_juego(void) {
     uintptr_t memoria_reservado;
     SIN_USO s32 margen_desconocido;
 
-    MARCAR_PUNTO_CONTROL("sgm: init_segment_racing");
+    MARCAR_PUNTO_CONTROL("memoria: segmento de carrera");
     inicializar_carrera_segmento();
     ptr_fin_monton = CARRERA_SEG;
     fijar_direccion_base_segmento(0, (void*) INICIO_SEG);
@@ -516,7 +516,7 @@ void preparar_memoria_juego(void) {
     osPiStartDma(&msj_io_dma, 0, 0, TRIG_TABLAS_ROM_INICIO, (void*) TABLAS_TRIG, TAMANIO_TABLAS_TRIG, &cola_msj_dma);
     osRecvMesg(&cola_msj_dma, &msj_recibido_principal, OS_MESG_BLOCK);
 
-    MARCAR_PUNTO_CONTROL("sgm: load_data seg2");
+    MARCAR_PUNTO_CONTROL("memoria: datos del segmento 2");
     fijar_direccion_base_segmento(2, (void*) cargar_datos(INICIO_DATOS_SEG, FIN_DATOS_SEG));
 
     comun_circuito_datos_tamanio = TAMANIO_TEXTURAS_COMUN;
@@ -534,7 +534,7 @@ void preparar_memoria_juego(void) {
     textura_tamanio_seg = TAMANIO_SIN_COMPRIMIR_MIO0(textura_inicio_seg);
     textura_tamanio_seg = ALIGN16(textura_tamanio_seg);
     memoria_reservado = siguiente_libre_memoria_direccion;
-    MARCAR_PUNTO_CONTROL("sgm: mio0 texturas comunes");
+    MARCAR_PUNTO_CONTROL("memoria: texturas comunes (mio0)");
     mio0decode((u8*) textura_inicio_seg, (u8*) memoria_reservado);
     fijar_direccion_base_segmento(0xD, (void*) memoria_reservado);
 #ifdef TARGET_PS2

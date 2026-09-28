@@ -25,9 +25,10 @@ REVISIONES = (
     ("panel", ("codigo/depuracion/medidor_rendimiento.c", "codigo/depuracion/monitor_audio.c"),
      ("snprintf", "texto_escribir_linea", "LINEA")),
     ("fase", TODO_EL_CODIGO, ("marcar_tiempos_ps2", "MARCAR_TIEMPOS_PS2")),
+    ("punto de control", TODO_EL_CODIGO, ("marcar_punto_control", "MARCAR_PUNTO_CONTROL")),
 )
 # En estas revisiones un nombre con '_' es un nombre de funcion
-SIN_IDENTIFICADORES = ("fase",)
+SIN_IDENTIFICADORES = ("fase", "punto de control")
 
 # Palabra (en minuscula) -> como se escribe
 INGLES = {
@@ -51,6 +52,7 @@ SIN_TILDE = {
     "camaras": "cámaras",
     "cuadricula": "cuadrícula",
     "logica": "lógica",
+    "graficos": "gráficos",
 }
 
 FORMATO = re.compile(r"%[-+ #0]*(\d+|\*)?(\.(\d+|\*))?[hlLqjzt]*[diouxXeEfFgGaAcspn%]")
