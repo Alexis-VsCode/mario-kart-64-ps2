@@ -243,6 +243,9 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES))
 	$(V)$(PYTHON) herramientas/pruebas/prueba_convertir_eucjp.py $(JP_SRC) $(JP_PARTES)
 	$(V)$(PYTHON) herramientas/pruebas/prueba_metadatos_eucjp.py $(BUILD)/jp/codigo/menus/elementos_menu.c -- \
 	    $(INCLUDES) -iquote codigo/menus/ $(JP_IQUOTE)
+	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -Iincluir -o $(PRUEBAS)/prueba_caracteres_es \
+	    herramientas/pruebas/prueba_caracteres_es.c codigo/sistema/caracteres_es.c
+	$(V)$(PRUEBAS)/prueba_caracteres_es
 	$(V)$(PYTHON) herramientas/pruebas/prueba_tablas_glifos.py codigo/menus/elementos_menu/lista_glifos.inc.c
 	$(V)$(PYTHON) herramientas/comprobar_lineas.py
 
