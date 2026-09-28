@@ -257,7 +257,8 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES))
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -O1 -D_LANGUAGE_C -DF3DEX_GBI=1 -DTARGET_PS2=1 -DVERSION_US=1 \
 	    -Iincluir -Iincluir/libultra -Icodigo -I. -fdata-sections -ffunction-sections -Wl,--gc-sections \
 	    -o $(PRUEBAS)/prueba_cadena_depuracion \
-	    herramientas/pruebas/prueba_cadena_depuracion.c codigo/datos/vertices_jugadores_y_listas.c
+	    herramientas/pruebas/prueba_cadena_depuracion.c codigo/datos/vertices_jugadores_y_listas.c \
+	    codigo/sistema/caracteres_es.c
 	$(V)$(PRUEBAS)/prueba_cadena_depuracion
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -O1 -Iincluir -Iincluir/libultra -Icodigo -o $(PRUEBAS)/prueba_glifos \
 	    herramientas/pruebas/prueba_glifos.c codigo/sistema/caracteres_es.c
