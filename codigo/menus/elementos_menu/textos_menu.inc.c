@@ -189,140 +189,152 @@ char* dato_800E7884[] = {
 };
 
 char* dato_800E7890[] = {
-    "CONTROLLER 1 DOES NOT HAVE ",
-    "N64 CONTROLLER PAK",
+    "NO HAY MEMORY CARD",
+    "EN LA RANURA 1.",
     "",
     "",
 
-    "UNABLE TO READ ",
-    "N64 CONTROLLER PAK DATA ",
-    "FROM CONTROLLER 1",
+    "NO SE PUEDEN LEER",
+    "LOS DATOS DE LA",
+    "MEMORY CARD DE LA RANURA 1.",
     "",
 
-    "UNABLE TO CREATE GAME DATA ",
-    "FROM CONTROLLER 1 ",
-    "N64 CONTROLLER PAK",
+    "NO SE PUEDEN CREAR LOS DATOS",
+    "DEL JUEGO EN LA",
+    "MEMORY CARD DE LA RANURA 1.",
     "",
 
-    "UNABLE TO COPY GHOST ",
-    "-- INSUFFICIENT FREE PAGES ",
-    "IN CONTROLLER 1 ",
-    "N64 CONTROLLER PAK",
+    "NO SE PUDO COPIAR EL FANTASMA",
+    "-- NO HAY ESPACIO LIBRE",
+    "EN LA MEMORY CARD",
+    "DE LA RANURA 1.",
 };
 
 char* dato_800E78D0[] = {
-    "NO GHOST DATA ",         "IN CONTROLLER 2 ",         "N64 CONTROLLER PAK",
+    "NO HAY FANTASMAS",
+    "EN LA MEMORY CARD",
+    "DE LA RANURA 2.",
 
-    "NO MARIO KART 64 DATA ", "PRESENT IN CONTROLLER 2 ", "N64 CONTROLLER PAK",
+    "LA MEMORY CARD DE LA",
+    "RANURA 2 NO TIENE",
+    "DATOS DE MARIO KART 64.",
 
-    "CONTROLLER 2 ",          "DOES NOT HAVE ",           "N64 CONTROLLER PAK SET",
+    "COPIAR FANTASMAS DESDE",
+    "OTRA MEMORY CARD NO",
+    "ESTÁ DISPONIBLE EN PS2.",
 
-    "UNABLE TO READ DATA ",   "FROM CONTROLLER 2 ",       "N64 CONTROLLER PAK",
+    "NO SE PUEDEN LEER LOS",
+    "DATOS DE LA MEMORY CARD",
+    "DE LA RANURA 2.",
 };
 
 char* dato_800E7900[] = {
-    "UNABLE TO COPY DATA ", "FROM CONTROLLER 1 ", "N64 CONTROLLER PAK",
+    "NO SE PUEDEN COPIAR",
+    "LOS DATOS DE LA",
+    "RANURA 1.",
 
-    "UNABLE TO READ DATA ", "FROM CONTROLLER 2 ", "N64 CONTROLLER PAK",
+    "NO SE PUEDEN LEER",
+    "LOS DATOS DE LA",
+    "RANURA 2.",
 };
 
 char* dato_800E7918[] = {
-    "CONTROLLER 1",
-    "CONTROLLER 2",
+    "RANURA 1",
+    "RANURA 2",
 };
 
 char* dato_800E7920[] = {
-    "WHICH FILE DO YOU WANT TO MAKE A COPY OF?",
-    "TO WHICH FILE DO YOU WANT TO COPY?",
+    "¿QUÉ FANTASMA QUIERES COPIAR?",
+    "¿DÓNDE QUIERES COPIARLO?",
 };
 
 char* dato_800E7928[] = {
-    "CURRENT DATA WILL BE ERASED,",
-    "IS THIS OK?",
+    "SE BORRARÁN LOS DATOS ACTUALES.",
+    "¿DE ACUERDO?",
 };
 
 char* dato_800E7930[] = {
-    "QUIT",
-    "COPY",
+    "SALIR",
+    "COPIAR",
 };
 
 char* dato_800E7938[] = {
-    "COPYING",
-    "DATA COPY COMPLETED",
+    "COPIANDO",
+    "COPIA TERMINADA",
 };
 
 char* dato_800E7940[] = {
-    "NO N64 CONTROLLER PAK DETECTED",
-    "TO SAVE GHOST DATA, ",
-    "INSERT N64 CONTROLLER PAK ",
-    "INTO CONTROLLER 1",
+    "NO SE DETECTA LA MEMORY CARD",
+    "PARA GRABAR FANTASMAS,",
+    "INSERTA UNA MEMORY CARD",
+    "EN LA RANURA 1.",
 
-    "UNABLE TO READ ",
-    "N64 CONTROLLER PAK DATA",
-    "",
-    "",
-
-    "",
-    "",
+    "NO SE PUEDEN LEER LOS",
+    "DATOS DE LA MEMORY CARD.",
     "",
     "",
 
-    "INSUFFICIENT FREE PAGES AVAILABLE ",
-    "IN N64 CONTROLLER PAK TO CREATE ",
-    "GAME DATA, PLEASE FREE 121 PAGES.",
-    "SEE INSTRUCTION BOOKLET FOR DETAILS.",
+    "",
+    "",
+    "",
+    "",
+
+    "NO HAY ESPACIO SUFICIENTE",
+    "EN LA MEMORY CARD PARA",
+    "CREAR LOS DATOS DEL JUEGO.",
+    "LIBERA ESPACIO Y PRUEBA DE NUEVO.",
 };
 
 char* dato_800E7980[] = {
-    "TO SAVE GHOST DATA, ",
-    "INSERT N64 CONTROLLER PAK ",
-    "INTO CONTROLLER 1",
+    "PARA GRABAR FANTASMAS,",
+    "INSERTA UNA MEMORY CARD",
+    "EN LA RANURA 1.",
 };
 
 char* dato_800E798C[] = {
-    "N64 CONTROLLER PAK ",
-    "NOT DETECTED. ",
-    "IF YOU WANT TO SAVE ",
-    "THE GHOST DATA, ",
-    "PLEASE INSERT ",
-    "N64 CONTROLLER PAK ",
-    "INTO CONTROLLER 1",
+    "NO SE DETECTA",
+    "LA MEMORY CARD.",
+    "SI QUIERES GRABAR",
+    "EL FANTASMA,",
+    "INSERTA UNA",
+    "MEMORY CARD",
+    "EN LA RANURA 1.",
 
     "",
-    "UNABLE TO SAVE ",
-    "     THE GHOST",
-    "",
-    "",
-    "",
-    "",
-
-    "",
-    "UNABLE TO SAVE ",
-    "     THE GHOST",
-    "",
-    "",
-    "",
-    "",
-
-    "INSUFFICIENT ",
-    "FREE PAGES AVAILABLE ",
-    "",
-    "-- GHOST DATA ",
-    "COULD NOT BE SAVED",
-    "",
-    "",
-
-    "",
-    "CANNOT CREATE ",
-    "     GAME DATA",
+    "NO SE PUEDE GRABAR",
+    "     EL FANTASMA.",
     "",
     "",
     "",
     "",
 
     "",
-    "THIS GHOST IS ",
-    "     ALREADY SAVED",
+    "NO SE PUEDE GRABAR",
+    "     EL FANTASMA.",
+    "",
+    "",
+    "",
+    "",
+
+    "NO HAY ESPACIO",
+    "LIBRE SUFICIENTE.",
+    "",
+    "-- NO SE PUDO",
+    "GRABAR EL FANTASMA.",
+    "",
+    "",
+
+    "",
+    "NO SE PUEDEN CREAR",
+    "     LOS DATOS.",
+    "",
+    "",
+    "",
+    "",
+
+    "",
+    "ESTE FANTASMA",
+    "     YA SE HA GRABADO.",
     "",
     "",
     "",
@@ -330,49 +342,49 @@ char* dato_800E798C[] = {
 };
 
 char* dato_800E7A34[] = {
-    "RACE DATA CANNOT ",
-    "BE SAVED FOR GHOST",
+    "NO SE PUEDE GRABAR",
+    "COMO FANTASMA.",
 };
 
 char* dato_800E7A3C[] = {
-    "SELECT THE FILE ",
-    "YOU WANT TO SAVE",
+    "ELIGE EL ARCHIVO",
+    "PARA GRABAR.",
 };
 
-char* dato_800E7A44 = "NO DATA";
+char* dato_800E7A44 = "SIN DATOS";
 
 char* dato_800E7A48[] = {
-    "CREATING ",
-    "MARIO KART 64 ",
-    "GAME DATA",
+    "CREANDO LOS",
+    "DATOS DE",
+    "MARIO KART 64",
 };
 
 char* dato_800E7A54[] = {
-    "CANNOT CREATE GAME DATA",
+    "NO SE PUEDEN CREAR LOS DATOS",
     "",
     "",
 };
 
 char* dato_800E7A60[] = {
-    "THE PREVIOUS DATA ",
-    "WILL BE ERASED, ",
-    "IS THIS OK?",
+    "SE BORRARÁN LOS",
+    "DATOS ANTERIORES.",
+    "¿DE ACUERDO?",
 };
 
 char* dato_800E7A6C[] = {
-    "QUIT",
-    "SAVE",
+    "SALIR",
+    "GRABAR",
 };
 
 char* dato_800E7A74[] = {
-    "SAVING GHOST DATA",
-    "",
-    "PLEASE WAIT",
+    "GRABANDO",
+    "EL FANTASMA.",
+    "ESPERA, POR FAVOR",
 };
 
 char* dato_800E7A80[] = {
-    "UNABLE TO SAVE ",
-    "THE GHOST",
+    "NO SE GRABÓ",
+    "EL FANTASMA.",
 };
 
 char* dato_800E7A88[] = {
