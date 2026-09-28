@@ -87,6 +87,22 @@ char* depuracion_sonido_modo_nombres[] = {
     "monaural",
 };
 
+// Etiquetas del menu de depuracion de la N64 (fuente de depuracion: solo ASCII)
+enum TextoMenuDepuracion {
+    TEXTO_DEPURACION_TITULO,
+    TEXTO_DEPURACION_SI,
+    TEXTO_DEPURACION_NO,
+    TEXTO_DEPURACION_PISTA,
+    TEXTO_DEPURACION_PANTALLA,
+    TEXTO_DEPURACION_JUGADOR,
+    TEXTO_DEPURACION_SONIDO,
+    TEXTO_DEPURACION_ORO
+};
+
+char* textos_menu_depuracion[] = {
+    "debug_mode", "on", "off", "map_number", "screen_mode", "player", "sound mode", "push b to get all goldcup",
+};
+
 char* sonido_nombres_modo[MODOS_SONIDO_NUM] = { "ESTÉREO", "AURICULARES", "", "MONO" };
 
 char* texto_perder_victoria[] = {

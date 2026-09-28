@@ -706,6 +706,7 @@ extern char* dato_800E76CC[];
 extern char* dato_800E76DC[];
 extern char* depuracion_pantalla_modo_nombres[];
 extern char* depuracion_sonido_modo_nombres[];
+extern char* textos_menu_depuracion[];
 extern char* sonido_nombres_modo[];
 extern char* texto_perder_victoria[];
 extern char* texto_tiempo_mejor[];
