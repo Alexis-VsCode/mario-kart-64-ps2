@@ -8,6 +8,7 @@
 //   PAREJA(tabla_a, desde_a, hasta_a, tabla_b, desde_b, hasta_b, x, escala, hueco, x_min, x_max, origen)
 //     dos textos centrados uno junto a otro alrededor de x.
 //   SIN_SOLAPE(lugar a la izquierda, lugar a la derecha, margen, origen)
+// DEPURACION_FIN: ultima x de tinta antes de que la fuente de depuracion salte de linea.
 // Origen del limite: S = zona segura del televisor [16, 296]; G = geometria
 // (caja, vecino o salto de linea); I = hasta donde llegaba el ingles, cuando
 // la posicion depende de otro elemento que no se puede acotar mejor.
@@ -243,24 +244,24 @@ LUGAR(L_BATALLA_REGLAS, introduccion_batalla_texto, 1, 2, 2, IZQ, 0x17, 0.7f, 0.
 
 // --- Fuente de depuracion --------------------------------------------------------------
 
-LUGAR(L_DEPURACION_PERSONAJE, nombres_personaje_depuracion, 0, 7, 1, DEPURACION, 0xAA, 1.0f, 1.0f, 0, 0, 0, 303,
-      "G: salto de linea en x >= 296 (kart_bomba_y_depuracion.inc.c:171); imprimir_texto.inc.c:658")
-LUGAR(L_DEPURACION_PANTALLA, depuracion_pantalla_modo_nombres, 0, 4, 1, DEPURACION, 0xAA, 1.0f, 1.0f, 0, 0, 0, 303,
-      "G: salto de linea en x >= 296; imprimir_texto.inc.c:656")
-LUGAR(L_DEPURACION_SONIDO, depuracion_sonido_modo_nombres, 0, 3, 1, DEPURACION, 0xAA, 1.0f, 1.0f, 0, 0, 0, 303,
-      "G: salto de linea en x >= 296; imprimir_texto.inc.c:660")
-LUGAR(L_DEPURACION_PISTA, nombres_circuito_depuracion, 0, 9, 1, DEPURACION, 0xB9, 1.0f, 1.0f, 0, 0, 0, 303,
-      "G: salto de linea en x >= 296; imprimir_texto.inc.c:653")
-LUGAR(L_DEPURACION_PISTA_2, nombres_circuito_depuracion, 10, 19, 1, DEPURACION, 0xB9 + 8, 1.0f, 1.0f, 0, 0, 0, 303,
-      "G: salto de linea en x >= 296; imprimir_texto.inc.c:653")
+LUGAR(L_DEPURACION_PERSONAJE, nombres_personaje_depuracion, 0, 7, 1, DEPURACION, 0xAA, 1.0f, 1.0f, 0, 0, 0,
+      DEPURACION_FIN, "G: salto de linea en x >= 296 (kart_bomba_y_depuracion.inc.c:171); imprimir_texto.inc.c:658")
+LUGAR(L_DEPURACION_PANTALLA, depuracion_pantalla_modo_nombres, 0, 4, 1, DEPURACION, 0xAA, 1.0f, 1.0f, 0, 0, 0,
+      DEPURACION_FIN, "G: salto de linea en x >= 296; imprimir_texto.inc.c:656")
+LUGAR(L_DEPURACION_SONIDO, depuracion_sonido_modo_nombres, 0, 3, 1, DEPURACION, 0xAA, 1.0f, 1.0f, 0, 0, 0,
+      DEPURACION_FIN, "G: salto de linea en x >= 296; imprimir_texto.inc.c:660")
+LUGAR(L_DEPURACION_PISTA, nombres_circuito_depuracion, 0, 9, 1, DEPURACION, 0xB9, 1.0f, 1.0f, 0, 0, 0,
+      DEPURACION_FIN, "G: salto de linea en x >= 296; imprimir_texto.inc.c:653")
+LUGAR(L_DEPURACION_PISTA_2, nombres_circuito_depuracion, 10, 19, 1, DEPURACION, 0xB9 + 8, 1.0f, 1.0f, 0, 0, 0,
+      DEPURACION_FIN, "G: salto de linea en x >= 296; imprimir_texto.inc.c:653")
 LUGAR(L_DEPURACION_TITULO, textos_menu_depuracion, 0, 0, 1, DEPURACION, 0x50, 1.0f, 1.0f, 0, 0, 0, 0xAA + 20,
       "G: el valor de la fila empieza en 0xAA + 20; imprimir_texto.inc.c:619")
-LUGAR(L_DEPURACION_VALOR, textos_menu_depuracion, 1, 2, 1, DEPURACION, 0xAA, 1.0f, 1.0f, 0, 0, 0, 303,
-      "G: salto de linea en x >= 296; imprimir_texto.inc.c:641-643")
+LUGAR(L_DEPURACION_VALOR, textos_menu_depuracion, 1, 2, 1, DEPURACION, 0xAA, 1.0f, 1.0f, 0, 0, 0,
+      DEPURACION_FIN, "G: salto de linea en x >= 296; imprimir_texto.inc.c:641-643")
 LUGAR(L_DEPURACION_ETIQUETA_PISTA, textos_menu_depuracion, 3, 3, 1, DEPURACION, 0x50, 1.0f, 1.0f, 0, 0, 0, 189,
       "G: detras van un hueco y el numero (hasta 2 cifras) antes del nombre en 0xB9 + 20 (+8 si id >= 10); "
       "imprimir_texto.inc.c:648-653")
 LUGAR(L_DEPURACION_ETIQUETAS, textos_menu_depuracion, 4, 6, 1, DEPURACION, 0x50, 1.0f, 1.0f, 0, 0, 0, 0xAA + 20,
       "G: el valor de la fila empieza en 0xAA + 20; imprimir_texto.inc.c:655-659")
-LUGAR(L_DEPURACION_ORO, textos_menu_depuracion, 7, 7, 1, DEPURACION, 0x50, 1.0f, 1.0f, 0, 0, 0, 303,
-      "G: salto de linea en x >= 296; imprimir_texto.inc.c:662")
+LUGAR(L_DEPURACION_ORO, textos_menu_depuracion, 7, 7, 1, DEPURACION, 0x50, 1.0f, 1.0f, 0, 0, 0,
+      DEPURACION_FIN, "G: salto de linea en x >= 296; imprimir_texto.inc.c:662")

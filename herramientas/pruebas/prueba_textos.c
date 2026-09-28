@@ -70,6 +70,7 @@ static int s_fallos, s_comprobaciones, s_detalle;
 #define DEPURACION_MARGEN 20
 #define DEPURACION_CELDA 8
 #define DEPURACION_SALTO 296
+#define DEPURACION_FIN (DEPURACION_SALTO + DEPURACION_CELDA - 1)
 
 enum { PENDIENTE, ES };
 enum { FUENTE_MENU, FUENTE_DEPURACION };
