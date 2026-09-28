@@ -4,12 +4,12 @@
 #include <ultra64.h>
 
 #include "graficos/memoria_texturas.h"
+#include "sistema/descompresion_textura_menu.h"
 #include "sistema/sistema_ps2.h"
 
 #define LONGITUD_CABECERA_MIO0 16
 
 int codificar_mio0(const unsigned char *in, unsigned int longitud, unsigned char *salida);
-void decodificar_tkmk00(uint8_t *tkmk, uint8_t *tmp_buf, uint8_t *rgba16, int32_t alpha_color);
 
 static u32 leer_be_u32(const u8 *p)
 {
@@ -92,12 +92,16 @@ s32 mio0encode(s32 entrada, s32 size, s32 dest)
     return codificar_mio0(orig_codificacion, (unsigned int) size, (unsigned char *) (uintptr_t) dest);
 }
 
+/* Texturas de menu: TKMK00 original o MIO0 reemplazado (ver descompresion_textura_menu.h) */
 void tkmk00decode(u32 *orig_, u8 *tmp_buffer, u16 *salida_rgba_16, s32 alpha_color_2)
 {
-    const u8 *h = (const u8 *) orig_;
-    u32 size = (u32) ((h[8] << 8) | h[9]) * (u32) ((h[10] << 8) | h[11]) * 2;
+    u32 size = tamanio_textura_menu((const uint8_t *) orig_);
 
     escribir_ram_tmem_ps2(salida_rgba_16, size);
-    decodificar_tkmk00((uint8_t *) orig_, tmp_buffer, (uint8_t *) salida_rgba_16, alpha_color_2);
+    if (decodificar_textura_menu((uint8_t *) orig_, tmp_buffer, (uint8_t *) salida_rgba_16, alpha_color_2) !=
+        TEXTURA_MENU_OK) {
+        registrar("tkmk00decode: firma desconocida en %p", orig_);
+        detener_por_error("textura de menu corrupta");
+    }
     escribir_ram_tmem_ps2(salida_rgba_16, size);
 }

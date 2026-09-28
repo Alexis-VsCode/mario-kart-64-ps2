@@ -167,7 +167,8 @@ PS2_SRC := \
   codigo/sistema/segmentos.c codigo/sistema/doble_precision.c codigo/sistema/cronometro_fases.c \
   codigo/graficos/memoria_texturas.c codigo/graficos/pantallas_gigantes.c \
   codigo/carrera/ia/caminos_vehiculos.c \
-  codigo/sistema/descompresion_tkmk00.c codigo/sistema/descompresion_mio0.c $(EXTRA_SRC)
+  codigo/sistema/descompresion_tkmk00.c codigo/sistema/descompresion_mio0.c \
+  codigo/sistema/descompresion_textura_menu.c $(EXTRA_SRC)
 
 # Caminos 2D del tren y del barco, calculados al compilar
 CAMINOS := $(BUILD)/tabla_caminos_vehiculos.h
@@ -247,6 +248,10 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(
 	$(V)$(PYTHON) herramientas/pruebas/prueba_png_simple.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_formatos_textura.py $(MIO0TOOL)
 	$(V)$(PYTHON) herramientas/pruebas/prueba_tkmk00.py $(TKMK00TOOL)
+	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -Iincluir -o $(PRUEBAS)/prueba_textura_menu \
+	    herramientas/pruebas/prueba_textura_menu.c codigo/sistema/descompresion_textura_menu.c \
+	    codigo/sistema/descompresion_tkmk00.c codigo/sistema/descompresion_mio0.c herramientas/archivos_host.c
+	$(V)$(PRUEBAS)/prueba_textura_menu herramientas/pruebas/referencias_tkmk00.txt recursos/texturas/menus/tkmk00
 	$(V)$(PYTHON) herramientas/comprobar_lineas.py
 
 # --- Herramientas del PC ------------------------------------------------------------
