@@ -11,6 +11,7 @@
 #include "sistema/sistema_ps2.h"
 #include "sistema/cronometro_fases.h"
 #include "depuracion/marcas_registro.h"
+#include "sistema/caracteres_es.h"
 
 #define LINEAS_REGISTRO 32
 #define ANCHO_REGISTRO 200
@@ -228,7 +229,7 @@ void marcar_punto_control(const char *where)
     if (cantidad_punto_control == SMK64_CKPT_STOP) {
         ChangeThreadPriority(id, 0);
         registrar("parada en punto de control %d: %s", cantidad_punto_control, where);
-        mostrar_pantalla("PARADA DE DIAGNOSTICO");
+        mostrar_pantalla("PARADA DE DIAGNÓSTICO");
         for (;;) {
         }
     }
@@ -259,8 +260,8 @@ static void rescate_gif(void)
     *gif_ctrl = 1; /* reinicio del GIF */
 }
 
-static const char *const nombres_situacion[] = { "?", "RUN", "READY", "?", "WAIT", "?", "?", "?", "SUSP", "?", "?", "?",
-                                            "WSUSP" };
+static const char *const nombres_situacion[] = { "?", "EJEC", "LISTO", "?", "ESPERA", "?", "?", "?", "SUSP", "?", "?",
+                                                 "?", "ESUSP" };
 
 static int linea_hilo(int id, char *salida, int size)
 {
@@ -278,7 +279,7 @@ static int linea_hilo(int id, char *salida, int size)
     } else {
         snprintf(wait, sizeof(wait), "-");
     }
-    snprintf(salida, size, "%2d %3d %-5s %-6s %08x %.44s", id, ts.current_priority,
+    snprintf(salida, size, "%2d %3d %-6s %-6s %08x %.44s", id, ts.current_priority,
              ts.status <= 12 ? nombres_situacion[ts.status] : "?", wait, (unsigned) (uintptr_t) ts.func,
              ck != NULL ? ck : "");
     return 1;
@@ -291,7 +292,8 @@ static void linea_pantalla(int *renglon, const char *text)
     if (*renglon >= RENGLONES_PANTALLA) {
         return;
     }
-    snprintf(buf, sizeof(buf), "%s", text);
+    /* scr_printf solo tiene ASCII */
+    quitar_diacriticos(buf, sizeof(buf), text);
     scr_setXY(0, *renglon);
     scr_printf("%s", buf);
     (*renglon)++;
@@ -308,28 +310,28 @@ static void mostrar_pantalla(const char *titulo)
     scr_setbgcolor(0x00400000); /* azul oscuro: distinto de cualquier frame del juego */
     scr_clear();
 
-    snprintf(line, sizeof(line), " SMK64 PS2 %s - %s  (VBlank %u)", PS2_BUILD_ID, titulo,
+    snprintf(line, sizeof(line), " SMK64 PS2 %s - %s  (retrazo %u)", PS2_BUILD_ID, titulo,
              (unsigned) contador_vblank());
     linea_pantalla(&renglon, line);
     if (estado_gif[0] != '\0') {
         linea_pantalla(&renglon, estado_gif);
     }
     if (group != NULL) {
-        snprintf(line, sizeof(line), " Fase: %s, despues de: %s", group, ps2_tiempos_ultimo_paso());
+        snprintf(line, sizeof(line), " Fase: %s, después de: %s", group, ps2_tiempos_ultimo_paso());
         linea_pantalla(&renglon, line);
     }
     if (ps2_gfx_cuelgue_info(line, sizeof(line))) {
         linea_pantalla(&renglon, line);
     }
     linea_pantalla(&renglon, "");
-    linea_pantalla(&renglon, "id pri estado espera pc       ultimo punto de control");
+    linea_pantalla(&renglon, "id pri estado espera pc       último punto de control");
     for (i = 1; i < 64 && renglon < RENGLONES_PANTALLA - 6; i++) {
         if (linea_hilo(i, line, sizeof(line))) {
             linea_pantalla(&renglon, line);
         }
     }
     linea_pantalla(&renglon, "");
-    linea_pantalla(&renglon, "Registro (lo mas reciente al final):");
+    linea_pantalla(&renglon, "Registro (lo más reciente al final):");
     /* Las ultimas lineas del registro que quepan. */
     registrar_renglones = RENGLONES_PANTALLA - renglon;
     cantidad = 0;
@@ -476,10 +478,10 @@ static void hilo_perro(void *parametro)
             char titulo[48];
 
             en_panico_ps2 = 1;
-            snprintf(titulo, sizeof(titulo), "CUELGUE (sin frames en %d s)", limite);
+            snprintf(titulo, sizeof(titulo), "CUELGUE (sin cuadros en %d s)", limite);
             mostrar_pantalla(titulo);
             freeze_others();
-            registrar("sin frames en %d s: " MARCA_CUELGUE, limite);
+            registrar("sin cuadros en %d s: " MARCA_CUELGUE, limite);
             if (estado_gif[0] != '\0') {
                 registrar("%s", estado_gif);
             }
@@ -491,10 +493,11 @@ static void hilo_perro(void *parametro)
     }
 }
 
-static const char *const nombres_causa[16] = { "INT",  "TLB mod", "TLB carga", "TLB escritura", "direccion (carga)",
-                                             "direccion (escritura)", "bus (instr.)", "bus (datos)", "syscall",
-                                             "break", "instruccion reservada", "coprocesador",
-                                             "desbordamiento", "trap", "?", "?" };
+static const char *const nombres_causa[16] = { "interrupción", "TLB modificada", "TLB carga", "TLB escritura",
+                                               "dirección (carga)", "dirección (escritura)", "bus (instrucción)",
+                                               "bus (datos)", "llamada al sistema", "punto de parada",
+                                               "instrucción reservada", "coprocesador", "desbordamiento",
+                                               "trampa", "?", "?" };
 static volatile u32 s_exc[7];
 static u8 pila_exc[16 * 1024] __attribute__((aligned(16)));
 
@@ -503,7 +506,7 @@ static void informe_excepcion(void)
     char mens[ANCHO_REGISTRO];
     u32 codigo = (s_exc[0] >> 2) & 0x1F;
 
-    snprintf(mens, sizeof(mens), "excepcion %s (%u) en PC %08x dir %08x RA %08x SP %08x hilo %d",
+    snprintf(mens, sizeof(mens), "excepción %s (%u) en PC %08x dir %08x RA %08x SP %08x hilo %d",
              codigo < 16 ? nombres_causa[codigo] : "?", (unsigned) codigo, (unsigned) s_exc[1], (unsigned) s_exc[2],
              (unsigned) s_exc[3], (unsigned) s_exc[4], (int) s_exc[5]);
     detener_por_error(mens);

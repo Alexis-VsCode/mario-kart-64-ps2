@@ -30,12 +30,19 @@ REVISIONES = (
     ("fase", TODO_EL_CODIGO, ("marcar_tiempos_ps2", "MARCAR_TIEMPOS_PS2")),
     ("punto de control", TODO_EL_CODIGO, ("marcar_punto_control", "MARCAR_PUNTO_CONTROL")),
     ("marca del registro", ("incluir/depuracion/marcas_registro.h",), None),
+    ("pantalla de fallo", ("codigo/depuracion/depuracion.c",),
+     ("mostrar_pantalla", "linea_pantalla", "snprintf", "nombres_situacion", "nombres_causa")),
+    ("aviso de arranque", ("codigo/sistema/arranque_ps2.c",), None),
 )
 # En estas revisiones un nombre con '_' es un nombre de funcion
 SIN_IDENTIFICADORES = ("fase", "punto de control")
 
 MARCAS_REGISTRO = "incluir/depuracion/marcas_registro.h"
 # Llamadas que solo reciben macros de MARCAS_REGISTRO, nunca literales
+# scr_printf solo tiene ASCII: en estos archivos, la funcion que lo llama
+# pasa antes el texto por quitar_diacriticos
+PANTALLA_ASCII = ("codigo/depuracion/depuracion.c", "codigo/sistema/arranque_ps2.c")
+
 SOLO_MACROS = (
     ("palabra clave", ("codigo/depuracion/depuracion.c",), ("strstr",)),
     ("grupo del cronometro", TODO_EL_CODIGO,
@@ -56,6 +63,16 @@ INGLES = {
     "offsets": "desplazamientos",
     "render": "dibujo",
     "panic": "PANICO",
+    "frames": "cuadros",
+    "run": "ejec",
+    "ready": "listo",
+    "wait": "espera",
+    "wsusp": "esusp",
+    "int": "interrupción",
+    "syscall": "llamada al sistema",
+    "break": "punto de parada",
+    "trap": "trampa",
+    "vblank": "retrazo",
 }
 SIN_TILDE = {
     "musica": "música",
@@ -66,6 +83,14 @@ SIN_TILDE = {
     "cuadricula": "cuadrícula",
     "logica": "lógica",
     "graficos": "gráficos",
+    "diagnostico": "diagnóstico",
+    "despues": "después",
+    "ultimo": "último",
+    "mas": "más",
+    "direccion": "dirección",
+    "instruccion": "instrucción",
+    "excepcion": "excepción",
+    "monolitico": "monolítico",
 }
 
 FORMATO = re.compile(r"%[-+ #0]*(\d+|\*)?(\.(\d+|\*))?[hlLqjzt]*[diouxXeEfFgGaAcspn%]")
@@ -135,7 +160,11 @@ def literales_de(ruta, llamadas):
             continue
         # llamada: nombre( ... ); tabla: nombre[...] = { ... }
         j = i
-        while j < len(lista) and lista[j][1] in "[]=" and lista[j][0] == "sig":
+        while j < len(lista) and lista[j][:2] == ("sig", "["):
+            while j < len(lista) and lista[j][:2] != ("sig", "]"):
+                j += 1
+            j += 1
+        if j < len(lista) and lista[j][:2] == ("sig", "="):
             j += 1
         if j >= len(lista) or lista[j][1] not in "({":
             continue
@@ -204,9 +233,29 @@ def revisar_marcas():
                           "%s:%d: '%s' lleva '%s'; usa %s" % (ruta, linea, literal, palabra, nombre))
 
 
+def revisar_pantalla_ascii():
+    for ruta in PANTALLA_ASCII:
+        with open(os.path.join(RAIZ, ruta), encoding="utf-8") as f:
+            lista = list(fichas(f.read()))
+        nivel, nombres, linea_funcion = 0, set(), 0
+        for tipo, valor, linea in lista:
+            if tipo == "sig" and valor == "{":
+                if nivel == 0:
+                    nombres, linea_funcion = set(), linea
+                nivel += 1
+            elif tipo == "sig" and valor == "}":
+                nivel -= 1
+                if nivel == 0 and "scr_printf" in nombres:
+                    comprobar("quitar_diacriticos" in nombres,
+                              "%s:%d: scr_printf sin quitar_diacriticos antes" % (ruta, linea_funcion))
+            elif tipo == "id" and nivel > 0:
+                nombres.add(valor)
+
+
 def main():
     en_eucjp = set(sys.argv[1:])
     revisar_marcas()
+    revisar_pantalla_ascii()
     for que, archivos, llamadas in REVISIONES:
         for ruta in (archivos if archivos is not TODO_EL_CODIGO else fuentes_del_codigo()):
             for linea, literal in literales_de(ruta, llamadas):

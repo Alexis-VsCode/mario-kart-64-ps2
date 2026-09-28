@@ -13,6 +13,7 @@
 #include "sistema/guardado_ps2.h"
 #include "sistema/cronometro_fases.h"
 #include "depuracion/marcas_registro.h"
+#include "sistema/caracteres_es.h"
 
 extern void funcion_principal(void);
 
@@ -24,8 +25,13 @@ extern void funcion_principal(void);
 static void detener_arranque(int etapa)
 {
     if (etapa == SMK64_BOOT_STOP) {
+        char texto[64], ascii[64];
+
+        /* scr_printf solo tiene ASCII */
+        snprintf(texto, sizeof(texto), "\n  SMK64 PS2: parada de diagnóstico en la etapa %d\n", etapa);
+        quitar_diacriticos(ascii, sizeof(ascii), texto);
         init_scr();
-        scr_printf("\n  SMK64 PS2: parada de diagnostico en la etapa %d\n", etapa);
+        scr_printf("%s", ascii);
         for (;;) {
             SleepThread();
         }
@@ -68,7 +74,7 @@ int main(int argc, char *argv[])
     ETAPA(2);
     registrar("arranque: ROM %u KB en %p", (unsigned) ((__rom_end - __rom_start) / 1024), __rom_start);
     if (!inicializar_rom_ps2(argc > 0 ? argv[0] : NULL)) {
-        detener_por_error("falta SMK64ROM.BIN: usa la ISO completa (o el ELF monolitico con uLaunchELF)");
+        detener_por_error("falta SMK64ROM.BIN: usa la ISO completa (o el ELF monolítico con uLaunchELF)");
     }
     marcar_tiempos_ps2("datos del disco: inicio de la carga");
 
@@ -90,7 +96,7 @@ int main(int argc, char *argv[])
     inicializar_retrazo();
     ETAPA(6);
 
-    registrar("entrando en main_func");
+    registrar("entrando en el bucle principal del juego");
     funcion_principal();
 
     for (;;) {
