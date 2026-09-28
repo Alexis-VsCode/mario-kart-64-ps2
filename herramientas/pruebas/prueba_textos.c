@@ -381,6 +381,23 @@ static void probar_lista_negra(const TablaTexto* t, s32 i) {
     }
 }
 
+// (d) Cada cierre de exclamacion o interrogacion lleva su signo de apertura
+#define GLIFO_CIERRA_EXCLAMACION 0x1A
+#define GLIFO_CIERRA_INTERROGACION 0x1C
+#define GLIFO_ABRE_EXCLAMACION (GLIFO_ES_PRIMERO + CAR_ES_ABRE_EXCLAMACION - 1)
+#define GLIFO_ABRE_INTERROGACION (GLIFO_ES_PRIMERO + CAR_ES_ABRE_INTERROGACION - 1)
+static void probar_signos_apertura(const TablaTexto* t, s32 i) {
+    char* c;
+    s32 bytes, indice, exclamacion = 0, interrogacion = 0;
+    for (c = t->cadenas[i]; *c != 0; c += bytes) {
+        indice = leer_glifo(c, &bytes);
+        exclamacion += (indice == GLIFO_ABRE_EXCLAMACION) - (indice == GLIFO_CIERRA_EXCLAMACION);
+        interrogacion += (indice == GLIFO_ABRE_INTERROGACION) - (indice == GLIFO_CIERRA_INTERROGACION);
+    }
+    COMPROBACION(exclamacion == 0, "%s[%d]: los signos de exclamacion no van en pareja", t->nombre, i);
+    COMPROBACION(interrogacion == 0, "%s[%d]: los signos de interrogacion no van en pareja", t->nombre, i);
+}
+
 // (e) Cada entrada traducida coincide byte a byte con su texto esperado
 static void probar_esperados(void) {
     const Esperado* e;
@@ -428,6 +445,9 @@ static s32 probar_tablas(void) {
             }
             if (t->estado == ES) {
                 probar_lista_negra(t, j);
+            }
+            if (t->estado == ES && t->fuente == FUENTE_MENU) {
+                probar_signos_apertura(t, j);
             }
         }
         if (t->estado == PENDIENTE) {
