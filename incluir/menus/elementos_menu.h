@@ -329,6 +329,7 @@ void funcion_8009265C(void);
 void funcion_80092688(void);
 void funcion_80092C80(void);
 s32 car_a_indice_glifo(char*);
+s32 leer_glifo(char*, s32*);
 s32 funcion_80092DF8(char*);
 s32 funcion_80092E1C(char*);
 s32 funcion_80092EE4(char*);

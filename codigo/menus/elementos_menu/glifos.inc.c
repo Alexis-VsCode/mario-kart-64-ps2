@@ -207,23 +207,29 @@ s32 funcion_80092EE4(char* character) {
     return variable_v1;
 }
 
+// Indice del glifo que empieza en car y, en *bytes, cuanto ocupa en la
+// cadena. Es la unica regla de avance: todas las impresoras la usan.
+s32 leer_glifo(char* car, s32* bytes) {
+    s32 indice = car_a_indice_glifo(car);
+
+    *bytes = (indice >= 0x30) ? 2 : 1;
+    return indice;
+}
+
 s32 obtener_ancho_cadena(char* buffer) {
     s32 indice_glifo;
+    s32 bytes;
     s32 ancho_cadena = 0;
 
     if (*buffer != 0) {
         do {
-            indice_glifo = car_a_indice_glifo(buffer);
+            indice_glifo = leer_glifo(buffer, &bytes);
             if (indice_glifo >= 0) {
                 ancho_cadena += ancho_pantalla_glifo[indice_glifo];
             } else if (indice_glifo == -1) {
                 ancho_cadena += 7;
             }
-            if (indice_glifo >= 0x30) {
-                buffer += 2;
-            } else {
-                buffer += 1;
-            }
+            buffer += bytes;
         } while (*buffer != 0);
     }
     return ancho_cadena;

@@ -246,6 +246,9 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES))
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -Iincluir -o $(PRUEBAS)/prueba_caracteres_es \
 	    herramientas/pruebas/prueba_caracteres_es.c codigo/sistema/caracteres_es.c
 	$(V)$(PRUEBAS)/prueba_caracteres_es
+	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -O1 -Iincluir -Iincluir/libultra -Icodigo -o $(PRUEBAS)/prueba_glifos \
+	    herramientas/pruebas/prueba_glifos.c codigo/sistema/caracteres_es.c
+	$(V)$(PRUEBAS)/prueba_glifos
 	$(V)$(PYTHON) herramientas/pruebas/prueba_tablas_glifos.py codigo/menus/elementos_menu/lista_glifos.inc.c
 	$(V)$(PYTHON) herramientas/comprobar_lineas.py
 

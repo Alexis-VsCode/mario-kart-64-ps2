@@ -12,11 +12,12 @@ SIN_USO void funcion_800930E4(s32 parametro0, s32 parametro1, char* parametro2) 
 void imprimir_texto0(s32 columna, s32 renglon, char* text, s32 tracking, f32 escalar_x, f32 escalar_y, s32 mode) {
     s32 ancho_cadena = 0;
     s32 indice_glifo;
+    s32 bytes_glifo;
 
     gSPDisplayList(display_list_cabeza++, dato_020077A8);
     if (*text != 0) {
         do {
-            indice_glifo = car_a_indice_glifo(text);
+            indice_glifo = leer_glifo(text, &bytes_glifo);
             if (indice_glifo >= 0) {
                 cargar_img_menu((TexturaMenu*) segmentado_a_duplicado_virtual((const void*) lut_textura_glifo[indice_glifo]));
                 display_list_cabeza =
@@ -30,11 +31,7 @@ void imprimir_texto0(s32 columna, s32 renglon, char* text, s32 tracking, f32 esc
                 gSPDisplayList(display_list_cabeza++, dato_020077D8);
                 return;
             }
-            if (indice_glifo >= 0x30) {
-                text += 2;
-            } else {
-                text += 1;
-            }
+            text += bytes_glifo;
         } while (*text != 0);
     }
     gSPDisplayList(display_list_cabeza++, dato_020077D8);
@@ -52,10 +49,11 @@ void imprimir_texto1(s32 columna, s32 renglon, char* text, s32 tracking, f32 esc
     char* cadena_temporal = text;
     s32 ancho_cadena = 0;
     s32 indice_glifo;
+    s32 bytes_glifo;
     s32 sp60;
 
     while (*cadena_temporal != 0) {
-        indice_glifo = car_a_indice_glifo(cadena_temporal);
+        indice_glifo = leer_glifo(cadena_temporal, &bytes_glifo);
         if (indice_glifo >= 0) {
             ancho_cadena += ((ancho_pantalla_glifo[indice_glifo] + tracking) * escalar_x);
         } else if ((indice_glifo != -2) && (indice_glifo == -1)) {
@@ -63,11 +61,7 @@ void imprimir_texto1(s32 columna, s32 renglon, char* text, s32 tracking, f32 esc
         } else {
             return;
         }
-        if (indice_glifo >= 0x30) {
-            cadena_temporal += 2;
-        } else {
-            cadena_temporal += 1;
-        }
+        cadena_temporal += bytes_glifo;
     }
 
     switch (parametro6) {
@@ -93,7 +87,7 @@ void imprimir_texto1(s32 columna, s32 renglon, char* text, s32 tracking, f32 esc
 
     gSPDisplayList(display_list_cabeza++, dato_020077A8);
     while (*text != 0) {
-        indice_glifo = car_a_indice_glifo(text);
+        indice_glifo = leer_glifo(text, &bytes_glifo);
 #if defined(TARGET_PS2) && defined(SMK64_DEV)
         if (indice_glifo >= (s32) (sizeof(lut_textura_glifo) / sizeof(lut_textura_glifo[0]))) {
             void registrar(const char* fmt, ...);
@@ -112,11 +106,7 @@ void imprimir_texto1(s32 columna, s32 renglon, char* text, s32 tracking, f32 esc
             gSPDisplayList(display_list_cabeza++, dato_020077D8);
             return;
         }
-        if (indice_glifo >= 0x30) {
-            text += 2;
-        } else {
-            text += 1;
-        }
+        text += bytes_glifo;
     }
     gSPDisplayList(display_list_cabeza++, dato_020077D8);
 }
@@ -141,11 +131,12 @@ void imprimir_texto2(s32 columna, s32 renglon, char* text, s32 tracking, f32 esc
     TexturaMenu* textura_glifo;
     s32 ancho_personaje;
     s32 indice_glifo;
+    s32 bytes_glifo;
 
     gSPDisplayList(display_list_cabeza++, dato_020077A8);
     if (*text != 0) {
         do {
-            indice_glifo = car_a_indice_glifo(text);
+            indice_glifo = leer_glifo(text, &bytes_glifo);
             if (indice_glifo >= 0) {
                 textura_glifo = (TexturaMenu*) segmentado_a_duplicado_virtual((const void*) lut_textura_glifo[indice_glifo]);
                 cargar_img_menu(textura_glifo);
@@ -164,11 +155,7 @@ void imprimir_texto2(s32 columna, s32 renglon, char* text, s32 tracking, f32 esc
                 gSPDisplayList(display_list_cabeza++, dato_020077D8);
                 return;
             }
-            if (indice_glifo >= 0x30) {
-                text += 2;
-            } else {
-                text += 1;
-            }
+            text += bytes_glifo;
         } while (*text != 0);
     }
 
