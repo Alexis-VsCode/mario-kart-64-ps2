@@ -458,6 +458,15 @@ def juntar(glifos, hueco):
     return xs
 
 
+def transparente(textura, caja):
+    """Color de los pixeles transparentes de la textura (el mas comun en la caja; la clave
+    0x00BE de las TKMK00 de type 1 si no hay ninguno)."""
+    cx, cy, cw, ch = caja
+    vistos = [textura.pixel(x, y) for y in range(cy, cy + ch) for x in range(cx, cx + cw)
+              if textura.pixel(x, y)[3] == 0]
+    return max(sorted(set(vistos)), key=vistos.count) if vistos else CLAVE_RGBA
+
+
 def area_de(comp, en_ingles=False):
     """Zona que se reescribe: la caja del texto en ingles, o 'area' si el espanol ocupa otra."""
     opc = opciones(comp["opciones"])
@@ -474,7 +483,7 @@ def componer(id_, texto, comp, destino=None, en_ingles=False):
     cx, cy, cw, ch = caja
     colocados = colocar(familia, destino, texto.split("|"), caja, opc, en_ingles, int(comp["x_en"] or "0"))
     salida = list(destino.pixeles)
-    vacio = (0, 0, 0, 255) if familia.fondo == "negro" else CLAVE_RGBA
+    vacio = (0, 0, 0, 255) if familia.fondo == "negro" else transparente(destino, caja)
     for y in range(cy, cy + ch):
         for x in range(cx, cx + cw):
             salida[y * destino.ancho + x] = vacio
@@ -546,7 +555,9 @@ def main(argv=None):
                 malos += parecido < MINIMO_AUTOPRUEBA
                 print("%s: %.1f%% de la caja" % (id_, 100 * parecido))
             else:
-                png_simple.escribir(os.path.join(RAIZ, fila["png"]), png_compuesto(id_, fila, comp))
+                ruta = os.path.join(RAIZ, fila["png"])
+                os.makedirs(os.path.dirname(ruta), exist_ok=True)
+                png_simple.escribir(ruta, png_compuesto(id_, fila, comp))
                 print("%s: %s" % (id_, fila["texto_es"]))
     except (ErrorComposicion, texturas_es.ErrorManifiesto, ft.ErrorFormato, KeyError) as e:
         print("compositor_es: error: %s" % e, file=sys.stderr)

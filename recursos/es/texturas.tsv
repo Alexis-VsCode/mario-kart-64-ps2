@@ -14,6 +14,7 @@ datos	recursos/texturas/menus/tkmk00/datos.rgba16.tkmk00	rgba16	64x18	clave_00BE
 datos_juego_texto	recursos/texturas/generales/datos_juego_texto.ia16.mio0	ia16	56x10	formato			no	no se muestra
 datos_r	recursos/texturas/menus/tkmk00/datos_r.rgba16.tkmk00	rgba16	58x19	clave_00BE	recursos/es/mio0/menus/datos_r.rgba16.png	R1|DATOS	no	
 empezar	recursos/texturas/menus/tkmk00/empezar.rgba16.tkmk00	rgba16	64x18	clave_00BE	recursos/es/mio0/menus/empezar.rgba16.png	EMPEZAR	no	
+empezar_boton_empuje	recursos/texturas/sin_comprimir/empezar_boton_empuje.rgba16	rgba16	159x16	formato	recursos/es/crudo/sin_comprimir/empezar_boton_empuje.rgba16.png	PULSA START	no	
 extra	recursos/texturas/menus/tkmk00/extra.rgba16.tkmk00	rgba16	64x18	clave_00BE			no	se escribe igual
 fantasma_menu	recursos/texturas/menus/tkmk00/fantasma_menu.rgba16.tkmk00	rgba16	64x18	clave_00BE	recursos/es/mio0/menus/fantasma_menu.rgba16.png	FANTASMA	no	
 fin_texto	recursos/texturas/generales/fin_texto.ia16.mio0	ia16	20x10	formato			no	no se muestra

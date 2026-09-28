@@ -5,7 +5,7 @@
 
 Para cada textura del manifiesto que se traduce: su PNG sirve para
 reemplazar a la original, texturas_tkmk00.s incluye el .mio0 que genera el
-build (alineado a 16), cada TexturaMenu que la usa lleva su TAMANIO_ES_*,
+build (alineado a 16) o, si es cruda, su .s incluye el .bin del build, cada TexturaMenu que la usa lleva su TAMANIO_ES_*,
 ese tamanio cubre el .mio0 y cabe en buffer_comprimido_menu, y el MIO0
 se descomprime a los bytes del PNG. Si el PNG no se toco todavia, esos
 bytes son los de la original (SHA-1 de referencias_tkmk00.txt).
@@ -143,6 +143,24 @@ def probar_mio0(filas, build, generados, refs):
                       "%s: sin traducir todavia, tiene que verse igual que la original" % f["id"])
 
 
+def probar_crudos(filas, build):
+    """Paso 5: las texturas crudas (se cargan tal cual, w*h*2 bytes) salen del .bin del build."""
+    listas = "".join(open(os.path.join(RAIZ, "codigo", "datos", n)).read()
+                     for n in sorted(os.listdir(os.path.join(RAIZ, "codigo", "datos"))) if n.endswith(".s"))
+    for f in filas:
+        if not f["png"].startswith("recursos/es/crudo/"):
+            continue
+        comprobar('.incbin "%s"' % f["origen"] not in listas, "%s: la original sigue en un .incbin" % f["id"])
+        comprobar('.incbin "%s"' % texturas_es.salida_build(f["png"], "es") in listas,
+                  "%s: ningun .incbin usa %s" % (f["id"], texturas_es.salida_build(f["png"], "es")))
+        ruta = texturas_es.salida_build(f["png"], os.path.join(build, "es"))
+        datos = open(ruta, "rb").read() if os.path.exists(ruta) else b""
+        ancho, alto = texturas_es.dimensiones(f)
+        comprobar(len(datos) == ancho * alto * ft.BITS[f["formato"]] // 8, "%s: %s mide %d bytes" % (f["id"], ruta,
+                                                                                                  len(datos)))
+        comprobar(datos == texturas_es.convertir(os.path.join(RAIZ, f["png"])), "%s: el .bin no da el PNG" % f["id"])
+
+
 def main():
     if len(sys.argv) != 2:
         sys.exit(__doc__)
@@ -156,6 +174,7 @@ def main():
     simbolos = probar_lista_s(filas)
     probar_tablas(simbolos, generados)
     probar_mio0(filas, build, generados, refs)
+    probar_crudos(filas, build)
     print("%d comprobaciones, %d fallos" % (comprobaciones, fallos))
     sys.exit(1 if fallos else 0)
 

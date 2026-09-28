@@ -794,7 +794,8 @@ glabel textura_copa_bronce_fin
 
 .align 2, 0x00
 glabel empezar_boton_empuje
-.incbin "recursos/texturas/sin_comprimir/empezar_boton_empuje.rgba16"
+# PULSA START: sale del build (es/crudo/, ver make es)
+.incbin "es/crudo/sin_comprimir/empezar_boton_empuje.rgba16.bin"
 
 .align 2, 0x00
 glabel copyright_1996

@@ -20,3 +20,4 @@ menu_copa_hongo	copas	2,24,61,11	MUSHROOM CUP	2	formas=si lineas=20,31 placa=0 j
 menu_copa_flor	copas	4,24,57,11	FLOWER CUP	4	formas=si lineas=23,31 placa=0 juntar=-1 area=1,22,63,17
 menu_copa_estrella	copas	11,24,45,11	STAR CUP	11	formas=si lineas=23,31 placa=0 juntar=-1 area=1,19,63,20
 menu_copa_especial	copas	5,24,56,11	SPECIAL CUP	5	formas=si lineas=23,31 placa=0 juntar=-1 area=1,22,63,17
+empezar_boton_empuje	pulsar_start	0,0,159,16	PUSH START BUTTON	1	juntar=0

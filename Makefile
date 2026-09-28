@@ -288,12 +288,14 @@ $(SWAP_STAMP): herramientas/invertir_texturas.py $(SWAP_SOURCES)
 # --- Texturas en espanol ------------------------------------------------------------
 # PNG versionados en recursos/es/ (ver herramientas/texturas_es.py). mio0/: texturas de
 # menu que el juego guardaba en TKMK00; el build las guarda como MIO0 de su RGBA16.
+# crudo/: texturas que el juego carga tal cual, en el mismo formato y tamanio.
 
 ES_PY    := herramientas/texturas_es.py herramientas/formatos_textura.py herramientas/png_simple.py
 ES_MIO0  := $(patsubst recursos/es/%.png,$(BUILD)/es/%.mio0,$(sort $(shell find recursos/es/mio0 -name '*.png' 2>/dev/null)))
+ES_CRUDO := $(patsubst recursos/es/%.png,$(BUILD)/es/%.bin,$(sort $(shell find recursos/es/crudo -name '*.png' 2>/dev/null)))
 ES_TAMANIOS := $(BUILD)/es/tamanios_es.h
 
-es: $(ES_MIO0) $(ES_TAMANIOS)
+es: $(ES_MIO0) $(ES_TAMANIOS) $(ES_CRUDO)
 .SECONDARY: $(ES_MIO0:.mio0=.bin)
 
 $(BUILD)/es/%.bin: recursos/es/%.png $(ES_PY)
@@ -307,6 +309,7 @@ $(ES_TAMANIOS): $(ES_MIO0) recursos/es/texturas.tsv $(ES_PY)
 
 # gas y gcc no ven estas dependencias a tiempo con -j
 $(BUILD)/codigo/datos/texturas_tkmk00.o: $(ES_MIO0)
+$(BUILD)/codigo/datos/texturas_seleccion.o: $(ES_CRUDO)
 $(BUILD)/codigo/datos/texturas.o: $(ES_TAMANIOS)
 
 # --- Compilacion ----------------------------------------------------------------------

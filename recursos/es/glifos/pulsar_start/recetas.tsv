@@ -1,0 +1,3 @@
+caracter	receta
+# La L no esta en PUSH START BUTTON: el palo de la U con una base, dibujada como el resto
+L	parte("l", 2)
