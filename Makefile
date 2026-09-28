@@ -252,6 +252,13 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES))
 	    herramientas/pruebas/prueba_fuente_5x7.c codigo/depuracion/fuente_5x7.c codigo/sistema/caracteres_es.c
 	$(V)$(PRUEBAS)/prueba_fuente_5x7
 	$(V)$(PYTHON) herramientas/pruebas/prueba_textos_port.py $(JP_SRC) $(JP_PARTES)
+	@# La tabla de la fuente de depuracion comparte archivo con datos que apuntan a texturas del
+	@# juego: --gc-sections deja solo lo que la prueba usa
+	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -O1 -D_LANGUAGE_C -DF3DEX_GBI=1 -DTARGET_PS2=1 -DVERSION_US=1 \
+	    -Iincluir -Iincluir/libultra -Icodigo -I. -fdata-sections -ffunction-sections -Wl,--gc-sections \
+	    -o $(PRUEBAS)/prueba_cadena_depuracion \
+	    herramientas/pruebas/prueba_cadena_depuracion.c codigo/datos/vertices_jugadores_y_listas.c
+	$(V)$(PRUEBAS)/prueba_cadena_depuracion
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -O1 -Iincluir -Iincluir/libultra -Icodigo -o $(PRUEBAS)/prueba_glifos \
 	    herramientas/pruebas/prueba_glifos.c codigo/sistema/caracteres_es.c
 	$(V)$(PRUEBAS)/prueba_glifos
