@@ -418,9 +418,9 @@ void funcion_800A2EB8(MenuItem* parametro0) {
         sp70[variable_s2] = jugadores[gp_actual_carrera_jugador_id_por_puesto[variable_s2]].id_personaje;
     }
     fijar_color_texto(TEXTO_AZUL_VERDE_ROJO_CICLO_1);
-    imprimir_modo_texto_1(parametro0->column + 0x1E, parametro0->row + 0x19, "results", 0, 1.0f, 1.0f);
+    imprimir_modo_texto_1(parametro0->column + 0x1E, parametro0->row + 0x19, texto_resultados, 0, 1.0f, 1.0f);
     fijar_color_texto(TEXTO_AZUL_VERDE_ROJO_CICLO_2);
-    imprimir_modo_texto_1(parametro0->column + 0x2C, parametro0->row + 0x28, "round", 0, 0.7f, 0.7f);
+    imprimir_modo_texto_1(parametro0->column + 0x2C, parametro0->row + 0x28, texto_ronda, 0, 0.7f, 0.7f);
     convertir_numero_a_ascii(indice_circuito_en_copa + 1, sp68);
     imprimir_modo_texto_1(parametro0->column + 0x57, parametro0->row + 0x28, &sp68[1], 0, 0.7f, 0.7f);
     for (variable_s2 = 0; variable_s2 < 4; variable_s2++) {
@@ -499,9 +499,9 @@ void funcion_800A34A8(MenuItem* parametro0) {
             funcion_800A3A10(id_personaje_por_puesto_total_gp);
         }
         fijar_color_texto(TEXTO_AZUL_VERDE_ROJO_CICLO_1);
-        imprimir_modo_texto_1(parametro0->column + 0x19, 0x19 - parametro0->row, "driver's points", 0, 0.8f, 0.8f);
+        imprimir_modo_texto_1(parametro0->column + 0x19, 0x19 - parametro0->row, texto_puntos_piloto, 0, 0.8f, 0.8f);
         fijar_color_texto(TEXTO_AZUL_VERDE_ROJO_CICLO_2);
-        imprimir_modo_texto_1(parametro0->column + 0x36, 0x28 - parametro0->row, "round", 0, 0.7f, 0.7f);
+        imprimir_modo_texto_1(parametro0->column + 0x36, 0x28 - parametro0->row, texto_ronda, 0, 0.7f, 0.7f);
         convertir_numero_a_ascii(indice_circuito_en_copa + 1, sp78);
         imprimir_modo_texto_1(parametro0->column + 0x61, (0x28 & 0xFFFFFFFF) - parametro0->row, &sp78[1], 0, 0.7f, 0.7f);
         for (puesto = 0; puesto < 4; puesto++) {

@@ -121,6 +121,14 @@ char* dato_800E7778[] = {
     "BATTLE RANKING",
 };
 
+// Titulos de los paneles de resultados del gran premio
+char* texto_resultados = "results";
+char* texto_ronda = "round";
+char* texto_puntos_piloto = "driver's points";
+
+// Puestos del resumen de versus (1.o, 2.o y 3.o) antes de las veces que se consiguieron
+char* texto_puesto_versus[] = { "1 ｓ ー", "2 ｎ ー", "3 ｒ ー" };
+
 char texto_menu_anuncio_fantasma[] = "NOW-MEET THE COURSE GHOST!!!";
 
 char* mando_sin_texto[] = { "CONNECT A CONTROLLER TO SOCKET 1,", "THEN POWER ON AGAIN" };

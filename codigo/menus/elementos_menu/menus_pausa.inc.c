@@ -694,7 +694,7 @@ void funcion_800A6E94(s32 jugador_cantidad, s32 id_jugador, u8* colocar_ary) {
     } else {
         fijar_color_texto(AMARILLO_TEXTO);
     }
-    dibujar_texto(temporal_s0->column + 4, temporal_s0->row + 0x5A, "1 ｓ ー", 0, 0.8f, 0.8f);
+    dibujar_texto(temporal_s0->column + 4, temporal_s0->row + 0x5A, texto_puesto_versus[0], 0, 0.8f, 0.8f);
     temporal_v0 = colocar_ary + (id_jugador * 3);
     convertir_numero_a_ascii(temporal_v0[0], sp40);
     dibujar_texto(temporal_s0->column + 0x2D, temporal_s0->row + 0x5A, sp40, 0, 0.8f, 0.8f);
@@ -703,7 +703,7 @@ void funcion_800A6E94(s32 jugador_cantidad, s32 id_jugador, u8* colocar_ary) {
     } else {
         fijar_color_texto(AZUL_TEXTO);
     }
-    dibujar_texto(temporal_s0->column + 4, temporal_s0->row + 0x69, "2 ｎ ー", 0, 0.8f, 0.8f);
+    dibujar_texto(temporal_s0->column + 4, temporal_s0->row + 0x69, texto_puesto_versus[1], 0, 0.8f, 0.8f);
     convertir_numero_a_ascii(temporal_v0[1], sp40);
     dibujar_texto(temporal_s0->column + 0x2D, temporal_s0->row + 0x69, sp40, 0, 0.8f, 0.8f);
     if (++idx_puesto == puesto) {
@@ -711,7 +711,7 @@ void funcion_800A6E94(s32 jugador_cantidad, s32 id_jugador, u8* colocar_ary) {
     } else {
         fijar_color_texto(TEXTO_ROJO);
     }
-    dibujar_texto(temporal_s0->column + 4, temporal_s0->row + 0x78, "3 ｒ ー", 0, 0.8f, 0.8f);
+    dibujar_texto(temporal_s0->column + 4, temporal_s0->row + 0x78, texto_puesto_versus[2], 0, 0.8f, 0.8f);
     convertir_numero_a_ascii(temporal_v0[2], sp40);
     dibujar_texto(temporal_s0->column + 0x2D, temporal_s0->row + 0x78, sp40, 0, 0.8f, 0.8f);
 }
