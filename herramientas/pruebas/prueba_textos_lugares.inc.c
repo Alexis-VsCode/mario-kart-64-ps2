@@ -228,3 +228,14 @@ LUGAR(L_DEPURACION_PISTA, nombres_circuito_depuracion, 0, 9, 1, DEPURACION, 0xB9
       "G: salto de linea en x >= 296; imprimir_texto.inc.c:653")
 LUGAR(L_DEPURACION_PISTA_2, nombres_circuito_depuracion, 10, 19, 1, DEPURACION, 0xB9 + 8, 1.0f, 1.0f, 0, 0, 0, 303,
       "G: salto de linea en x >= 296; imprimir_texto.inc.c:653")
+LUGAR(L_DEPURACION_TITULO, textos_menu_depuracion, 0, 0, 1, DEPURACION, 0x50, 1.0f, 1.0f, 0, 0, 0, 0xAA + 20,
+      "G: el valor de la fila empieza en 0xAA + 20; imprimir_texto.inc.c:619")
+LUGAR(L_DEPURACION_VALOR, textos_menu_depuracion, 1, 2, 1, DEPURACION, 0xAA, 1.0f, 1.0f, 0, 0, 0, 303,
+      "G: salto de linea en x >= 296; imprimir_texto.inc.c:641-643")
+LUGAR(L_DEPURACION_ETIQUETA_PISTA, textos_menu_depuracion, 3, 3, 1, DEPURACION, 0x50, 1.0f, 1.0f, 0, 0, 0, 189,
+      "G: detras van un hueco y el numero (hasta 2 cifras) antes del nombre en 0xB9 + 20 (+8 si id >= 10); "
+      "imprimir_texto.inc.c:648-653")
+LUGAR(L_DEPURACION_ETIQUETAS, textos_menu_depuracion, 4, 6, 1, DEPURACION, 0x50, 1.0f, 1.0f, 0, 0, 0, 0xAA + 20,
+      "G: el valor de la fila empieza en 0xAA + 20; imprimir_texto.inc.c:655-659")
+LUGAR(L_DEPURACION_ORO, textos_menu_depuracion, 7, 7, 1, DEPURACION, 0x50, 1.0f, 1.0f, 0, 0, 0, 303,
+      "G: salto de linea en x >= 296; imprimir_texto.inc.c:662")

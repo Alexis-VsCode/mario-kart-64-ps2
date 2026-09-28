@@ -54,7 +54,7 @@ char* texto_copa[] = {
 };
 
 char* nombres_personaje_depuracion[] = {
-    "MARIO", "LUIGI", "YOSHI", "KINOPIO", "D.KONG", "WARIO", "PEACH", "KOOPA",
+    "MARIO", "LUIGI", "YOSHI", "TOAD", "DK", "WARIO", "PEACH", "BOWSER",
 };
 
 char* dato_800E76A8[] = {
@@ -77,14 +77,14 @@ char* dato_800E76DC[] = {
 };
 
 char* depuracion_pantalla_modo_nombres[] = {
-    "1p", "2players UD", "2players LR", "3players", "4players",
+    "1 jug", "2 jug arr/abj", "2 jug izq/der", "3 jug", "4 jug",
 };
 
 char* depuracion_sonido_modo_nombres[] = {
-    "stereo",
-    "head phone",
+    "estereo",
+    "auriculares",
     "xxx",
-    "monaural",
+    "mono",
 };
 
 // Etiquetas del menu de depuracion de la N64 (fuente de depuracion: solo ASCII)
@@ -100,7 +100,7 @@ enum TextoMenuDepuracion {
 };
 
 char* textos_menu_depuracion[] = {
-    "debug_mode", "on", "off", "map_number", "screen_mode", "player", "sound mode", "push b to get all goldcup",
+    "depuracion", "si", "no", "num_pista", "pantalla", "jugador", "sonido", "cuadrado: copas de oro",
 };
 
 char* sonido_nombres_modo[MODOS_SONIDO_NUM] = { "ESTÉREO", "AURICULARES", "", "MONO" };

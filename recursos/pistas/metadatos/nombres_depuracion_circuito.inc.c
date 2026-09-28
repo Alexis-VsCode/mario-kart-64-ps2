@@ -1,1 +1,1 @@
-"m circuit", "mountain", "castle", "ghost", "maze", "snow", "beach", "p circuit", "l circuit", "farm", "highway", "desert", "sherbet", "rainbow", "stadium", "block", "skyscraper", "deck", "jungle", "doughnut",
+"c mario", "choco", "castillo", "fantasma", "laberinto", "nieve", "playa", "c real", "c luigi", "granja", "autopista", "desierto", "sorbete", "arco iris", "estadio", "bloques", "edificio", "cubierta", "jungla", "donut",
