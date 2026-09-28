@@ -3,3 +3,20 @@ opcion	titulos_menu	0,0,128,31	OPTION	3	juntar=-3 condensar=0.8
 seleccion_juego	titulos_menu	0,0,199,31	GAME SELECT	3	juntar=-2
 seleccion_jugador	titulos_menu	0,0,220,31	PLAYER SELECT	4	juntar=-2
 seleccion_mapa	titulos_menu	0,0,189,31	MAP SELECT	4	juntar=-2
+datos	botones_naranja	1,1,62,16	DATA	16	juntar=0
+empezar	botones_naranja	1,1,62,16	BEGIN	14	juntar=0
+fantasma_menu	botones_naranja	1,1,62,16	GHOST	14	juntar=0 condensar=0.85
+batalla_modo	botones_cian	17,1,46,16	BATTLE	18	juntar=0 condensar=0.87
+modo_contrarreloj	botones_cian	17,1,46,16	T.TRIALS	17	formas=si lineas=2,9 placa=1 juntar=-1
+modo_mario_gp	botones_cian	17,1,46,16	MARIO GP	17	formas=si lineas=2,9 placa=1 juntar=-1
+opcion_l	botones_amarillo	16,1,41,17	OPTION	16	formas=si lineas=2,10 placa=1 juntar=-1 area=0,0,57,18
+datos_r	botones_amarillo	21,1,36,17	DATA	22	formas=si lineas=2,10 placa=1 juntar=-1 area=0,0,57,18
+ok	botones_verde	1,1,29,16	OK ?	2	juntar=-1
+juego_menu_1j	botones_verde	1,37,62,16	1P GAME	5	juntar=0
+juego_menu_2j	botones_verde	1,37,62,16	2P GAME	5	juntar=0
+juego_menu_3j	botones_verde	1,37,62,16	3P GAME	5	juntar=0
+juego_menu_4j	botones_verde	1,37,62,16	4P GAME	3	juntar=0
+menu_copa_hongo	copas	2,24,61,11	MUSHROOM CUP	2	formas=si lineas=20,31 placa=0 juntar=-1 area=1,19,63,20
+menu_copa_flor	copas	4,24,57,11	FLOWER CUP	4	formas=si lineas=23,31 placa=0 juntar=-1 area=1,22,63,17
+menu_copa_estrella	copas	11,24,45,11	STAR CUP	11	formas=si lineas=23,31 placa=0 juntar=-1 area=1,19,63,20
+menu_copa_especial	copas	5,24,56,11	SPECIAL CUP	5	formas=si lineas=23,31 placa=0 juntar=-1 area=1,22,63,17

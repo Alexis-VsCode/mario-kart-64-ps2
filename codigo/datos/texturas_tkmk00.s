@@ -217,7 +217,7 @@ glabel textura_modo_contrarreloj_fin
 
 .balign 16
 glabel textura_modo_mario_gp
-.incbin "recursos/texturas/menus/tkmk00/modo_mario_gp.rgba16.tkmk00"
+.incbin "es/mio0/menus/modo_mario_gp.rgba16.mio0"
 glabel textura_modo_mario_fin_gp
 
 .balign 16

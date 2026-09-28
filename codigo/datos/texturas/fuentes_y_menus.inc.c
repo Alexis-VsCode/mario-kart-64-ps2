@@ -546,14 +546,14 @@ TexturaMenu seleccionar_textura_juego_seg2[2] = {
 
 TexturaMenu columna_menu_1j_seg2[4] = {
     { 1, textura_juego_menu_1j, 64, 54, 0, 0, TAMANIO_ES_JUEGO_MENU_1J, 0 },
-    { 1, textura_modo_mario_gp, 64, 18, 0, 65, 0x0, 0 },
+    { 1, textura_modo_mario_gp, 64, 18, 0, 65, TAMANIO_ES_MODO_MARIO_GP, 0 },
     { 1, textura_modo_contrarreloj, 64, 18, 0, 83, TAMANIO_ES_MODO_CONTRARRELOJ, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },
 };
 
 TexturaMenu columna_menu_2j_seg2[5] = {
     { 1, textura_juego_menu_2j, 64, 54, 0, 0, TAMANIO_ES_JUEGO_MENU_2J, 0 },
-    { 1, textura_modo_mario_gp, 64, 18, 0, 65, 0x0, 0 },
+    { 1, textura_modo_mario_gp, 64, 18, 0, 65, TAMANIO_ES_MODO_MARIO_GP, 0 },
     { 1, textura_modo_vs, 64, 18, 0, 83, 0x0, 0 },
     { 1, textura_batalla_modo, 64, 18, 0, 101, TAMANIO_ES_BATALLA_MODO, 0 },
     { 0, NULL, 0, 0, 0, 0, 0, 0 },

@@ -1,0 +1,26 @@
+caracter	textura	x_izq	x_der
+# batalla_modo: BATTLE
+B	batalla_modo	18	27
+A	batalla_modo	27	34
+T	batalla_modo	34	40
+T	batalla_modo	40	45
+L	batalla_modo	45	51
+E	batalla_modo	51	59
+# modo_contrarreloj: T.TRIALS
+T	modo_contrarreloj	17	24
+.	modo_contrarreloj	24	27
+T	modo_contrarreloj	27	32
+R	modo_contrarreloj	32	39
+I	modo_contrarreloj	39	42
+A	modo_contrarreloj	42	49
+L	modo_contrarreloj	49	54
+S	modo_contrarreloj	54	62
+# modo_mario_gp: MARIO GP
+M	modo_mario_gp	17	25
+A	modo_mario_gp	25	30
+R	modo_mario_gp	30	37
+I	modo_mario_gp	37	40
+O	modo_mario_gp	40	47
+espacio	modo_mario_gp	47	49
+G	modo_mario_gp	49	55
+P	modo_mario_gp	55	62

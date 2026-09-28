@@ -42,7 +42,10 @@ def probar_familias():
                       "%s: glifo %r fuera de %s" % (nombre, caja["caracter"], caja["textura"]))
         for caracter in familia.recetas:
             try:
-                familia.glifo(caracter)
+                if caracter.startswith("diminuta "):
+                    familia.glifo_forma(caracter[len("diminuta "):], 10)
+                else:
+                    familia.glifo(caracter)
             except (ce.ErrorComposicion, OSError, TypeError) as e:
                 comprobar(False, "%s: receta de %r: %s" % (nombre, caracter, e))
 
@@ -60,7 +63,7 @@ def probar_textura(id_, comp, fila):
         comprobar(False, "%s: %s" % (id_, e))
         return
     original = ce.Textura.cargar(id_)
-    cx, cy, cw, ch = (int(v) for v in comp["caja"].split(","))
+    cx, cy, cw, ch = ce.area_de(comp)
     nuevo = imagen.a_rgba()
     fuera = [(x, y) for y in range(original.alto) for x in range(original.ancho)
              if not (cx <= x < cx + cw and cy <= y < cy + ch) and nuevo[y * original.ancho + x] != original.pixel(x, y)]

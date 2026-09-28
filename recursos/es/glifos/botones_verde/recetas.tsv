@@ -1,0 +1,7 @@
+caracter	receta
+# Letras que no estan en OK ? ni en nP GAME, dibujadas como el resto (filas 38 a 51)
+J	parte("j", 38)
+U	parte("u", 38)
+.	parte("punto", 38)
+# Signo de apertura: el de cierre dado vuelta
+¿	girar(glifo("?"))

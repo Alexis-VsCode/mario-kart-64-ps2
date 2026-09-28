@@ -13,12 +13,23 @@ Cada familia (recursos/es/glifos/<familia>/) tiene:
                mas oscuro que baja por esa zona, asi dos letras que se tocan se separan
                por su contorno. Dos glifos seguidos comparten el corte; 'espacio' es el
                hueco entre palabras.
-  recetas.tsv  glifos que no existen, armados con otros (ver RECETAS) y con partes
-               dibujadas en partes/<nombre>.txt ('#' contorno, '+' relleno, '.' nada).
+  recetas.tsv  glifos que no existen, armados con otros (ver RECETAS), con partes
+               dibujadas en partes/<nombre>.txt ('#' contorno, '+' relleno, 'o' sombra,
+               'x' borra, '.' nada) o con la forma de una letra diminuta del juego
+               (forma("a", fila): la letra de 5x7 de las texturas fuente_*_diminuto
+               con un contorno de 1 pixel).
 
 recursos/es/composicion.tsv dice, por textura: familia, caja (x,y,ancho,alto) donde se
-reescribe, texto en ingles y columna de su primer corte (autoprueba) y opciones. El
-texto en espanol sale de la columna texto_es del manifiesto ('|' separa lineas).
+reescribe, texto en ingles y columna de su primer corte (autoprueba) y opciones:
+  juntar=N      acerca las letras por filas dejando N columnas (negativo: se montan)
+  espacio=N     columnas entre letras si no se juntan
+  condensar=F   estrecha cada letra a F de su ancho
+  lineas=Y,...  fila de cada linea (desplazamiento; con formas, fila de la letra)
+  formas=si     todas las letras salen de las diminutas (textos de dos lineas)
+  placa=N       fondo del color del contorno detras del texto, N pixeles mas grande
+  alinear=izquierda
+  area=X,Y,W,H  zona que ocupa el espanol si no es la caja del ingles
+El texto en espanol sale de la columna texto_es del manifiesto ('|' separa lineas).
 
 Cada pixel pegado se recolorea por fila: si viene de la misma textura y la misma fila
 queda igual; si no, conserva su diferencia con el color mediano de su clase (contorno o
@@ -39,6 +50,11 @@ GLIFOS = os.path.join(RAIZ, "recursos", "es", "glifos")
 COMPOSICION = os.path.join(RAIZ, "recursos", "es", "composicion.tsv")
 MINIMO_AUTOPRUEBA = 0.95
 CLAVE_RGBA = (0, 16, 255, 0)
+DIMINUTAS = os.path.join(RAIZ, "recursos", "texturas", "generales", "%s.ia16.mio0")
+# Signos de las letras diminutas (las letras son fuente_<letra>_diminuto)
+SIGNOS_DIMINUTOS = {"-": "menos_fuente_diminuto", "+": "mas_fuente_diminuto", "?": "pregunta_fuente_diminuto",
+                    "!": "fuente_diminuto_signo_exclamacion", ",": "coma_fuente_diminuto",
+                    ":": "dos_puntos_fuente_diminuto", "/": "diminuto_fuente_adelante_barra"}
 
 
 class ErrorComposicion(ValueError):
@@ -100,6 +116,8 @@ class Familia:
         params = {f["clave"]: f["valor"] for f in leer_tsv(os.path.join(carpeta, "familia.tsv"), ["clave", "valor"])}
         self.fondo = params.get("fondo", "transparente")
         self.filas = tuple(int(v) for v in params["filas"].split(","))
+        self._filas = {k[len("filas."):]: tuple(int(v) for v in params[k].split(","))
+                       for k in params if k.startswith("filas.")}
         self.ventana = int(params.get("ventana", "2"))
         self.umbral = float(params.get("umbral", "60"))
         self.cajas = leer_tsv(os.path.join(carpeta, "cajas.tsv"), ["caracter", "textura", "x_izq", "x_der"])
@@ -108,6 +126,10 @@ class Familia:
             if os.path.exists(ruta) else {}
         self._cortes = {}
         self._refs = {}
+
+    def filas_de(self, textura_id):
+        """Filas de la linea de texto en esa textura (filas.<textura> o filas)."""
+        return self._filas.get(textura_id, self.filas)
 
     def es_fondo(self, p):
         if self.fondo == "negro":
@@ -121,7 +143,7 @@ class Familia:
         """Por fila, la primera columna a la derecha del corte (camino mas oscuro, 1 px por fila)."""
         clave = (textura.id, x)
         if clave not in self._cortes:
-            y0, y1 = self.filas
+            y0, y1 = self.filas_de(textura.id)
             xs = list(range(max(0, x - self.ventana), min(textura.ancho, x + self.ventana + 1)))
 
             def energia(cx, y):
@@ -149,7 +171,7 @@ class Familia:
         """Sprite de una fila de cajas.tsv: {(x relativo al corte izquierdo, y): pixel}."""
         textura = Textura.cargar(caja["textura"])
         izq, der = int(caja["x_izq"]), int(caja["x_der"])
-        y0, y1 = self.filas
+        y0, y1 = self.filas_de(textura.id)
         ci, cd = self.corte(textura, izq), self.corte(textura, der)
         sprite = {}
         for y in range(y0, y1):
@@ -157,7 +179,7 @@ class Familia:
                 p = textura.pixel(x, y)
                 if not self.es_fondo(p):
                     sprite[(x - izq, y)] = (p, self.clase(p), textura.id, y)
-        return Glifo(sprite, der - izq)
+        return Glifo(sprite, der - izq, y0)
 
     def instancias(self, caracter):
         nombre = "espacio" if caracter == " " else caracter
@@ -178,16 +200,31 @@ class Familia:
             return self.glifo_de_caja(lista[0])
         raise ErrorComposicion("familia %s: no hay glifo para %r" % (self.nombre, caracter))
 
+    def glifo_forma(self, caracter, fila):
+        """Glifo de la letra diminuta (espacio: 3 columnas), o su receta si la tiene."""
+        if caracter == " ":
+            return Glifo({}, 3)
+        clave = "diminuta " + caracter
+        if clave in self.recetas:
+            return evaluar_receta(self, self.recetas[clave].replace("FILA", str(fila)), None)
+        return _forma(caracter.lower(), fila)
+
     def referencia(self, textura_id, clase, y):
-        """Color mediano de una clase en una fila, sobre los glifos de esa textura."""
+        """Color de una clase en una fila, sobre los glifos de esa textura: mediana del
+        contorno ('c') y del relleno ('r'); 'n' es el color de contorno mas frecuente (el
+        que usan las partes dibujadas)."""
         if textura_id not in self._refs:
             por_fila = {}
             for caja in self.cajas:
                 if caja["textura"] == textura_id:
                     for p, cl, _, fy in self.glifo_de_caja(caja).pixeles.values():
                         por_fila.setdefault((cl, fy), []).append(p)
-            self._refs[textura_id] = {k: tuple(sorted(c[i] for c in v)[len(v) // 2] for i in range(3))
-                                      for k, v in por_fila.items()}
+            refs = {k: tuple(sorted(c[i] for c in v)[len(v) // 2] for i in range(3)) for k, v in por_fila.items()}
+            for (cl, fy), v in por_fila.items():
+                if cl == "c":
+                    colores = [tuple(c[:3]) for c in v]
+                    refs[("n", fy)] = max(sorted(set(colores)), key=colores.count)
+            self._refs[textura_id] = refs
         refs = self._refs[textura_id]
         filas = [fy for (cl, fy) in refs if cl == clase] or [fy for (_, fy) in refs]
         if not filas:
@@ -197,38 +234,78 @@ class Familia:
 
 
 class Glifo:
-    """pixeles: {(x, y): (rgba, clase, textura de origen o None, fila de origen)}"""
+    """pixeles: {(x, y): (rgba, clase, textura de origen o None, fila de origen)}
+    base: primera fila de la linea en su textura (None: filas absolutas, como las partes)."""
 
-    def __init__(self, pixeles, avance):
-        self.pixeles, self.avance = pixeles, avance
+    def __init__(self, pixeles, avance, base=None):
+        self.pixeles, self.avance, self.base = pixeles, avance, base
 
 
 # --- Recetas -------------------------------------------------------------------------
 
 def _cols(g, a, b):
-    return Glifo({(x - a, y): p for (x, y), p in g.pixeles.items() if a <= x < b}, b - a)
+    return Glifo({(x - a, y): p for (x, y), p in g.pixeles.items() if a <= x < b}, b - a, g.base)
 
 
 def _filas(g, a, b):
-    return Glifo({(x, y): p for (x, y), p in g.pixeles.items() if a <= y < b}, g.avance)
+    return Glifo({(x, y): p for (x, y), p in g.pixeles.items() if a <= y < b}, g.avance, g.base)
 
 
 def _espejo(g):
-    return Glifo({(g.avance - 1 - x, y): p for (x, y), p in g.pixeles.items()}, g.avance)
+    return Glifo({(g.avance - 1 - x, y): p for (x, y), p in g.pixeles.items()}, g.avance, g.base)
 
 
 def _junto(a, b, solape=0):
     pix = dict(a.pixeles)
     for (x, y), p in b.pixeles.items():
         pix[(x + a.avance - solape, y)] = p
-    return Glifo(pix, a.avance + b.avance - solape)
+    return Glifo(pix, a.avance + b.avance - solape, a.base)
 
 
 def _encima(a, b, dx=0, dy=0):
+    """b sobre a; los pixeles 'x' de b borran."""
     pix = dict(a.pixeles)
     for (x, y), p in b.pixeles.items():
-        pix[(x + dx, y + dy)] = p
-    return Glifo(pix, a.avance)
+        if p[1] == "x":
+            pix.pop((x + dx, y + dy), None)
+        else:
+            pix[(x + dx, y + dy)] = p
+    return Glifo(pix, a.avance, a.base)
+
+
+def _girar(g):
+    """Media vuelta dentro de su propio alto."""
+    if not g.pixeles:
+        return g
+    ys = [y for _, y in g.pixeles]
+    return Glifo({(g.avance - 1 - x, min(ys) + max(ys) - y): p for (x, y), p in g.pixeles.items()}, g.avance,
+                 g.base)
+
+
+def _forma(letra, fila):
+    """Letra diminuta (8x8 ia16) como relleno, con un contorno de 1 pixel alrededor."""
+    if letra in SIGNOS_DIMINUTOS:
+        nombre = SIGNOS_DIMINUTOS[letra]
+    elif letra.isdigit():
+        nombre = "fuente_diminuto_" + letra
+    else:
+        nombre = "fuente_%s_diminuto" % letra
+    with open(DIMINUTAS % nombre, "rb") as f:
+        datos = ft.descomprimir_mio0(f.read())
+    celda = ft.a_imagen("ia16", datos[:128], 8, 8).a_rgba()
+    relleno = {(x, y) for y in range(8) for x in range(8) if celda[y * 8 + x][3] >= 128}
+    if not relleno:
+        raise ErrorComposicion("letra diminuta %r vacia" % letra)
+    x0 = min(x for x, _ in relleno)
+    pix = {}
+    for (x, y) in relleno:
+        for vx in (-1, 0, 1):
+            for vy in (-1, 0, 1):
+                v = (x + vx, y + vy)
+                if v not in relleno:
+                    pix[(v[0] - x0 + 1, v[1] + fila)] = (None, "c", None, v[1] + fila)
+        pix[(x - x0 + 1, y + fila)] = (None, "r", None, y + fila)
+    return Glifo(pix, max(x for x, _ in relleno) - x0 + 3)
 
 
 def _mover(g, dx=0, dy=0):
@@ -241,13 +318,15 @@ def _condensar(g, factor):
         return Glifo({}, int(round(g.avance * factor)))
     x0 = min(x for x, _ in g.pixeles)
     x1 = max(x for x, _ in g.pixeles) + 1
+    n = max(1, int(round((x1 - x0) * factor)))
+    inicio = int(round(x0 * factor))
     pix = {}
-    for nx in range(int(x0 * factor) - 1, int(x1 * factor) + 2):
-        ox = int((nx + 0.5) / factor)
+    for i in range(n):
+        ox = x0 + int((i + 0.5) * (x1 - x0) / n)
         for (x, y), p in g.pixeles.items():
             if x == ox:
-                pix[(nx, y)] = p
-    return Glifo(pix, int(round(g.avance * factor)))
+                pix[(inicio + i, y)] = p
+    return Glifo(pix, int(round(g.avance * factor)), g.base)
 
 
 def _avance(g, n):
@@ -263,15 +342,17 @@ def _parte(familia, nombre, y0):
     with open(os.path.join(familia.carpeta, "partes", nombre + ".txt")) as f:
         lineas = f.read().splitlines()
     pix = {}
+    clases = {"#": "c", "+": "r", "o": "s", "x": "x"}
     for dy, linea in enumerate(lineas):
         for x, ch in enumerate(linea):
-            if ch in "#+":
-                pix[(x, y0 + dy)] = (None, "c" if ch == "#" else "r", None, y0 + dy)
+            if ch in clases:
+                pix[(x, y0 + dy)] = (None, clases[ch], None, y0 + dy)
     return Glifo(pix, max(len(l) for l in lineas))
 
 
 RECETAS = {"cols": _cols, "filas": _filas, "espejo": _espejo, "junto": _junto, "encima": _encima,
-           "mover": _mover, "avance": _avance, "borrar": _borrar, "condensar": _condensar}
+           "mover": _mover, "avance": _avance, "borrar": _borrar, "condensar": _condensar, "girar": _girar,
+           "forma": _forma}
 
 
 def evaluar_receta(familia, texto, preferida):
@@ -281,6 +362,10 @@ def evaluar_receta(familia, texto, preferida):
             return nodo.value
         if isinstance(nodo, ast.UnaryOp) and isinstance(nodo.op, ast.USub):
             return -valor(nodo.operand)
+        if isinstance(nodo, ast.BinOp) and isinstance(nodo.op, (ast.Add, ast.Sub)):
+            a, b = valor(nodo.left), valor(nodo.right)
+            if isinstance(a, int) and isinstance(b, int):
+                return a + b if isinstance(nodo.op, ast.Add) else a - b
         if isinstance(nodo, ast.Call) and isinstance(nodo.func, ast.Name) and not nodo.keywords:
             args = [valor(a) for a in nodo.args]
             if nodo.func.id == "glifo":
@@ -318,13 +403,19 @@ def colocar(familia, destino, lineas, caja, opc, en_ingles=False, x_en=None):
         raise ErrorComposicion("%s: %d lineas y %d desplazamientos" % (destino.id, len(lineas), len(desplaz)))
     colocados = []
     usados = {}
+    formas = opc.get("formas") == "si" and not en_ingles
     for texto, dy in zip(lineas, desplaz):
         glifos = []
         for c in texto:
             indice = usados.get(c, 0) if en_ingles else None
             usados[c] = usados.get(c, 0) + 1
+            if formas:
+                glifos.append(familia.glifo_forma(c, dy))
+                continue
             g = familia.glifo(c, destino.id, indice)
             glifos.append(_condensar(g, factor) if factor != 1.0 else g)
+        if formas:
+            dy = 0
         if "juntar" in opc and not en_ingles:
             xs = juntar(glifos, int(opc["juntar"]))
         else:
@@ -337,7 +428,8 @@ def colocar(familia, destino, lineas, caja, opc, en_ingles=False, x_en=None):
             base = cx - izq
         else:
             base = cx + (cw - (der - izq)) // 2 - izq
-        colocados += [(base + x, dy, g) for x, g in zip(xs, glifos)]
+        propia = familia.filas_de(destino.id)[0]
+        colocados += [(base + x, dy + (propia - g.base if g.base is not None else 0), g) for x, g in zip(xs, glifos)]
     return colocados
 
 
@@ -366,13 +458,20 @@ def juntar(glifos, hueco):
     return xs
 
 
+def area_de(comp, en_ingles=False):
+    """Zona que se reescribe: la caja del texto en ingles, o 'area' si el espanol ocupa otra."""
+    opc = opciones(comp["opciones"])
+    texto = comp["caja"] if en_ingles or "area" not in opc else opc["area"]
+    return tuple(int(v) for v in texto.split(","))
+
+
 def componer(id_, texto, comp, destino=None, en_ingles=False):
     """Pixeles RGBA de la textura con el texto compuesto en la caja."""
     familia = Familia(comp["familia"])
     destino = destino or Textura.cargar(id_)
-    caja = tuple(int(v) for v in comp["caja"].split(","))
-    cx, cy, cw, ch = caja
     opc = opciones(comp["opciones"])
+    caja = area_de(comp, en_ingles)
+    cx, cy, cw, ch = caja
     colocados = colocar(familia, destino, texto.split("|"), caja, opc, en_ingles, int(comp["x_en"] or "0"))
     salida = list(destino.pixeles)
     vacio = (0, 0, 0, 255) if familia.fondo == "negro" else CLAVE_RGBA
@@ -383,8 +482,14 @@ def componer(id_, texto, comp, destino=None, en_ingles=False):
     if puntos:
         xs, ys = [p[0] for p in puntos], [p[1] for p in puntos]
         if min(xs) < cx or max(xs) >= cx + cw or min(ys) < cy or max(ys) >= cy + ch:
-            raise ErrorComposicion("%s: %r no cabe en la caja %s: ocupa x %d..%d, y %d..%d"
-                                   % (id_, texto, comp["caja"], min(xs), max(xs), min(ys), max(ys)))
+            raise ErrorComposicion("%s: %r no cabe en %s: ocupa x %d..%d, y %d..%d"
+                                   % (id_, texto, ",".join(map(str, caja)), min(xs), max(xs), min(ys), max(ys)))
+    if "placa" in opc and puntos and not en_ingles:
+        margen = int(opc["placa"])
+        for y in range(max(cy, min(ys) - margen), min(cy + ch, max(ys) + margen + 1)):
+            color = tuple(cuantizar(c) for c in familia.referencia(destino.id, "n", y)) + (255,)
+            for x in range(max(cx, min(xs) - margen), min(cx + cw, max(xs) + margen + 1)):
+                salida[y * destino.ancho + x] = color
     for pasada in ("c", "r"):
         for x0, dy, g in colocados:
             for (x, y), (p, clase, fuente, fy) in g.pixeles.items():
@@ -397,9 +502,11 @@ def componer(id_, texto, comp, destino=None, en_ingles=False):
 def recolorear(familia, p, clase, fuente, fy, destino, ty):
     if fuente == destino and fy == ty:
         return p
-    ref = familia.referencia(destino, clase, ty)
     if fuente is None:
+        contorno, relleno = familia.referencia(destino, "n", ty), familia.referencia(destino, "r", ty)
+        ref = {"c": contorno, "r": relleno}.get(clase) or tuple((a + b) / 2.0 for a, b in zip(contorno, relleno))
         return tuple(cuantizar(c) for c in ref) + (255,)
+    ref = familia.referencia(destino, clase, ty)
     origen = familia.referencia(fuente, clase, fy)
     return tuple(cuantizar(r + c - o) for r, c, o in zip(ref, p, origen)) + (255,)
 
