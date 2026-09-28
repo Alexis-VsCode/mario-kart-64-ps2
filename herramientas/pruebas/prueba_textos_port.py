@@ -37,6 +37,8 @@ REGISTRO = (
     "codigo/audio/microcodigo_audio.c",
     "codigo/audio/microcodigo_audio/*.inc.c",
     "codigo/entrada/*.c",
+    "codigo/carrera/ia/caminos_vehiculos.c",
+    "codigo/carrera/colision/cuadricula_colision.inc.c",
 )
 
 # (que se revisa, archivos, llamadas o tablas cuyos literales se leen)

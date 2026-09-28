@@ -77,6 +77,6 @@ void comprobar_camino_vehiculo_ps2(const void *computed, s32 cantidad, const Pun
         max_dx = dx > max_dx ? dx : max_dx;
         max_dz = dz > max_dz ? dz : max_dz;
     }
-    registrar("PATH_CHECK camino de %d puntos (espejo %d): EE %d puntos, tabla (N64) %d; distintos %d, dif. max x %d z %d",
+    registrar("PATH_CHECK camino de %d puntos (espejo %d): EE %d puntos, tabla (N64) %d; distintos %d, dif. máx. x %d z %d",
             (int) puntos_camino_num, (int) espejo, (int) cantidad, (int) cantidad_tabla, (int) dif_, (int) max_dx, (int) max_dz);
 }

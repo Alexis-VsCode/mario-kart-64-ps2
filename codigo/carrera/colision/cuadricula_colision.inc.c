@@ -229,7 +229,7 @@ void generar_cuadricula_colision(void) {
     for (n = 0; n < cantidad_ref && n < triangulos_colision_num; n++) {
         idx_dif += ref_indices[n] != indices_colision[n];
     }
-    registrar("GRID_CHECK pista %d: %u triangulos, %u indices (original %u): celdas distintas %d, indices distintos %d",
+    registrar("GRID_CHECK pista %d: %u triángulos, %u índices (original %u): celdas distintas %d, índices distintos %d",
             (int) id_circuito_actual, (unsigned) cantidad_malla_colision, (unsigned) triangulos_colision_num,
             (unsigned) cantidad_ref, (int) cuadricula_dif, (int) idx_dif);
 #else
