@@ -434,7 +434,7 @@ u8* cargar_circuito(s32 id_circuito) {
         ptr_fin_monton = CARRERA_SEG;
     }
     fijar_direccion_base_segmento(9, cargar_datos((uintptr_t) inicio_rom_desplazamiento, (uintptr_t) fin_rom_desplazamiento));
-    MARCAR_TIEMPOS_PS2("pista: offsets");
+    MARCAR_TIEMPOS_PS2("pista: desplazamientos");
 
     if (estado_juego != FINAL) {
         fijar_direccion_base_segmento(6, descomprimir_segmentos(circuito_datos_rom_inicio, circuito_datos_rom_fin));
@@ -442,13 +442,13 @@ u8* cargar_circuito(s32 id_circuito) {
     }
     ant_cargado_direccion_guardado = siguiente_libre_memoria_direccion;
     vtx_comprimido = vtx_comprimido_dma(inicio_rom_vertice, fin_rom_vertice);
-    MARCAR_TIEMPOS_PS2("pista: vertices (copia)");
+    MARCAR_TIEMPOS_PS2("pista: vértices (copia)");
 
     fijar_direccion_base_segmento(0xF, (void*) vtx_comprimido);
     descomprimir_vtx(inicio_vertice, cantidad_vertice);
-    MARCAR_TIEMPOS_PS2("pista: vertices (mio0)");
+    MARCAR_TIEMPOS_PS2("pista: vértices (mio0)");
     displaylist_desempaquetar((uintptr_t*) inicio_empaquetado, (uintptr_t) desplazamiento_displaylist_final, desconocido1);
-    MARCAR_TIEMPOS_PS2("pista: display lists");
+    MARCAR_TIEMPOS_PS2("pista: listas de dibujo");
     descomprimir_texturas(texturas);
     MARCAR_TIEMPOS_PS2("pista: texturas (mio0)");
     siguiente_libre_memoria_direccion = ant_cargado_direccion_guardado;

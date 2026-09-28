@@ -251,7 +251,7 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES))
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -Iincluir -o $(PRUEBAS)/prueba_fuente_5x7 \
 	    herramientas/pruebas/prueba_fuente_5x7.c codigo/depuracion/fuente_5x7.c codigo/sistema/caracteres_es.c
 	$(V)$(PRUEBAS)/prueba_fuente_5x7
-	$(V)$(PYTHON) herramientas/pruebas/prueba_textos_port.py
+	$(V)$(PYTHON) herramientas/pruebas/prueba_textos_port.py $(JP_SRC) $(JP_PARTES)
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -O1 -Iincluir -Iincluir/libultra -Icodigo -o $(PRUEBAS)/prueba_glifos \
 	    herramientas/pruebas/prueba_glifos.c codigo/sistema/caracteres_es.c
 	$(V)$(PRUEBAS)/prueba_glifos

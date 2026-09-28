@@ -123,7 +123,7 @@ void fin_tiempos_ps2(void)
 void ps2_tiempos_esperado_frame(const void *dl)
 {
     if (activo != NULL && dl_esperado == NULL) {
-        marcar_tiempos_ps2("primer frame: logica");
+        marcar_tiempos_ps2("primer cuadro: lógica");
         dl_esperado = dl;
     }
 }
@@ -132,7 +132,7 @@ void ps2_tiempos_frame_shown(const void *dl)
 {
     if (activo != NULL && dl_esperado != NULL && dl == dl_esperado) {
         dl_esperado = NULL;
-        marcar_tiempos_ps2("primer frame: render");
+        marcar_tiempos_ps2("primer cuadro: dibujo");
         fin_tiempos_ps2();
     }
 }

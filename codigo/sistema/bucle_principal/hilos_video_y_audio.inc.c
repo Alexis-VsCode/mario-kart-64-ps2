@@ -141,9 +141,9 @@ void hilo3_video(SIN_USO void* parametro0) {
     }
     preparar_colas_msj();
     MARCAR_PUNTO_CONTROL("setup_game_memory");
-    MARCAR_TIEMPOS_PS2("main_func: hilos");
+    MARCAR_TIEMPOS_PS2("principal: hilos");
     preparar_memoria_juego();
-    MARCAR_TIEMPOS_PS2("setup_game_memory");
+    MARCAR_TIEMPOS_PS2("memoria del juego");
     MARCAR_PUNTO_CONTROL("setup_game_memory hecho");
 
 #ifdef TARGET_PS2
@@ -221,9 +221,9 @@ void actualizar_estado_juego(void) {
         case CARRERA:
             EMPEZAR_TIEMPOS_PS2("carga de pista");
             inicializar_carrera_segmento();
-            MARCAR_TIEMPOS_PS2("init_segment_racing");
+            MARCAR_TIEMPOS_PS2("segmento de carrera");
             preparar_carrera();
-            MARCAR_TIEMPOS_PS2("setup_race (resto)");
+            MARCAR_TIEMPOS_PS2("preparación de carrera (resto)");
             break;
         case FINAL:
             ahora_cargado_circuito_id = NULO_CIRCUITO;

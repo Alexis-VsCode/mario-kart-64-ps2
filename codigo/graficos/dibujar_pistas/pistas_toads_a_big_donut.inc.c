@@ -389,9 +389,9 @@ void funcion_80295C6C(void) {
     min_x_circuito += -20;
     min_z_circuito += -20;
     min_y_circuito += -20;
-    MARCAR_TIEMPOS_PS2("colision: malla");
+    MARCAR_TIEMPOS_PS2("colisión: malla");
     generar_cuadricula_colision();
-    MARCAR_TIEMPOS_PS2("colision: cuadricula");
+    MARCAR_TIEMPOS_PS2("colisión: cuadrícula");
     siguiente_libre_memoria_direccion += ALIGN16(triangulos_colision_num * sizeof(u16));
 }
 

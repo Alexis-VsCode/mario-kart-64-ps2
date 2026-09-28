@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 """Los textos de las pantallas propias del port van en espanol y con tildes.
 
-    prueba_textos_port.py
+    prueba_textos_port.py [<fuente que el build pasa a EUC-JP> ...]
 
 Lee los literales de cadena que el port manda a sus pantallas y a su
 registro y falla si alguno lleva una palabra en ingles o sin la tilde que
 le toca. Es una lista negra: solo encuentra las palabras que conoce. Los
-nombres con '_' o con cifras (funciones, registros, formatos) no se miran.
+nombres con '_' o con cifras (funciones, registros, formatos) no se miran,
+salvo en los nombres de fase, que no pueden ser nombres de funcion.
+
+En los fuentes que el build pasa a EUC-JP los textos del port van solo en
+ASCII: el registro se lee en UTF-8.
 """
 import os
 import re
@@ -14,14 +18,19 @@ import sys
 
 RAIZ = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
+TODO_EL_CODIGO = None
+
 # (que se revisa, archivos, llamadas o tablas cuyos literales se leen)
 REVISIONES = (
     ("panel", ("codigo/depuracion/medidor_rendimiento.c", "codigo/depuracion/monitor_audio.c"),
      ("snprintf", "texto_escribir_linea", "LINEA")),
+    ("fase", TODO_EL_CODIGO, ("marcar_tiempos_ps2", "MARCAR_TIEMPOS_PS2")),
 )
+# En estas revisiones un nombre con '_' es un nombre de funcion
+SIN_IDENTIFICADORES = ("fase",)
 
 # Palabra (en minuscula) -> como se escribe
-PROHIBIDAS = {
+INGLES = {
     "frame": "cuadro",
     "pool": "reserva",
     "vtx": "vért",
@@ -29,7 +38,19 @@ PROHIBIDAS = {
     "seq": "sec",
     "max": "máx",
     "min": "mín",
+    "display": "lista de dibujo",
+    "lists": "listas",
+    "offsets": "desplazamientos",
+    "render": "dibujo",
+}
+SIN_TILDE = {
     "musica": "música",
+    "depuracion": "depuración",
+    "colision": "colisión",
+    "vertices": "vértices",
+    "camaras": "cámaras",
+    "cuadricula": "cuadrícula",
+    "logica": "lógica",
 }
 
 FORMATO = re.compile(r"%[-+ #0]*(\d+|\*)?(\.(\d+|\*))?[hlLqjzt]*[diouxXeEfFgGaAcspn%]")
@@ -122,17 +143,33 @@ def palabras(literal):
             yield p
 
 
-def revisar_palabras(que, ruta, linea, literal):
+def revisar(que, ruta, linea, literal, en_eucjp):
+    lugar = "%s:%d (%s)" % (ruta, linea, que)
     for p in palabras(literal):
-        bien = PROHIBIDAS.get(p.lower())
-        comprobar(bien is None, "%s:%d (%s): '%s' se escribe '%s'" % (ruta, linea, que, p, bien))
+        bien = INGLES.get(p.lower()) or (None if en_eucjp else SIN_TILDE.get(p.lower()))
+        comprobar(bien is None, "%s: '%s' se escribe '%s'" % (lugar, p, bien))
+    if que in SIN_IDENTIFICADORES:
+        codigo = [p for p in PALABRA.findall(ESCAPE.sub(" ", literal)) if "_" in p]
+        comprobar(not codigo, "%s: '%s' es un nombre de funcion; describe el paso" % (lugar, " ".join(codigo)))
+    if en_eucjp:
+        comprobar(literal.isascii(), "%s: '%s' se convierte a EUC-JP; solo ASCII" % (lugar, literal))
+
+
+def fuentes_del_codigo():
+    for base, carpetas, nombres in os.walk(os.path.join(RAIZ, "codigo")):
+        carpetas.sort()
+        for nombre in sorted(nombres):
+            ruta = os.path.relpath(os.path.join(base, nombre), RAIZ).replace(os.sep, "/")
+            if nombre.endswith(".c") and not ruta.startswith("codigo/sistema/libultra/"):
+                yield ruta
 
 
 def main():
+    en_eucjp = set(sys.argv[1:])
     for que, archivos, llamadas in REVISIONES:
-        for ruta in archivos:
+        for ruta in (archivos if archivos is not TODO_EL_CODIGO else fuentes_del_codigo()):
             for linea, literal in literales_de(ruta, llamadas):
-                revisar_palabras(que, ruta, linea, literal)
+                revisar(que, ruta, linea, literal, ruta in en_eucjp)
     print("%d comprobaciones, %d fallos" % (comprobaciones, fallos))
     sys.exit(1 if fallos else 0)
 
