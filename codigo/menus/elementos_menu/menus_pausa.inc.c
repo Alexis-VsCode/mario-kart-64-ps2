@@ -29,7 +29,8 @@ void renderizar_veces_vuelta(s32 grabar_tipo, s32 columna, s32 renglon) {
             registro_tiempo = funcion_800B4FB0(contrarreloj_indice_circuito_datos);
         }
     }
-    funcion_800939C8(columna + 0x14, renglon, dato_800E7744[grabar_tipo], 2, 0.65f, 0.65f);
+    // Proporcional: en celdas fijas el ordinal (1.o) ocupa tres y pisa los minutos
+    imprimir_modo_texto_1(columna + 0x0C, renglon, dato_800E7744[grabar_tipo], 0, 0.65f, 0.65f);
     if (sp30 == 0) {
         item = buscar_duplicado_items_menu(0x000000BB);
         if (grabar_tipo < 5) {

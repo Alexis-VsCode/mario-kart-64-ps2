@@ -7,7 +7,7 @@
 // TABLAS_PENDIENTES solo puede bajar. Una tabla ES pasa la lista negra y
 // tiene un texto esperado por entrada.
 
-#define TABLAS_PENDIENTES 36
+#define TABLAS_PENDIENTES 35
 
 // Copas, pistas y personajes
 TABLA(nombres_copa, 9, 0, 8, FUENTE_MENU, 0, ES)
@@ -41,7 +41,7 @@ TABLA(texto_perder_victoria, 2, 0, 1, FUENTE_MENU, 0, ES)
 TABLA(texto_tiempo_mejor, 2, 0, 1, FUENTE_MENU, 0, ES)
 PUNTERO(texto_tiempo_vuelta, FUENTE_MENU, 0, ES)
 TABLA(texto_tiempo_prefijo, 4, 0, 3, FUENTE_MENU, 0, ES)
-TABLA(dato_800E7744, 6, 0, 5, FUENTE_MENU, PERMITE_SUFIJO, PENDIENTE)
+TABLA(dato_800E7744, 6, 0, 5, FUENTE_MENU, 0, ES)
 TABLA(boton_pausa_texto, 7, 0, 6, FUENTE_MENU, 0, ES)
 TABLA(dato_800E7778, 2, 0, 1, FUENTE_MENU, 0, ES)
 PUNTERO(texto_resultados, FUENTE_MENU, 0, ES)

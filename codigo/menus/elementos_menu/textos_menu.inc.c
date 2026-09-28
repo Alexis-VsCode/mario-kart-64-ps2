@@ -109,7 +109,7 @@ char* texto_tiempo_prefijo[] = {
 };
 
 char* dato_800E7744[] = {
-    "1 ｓ", "2 ｎ", "3 ｒ", "4 ｔ", "5 ｔ", " ",
+    "1.º", "2.º", "3.º", "4.º", "5.º", " ",
 };
 
 char* boton_pausa_texto[] = {

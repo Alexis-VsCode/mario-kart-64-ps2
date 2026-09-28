@@ -126,8 +126,9 @@ LUGAR(L_RONDA_PUNTOS, texto_ronda, 0, 0, 1, IZQ, 0x36, 0.7f, 0.7f, 0, 0, ZONA_SE
 LUGAR(L_PUESTO_VERSUS, texto_puesto_versus, 0, 2, 1, MONO, 4, 0.8f, 0.8f, 0, 0, -1000, 41,
       "G: relativo a la columna; la tinta de las veces (en 0x2D, centradas) empieza en 41.4 como pronto; "
       "menus_pausa.inc.c:697-716")
-LUGAR(L_PUESTO_RECORD, dato_800E7744, 0, 5, 1, MONO, 0x14, 0.65f, 0.65f, 2, 0, -1000, 37,
-      "I: relativo a la columna; las cifras de los minutos empiezan en 0x27 (menus_pausa.inc.c:32-51)")
+LUGAR(L_PUESTO_RECORD, dato_800E7744, 0, 5, 1, IZQ, 0x0C, 0.65f, 0.65f, 0, 0, -1000, 35,
+      "G: relativo a la columna; la tinta de los minutos (en 0x27, centrados) empieza en 34.95 como pronto; "
+      "menus_pausa.inc.c:32-51")
 
 // --- Memory Card y fantasmas ---------------------------------------------------------
 
