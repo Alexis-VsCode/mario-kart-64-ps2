@@ -38,6 +38,7 @@
 #include "sistema/bucle_principal.h"
 #include "elementos_menu/textos_y_tablas.inc.c"
 #include "elementos_menu/animaciones_personajes.inc.c"
+#include "elementos_menu/glifos.inc.c"
 #include "elementos_menu/imprimir_texto.inc.c"
 #include "elementos_menu/cargar_texturas_menu.inc.c"
 #include "elementos_menu/imagenes_menu.inc.c"
