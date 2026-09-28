@@ -232,7 +232,7 @@ clean:
 PRUEBAS := $(BUILD)/pruebas
 # char con signo como en el R5900 (en ARM el char del PC no lleva signo)
 CC_PRUEBAS := gcc -fsigned-char
-test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES))
+test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL)
 	@mkdir -p $(PRUEBAS)
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -D_LANGUAGE_C -DF3DEX_GBI -DTARGET_PS2 -Iincluir -Iincluir/libultra \
 	    -o $(PRUEBAS)/prueba_combinador herramientas/pruebas/prueba_combinador.c codigo/graficos/combinador_color.c -lm
@@ -244,6 +244,7 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES))
 	$(V)$(PYTHON) herramientas/pruebas/prueba_metadatos_eucjp.py $(BUILD)/jp/codigo/menus/elementos_menu.c -- \
 	    $(INCLUDES) -iquote codigo/menus/ $(JP_IQUOTE)
 	$(V)$(PYTHON) herramientas/pruebas/prueba_png_simple.py
+	$(V)$(PYTHON) herramientas/pruebas/prueba_formatos_textura.py $(MIO0TOOL)
 	$(V)$(PYTHON) herramientas/comprobar_lineas.py
 
 # --- Herramientas del PC ------------------------------------------------------------
