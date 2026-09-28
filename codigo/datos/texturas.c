@@ -3,3 +3,4 @@
 #include "texturas/fuente_letras.inc.c"
 #include "texturas/fuentes_y_menus.inc.c"
 #include "texturas/animaciones_menu.inc.c"
+#include "texturas/fuente_es.inc.c"

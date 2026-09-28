@@ -241,3 +241,15 @@ GLIFO(dato_020044E4, 0x000f) // 0xE8
 GLIFO(dato_0200450C, 0x000f) // 0xE9
 GLIFO(seg_2_textura_fuente_coma, 0x000f) // 0xEA
 GLIFO(dato_0200455C, 0x000f) // 0xEB
+// 0xEC: letras y signos del espanol, en el orden de CaracterEs
+GLIFO(seg_2_textura_fuente_es_a_aguda, 0x000c) // 0xEC A con tilde
+GLIFO(seg_2_textura_fuente_es_e_aguda, 0x000a) // 0xED E con tilde
+GLIFO(seg_2_textura_fuente_es_i_aguda, 0x0007) // 0xEE I con tilde
+GLIFO(seg_2_textura_fuente_es_o_aguda, 0x000c) // 0xEF O con tilde
+GLIFO(seg_2_textura_fuente_es_u_aguda, 0x000c) // 0xF0 U con tilde
+GLIFO(seg_2_textura_fuente_es_enie, 0x000d) // 0xF1 enie
+GLIFO(seg_2_textura_fuente_es_u_dieresis, 0x000c) // 0xF2 U con dieresis
+GLIFO(seg_2_textura_fuente_es_abre_exclamacion, 0x000a) // 0xF3 apertura de exclamacion
+GLIFO(seg_2_textura_fuente_es_abre_interrogacion, 0x000a) // 0xF4 apertura de interrogacion
+GLIFO(seg_2_textura_fuente_es_ordinal_o, 0x000a) // 0xF5 ordinal masculino
+GLIFO(seg_2_textura_fuente_es_ordinal_a, 0x000a) // 0xF6 ordinal femenino

@@ -22,5 +22,6 @@ typedef struct {
 #include "datos/texturas/segmento_2.h"
 
 #include "datos/texturas/menus_y_personajes.h"
+#include "datos/texturas/fuente_es.h"
 
 #endif

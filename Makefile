@@ -185,7 +185,8 @@ KARTS := luigi mario yoshi peach wario toad donkey_kong bowser
 
 ROM_ASM := $(addprefix codigo/datos/karts/kart_,$(addsuffix .s,$(KARTS))) \
            codigo/datos/otras_texturas.s codigo/datos/texturas_seleccion.s codigo/datos/texturas_fuentes.s \
-           codigo/datos/texturas_tkmk00.s codigo/datos/secuencias_musica.s codigo/datos/conjuntos_instrumentos.s
+           codigo/datos/texturas_tkmk00.s codigo/datos/secuencias_musica.s codigo/datos/conjuntos_instrumentos.s \
+           codigo/datos/texturas_fuentes_es.s
 ROM_C    := codigo/datos/texturas.c codigo/datos/segmento_datos_2.c recursos/pistas/fantasmas_personal.c \
             $(foreach p,$(PISTAS),recursos/pistas/$(p)/desplazamientos.c)
 
@@ -315,6 +316,7 @@ GLIFOS_ES_NOMBRES := diacritico_a_aguda diacritico_e_aguda diacritico_i_aguda di
 GLIFOS_ES := $(addprefix $(BUILD)/glifos_es/,$(addsuffix .i4,$(GLIFOS_ES_NOMBRES)))
 $(GLIFOS_ES) &: herramientas/generar_glifos_es.py $(wildcard recursos/texturas/sin_comprimir/fuente_*.i4)
 	$(V)$(PYTHON) herramientas/generar_glifos_es.py $(BUILD)/glifos_es
+$(BUILD)/codigo/datos/texturas_fuentes_es.o: $(GLIFOS_ES)
 
 $(BUILD)/icono_partida.ico: herramientas/crear_icono.py
 	@mkdir -p $(dir $@)

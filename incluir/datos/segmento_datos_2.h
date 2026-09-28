@@ -53,6 +53,7 @@ extern Gfx dato_02008058[];
 extern Gfx pantalla_rectangulo_comun[];
 
 extern Vtx dato_02007BB8[];
+extern Vtx vtx_glifo_diacritico[];
 extern Vtx dato_02007CD8[];
 extern Vtx dato_02007DF8[];
 

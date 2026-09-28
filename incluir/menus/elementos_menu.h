@@ -370,6 +370,7 @@ Gfx* seleccionar_lento_case_destello_dibujo(Gfx*, s32, s32, s32, s32);
 Gfx* seleccionar_rapido_case_destello_dibujo(Gfx*, s32, s32, s32, s32);
 Gfx* funcion_800959F8(Gfx*, Vtx*);
 Gfx* funcion_80095BD0(Gfx*, u8*, f32, f32, u32, u32, f32, f32);
+Gfx* dibujar_diacritico_glifo(Gfx*, u8*);
 Gfx* funcion_80095E10(Gfx*, s8, s32, s32, s32, s32, s32, s32, s32, s32, u8*, u32, u32);
 Gfx* funcion_800963F0(Gfx*, s8, s32, s32, f32, f32, s32, s32, s32, s32, s32, s32, u8*, u32, u32);
 Gfx* funcion_80096CD8(Gfx* display_list_cabeza_2, s32 x_pos, s32 y_pos, u32 ancho, u32 altura);

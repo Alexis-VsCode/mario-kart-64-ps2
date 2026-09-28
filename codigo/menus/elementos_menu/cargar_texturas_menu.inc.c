@@ -115,6 +115,16 @@ func_80095BD0_etiqueta_2:
     return funcion_800959F8(display_list_cabeza_2, variable_a1);
 }
 
+// Dibuja la parte del signo de una letra del espanol (26 x ALTO_DIACRITICO)
+// con la matriz que dejo cargada la letra: misma posicion y escala, sin
+// gastar otra del pool. Solo el camino AVOID_UB de funcion_800959F8 la dibuja.
+Gfx* dibujar_diacritico_glifo(Gfx* display_list_cabeza_2, u8* textura) {
+    gDPLoadTextureTile_4b(display_list_cabeza_2++, textura, G_IM_FMT_I, 26, 0, 0, 0, 26, ALTO_DIACRITICO, 0,
+                          G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                          G_TX_NOLOD);
+    return funcion_800959F8(display_list_cabeza_2, vtx_glifo_diacritico);
+}
+
 Gfx* funcion_80095E10(Gfx* display_list_cabeza_2, s8 parametro1, s32 parametro2, s32 parametro3, s32 parametro4, s32 parametro5, s32 parametro6, s32 parametro7, s32 parametro8,
                    s32 parametro9, u8* parametro_a, u32 parametro_b, u32 parametro_c) {
     u32 variable_a1_2 = parametro4;

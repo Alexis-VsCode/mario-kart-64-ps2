@@ -6,10 +6,21 @@ Gfx* imprimir_letra(Gfx* parametro0, TexturaMenu* textura_glifo, f32 parametro2,
     f32 cosa0;
     f32 cosa1;
     TexturaMenu* variable_s0;
+    s32 letra_dibujada = 0;
 
     variable_s0 = segmentado_a_duplicado_virtual(textura_glifo);
     while (variable_s0->textura_datos != NULL) {
+        // El signo de una letra del espanol va encima de la letra que se acaba de dibujar
+        if (variable_s0->height == ALTO_DIACRITICO) {
+            temporal_v0_2 = (u8*) funcion_8009B8C4(variable_s0->textura_datos);
+            if (letra_dibujada && (temporal_v0_2 != NULL)) {
+                parametro0 = dibujar_diacritico_glifo(parametro0, temporal_v0_2);
+            }
+            variable_s0++;
+            continue;
+        }
         variable_v0 = 0;
+        letra_dibujada = 0;
 
         cosa0 = variable_s0->d_x + parametro2;
         if (cosa0 > 320.0f) {
@@ -45,6 +56,7 @@ Gfx* imprimir_letra(Gfx* parametro0, TexturaMenu* textura_glifo, f32 parametro2,
                                              variable_s0->height, escalar_x, escalar_y);
                         break;
                 }
+                letra_dibujada = 1;
             }
             variable_s0++;
         }
