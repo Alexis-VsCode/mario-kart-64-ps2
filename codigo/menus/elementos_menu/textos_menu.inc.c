@@ -388,19 +388,19 @@ char* dato_800E7A80[] = {
 };
 
 char* dato_800E7A88[] = {
-    "YOU ARE AWARDED THE",
-    "GOLD CUP",
-    "SILVER CUP",
-    "BRONZE CUP",
+    "HAS GANADO LA",
+    "COPA DE ORO",
+    "COPA DE PLATA",
+    "COPA DE BRONCE",
 };
 
-char* dato_800E7A98 = "MAYBE NEXT TIME!";
+char* dato_800E7A98 = "¡SUERTE LA PRÓXIMA VEZ!";
 
 char* dato_800E7A9C[] = {
-    "CONGRATULATIONS!",
-    "WHAT A PITY!",
+    "¡FELICIDADES!",
+    "¡QUÉ PENA!",
 };
 
 char* texto_lugar[] = {
-    "YOU PLACED", "    st", "    nd", "    rd", "    th", "    th", "    th", "    th", "    th",
+    "HAS QUEDADO", "   .º", "   .º", "   .º", "   .º", "   .º", "   .º", "   .º", "   .º",
 };

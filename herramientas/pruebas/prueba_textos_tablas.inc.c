@@ -7,7 +7,7 @@
 // TABLAS_PENDIENTES solo puede bajar. Una tabla ES pasa la lista negra y
 // tiene un texto esperado por entrada.
 
-#define TABLAS_PENDIENTES 15
+#define TABLAS_PENDIENTES 10
 
 // Copas, pistas y personajes
 TABLA(nombres_copa, 9, 0, 8, FUENTE_MENU, 0, ES)
@@ -78,8 +78,8 @@ TABLA(dato_800E7A80, 2, 0, 1, FUENTE_MENU, 0, ES)
 
 // Ceremonia y creditos (la segunda mitad de los creditos es la japonesa, que
 // la version americana no dibuja)
-TABLA(dato_800E7A88, 4, 0, 3, FUENTE_MENU, 0, PENDIENTE)
-PUNTERO(dato_800E7A98, FUENTE_MENU, 0, PENDIENTE)
-TABLA(dato_800E7A9C, 2, 0, 1, FUENTE_MENU, 0, PENDIENTE)
-TABLA(texto_lugar, 9, 0, 8, FUENTE_MENU, 0, PENDIENTE)
-TABLA(texto_creditos, 126, 0, 62, FUENTE_MENU, 0, PENDIENTE)
+TABLA(dato_800E7A88, 4, 0, 3, FUENTE_MENU, 0, ES)
+PUNTERO(dato_800E7A98, FUENTE_MENU, 0, ES)
+TABLA(dato_800E7A9C, 2, 0, 1, FUENTE_MENU, 0, ES)
+TABLA(texto_lugar, 9, 0, 8, FUENTE_MENU, 0, ES)
+TABLA(texto_creditos, 126, 0, 62, FUENTE_MENU, 0, ES)
