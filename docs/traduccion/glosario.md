@@ -6,7 +6,7 @@ Términos aprobados para el texto que ve el jugador y fuente de cada nombre ofic
 - Cómo se trabaja: [plan.md](plan.md).
 - Fuentes externas consultadas el 28-09-2026.
 
-El texto del juego se cita por símbolo, no por número de línea. En `main`, las tablas de texto del menú están en `codigo/menus/elementos_menu/textos_y_tablas.inc.c`. Tras el refactor del bloque CADENAS (rama `idioma/cadenas`) pasan a `codigo/menus/elementos_menu/textos_menu.inc.c`, con los mismos nombres.
+El texto del juego se cita por símbolo, no por número de línea. En `main`, las tablas de texto del menú están en `codigo/menus/elementos_menu/textos_y_tablas.inc.c`. Desde el refactor del bloque CADENAS (`15136d3`) están en `codigo/menus/elementos_menu/textos_menu.inc.c`, con los mismos nombres.
 
 ## 1. Criterios
 
@@ -39,7 +39,7 @@ El texto del juego se cita por símbolo, no por número de línea. En `main`, la
 
 ### 1.3 Caracteres especiales
 
-Los caracteres Á É Í Ó Ú Ñ Ü ¡ ¿ º ª los resuelve `incluir/sistema/caracteres_es.h`, junto con `codigo/sistema/caracteres_es.c` (rama `idioma/fuente`, desde el commit 9e6bec7).
+Los caracteres Á É Í Ó Ú Ñ Ü ¡ ¿ º ª los resuelve `incluir/sistema/caracteres_es.h`, junto con `codigo/sistema/caracteres_es.c` (desde el commit `9e6bec7`).
 
 - Las cadenas se escriben en UTF-8 legible.
 - El conversor del build (`herramientas/convertir_eucjp.py`) las pasa a EUC-JP.
@@ -69,7 +69,7 @@ Los caracteres Á É Í Ó Ú Ñ Ü ¡ ¿ º ª los resuelve `incluir/sistema/ca
 **Cómo leer las tablas:**
 
 - **CADENAS:** tablas de texto del código, citadas por símbolo.
-- **TEXTURAS:** imágenes con el texto dibujado. Las de menú se citan por su identificador en el manifiesto `recursos/es/texturas.tsv` (rama `idioma/texturas`). Las del HUD y las demás, por el nombre de su archivo.
+- **TEXTURAS:** imágenes con el texto dibujado. Las de menú se citan por su identificador en el manifiesto `recursos/es/texturas.tsv`. Las del HUD y las demás, por el nombre de su archivo.
 - **Rutas de las texturas:**
   - texturas de menú: `recursos/texturas/menus/tkmk00/<id>.rgba16.tkmk00`;
   - texturas del HUD: `recursos/comunes/texturas/<id>.<formato>.inc.c`.
@@ -89,27 +89,26 @@ Todos los términos de esta sección los decidió el responsable del proyecto.
 **Nota sobre GRAN PREMIO:**
 
 - Nintendo usa «Grand Prix» en España y en Latinoamérica ([MK World ES][mkw-es], [MK World MX][mkw-mx], [manual de MK7][mk7-manual]). Se eligió la forma española.
-- Si «GRAN PREMIO» no cabe en la textura, queda «MARIO GP» y se registra en [cambios.md](cambios.md).
-- **Pendiente:** el manifiesto de la rama `idioma/texturas` todavía marca `modo_mario_gp` como no traducida, con el motivo «nombre del modo». Hay que alinearlo con esta decisión.
+- «GRAN PREMIO» cabe en la textura en dos líneas, «GRAN» / «PREMIO» (`788a957`, [CC-04](cambios.md)); no hizo falta conservar «MARIO GP».
 
 ### 2.2 Carrera, tiempos y HUD
 
 | Inglés | Español | Dónde aparece | Nota |
 |---|---|---|---|
-| LAP | VUELTA | CADENAS: `texto_tiempo_prefijo[0..2]` («LAP 1» pasa a «VUELTA 1»). TEXTURAS del HUD: `vuelta_hud` y `tiempo_vuelta_hud` | En el HUD, palabra completa. Solo se abrevia en pantalla dividida si no cabe, y se registra en [cambios.md](cambios.md). |
+| LAP | VUELTA | CADENAS: `texto_tiempo_prefijo[0..2]` («LAP 1» pasa a «VUELTA 1»). TEXTURAS del HUD: `vuelta_hud` y `tiempo_vuelta_hud` | En el HUD, palabra completa. Con 3 y 4 jugadores no cabe y se escribe «VTA.» ([CC-07](cambios.md)). |
 | TIME | TIEMPO | TEXTURAS del HUD: `tiempo_hud` | Palabra completa. |
 | BEST RECORDS | RÉCORDS | CADENAS: `texto_tiempo_mejor[0]` | Nintendo ES: «Bate tus propios récords» ([MK World][mkw-es]). |
 | BEST LAP | MEJOR VUELTA | CADENAS: `texto_tiempo_mejor[1]` | |
 | LAP TIME | TIEMPOS DE VUELTA | CADENAS: `texto_tiempo_vuelta` | |
 | FINAL LAP | ÚLTIMA VUELTA. En el cartel de Lakitu: ¡ÚLTIMA! | TEXTURAS: Lakitu `vuelta_final` | Ninguna cadena contiene FINAL LAP. |
-| 2nd LAP | 2.ª VUELTA | TEXTURAS: Lakitu `segunda_vuelta` | |
-| REVERSE | ¡AL REVÉS! | TEXTURAS: Lakitu `marcha_atras` | |
+| 2nd LAP | 2.ª VUELTA. En el cartel de Lakitu: VUELTA 2 | TEXTURAS: Lakitu `segunda_vuelta` | «2.ª VUELTA» no cabe en la placa. |
+| REVERSE | ¡AL REVÉS! En el cartel de Lakitu: ¡REVÉS! | TEXTURAS: Lakitu `marcha_atras` | «¡AL REVÉS!» no cabe en la placa. |
 | 1st … 8th (sufijos st, nd, rd, th) | 1.º … 8.º | CADENAS: `texto_lugar[1..8]`, `dato_800E7744[0..4]` («1 ｓ» … «5 ｔ») y los literales «1 ｓ ー», «2 ｎ ー» y «3 ｒ ー» de `funcion_800A6E94` (`codigo/menus/elementos_menu/menus_pausa.inc.c`). TEXTURAS del HUD: `hud_1ro` … `hud_8vo` (`comun_textura_hud_lugar`) | `primer_lugar` … `cuarto_lugar` (`dato_0D015258`) solo tienen la cifra y no cambian. |
 | YOU PLACED | HAS QUEDADO | CADENAS: `texto_lugar[0]` | En pantalla: HAS QUEDADO 1.º. |
 
 **Carteles de Lakitu:**
 
-- Los textos ¡ÚLTIMA!, 2.ª VUELTA y ¡AL REVÉS! son los del plan; el detalle está en R-TEX-06 de [especificacion.md](especificacion.md).
+- El plan pedía ¡ÚLTIMA!, 2.ª VUELTA y ¡AL REVÉS!. Los dos últimos no caben en la placa con letras de 8 filas o más, así que los carteles dicen ¡ÚLTIMA!, VUELTA 2 y ¡REVÉS!, los textos de reserva de `recursos/es/lakitu/lakitu.tsv` (`74cbaf6`). El detalle está en R-TEX-06 de [especificacion.md](especificacion.md).
 - No hay texto oficial equivalente. Desde *Double Dash!!* el aviso de sentido contrario es una flecha. Desde *Mario Kart 7*, el cartel de vuelta muestra la vuelta actual sobre el total ([SMW – Lakitu][smw-lakitu]).
 - Si se quiere proponer otro texto, se registra como discrepancia para REVISIÓN.
 
@@ -255,7 +254,7 @@ Además:
 
 | Qué | Tipo | Ubicación | Límite |
 |---|---|---|---|
-| Nombres de pista y arena | CADENAS | `recursos/pistas/metadatos/nombres_circuito.inc.c`: 20 entradas en minúsculas, en el orden del índice. Se incluye en `nombres_circuito[]`, `duplicar_nombres_circuito[]` y `duplicar_nombres_circuito_2[]`. En `idioma/infra` (commit ecbfd5c), este archivo pasa por la conversión a EUC-JP como el resto del texto. | Ancho por tinta (R-TXT-04). Se conservan el número y el orden de las entradas. |
+| Nombres de pista y arena | CADENAS | `recursos/pistas/metadatos/nombres_circuito.inc.c`: 20 entradas en minúsculas, en el orden del índice. Se incluye en `nombres_circuito[]`, `duplicar_nombres_circuito[]` y `duplicar_nombres_circuito_2[]`. Desde el commit `ecbfd5c`, este archivo pasa por la conversión a EUC-JP como el resto del texto. | Ancho por tinta (R-TXT-04). Se conservan el número y el orden de las entradas. |
 | Nombres de copa | CADENAS | `nombres_copa[]`: 9 entradas. Las copas están en 0-3 y se repiten en 5-8; «battle» está en 4. | Igual que la fila anterior. |
 | Títulos de pista | TEXTURAS | Los 20 `recursos/texturas/menus/tkmk00/titulo_*.rgba16.tkmk00` | 140×18 px cada uno. |
 | Cartel de la granja (MOO MOO FARM → GRANJA MU-MU) | TEXTURAS | `recursos/texturas/pistas/moo_moo_farm/izquierda_cartel.mio0` y `derecha_cartel.mio0`, que se incluyen como `textura_moo_moo_farm_izquierda_cartel` y `textura_moo_moo_farm_derecha_cartel` en `codigo/datos/otras_texturas.s`. Sus tamaños comprimido (`file_size`) y descomprimido (`data_size`) están en `moo_moo_farm_texturas[]` (`recursos/pistas/moo_moo_farm/desplazamientos.c`). | Dos mitades de 64×32 px. |
@@ -276,7 +275,7 @@ Además:
 | © | `recursos/texturas/sin_comprimir/copyright_1996.rgba16` («© 1996 Nintendo») | Es el aviso legal. |
 | cc | TEXTURAS: `50cc`, `100cc`, `150cc`. CADENAS: `dato_800E76CC` y `dato_800E76DC` («50(», «100(», «150(»; el `(` se dibuja como «cc») | Es una unidad. «extra» se escribe igual. |
 | Onomatopeyas | `recursos/texturas/efectos/onomatopeyas/` | Son efectos de sonido dibujados. |
-| Pantalla del Controller Pak | Texturas ia16 de `recursos/texturas/generales/`. Todavía no están en el manifiesto de la rama `idioma/texturas`; el plan pide registrarlas allí con su motivo. | En el port no se puede abrir: `funcion_80091D74` devuelve 0 porque `situaciones_mando[0].status` vale 0, ya que `codigo/entrada/mandos.c` lo pone a cero con `memset`. Sus cadenas sí se traducen, porque cuesta poco; sus texturas no. |
+| Pantalla del Controller Pak | Las 15 texturas ia16 de `recursos/texturas/generales/`, registradas en el manifiesto con el motivo «no se muestra» (`31eaf62`). | En el port no se puede abrir: `funcion_80091D74` devuelve 0 porque `situaciones_mando[0].status` vale 0, ya que `codigo/entrada/mandos.c` lo pone a cero con `memset`. Sus cadenas sí se traducen, porque cuesta poco; sus texturas no. |
 | Otros textos que se escriben igual o no se ven | `modo_vs` (VS); TOTAL (`texto_tiempo_prefijo[3]`, `tiempo_total_hud`); «Km/h» (`velocimetro`); `vuelta_1_hud_en_3` … `vuelta_3_hud_en_3`, que solo muestran «1/3» … «3/3»; `menu_con_item` y `menu_sin_item`, que nunca se muestran | Iguales en español, unidades, cifras sin texto o texto inalcanzable. |
 | Créditos en japonés | La mitad japonesa de `texto_creditos` (63 entradas) | Se conservan tal cual. |
 
