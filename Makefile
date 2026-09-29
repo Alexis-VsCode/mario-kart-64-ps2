@@ -255,6 +255,7 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(
 	$(V)$(PYTHON) herramientas/pruebas/prueba_cableado_es.py $(BUILD)
 	$(V)$(PYTHON) herramientas/pruebas/prueba_composicion_es.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_hud_es.py $(BUILD)
+	$(V)$(PYTHON) herramientas/pruebas/prueba_lakitu_es.py $(BUILD)
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -Iincluir -o $(PRUEBAS)/prueba_textura_menu \
 	    herramientas/pruebas/prueba_textura_menu.c codigo/sistema/descompresion_textura_menu.c \
 	    codigo/sistema/descompresion_tkmk00.c codigo/sistema/descompresion_mio0.c herramientas/archivos_host.c
@@ -293,8 +294,10 @@ ES_TAMANIOS := $(BUILD)/es/tamanios_es.h
 ES_INC   := $(patsubst recursos/es/inc/%.png,$(BUILD)/es/%.inc.c,$(sort $(shell find recursos/es/inc -name '*.png' 2>/dev/null)))
 # Sello con la lista de .inc.c: si se agrega o quita una, be/ y los datos se rehacen
 ES_SELLO := $(BUILD)/es/.inc_$(shell echo '$(ES_INC)' | md5sum | cut -c1-12)
+# Carteles de Lakitu: una tira de 16 cuadros ci8 por animacion (ver herramientas/lakitu_es.py)
+ES_LAKITU := $(patsubst recursos/es/lakitu/%.ci8.png,$(BUILD)/es/lakitu/%.sello,$(sort $(wildcard recursos/es/lakitu/*.ci8.png)))
 
-es: $(ES_MIO0) $(ES_TAMANIOS) $(ES_CRUDO) $(ES_INC) $(ES_SELLO)
+es: $(ES_MIO0) $(ES_TAMANIOS) $(ES_CRUDO) $(ES_INC) $(ES_SELLO) $(ES_LAKITU)
 .SECONDARY: $(ES_MIO0:.mio0=.bin)
 
 $(BUILD)/es/%.bin: recursos/es/%.png $(ES_PY)
@@ -311,6 +314,10 @@ $(ES_SELLO): $(ES_INC)
 	$(V)find $(BUILD)/es -name '*.inc.c' $(foreach f,$(ES_INC),! -path '$(f)') -delete
 	$(V)rm -f $(BUILD)/es/.inc_* && touch $@
 
+$(BUILD)/es/lakitu/%.sello: recursos/es/lakitu/%.ci8.png recursos/es/lakitu/lakitu.tsv herramientas/lakitu_es.py $(ES_PY)
+	@mkdir -p $(dir $@)
+	$(V)$(PYTHON) herramientas/lakitu_es.py partir $< $(BUILD)/es/lakitu && touch $@
+
 # TAMANIO_ES_*: el campo size de las TexturaMenu de esas texturas
 $(ES_TAMANIOS): $(ES_MIO0) recursos/es/texturas.tsv $(ES_PY)
 	@mkdir -p $(dir $@)
@@ -319,6 +326,7 @@ $(ES_TAMANIOS): $(ES_MIO0) recursos/es/texturas.tsv $(ES_PY)
 # gas y gcc no ven estas dependencias a tiempo con -j
 $(BUILD)/codigo/datos/texturas_tkmk00.o: $(ES_MIO0)
 $(BUILD)/codigo/datos/texturas_seleccion.o: $(ES_CRUDO)
+$(BUILD)/codigo/datos/otras_texturas.o: $(ES_LAKITU)
 $(BUILD)/codigo/datos/texturas.o: $(ES_TAMANIOS)
 $(BUILD)/recursos/comunes/datos_comunes.data.o: $(ES_SELLO)
 

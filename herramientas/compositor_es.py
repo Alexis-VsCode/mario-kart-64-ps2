@@ -5,9 +5,11 @@
     compositor_es.py autoprueba [--solo ID ...]   recompone el ingles y mide cuanto coincide
 
 Cada familia (recursos/es/glifos/<familia>/) tiene:
-  familia.tsv  parametros: fondo (negro o transparente), filas (y0,y1 de la linea),
+  familia.tsv  parametros: fondo (negro, transparente o fila: el color saturado mas
+               frecuente de cada fila, para placas con degradado), filas (y0,y1 de la linea),
                ventana (columnas a cada lado donde buscar el corte), umbral (luminancia
-               que separa contorno de relleno)
+               que separa contorno de relleno), muestras (pixeles minimos de una fila
+               para tomar su color de referencia; si no, se usa la fila mas cercana)
   cajas.tsv    un glifo por fila: caracter, textura (id del manifiesto) y las columnas
                aproximadas de su corte izquierdo y derecho. El corte real es el camino
                mas oscuro que baja por esa zona, asi dos letras que se tocan se separan
@@ -103,7 +105,12 @@ class Textura:
         if id_ not in cls._cache:
             filas = {f["id"]: f for f in texturas_es.leer_manifiesto(texturas_es.MANIFIESTO)}
             if id_ not in filas:
-                raise ErrorComposicion("textura %s no esta en el manifiesto" % id_)
+                import lakitu_es
+                cuadro = lakitu_es.textura_cuadro(id_)
+                if cuadro is None:
+                    raise ErrorComposicion("textura %s no esta en el manifiesto" % id_)
+                cls._cache[id_] = cls(id_, *cuadro)
+                return cls._cache[id_]
             datos, ancho, alto = texturas_es.decodificar_original(filas[id_], texturas_es.TKMK00)
             imagen = ft.a_imagen(filas[id_]["formato"], datos, ancho, alto)
             cls._cache[id_] = cls(id_, ancho, alto, imagen.a_rgba())
@@ -124,6 +131,7 @@ class Familia:
                        for k in params if k.startswith("filas.")}
         self.ventana = int(params.get("ventana", "2"))
         self.umbral = float(params.get("umbral", "60"))
+        self.muestras = int(params.get("muestras", "1"))
         self.cajas = leer_tsv(os.path.join(carpeta, "cajas.tsv"), ["caracter", "textura", "x_izq", "x_der"])
         ruta = os.path.join(carpeta, "recetas.tsv")
         self.recetas = {f["caracter"]: f["receta"] for f in leer_tsv(ruta, ["caracter", "receta"])} \
@@ -135,9 +143,11 @@ class Familia:
         """Filas de la linea de texto en esa textura (filas.<textura> o filas)."""
         return self._filas.get(textura_id, self.filas)
 
-    def es_fondo(self, p):
+    def es_fondo(self, p, textura=None, y=None):
         if self.fondo == "negro":
             return p[3] == 255 and max(p[:3]) == 0
+        if self.fondo == "fila":
+            return p[3] and sum((a - b) ** 2 for a, b in zip(p[:3], color_fila(textura, y)[:3])) < 900
         return p[3] == 0
 
     def clase(self, p):
@@ -152,7 +162,7 @@ class Familia:
 
             def energia(cx, y):
                 p = textura.pixel(cx, y)
-                return (0 if self.es_fondo(p) else 1 + lum(p)) + abs(cx - x) * 0.01
+                return (0 if self.es_fondo(p, textura, y) else 1 + lum(p)) + abs(cx - x) * 0.01
 
             costo = {cx: energia(cx, y0) for cx in xs}
             atras = []
@@ -181,7 +191,7 @@ class Familia:
         for y in range(y0, y1):
             for x in range(ci[y - y0], cd[y - y0]):
                 p = textura.pixel(x, y)
-                if not self.es_fondo(p):
+                if not self.es_fondo(p, textura, y):
                     sprite[(x - izq, y)] = (p, self.clase(p), textura.id, y)
         return Glifo(sprite, der - izq, y0)
 
@@ -223,7 +233,8 @@ class Familia:
                 if caja["textura"] == textura_id:
                     for p, cl, _, fy in self.glifo_de_caja(caja).pixeles.values():
                         por_fila.setdefault((cl, fy), []).append(p)
-            refs = {k: tuple(sorted(c[i] for c in v)[len(v) // 2] for i in range(3)) for k, v in por_fila.items()}
+            refs = {k: tuple(sorted(c[i] for c in v)[len(v) // 2] for i in range(3)) for k, v in por_fila.items()
+                    if len(v) >= self.muestras}
             for (cl, fy), v in por_fila.items():
                 if cl == "c":
                     colores = [tuple(c[:3]) for c in v]
@@ -472,6 +483,19 @@ def juntar(glifos, hueco):
     return xs
 
 
+def color_fila(textura, y):
+    """Color de fondo de una fila (fondo=fila): el mas frecuente entre los saturados."""
+    clave = (textura.id, y)
+    if clave not in _COLOR_FILA:
+        fila = [textura.pixel(x, y) for x in range(textura.ancho)]
+        saturados = [p for p in fila if p[3] and max(p[:3]) > 30 and (max(p[:3]) - min(p[:3])) / max(p[:3]) >= 0.6]
+        _COLOR_FILA[clave] = max(sorted(set(saturados)), key=saturados.count) if saturados else (0, 0, 0, 255)
+    return _COLOR_FILA[clave]
+
+
+_COLOR_FILA = {}
+
+
 def transparente(textura, caja):
     """Color de los pixeles transparentes de la textura (el mas comun en la caja; la clave
     0x00BE de las TKMK00 de type 1 si no hay ninguno)."""
@@ -519,7 +543,7 @@ def componer(id_, texto, comp, destino=None, en_ingles=False):
     ancho, alto, salida = lienzo(comp, destino, en_ingles, vacio)
     for y in range(cy, cy + ch):
         for x in range(cx, cx + cw):
-            salida[y * ancho + x] = vacio
+            salida[y * ancho + x] = color_fila(destino, y) if familia.fondo == "fila" else vacio
     puntos = [(x0 + x, y + dy) for x0, dy, g, _ in colocados for (x, y) in g.pixeles]
     if puntos:
         xs, ys = [p[0] for p in puntos], [p[1] for p in puntos]

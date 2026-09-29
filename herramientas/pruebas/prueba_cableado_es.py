@@ -19,6 +19,7 @@ RAIZ = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)),
 sys.path.insert(0, os.path.join(RAIZ, "herramientas"))
 
 import formatos_textura as ft  # noqa: E402
+import lakitu_es  # noqa: E402
 import texturas_es  # noqa: E402
 
 LISTA_S = os.path.join(RAIZ, "codigo", "datos", "texturas_tkmk00.s")
@@ -70,6 +71,8 @@ def probar_pngs(filas):
     en_disco = []
     for base, _, nombres in os.walk(os.path.join(RAIZ, "recursos", "es")):
         en_disco += [os.path.relpath(os.path.join(base, n), RAIZ) for n in nombres if n.endswith(".png")]
+    # los carteles de Lakitu tienen su propio manifiesto (prueba_lakitu_es.py)
+    pngs += [f["png"] for f in lakitu_es.leer_manifiesto() if f["png"]]
     sobran = sorted(set(en_disco) - set(pngs))
     comprobar(not sobran, "PNG que el manifiesto no usa: %s" % ", ".join(sobran))
     comprobar(not os.path.exists(os.path.join(RAIZ, "es")), "no puede haber una carpeta es/ en la raiz (.incbin)")

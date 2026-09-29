@@ -1,0 +1,10 @@
+caracter	receta
+# Letras que no estan en 2nd LAP, armadas con las del mismo cuadro
+# V: la A dada vuelta sin el travesano
+V	borrar(girar(glifo("A")), 3, 5, 7, 10)
+# U: la L y su espejo
+U	encima(glifo("L"), espejo(glifo("L")))
+# E: la L con su pie copiado arriba y, mas corto, al medio
+E	encima(encima(glifo("L"), mover(filas(glifo("L"), 12, 16), 0, -8)), mover(cols(filas(glifo("L"), 12, 16), 0, 6), 0, -4))
+# T: el pie de la L arriba con el palo de la L centrado debajo
+T	encima(mover(filas(glifo("L"), 12, 16), 0, -8), mover(cols(filas(glifo("L"), 4, 16), 0, 4), 2, 0))

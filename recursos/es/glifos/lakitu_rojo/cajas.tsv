@@ -1,0 +1,9 @@
+caracter	textura	x_izq	x_der
+# lakitu_reversa_05: REVERSE
+R	lakitu_reversa_05	3	12
+E	lakitu_reversa_05	12	21
+V	lakitu_reversa_05	21	31
+E	lakitu_reversa_05	31	40
+R	lakitu_reversa_05	40	50
+S	lakitu_reversa_05	50	58
+E	lakitu_reversa_05	58	68
