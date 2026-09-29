@@ -7,10 +7,11 @@
 #   make MONOLITICO=1    un solo ELF con toda la ROM adentro
 #   make test            pruebas en el PC (no necesita el SDK de PS2)
 #   make es              texturas en espanol desde recursos/es (no necesita el SDK)
+#   make hoja-es         hojas de contacto original / espanol / mascara en build/ps2/es/hojas
 #   make clean           borra build/ps2
 
 # Objetivos que corren en el PC y no necesitan el SDK de PS2
-OBJETIVOS_PC := test clean herramientas es
+OBJETIVOS_PC := test clean herramientas es hoja-es
 ifneq ($(filter-out $(OBJETIVOS_PC),$(or $(MAKECMDGOALS),all)),)
   ifeq ($(PS2SDK),)
     $(error PS2SDK no definido: ejecuta '. herramientas/entorno.sh')
@@ -212,7 +213,7 @@ ELF        := $(OBJDIR)/smk64.elf
 
 # --- Objetivos --------------------------------------------------------------------
 
-.PHONY: all elf iso clean herramientas test es
+.PHONY: all elf iso clean herramientas test es hoja-es
 .NOTINTERMEDIATE:
 
 all: elf
@@ -258,6 +259,7 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(
 	$(V)$(PYTHON) herramientas/pruebas/prueba_lakitu_es.py $(BUILD)
 	$(V)$(PYTHON) herramientas/pruebas/prueba_titulos_es.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_cartel_es.py $(BUILD)
+	$(V)$(PYTHON) herramientas/pruebas/prueba_hojas_es.py
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -Iincluir -o $(PRUEBAS)/prueba_textura_menu \
 	    herramientas/pruebas/prueba_textura_menu.c codigo/sistema/descompresion_textura_menu.c \
 	    codigo/sistema/descompresion_tkmk00.c codigo/sistema/descompresion_mio0.c herramientas/archivos_host.c
@@ -319,6 +321,10 @@ $(ES_SELLO): $(ES_INC)
 $(BUILD)/es/lakitu/%.sello: recursos/es/lakitu/%.ci8.png recursos/es/lakitu/lakitu.tsv herramientas/lakitu_es.py $(ES_PY)
 	@mkdir -p $(dir $@)
 	$(V)$(PYTHON) herramientas/lakitu_es.py partir $< $(BUILD)/es/lakitu && touch $@
+
+# Una hoja por familia y por cartel de Lakitu, para revisar a ojo
+hoja-es: $(TKMK00TOOL)
+	$(V)$(PYTHON) herramientas/hojas_es.py $(BUILD)/es/hojas
 
 # TAMANIO_ES_*: el campo size de las TexturaMenu de esas texturas
 $(ES_TAMANIOS): $(ES_MIO0) recursos/es/texturas.tsv $(ES_PY)
