@@ -102,7 +102,7 @@ def es_texto(p):
 
 def es_placa(p, canal):
     otros = [p[k] for k in range(3) if k != canal]
-    return p[3] and p[canal] > 50 and max(otros) < 0.55 * p[canal]
+    return p[3] and p[canal] > 25 and max(otros) < 0.55 * p[canal]
 
 
 def es_lakitu(p):
@@ -121,6 +121,20 @@ def zona(rgba, canal):
 
 
 def mascara_texto(rgba, z):
+    """Pixeles de texto de la placa, sin las filas de brillo del canto (un tramo claro de punta a punta)."""
+    mascara = _mascara_texto(rgba, z)
+    llenas = set()
+    for y in {y for _, y in mascara}:
+        tramo = mejor = 0
+        for x in range(z[0], z[2]):
+            tramo = tramo + 1 if (x, y) in mascara else 0
+            mejor = max(mejor, tramo)
+        if mejor >= 0.7 * (z[2] - z[0]):
+            llenas.add(y)
+    return {(x, y) for x, y in mascara if y not in llenas}
+
+
+def _mascara_texto(rgba, z):
     """Pixeles de texto de la placa: poco saturados y claros para ese cuadro (el giro los oscurece)."""
     x0, y0, x1, y1 = z
     candidatos = {(x, y): rgba[y * ANCHO + x] for y in range(y0, y1) for x in range(x0, x1)
@@ -247,10 +261,12 @@ def cuadro_espanol(ingles, plano_en, plano_es, contexto, pal, canal):
     mascara = mascara_texto(rgba, z) if z else set()
     if len(mascara) < 8:
         return ingles
-    if abs((z[2] - z[0]) - (z_plano[2] - z_plano[0])) <= 3 and abs((z[3] - z[1]) - (z_plano[3] - z_plano[1])) <= 3:
+    # mismo cartel que el plano, apenas corrido: se copian sus colores; si no, esta girando
+    if abs((z[2] - z[0]) - (z_plano[2] - z_plano[0])) <= 3 and abs((z[3] - z[1]) - (z_plano[3] - z_plano[1])) <= 3 \
+            and abs(z[1] - z_plano[1]) <= 2:
         b = trasladar(mascara, mascara_plano, b_plano)
     else:
-        b = banda(mascara, z, mascara_plano, b_plano, z_plano)
+        return cuadro_girado(ingles, plano_es, contexto, pal, canal, z, mascara)
     rgba_en = [pal[i] for i in plano_en]
     rgba_es = [pal[i] for i in plano_es]
     pares = {}
@@ -278,6 +294,46 @@ def cuadro_espanol(ingles, plano_en, plano_es, contexto, pal, canal):
         if nuevo not in tabla:
             nuevo = min(claves, key=lambda k: (sum((a - b) ** 2 for a, b in zip(pal[k][:3], pal[nuevo][:3])), k))
         res[i] = tabla[nuevo]
+    return bytes(res)
+
+
+def cuadro_girado(ingles, plano_es, contexto, pal, canal, z, mascara):
+    """Cuadro del giro (el cartel se ve de canto o inclinado). Aqui los colores del plano no
+    tienen un equivalente fijo, asi que solo se usan los de este cuadro, fila por fila: la
+    letra en espanol toma el color del texto en ingles de esa fila y lo que era texto en
+    ingles y ya no lo es toma el color de la placa de esa fila. Fuera de las filas del
+    texto en ingles no se toca nada (ahi estan el canto y el brillo de la placa)."""
+    mascara_plano, b_plano, z_plano, _ = contexto
+    rgba = [pal[i] for i in ingles]
+    b = banda(mascara, z, mascara_plano, b_plano, z_plano)
+    rgba_es = [pal[i] for i in plano_es]
+    y0, y1 = max(b[1], z[1]), min(b[3], z[3])
+    x0, x1 = max(z[0], min(b[0], min(x for x, _ in mascara))), min(z[2], max(b[2], max(x for x, _ in mascara) + 1))
+    texto_fila, placa_fila = {}, {}
+    for y in range(y0, y1):
+        texto = [ingles[y * ANCHO + x] for x in range(x0, x1) if (x, y) in mascara]
+        placa = [ingles[y * ANCHO + x] for x in range(x0, x1) if es_placa(rgba[y * ANCHO + x], canal)]
+        if texto:
+            texto_fila[y] = max(sorted(set(texto)), key=texto.count)
+        if placa:
+            placa_fila[y] = max(sorted(set(placa)), key=placa.count)
+    if not texto_fila or not placa_fila:
+        return ingles
+
+    def cercana(tabla, y):
+        return tabla[min(tabla, key=lambda k: (abs(k - y), k))]
+
+    res = bytearray(ingles)
+    for y in range(y0, y1):
+        for x in range(x0, x1):
+            i = y * ANCHO + x
+            if es_lakitu(rgba[i]):
+                continue
+            xp, yp = llevar(b_plano, b, x, y)
+            if es_texto(rgba_es[yp * ANCHO + xp]):
+                res[i] = cercana(texto_fila, y)
+            elif (x, y) in mascara:
+                res[i] = cercana(placa_fila, y)
     return bytes(res)
 
 

@@ -8,7 +8,8 @@ lakitu_es.py; en cada cuadro solo cambian pixeles del cartel (nunca los
 de Lakitu ni fuera de la placa); el cuadro plano tiene el texto con al
 menos 8 filas de alto; otras_texturas.s incluye los 16 .bin del build en
 orden y seguidos (el juego solo conoce el primero) y cada .bin es el
-cuadro de la tira.
+cuadro de la tira. Ningun cuadro (tampoco los del giro) pinta colores que
+el cartel no tenia ni deja bloques blancos.
 """
 import os
 import re
@@ -17,6 +18,7 @@ import sys
 RAIZ = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 sys.path.insert(0, os.path.join(RAIZ, "herramientas"))
 
+import compositor_es as ce  # noqa: E402
 import lakitu_es as le  # noqa: E402
 import png_simple  # noqa: E402
 
@@ -34,6 +36,20 @@ def comprobar(cond, mensaje):
     if not cond:
         fallos += 1
         print("FALLO " + mensaje)
+
+
+def probar_colores(fila, n, viejo, nuevo, pal, z):
+    """Lo pintado usa solo colores que el cartel ya tenia en ese cuadro, y no deja bloques
+    blancos: 2x3 pixeles cambiados mas claros que todo lo que habia en su fila del cartel."""
+    placa = {viejo[y * le.ANCHO + x] for y in range(z[1], z[3]) for x in range(z[0], z[2])}
+    fuera = sorted({b for a, b in zip(viejo, nuevo) if a != b and b not in placa})
+    comprobar(not fuera, "%s cuadro %d: colores fuera de la paleta del cartel: %s" % (fila["id"], n, fuera[:8]))
+    tope = [max((ce.lum(pal[viejo[y * le.ANCHO + x]]) for x in range(z[0], z[2]) if pal[viejo[y * le.ANCHO + x]][3]
+                 and not le.es_lakitu(pal[viejo[y * le.ANCHO + x]])), default=0) for y in range(le.ALTO)]
+    claro = [a != b and ce.lum(pal[b]) > tope[i // le.ANCHO] + 10 for i, (a, b) in enumerate(zip(viejo, nuevo))]
+    bloques = [(x, y) for y in range(le.ALTO - 1) for x in range(le.ANCHO - 2)
+               if all(claro[(y + dy) * le.ANCHO + x + dx] for dy in range(2) for dx in range(3))]
+    comprobar(not bloques, "%s cuadro %d: bloques blancos en %s" % (fila["id"], n, bloques[:4]))
 
 
 def probar_tira(fila):
@@ -60,6 +76,8 @@ def probar_tira(fila):
             comprobar(z is not None and z[0] <= x < z[2] and z[1] <= y < z[3],
                       "%s cuadro %d: cambia (%d, %d), fuera de la placa" % (fila["id"], n, x, y))
             comprobar(not le.es_lakitu(rgba[i]), "%s cuadro %d: pisa a Lakitu en (%d, %d)" % (fila["id"], n, x, y))
+        if z is not None:
+            probar_colores(fila, n, viejo, nuevo, pal, z)
     plano = [pal[i] for i in nuevos[int(fila["plano"]) - 1]]
     mascara = le.mascara_texto(plano, le.zona(plano, canal))
     alto = len({y for _, y in mascara})
