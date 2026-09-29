@@ -607,22 +607,37 @@ static void probar_creditos(void) {
 }
 
 // El numero grande del puesto (escala 2, 0x18 a la izquierda del centro del
-// sufijo) no se mete en la primera letra del sufijo (menus_pausa.inc.c:807-814).
-// En ingles la cifra y el sufijo ya se tocan hasta 1 px.
+// sufijo) no se mete en la primera letra del sufijo ni en el final de
+// texto_lugar[0] (menus_pausa.inc.c:798-815). En ingles la cifra y el sufijo
+// ya se tocan hasta 1 px, y entre YOU PLACED y la cifra quedan 5.6 px o mas.
+#define PUESTO_COLUMNA 0x9B
+#define PUESTO_HUECO 5
 #define PUESTO_ESCALA_SUFIJO 1.2f
 #define PUESTO_ESCALA_NUMERO 2.0f
 #define PUESTO_DESPLAZAMIENTO_NUMERO 0x18
 #define PUESTO_HUECO_MINIMO -1
+#define PUESTO_HUECO_TEXTO_MINIMO 5
 static void probar_hueco_puesto(void) {
     const TablaTexto* t = buscar_tabla("texto_lugar");
     s32 i;
     for (i = 1; t != NULL && i <= t->hasta; i++) {
         char numero[2] = { (char) ('0' + i), 0 };
-        Medida sufijo = medir(t->cadenas[i], CENTRO, 0, PUESTO_ESCALA_SUFIJO, 0);
-        Medida cifra = medir(numero, MONO, -PUESTO_DESPLAZAMIENTO_NUMERO, PUESTO_ESCALA_NUMERO, 0);
+        s32 centro_sufijo = PUESTO_COLUMNA + mitad_pareja(t->cadenas[0], PUESTO_HUECO, PUESTO_ESCALA_SUFIJO);
+        s32 centro_texto = PUESTO_COLUMNA - mitad_pareja(t->cadenas[i], PUESTO_HUECO, PUESTO_ESCALA_SUFIJO);
+        Medida texto = medir(t->cadenas[0], CENTRO, centro_texto, PUESTO_ESCALA_SUFIJO, 0);
+        Medida sufijo = medir(t->cadenas[i], CENTRO, centro_sufijo, PUESTO_ESCALA_SUFIJO, 0);
+        Medida cifra =
+            medir(numero, MONO, centro_sufijo - PUESTO_DESPLAZAMIENTO_NUMERO, PUESTO_ESCALA_NUMERO, 0);
+        if (s_detalle) {
+            printf("  puesto %d: texto hasta %.1f, cifra %.1f a %.1f, sufijo desde %.1f\n", i, texto.der, cifra.izq,
+                   cifra.der, sufijo.izq);
+        }
         COMPROBACION(sufijo.n > 0 && sufijo.izq - cifra.der >= PUESTO_HUECO_MINIMO,
                      "texto_lugar[%d] \"%s\" empieza en %.1f y la cifra termina en %.1f", i, t->cadenas[i], sufijo.izq,
                      cifra.der);
+        COMPROBACION(texto.n > 0 && cifra.izq - texto.der >= PUESTO_HUECO_TEXTO_MINIMO,
+                     "\"%s\" termina en %.1f y la cifra %d empieza en %.1f (hacen falta %d px)", t->cadenas[0], texto.der,
+                     i, cifra.izq, PUESTO_HUECO_TEXTO_MINIMO);
     }
 }
 

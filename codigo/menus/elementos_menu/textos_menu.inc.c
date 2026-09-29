@@ -417,6 +417,8 @@ char* dato_800E7A9C[] = {
     "¡QUÉ PENA!",
 };
 
+// El ancho del sufijo aparta el texto de la cifra grande; los espacios de
+// detras lo corren a la izquierda sin mover el ".o" (menus_pausa.inc.c:798)
 char* texto_lugar[] = {
-    "HAS QUEDADO", "   .º", "   .º", "   .º", "   .º", "   .º", "   .º", "   .º", "   .º",
+    "HAS QUEDADO", "     .º  ", "     .º  ", "     .º  ", "     .º  ", "     .º  ", "     .º  ", "     .º  ", "     .º  ",
 };
