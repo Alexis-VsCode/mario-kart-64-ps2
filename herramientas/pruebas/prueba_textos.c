@@ -30,6 +30,11 @@ const s16 ancho_pantalla_glifo[] = {
 #include "menus/elementos_menu/glifos.inc.c"
 #include "prueba_textos_tinta.h"
 
+// Glifo de cada caracter en la fuente de depuracion (dato_800E5628)
+static const s8 glifos_depuracion[] = {
+#include "datos/glifos_depuracion.inc.c"
+};
+
 // Las tablas del juego ya convertidas (-iquote build/ps2/jp)
 #include "codigo/menus/elementos_menu/textos_menu.inc.c"
 #include "codigo/ceremonia/creditos.c"
@@ -346,7 +351,7 @@ static void probar_glifos_menu(const TablaTexto* t, s32 i) {
 static void probar_glifos_depuracion(const TablaTexto* t, s32 i) {
     const char* c;
     for (c = t->cadenas[i]; *c != 0; c++) {
-        COMPROBACION(*c >= ' ' && *c <= '~' && strchr("$&\\{|}", *c) == NULL,
+        COMPROBACION(*c == ' ' || ((u8) *c < sizeof(glifos_depuracion) && glifos_depuracion[(u8) *c] >= 0),
                      "%s[%d]: '%c' (%02X) no esta en la fuente de depuracion", t->nombre, i, *c, (u8) *c);
     }
 }
