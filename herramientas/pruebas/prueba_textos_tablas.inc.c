@@ -7,13 +7,13 @@
 // TABLAS_PENDIENTES solo puede bajar. Una tabla ES pasa la lista negra y
 // tiene un texto esperado por entrada.
 
-#define TABLAS_PENDIENTES 3
+#define TABLAS_PENDIENTES 0
 
 // Copas, pistas y personajes
 TABLA(nombres_copa, 9, 0, 8, FUENTE_MENU, 0, ES)
-TABLA(nombres_circuito, 20, 0, 19, FUENTE_MENU, 0, PENDIENTE)
-TABLA(duplicar_nombres_circuito, 20, 0, 19, FUENTE_MENU, 0, PENDIENTE)
-TABLA(duplicar_nombres_circuito_2, 20, 0, 19, FUENTE_MENU, 0, PENDIENTE)
+TABLA(nombres_circuito, 20, 0, 19, FUENTE_MENU, 0, ES)
+TABLA(duplicar_nombres_circuito, 20, 0, 19, FUENTE_MENU, 0, ES)
+TABLA(duplicar_nombres_circuito_2, 20, 0, 19, FUENTE_MENU, 0, ES)
 TABLA(nombres_circuito_depuracion, 20, 0, 19, FUENTE_DEPURACION, 0, ES)
 TABLA(texto_copa, 4, 0, 3, FUENTE_MENU, 0, ES)
 TABLA(nombres_personaje_depuracion, 8, 0, 7, FUENTE_DEPURACION, 0, ES)
