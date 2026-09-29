@@ -45,6 +45,13 @@ make iso
 | `make test` | Pruebas en el PC (combinador de color, caminos del tren y del barco) |
 | `make clean` | Borra `build/` |
 
+`build/` está versionado y `make test` escribe ahí sus copias y sus binarios.
+Después de las pruebas, para no subirlos por error:
+
+```bash
+git clean -fdq -- build && git checkout -- build
+```
+
 ## Ejecutar
 
 - **PCSX2**: abrir la ISO de `compilaciones/`.
