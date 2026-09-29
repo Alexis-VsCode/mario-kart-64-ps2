@@ -32,3 +32,23 @@ hud_5to	ordinales	54,28,74,36	th	56	fijo=1 alinear=izquierda@54
 hud_6to	ordinales	52,28,76,36	th	57	fijo=1 alinear=izquierda@52
 hud_7mo	ordinales	39,28,89,36	th	52	fijo=1 alinear=izquierda@39
 hud_8vo	ordinales	54,28,74,36	th	56	fijo=1 alinear=izquierda@54
+titulo_mario_raceway	titulos_pista	1,2,138,14	MARIO RACEWAY	26	juntar=-1
+titulo_choco_mountain	titulos_pista	1,2,138,14	CHOCO MOUNTAIN	22	juntar=-1
+titulo_bowsers_castle	titulos_pista	1,2,138,14	BOWSER'S CASTLE	21	juntar=-1
+titulo_banshee_boardwalk	titulos_pista	1,2,138,14	BANSHEE BOARDWALK	11	juntar=-1
+titulo_yoshi_valley	titulos_pista	1,2,138,14	YOSHI VALLEY	31	juntar=-1
+titulo_frappe_snowland	titulos_pista	1,2,138,14	FRAPPE SNOWLAND	19	juntar=-1
+titulo_koopa_troopa_beach	titulos_pista	1,2,138,14	KOOPA TROOPA BEACH	9	juntar=-1
+titulo_royal_raceway	titulos_pista	1,2,138,14	ROYAL RACEWAY	26	juntar=-1
+titulo_luigi_raceway	titulos_pista	1,2,138,14	LUIGI RACEWAY	30	juntar=-1
+titulo_moo_moo_farm	titulos_pista	1,2,138,14	MOO MOO FARM	27	juntar=-1
+titulo_toads_turnpike	titulos_pista	1,2,138,14	TOAD'S TURNPIKE	21	juntar=-1
+titulo_kalimari_desert	titulos_pista	1,2,138,14	KALIMARI DESERT	22	juntar=-1
+titulo_sherbet_land	titulos_pista	1,2,138,14	SHERBET LAND	30	juntar=-1
+titulo_rainbow_road	titulos_pista	1,2,138,14	RAINBOW ROAD	28	juntar=-1
+titulo_wario_stadium	titulos_pista	1,2,138,14	WARIO STADIUM	26	juntar=-1
+titulo_block_fort	titulos_pista	1,2,138,14	BLOCK FORT	36	juntar=-1
+titulo_skyscraper	titulos_pista	1,2,138,14	SKYSCRAPER	34	juntar=-1
+titulo_double_deck	titulos_pista	1,2,138,14	DOUBLE DECK	32	juntar=-1
+titulo_dks_jungle_parkway	titulos_pista	1,2,138,14	D.K.'S JUNGLE PARKWAY	4	juntar=-1
+titulo_big_donut	titulos_pista	1,2,138,14	BIG DONUT	40	juntar=-1

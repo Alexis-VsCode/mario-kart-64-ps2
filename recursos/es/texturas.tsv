@@ -73,24 +73,24 @@ tercer_lugar	recursos/comunes/texturas/tercer_lugar.i4.inc.c	i4	64x64		formato		
 tiempo_hud	recursos/comunes/texturas/tiempo_hud.rgba16.inc.c	rgba16	32x16	64x16	formato	recursos/es/inc/recursos/comunes/texturas/tiempo_hud.rgba16.png	TIEMPO	no	
 tiempo_total_hud	recursos/comunes/texturas/tiempo_total_hud.rgba16.inc.c	rgba16	32x16		formato			no	se escribe igual
 tiempo_vuelta_hud	recursos/comunes/texturas/tiempo_vuelta_hud.rgba16.inc.c	rgba16	32x16	64x16	formato	recursos/es/inc/recursos/comunes/texturas/tiempo_vuelta_hud.rgba16.png	VUELTA	no	
-titulo_banshee_boardwalk	recursos/texturas/menus/tkmk00/titulo_banshee_boardwalk.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_banshee_boardwalk.rgba16.png		no	
-titulo_big_donut	recursos/texturas/menus/tkmk00/titulo_big_donut.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_big_donut.rgba16.png		no	
-titulo_block_fort	recursos/texturas/menus/tkmk00/titulo_block_fort.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_block_fort.rgba16.png		no	
-titulo_bowsers_castle	recursos/texturas/menus/tkmk00/titulo_bowsers_castle.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_bowsers_castle.rgba16.png		no	
-titulo_choco_mountain	recursos/texturas/menus/tkmk00/titulo_choco_mountain.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_choco_mountain.rgba16.png		no	
-titulo_dks_jungle_parkway	recursos/texturas/menus/tkmk00/titulo_dks_jungle_parkway.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_dks_jungle_parkway.rgba16.png		no	
-titulo_double_deck	recursos/texturas/menus/tkmk00/titulo_double_deck.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_double_deck.rgba16.png		no	
-titulo_frappe_snowland	recursos/texturas/menus/tkmk00/titulo_frappe_snowland.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_frappe_snowland.rgba16.png		no	
-titulo_kalimari_desert	recursos/texturas/menus/tkmk00/titulo_kalimari_desert.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_kalimari_desert.rgba16.png		no	
-titulo_koopa_troopa_beach	recursos/texturas/menus/tkmk00/titulo_koopa_troopa_beach.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_koopa_troopa_beach.rgba16.png		no	
-titulo_luigi_raceway	recursos/texturas/menus/tkmk00/titulo_luigi_raceway.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_luigi_raceway.rgba16.png		no	
-titulo_mario_raceway	recursos/texturas/menus/tkmk00/titulo_mario_raceway.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_mario_raceway.rgba16.png		no	
-titulo_moo_moo_farm	recursos/texturas/menus/tkmk00/titulo_moo_moo_farm.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_moo_moo_farm.rgba16.png		no	
-titulo_rainbow_road	recursos/texturas/menus/tkmk00/titulo_rainbow_road.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_rainbow_road.rgba16.png		no	
-titulo_royal_raceway	recursos/texturas/menus/tkmk00/titulo_royal_raceway.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_royal_raceway.rgba16.png		no	
-titulo_sherbet_land	recursos/texturas/menus/tkmk00/titulo_sherbet_land.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_sherbet_land.rgba16.png		no	
-titulo_skyscraper	recursos/texturas/menus/tkmk00/titulo_skyscraper.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_skyscraper.rgba16.png		no	
-titulo_toads_turnpike	recursos/texturas/menus/tkmk00/titulo_toads_turnpike.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_toads_turnpike.rgba16.png		no	
-titulo_wario_stadium	recursos/texturas/menus/tkmk00/titulo_wario_stadium.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_wario_stadium.rgba16.png		no	
-titulo_yoshi_valley	recursos/texturas/menus/tkmk00/titulo_yoshi_valley.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_yoshi_valley.rgba16.png		no	
+titulo_banshee_boardwalk	recursos/texturas/menus/tkmk00/titulo_banshee_boardwalk.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_banshee_boardwalk.rgba16.png	MUELLE EMBRUJADO	no	
+titulo_big_donut	recursos/texturas/menus/tkmk00/titulo_big_donut.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_big_donut.rgba16.png	GRAN DONUT	no	
+titulo_block_fort	recursos/texturas/menus/tkmk00/titulo_block_fort.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_block_fort.rgba16.png	CIUDAD BLOQUE	no	
+titulo_bowsers_castle	recursos/texturas/menus/tkmk00/titulo_bowsers_castle.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_bowsers_castle.rgba16.png	CASTILLO DE BOWSER	no	
+titulo_choco_mountain	recursos/texturas/menus/tkmk00/titulo_choco_mountain.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_choco_mountain.rgba16.png	MONTE CHOCOLATE	no	
+titulo_dks_jungle_parkway	recursos/texturas/menus/tkmk00/titulo_dks_jungle_parkway.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_dks_jungle_parkway.rgba16.png	PISTA DE LA JUNGLA DK	no	
+titulo_double_deck	recursos/texturas/menus/tkmk00/titulo_double_deck.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_double_deck.rgba16.png	DOBLE PISO	no	
+titulo_frappe_snowland	recursos/texturas/menus/tkmk00/titulo_frappe_snowland.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_frappe_snowland.rgba16.png	CIRCUITO NEVADO	no	
+titulo_kalimari_desert	recursos/texturas/menus/tkmk00/titulo_kalimari_desert.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_kalimari_desert.rgba16.png	DESIERTO KALIMARI	no	
+titulo_koopa_troopa_beach	recursos/texturas/menus/tkmk00/titulo_koopa_troopa_beach.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_koopa_troopa_beach.rgba16.png	PLAYA KOOPA	no	
+titulo_luigi_raceway	recursos/texturas/menus/tkmk00/titulo_luigi_raceway.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_luigi_raceway.rgba16.png	PISTA LUIGI	no	
+titulo_mario_raceway	recursos/texturas/menus/tkmk00/titulo_mario_raceway.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_mario_raceway.rgba16.png	PISTA MARIO	no	
+titulo_moo_moo_farm	recursos/texturas/menus/tkmk00/titulo_moo_moo_farm.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_moo_moo_farm.rgba16.png	GRANJA MU-MU	no	
+titulo_rainbow_road	recursos/texturas/menus/tkmk00/titulo_rainbow_road.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_rainbow_road.rgba16.png	SENDA ARCO IRIS	no	
+titulo_royal_raceway	recursos/texturas/menus/tkmk00/titulo_royal_raceway.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_royal_raceway.rgba16.png	PISTA REAL	no	
+titulo_sherbet_land	recursos/texturas/menus/tkmk00/titulo_sherbet_land.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_sherbet_land.rgba16.png	TIERRA SORBETE	no	
+titulo_skyscraper	recursos/texturas/menus/tkmk00/titulo_skyscraper.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_skyscraper.rgba16.png	RASCACIELOS	no	
+titulo_toads_turnpike	recursos/texturas/menus/tkmk00/titulo_toads_turnpike.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_toads_turnpike.rgba16.png	AUTOPISTA TOAD	no	
+titulo_wario_stadium	recursos/texturas/menus/tkmk00/titulo_wario_stadium.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_wario_stadium.rgba16.png	ESTADIO WARIO	no	
+titulo_yoshi_valley	recursos/texturas/menus/tkmk00/titulo_yoshi_valley.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_yoshi_valley.rgba16.png	VALLE DE YOSHI	no	
 vuelta_hud	recursos/comunes/texturas/vuelta_hud.rgba16.inc.c	rgba16	32x8	64x16	formato	recursos/es/inc/recursos/comunes/texturas/vuelta_hud.rgba16.png	VUELTA|VTA.	no	

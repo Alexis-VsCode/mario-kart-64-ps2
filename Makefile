@@ -256,6 +256,7 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(
 	$(V)$(PYTHON) herramientas/pruebas/prueba_composicion_es.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_hud_es.py $(BUILD)
 	$(V)$(PYTHON) herramientas/pruebas/prueba_lakitu_es.py $(BUILD)
+	$(V)$(PYTHON) herramientas/pruebas/prueba_titulos_es.py
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -Iincluir -o $(PRUEBAS)/prueba_textura_menu \
 	    herramientas/pruebas/prueba_textura_menu.c codigo/sistema/descompresion_textura_menu.c \
 	    codigo/sistema/descompresion_tkmk00.c codigo/sistema/descompresion_mio0.c herramientas/archivos_host.c

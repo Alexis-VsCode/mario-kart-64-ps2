@@ -15,6 +15,9 @@ Cada familia (recursos/es/glifos/<familia>/) tiene:
                mas oscuro que baja por esa zona, asi dos letras que se tocan se separan
                por su contorno. Dos glifos seguidos comparten el corte; 'espacio' es el
                hueco entre palabras.
+  elegidas.tsv (opcional) como cajas.tsv, una instancia por caracter: la que se usa en
+               espanol en todas las texturas de la familia (letras que se tocan, donde
+               no todos los cortes salen limpios)
   recetas.tsv  glifos que no existen, armados con otros (ver RECETAS), con partes
                dibujadas en partes/<nombre>.txt ('#' contorno, '+' relleno, 'o' sombra,
                'x' borra, '.' nada) o con la forma de una letra diminuta del juego
@@ -133,6 +136,9 @@ class Familia:
         self.umbral = float(params.get("umbral", "60"))
         self.muestras = int(params.get("muestras", "1"))
         self.cajas = leer_tsv(os.path.join(carpeta, "cajas.tsv"), ["caracter", "textura", "x_izq", "x_der"])
+        ruta = os.path.join(carpeta, "elegidas.tsv")
+        self.elegidas = {f["caracter"]: f for f in leer_tsv(ruta, ["caracter", "textura", "x_izq", "x_der"])} \
+            if os.path.exists(ruta) else {}
         ruta = os.path.join(carpeta, "recetas.tsv")
         self.recetas = {f["caracter"]: f["receta"] for f in leer_tsv(ruta, ["caracter", "receta"])} \
             if os.path.exists(ruta) else {}
@@ -200,10 +206,13 @@ class Familia:
         return [c for c in self.cajas if c["caracter"] == nombre]
 
     def glifo(self, caracter, preferida=None, indice=None):
-        """Glifo de un caracter: la instancia 'indice' de la textura preferida o la primera de
-        esa textura; si no tiene, la receta del caracter o la primera instancia de otra."""
+        """Glifo de un caracter: la instancia 'indice' de la textura preferida (ingles); en
+        espanol la elegida si la hay, si no la primera de esa textura, la receta del caracter
+        o la primera instancia de otra."""
         lista = self.instancias(caracter)
         propias = [c for c in lista if c["textura"] == preferida]
+        if indice is None and caracter in self.elegidas:
+            return self.glifo_de_caja(self.elegidas[caracter])
         if indice is not None and indice < len(propias):
             return self.glifo_de_caja(propias[indice])
         if propias:

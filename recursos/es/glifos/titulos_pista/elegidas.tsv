@@ -1,0 +1,25 @@
+caracter	textura	x_izq	x_der
+# Las letras de los titulos se tocan y no todos los cortes salen limpios:
+# en espanol se usa esta instancia de cada letra (revisada una por una)
+A	titulo_mario_raceway	101	108
+B	titulo_bowsers_castle	21	28
+C	titulo_choco_mountain	22	29
+D	titulo_frappe_snowland	113	121
+E	titulo_dks_jungle_parkway	76	83
+G	titulo_big_donut	51	59
+H	titulo_choco_mountain	29	36
+I	titulo_mario_raceway	49	53
+J	titulo_dks_jungle_parkway	35	45
+K	titulo_banshee_boardwalk	121	129
+L	titulo_bowsers_castle	106	112
+M	titulo_mario_raceway	26	35
+N	titulo_choco_mountain	111	119
+O	titulo_mario_raceway	53	61
+P	titulo_dks_jungle_parkway	83	90
+R	titulo_mario_raceway	42	49
+S	titulo_bowsers_castle	45	52
+T	titulo_bowsers_castle	100	106
+U	titulo_dks_jungle_parkway	45	55
+V	titulo_yoshi_valley	68	74
+W	titulo_bowsers_castle	36	45
+Y	titulo_mario_raceway	108	116
