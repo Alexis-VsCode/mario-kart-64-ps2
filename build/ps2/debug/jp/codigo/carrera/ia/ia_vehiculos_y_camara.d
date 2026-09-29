@@ -53,7 +53,8 @@ build/ps2/debug/jp/codigo/carrera/ia/ia_vehiculos_y_camara.o: \
  recursos/pistas/wario_stadium/datos_pista.h incluir/menus/menus.h \
  incluir/libultra/PR/os.h incluir/menus/elementos_menu.h \
  incluir/datos/texturas.h incluir/datos/texturas/segmento_2.h \
- incluir/datos/texturas/menus_y_personajes.h incluir/audio/externo.h \
+ incluir/datos/texturas/menus_y_personajes.h \
+ incluir/datos/texturas/fuente_es.h incluir/audio/externo.h \
  incluir/ceremonia/actores_podio.h incluir/carrera/aparicion_jugadores.h \
  incluir/juego/sonidos.h incluir/datos/metadatos_caminos.h \
  incluir/sistema/matematicas_2.h \
@@ -161,6 +162,7 @@ incluir/menus/elementos_menu.h:
 incluir/datos/texturas.h:
 incluir/datos/texturas/segmento_2.h:
 incluir/datos/texturas/menus_y_personajes.h:
+incluir/datos/texturas/fuente_es.h:
 incluir/audio/externo.h:
 incluir/ceremonia/actores_podio.h:
 incluir/carrera/aparicion_jugadores.h:

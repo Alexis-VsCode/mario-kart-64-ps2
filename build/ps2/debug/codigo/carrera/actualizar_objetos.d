@@ -35,7 +35,8 @@ build/ps2/debug/codigo/carrera/actualizar_objetos.o: \
  incluir/menus/elementos_menu.h incluir/datos/texturas.h \
  incluir/datos/texturas/segmento_2.h \
  incluir/datos/texturas/menus_y_personajes.h \
- incluir/ceremonia/actores_podio.h recursos/pistas/todos_datos_pistas.h \
+ incluir/datos/texturas/fuente_es.h incluir/ceremonia/actores_podio.h \
+ recursos/pistas/todos_datos_pistas.h \
  recursos/pistas/big_donut/datos_pista.h \
  recursos/pistas/block_fort/datos_pista.h \
  recursos/pistas/double_deck/datos_pista.h \
@@ -135,6 +136,7 @@ incluir/menus/elementos_menu.h:
 incluir/datos/texturas.h:
 incluir/datos/texturas/segmento_2.h:
 incluir/datos/texturas/menus_y_personajes.h:
+incluir/datos/texturas/fuente_es.h:
 incluir/ceremonia/actores_podio.h:
 recursos/pistas/todos_datos_pistas.h:
 recursos/pistas/big_donut/datos_pista.h:

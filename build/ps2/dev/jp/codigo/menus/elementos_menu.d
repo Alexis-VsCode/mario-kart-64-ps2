@@ -22,7 +22,7 @@ build/ps2/dev/jp/codigo/menus/elementos_menu.o: \
  incluir/menus/elementos_menu.h incluir/datos/texturas.h \
  incluir/datos/texturas/segmento_2.h \
  incluir/datos/texturas/menus_y_personajes.h \
- incluir/sistema/bucle_principal.h \
+ incluir/datos/texturas/fuente_es.h incluir/sistema/bucle_principal.h \
  incluir/carrera/ia_vehiculos_y_camara.h incluir/juego/vehiculos.h \
  incluir/juego/camino.h incluir/recursos/datos_comunes.h \
  incluir/carrera/inicio_hud_y_objetos.h \
@@ -43,12 +43,16 @@ build/ps2/dev/jp/codigo/menus/elementos_menu.o: \
  incluir/carrera/aparicion_jugadores.h incluir/graficos/dibujar_jugador.h \
  incluir/juego/decodificacion.h \
  build/ps2/jp/codigo/menus/elementos_menu/textos_y_tablas.inc.c \
- recursos/pistas/metadatos/nombres_circuito.inc.c \
- recursos/pistas/metadatos/nombres_depuracion_circuito.inc.c \
- recursos/pistas/metadatos/por_indice_copa_por_id_circuito.inc.c \
- recursos/pistas/metadatos/seleccion_copa_por_id_circuito.inc.c \
- recursos/pistas/metadatos/longitudes_circuito.inc.c \
+ build/ps2/jp/codigo/menus/elementos_menu/lista_glifos.inc.c \
+ build/ps2/jp/codigo/menus/elementos_menu/textos_menu.inc.c \
+ build/ps2/jp/recursos/pistas/metadatos/nombres_circuito.inc.c \
+ build/ps2/jp/recursos/pistas/metadatos/nombres_depuracion_circuito.inc.c \
+ build/ps2/jp/recursos/pistas/metadatos/por_indice_copa_por_id_circuito.inc.c \
+ build/ps2/jp/recursos/pistas/metadatos/seleccion_copa_por_id_circuito.inc.c \
+ build/ps2/jp/recursos/pistas/metadatos/longitudes_circuito.inc.c \
  build/ps2/jp/codigo/menus/elementos_menu/animaciones_personajes.inc.c \
+ build/ps2/jp/codigo/menus/elementos_menu/glifos.inc.c \
+ incluir/sistema/caracteres_es.h \
  build/ps2/jp/codigo/menus/elementos_menu/imprimir_texto.inc.c \
  build/ps2/jp/codigo/menus/elementos_menu/cargar_texturas_menu.inc.c \
  build/ps2/jp/codigo/menus/elementos_menu/imagenes_menu.inc.c \
@@ -106,6 +110,7 @@ incluir/menus/elementos_menu.h:
 incluir/datos/texturas.h:
 incluir/datos/texturas/segmento_2.h:
 incluir/datos/texturas/menus_y_personajes.h:
+incluir/datos/texturas/fuente_es.h:
 incluir/sistema/bucle_principal.h:
 incluir/carrera/ia_vehiculos_y_camara.h:
 incluir/juego/vehiculos.h:
@@ -141,12 +146,16 @@ incluir/carrera/aparicion_jugadores.h:
 incluir/graficos/dibujar_jugador.h:
 incluir/juego/decodificacion.h:
 build/ps2/jp/codigo/menus/elementos_menu/textos_y_tablas.inc.c:
-recursos/pistas/metadatos/nombres_circuito.inc.c:
-recursos/pistas/metadatos/nombres_depuracion_circuito.inc.c:
-recursos/pistas/metadatos/por_indice_copa_por_id_circuito.inc.c:
-recursos/pistas/metadatos/seleccion_copa_por_id_circuito.inc.c:
-recursos/pistas/metadatos/longitudes_circuito.inc.c:
+build/ps2/jp/codigo/menus/elementos_menu/lista_glifos.inc.c:
+build/ps2/jp/codigo/menus/elementos_menu/textos_menu.inc.c:
+build/ps2/jp/recursos/pistas/metadatos/nombres_circuito.inc.c:
+build/ps2/jp/recursos/pistas/metadatos/nombres_depuracion_circuito.inc.c:
+build/ps2/jp/recursos/pistas/metadatos/por_indice_copa_por_id_circuito.inc.c:
+build/ps2/jp/recursos/pistas/metadatos/seleccion_copa_por_id_circuito.inc.c:
+build/ps2/jp/recursos/pistas/metadatos/longitudes_circuito.inc.c:
 build/ps2/jp/codigo/menus/elementos_menu/animaciones_personajes.inc.c:
+build/ps2/jp/codigo/menus/elementos_menu/glifos.inc.c:
+incluir/sistema/caracteres_es.h:
 build/ps2/jp/codigo/menus/elementos_menu/imprimir_texto.inc.c:
 build/ps2/jp/codigo/menus/elementos_menu/cargar_texturas_menu.inc.c:
 build/ps2/jp/codigo/menus/elementos_menu/imagenes_menu.inc.c:

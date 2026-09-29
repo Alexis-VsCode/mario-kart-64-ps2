@@ -24,7 +24,8 @@ build/ps2/debug/codigo/depuracion/depuracion.o: \
  /usr/local/ps2dev/ps2sdk/common/include/ee_cop0_defs.h \
  /usr/local/ps2dev/ps2sdk/common/include/ps2_debug.h \
  incluir/graficos/interprete_f3dex.h incluir/sistema/sistema_ps2.h \
- incluir/sistema/cronometro_fases.h
+ incluir/sistema/cronometro_fases.h incluir/depuracion/marcas_registro.h \
+ incluir/sistema/caracteres_es.h
 /usr/local/ps2dev/ps2sdk/ee/include/kernel.h:
 /usr/local/ps2dev/ps2sdk/ee/include/sifdma.h:
 /usr/local/ps2dev/ps2sdk/common/include/tamtypes.h:
@@ -66,3 +67,5 @@ incluir/juego/definiciones.h:
 incluir/graficos/interprete_f3dex.h:
 incluir/sistema/sistema_ps2.h:
 incluir/sistema/cronometro_fases.h:
+incluir/depuracion/marcas_registro.h:
+incluir/sistema/caracteres_es.h:

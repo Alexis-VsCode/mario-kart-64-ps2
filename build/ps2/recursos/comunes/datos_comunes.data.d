@@ -43,14 +43,14 @@ build/ps2/recursos/comunes/datos_comunes.data.o: \
  build/ps2/be/recursos/comunes/texturas/tiempo_total_hud.rgba16.inc.c \
  build/ps2/be/recursos/comunes/texturas/tiempo_hud.rgba16.inc.c \
  build/ps2/be/recursos/comunes/texturas/digito_normal_hud.rgba16.inc.c \
- recursos/comunes/texturas/hud_1ro.i4.inc.c \
- recursos/comunes/texturas/hud_2do.i4.inc.c \
- recursos/comunes/texturas/hud_3ro.i4.inc.c \
- recursos/comunes/texturas/hud_4to.i4.inc.c \
- recursos/comunes/texturas/hud_5to.i4.inc.c \
- recursos/comunes/texturas/hud_6to.i4.inc.c \
- recursos/comunes/texturas/hud_7mo.i4.inc.c \
- recursos/comunes/texturas/hud_8vo.i4.inc.c \
+ build/ps2/es/recursos/comunes/texturas/hud_1ro.i4.inc.c \
+ build/ps2/es/recursos/comunes/texturas/hud_2do.i4.inc.c \
+ build/ps2/es/recursos/comunes/texturas/hud_3ro.i4.inc.c \
+ build/ps2/es/recursos/comunes/texturas/hud_4to.i4.inc.c \
+ build/ps2/es/recursos/comunes/texturas/hud_5to.i4.inc.c \
+ build/ps2/es/recursos/comunes/texturas/hud_6to.i4.inc.c \
+ build/ps2/es/recursos/comunes/texturas/hud_7mo.i4.inc.c \
+ build/ps2/es/recursos/comunes/texturas/hud_8vo.i4.inc.c \
  recursos/comunes/texturas/primer_lugar.i4.inc.c \
  recursos/comunes/texturas/segundo_lugar.i4.inc.c \
  recursos/comunes/texturas/tercer_lugar.i4.inc.c \
@@ -238,14 +238,14 @@ build/ps2/be/recursos/comunes/texturas/vuelta_3_hud_en_3.rgba16.inc.c:
 build/ps2/be/recursos/comunes/texturas/tiempo_total_hud.rgba16.inc.c:
 build/ps2/be/recursos/comunes/texturas/tiempo_hud.rgba16.inc.c:
 build/ps2/be/recursos/comunes/texturas/digito_normal_hud.rgba16.inc.c:
-recursos/comunes/texturas/hud_1ro.i4.inc.c:
-recursos/comunes/texturas/hud_2do.i4.inc.c:
-recursos/comunes/texturas/hud_3ro.i4.inc.c:
-recursos/comunes/texturas/hud_4to.i4.inc.c:
-recursos/comunes/texturas/hud_5to.i4.inc.c:
-recursos/comunes/texturas/hud_6to.i4.inc.c:
-recursos/comunes/texturas/hud_7mo.i4.inc.c:
-recursos/comunes/texturas/hud_8vo.i4.inc.c:
+build/ps2/es/recursos/comunes/texturas/hud_1ro.i4.inc.c:
+build/ps2/es/recursos/comunes/texturas/hud_2do.i4.inc.c:
+build/ps2/es/recursos/comunes/texturas/hud_3ro.i4.inc.c:
+build/ps2/es/recursos/comunes/texturas/hud_4to.i4.inc.c:
+build/ps2/es/recursos/comunes/texturas/hud_5to.i4.inc.c:
+build/ps2/es/recursos/comunes/texturas/hud_6to.i4.inc.c:
+build/ps2/es/recursos/comunes/texturas/hud_7mo.i4.inc.c:
+build/ps2/es/recursos/comunes/texturas/hud_8vo.i4.inc.c:
 recursos/comunes/texturas/primer_lugar.i4.inc.c:
 recursos/comunes/texturas/segundo_lugar.i4.inc.c:
 recursos/comunes/texturas/tercer_lugar.i4.inc.c:

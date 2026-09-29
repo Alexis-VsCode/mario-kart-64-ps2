@@ -26,6 +26,7 @@ build/ps2/dev/codigo/carrera/logica_carrera.o: \
  incluir/carrera/animacion.h incluir/menus/elementos_menu.h \
  incluir/datos/texturas.h incluir/datos/texturas/segmento_2.h \
  incluir/datos/texturas/menus_y_personajes.h \
+ incluir/datos/texturas/fuente_es.h \
  incluir/carrera/ia_vehiculos_y_camara.h incluir/juego/vehiculos.h \
  incluir/recursos/datos_comunes.h incluir/carrera/aparicion_jugadores.h \
  incluir/audio/externo.h incluir/carrera/logica_carrera.h \
@@ -87,6 +88,7 @@ incluir/menus/elementos_menu.h:
 incluir/datos/texturas.h:
 incluir/datos/texturas/segmento_2.h:
 incluir/datos/texturas/menus_y_personajes.h:
+incluir/datos/texturas/fuente_es.h:
 incluir/carrera/ia_vehiculos_y_camara.h:
 incluir/juego/vehiculos.h:
 incluir/recursos/datos_comunes.h:

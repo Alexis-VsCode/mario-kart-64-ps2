@@ -15,7 +15,8 @@ build/ps2/debug/codigo/depuracion/texto_pantalla.o: \
  /usr/local/ps2dev/gsKit/include/gsFontM.h \
  /usr/local/ps2dev/gsKit/include/gsHires.h \
  /usr/local/ps2dev/gsKit/include/gsTexManager.h \
- incluir/graficos/sintetizador_gs.h incluir/depuracion/texto_pantalla.h
+ incluir/graficos/sintetizador_gs.h incluir/depuracion/fuente_5x7.h \
+ incluir/depuracion/texto_pantalla.h
 /usr/local/ps2dev/gsKit/include/gsKit.h:
 /usr/local/ps2dev/ps2sdk/common/include/tamtypes.h:
 /usr/local/ps2dev/gsKit/include/dmaKit.h:
@@ -32,4 +33,5 @@ build/ps2/debug/codigo/depuracion/texto_pantalla.o: \
 /usr/local/ps2dev/gsKit/include/gsHires.h:
 /usr/local/ps2dev/gsKit/include/gsTexManager.h:
 incluir/graficos/sintetizador_gs.h:
+incluir/depuracion/fuente_5x7.h:
 incluir/depuracion/texto_pantalla.h:

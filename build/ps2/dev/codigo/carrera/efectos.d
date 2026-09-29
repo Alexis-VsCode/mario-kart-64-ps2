@@ -28,7 +28,8 @@ build/ps2/dev/codigo/carrera/efectos.o: codigo/carrera/efectos.c \
  incluir/juego/curvas.h incluir/carrera/efectos.h incluir/audio/externo.h \
  incluir/carrera/aparicion_jugadores.h incluir/menus/elementos_menu.h \
  incluir/datos/texturas.h incluir/datos/texturas/segmento_2.h \
- incluir/datos/texturas/menus_y_personajes.h incluir/juego/pista.h \
+ incluir/datos/texturas/menus_y_personajes.h \
+ incluir/datos/texturas/fuente_es.h incluir/juego/pista.h \
  incluir/juego/camino.h codigo/carrera/efectos/efectos_basicos.inc.c \
  codigo/carrera/efectos/rayo_estrella_y_rampas.inc.c \
  codigo/carrera/efectos/evitar_items.inc.c
@@ -92,6 +93,7 @@ incluir/menus/elementos_menu.h:
 incluir/datos/texturas.h:
 incluir/datos/texturas/segmento_2.h:
 incluir/datos/texturas/menus_y_personajes.h:
+incluir/datos/texturas/fuente_es.h:
 incluir/juego/pista.h:
 incluir/juego/camino.h:
 codigo/carrera/efectos/efectos_basicos.inc.c:

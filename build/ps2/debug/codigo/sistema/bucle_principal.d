@@ -30,13 +30,15 @@ build/ps2/debug/codigo/sistema/bucle_principal.o: \
  incluir/ceremonia/actores_podio.h incluir/menus/elementos_menu.h \
  incluir/datos/texturas.h incluir/datos/texturas/segmento_2.h \
  incluir/datos/texturas/menus_y_personajes.h \
- incluir/carrera/objetos_y_efectos.h incluir/juego/objetos.h \
- incluir/juego/curvas.h incluir/carrera/control_jugador.h \
- incluir/graficos/dibujar_jugador.h incluir/graficos/dibujar_pistas.h \
- incluir/carrera/actores.h incluir/carrera/repeticiones.h \
- incluir/depuracion/depuracion_juego.h incluir/sistema/pantalla_fallo.h \
+ incluir/datos/texturas/fuente_es.h incluir/carrera/objetos_y_efectos.h \
+ incluir/juego/objetos.h incluir/juego/curvas.h \
+ incluir/carrera/control_jugador.h incluir/graficos/dibujar_jugador.h \
+ incluir/graficos/dibujar_pistas.h incluir/carrera/actores.h \
+ incluir/carrera/repeticiones.h incluir/depuracion/depuracion_juego.h \
+ incluir/sistema/pantalla_fallo.h \
  incluir/memoria/buffer_salida_graficos.h incluir/sistema/perfilado.h \
  /usr/local/ps2dev/ps2sdk/common/include/tamtypes.h \
+ incluir/depuracion/marcas_registro.h \
  codigo/sistema/bucle_principal/tareas_y_mandos.inc.c \
  codigo/sistema/bucle_principal/hilos_video_y_audio.inc.c
 incluir/libultra/ultra64.h:
@@ -98,6 +100,7 @@ incluir/menus/elementos_menu.h:
 incluir/datos/texturas.h:
 incluir/datos/texturas/segmento_2.h:
 incluir/datos/texturas/menus_y_personajes.h:
+incluir/datos/texturas/fuente_es.h:
 incluir/carrera/objetos_y_efectos.h:
 incluir/juego/objetos.h:
 incluir/juego/curvas.h:
@@ -111,5 +114,6 @@ incluir/sistema/pantalla_fallo.h:
 incluir/memoria/buffer_salida_graficos.h:
 incluir/sistema/perfilado.h:
 /usr/local/ps2dev/ps2sdk/common/include/tamtypes.h:
+incluir/depuracion/marcas_registro.h:
 codigo/sistema/bucle_principal/tareas_y_mandos.inc.c:
 codigo/sistema/bucle_principal/hilos_video_y_audio.inc.c:

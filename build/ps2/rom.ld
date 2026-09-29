@@ -104,6 +104,7 @@ SECTIONS
     {
         KEEP(build/ps2/codigo/datos/texturas_seleccion.o(.data));
         KEEP(build/ps2/codigo/datos/texturas_fuentes.o(.data));
+        KEEP(build/ps2/codigo/datos/texturas_fuentes_es.o(.data));
         . = ALIGN(0x10);
     }
     _textures_0aSegmentEnd = ADDR(.textures_0a) + SIZEOF(.textures_0a);

@@ -27,7 +27,8 @@ build/ps2/debug/codigo/sistema/arranque_ps2.o: \
  incluir/libultra/PR/libaudio.h incluir/libultra/PR/abi.h \
  incluir/libultra/PR/libultra.h incluir/sistema/sistema_ps2.h \
  incluir/graficos/interprete_f3dex.h incluir/audio/salida_audio.h \
- incluir/sistema/guardado_ps2.h incluir/sistema/cronometro_fases.h
+ incluir/sistema/guardado_ps2.h incluir/sistema/cronometro_fases.h \
+ incluir/depuracion/marcas_registro.h incluir/sistema/caracteres_es.h
 /usr/local/ps2dev/ps2sdk/ee/include/iopcontrol.h:
 /usr/local/ps2dev/ps2sdk/ee/include/kernel.h:
 /usr/local/ps2dev/ps2sdk/ee/include/sifdma.h:
@@ -73,3 +74,5 @@ incluir/graficos/interprete_f3dex.h:
 incluir/audio/salida_audio.h:
 incluir/sistema/guardado_ps2.h:
 incluir/sistema/cronometro_fases.h:
+incluir/depuracion/marcas_registro.h:
+incluir/sistema/caracteres_es.h:

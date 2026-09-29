@@ -17,7 +17,8 @@ build/ps2/codigo/datos/vertices_jugadores_y_listas.o: \
  incluir/libultra/PR/libaudio.h incluir/libultra/PR/abi.h \
  incluir/libultra/PR/libultra.h incluir/datos/otras_texturas.h \
  incluir/juego/objetos.h incluir/juego/curvas.h \
- recursos/texturas/efectos/onomatopeyas/tlut_onomatopeya.inc.c
+ recursos/texturas/efectos/onomatopeyas/tlut_onomatopeya.inc.c \
+ codigo/datos/glifos_depuracion.inc.c
 incluir/datos/vertices_jugadores_y_listas.h:
 incluir/libultra/PR/gbi.h:
 incluir/libultra/PR/ultratypes.h:
@@ -53,3 +54,4 @@ incluir/datos/otras_texturas.h:
 incluir/juego/objetos.h:
 incluir/juego/curvas.h:
 recursos/texturas/efectos/onomatopeyas/tlut_onomatopeya.inc.c:
+codigo/datos/glifos_depuracion.inc.c:

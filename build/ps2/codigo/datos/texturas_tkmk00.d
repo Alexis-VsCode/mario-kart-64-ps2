@@ -6,52 +6,52 @@ build/ps2/codigo/datos/texturas_tkmk00.o: \
  recursos/texturas/menus/tkmk00/franja_oro_verde.rgba16.tkmk00 \
  recursos/texturas/menus/tkmk00/atardecer_fondo.rgba16.tkmk00 \
  recursos/texturas/menus/tkmk00/cielo_azul_fondo.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/ok.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/datos.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/fantasma_menu.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/empezar.rgba16.tkmk00 \
+ build/ps2/es/mio0/menus/ok.rgba16.mio0 \
+ build/ps2/es/mio0/menus/datos.rgba16.mio0 \
+ build/ps2/es/mio0/menus/fantasma_menu.rgba16.mio0 \
+ build/ps2/es/mio0/menus/empezar.rgba16.mio0 \
  recursos/texturas/menus/tkmk00/menu_con_item.rgba16.tkmk00 \
  recursos/texturas/menus/tkmk00/menu_sin_item.rgba16.tkmk00 \
  recursos/texturas/menus/tkmk00/extra.rgba16.tkmk00 \
  recursos/texturas/menus/tkmk00/150cc.rgba16.tkmk00 \
  recursos/texturas/menus/tkmk00/100cc.rgba16.tkmk00 \
  recursos/texturas/menus/tkmk00/50cc.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/datos_r.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/opcion_l.rgba16.tkmk00 \
+ build/ps2/es/mio0/menus/datos_r.rgba16.mio0 \
+ build/ps2/es/mio0/menus/opcion_l.rgba16.mio0 \
  recursos/texturas/menus/tkmk00/modo_vs.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/modo_mario_gp.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/modo_contrarreloj.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/batalla_modo.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/juego_menu_4j.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/juego_menu_3j.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/juego_menu_2j.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/juego_menu_1j.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/seleccion_juego.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/menu_copa_especial.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/menu_copa_estrella.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/menu_copa_hongo.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/menu_copa_flor.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/seleccion_mapa.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/titulo_big_donut.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/titulo_dks_jungle_parkway.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/titulo_double_deck.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/titulo_skyscraper.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/titulo_block_fort.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/titulo_wario_stadium.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/titulo_rainbow_road.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/titulo_sherbet_land.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/titulo_kalimari_desert.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/titulo_toads_turnpike.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/titulo_moo_moo_farm.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/titulo_luigi_raceway.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/titulo_royal_raceway.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/titulo_koopa_troopa_beach.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/titulo_frappe_snowland.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/titulo_yoshi_valley.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/titulo_banshee_boardwalk.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/titulo_bowsers_castle.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/titulo_choco_mountain.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/titulo_mario_raceway.rgba16.tkmk00 \
+ build/ps2/es/mio0/menus/modo_mario_gp.rgba16.mio0 \
+ build/ps2/es/mio0/menus/modo_contrarreloj.rgba16.mio0 \
+ build/ps2/es/mio0/menus/batalla_modo.rgba16.mio0 \
+ build/ps2/es/mio0/menus/juego_menu_4j.rgba16.mio0 \
+ build/ps2/es/mio0/menus/juego_menu_3j.rgba16.mio0 \
+ build/ps2/es/mio0/menus/juego_menu_2j.rgba16.mio0 \
+ build/ps2/es/mio0/menus/juego_menu_1j.rgba16.mio0 \
+ build/ps2/es/mio0/menus/seleccion_juego.rgba16.mio0 \
+ build/ps2/es/mio0/menus/menu_copa_especial.rgba16.mio0 \
+ build/ps2/es/mio0/menus/menu_copa_estrella.rgba16.mio0 \
+ build/ps2/es/mio0/menus/menu_copa_hongo.rgba16.mio0 \
+ build/ps2/es/mio0/menus/menu_copa_flor.rgba16.mio0 \
+ build/ps2/es/mio0/menus/seleccion_mapa.rgba16.mio0 \
+ build/ps2/es/mio0/menus/titulo_big_donut.rgba16.mio0 \
+ build/ps2/es/mio0/menus/titulo_dks_jungle_parkway.rgba16.mio0 \
+ build/ps2/es/mio0/menus/titulo_double_deck.rgba16.mio0 \
+ build/ps2/es/mio0/menus/titulo_skyscraper.rgba16.mio0 \
+ build/ps2/es/mio0/menus/titulo_block_fort.rgba16.mio0 \
+ build/ps2/es/mio0/menus/titulo_wario_stadium.rgba16.mio0 \
+ build/ps2/es/mio0/menus/titulo_rainbow_road.rgba16.mio0 \
+ build/ps2/es/mio0/menus/titulo_sherbet_land.rgba16.mio0 \
+ build/ps2/es/mio0/menus/titulo_kalimari_desert.rgba16.mio0 \
+ build/ps2/es/mio0/menus/titulo_toads_turnpike.rgba16.mio0 \
+ build/ps2/es/mio0/menus/titulo_moo_moo_farm.rgba16.mio0 \
+ build/ps2/es/mio0/menus/titulo_luigi_raceway.rgba16.mio0 \
+ build/ps2/es/mio0/menus/titulo_royal_raceway.rgba16.mio0 \
+ build/ps2/es/mio0/menus/titulo_koopa_troopa_beach.rgba16.mio0 \
+ build/ps2/es/mio0/menus/titulo_frappe_snowland.rgba16.mio0 \
+ build/ps2/es/mio0/menus/titulo_yoshi_valley.rgba16.mio0 \
+ build/ps2/es/mio0/menus/titulo_banshee_boardwalk.rgba16.mio0 \
+ build/ps2/es/mio0/menus/titulo_bowsers_castle.rgba16.mio0 \
+ build/ps2/es/mio0/menus/titulo_choco_mountain.rgba16.mio0 \
+ build/ps2/es/mio0/menus/titulo_mario_raceway.rgba16.mio0 \
  recursos/texturas/menus/tkmk00/nombre_yoshi.rgba16.tkmk00 \
  recursos/texturas/menus/tkmk00/nombre_wario.rgba16.tkmk00 \
  recursos/texturas/menus/tkmk00/nombre_peach.rgba16.tkmk00 \
@@ -60,6 +60,6 @@ build/ps2/codigo/datos/texturas_tkmk00.o: \
  recursos/texturas/menus/tkmk00/nombre_bowser.rgba16.tkmk00 \
  recursos/texturas/menus/tkmk00/nombre_toad.rgba16.tkmk00 \
  recursos/texturas/menus/tkmk00/nombre_dk.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/opcion.rgba16.tkmk00 \
- recursos/texturas/menus/tkmk00/seleccion_jugador.rgba16.tkmk00 \
+ build/ps2/es/mio0/menus/opcion.rgba16.mio0 \
+ build/ps2/es/mio0/menus/seleccion_jugador.rgba16.mio0 \
  incluir/juego/macros.inc codigo/datos/texturas_tkmk00.s

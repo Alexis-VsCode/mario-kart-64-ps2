@@ -26,8 +26,8 @@ build/ps2/codigo/carrera/repeticiones.o: codigo/carrera/repeticiones.c \
  incluir/menus/elementos_menu.h incluir/datos/texturas.h \
  incluir/datos/texturas/segmento_2.h \
  incluir/datos/texturas/menus_y_personajes.h \
- incluir/carrera/objetos_y_efectos.h incluir/graficos/texturas_kart.h \
- incluir/graficos/texturas_kart/mario.h \
+ incluir/datos/texturas/fuente_es.h incluir/carrera/objetos_y_efectos.h \
+ incluir/graficos/texturas_kart.h incluir/graficos/texturas_kart/mario.h \
  incluir/graficos/texturas_kart/luigi.h \
  incluir/graficos/texturas_kart/toad.h \
  incluir/graficos/texturas_kart/peach.h \
@@ -88,6 +88,7 @@ incluir/menus/elementos_menu.h:
 incluir/datos/texturas.h:
 incluir/datos/texturas/segmento_2.h:
 incluir/datos/texturas/menus_y_personajes.h:
+incluir/datos/texturas/fuente_es.h:
 incluir/carrera/objetos_y_efectos.h:
 incluir/graficos/texturas_kart.h:
 incluir/graficos/texturas_kart/mario.h:

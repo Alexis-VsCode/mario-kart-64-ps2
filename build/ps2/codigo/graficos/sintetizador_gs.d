@@ -35,7 +35,8 @@ build/ps2/codigo/graficos/sintetizador_gs.o: \
  incluir/libultra/PR/libaudio.h incluir/libultra/PR/abi.h \
  incluir/libultra/PR/libultra.h incluir/graficos/sintetizador_gs.h \
  incluir/sistema/sistema_ps2.h incluir/graficos/pantallas_gigantes.h \
- incluir/graficos/memoria_texturas.h incluir/sistema/perfilado.h
+ incluir/graficos/memoria_texturas.h incluir/sistema/perfilado.h \
+ incluir/depuracion/marcas_registro.h
 /usr/local/ps2dev/gsKit/include/dmaKit.h:
 /usr/local/ps2dev/ps2sdk/common/include/tamtypes.h:
 /usr/local/ps2dev/gsKit/include/dmaCore.h:
@@ -89,3 +90,4 @@ incluir/sistema/sistema_ps2.h:
 incluir/graficos/pantallas_gigantes.h:
 incluir/graficos/memoria_texturas.h:
 incluir/sistema/perfilado.h:
+incluir/depuracion/marcas_registro.h:

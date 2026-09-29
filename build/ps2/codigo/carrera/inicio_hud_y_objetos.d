@@ -54,6 +54,7 @@ build/ps2/codigo/carrera/inicio_hud_y_objetos.o: \
  incluir/menus/elementos_menu.h incluir/datos/texturas.h \
  incluir/datos/texturas/segmento_2.h \
  incluir/datos/texturas/menus_y_personajes.h \
+ incluir/datos/texturas/fuente_es.h \
  incluir/datos/vertices_jugadores_y_listas.h incluir/juego/curvas.h \
  incluir/carrera/efectos.h \
  codigo/carrera/inicio_hud_y_objetos/hud_y_cielo.inc.c \
@@ -146,6 +147,7 @@ incluir/menus/elementos_menu.h:
 incluir/datos/texturas.h:
 incluir/datos/texturas/segmento_2.h:
 incluir/datos/texturas/menus_y_personajes.h:
+incluir/datos/texturas/fuente_es.h:
 incluir/datos/vertices_jugadores_y_listas.h:
 incluir/juego/curvas.h:
 incluir/carrera/efectos.h:

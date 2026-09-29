@@ -17,7 +17,7 @@ build/ps2/recursos/pistas/moo_moo_farm/desplazamientos.o: \
  incluir/libultra/PR/libaudio.h incluir/libultra/PR/abi.h \
  incluir/libultra/PR/libultra.h incluir/juego/tipos_actores.h \
  incluir/juego/macros.h incluir/juego/camino.h incluir/juego/pista.h \
- incluir/juego/camino.h
+ incluir/juego/camino.h build/ps2/es/tamanios_es.h
 incluir/libultra/PR/ultratypes.h:
 incluir/juego/desplazamientos_pista.h:
 recursos/pistas/moo_moo_farm/datos_pista.h:
@@ -54,3 +54,4 @@ incluir/juego/macros.h:
 incluir/juego/camino.h:
 incluir/juego/pista.h:
 incluir/juego/camino.h:
+build/ps2/es/tamanios_es.h:

@@ -39,7 +39,8 @@ build/ps2/dev/codigo/carrera/aparicion_jugadores.o: \
  incluir/sistema/bucle_principal.h incluir/menus/menus.h \
  incluir/menus/elementos_menu.h incluir/datos/texturas.h \
  incluir/datos/texturas/segmento_2.h \
- incluir/datos/texturas/menus_y_personajes.h incluir/carrera/efectos.h \
+ incluir/datos/texturas/menus_y_personajes.h \
+ incluir/datos/texturas/fuente_es.h incluir/carrera/efectos.h \
  incluir/juego/decodificacion.h \
  codigo/carrera/aparicion_jugadores/aparecer_jugadores.inc.c \
  codigo/carrera/aparicion_jugadores/camaras_iniciales.inc.c
@@ -116,6 +117,7 @@ incluir/menus/elementos_menu.h:
 incluir/datos/texturas.h:
 incluir/datos/texturas/segmento_2.h:
 incluir/datos/texturas/menus_y_personajes.h:
+incluir/datos/texturas/fuente_es.h:
 incluir/carrera/efectos.h:
 incluir/juego/decodificacion.h:
 codigo/carrera/aparicion_jugadores/aparecer_jugadores.inc.c:

@@ -19,8 +19,8 @@ build/ps2/codigo/graficos/vertices_luces_800AF9B0.o: \
  incluir/menus/elementos_menu.h incluir/datos/texturas.h \
  incluir/datos/texturas/segmento_2.h \
  incluir/datos/texturas/menus_y_personajes.h \
- incluir/sistema/bucle_principal.h incluir/memoria/memoria_carrera.h \
- incluir/sistema/matematicas.h
+ incluir/datos/texturas/fuente_es.h incluir/sistema/bucle_principal.h \
+ incluir/memoria/memoria_carrera.h incluir/sistema/matematicas.h
 incluir/libultra/ultra64.h:
 incluir/libultra/PR/ultratypes.h:
 incluir/libultra/PR/os_exception.h:
@@ -57,6 +57,7 @@ incluir/menus/elementos_menu.h:
 incluir/datos/texturas.h:
 incluir/datos/texturas/segmento_2.h:
 incluir/datos/texturas/menus_y_personajes.h:
+incluir/datos/texturas/fuente_es.h:
 incluir/sistema/bucle_principal.h:
 incluir/memoria/memoria_carrera.h:
 incluir/sistema/matematicas.h:

@@ -24,8 +24,8 @@ build/ps2/dev/codigo/ceremonia/ceremonia_y_creditos.o: \
  incluir/ceremonia/actores_podio.h incluir/menus/elementos_menu.h \
  incluir/datos/texturas.h incluir/datos/texturas/segmento_2.h \
  incluir/datos/texturas/menus_y_personajes.h \
- incluir/carrera/objetos_y_efectos.h incluir/juego/definiciones.h \
- incluir/juego/ids_musica.h \
+ incluir/datos/texturas/fuente_es.h incluir/carrera/objetos_y_efectos.h \
+ incluir/juego/definiciones.h incluir/juego/ids_musica.h \
  codigo/ceremonia/ceremonia_y_creditos/splines_y_vectores.inc.c \
  codigo/ceremonia/ceremonia_y_creditos/cinematica.inc.c
 incluir/libultra/ultra64.h:
@@ -76,6 +76,7 @@ incluir/menus/elementos_menu.h:
 incluir/datos/texturas.h:
 incluir/datos/texturas/segmento_2.h:
 incluir/datos/texturas/menus_y_personajes.h:
+incluir/datos/texturas/fuente_es.h:
 incluir/carrera/objetos_y_efectos.h:
 incluir/juego/definiciones.h:
 incluir/juego/ids_musica.h:

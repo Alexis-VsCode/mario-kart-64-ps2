@@ -25,10 +25,10 @@ build/ps2/debug/codigo/graficos/cielo_y_pantalla_dividida.o: \
  incluir/juego/curvas.h incluir/menus/elementos_menu.h \
  incluir/datos/texturas.h incluir/datos/texturas/segmento_2.h \
  incluir/datos/texturas/menus_y_personajes.h \
- incluir/sistema/bucle_principal.h incluir/carrera/actores.h \
- incluir/graficos/dibujar_pistas.h incluir/sistema/matematicas.h \
- incluir/menus/menus.h incluir/libultra/PR/os.h \
- incluir/juego/definiciones.h \
+ incluir/datos/texturas/fuente_es.h incluir/sistema/bucle_principal.h \
+ incluir/carrera/actores.h incluir/graficos/dibujar_pistas.h \
+ incluir/sistema/matematicas.h incluir/menus/menus.h \
+ incluir/libultra/PR/os.h incluir/juego/definiciones.h \
  codigo/graficos/cielo_y_pantalla_dividida/cielo_y_viewport.inc.c \
  recursos/pistas/metadatos/colores_cielo.inc.c \
  recursos/pistas/metadatos/colores_cielo_2.inc.c \
@@ -83,6 +83,7 @@ incluir/menus/elementos_menu.h:
 incluir/datos/texturas.h:
 incluir/datos/texturas/segmento_2.h:
 incluir/datos/texturas/menus_y_personajes.h:
+incluir/datos/texturas/fuente_es.h:
 incluir/sistema/bucle_principal.h:
 incluir/carrera/actores.h:
 incluir/graficos/dibujar_pistas.h:

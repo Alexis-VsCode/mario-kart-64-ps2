@@ -24,7 +24,7 @@ build/ps2/codigo/carrera/preparacion_carrera.o: \
  incluir/menus/elementos_menu.h incluir/datos/texturas.h \
  incluir/datos/texturas/segmento_2.h \
  incluir/datos/texturas/menus_y_personajes.h \
- incluir/sistema/bucle_principal.h \
+ incluir/datos/texturas/fuente_es.h incluir/sistema/bucle_principal.h \
  incluir/graficos/cielo_y_pantalla_dividida.h \
  incluir/carrera/inicio_hud_y_objetos.h \
  incluir/carrera/actualizar_objetos.h incluir/carrera/animacion.h \
@@ -121,6 +121,7 @@ incluir/menus/elementos_menu.h:
 incluir/datos/texturas.h:
 incluir/datos/texturas/segmento_2.h:
 incluir/datos/texturas/menus_y_personajes.h:
+incluir/datos/texturas/fuente_es.h:
 incluir/sistema/bucle_principal.h:
 incluir/graficos/cielo_y_pantalla_dividida.h:
 incluir/carrera/inicio_hud_y_objetos.h:

@@ -6,7 +6,7 @@ build/ps2/codigo/datos/texturas_seleccion.o: \
  recursos/texturas/sin_comprimir/p2_borde_rojo.rgba16 \
  recursos/texturas/sin_comprimir/azul_borde_p1.rgba16 \
  recursos/texturas/sin_comprimir/copyright_1996.rgba16 \
- recursos/texturas/sin_comprimir/empezar_boton_empuje.rgba16 \
+ build/ps2/es/crudo/sin_comprimir/empezar_boton_empuje.rgba16.bin \
  recursos/texturas/generales/bronce_copa.rgba16.mio0 \
  recursos/texturas/generales/plata_copa.rgba16.mio0 \
  recursos/texturas/generales/oro_copa.rgba16.mio0 \

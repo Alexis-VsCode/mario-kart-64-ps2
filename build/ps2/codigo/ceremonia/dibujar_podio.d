@@ -24,7 +24,7 @@ build/ps2/codigo/ceremonia/dibujar_podio.o: \
  incluir/juego/curvas.h incluir/menus/elementos_menu.h \
  incluir/datos/texturas.h incluir/datos/texturas/segmento_2.h \
  incluir/datos/texturas/menus_y_personajes.h \
- incluir/ceremonia/actores_podio.h \
+ incluir/datos/texturas/fuente_es.h incluir/ceremonia/actores_podio.h \
  incluir/ceremonia/ceremonia_y_creditos.h incluir/carrera/camara.h \
  incluir/graficos/dibujar_jugador.h incluir/memoria/buffers.h \
  incluir/juego/mk64.h incluir/juego/configuracion.h \
@@ -76,6 +76,7 @@ incluir/menus/elementos_menu.h:
 incluir/datos/texturas.h:
 incluir/datos/texturas/segmento_2.h:
 incluir/datos/texturas/menus_y_personajes.h:
+incluir/datos/texturas/fuente_es.h:
 incluir/ceremonia/actores_podio.h:
 incluir/ceremonia/ceremonia_y_creditos.h:
 incluir/carrera/camara.h:

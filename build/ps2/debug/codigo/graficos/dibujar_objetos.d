@@ -30,7 +30,8 @@ build/ps2/debug/codigo/graficos/dibujar_objetos.o: \
  incluir/graficos/dibujar_objetos.h incluir/sistema/bucle_principal.h \
  incluir/carrera/actualizar_objetos.h incluir/menus/elementos_menu.h \
  incluir/datos/texturas.h incluir/datos/texturas/segmento_2.h \
- incluir/datos/texturas/menus_y_personajes.h incluir/carrera/colision.h \
+ incluir/datos/texturas/menus_y_personajes.h \
+ incluir/datos/texturas/fuente_es.h incluir/carrera/colision.h \
  incluir/menus/menus.h incluir/libultra/PR/os.h \
  incluir/carrera/utilidades_objetos.h \
  incluir/carrera/preparacion_carrera.h incluir/recursos/luces_800E45C0.h \
@@ -56,13 +57,14 @@ build/ps2/debug/codigo/graficos/dibujar_objetos.o: \
  recursos/pistas/sherbet_land/datos_pista.h \
  recursos/pistas/wario_stadium/datos_pista.h \
  incluir/datos/vertices_jugadores_y_listas.h incluir/juego/curvas.h \
- incluir/datos/otras_texturas.h \
+ incluir/datos/otras_texturas.h incluir/sistema/caracteres_es.h \
  codigo/graficos/dibujar_objetos/cargar_texturas.inc.c \
  codigo/graficos/dibujar_objetos/texturas_hud.inc.c \
  codigo/graficos/dibujar_objetos/ventana_item_y_minimapa.inc.c \
  codigo/graficos/dibujar_objetos/objetos_ambiente.inc.c \
  codigo/graficos/dibujar_objetos/objetos_animados.inc.c \
- codigo/graficos/dibujar_objetos/kart_bomba_y_depuracion.inc.c
+ codigo/graficos/dibujar_objetos/kart_bomba_y_depuracion.inc.c \
+ codigo/graficos/dibujar_objetos/cadena_depuracion.inc.c
 incluir/libultra/ultra64.h:
 incluir/libultra/PR/ultratypes.h:
 incluir/libultra/PR/os_exception.h:
@@ -125,6 +127,7 @@ incluir/menus/elementos_menu.h:
 incluir/datos/texturas.h:
 incluir/datos/texturas/segmento_2.h:
 incluir/datos/texturas/menus_y_personajes.h:
+incluir/datos/texturas/fuente_es.h:
 incluir/carrera/colision.h:
 incluir/menus/menus.h:
 incluir/libultra/PR/os.h:
@@ -155,9 +158,11 @@ recursos/pistas/wario_stadium/datos_pista.h:
 incluir/datos/vertices_jugadores_y_listas.h:
 incluir/juego/curvas.h:
 incluir/datos/otras_texturas.h:
+incluir/sistema/caracteres_es.h:
 codigo/graficos/dibujar_objetos/cargar_texturas.inc.c:
 codigo/graficos/dibujar_objetos/texturas_hud.inc.c:
 codigo/graficos/dibujar_objetos/ventana_item_y_minimapa.inc.c:
 codigo/graficos/dibujar_objetos/objetos_ambiente.inc.c:
 codigo/graficos/dibujar_objetos/objetos_animados.inc.c:
 codigo/graficos/dibujar_objetos/kart_bomba_y_depuracion.inc.c:
+codigo/graficos/dibujar_objetos/cadena_depuracion.inc.c:

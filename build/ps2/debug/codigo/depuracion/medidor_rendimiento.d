@@ -19,8 +19,9 @@ build/ps2/debug/codigo/depuracion/medidor_rendimiento.o: \
  incluir/sistema/sistema_ps2.h incluir/sistema/perfilado.h \
  incluir/sistema/cronometro_fases.h incluir/graficos/memoria_texturas.h \
  incluir/depuracion/estadisticas_memoria.h \
- incluir/depuracion/texto_pantalla.h \
- incluir/depuracion/medidor_rendimiento.h
+ incluir/depuracion/texto_pantalla.h incluir/depuracion/fuente_5x7.h \
+ incluir/depuracion/medidor_rendimiento.h \
+ incluir/depuracion/marcas_registro.h
 incluir/libultra/ultra64.h:
 incluir/libultra/PR/ultratypes.h:
 incluir/libultra/PR/os_exception.h:
@@ -58,4 +59,6 @@ incluir/sistema/cronometro_fases.h:
 incluir/graficos/memoria_texturas.h:
 incluir/depuracion/estadisticas_memoria.h:
 incluir/depuracion/texto_pantalla.h:
+incluir/depuracion/fuente_5x7.h:
 incluir/depuracion/medidor_rendimiento.h:
+incluir/depuracion/marcas_registro.h:

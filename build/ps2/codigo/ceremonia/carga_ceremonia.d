@@ -33,8 +33,9 @@ build/ps2/codigo/ceremonia/carga_ceremonia.o: \
  incluir/menus/elementos_menu.h incluir/datos/texturas.h \
  incluir/datos/texturas/segmento_2.h \
  incluir/datos/texturas/menus_y_personajes.h \
- incluir/sistema/bucle_principal.h incluir/menus/menus.h \
- incluir/libultra/PR/os.h incluir/graficos/dibujar_pistas.h
+ incluir/datos/texturas/fuente_es.h incluir/sistema/bucle_principal.h \
+ incluir/menus/menus.h incluir/libultra/PR/os.h \
+ incluir/graficos/dibujar_pistas.h
 incluir/libultra/ultra64.h:
 incluir/libultra/PR/ultratypes.h:
 incluir/libultra/PR/os_exception.h:
@@ -96,6 +97,7 @@ incluir/menus/elementos_menu.h:
 incluir/datos/texturas.h:
 incluir/datos/texturas/segmento_2.h:
 incluir/datos/texturas/menus_y_personajes.h:
+incluir/datos/texturas/fuente_es.h:
 incluir/sistema/bucle_principal.h:
 incluir/menus/menus.h:
 incluir/libultra/PR/os.h:

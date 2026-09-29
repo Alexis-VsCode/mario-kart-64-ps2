@@ -31,54 +31,54 @@ build/ps2/codigo/datos/otras_texturas.o: \
  recursos/texturas/lakitu/rescate/lakitu_pesca_3.bin \
  recursos/texturas/lakitu/rescate/lakitu_pesca_2.bin \
  recursos/texturas/lakitu/rescate/lakitu_pesca_1.bin \
- recursos/texturas/lakitu/marcha_atras/lakitu_reversa_16.bin \
- recursos/texturas/lakitu/marcha_atras/lakitu_reversa_15.bin \
- recursos/texturas/lakitu/marcha_atras/lakitu_reversa_14.bin \
- recursos/texturas/lakitu/marcha_atras/lakitu_reversa_13.bin \
- recursos/texturas/lakitu/marcha_atras/lakitu_reversa_12.bin \
- recursos/texturas/lakitu/marcha_atras/lakitu_reversa_11.bin \
- recursos/texturas/lakitu/marcha_atras/lakitu_reversa_10.bin \
- recursos/texturas/lakitu/marcha_atras/lakitu_reversa_09.bin \
- recursos/texturas/lakitu/marcha_atras/lakitu_reversa_08.bin \
- recursos/texturas/lakitu/marcha_atras/lakitu_reversa_07.bin \
- recursos/texturas/lakitu/marcha_atras/lakitu_reversa_06.bin \
- recursos/texturas/lakitu/marcha_atras/lakitu_reversa_05.bin \
- recursos/texturas/lakitu/marcha_atras/lakitu_reversa_04.bin \
- recursos/texturas/lakitu/marcha_atras/lakitu_reversa_03.bin \
- recursos/texturas/lakitu/marcha_atras/lakitu_reversa_02.bin \
- recursos/texturas/lakitu/marcha_atras/lakitu_reversa_01.bin \
- recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_16.bin \
- recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_15.bin \
- recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_14.bin \
- recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_13.bin \
- recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_12.bin \
- recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_11.bin \
- recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_10.bin \
- recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_09.bin \
- recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_08.bin \
- recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_07.bin \
- recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_06.bin \
- recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_05.bin \
- recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_04.bin \
- recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_03.bin \
- recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_02.bin \
- recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_01.bin \
- recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_16.bin \
- recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_15.bin \
- recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_14.bin \
- recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_13.bin \
- recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_12.bin \
- recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_11.bin \
- recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_10.bin \
- recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_09.bin \
- recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_08.bin \
- recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_07.bin \
- recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_06.bin \
- recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_05.bin \
- recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_04.bin \
- recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_03.bin \
- recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_02.bin \
- recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_01.bin \
+ build/ps2/es/lakitu/marcha_atras/lakitu_reversa_16.bin \
+ build/ps2/es/lakitu/marcha_atras/lakitu_reversa_15.bin \
+ build/ps2/es/lakitu/marcha_atras/lakitu_reversa_14.bin \
+ build/ps2/es/lakitu/marcha_atras/lakitu_reversa_13.bin \
+ build/ps2/es/lakitu/marcha_atras/lakitu_reversa_12.bin \
+ build/ps2/es/lakitu/marcha_atras/lakitu_reversa_11.bin \
+ build/ps2/es/lakitu/marcha_atras/lakitu_reversa_10.bin \
+ build/ps2/es/lakitu/marcha_atras/lakitu_reversa_09.bin \
+ build/ps2/es/lakitu/marcha_atras/lakitu_reversa_08.bin \
+ build/ps2/es/lakitu/marcha_atras/lakitu_reversa_07.bin \
+ build/ps2/es/lakitu/marcha_atras/lakitu_reversa_06.bin \
+ build/ps2/es/lakitu/marcha_atras/lakitu_reversa_05.bin \
+ build/ps2/es/lakitu/marcha_atras/lakitu_reversa_04.bin \
+ build/ps2/es/lakitu/marcha_atras/lakitu_reversa_03.bin \
+ build/ps2/es/lakitu/marcha_atras/lakitu_reversa_02.bin \
+ build/ps2/es/lakitu/marcha_atras/lakitu_reversa_01.bin \
+ build/ps2/es/lakitu/vuelta_final/lakitu_vuelta_final_16.bin \
+ build/ps2/es/lakitu/vuelta_final/lakitu_vuelta_final_15.bin \
+ build/ps2/es/lakitu/vuelta_final/lakitu_vuelta_final_14.bin \
+ build/ps2/es/lakitu/vuelta_final/lakitu_vuelta_final_13.bin \
+ build/ps2/es/lakitu/vuelta_final/lakitu_vuelta_final_12.bin \
+ build/ps2/es/lakitu/vuelta_final/lakitu_vuelta_final_11.bin \
+ build/ps2/es/lakitu/vuelta_final/lakitu_vuelta_final_10.bin \
+ build/ps2/es/lakitu/vuelta_final/lakitu_vuelta_final_09.bin \
+ build/ps2/es/lakitu/vuelta_final/lakitu_vuelta_final_08.bin \
+ build/ps2/es/lakitu/vuelta_final/lakitu_vuelta_final_07.bin \
+ build/ps2/es/lakitu/vuelta_final/lakitu_vuelta_final_06.bin \
+ build/ps2/es/lakitu/vuelta_final/lakitu_vuelta_final_05.bin \
+ build/ps2/es/lakitu/vuelta_final/lakitu_vuelta_final_04.bin \
+ build/ps2/es/lakitu/vuelta_final/lakitu_vuelta_final_03.bin \
+ build/ps2/es/lakitu/vuelta_final/lakitu_vuelta_final_02.bin \
+ build/ps2/es/lakitu/vuelta_final/lakitu_vuelta_final_01.bin \
+ build/ps2/es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_16.bin \
+ build/ps2/es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_15.bin \
+ build/ps2/es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_14.bin \
+ build/ps2/es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_13.bin \
+ build/ps2/es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_12.bin \
+ build/ps2/es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_11.bin \
+ build/ps2/es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_10.bin \
+ build/ps2/es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_09.bin \
+ build/ps2/es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_08.bin \
+ build/ps2/es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_07.bin \
+ build/ps2/es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_06.bin \
+ build/ps2/es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_05.bin \
+ build/ps2/es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_04.bin \
+ build/ps2/es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_03.bin \
+ build/ps2/es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_02.bin \
+ build/ps2/es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_01.bin \
  recursos/texturas/lakitu/bandera_cuadros/lakitu_bandera_a_cuadros_32.bin \
  recursos/texturas/lakitu/bandera_cuadros/lakitu_bandera_a_cuadros_31.bin \
  recursos/texturas/lakitu/bandera_cuadros/lakitu_bandera_a_cuadros_30.bin \
@@ -491,8 +491,8 @@ build/ps2/codigo/datos/otras_texturas.o: \
  recursos/texturas/generales/64B090.rgba16.mio0 \
  recursos/texturas/generales/64AF50.rgba16.mio0 \
  recursos/texturas/generales/64ACAC.rgba16.mio0 \
- recursos/texturas/pistas/moo_moo_farm/derecha_cartel.mio0 \
- recursos/texturas/pistas/moo_moo_farm/izquierda_cartel.mio0 \
+ build/ps2/es/mio0/pistas/moo_moo_farm/cartel_granja_derecha.rgba16.mio0 \
+ build/ps2/es/mio0/pistas/moo_moo_farm/cartel_granja_izquierda.rgba16.mio0 \
  recursos/texturas/generales/pasto_2.rgba16.mio0 \
  recursos/texturas/generales/puerta_madera_1.rgba16.mio0 \
  recursos/texturas/generales/puerta_madera_0.rgba16.mio0 \

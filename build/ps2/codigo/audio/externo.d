@@ -26,8 +26,8 @@ build/ps2/codigo/audio/externo.o: codigo/audio/externo.c \
  incluir/recursos/datos_comunes.h incluir/menus/elementos_menu.h \
  incluir/datos/texturas.h incluir/datos/texturas/segmento_2.h \
  incluir/datos/texturas/menus_y_personajes.h \
- incluir/sistema/bucle_principal.h incluir/juego/ids_musica.h \
- codigo/audio/externo/sesion_audio.inc.c \
+ incluir/datos/texturas/fuente_es.h incluir/sistema/bucle_principal.h \
+ incluir/juego/ids_musica.h codigo/audio/externo/sesion_audio.inc.c \
  codigo/audio/externo/efectos_sonido.inc.c \
  codigo/audio/externo/sonidos_jugadores.inc.c \
  codigo/audio/externo/secuencias_musica.inc.c
@@ -86,6 +86,7 @@ incluir/menus/elementos_menu.h:
 incluir/datos/texturas.h:
 incluir/datos/texturas/segmento_2.h:
 incluir/datos/texturas/menus_y_personajes.h:
+incluir/datos/texturas/fuente_es.h:
 incluir/sistema/bucle_principal.h:
 incluir/juego/ids_musica.h:
 codigo/audio/externo/sesion_audio.inc.c:

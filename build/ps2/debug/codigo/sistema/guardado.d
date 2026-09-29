@@ -18,10 +18,10 @@ build/ps2/debug/codigo/sistema/guardado.o: codigo/sistema/guardado.c \
  incluir/libultra/PR/os.h incluir/menus/elementos_menu.h \
  incluir/datos/texturas.h incluir/datos/texturas/segmento_2.h \
  incluir/datos/texturas/menus_y_personajes.h \
- incluir/sistema/bucle_principal.h incluir/menus/menus.h \
- incluir/juego/datos_guardado.h incluir/carrera/repeticiones.h \
- incluir/carrera/objetos_y_efectos.h incluir/juego/objetos.h \
- incluir/juego/curvas.h incluir/carrera/camara.h
+ incluir/datos/texturas/fuente_es.h incluir/sistema/bucle_principal.h \
+ incluir/menus/menus.h incluir/juego/datos_guardado.h \
+ incluir/carrera/repeticiones.h incluir/carrera/objetos_y_efectos.h \
+ incluir/juego/objetos.h incluir/juego/curvas.h incluir/carrera/camara.h
 incluir/libultra/ultra64.h:
 incluir/libultra/PR/ultratypes.h:
 incluir/libultra/PR/os_exception.h:
@@ -59,6 +59,7 @@ incluir/menus/elementos_menu.h:
 incluir/datos/texturas.h:
 incluir/datos/texturas/segmento_2.h:
 incluir/datos/texturas/menus_y_personajes.h:
+incluir/datos/texturas/fuente_es.h:
 incluir/sistema/bucle_principal.h:
 incluir/menus/menus.h:
 incluir/juego/datos_guardado.h:

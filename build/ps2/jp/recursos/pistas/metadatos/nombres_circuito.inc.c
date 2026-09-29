@@ -1,0 +1,1 @@
+"pista mario", "monte chocolate", "castillo de bowser", "muelle embrujado", "valle de yoshi", "circuito nevado", "playa koopa", "pista real", "pista luigi", "granja mu-mu", "autopista toad", "desierto kalimari", "tierra sorbete", "senda arco iris", "estadio wario", "ciudad bloque", "rascacielos", "doble piso", "pista de la jungla dk", "gran donut",
