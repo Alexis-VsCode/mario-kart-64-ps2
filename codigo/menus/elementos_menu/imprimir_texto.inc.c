@@ -1,124 +1,5 @@
 // Imprimir texto
 
-s32 funcion_80092EE4(char* character) {
-    u8 temporal_t6;
-    s32 variable_v1;
-
-    temporal_t6 = (character[1] + 0x80);
-    variable_v1 = 2;
-    switch (character[0]) {
-        case -95:
-            switch (temporal_t6) {
-                case 0x22:
-                case 0x24:
-                    variable_v1 = 0x000000EA;
-                    break;
-                case 0x23:
-                    variable_v1 = 0x000000E9;
-                    break;
-                case 0x25:
-                    variable_v1 = 0x000000D0;
-                    break;
-                case 0x2A:
-                    variable_v1 = 0x000000E8;
-                    break;
-                case 0x30:
-                    variable_v1 = 0x000000EB;
-                    break;
-                case 0x47:
-                    variable_v1 = 0x000000D1;
-                    break;
-                case 0x49:
-                    variable_v1 = 0x000000D2;
-                    break;
-                case 0x5C:
-                    variable_v1 = 0x000000D3;
-                    break;
-                case 0x3C:
-                case 0x3D:
-                case 0x5D:
-                    variable_v1 = 0x000000D4;
-                    break;
-                default:
-                    break;
-            }
-            break;
-        case -93:
-            if ((temporal_t6 >= 0x30) && (temporal_t6 < 0x3A)) {
-                variable_v1 = temporal_t6 + 0xA5;
-            } else {
-                switch (temporal_t6) {
-                    case 0x44:
-                        variable_v1 = 0x000000DF;
-                        break;
-                    case 0x43:
-                    case 0x63:
-                        variable_v1 = 0x000000E0;
-                        break;
-                    case 0x4E:
-                    case 0x6E:
-                        variable_v1 = 0x000000E1;
-                        break;
-                    case 0x50:
-                    case 0x70:
-                        variable_v1 = 0x000000E2;
-                        break;
-                    case 0x52:
-                    case 0x72:
-                        variable_v1 = 0x000000E3;
-                        break;
-                    case 0x73:
-                        variable_v1 = 0x000000E4;
-                        break;
-                    case 0x54:
-                    case 0x74:
-                        variable_v1 = 0x000000E5;
-                        break;
-                    case 0x53:
-                        variable_v1 = 0x000000E6;
-                        break;
-                    case 0x56:
-                    case 0x76:
-                        variable_v1 = 0x000000E7;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            break;
-        case -85:
-            if (temporal_t6 == 0x2E) {
-                variable_v1 = 0x000000E0;
-            }
-            break;
-        default:
-            variable_v1 = 2;
-    }
-    return variable_v1;
-}
-
-s32 obtener_ancho_cadena(char* buffer) {
-    s32 indice_glifo;
-    s32 ancho_cadena = 0;
-
-    if (*buffer != 0) {
-        do {
-            indice_glifo = car_a_indice_glifo(buffer);
-            if (indice_glifo >= 0) {
-                ancho_cadena += ancho_pantalla_glifo[indice_glifo];
-            } else if (indice_glifo == -1) {
-                ancho_cadena += 7;
-            }
-            if (indice_glifo >= 0x30) {
-                buffer += 2;
-            } else {
-                buffer += 1;
-            }
-        } while (*buffer != 0);
-    }
-    return ancho_cadena;
-}
-
 void fijar_color_texto(s32 parametro0) {
     g_color_texto = parametro0;
 }
@@ -131,11 +12,12 @@ SIN_USO void funcion_800930E4(s32 parametro0, s32 parametro1, char* parametro2) 
 void imprimir_texto0(s32 columna, s32 renglon, char* text, s32 tracking, f32 escalar_x, f32 escalar_y, s32 mode) {
     s32 ancho_cadena = 0;
     s32 indice_glifo;
+    s32 bytes_glifo;
 
     gSPDisplayList(display_list_cabeza++, dato_020077A8);
     if (*text != 0) {
         do {
-            indice_glifo = car_a_indice_glifo(text);
+            indice_glifo = leer_glifo(text, &bytes_glifo);
             if (indice_glifo >= 0) {
                 cargar_img_menu((TexturaMenu*) segmentado_a_duplicado_virtual((const void*) lut_textura_glifo[indice_glifo]));
                 display_list_cabeza =
@@ -149,11 +31,7 @@ void imprimir_texto0(s32 columna, s32 renglon, char* text, s32 tracking, f32 esc
                 gSPDisplayList(display_list_cabeza++, dato_020077D8);
                 return;
             }
-            if (indice_glifo >= 0x30) {
-                text += 2;
-            } else {
-                text += 1;
-            }
+            text += bytes_glifo;
         } while (*text != 0);
     }
     gSPDisplayList(display_list_cabeza++, dato_020077D8);
@@ -171,10 +49,11 @@ void imprimir_texto1(s32 columna, s32 renglon, char* text, s32 tracking, f32 esc
     char* cadena_temporal = text;
     s32 ancho_cadena = 0;
     s32 indice_glifo;
+    s32 bytes_glifo;
     s32 sp60;
 
     while (*cadena_temporal != 0) {
-        indice_glifo = car_a_indice_glifo(cadena_temporal);
+        indice_glifo = leer_glifo(cadena_temporal, &bytes_glifo);
         if (indice_glifo >= 0) {
             ancho_cadena += ((ancho_pantalla_glifo[indice_glifo] + tracking) * escalar_x);
         } else if ((indice_glifo != -2) && (indice_glifo == -1)) {
@@ -182,11 +61,7 @@ void imprimir_texto1(s32 columna, s32 renglon, char* text, s32 tracking, f32 esc
         } else {
             return;
         }
-        if (indice_glifo >= 0x30) {
-            cadena_temporal += 2;
-        } else {
-            cadena_temporal += 1;
-        }
+        cadena_temporal += bytes_glifo;
     }
 
     switch (parametro6) {
@@ -212,7 +87,7 @@ void imprimir_texto1(s32 columna, s32 renglon, char* text, s32 tracking, f32 esc
 
     gSPDisplayList(display_list_cabeza++, dato_020077A8);
     while (*text != 0) {
-        indice_glifo = car_a_indice_glifo(text);
+        indice_glifo = leer_glifo(text, &bytes_glifo);
 #if defined(TARGET_PS2) && defined(SMK64_DEV)
         if (indice_glifo >= (s32) (sizeof(lut_textura_glifo) / sizeof(lut_textura_glifo[0]))) {
             void registrar(const char* fmt, ...);
@@ -231,11 +106,7 @@ void imprimir_texto1(s32 columna, s32 renglon, char* text, s32 tracking, f32 esc
             gSPDisplayList(display_list_cabeza++, dato_020077D8);
             return;
         }
-        if (indice_glifo >= 0x30) {
-            text += 2;
-        } else {
-            text += 1;
-        }
+        text += bytes_glifo;
     }
     gSPDisplayList(display_list_cabeza++, dato_020077D8);
 }
@@ -260,11 +131,12 @@ void imprimir_texto2(s32 columna, s32 renglon, char* text, s32 tracking, f32 esc
     TexturaMenu* textura_glifo;
     s32 ancho_personaje;
     s32 indice_glifo;
+    s32 bytes_glifo;
 
     gSPDisplayList(display_list_cabeza++, dato_020077A8);
     if (*text != 0) {
         do {
-            indice_glifo = car_a_indice_glifo(text);
+            indice_glifo = leer_glifo(text, &bytes_glifo);
             if (indice_glifo >= 0) {
                 textura_glifo = (TexturaMenu*) segmentado_a_duplicado_virtual((const void*) lut_textura_glifo[indice_glifo]);
                 cargar_img_menu(textura_glifo);
@@ -283,11 +155,7 @@ void imprimir_texto2(s32 columna, s32 renglon, char* text, s32 tracking, f32 esc
                 gSPDisplayList(display_list_cabeza++, dato_020077D8);
                 return;
             }
-            if (indice_glifo >= 0x30) {
-                text += 2;
-            } else {
-                text += 1;
-            }
+            text += bytes_glifo;
         } while (*text != 0);
     }
 

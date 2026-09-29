@@ -411,3 +411,27 @@ Gfx dato_02008058[] = {
     gsDPSetCycleType(G_CYC_1CYCLE),
     gsSPEndDisplayList(),
 };
+
+// Parte de 26x8 que va encima de un glifo de 26x16 (tilde, virgulilla o
+// dieresis): de y=-24 a -16, toda blanca como la parte alta de las letras.
+// Mismo orden que dato_02007BB8: el par de arriba y un par de abajo por color.
+Vtx vtx_glifo_diacritico[] = {
+    { { { 0, -24, 0 }, 0, { 0, 0 }, { 0xff, 0xff, 0xff, 0xff } } },
+    { { { 26, -24, 0 }, 0, { 1600, 0 }, { 0xff, 0xff, 0xff, 0xff } } },
+    { { { 26, -16, 0 }, 0, { 1600, 448 }, { 0xff, 0xff, 0xff, 0xff } } },
+    { { { 0, -16, 0 }, 0, { 0, 448 }, { 0xff, 0xff, 0xff, 0xff } } },
+    { { { 26, -16, 0 }, 0, { 1600, 448 }, { 0xff, 0xff, 0xff, 0xff } } },
+    { { { 0, -16, 0 }, 0, { 0, 448 }, { 0xff, 0xff, 0xff, 0xff } } },
+    { { { 26, -16, 0 }, 0, { 1600, 448 }, { 0xff, 0xff, 0xff, 0xff } } },
+    { { { 0, -16, 0 }, 0, { 0, 448 }, { 0xff, 0xff, 0xff, 0xff } } },
+    { { { 26, -16, 0 }, 0, { 1600, 448 }, { 0xff, 0xff, 0xff, 0xff } } },
+    { { { 0, -16, 0 }, 0, { 0, 448 }, { 0xff, 0xff, 0xff, 0xff } } },
+    { { { 26, -16, 0 }, 0, { 1600, 448 }, { 0xff, 0xff, 0xff, 0xff } } },
+    { { { 0, -16, 0 }, 0, { 0, 448 }, { 0xff, 0xff, 0xff, 0xff } } },
+    { { { 26, -16, 0 }, 0, { 1600, 448 }, { 0xff, 0xff, 0xff, 0xff } } },
+    { { { 0, -16, 0 }, 0, { 0, 448 }, { 0xff, 0xff, 0xff, 0xff } } },
+    { { { 26, -16, 0 }, 0, { 1600, 448 }, { 0xff, 0xff, 0xff, 0xff } } },
+    { { { 0, -16, 0 }, 0, { 0, 448 }, { 0xff, 0xff, 0xff, 0xff } } },
+    { { { 26, -16, 0 }, 0, { 1600, 448 }, { 0xff, 0xff, 0xff, 0xff } } },
+    { { { 0, -16, 0 }, 0, { 0, 448 }, { 0xff, 0xff, 0xff, 0xff } } },
+};

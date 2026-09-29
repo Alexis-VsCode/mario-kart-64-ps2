@@ -166,7 +166,8 @@ PS2_SRC := \
   codigo/sistema/segmentos.c codigo/sistema/doble_precision.c codigo/sistema/cronometro_fases.c \
   codigo/graficos/memoria_texturas.c codigo/graficos/pantallas_gigantes.c \
   codigo/carrera/ia/caminos_vehiculos.c \
-  codigo/sistema/descompresion_tkmk00.c codigo/sistema/descompresion_mio0.c $(EXTRA_SRC)
+  codigo/sistema/descompresion_tkmk00.c codigo/sistema/descompresion_mio0.c codigo/sistema/caracteres_es.c \
+  $(EXTRA_SRC)
 
 # Caminos 2D del tren y del barco, calculados al compilar
 CAMINOS := $(BUILD)/tabla_caminos_vehiculos.h
@@ -185,7 +186,8 @@ KARTS := luigi mario yoshi peach wario toad donkey_kong bowser
 
 ROM_ASM := $(addprefix codigo/datos/karts/kart_,$(addsuffix .s,$(KARTS))) \
            codigo/datos/otras_texturas.s codigo/datos/texturas_seleccion.s codigo/datos/texturas_fuentes.s \
-           codigo/datos/texturas_tkmk00.s codigo/datos/secuencias_musica.s codigo/datos/conjuntos_instrumentos.s
+           codigo/datos/texturas_tkmk00.s codigo/datos/secuencias_musica.s codigo/datos/conjuntos_instrumentos.s \
+           codigo/datos/texturas_fuentes_es.s
 ROM_C    := codigo/datos/texturas.c codigo/datos/segmento_datos_2.c recursos/pistas/fantasmas_personal.c \
             $(foreach p,$(PISTAS),recursos/pistas/$(p)/desplazamientos.c)
 
@@ -243,6 +245,14 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES))
 	$(V)$(PYTHON) herramientas/pruebas/prueba_convertir_eucjp.py $(JP_SRC) $(JP_PARTES)
 	$(V)$(PYTHON) herramientas/pruebas/prueba_metadatos_eucjp.py $(BUILD)/jp/codigo/menus/elementos_menu.c -- \
 	    $(INCLUDES) -iquote codigo/menus/ $(JP_IQUOTE)
+	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -Iincluir -o $(PRUEBAS)/prueba_caracteres_es \
+	    herramientas/pruebas/prueba_caracteres_es.c codigo/sistema/caracteres_es.c
+	$(V)$(PRUEBAS)/prueba_caracteres_es
+	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -O1 -Iincluir -Iincluir/libultra -Icodigo -o $(PRUEBAS)/prueba_glifos \
+	    herramientas/pruebas/prueba_glifos.c codigo/sistema/caracteres_es.c
+	$(V)$(PRUEBAS)/prueba_glifos
+	$(V)$(PYTHON) herramientas/pruebas/prueba_glifos_es.py
+	$(V)$(PYTHON) herramientas/pruebas/prueba_tablas_glifos.py codigo/menus/elementos_menu/lista_glifos.inc.c
 	$(V)$(PYTHON) herramientas/comprobar_lineas.py
 
 # --- Herramientas del PC ------------------------------------------------------------
@@ -299,6 +309,15 @@ $(BUILD)/%.o: %.c $(FLAGS_STAMP) $(SWAP_STAMP)
 	@mkdir -p $(dir $@)
 	@echo "  CC      $<"
 	$(V)$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
+
+# Glifos del espanol, generados a partir de los de la fuente original
+GLIFOS_ES_NOMBRES := diacritico_a_aguda diacritico_e_aguda diacritico_i_aguda diacritico_o_aguda \
+                     diacritico_u_aguda diacritico_n_virgulilla diacritico_u_dieresis \
+                     abre_exclamacion abre_interrogacion ordinal_o ordinal_a
+GLIFOS_ES := $(addprefix $(BUILD)/glifos_es/,$(addsuffix .i4,$(GLIFOS_ES_NOMBRES)))
+$(GLIFOS_ES) &: herramientas/generar_glifos_es.py $(wildcard recursos/texturas/sin_comprimir/fuente_*.i4)
+	$(V)$(PYTHON) herramientas/generar_glifos_es.py $(BUILD)/glifos_es
+$(BUILD)/codigo/datos/texturas_fuentes_es.o: $(GLIFOS_ES)
 
 $(BUILD)/icono_partida.ico: herramientas/crear_icono.py
 	@mkdir -p $(dir $@)
