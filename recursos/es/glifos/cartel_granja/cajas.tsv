@@ -1,0 +1,13 @@
+caracter	textura	x_izq	x_der
+# cartel_granja_izquierda: MOO M (la O que sigue queda partida entre las dos mitades)
+M	cartel_granja_izquierda	10	24
+O	cartel_granja_izquierda	24	33
+O	cartel_granja_izquierda	33	43
+espacio	cartel_granja_izquierda	43	45
+M	cartel_granja_izquierda	45	58
+# cartel_granja_derecha: OFARM (antes, el final de la O partida)
+O	cartel_granja_derecha	3	14
+F	cartel_granja_derecha	14	25
+A	cartel_granja_derecha	25	33
+R	cartel_granja_derecha	33	42
+M	cartel_granja_derecha	42	54

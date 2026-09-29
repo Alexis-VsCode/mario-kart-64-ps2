@@ -164,11 +164,11 @@ glabel textura_pasto_2
 
 .balign 4, 0x00
 glabel textura_moo_moo_farm_izquierda_cartel
-.incbin "recursos/texturas/pistas/moo_moo_farm/izquierda_cartel.mio0"
+.incbin "es/mio0/pistas/moo_moo_farm/cartel_granja_izquierda.rgba16.mio0"
 
 .balign 4, 0x00
 glabel textura_moo_moo_farm_derecha_cartel
-.incbin "recursos/texturas/pistas/moo_moo_farm/derecha_cartel.mio0"
+.incbin "es/mio0/pistas/moo_moo_farm/cartel_granja_derecha.rgba16.mio0"
 
 .balign 4, 0x00
 glabel textura_64ACAC

@@ -1,0 +1,8 @@
+caracter	receta
+# Letras que no estan en MOO MOO FARM, dibujadas con el trazo de la pintura
+# (palo de 3 columnas, filas 5 a 26 como la M)
+G	parte("g", 5)
+N	parte("n", 5)
+J	parte("j", 5)
+U	parte("u", 5)
+-	parte("guion", 15)

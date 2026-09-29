@@ -9,6 +9,8 @@ barra_rosa	recursos/texturas/menus/tkmk00/barra_rosa.rgba16.tkmk00	rgba16	90x16	
 batalla_modo	recursos/texturas/menus/tkmk00/batalla_modo.rgba16.tkmk00	rgba16	64x18		clave_00BE	recursos/es/mio0/menus/batalla_modo.rgba16.png	BATALLA	no	
 borrar_datos_registro_confirmacion	recursos/texturas/generales/borrar_datos_registro_confirmacion.ia16.mio0	ia16	180x32		formato			no	no se muestra
 borrar_texto	recursos/texturas/generales/borrar_texto.ia16.mio0	ia16	28x10		formato			no	no se muestra
+cartel_granja_derecha	recursos/texturas/pistas/moo_moo_farm/derecha_cartel.mio0	rgba16	64x32		formato	recursos/es/mio0/pistas/moo_moo_farm/cartel_granja_derecha.rgba16.png	MU-MU	no	
+cartel_granja_izquierda	recursos/texturas/pistas/moo_moo_farm/izquierda_cartel.mio0	rgba16	64x32		formato	recursos/es/mio0/pistas/moo_moo_farm/cartel_granja_izquierda.rgba16.png	GRANJA	no	
 cielo_azul_fondo	recursos/texturas/menus/tkmk00/cielo_azul_fondo.rgba16.tkmk00	rgba16	320x240		opaco			no	sin texto
 cuarto_lugar	recursos/comunes/texturas/cuarto_lugar.i4.inc.c	i4	64x64		formato			no	solo la cifra
 datos	recursos/texturas/menus/tkmk00/datos.rgba16.tkmk00	rgba16	64x18		clave_00BE	recursos/es/mio0/menus/datos.rgba16.png	DATOS	no	

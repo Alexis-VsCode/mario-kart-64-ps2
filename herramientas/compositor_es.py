@@ -5,8 +5,9 @@
     compositor_es.py autoprueba [--solo ID ...]   recompone el ingles y mide cuanto coincide
 
 Cada familia (recursos/es/glifos/<familia>/) tiene:
-  familia.tsv  parametros: fondo (negro, transparente o fila: el color saturado mas
-               frecuente de cada fila, para placas con degradado), filas (y0,y1 de la linea),
+  familia.tsv  parametros: fondo (negro, transparente, fila: el color saturado mas
+               frecuente de cada fila, para placas con degradado, o madera: el oscuro
+               mas frecuente, para letras claras sobre tablas), filas (y0,y1 de la linea),
                ventana (columnas a cada lado donde buscar el corte), umbral (luminancia
                que separa contorno de relleno), muestras (pixeles minimos de una fila
                para tomar su color de referencia; si no, se usa la fila mas cercana)
@@ -154,6 +155,8 @@ class Familia:
             return p[3] == 255 and max(p[:3]) == 0
         if self.fondo == "fila":
             return p[3] and sum((a - b) ** 2 for a, b in zip(p[:3], color_fila(textura, y)[:3])) < 900
+        if self.fondo == "madera":
+            return p[3] and not pintura(p)
         return p[3] == 0
 
     def clase(self, p):
@@ -492,12 +495,22 @@ def juntar(glifos, hueco):
     return xs
 
 
-def color_fila(textura, y):
-    """Color de fondo de una fila (fondo=fila): el mas frecuente entre los saturados."""
-    clave = (textura.id, y)
+def pintura(p):
+    """Letra pintada sobre madera: clara y casi gris (la veta es parda aunque brille)."""
+    mx = max(p[:3])
+    return p[3] and mx >= 150 and (mx - min(p[:3])) / float(mx) < 0.12
+
+
+def color_fila(textura, y, fondo="fila"):
+    """Color de fondo de una fila: el mas frecuente entre los saturados (fila) o entre los
+    oscuros (madera: letras claras pintadas sobre tablas)."""
+    clave = (textura.id, y, fondo)
     if clave not in _COLOR_FILA:
         fila = [textura.pixel(x, y) for x in range(textura.ancho)]
-        saturados = [p for p in fila if p[3] and max(p[:3]) > 30 and (max(p[:3]) - min(p[:3])) / max(p[:3]) >= 0.6]
+        if fondo == "madera":
+            saturados = [p for p in fila if p[3] and not pintura(p)]
+        else:
+            saturados = [p for p in fila if p[3] and max(p[:3]) > 30 and (max(p[:3]) - min(p[:3])) / max(p[:3]) >= 0.6]
         _COLOR_FILA[clave] = max(sorted(set(saturados)), key=saturados.count) if saturados else (0, 0, 0, 255)
     return _COLOR_FILA[clave]
 
@@ -552,7 +565,12 @@ def componer(id_, texto, comp, destino=None, en_ingles=False):
     ancho, alto, salida = lienzo(comp, destino, en_ingles, vacio)
     for y in range(cy, cy + ch):
         for x in range(cx, cx + cw):
-            salida[y * ancho + x] = color_fila(destino, y) if familia.fondo == "fila" else vacio
+            if familia.fondo == "madera":
+                # se borran solo las letras: la veta de las tablas queda
+                if pintura(salida[y * ancho + x]):
+                    salida[y * ancho + x] = color_fila(destino, y, "madera")
+            else:
+                salida[y * ancho + x] = color_fila(destino, y) if familia.fondo == "fila" else vacio
     puntos = [(x0 + x, y + dy) for x0, dy, g, _ in colocados for (x, y) in g.pixeles]
     if puntos:
         xs, ys = [p[0] for p in puntos], [p[1] for p in puntos]

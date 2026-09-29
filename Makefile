@@ -257,6 +257,7 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(
 	$(V)$(PYTHON) herramientas/pruebas/prueba_hud_es.py $(BUILD)
 	$(V)$(PYTHON) herramientas/pruebas/prueba_lakitu_es.py $(BUILD)
 	$(V)$(PYTHON) herramientas/pruebas/prueba_titulos_es.py
+	$(V)$(PYTHON) herramientas/pruebas/prueba_cartel_es.py $(BUILD)
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -Iincluir -o $(PRUEBAS)/prueba_textura_menu \
 	    herramientas/pruebas/prueba_textura_menu.c codigo/sistema/descompresion_textura_menu.c \
 	    codigo/sistema/descompresion_tkmk00.c codigo/sistema/descompresion_mio0.c herramientas/archivos_host.c
@@ -327,7 +328,8 @@ $(ES_TAMANIOS): $(ES_MIO0) recursos/es/texturas.tsv $(ES_PY)
 # gas y gcc no ven estas dependencias a tiempo con -j
 $(BUILD)/codigo/datos/texturas_tkmk00.o: $(ES_MIO0)
 $(BUILD)/codigo/datos/texturas_seleccion.o: $(ES_CRUDO)
-$(BUILD)/codigo/datos/otras_texturas.o: $(ES_LAKITU)
+$(BUILD)/codigo/datos/otras_texturas.o: $(ES_LAKITU) $(ES_MIO0)
+$(BUILD)/recursos/pistas/moo_moo_farm/desplazamientos.o: $(ES_TAMANIOS)
 $(BUILD)/codigo/datos/texturas.o: $(ES_TAMANIOS)
 $(BUILD)/recursos/comunes/datos_comunes.data.o: $(ES_SELLO)
 

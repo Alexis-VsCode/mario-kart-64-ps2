@@ -52,3 +52,5 @@ titulo_skyscraper	titulos_pista	1,2,138,14	SKYSCRAPER	34	juntar=-1
 titulo_double_deck	titulos_pista	1,2,138,14	DOUBLE DECK	32	juntar=-1
 titulo_dks_jungle_parkway	titulos_pista	1,2,138,14	D.K.'S JUNGLE PARKWAY	4	juntar=-1
 titulo_big_donut	titulos_pista	1,2,138,14	BIG DONUT	40	juntar=-1
+cartel_granja_izquierda	cartel_granja	4,3,60,26	MOO M	10	juntar=0 alinear=derecha@61
+cartel_granja_derecha	cartel_granja	0,3,57,26	OFARM	3	juntar=1 alinear=izquierda@2
