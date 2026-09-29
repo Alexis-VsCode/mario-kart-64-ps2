@@ -81,7 +81,8 @@ void quitar_diacriticos(char* destino, int tam, const char* origen) {
         int bytes, minuscula;
         int car = leer_caracter_es(origen, &bytes, &minuscula);
         if (car == CAR_ES_NINGUNO) {
-            destino[escritos++] = *origen;
+            /* un byte suelto de otro alfabeto no es ASCII */
+            destino[escritos++] = ((unsigned char) *origen < 0x80) ? *origen : '?';
         } else if (car == CAR_ES_ORDINAL_O || car == CAR_ES_ORDINAL_A) {
             destino[escritos++] = codigos[car].base - 'A' + 'a';
         } else if (car != CAR_ES_ABRE_EXCLAMACION && car != CAR_ES_ABRE_INTERROGACION) {
