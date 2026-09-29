@@ -26,7 +26,8 @@ RAIZ = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", ".."))
 TODO_EL_CODIGO = None
 
 # Mensajes del registro; los ultimos salen tambien en la pantalla de fallo
-LLAMADAS_REGISTRO = ("registrar", "rend_registro_ps2", "detener_por_error", "detener_por_gif_trabado", "snprintf")
+LLAMADAS_REGISTRO = ("registrar", "rend_registro_ps2", "detener_por_error", "detener_por_gif_trabado", "snprintf",
+                     "probar_registro")
 REGISTRO = (
     "codigo/sistema/*.c",
     "codigo/memoria/memoria_carrera/pools_y_segmentos.inc.c",
@@ -169,15 +170,31 @@ SIN_TILDE = {
     "indices": "índices",
     "leido": "leído",
     "ultimos": "últimos",
+    "cumplio": "cumplió",
+    "division": "división",
+    "camara": "cámara",
+    "vision": "visión",
 }
 # Verbo en pasado salvo detras de un determinante (el fallo, un cambio)
 AMBIGUAS = {"fallo": "falló", "cambio": "cambió"}
 DETERMINANTES = {"el", "un", "del", "al", "sin", "cada", "otro", "su", "este", "ese", "primer"}
+# La palabra que abre el literal seguida de ':' es una etiqueta (FALLO: ...)
+ETIQUETA = re.compile(r"^\s*(\w+)\s*:")
 # (expresion, como se escribe)
 REGLAS = (
     (re.compile(r"^si$"), "sí"),
+    (re.compile(r":\s*si\b"), "sí"),
     (re.compile(r"\b(con|sin) el(?=\s*(%|[,;:)]|$))"), "con él, sin él"),
 )
+
+# Variables del lenguaje de guiones: delante del valor que nombran
+# ("menu %d") son palabras clave y no se traducen
+GUIONES = "codigo/depuracion/guiones_prueba.c"
+
+
+def claves_guion():
+    return {v for _, v in literales_de(GUIONES, ("nombres_variable",))}
+
 
 PEGADA = re.compile(r"\w+(?=%)")  # etiqueta pegada a un formato: tex%d, frame%05u
 FORMATO = re.compile(r"%[-+ #0]*(\d+|\*)?(\.(\d+|\*))?[hlLqjzt]*[diouxXeEfFgGaAcspn%]")
@@ -279,9 +296,12 @@ def palabras(literal):
             yield p
 
 
-def revisar(que, ruta, linea, literal, en_eucjp):
+def revisar(que, ruta, linea, literal, en_eucjp, claves=()):
     lugar = "%s:%d (%s)" % (ruta, linea, que)
-    anterior = ""
+    if claves:
+        literal = re.sub(r"\b(%s) (?=%%)" % "|".join(sorted(claves)), " ", literal)
+    etiqueta = ETIQUETA.match(literal)
+    anterior = "el" if etiqueta else ""
     for p in palabras(literal):
         bien = INGLES.get(p.lower()) or (None if en_eucjp else SIN_TILDE.get(p.lower()))
         if bien is None and not en_eucjp and anterior not in DETERMINANTES:
@@ -354,13 +374,14 @@ def archivos_de(archivos):
 
 def main():
     en_eucjp = set(sys.argv[1:])
+    claves = claves_guion()
     revisar_marcas()
     revisar_pantalla_ascii()
     for que, archivos, llamadas in REVISIONES:
         for ruta in archivos_de(archivos):
             anchos = set()
             for linea, literal in literales_de(ruta, llamadas):
-                revisar(que, ruta, linea, literal, ruta in en_eucjp)
+                revisar(que, ruta, linea, literal, ruta in en_eucjp, claves if ruta == GUIONES else ())
                 anchos.add(len(literal))
             if que in MISMO_ANCHO:
                 comprobar(len(anchos) <= 1, "%s (%s): literales de anchos distintos %s" % (ruta, que, sorted(anchos)))
