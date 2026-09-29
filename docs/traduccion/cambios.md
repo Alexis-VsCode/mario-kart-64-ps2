@@ -36,7 +36,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 
 ### CC-01: escala de la caja de récords
 
-- **Estado:** propuesto
+- **Estado:** aplicado
 - **Fecha:** 2026-09-28
 - **Requisitos afectados:** R-TXT-04
 - **Motivo:**
@@ -49,13 +49,13 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - La escala vertical sigue en 0,8.
 - **Archivos y líneas:** `codigo/menus/elementos_menu/dibujar_menus.inc.c:313-321`.
 - **Alternativas descartadas:** abreviar a «MEJOR VTA», porque contradice el glosario.
-- **Evidencia requerida:** captura antes/después de la selección de pista en contrarreloj.
-- **Aprobación:** INTEGRACIÓN — / REVISIÓN —
-- **Commit:** —
+- **Evidencia requerida:** captura antes/después de la selección de pista en contrarreloj. La medida la comprueba `prueba_textos.c` con el límite de la caja en `prueba_textos_lugares.inc.c`; la captura queda para el recorrido de F6.
+- **Aprobación:** no quedó registrada aparte; el cambio se integró con su rama en `feature/idioma-espanol`.
+- **Commit:** `b061832` (escala horizontal de la caja de la mejor vuelta de 0,8 a 0,6, «MEJOR VUELTA» llegaba a x = 319 con la caja en 297).
 
 ### CC-02: interlineado de los mensajes de varias líneas
 
-- **Estado:** propuesto
+- **Estado:** aplicado, con otra solución
 - **Fecha:** 2026-09-28
 - **Requisitos afectados:** R-TXT-05
 - **Motivo.** En estos bucles, el paso es menor que `ceil(20,6·e)`. Si una línea a partir de la segunda lleva una mayúscula con diacrítico, la tilde toca la línea anterior. La lista definitiva la calcula `prueba_textos.c`. Los sitios conocidos son:
@@ -81,12 +81,13 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Archivos y líneas:** los de la tabla.
 - **Alternativas descartadas:** comprimir la mayúscula acentuada dentro de 16 filas. La letra quedaría más baja que las demás.
 - **Evidencia requerida:** capturas antes/después de cada pantalla afectada, comprobando que la última línea no se sale del cuadro. Por ejemplo, en `menus_pausa.inc.c:365` las líneas van en `y = 0x6E + p·i`: subir el paso a 0x11 (17, el mínimo con e = 0,8) mueve la séptima línea de y = 188 a y = 212.
-- **Aprobación:** INTEGRACIÓN — / REVISIÓN —
-- **Commit:** —
+- **Lo aplicado:** no se cambió ningún paso ni ninguna escala vertical. `prueba_textos.c` (`probar_interlineado`) mide la regla con más precisión: con un paso menor que `ceil(20,6·e)`, una letra con signo en la segunda línea o siguientes no puede quedar bajo la tinta de la línea anterior. Con los textos traducidos, ningún lugar registrado en `prueba_textos_lugares.inc.c` incumple esa condición, así que no hizo falta mover líneas ni registrar excepciones.
+- **Aprobación:** no quedó registrada aparte; el cambio se integró con su rama en `feature/idioma-espanol`.
+- **Commit:** `ae9dc3c` (prueba) y los bloques de traducción que la mantienen en verde.
 
 ### CC-03: ampliación del HUD
 
-- **Estado:** propuesto
+- **Estado:** aplicado
 - **Fecha:** 2026-09-28
 - **Requisitos afectados:** R-TEX-05
 - **Motivo:**
@@ -110,12 +111,13 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - abreviar siempre (VTA., TPO.), porque contradice la decisión cerrada del HUD;
   - una familia de glifos del HUD más estrecha, porque rompe la coherencia visual con el resto del HUD.
 - **Evidencia requerida:** prueba de no solapamiento en `prueba_texturas_es.py` sobre todas las llamadas, hoja del HUD y capturas en carrera con 1, 2 y 4 jugadores, incluida la pantalla de tiempos de vuelta.
-- **Aprobación:** INTEGRACIÓN — / REVISIÓN — / responsable del proyecto —
-- **Commit:** —
+- **Lo aplicado:** las tres texturas pasan a 64 de ancho y se dibujan alineadas por la derecha donde terminaban las de 32 (`PALABRA_HUD_X`), así el borde que da a los dígitos no se mueve. La prueba de no solapamiento está en `prueba_hud_es.py`, de 1 a 4 jugadores. Con 3 y 4 jugadores VUELTA no cabe y se abrevia: ver CC-07. Las capturas en carrera quedan para el recorrido de F6.
+- **Aprobación:** no quedó registrada aparte; el cambio se integró con su rama en `feature/idioma-espanol`.
+- **Commit:** `7e0d345`.
 
 ### CC-04: `modo_mario_gp` sin traducir en el manifiesto
 
-- **Estado:** propuesto
+- **Estado:** aplicado
 - **Fecha:** 2026-09-28
 - **Requisitos afectados:** R-TEX-02, R-TEX-04
 - **Motivo:** el plan aprobado traduce `modo_mario_gp` a GRAN PREMIO y solo admite conservar «MARIO GP» si no pasa la prueba de ajuste. El manifiesto de `4345598` ya lo marca con `motivo_no` «nombre del modo», sin prueba de ajuste registrada.
@@ -123,47 +125,65 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Archivos y líneas:** `recursos/es/texturas.tsv`, fila `modo_mario_gp`.
 - **Alternativas descartadas:** abreviar a «G. PREMIO» sin registrar la medida.
 - **Evidencia requerida:** medida del texto compuesto y hoja antes/después.
-- **Aprobación:** INTEGRACIÓN — / REVISIÓN — / responsable del proyecto —
-- **Commit:** —
+- **Lo aplicado:** «GRAN PREMIO» pasa la prueba de ajuste en dos líneas, «GRAN» / «PREMIO», con las letras diminutas del juego. La fila lleva `texto_es` y ya no tiene motivo. La medida la comprueba `prueba_composicion_es.py` y la hoja sale con `make hoja-es`.
+- **Aprobación:** no quedó registrada aparte; el cambio se integró con su rama en `feature/idioma-espanol`.
+- **Commit:** `788a957`.
 
 ### CC-05: valor de la marca de pánico del registro
 
-- **Estado:** propuesto
+- **Estado:** aplicado
 - **Fecha:** 2026-09-28
 - **Requisitos afectados:** R-PORT-04
-- **Motivo:** el registro vuelca al PC en el momento las líneas que contienen «PANIC» (`codigo/depuracion/depuracion.c:99`). El trabajo en curso de PORT define `MARCA_PANICO` como «PANICO», así que la línea de pánico se escribe en español. Cambiar el valor de una marca es un cambio de especificación.
+- **Motivo:** el registro vuelca al PC en el momento las líneas que contienen «PANIC» (`codigo/depuracion/depuracion.c:99`). PORT define `MARCA_PANICO` en español, así que la línea de pánico se escribe en español. Cambiar el valor de una marca es un cambio de especificación.
 - **Cambio propuesto:** `MARCA_PANICO` vale «PANICO». Productor y consumidor usan la macro, así que el volcado no cambia de comportamiento.
 - **Archivos y líneas:** `incluir/depuracion/marcas_registro.h` (nuevo) y `codigo/depuracion/depuracion.c:99-100, 401`.
 - **Alternativas descartadas:** conservar «PANIC», porque deja una palabra en inglés en el registro.
 - **Evidencia requerida:** `prueba_textos_port.py` en verde y una línea de pánico en el registro de `make DEBUG=1`.
-- **Aprobación:** INTEGRACIÓN — / REVISIÓN —
-- **Commit:** —
+- **Lo aplicado:** primero «PANICO» (`91b2a89`) y después «PÁNICO», con tilde como el resto de mayúsculas del port (`823a0c8`). `strstr` compara bytes, así que el consumidor encuentra la marca en UTF-8, y la pantalla de fallo la muestra sin tilde por `quitar_diacriticos`. `prueba_textos_port.py` pide «pánico» con tilde. La línea de pánico en el registro de `make DEBUG=1` no se ha capturado.
+- **Aprobación:** no quedó registrada aparte; el cambio se integró con su rama en `feature/idioma-espanol`.
+- **Commit:** `9d2b711` (macros), `91b2a89` y `823a0c8`.
 
 ### CC-06: diferencias entre lo ejecutado y el plan aprobado
 
-- **Estado:** aplicado; falta la ratificación en la aprobación de F0
+- **Estado:** aplicado
 - **Fecha:** 2026-09-28
 - **Requisitos afectados:** R-INF-01, R-INF-02, R-INF-05, R-FUE-01, R-FUE-07, R-FUE-08, R-TEX-03, R-GOB-01, R-GOB-02, R-GOB-03
-- **Motivo:** lo publicado en F1–F4 se apartó del plan en estos puntos. La especificación ya describe lo ejecutado.
+- **Motivo:** lo ejecutado en F1–F7 se apartó del plan en estos puntos. La especificación describe lo ejecutado.
 
 | Plan aprobado | Lo ejecutado | Commit |
 |---|---|---|
 | Las subramas nacen de `feature/idioma-espanol` | `idioma/infra` nace de `main`; `idioma/fuente` e `idioma/texturas`, de `idioma/infra`; `idioma/cadenas` e `idioma/port`, de `idioma/fuente`. Se integran en `feature/idioma-espanol` en el orden infra → fuente → texturas → cadenas → port | — |
-| Solo `test`, `clean` y `es` sin SDK | `OBJETIVOS_PC := test clean herramientas`; `es` y `hoja-es` se añaden cuando existan | `f8f9a39` |
+| Solo `test`, `clean` y `es` sin SDK | `OBJETIVOS_PC := test clean herramientas es hoja-es` | `f8f9a39`, `37633d3`, `a0da3a1` |
 | El conversor lleva una lista blanca de caracteres sacada de la lista de glifos | Sin lista blanca: la prueba de textos valida los caracteres con el decodificador real. ’ y ” tienen glifo; … y “ no | `727c7ed` |
 | CI en `.github/workflows/ps2.yml` | CI en `.github/workflows/compilacion.yml`, con el job `mismo-binario` añadido | `7387d01`, `a3d0bae` |
 | Puerta de F2: `nm -n -S` idéntico | `comparar_preprocesado.py` en el PC, `mismo-binario` en la CI y, para `d87d14f`, prueba de caracterización | `cb36bbc`, `a3d0bae` |
-| `textos_menu.inc.c` en F2, dentro de FUENTE | Lo hace CADENAS al empezar F4 | En curso |
+| `textos_menu.inc.c` en F2, dentro de FUENTE | Lo hizo CADENAS al empezar F4 | `15136d3` |
 | F3 empieza por el tope del pool | Orden real: LUT, lista X-macro, caracteres, regla de avance, glifos, pool, glifos en la ROM y cadenas con tildes | `4e35120`…`641fe27` |
 | `ASSERT_ESTATICO(… == GLIFOS_TOTAL)` | El `ASSERT_ESTATICO` compara la cuenta de las dos tablas; `prueba_tablas_glifos.py` fija el total de 247 | `4e35120`, `1c9545d` |
 | Diacrítico con `case 26` de alto 8 en `cargar_texturas_menu.inc.c` | `imprimir_letra` dibuja la segunda parte con `dibujar_diacritico_glifo` y `vtx_glifo_diacritico` | `5718601` |
 | Glifos con vista previa PNG (`--vista-previa`) | Los glifos se escriben en `$(BUILD)/glifos_es/`, no se versionan, y `--ver` los muestra en texto | `9abb8d7` |
-| Todas las texturas traducidas en MIO0 con `TAMANIO_ES_*` | PULSA START es RGBA16 crudo de 159 × 16 y sigue así | — |
-| Un commit por bloque de traducción | Par de commits (prueba y cambio) o uno solo con los dos, con el rojo demostrado | — |
+| Todas las texturas traducidas en MIO0 con `TAMANIO_ES_*` | PULSA START es RGBA16 crudo de 159 × 16 y sigue así; los puestos y las palabras del HUD son `.inc.c` que se superponen desde `build/ps2/es` | `78b7177`, `7e0d345`, `a4676b3` |
+| Un commit por bloque de traducción | Par de commits (prueba y cambio) o uno solo con los dos. En los bloques de CADENAS que cambiaron prueba y texto en un solo commit, el rojo y las mutaciones se registraron después en el mensaje de `da631b0` | `da631b0` |
 | Formato `tipo(dominio): descripción` sin excepciones | Se aceptan también `ci: descripción` y los mensajes de merge `Merge branch '…'` | `7387d01`, `6dd12e7`, `a3d0bae`, `236962b` |
-| Quitar `iconv` de los requisitos del README | `iconv` ya no hace falta para compilar. Solo lo usa, si está instalado, `prueba_convertir_eucjp.py` para comparar. Los requisitos del README se actualizan en F7, al integrar | Pendiente (F7) |
+| Quitar `iconv` de los requisitos del README | `iconv` ya no hace falta para compilar. Solo lo usa, si está instalado y tiene JIS X 0212, `prueba_convertir_eucjp.py` para comparar. Los requisitos del README ya no lo piden | `476dd52`; README en la sincronización final |
+| Refactor con preprocesado o binario idéntico | `4da5ab9` y `47a7371` sacan literales a variables: el binario cambia (punteros y símbolos nuevos), el texto dibujado no. La verificación, deshacer el refactor a mano y obtener el árbol del padre, está en el mensaje de `6794945` | `4da5ab9`, `47a7371`, `6794945` |
+| Solo los tipos `feat`, `fix`, `refactor`, `test`, `build`, `ci` y `docs` | Cuatro commits usan `chore`: `31eaf62`, `da631b0`, `6794945` y el de publicación `dda9a5f`. El commit de cierre de la documentación va como `docs:` sin dominio. No se reescribió la historia ya integrada | `31eaf62`, `da631b0`, `6794945`, `dda9a5f` |
+| `feature/idioma-espanol` sale en un PR en borrador hacia `main` | `feature/idioma-espanol` nace de `docs/readme-y-especificacion` (`cbc10e8`) e integra las cinco ramas con `--no-ff` en el orden fijado; se fusiona a `main` y las ramas de trabajo se borran | `3d482a8`, `6a050d1`, `d3663fd`, `b043668`, `2ae3d3a` |
 
 - **Alternativas descartadas:** rehacer las ramas según el plan. Se descarta porque lo publicado tiene CI en verde y la topología real respeta las dependencias entre roles.
 - **Evidencia requerida:** la de [trazabilidad.md](trazabilidad.md).
-- **Aprobación:** INTEGRACIÓN — / REVISIÓN — / responsable del proyecto —
+- **Aprobación:** no quedó registrada aparte.
 - **Commit:** los de la tabla.
+
+### CC-07: VTA. en el HUD con 3 y 4 jugadores
+
+- **Estado:** aplicado
+- **Fecha:** 2026-09-29 (registrado después de aplicarlo)
+- **Requisitos afectados:** R-TEX-05
+- **Motivo:** con 3 y 4 jugadores, VUELTA no cabe junto a los dígitos de vuelta dentro de la parte de pantalla de cada jugador. La decisión cerrada del HUD admite abreviar solo en ese caso y exige registrarlo.
+- **Cambio:** la textura chica de VUELTA (`vuelta_hud`, manifiesto `VUELTA|VTA.`) lleva «VTA.» en las filas 8 a 15, y el código la usa con 3 y 4 jugadores.
+- **Archivos:** `recursos/es/inc/recursos/comunes/texturas/`, `codigo/carrera/objetos_y_efectos/hud_pantalla_dividida.inc.c` y `ventana_item_y_minimapa.inc.c`.
+- **Alternativas descartadas:** abreviar también con 1 y 2 jugadores.
+- **Evidencia:** `prueba_hud_es.py` (ninguna palabra pisa dígitos ni la parte de otro jugador, de 1 a 4 jugadores). Las capturas con 3 y 4 jugadores quedan para el recorrido de F6.
+- **Aprobación:** no quedó registrada aparte; se registra aquí porque el cambio ya está integrado.
+- **Commit:** `7e0d345`.
