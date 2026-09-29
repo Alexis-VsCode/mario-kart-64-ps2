@@ -1,0 +1,88 @@
+# Recorrido para revisar en PCSX2 los textos y texturas en espanol.
+# Uso: make DEV=1, copiar este archivo como smk64_input.txt en la carpeta
+# host: de PCSX2 y arrancar build/ps2/dev/SLUS_999.99. En cada 'nota' hay
+# una espera larga para sacar la captura a mano (F8 en PCSX2). El resultado
+# queda en host:smk64_test.txt.
+
+# Paso 1: pantalla de titulo (PULSA START)
+espera 400
+nota captura: titulo con PULSA START
+espera 300
+
+# Paso 2: menu principal (ELIGE MODO, botones, 1 JUG..4 JUG)
+pulsa START
+espera 120
+pulsa START
+espera 120
+nota captura: ELIGE MODO, GRAN PREMIO / CONTRARRELOJ / VS / BATALLA, SELECT OPCIONES, R1 DATOS
+espera 300
+
+# Paso 3: opciones (L de N64 = SELECT en PS2): SONIDO, ESTEREO/AURICULARES, borrar datos
+pulsa L
+espera 120
+nota captura: menu de opciones
+espera 300
+pulsa B
+espera 120
+
+# Paso 4: gran premio -> ELIGE PILOTO -> ELIGE PISTA (copas y titulos de pista)
+pulsa A
+espera 60
+pulsa A
+espera 60
+pulsa A
+espera 120
+nota captura: ELIGE PILOTO
+espera 300
+pulsa A
+espera 60
+pulsa A
+espera 120
+nota captura: ELIGE PISTA, COPA CHAMPINON, nombres de pista, RECORDS y MEJOR VUELTA
+espera 300
+pulsa DER
+espera 60
+nota captura: COPA FLOR
+espera 200
+pulsa DER
+espera 60
+nota captura: COPA ESTRELLA
+espera 200
+pulsa DER
+espera 60
+nota captura: COPA ESPECIAL
+espera 200
+pulsa IZQ
+pulsa IZQ
+pulsa IZQ
+espera 60
+
+# Paso 5: carrera: HUD (TIEMPO, VUELTA), puesto (1.o..8.o), Lakitu
+pulsa_hasta A estado == 4 3600
+nota captura: presentacion de la pista y HUD al empezar
+espera 300
+autopiloto si
+espera 1800
+nota captura: HUD en carrera y puesto
+espera 300
+
+# Paso 6: pausa (CONTINUAR, REINTENTAR, CAMBIAR PISTA, CAMBIAR PILOTO, SALIR)
+pulsa START
+espera 60
+nota captura: menu de pausa
+espera 300
+pulsa START
+espera 60
+
+# Paso 7: vueltas: carteles de Lakitu VUELTA 2 y ULTIMA, y resultados
+hasta vuelta >= 1 9000
+nota captura: Lakitu VUELTA 2
+espera 200
+hasta vuelta >= 2 9000
+nota captura: Lakitu ULTIMA
+espera 200
+hasta resultados != 0 12000
+nota captura: RESULTADOS, RONDA, CLASIFICACION
+espera 600
+autopiloto no
+fin
