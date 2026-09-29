@@ -1,7 +1,7 @@
 # Especificación: Mario Kart 64 PS2 en español
 
-- **Estado:** F0 en revisión.
-- **Sincronizada con** las ramas publicadas el 2026-09-28: `idioma/infra` (`a3d0bae`), `idioma/fuente` (`641fe27`) e `idioma/texturas` (`236962b`). `idioma/cadenas`, `idioma/port` y el arte de `idioma/texturas` están en curso y sin publicar.
+- **Estado:** implementada e integrada. Lo que queda por hacer está en [README.md § Pendiente](README.md#pendiente).
+- **Sincronizada con** `feature/idioma-espanol` en `dda9a5f` (2026-09-29): las ramas `idioma/infra`, `idioma/fuente`, `idioma/texturas`, `idioma/cadenas` e `idioma/port`, ya fusionadas, y la compilación versionada.
 
 ## 1. Objetivo
 
@@ -56,16 +56,15 @@ Además, cada texto:
 ## 3. Convenciones
 
 - **Formato de cada requisito:** enunciado observable, **Aceptación** (condición verificable) y **Prueba** (qué lo comprueba). Su estado y sus commits se siguen en [trazabilidad.md](trazabilidad.md).
-- **Referencias `ruta:línea`:** se refieren a `main` (`0e7b7d5`) salvo que se indique otra rama. Las ramas de trabajo mueven líneas.
-- **(nuevo):** el archivo no existe en `main`.
-- **(hecho en `<hash>`):** el archivo o el cambio ya está en una rama publicada.
-- **(en curso):** está en una rama de trabajo que todavía no se publicó.
+- **Referencias `ruta:línea`:** se refieren a `main` (`0e7b7d5`), el punto de partida, salvo que se indique otra cosa. La traducción mueve líneas: en el código final se buscan por símbolo.
+- **(nuevo):** el archivo no existe en `main` (`0e7b7d5`).
+- **(hecho en `<hash>`):** el commit que hizo el cambio, integrado en `feature/idioma-espanol`.
 - **Coordenadas:** están en el espacio de 320 × 240 del juego. `e` es la escala con la que se dibuja el texto.
 - **Fuentes de verdad:**
   - términos: [glosario.md](glosario.md);
   - glifos: `codigo/menus/elementos_menu/lista_glifos.inc.c` (hecho en `1c9545d` y `5718601`);
-  - tablas de texto, lugares de dibujo, lista negra y textos esperados: `herramientas/pruebas/prueba_textos_tablas.inc.c`, `prueba_textos_lugares.inc.c`, `prueba_textos_lista_negra.inc.c` y `prueba_textos_esperados.inc.c` (nuevos; en curso en `idioma/cadenas`);
-  - texturas: `recursos/es/texturas.tsv` (hecho en `4345598`).
+  - tablas de texto, lugares de dibujo, lista negra y textos esperados: `herramientas/pruebas/prueba_textos_tablas.inc.c`, `prueba_textos_lugares.inc.c`, `prueba_textos_lista_negra.inc.c` y `prueba_textos_esperados.inc.c` (nuevos; hechos desde `ae9dc3c`);
+  - texturas: `recursos/es/texturas.tsv` (hecho en `4345598`) y, para Lakitu, `recursos/es/lakitu/lakitu.tsv` (hecho en `74cbaf6`).
 - **Cambios de requisito, límite, escala, paso o término:** se registran en [cambios.md](cambios.md) antes de tocar el código.
 
 ## 4. Términos base
@@ -153,7 +152,7 @@ Una secuencia `8F` incompleta o desconocida devuelve -2 y avanza 1 byte. Nunca p
 
 - **Aceptación:** `"\x8F"`, `"\x8F\xAA"`, `"\x8F\xAA\xA2"` y `"\x8F\xA2\xC3"` dan -2 y 1 byte.
 - **Prueba:** `prueba_glifos.c`, caso `probar_secuencias_rotas` (hecho en `641fe27`).
-- **Pendiente:** en la compilación DEV, registrar una sola vez por puntero de cadena una secuencia inválida o un byte guía `C2`/`C3` (UTF-8 sin convertir). No está en `641fe27`.
+- **Pendiente:** en la compilación DEV, registrar una sola vez por puntero de cadena una secuencia inválida o un byte guía `C2`/`C3` (UTF-8 sin convertir). No está en el código: el único registro DEV de `imprimir_texto1`, que ya estaba en `main`, avisa de un índice fuera de la tabla, no de un -2 ni de un `C2`/`C3`. La prueba de textos (R-TXT-03) cubre las tablas del menú en el PC.
 - **Nota:** `imprimir_texto1` mide la cadena antes de dibujar y sale sin dibujar nada si encuentra un -2 (`imprimir_texto.inc.c:182-183`). Por eso R-TXT-03 exige que ninguna cadena dé -2.
 
 **R-FUE-06. Anchos.**
@@ -209,11 +208,11 @@ Una secuencia `8F` incompleta o desconocida devuelve -2 y avanza 1 byte. Nunca p
 
 ### 5.2 R-TXT: cadenas
 
-Las pruebas de este apartado están en `herramientas/pruebas/prueba_textos.c` (nuevo; en curso en `idioma/cadenas`). Recorre las tablas reales, en la copia EUC-JP que compila el build, con el decodificador del juego (`glifos.inc.c`). Sus datos:
+Las pruebas de este apartado están en `herramientas/pruebas/prueba_textos.c` (nuevo; hecho en `ae9dc3c`). Las cadenas pasaron a `codigo/menus/elementos_menu/textos_menu.inc.c` en `15136d3`. La prueba recorre las tablas reales, en la copia EUC-JP que compila el build, con el decodificador del juego (`glifos.inc.c`). Sus datos:
 
 | Archivo | Contenido |
 |---|---|
-| `prueba_textos_tablas.inc.c` | Tablas revisadas, número de entradas originales y estado (`ES` o `PENDIENTE`). Una tabla `PENDIENTE` es un fallo esperado, y `TABLAS_PENDIENTES` solo puede bajar |
+| `prueba_textos_tablas.inc.c` | Tablas revisadas, número de entradas originales y estado (`ES` o `PENDIENTE`). Una tabla `PENDIENTE` es un fallo esperado, y `TABLAS_PENDIENTES` solo puede bajar. Hoy vale 0: todas las tablas están en `ES` |
 | `prueba_textos_lugares.inc.c` | Dónde se dibuja cada tabla, con qué impresora, escala y paso, y sus límites |
 | `prueba_textos_lista_negra.inc.c` | Palabras en inglés y palabras sin su tilde |
 | `prueba_textos_esperados.inc.c` | Texto esperado de cada entrada traducida, en UTF-8 |
@@ -302,7 +301,7 @@ Los dos bordes quedan dentro de x ∈ [16, 296] y dentro del límite propio del 
 
 En todo bucle que dibuja varias líneas con paso `p` y escala `e`, si alguna línea a partir de la segunda contiene una letra con diacrítico, se cumple `p ≥ ceil(20,6·e)`. 20,6 px es la altura de la tinta del diacrítico sobre la línea base a escala 1. Las excepciones solo se admiten mediante [cambios.md](cambios.md) (CC-02).
 
-- **Aceptación:** ningún bucle registrado en `prueba_textos_lugares.inc.c` incumple la regla.
+- **Aceptación:** ningún bucle registrado en `prueba_textos_lugares.inc.c` incumple la regla. Tal como quedó en [CC-02](cambios.md#cc-02-interlineado-de-los-mensajes-de-varias-líneas), si `p < ceil(20,6·e)` la letra con signo no puede quedar bajo la tinta de la línea anterior (`probar_interlineado`). Ningún paso tuvo que cambiar.
 - **Prueba:** `prueba_textos.c`.
 
 **R-TXT-06. Los textos esperados coinciden byte a byte.**
@@ -315,12 +314,12 @@ En todo bucle que dibuja varias líneas con paso `p` y escala `e`, si alguna lí
 
 **R-TXT-07. Los ordinales se escriben «1.º».**
 
-Todo ordinal visible se escribe con número, punto y º: «1.º» … «8.º». El femenino es «2.ª» (Lakitu). No quedan ST/ND/RD/TH ni un espacio entre el número y el ordinal.
+Todo ordinal visible se escribe con número, punto y º: «1.º» … «8.º». No quedan ST/ND/RD/TH ni un espacio entre el número y el ordinal. El femenino «2.ª» estaba previsto para Lakitu, pero no cabe en el cartel y se usa «VUELTA 2» (R-TEX-06).
 
 Afecta a:
 
-- `texto_lugar` (hoy `"    st"`…);
-- `dato_800E7744` (hoy `"1 ｓ"`, `"2 ｎ"`…);
+- `texto_lugar` (en `main`, `"    st"`…);
+- `dato_800E7744` (en `main`, `"1 ｓ"`, `"2 ｎ"`…);
 - las texturas `hud_1ro`…`hud_8vo`.
 
 - **Aceptación:** los esperados de texto coinciden y las texturas de puesto no tienen sufijo inglés.
@@ -383,7 +382,14 @@ Todo mensaje que en el original nombra «CONTROLLER 1» nombra «RANURA 1», y t
 
 **R-TEX-02. El manifiesto cubre todas las texturas.**
 
-`recursos/es/texturas.tsv` (hecho en `4345598`) tiene las columnas `id`, `origen`, `formato`, `alfa` (`opaco` o `clave_00BE`), `texto_es`, `retocado` y `motivo_no`. Hoy tiene una fila por cada una de las 63 texturas TKMK00: 40 para traducir y 23 con motivo (8 «nombre propio», 7 «sin texto», 3 «unidad», 2 «se escribe igual», 2 «no se muestra» y 1 «nombre del modo», ver [CC-04](cambios.md)).
+`recursos/es/texturas.tsv` (hecho en `4345598`) tiene las columnas `id`, `origen`, `formato`, `tamanio`, `tamanio_es`, `alfa`, `png`, `texto_es`, `retocado` y `motivo_no`. En `dda9a5f` tiene 97 filas:
+
+- las 63 texturas TKMK00 de `recursos/texturas/menus/tkmk00/`: 41 para traducir (con `modo_mario_gp`, ver [CC-04](cambios.md)) y 22 con motivo;
+- 16 de `recursos/comunes/texturas/`: 11 del HUD para traducir (`tiempo_hud`, `tiempo_vuelta_hud`, `vuelta_hud` y los 8 puestos) y 5 con motivo (4 «solo la cifra» y 1 «se escribe igual»);
+- 15 ia16 de la pantalla del Controller Pak (`recursos/texturas/generales/`), con motivo «no se muestra» (`31eaf62`);
+- las 2 mitades del cartel de MOO MOO FARM y PULSA START (`recursos/texturas/sin_comprimir/`), para traducir.
+
+En total, 55 para traducir y 42 con motivo. Los 3 carteles de Lakitu tienen su propio manifiesto, `recursos/es/lakitu/lakitu.tsv`.
 
 Tiene que cubrir también:
 
@@ -398,7 +404,7 @@ Cada textura tiene una fila, o su carpeta entera tiene una fila de exclusión co
   - ninguna textura queda sin fila ni sin exclusión de carpeta;
   - ninguna fila tiene `texto_es` y `motivo_no` a la vez;
   - el alfa de cada fila TKMK00 coincide con el de `referencias_tkmk00.txt`.
-- **Prueba:** `herramientas/pruebas/prueba_texturas_es.py`. Hoy comprueba las 63 filas TKMK00; la cobertura del resto está pendiente.
+- **Prueba:** `herramientas/pruebas/prueba_texturas_es.py` comprueba las 63 filas TKMK00, las 15 del Controller Pak y que ninguna fila tenga `texto_es` y `motivo_no` a la vez; `prueba_cableado_es.py`, `prueba_hud_es.py` y `prueba_cartel_es.py` comprueban las filas traducidas de fuera de TKMK00. **Pendiente:** ninguna prueba recorre las demás carpetas y `.incbin` que enumera este requisito para exigir a cada textura una fila o una exclusión de carpeta.
 
 **R-TEX-03. Los tamaños de las texturas traducidas salen del manifiesto.**
 
@@ -415,10 +421,10 @@ Cada textura tiene una fila, o su carpeta entera tiene una fila de exclusión co
   - la textura cabe en `buffer_comprimido_menu`: 0xCE00 en los menús y 0x2800 en carrera y ceremonia (`animaciones_personajes.inc.c:338, 434`);
   - la cabecera MIO0 declara `ancho·alto·2` bytes;
   - hay `.balign 16` antes de cada `glabel` en `codigo/datos/texturas_tkmk00.s`;
-  - la ROM crece menos de 256 KB en total;
+  - la ROM crece menos de 256 KB en total (medido en la compilación versionada: `build/ps2/rom.bin` pasa de 11 292 880 B en `main` a 11 299 024 B, 6 144 B más, y `SMK64ROM.BIN` no cambia de tamaño; no hay prueba automática);
   - el cartel MOO MOO FARM usa el mismo mecanismo de tamaño en `recursos/pistas/moo_moo_farm/desplazamientos.c:57-58`;
   - PULSA START en español mide 5088 B y su entrada `TexturaMenu` no cambia.
-- **Prueba:** `prueba_texturas_es.py`.
+- **Prueba:** `prueba_cableado_es.py` (hecho en `37633d3`; texturas crudas desde `78b7177`) y `prueba_cartel_es.py` (hecho en `c86be95`).
 
 **R-TEX-04. Los PNG fuente están versionados y el resultado es reproducible.**
 
@@ -426,7 +432,9 @@ Cada textura tiene una fila, o su carpeta entera tiene una fila de exclusión co
 - El binario sale solo de herramientas del repositorio, que usan la biblioteca estándar y zlib:
   - `herramientas/png_simple.py` (hecho en `1ee6041`): lee gris, RGB, indexado con PLTE y tRNS, gris con alfa y RGBA de 8 bits. Escribe siempre con el filtro 0 y sin tIME. Rechaza 16 bits, menos de 8 bits y entrelazado;
   - `herramientas/formatos_textura.py` (hecho en `a7e918e`): convierte sin pérdida rgba16, ia16, ia8, i4, i8 y ci8 con su tlut. Rechaza un valor que el formato no puede guardar;
-  - `herramientas/texturas_es.py` (hecho en `4345598`): `exportar`, `importar`, `comprobar` y `hoja`.
+  - `herramientas/texturas_es.py` (hecho en `4345598`): `exportar`, `importar`, `comprobar` y `hoja`;
+  - `herramientas/compositor_es.py` (hecho en `03e5967`): compone el texto en español con letras de las propias texturas (`recursos/es/composicion.tsv` y `recursos/es/glifos/`);
+  - `herramientas/lakitu_es.py` (hecho en `74cbaf6`) y `herramientas/hojas_es.py` (`make hoja-es`, hecho en `a0da3a1`).
 - **Aceptación:**
   - exportar e importar cada textura del manifiesto da los bytes originales decodificados (hecho);
   - la misma imagen da siempre los mismos bytes de PNG (hecho);
@@ -434,7 +442,7 @@ Cada textura tiene una fila, o su carpeta entera tiene una fila de exclusión co
   - fuera de la caja de texto, la textura es idéntica a la original;
   - un PNG sin la marca `retocado` es idéntico a lo que produce el compositor;
   - al recomponer el texto en inglés, el compositor reproduce al menos el 95 % de los píxeles de la caja.
-- **Prueba:** `prueba_png_simple.py`, `prueba_formatos_textura.py` y `prueba_texturas_es.py`.
+- **Prueba:** `prueba_png_simple.py`, `prueba_formatos_textura.py`, `prueba_texturas_es.py`, `prueba_composicion_es.py` (95 % de la caja, fuera de la caja idéntica y PNG igual a la salida del compositor) y `prueba_hojas_es.py`.
 
 **R-TEX-05. El HUD usa palabras completas y no se solapa.**
 
@@ -452,21 +460,22 @@ Cada textura tiene una fila, o su carpeta entera tiene una fila de exclusión co
   | 793-794 | `comun_textura_hud_vuelta_tiempo` en `temporizador_x − 0x13`, con `dibujar_textura_32x_hud_2d_16` |
 
   En pantalla dividida, los dígitos de vuelta van en `vuelta_x + 0xC` (`codigo/carrera/objetos_y_efectos/hud_pantalla_dividida.inc.c:51`).
-- Solo se abrevia en pantalla dividida si la palabra no cabe, y se registra en [cambios.md](cambios.md).
+- Solo se abrevia en pantalla dividida si la palabra no cabe, y se registra en [cambios.md](cambios.md). Así pasó con 3 y 4 jugadores: VUELTA se escribe «VTA.» ([CC-07](cambios.md)).
 - `hud_1ro`…`hud_8vo` pasan a «1.º»…«8.º».
+- Implementación (`7e0d345`): las texturas miden 64 de ancho y se dibujan alineadas por la derecha donde terminaban las de 32, así el borde que da a los dígitos no se mueve.
 - **Aceptación:** la prueba de no solapamiento pasa para 1, 2, 3 y 4 jugadores en todas las llamadas de la tabla.
-- **Prueba:** `prueba_texturas_es.py`, hoja de contacto del HUD y capturas en F6.
+- **Prueba:** `prueba_hud_es.py` (hecho en `7e0d345`), hoja de contacto del HUD (`make hoja-es`) y capturas en F6.
 
 **R-TEX-06. Lakitu mantiene sus 16 cuadros y su paleta.**
 
-- `vuelta_final` pasa a «¡ÚLTIMA!», `segunda_vuelta` a «2.ª VUELTA» y `marcha_atras` a «¡AL REVÉS!».
+- `vuelta_final` pasa a «¡ÚLTIMA!», `segunda_vuelta` a «VUELTA 2» y `marcha_atras` a «¡REVÉS!». Los textos principales, «2.ª VUELTA» y «¡AL REVÉS!», no caben en la placa con letras de 8 filas o más; se usan los de reserva que indica `recursos/es/lakitu/lakitu.tsv` (`74cbaf6`).
 - Cada animación sigue con 16 cuadros contiguos, porque solo se pasa el primero (`nubes_estrellas_y_lakitu.inc.c:675`).
 - Los cuadros se cuantizan a la paleta existente: las `tlut_lakitu_*` no cambian.
 - **Aceptación:**
   - fuera de la máscara del cartel, cada cuadro es idéntico al original;
   - en el cuadro más plano, los glifos miden al menos 8 px de alto;
   - si el texto principal no cumple, la prueba de ajuste elige el texto de reserva que indica el manifiesto.
-- **Prueba:** `prueba_texturas_es.py` y hoja en tira de 16 cuadros.
+- **Prueba:** `prueba_lakitu_es.py` (hecho en `74cbaf6`; desde `44cc3fb` también exige que ningún cuadro del giro pinte colores que el cartel no tenía) y hoja en tira de 16 cuadros (`make hoja-es`).
 
 **R-TEX-07. Las texturas nombran los botones de PS2.**
 
@@ -480,24 +489,22 @@ Toda textura que nombra un botón usa el botón de PS2 que asigna `codigo/entrad
 | A | CRUZ |
 | B | CUADRADO |
 
-Así, `opcion_l` pasa a «SELECT OPCIONES» y `datos_r` a «R1 DATOS». Las cadenas siguen la misma tabla (R-TXT-08).
+Así, `opcion_l` pasa a «SELECT OPCIONES» y `datos_r` a «R1 DATOS», los dos en dos líneas (`788a957`). Las cadenas siguen la misma tabla (R-TXT-08).
 
 - **Aceptación:**
   - el texto de cada textura traducida en el manifiesto nombra el botón de la tabla;
   - ninguna textura traducida conserva «L» o «R» sueltas, ni iconos Ⓐ o Ⓑ.
-- **Prueba:** `prueba_texturas_es.py`.
+- **Prueba:** `prueba_composicion_es.py` exige que cada PNG sea la composición del `texto_es` del manifiesto. Que ese texto nombre el botón de PS2 se comprobó en el manifiesto; ninguna prueba lo exige de forma automática.
 
 **R-TEX-08. La superposición no mezcla idiomas.**
 
 - Las texturas `.inc.c` del HUD se sustituyen con la opción `--superponer <carpeta>` de `herramientas/invertir_texturas.py` (hecho en `fdd6a54`): si existe `<carpeta>/<ruta del .inc.c>`, se invierte esa versión. En ese modo se compara el resultado con la salida en lugar de fiarse de la fecha, así que al quitar una sustitución vuelve la versión del repositorio.
-- Pendiente:
-  - conectar la opción al build, con la carpeta bajo `$(BUILD)/es`;
-  - cubrir con un sello propio las `.i4` de los puestos, que no pasan por esa herramienta (`TEXTURE_NAME_RE`, `invertir_texturas.py:16`).
+- Conexión al build (hecho en `7e0d345`): `make es` deja los `.inc.c` del HUD en `$(BUILD)/es/<ruta original>`; el sello `ES_SELLO` cambia con la lista de sustituciones y rehace `be/` y los datos comunes, y borra las que ya no están en la lista. Los puestos (`.i4`, que no se invierten) los toma el compilador de `$(BUILD)/es` porque `be/` no los tiene (`a4676b3`).
 - **Aceptación:**
   - si se quita una sustitución, el siguiente build incremental vuelve a la textura original;
   - una sustitución que no es un arreglo de datos falla;
   - ningún build mezcla idiomas.
-- **Prueba:** `herramientas/pruebas/prueba_invertir_texturas.py` (hecho en `fdd6a54`) y `prueba_texturas_es.py`, caso de build incremental (pendiente).
+- **Prueba:** `herramientas/pruebas/prueba_invertir_texturas.py` (hecho en `fdd6a54`) y `prueba_hud_es.py`, que comprueba la superposición y las reglas del sello en el `Makefile`. No ejecuta un build incremental real.
 
 #### Textos esperados en texturas
 
@@ -507,32 +514,33 @@ Así, `opcion_l` pasa a «SELECT OPCIONES» y `datos_r` a «R1 DATOS». Las cade
 | `seleccion_jugador` | PLAYER SELECT | ELIGE PILOTO |
 | `seleccion_mapa` | MAP SELECT | ELIGE PISTA |
 | `opcion` | OPTION | OPCIONES |
-| `opcion_l` | L OPTION | SELECT OPCIONES |
-| `datos_r` | R DATA | R1 DATOS |
+| `opcion_l` | L OPTION | SELECT / OPCIONES, en 2 líneas |
+| `datos_r` | R DATA | R1 / DATOS, en 2 líneas |
 | `empezar` | BEGIN | EMPEZAR |
 | `datos` | DATA | DATOS |
 | `fantasma_menu` | GHOST | FANTASMA |
 | `batalla_modo` | BATTLE | BATALLA |
-| `modo_contrarreloj` | T.TRIALS | CONTRARRELOJ |
-| `modo_mario_gp` | MARIO GP | GRAN PREMIO. Si no pasa la prueba de ajuste, se queda «MARIO GP» y se documenta ([CC-04](cambios.md)) |
+| `modo_contrarreloj` | T.TRIALS | CONTRA- / RRELOJ, en 2 líneas |
+| `modo_mario_gp` | MARIO GP | GRAN / PREMIO, en 2 líneas: así pasa la prueba de ajuste ([CC-04](cambios.md)) |
 | `ok` | OK? | ¿OK? |
 | `juego_menu_1j`…`4j` | 1P GAME… | 1 JUG. … 4 JUG. |
 | `menu_copa_hongo`, `_flor`, `_estrella`, `_especial` | … CUP | COPA / nombre, en 2 líneas |
 | `titulo_*` (20) y cartel MOO MOO FARM | nombres de pista | nombres oficiales según el glosario |
-| `tiempo_hud`, `tiempo_vuelta_hud`, `vuelta_hud` | TIME, LAP | TIEMPO, VUELTA |
+| `tiempo_hud`, `tiempo_vuelta_hud`, `vuelta_hud` | TIME, LAP | TIEMPO, VUELTA; con 3 y 4 jugadores, VTA. ([CC-07](cambios.md)) |
 | `hud_1ro`…`hud_8vo` | 1st…8th | 1.º…8.º |
 | `empezar_boton_empuje` | PUSH START BUTTON | PULSA START |
-| Lakitu `vuelta_final`, `segunda_vuelta`, `marcha_atras` | FINAL LAP, 2nd LAP, REVERSE | ¡ÚLTIMA!, 2.ª VUELTA, ¡AL REVÉS! |
+| `cartel_granja_izquierda`, `cartel_granja_derecha` | MOO MOO FARM | GRANJA, MU-MU |
+| Lakitu `vuelta_final`, `segunda_vuelta`, `marcha_atras` | FINAL LAP, 2nd LAP, REVERSE | ¡ÚLTIMA!, VUELTA 2, ¡REVÉS! (textos de reserva, ver R-TEX-06) |
 
 ### 5.5 R-PORT: pantallas del port
 
-Las pruebas de este apartado son `herramientas/pruebas/prueba_fuente_5x7.c` y `herramientas/pruebas/prueba_textos_port.py` (nuevas; en curso en `idioma/port`). `prueba_textos_port.py` es una lista negra sobre los literales que el port manda a sus pantallas y a su registro.
+Las pruebas de este apartado son `herramientas/pruebas/prueba_fuente_5x7.c` y `herramientas/pruebas/prueba_textos_port.py` (nuevas; hechas en `3db4b80` y `0af8ebe`), con `prueba_ancho_panel.py` (`1bc10ba`) y `prueba_cadena_depuracion.c` (`40ed241`). `prueba_textos_port.py` es una lista negra sobre los literales que el port manda a sus pantallas y a su registro.
 
 **R-PORT-01. La fuente 5x7 tiene los 11 caracteres.**
 
 - `codigo/depuracion/fuente_5x7.c` (nuevo, puro) usa celdas de 8 filas: la fila 0 es para el diacrítico y las filas 1-7 para la letra.
 - Dibuja Á É Í Ó Ú Ñ Ü ¡ ¿ º ª, tanto en UTF-8 como en EUC-JP. La minúscula da la mayúscula.
-- El ASCII no cambia. Hoy la fuente cubre de ' ' a 'Z' (`codigo/depuracion/texto_pantalla.c:8-9`).
+- El ASCII no cambia. En `main` la fuente cubre de ' ' a 'Z' (`codigo/depuracion/texto_pantalla.c:8-9`).
 - `texto_pantalla.c` cuenta columnas por carácter, no por byte.
 - **Aceptación:**
   - 'A' sigue siendo `0E 11 11 11 1F 11 11`;
@@ -549,7 +557,7 @@ Las pruebas de este apartado son `herramientas/pruebas/prueba_fuente_5x7.c` y `h
 - **Nombres de fase:**
   - `codigo/sistema/arranque_ps2.c:62-88`;
   - `codigo/sistema/bucle_principal/hilos_video_y_audio.inc.c`;
-  - `codigo/carrera/preparacion_carrera.c:203-209` (hoy `"func_802969F8"`, `"init_hud"`…);
+  - `codigo/carrera/preparacion_carrera.c:203-209` (en `main`, `"func_802969F8"`, `"init_hud"`…);
   - `codigo/memoria/memoria_carrera/descomprimir_pista.inc.c:437-453` («pista: offsets», «pista: display lists», «pista: vertices (copia)»…);
   - `codigo/graficos/dibujar_pistas/pistas_toads_a_big_donut.inc.c:392-394` («colision: malla», «colision: cuadricula»);
   - las partes `.inc.c` de los fuentes de `JP_SRC` del Makefile que marcan fases.
@@ -560,7 +568,7 @@ Las pruebas de este apartado son `herramientas/pruebas/prueba_fuente_5x7.c` y `h
 **R-PORT-03. La pantalla de fallo no muestra basura.**
 
 - Todo texto que llega a `scr_printf` pasa antes por `quitar_diacriticos` (hecho en `9e6bec7`): Á → A, Ñ → N, º → o, y ¡ ¿ se omiten. Los puntos de entrada son `linea_pantalla` (`codigo/depuracion/depuracion.c:286-297`) y `detener_arranque` (`codigo/sistema/arranque_ps2.c:26-27`).
-- **Puerta G-FALLO:** es un paso de la CI que inspecciona la fuente de libdebug. Si confirma que tiene glifos CP437, se transcodifican las letras disponibles (á é í ó ú ñ Ñ ü Ü É ¿ ¡ º ª) y el resto se translitera.
+- **Puerta G-FALLO:** estaba previsto un paso de la CI que inspeccionara la fuente de libdebug y, si tenía glifos CP437, transcodificara las letras disponibles (á é í ó ú ñ Ñ ü Ü É ¿ ¡ º ª). No se hizo: la pantalla de fallo translitera siempre con `quitar_diacriticos` (`0c05c15`), y desde `ba66cf9` todo byte ≥ 0x80 que no forma un carácter del español sale como '?'. El registro conserva las tildes.
 - Textos fijos en español:
   - «PARADA DE DIAGNÓSTICO»;
   - estados de hilo: RUN/READY/WAIT/SUSP/WSUSP pasan a EJEC/LISTO/ESPERA/SUSP/ESUSP (`depuracion.c:261-262`);
@@ -568,11 +576,11 @@ Las pruebas de este apartado son `herramientas/pruebas/prueba_fuente_5x7.c` y `h
 - **Aceptación:**
   - `quitar_diacriticos("después, ¿cuántos? ÑANDÚ")` da `"despues, cuantos? NANDU"`, también cuando el destino corta la cadena (hecho en `9e6bec7`);
   - la pantalla no muestra bytes ≥ 0x80 sin mapear.
-- **Prueba:** `prueba_caracteres_es.c` (caso `probar_quitar_diacriticos`), `prueba_fuente_5x7.c`, paso G-FALLO en la CI y captura con `make DEBUG=1 EXTRA_DEFINES=-DSMK64_BOOT_STOP=<etapa>`.
+- **Prueba:** `prueba_caracteres_es.c` (caso `probar_quitar_diacriticos`), `prueba_textos_port.py` (toda función que llama a `scr_printf` pasa antes el texto por `quitar_diacriticos`) y captura con `make DEBUG=1 EXTRA_DEFINES=-DSMK64_BOOT_STOP=<etapa>` (pendiente, F6).
 
 **R-PORT-04. Cada marca del registro tiene una sola definición.**
 
-- `incluir/depuracion/marcas_registro.h` (nuevo) define `MARCA_PANICO`, `MARCA_CUELGUE` y `MARCA_GIF`.
+- `incluir/depuracion/marcas_registro.h` (nuevo, hecho en `9d2b711`) define `MARCA_PANICO` («PÁNICO», [CC-05](cambios.md)), `MARCA_CUELGUE` y `MARCA_GIF`.
 - El consumidor (`strstr` en `depuracion.c:99-100`) y todos los productores usan la misma macro:
   - `registrar` en `depuracion.c:220` (cuelgue), `:401` (pánico) y `:481` (cuelgue);
   - `estado_gif`, que se arma con `snprintf` en `depuracion.c:253` y se registra en `:388` y `:483`;
@@ -584,24 +592,24 @@ Las pruebas de este apartado son `herramientas/pruebas/prueba_fuente_5x7.c` y `h
 
 **R-PORT-05. La fuente de depuración N64 no lee fuera de su tabla.**
 
-- `codigo/graficos/dibujar_objetos/kart_bomba_y_depuracion.inc.c:181-182` indexa `dato_800E5628` con `(u8)`.
-- Para los 11 caracteres dibuja la letra base (`caracter_es_base`, hecho en `9e6bec7`).
+- `codigo/graficos/dibujar_objetos/kart_bomba_y_depuracion.inc.c:181-182` indexa `dato_800E5628` con `(u8)` (hecho en `37cf760`; la tabla pasó a `glifos_depuracion.inc.c` en `26a0bbc`).
+- Para los 11 caracteres dibuja la letra base (`caracter_es_base`, hecho en `9e6bec7`; usada desde `37cf760`).
 - Las cadenas que usan esta fuente:
   - son ASCII con celda en `dato_800E5628`, así que no llevan `$ & \ { | }`;
   - caben antes del salto de línea en x ≥ 296 (`:171`).
 - **Aceptación:** ninguna cadena de depuración queda fuera de estas reglas.
-- **Prueba:** `prueba_textos.c`, tablas con fuente de depuración.
+- **Prueba:** `prueba_textos.c`, tablas con fuente de depuración (contra su tabla de glifos desde `32c2a6f`), y `prueba_cadena_depuracion.c` (bytes altos y caracteres del español).
 
 ### 5.6 R-INF: infraestructura
 
 **R-INF-01. Los objetivos del PC corren sin el SDK.**
 
-El `Makefile` (hecho en `f8f9a39`) declara `OBJETIVOS_PC := test clean herramientas`. Solo esos objetivos quedan fuera del `$(error)` que exige `PS2SDK`. Los objetivos `es` y `hoja-es` (bloque A0) se añaden a `OBJETIVOS_PC` cuando existan. Los demás objetivos siguen exigiendo `PS2SDK`.
+El `Makefile` declara `OBJETIVOS_PC := test clean herramientas es hoja-es` (`f8f9a39`; `es` desde `37633d3` y `hoja-es` desde `a0da3a1`). Solo esos objetivos quedan fuera del `$(error)` que exige `PS2SDK`. Los demás objetivos siguen exigiendo `PS2SDK`.
 
 - **Aceptación:**
   - `env -u PS2SDK make test` termina con 0;
   - `env -u PS2SDK make herramientas` y `env -u PS2SDK make clean` no piden el SDK;
-  - cuando existan, `env -u PS2SDK make es` y `env -u PS2SDK make hoja-es` terminan con 0;
+  - `env -u PS2SDK make es` y `env -u PS2SDK make hoja-es` terminan con 0;
   - `env -u PS2SDK make` sigue fallando con «PS2SDK no definido: ejecuta '. herramientas/entorno.sh'».
 - **Prueba:** job `pruebas-pc` de la CI, en ubuntu sin SDK.
 
@@ -612,7 +620,7 @@ El `Makefile` (hecho en `f8f9a39`) declara `OBJETIVOS_PC := test clean herramien
 - Si un carácter no existe en EUC-JP, falla con `ruta:línea:columna` y el código del carácter, y no deja salida a medias. Una entrada que no es UTF-8 también falla.
 - **Sin lista blanca, a propósito.** El conversor no rechaza caracteres que sí existen en EUC-JP pero no tienen glifo. Esa validación la hace la prueba de textos con el decodificador real (R-TXT-03): ’ y ” tienen glifo; … y “ no.
 - **Aceptación:**
-  - cero diferencias con `iconv` en los archivos del build (si `iconv` no está instalado, la prueba lo avisa y omite esa comparación);
+  - cero diferencias con `iconv` en los archivos del build (si `iconv` no está instalado o no tiene JIS X 0212, como el de musl, la prueba lo avisa y omite esa comparación; `476dd52`);
   - los bytes de R-FUE-03;
   - los finales de línea y el ASCII no cambian;
   - «HOLA» entre comillas angulares («») falla e indica la línea.
@@ -637,18 +645,19 @@ El `Makefile` (hecho en `f8f9a39`) declara `OBJETIVOS_PC := test clean herramien
 
 **R-INF-05. Hay CI.**
 
-`.github/workflows/compilacion.yml` (hecho en `7387d01`, `6dd12e7` y `a3d0bae`) se lanza en cada push y pull request, y a mano. Tiene tres jobs:
+`.github/workflows/compilacion.yml` (hecho en `7387d01`, `6dd12e7`, `a3d0bae` y `c461c5b`) se lanza en cada push y pull request, y a mano. Tiene cuatro jobs:
 
 | Job | Qué hace |
 |---|---|
 | `pruebas-pc` | `make test` en `ubuntu-latest`, sin SDK |
 | `compilar-ps2` | En el contenedor `ps2dev/ps2dev` fijado por digest: `make clean`, `make`, `make DEBUG=1`, `make test` y `make iso`. Guarda como artefactos `build/ps2/SLUS_999.99`, `build/ps2/SMK64ROM.BIN`, `build/ps2/smk64.map`, `build/ps2/debug/SLUS_999.99` y la ISO |
 | `mismo-binario` | Solo a mano, con la entrada `base`. Corre `herramientas/comparar_binario.sh` contra la base, en release y con `DEBUG=1` |
+| `publicar` | Solo a mano, con `publicar=si`. En el mismo contenedor y con GNU make 4.4 o posterior: `make clean`, `make`, `make DEBUG=1`, `make DEV=1`, `make test` y `make iso`, y commitea `build/ps2` y `compilaciones` en la rama (commit de publicación, R-GOB-05) |
 
-El paso G-FALLO se añade en el bloque P4.
+El paso G-FALLO previsto no se añadió (ver R-PORT-03).
 
 - **Aceptación:** la CI termina en verde en cada push y en el PR.
-- **Prueba:** ejecuciones de la CI (ver [trazabilidad.md](trazabilidad.md)).
+- **Prueba:** ejecuciones de la CI (ver [trazabilidad.md](trazabilidad.md)). La última, [36518116212](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/36518116212) sobre `c461c5b`, terminó en verde en `pruebas-pc`, `compilar-ps2` y `publicar`, que generó `dda9a5f`.
 
 **R-INF-06. Ningún archivo de código pasa el tope de líneas.**
 
@@ -676,7 +685,7 @@ El paso G-FALLO se añade en el bloque P4.
     | grep -vE "^((feat|fix|refactor|test|build|ci|docs)\([a-z0-9_-]+\)|ci): |^Merge branch '"
   ```
 
-- **Prueba:** ese comando en la revisión del PR. Hoy sale vacío en `origin/idioma/infra`, `origin/idioma/fuente` y `origin/idioma/texturas`.
+- **Prueba:** ese comando en la revisión del PR. En `dda9a5f` devuelve 4 commits de tipo `chore`, que no está entre los admitidos: `31eaf62`, `da631b0`, `6794945` y `dda9a5f`. Están registrados en [CC-06](cambios.md).
 
 **R-GOB-02. El refactor no se mezcla con el cambio funcional.**
 
@@ -717,7 +726,7 @@ Un commit `refactor(...)` no cambia el comportamiento, y un commit funcional no 
 - Los archivos de `build/` y `compilaciones/` que tocan las pruebas se restauran.
 - `build/` y `compilaciones/` solo cambian en el commit final de publicación (F7).
 - **Aceptación:** `git status --short` vacío, y ningún commit anterior a F7 toca `build/` ni `compilaciones/`.
-- **Prueba:** `git log --name-only origin/main..HEAD -- build compilaciones` vacío hasta F7. Hoy sale vacío en las tres ramas publicadas.
+- **Prueba:** `git log --name-only origin/main..HEAD -- build compilaciones` vacío hasta F7. En `dda9a5f` solo lista ese commit, el de publicación.
 
 **R-GOB-06. El stage se hace por ruta explícita.**
 
@@ -736,7 +745,7 @@ Los comentarios explican un contrato o una invariante. Las funciones de varios p
   grep -rnE 'R-(FUE|TXT|MC|TEX|PORT|INF|GOB)-[0-9]' codigo incluir herramientas
   ```
 
-- **Prueba:** ese comando en la revisión. Hoy sale vacío en las tres ramas publicadas.
+- **Prueba:** ese comando en la revisión. Sale vacío en `dda9a5f`.
 
 **R-GOB-08. La documentación se actualiza en la misma iteración.**
 
@@ -769,18 +778,18 @@ Las diferencias entre lo ejecutado y el plan aprobado están registradas en [CC-
 |---|---|
 | El `iconv` de musl de la imagen de CI no tiene JIS X 0212 y rompería las tildes sin avisar | Conversor en Python (R-INF-02), hecho en `727c7ed` |
 | Un carácter sin glifo da -2 y `imprimir_texto1` borra la cadena entera | R-TXT-03: la prueba de textos valida cada carácter con el decodificador real |
-| Se cuela UTF-8 sin convertir (metadatos) | R-INF-03, hecho en `ecbfd5c`, y registro DEV de `C2`/`C3` (R-FUE-05, pendiente) |
+| Se cuela UTF-8 sin convertir (metadatos) | R-INF-03, hecho en `ecbfd5c`, y `prueba_textos.c`, que lee las copias convertidas. El registro DEV de `C2`/`C3` (R-FUE-05) sigue pendiente |
 | Las tildes chocan con la línea anterior | R-TXT-05 y [CC-02](cambios.md) |
-| El sobrebarrido de la TV no se ve en PCSX2 | Zona segura x ∈ [16, 296] (R-TXT-04) y captura en TV en F6 |
+| El sobrebarrido de la TV no se ve en PCSX2 | Zona segura x ∈ [16, 296] (R-TXT-04), comprobada en todas las tablas; la captura en TV de F6 sigue pendiente |
 | El texto del menú desborda el pool de matrices (tope 0x2F7 > 660) | R-FUE-07: tope real en `funcion_80095BD0` (`dcc0914`) y diacrítico sin matriz propia (`5718601`) |
 | Otros sitios escriben `efecto_mtx` sin tope: `imprimir_texto.inc.c:386-387, 437-438, 458-459`; `menus_pausa.inc.c:255-256, 552, 578`; `particulas_derrape.inc.c:695`; `globos_batalla.inc.c:62, 181`; `dibujar_kart_y_sombra.inc.c:680, 729`; `actores_podio.c:200` | Fuera del alcance de R-FUE-07. El recorrido de F6 vigila las pantallas con más texto. Si hace falta, se abre un requisito propio en [cambios.md](cambios.md) |
-| Una pantalla supera `TEXTURA_MAX_MAPA` (200, `incluir/menus/elementos_menu.h:620`) | Contador DEV `menu_texturas_salteado` (`cargar_texturas_menu.inc.c:776`), revisado en el recorrido de F6 |
+| Una pantalla supera `TEXTURA_MAX_MAPA` (200, `incluir/menus/elementos_menu.h:620`) | Contador DEV `menu_texturas_salteado` (`cargar_texturas_menu.inc.c:776`), a revisar en el registro del recorrido de F6 |
 | Una `TexturaMenu` con `size` 0 se copia truncada | R-TEX-03 |
-| Un build incremental mezcla idiomas | R-TEX-08 |
-| El arte compuesto automáticamente no queda bien | Marca `retocado` en el manifiesto, hojas antes/después y revisión visual |
+| Un build incremental mezcla idiomas | R-TEX-08: sello `ES_SELLO` en el `Makefile` (`7e0d345`) |
+| El arte compuesto automáticamente no queda bien | Marca `retocado` en el manifiesto, hojas antes/después (`make hoja-es`) y revisión visual. Correcciones ya hechas: G y C de los títulos (`e28eea2`) y cuadros del giro de Lakitu (`44cc3fb`) |
 | `build/` versionado ensucia el árbol y deja copias viejas en `build/ps2/jp` | R-GOB-05, `make clean` al empezar el job `compilar-ps2` (`6dd12e7`) y borrar `build/ps2/jp` antes de probar cambios de texto ([plan.md §5](plan.md#5-ciclo-por-bloque)) |
-| La orden `captura` de los guiones espera un proceso externo que no está en el repositorio (`guiones_prueba.c:665-679`) | Capturas manuales en las pausas `nota` |
-| Falta el permiso `workflow` para publicar la CI | No ocurrió: la CI corre en las tres ramas publicadas. Si faltara, el build de PS2 se verificaría en la máquina del responsable del proyecto y se informaría así |
-| Un nombre de pista no tiene fuente oficial confirmada | El glosario cita la fuente; los nombres pendientes se marcan hasta cerrarlos |
-| Conflictos de fusión en archivos compartidos (`Makefile`, `textos_y_tablas.inc.c`, `incluir/menus/elementos_menu.h`) | Dueño por zona ([plan.md §2](plan.md#2-roles)), integración en el orden fijado y resolución por INTEGRACIÓN |
+| La orden `captura` de los guiones espera un proceso externo que no está en el repositorio (`guiones_prueba.c:665-679`) | Capturas manuales en las pausas `nota` de `herramientas/guiones/recorrido_textos.txt` (`466e73f`) |
+| Falta el permiso `workflow` para publicar la CI | No ocurrió: la CI corre en todas las ramas de la traducción y en `feature/idioma-espanol` |
+| Un nombre de pista no tiene fuente oficial confirmada | El glosario cita la fuente y la confianza de cada nombre. Ciudad Bloque y Doble Piso quedan con confianza baja |
+| Conflictos de fusión en archivos compartidos (`Makefile`, `textos_y_tablas.inc.c`, `incluir/menus/elementos_menu.h`) | Dueño por zona ([plan.md §2](plan.md#2-roles)) e integración en el orden fijado. Tras integrar las cinco ramas, `prueba_textos_port.py` detectó una tilde que faltaba en un aviso de texturas; se corrigió en `0ff568e` |
 | El texto de Lakitu es ilegible en los cuadros de canto | Solo se exige no tocar nada fuera de la máscara y una altura ≥ 8 px en el cuadro plano (R-TEX-06) |
