@@ -1,0 +1,9 @@
+clave	valor
+fondo	transparente
+filas	2,16
+filas.juego_menu_1j	38,52
+filas.juego_menu_2j	38,52
+filas.juego_menu_3j	38,52
+filas.juego_menu_4j	38,52
+ventana	1
+umbral	60

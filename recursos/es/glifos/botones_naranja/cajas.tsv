@@ -1,0 +1,22 @@
+caracter	textura	x_izq	x_der
+# datos: DATA
+D	datos	16	25
+A	datos	25	32
+T	datos	32	37
+A	datos	37	46
+# empezar: BEGIN
+B	empezar	14	23
+E	empezar	23	29
+G	empezar	29	36
+I	empezar	36	39
+N	empezar	39	49
+# fantasma_menu: GHOST
+G	fantasma_menu	14	21
+H	fantasma_menu	21	29
+O	fantasma_menu	29	36
+S	fantasma_menu	36	43
+T	fantasma_menu	43	51
+# extra: EXTRA (solo T, R y A)
+T	extra	28	34
+R	extra	34	42
+A	extra	42	49

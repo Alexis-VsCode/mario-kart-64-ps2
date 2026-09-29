@@ -1,6 +1,8 @@
 #include <PR/ultratypes.h>
 #include "juego/desplazamientos_pista.h"
 #include "datos_pista.h"
+// Tamanio comprimido del cartel en espanol (GRANJA / MU-MU): lo genera el build
+#include "es/tamanios_es.h"
 
 extern u8 textura_puerta_madera_0[];
 extern u8 textura_pasto_2[];
@@ -54,8 +56,8 @@ const textura_circuito moo_moo_farm_texturas[] = {
     { textura_6442D4, 0x0138, 0x0800, 0x0 },
     { textura_64440C, 0x029D, 0x1000, 0x0 },
     { textura_6446AC, 0x0116, 0x0800, 0x0 },
-    { textura_moo_moo_farm_izquierda_cartel, 0x0A66, 0x1000, 0x0 },
-    { textura_moo_moo_farm_derecha_cartel, 0x0A64, 0x1000, 0x0 },
+    { textura_moo_moo_farm_izquierda_cartel, TAMANIO_ES_CARTEL_GRANJA_IZQUIERDA, 0x1000, 0x0 },
+    { textura_moo_moo_farm_derecha_cartel, TAMANIO_ES_CARTEL_GRANJA_DERECHA, 0x1000, 0x0 },
     { textura_64ACAC, 0x02A3, 0x0800, 0x0 },
     { textura_66D698, 0x0370, 0x0800, 0x0 },
     { textura_66EBF0, 0x0146, 0x0800, 0x0 },

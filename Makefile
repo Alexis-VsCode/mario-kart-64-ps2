@@ -6,10 +6,12 @@
 #   make DEV=1           DEBUG + registro y guiones por host: (build/ps2/dev)
 #   make MONOLITICO=1    un solo ELF con toda la ROM adentro
 #   make test            pruebas en el PC (no necesita el SDK de PS2)
+#   make es              texturas en espanol desde recursos/es (no necesita el SDK)
+#   make hoja-es         hojas de contacto original / espanol / mascara en build/ps2/es/hojas
 #   make clean           borra build/ps2
 
 # Objetivos que corren en el PC y no necesitan el SDK de PS2
-OBJETIVOS_PC := test clean herramientas
+OBJETIVOS_PC := test clean herramientas es hoja-es
 ifneq ($(filter-out $(OBJETIVOS_PC),$(or $(MAKECMDGOALS),all)),)
   ifeq ($(PS2SDK),)
     $(error PS2SDK no definido: ejecuta '. herramientas/entorno.sh')
@@ -29,6 +31,7 @@ PYTHON  ?= python3
 
 HERRAMIENTAS := build/herramientas
 MIO0TOOL     := $(HERRAMIENTAS)/mio0
+TKMK00TOOL   := $(HERRAMIENTAS)/tkmk00
 DLPACKER     := $(HERRAMIENTAS)/empaquetador_listas
 
 V ?= @
@@ -79,8 +82,8 @@ ifeq ($(MEDIDOR),1)
   DEFINES += -DSMK64_MEDIDOR=1
 endif
 
-# build/ps2/be primero: texturas u16 con los bytes invertidos
-INCLUDES := -I$(BUILD)/be -Iincluir -Iincluir/libultra -I$(BUILD) -I$(BUILD)/include -Icodigo -I. \
+# build/ps2/be primero: texturas u16 con los bytes invertidos; despues las .inc.c en espanol
+INCLUDES := -I$(BUILD)/be -I$(BUILD)/es -Iincluir -Iincluir/libultra -I$(BUILD) -I$(BUILD)/include -Icodigo -I. \
             -I$(PS2SDK)/ee/include -I$(PS2SDK)/common/include -I$(PS2DEV)/gsKit/include
 ifneq ($(EXTRA_INCLUDES),)
   INCLUDES += $(EXTRA_INCLUDES)
@@ -167,7 +170,7 @@ PS2_SRC := \
   codigo/graficos/memoria_texturas.c codigo/graficos/pantallas_gigantes.c \
   codigo/carrera/ia/caminos_vehiculos.c \
   codigo/sistema/descompresion_tkmk00.c codigo/sistema/descompresion_mio0.c codigo/sistema/caracteres_es.c \
-  $(EXTRA_SRC)
+  codigo/sistema/descompresion_textura_menu.c $(EXTRA_SRC)
 
 # Caminos 2D del tren y del barco, calculados al compilar
 CAMINOS := $(BUILD)/tabla_caminos_vehiculos.h
@@ -211,7 +214,7 @@ ELF        := $(OBJDIR)/smk64.elf
 
 # --- Objetivos --------------------------------------------------------------------
 
-.PHONY: all elf iso clean herramientas test
+.PHONY: all elf iso clean herramientas test es hoja-es
 .NOTINTERMEDIATE:
 
 all: elf
@@ -225,16 +228,17 @@ iso: $(ELF)
 	    ISO_CONTENIDO=compilaciones/disco/contenido$(if $(filter 1,$(DEBUG)),_debug) \
 	    sh herramientas/crear_iso.sh $(OBJDIR)/SLUS_999.99 $(ISO_NAME)
 
-herramientas: $(MIO0TOOL) $(DLPACKER)
+herramientas: $(MIO0TOOL) $(DLPACKER) $(TKMK00TOOL)
 
 clean:
 	rm -rf $(BUILD) $(HERRAMIENTAS)
 
-# Pruebas en el PC: combinador de color y caminos del tren y del barco
+# Pruebas en el PC: combinador de color, caminos del tren y del barco, texto en EUC-JP,
+# herramientas de texturas y texturas en espanol
 PRUEBAS := $(BUILD)/pruebas
 # char con signo como en el R5900 (en ARM el char del PC no lleva signo)
 CC_PRUEBAS := gcc -fsigned-char
-test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES))
+test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(TKMK00TOOL) es
 	@mkdir -p $(PRUEBAS)
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -D_LANGUAGE_C -DF3DEX_GBI -DTARGET_PS2 -Iincluir -Iincluir/libultra \
 	    -o $(PRUEBAS)/prueba_combinador herramientas/pruebas/prueba_combinador.c codigo/graficos/combinador_color.c -lm
@@ -253,6 +257,22 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES))
 	$(V)$(PRUEBAS)/prueba_glifos
 	$(V)$(PYTHON) herramientas/pruebas/prueba_glifos_es.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_tablas_glifos.py codigo/menus/elementos_menu/lista_glifos.inc.c
+	$(V)$(PYTHON) herramientas/pruebas/prueba_png_simple.py
+	$(V)$(PYTHON) herramientas/pruebas/prueba_formatos_textura.py $(MIO0TOOL)
+	$(V)$(PYTHON) herramientas/pruebas/prueba_tkmk00.py $(TKMK00TOOL)
+	$(V)$(PYTHON) herramientas/pruebas/prueba_invertir_texturas.py
+	$(V)$(PYTHON) herramientas/pruebas/prueba_texturas_es.py $(TKMK00TOOL)
+	$(V)$(PYTHON) herramientas/pruebas/prueba_cableado_es.py $(BUILD)
+	$(V)$(PYTHON) herramientas/pruebas/prueba_composicion_es.py
+	$(V)$(PYTHON) herramientas/pruebas/prueba_hud_es.py $(BUILD)
+	$(V)$(PYTHON) herramientas/pruebas/prueba_lakitu_es.py $(BUILD)
+	$(V)$(PYTHON) herramientas/pruebas/prueba_titulos_es.py
+	$(V)$(PYTHON) herramientas/pruebas/prueba_cartel_es.py $(BUILD)
+	$(V)$(PYTHON) herramientas/pruebas/prueba_hojas_es.py
+	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -Iincluir -o $(PRUEBAS)/prueba_textura_menu \
+	    herramientas/pruebas/prueba_textura_menu.c codigo/sistema/descompresion_textura_menu.c \
+	    codigo/sistema/descompresion_tkmk00.c codigo/sistema/descompresion_mio0.c herramientas/archivos_host.c
+	$(V)$(PRUEBAS)/prueba_textura_menu herramientas/pruebas/referencias_tkmk00.txt recursos/texturas/menus/tkmk00
 	$(V)$(PYTHON) herramientas/comprobar_lineas.py
 
 # --- Herramientas del PC ------------------------------------------------------------
@@ -263,16 +283,77 @@ $(MIO0TOOL): codigo/sistema/descompresion_mio0.c incluir/sistema/descompresion_m
 	@mkdir -p $(dir $@)
 	$(V)gcc $(HOST_CFLAGS) -DMIO0_STANDALONE $< -o $@
 
+# Decodificador TKMK00 del juego como herramienta del PC
+$(TKMK00TOOL): codigo/sistema/descompresion_tkmk00.c herramientas/archivos_host.c \
+               incluir/sistema/descompresion_tkmk00.h incluir/sistema/utilidades.h
+	@mkdir -p $(dir $@)
+	$(V)gcc $(HOST_CFLAGS) -DTKMK00_STANDALONE codigo/sistema/descompresion_tkmk00.c herramientas/archivos_host.c -o $@
+
 $(DLPACKER): herramientas/empaquetador_listas.c
 	@mkdir -p $(dir $@)
 	$(V)gcc $(HOST_CFLAGS) -Wno-unused-result -Iincluir/libultra -DF3DEX_GBI=1 -D_LANGUAGE_C=1 $< -o $@
 
+# --- Texturas en espanol ------------------------------------------------------------
+# PNG versionados en recursos/es/ (ver herramientas/texturas_es.py). mio0/: texturas de
+# menu que el juego guardaba en TKMK00; el build las guarda como MIO0 de su RGBA16.
+# crudo/: texturas que el juego carga tal cual, en el mismo formato y tamanio.
+# inc/: .inc.c que se incluyen desde C (HUD); el build los deja en $(BUILD)/es/<ruta
+# original> y tapan a la original (-I$(BUILD)/es y --superponer para be/).
+
+ES_PY    := herramientas/texturas_es.py herramientas/formatos_textura.py herramientas/png_simple.py
+ES_MIO0  := $(patsubst recursos/es/%.png,$(BUILD)/es/%.mio0,$(sort $(shell find recursos/es/mio0 -name '*.png' 2>/dev/null)))
+ES_CRUDO := $(patsubst recursos/es/%.png,$(BUILD)/es/%.bin,$(sort $(shell find recursos/es/crudo -name '*.png' 2>/dev/null)))
+ES_TAMANIOS := $(BUILD)/es/tamanios_es.h
+ES_INC   := $(patsubst recursos/es/inc/%.png,$(BUILD)/es/%.inc.c,$(sort $(shell find recursos/es/inc -name '*.png' 2>/dev/null)))
+# Sello con la lista de .inc.c: si se agrega o quita una, be/ y los datos se rehacen
+ES_SELLO := $(BUILD)/es/.inc_$(shell echo '$(ES_INC)' | md5sum | cut -c1-12)
+# Carteles de Lakitu: una tira de 16 cuadros ci8 por animacion (ver herramientas/lakitu_es.py)
+ES_LAKITU := $(patsubst recursos/es/lakitu/%.ci8.png,$(BUILD)/es/lakitu/%.sello,$(sort $(wildcard recursos/es/lakitu/*.ci8.png)))
+
+es: $(ES_MIO0) $(ES_TAMANIOS) $(ES_CRUDO) $(ES_INC) $(ES_SELLO) $(ES_LAKITU)
+.SECONDARY: $(ES_MIO0:.mio0=.bin)
+
+$(BUILD)/es/%.bin: recursos/es/%.png $(ES_PY)
+	@mkdir -p $(dir $@)
+	$(V)$(PYTHON) herramientas/texturas_es.py importar $< $@
+
+$(BUILD)/es/%.inc.c: recursos/es/inc/%.png %.inc.c $(ES_PY)
+	@mkdir -p $(dir $@)
+	$(V)$(PYTHON) herramientas/texturas_es.py inc $< $@
+
+# Quita las .inc.c que ya no estan en la lista para que no tapen a la original
+$(ES_SELLO): $(ES_INC)
+	@mkdir -p $(dir $@)
+	$(V)find $(BUILD)/es -name '*.inc.c' $(foreach f,$(ES_INC),! -path '$(f)') -delete
+	$(V)rm -f $(BUILD)/es/.inc_* && touch $@
+
+$(BUILD)/es/lakitu/%.sello: recursos/es/lakitu/%.ci8.png recursos/es/lakitu/lakitu.tsv herramientas/lakitu_es.py $(ES_PY)
+	@mkdir -p $(dir $@)
+	$(V)$(PYTHON) herramientas/lakitu_es.py partir $< $(BUILD)/es/lakitu && touch $@
+
+# Una hoja por familia y por cartel de Lakitu, para revisar a ojo
+hoja-es: $(TKMK00TOOL)
+	$(V)$(PYTHON) herramientas/hojas_es.py $(BUILD)/es/hojas
+
+# TAMANIO_ES_*: el campo size de las TexturaMenu de esas texturas
+$(ES_TAMANIOS): $(ES_MIO0) recursos/es/texturas.tsv $(ES_PY)
+	@mkdir -p $(dir $@)
+	$(V)$(PYTHON) herramientas/texturas_es.py tamanios $(BUILD)/es $@
+
+# gas y gcc no ven estas dependencias a tiempo con -j
+$(BUILD)/codigo/datos/texturas_tkmk00.o: $(ES_MIO0)
+$(BUILD)/codigo/datos/texturas_seleccion.o: $(ES_CRUDO)
+$(BUILD)/codigo/datos/otras_texturas.o: $(ES_LAKITU) $(ES_MIO0)
+$(BUILD)/recursos/pistas/moo_moo_farm/desplazamientos.o: $(ES_TAMANIOS)
+$(BUILD)/codigo/datos/texturas.o: $(ES_TAMANIOS)
+$(BUILD)/recursos/comunes/datos_comunes.data.o: $(ES_SELLO)
+
 # --- Texturas u16 con los bytes invertidos -------------------------------------------
 
 SWAP_SOURCES := $(shell find codigo recursos -name '*.c' 2>/dev/null)
-$(SWAP_STAMP): herramientas/invertir_texturas.py $(SWAP_SOURCES)
+$(SWAP_STAMP): herramientas/invertir_texturas.py $(SWAP_SOURCES) $(ES_SELLO)
 	@mkdir -p $(dir $@)
-	$(V)$(PYTHON) herramientas/invertir_texturas.py --stamp $@ $(BUILD)/be codigo recursos
+	$(V)$(PYTHON) herramientas/invertir_texturas.py --stamp $@ --superponer $(BUILD)/es $(BUILD)/be codigo recursos
 
 # --- Compilacion ----------------------------------------------------------------------
 

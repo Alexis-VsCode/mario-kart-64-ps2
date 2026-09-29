@@ -46,8 +46,8 @@ void renderizar_hud_2j_horizontal_jugador_dos_horizontal_jugador_uno(void) {
     if (desactivar_hud == 0) {
         renderizar_temporizador_hud(JUGADOR_UNO);
         if (h_ud_jugador[JUGADOR_UNO].cantidad_vuelta != 3) {
-            dibujar_textura_32x_hud_2d_8(h_ud_jugador[JUGADOR_UNO].vuelta_x, h_ud_jugador[JUGADOR_UNO].vuelta_y,
-                                     (u8*) comun_textura_hud_vuelta);
+            dibujar_textura_hud_2d(PALABRA_HUD_X(h_ud_jugador[JUGADOR_UNO].vuelta_x), h_ud_jugador[JUGADOR_UNO].vuelta_y,
+                                   PALABRA_HUD_ANCHO, 8, (u8*) comun_textura_hud_vuelta);
             dibujar_cantidad_vuelta(h_ud_jugador[JUGADOR_UNO].vuelta_x + 0xC, h_ud_jugador[JUGADOR_UNO].vuelta_y - 4,
                            h_ud_jugador[JUGADOR_UNO].cantidad_vuelta_tambien);
             dibujar_ventana_item(JUGADOR_UNO);
@@ -62,8 +62,8 @@ void renderizar_jugador_dos_horizontal_hud_2j(void) {
     if (desactivar_hud == 0) {
         renderizar_temporizador_hud(JUGADOR_DOS);
         if (h_ud_jugador[JUGADOR_DOS].cantidad_vuelta != 3) {
-            dibujar_textura_32x_hud_2d_8(h_ud_jugador[JUGADOR_DOS].vuelta_x, h_ud_jugador[JUGADOR_DOS].vuelta_y,
-                                     (u8*) comun_textura_hud_vuelta);
+            dibujar_textura_hud_2d(PALABRA_HUD_X(h_ud_jugador[JUGADOR_DOS].vuelta_x), h_ud_jugador[JUGADOR_DOS].vuelta_y,
+                                   PALABRA_HUD_ANCHO, 8, (u8*) comun_textura_hud_vuelta);
             dibujar_cantidad_vuelta(h_ud_jugador[JUGADOR_DOS].vuelta_x + 0xC, h_ud_jugador[JUGADOR_DOS].vuelta_y - 4,
                            h_ud_jugador[JUGADOR_DOS].cantidad_vuelta_tambien);
             dibujar_ventana_item(JUGADOR_DOS);
@@ -100,7 +100,9 @@ void renderizar_jugador_dos_vertical_hud_2j(void) {
 void renderizar_vuelta_3j_4j_hud(s32 id_jugador) {
     if (seleccion_modo != BATALLA) {
         if (dato_801657F8 && es_visible_hud) {
-            dibujar_textura_32x_hud_2d_8(h_ud_jugador[id_jugador].vuelta_x, h_ud_jugador[id_jugador].vuelta_y, (u8*) comun_textura_hud_vuelta);
+            // Con 3 y 4 jugadores VUELTA no entra: VTA., centrada donde iba LAP
+            dibujar_textura_hud_2d(h_ud_jugador[id_jugador].vuelta_x, h_ud_jugador[id_jugador].vuelta_y, PALABRA_HUD_ANCHO, 8,
+                                   PALABRA_HUD_VUELTA_CORTA);
             dibujar_cantidad_vuelta(h_ud_jugador[id_jugador].vuelta_x - 12, h_ud_jugador[id_jugador].vuelta_y + 4,
                            h_ud_jugador[id_jugador].cantidad_vuelta_tambien);
         }

@@ -1,0 +1,12 @@
+caracter	receta
+# Letras que no estan en FINAL LAP, armadas con las del mismo cuadro
+# T: la barra de arriba de la F con el palo de la I centrado debajo
+T	encima(filas(glifo("F"), 3, 7), mover(filas(glifo("I"), 7, 16), 3, 0))
+# M: la mitad izquierda de la N y su espejo, sin lo que sobra en el medio
+M	borrar(junto(cols(glifo("N"), 0, 5), espejo(cols(glifo("N"), 0, 5)), 1), 3, 10, 6, 16)
+# U: la L y su espejo; la tilde va en las filas 2 y 3 (arriba de la letra)
+U	encima(glifo("L"), espejo(glifo("L")))
+Ú	encima(encima(glifo("L"), espejo(glifo("L"))), parte("acento", 2), 2, 0)
+# Signos: la I cortada (palo y punto) y dada vuelta
+!	borrar(glifo("I"), -1, 11, 3, 13)
+¡	girar(borrar(glifo("I"), -1, 11, 3, 13))

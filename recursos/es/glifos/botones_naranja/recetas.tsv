@@ -1,0 +1,6 @@
+caracter	receta
+# Letras que no estan en DATA, BEGIN, GHOST ni EXTRA, dibujadas como el resto
+M	parte("m", 2)
+P	parte("p", 2)
+F	parte("f", 2)
+Z	parte("z", 2)

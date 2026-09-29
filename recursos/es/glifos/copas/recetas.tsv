@@ -1,0 +1,4 @@
+caracter	receta
+# Tilde y acento sobre las letras diminutas (sin contorno: van sobre la placa oscura)
+diminuta Ñ	encima(forma("n", FILA), parte("tilde", FILA - 3), 1)
+diminuta Ó	encima(forma("o", FILA), parte("agudo", FILA - 3), 1)

@@ -164,11 +164,11 @@ glabel textura_pasto_2
 
 .balign 4, 0x00
 glabel textura_moo_moo_farm_izquierda_cartel
-.incbin "recursos/texturas/pistas/moo_moo_farm/izquierda_cartel.mio0"
+.incbin "es/mio0/pistas/moo_moo_farm/cartel_granja_izquierda.rgba16.mio0"
 
 .balign 4, 0x00
 glabel textura_moo_moo_farm_derecha_cartel
-.incbin "recursos/texturas/pistas/moo_moo_farm/derecha_cartel.mio0"
+.incbin "es/mio0/pistas/moo_moo_farm/cartel_granja_derecha.rgba16.mio0"
 
 .balign 4, 0x00
 glabel textura_64ACAC
@@ -1820,195 +1820,195 @@ glabel textura_lakitu_bandera_a_cuadros_32
 
 .balign 4, 0x00
 glabel textura_lakitu_segundo_vuelta_01
-.incbin "recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_01.bin"
+.incbin "es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_01.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_segundo_vuelta_02
-.incbin "recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_02.bin"
+.incbin "es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_02.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_segundo_vuelta_03
-.incbin "recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_03.bin"
+.incbin "es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_03.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_segundo_vuelta_04
-.incbin "recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_04.bin"
+.incbin "es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_04.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_segundo_vuelta_05
-.incbin "recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_05.bin"
+.incbin "es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_05.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_segundo_vuelta_06
-.incbin "recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_06.bin"
+.incbin "es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_06.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_segundo_vuelta_07
-.incbin "recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_07.bin"
+.incbin "es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_07.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_segundo_vuelta_08
-.incbin "recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_08.bin"
+.incbin "es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_08.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_segundo_vuelta_09
-.incbin "recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_09.bin"
+.incbin "es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_09.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_segundo_vuelta_10
-.incbin "recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_10.bin"
+.incbin "es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_10.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_segundo_vuelta_11
-.incbin "recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_11.bin"
+.incbin "es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_11.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_segundo_vuelta_12
-.incbin "recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_12.bin"
+.incbin "es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_12.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_segundo_vuelta_13
-.incbin "recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_13.bin"
+.incbin "es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_13.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_segundo_vuelta_14
-.incbin "recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_14.bin"
+.incbin "es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_14.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_segundo_vuelta_15
-.incbin "recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_15.bin"
+.incbin "es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_15.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_segundo_vuelta_16
-.incbin "recursos/texturas/lakitu/segunda_vuelta/lakitu_segundo_vuelta_16.bin"
+.incbin "es/lakitu/segunda_vuelta/lakitu_segundo_vuelta_16.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_vuelta_final_01
-.incbin "recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_01.bin"
+.incbin "es/lakitu/vuelta_final/lakitu_vuelta_final_01.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_vuelta_final_02
-.incbin "recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_02.bin"
+.incbin "es/lakitu/vuelta_final/lakitu_vuelta_final_02.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_vuelta_final_03
-.incbin "recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_03.bin"
+.incbin "es/lakitu/vuelta_final/lakitu_vuelta_final_03.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_vuelta_final_04
-.incbin "recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_04.bin"
+.incbin "es/lakitu/vuelta_final/lakitu_vuelta_final_04.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_vuelta_final_05
-.incbin "recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_05.bin"
+.incbin "es/lakitu/vuelta_final/lakitu_vuelta_final_05.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_vuelta_final_06
-.incbin "recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_06.bin"
+.incbin "es/lakitu/vuelta_final/lakitu_vuelta_final_06.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_vuelta_final_07
-.incbin "recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_07.bin"
+.incbin "es/lakitu/vuelta_final/lakitu_vuelta_final_07.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_vuelta_final_08
-.incbin "recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_08.bin"
+.incbin "es/lakitu/vuelta_final/lakitu_vuelta_final_08.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_vuelta_final_09
-.incbin "recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_09.bin"
+.incbin "es/lakitu/vuelta_final/lakitu_vuelta_final_09.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_vuelta_final_10
-.incbin "recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_10.bin"
+.incbin "es/lakitu/vuelta_final/lakitu_vuelta_final_10.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_vuelta_final_11
-.incbin "recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_11.bin"
+.incbin "es/lakitu/vuelta_final/lakitu_vuelta_final_11.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_vuelta_final_12
-.incbin "recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_12.bin"
+.incbin "es/lakitu/vuelta_final/lakitu_vuelta_final_12.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_vuelta_final_13
-.incbin "recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_13.bin"
+.incbin "es/lakitu/vuelta_final/lakitu_vuelta_final_13.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_vuelta_final_14
-.incbin "recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_14.bin"
+.incbin "es/lakitu/vuelta_final/lakitu_vuelta_final_14.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_vuelta_final_15
-.incbin "recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_15.bin"
+.incbin "es/lakitu/vuelta_final/lakitu_vuelta_final_15.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_vuelta_final_16
-.incbin "recursos/texturas/lakitu/vuelta_final/lakitu_vuelta_final_16.bin"
+.incbin "es/lakitu/vuelta_final/lakitu_vuelta_final_16.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_reversa_01
-.incbin "recursos/texturas/lakitu/marcha_atras/lakitu_reversa_01.bin"
+.incbin "es/lakitu/marcha_atras/lakitu_reversa_01.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_reversa_02
-.incbin "recursos/texturas/lakitu/marcha_atras/lakitu_reversa_02.bin"
+.incbin "es/lakitu/marcha_atras/lakitu_reversa_02.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_reversa_03
-.incbin "recursos/texturas/lakitu/marcha_atras/lakitu_reversa_03.bin"
+.incbin "es/lakitu/marcha_atras/lakitu_reversa_03.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_reversa_04
-.incbin "recursos/texturas/lakitu/marcha_atras/lakitu_reversa_04.bin"
+.incbin "es/lakitu/marcha_atras/lakitu_reversa_04.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_reversa_05
-.incbin "recursos/texturas/lakitu/marcha_atras/lakitu_reversa_05.bin"
+.incbin "es/lakitu/marcha_atras/lakitu_reversa_05.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_reversa_06
-.incbin "recursos/texturas/lakitu/marcha_atras/lakitu_reversa_06.bin"
+.incbin "es/lakitu/marcha_atras/lakitu_reversa_06.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_reversa_07
-.incbin "recursos/texturas/lakitu/marcha_atras/lakitu_reversa_07.bin"
+.incbin "es/lakitu/marcha_atras/lakitu_reversa_07.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_reversa_08
-.incbin "recursos/texturas/lakitu/marcha_atras/lakitu_reversa_08.bin"
+.incbin "es/lakitu/marcha_atras/lakitu_reversa_08.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_reversa_09
-.incbin "recursos/texturas/lakitu/marcha_atras/lakitu_reversa_09.bin"
+.incbin "es/lakitu/marcha_atras/lakitu_reversa_09.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_reversa_10
-.incbin "recursos/texturas/lakitu/marcha_atras/lakitu_reversa_10.bin"
+.incbin "es/lakitu/marcha_atras/lakitu_reversa_10.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_reversa_11
-.incbin "recursos/texturas/lakitu/marcha_atras/lakitu_reversa_11.bin"
+.incbin "es/lakitu/marcha_atras/lakitu_reversa_11.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_reversa_12
-.incbin "recursos/texturas/lakitu/marcha_atras/lakitu_reversa_12.bin"
+.incbin "es/lakitu/marcha_atras/lakitu_reversa_12.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_reversa_13
-.incbin "recursos/texturas/lakitu/marcha_atras/lakitu_reversa_13.bin"
+.incbin "es/lakitu/marcha_atras/lakitu_reversa_13.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_reversa_14
-.incbin "recursos/texturas/lakitu/marcha_atras/lakitu_reversa_14.bin"
+.incbin "es/lakitu/marcha_atras/lakitu_reversa_14.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_reversa_15
-.incbin "recursos/texturas/lakitu/marcha_atras/lakitu_reversa_15.bin"
+.incbin "es/lakitu/marcha_atras/lakitu_reversa_15.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_reversa_16
-.incbin "recursos/texturas/lakitu/marcha_atras/lakitu_reversa_16.bin"
+.incbin "es/lakitu/marcha_atras/lakitu_reversa_16.bin"
 
 .balign 4, 0x00
 glabel textura_lakitu_pesca_1

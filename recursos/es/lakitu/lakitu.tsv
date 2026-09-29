@@ -1,0 +1,6 @@
+id	carpeta	patron	tlut	placa	plano	familia	caja	texto_en	x_en	opciones	texto_es	png	motivo_no
+lakitu_vuelta_final	vuelta_final	lakitu_vuelta_final_%02d.bin	tlut_lakitu_vuelta_final.rgba16.inc.c	azul	16	lakitu_azul	6,2,60,14	FINAL LAP	7	juntar=1	¡ÚLTIMA!	recursos/es/lakitu/lakitu_vuelta_final.ci8.png
+lakitu_segunda_vuelta	segunda_vuelta	lakitu_segundo_vuelta_%02d.bin	tlut_lakitu_segundo_vuelta.rgba16.inc.c	verde	16	lakitu_verde	6,2,60,14	2nd LAP	7	juntar=-1 condensar=0.85:VA2	VUELTA 2	recursos/es/lakitu/lakitu_segunda_vuelta.ci8.png	
+lakitu_marcha_atras	marcha_atras	lakitu_reversa_%02d.bin	tlut_lakitu_reversa.rgba16.inc.c	rojo	5	lakitu_rojo	3,35,66,15	REVERSE	3	juntar=1	¡REVÉS!	recursos/es/lakitu/lakitu_marcha_atras.ci8.png	
+# 2.a VUELTA no entra en la placa con letras de 8 filas o mas (unas 72 columnas para 57): VUELTA 2.
+# AL REVES no entra con los signos (unas 90 columnas): REVES entre signos, la reserva acordada.

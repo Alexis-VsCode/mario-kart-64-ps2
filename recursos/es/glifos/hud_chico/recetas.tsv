@@ -1,0 +1,7 @@
+caracter	receta
+# Letras que no estan en LAP (filas 0 a 7)
+V	parte("v", 0)
+U	parte("u", 0)
+E	parte("e", 0)
+T	parte("t", 0)
+.	parte("punto", 0)

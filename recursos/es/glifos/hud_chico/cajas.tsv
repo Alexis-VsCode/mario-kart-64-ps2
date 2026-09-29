@@ -1,0 +1,5 @@
+caracter	textura	x_izq	x_der
+# vuelta_hud: LAP
+L	vuelta_hud	0	7
+A	vuelta_hud	7	15
+P	vuelta_hud	15	25

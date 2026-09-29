@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """Copia las texturas u16/u32 con los bytes invertidos para el EE.
 
-    invertir_texturas.py [--stamp sello] <salida> <carpeta> [<carpeta> ...]
+    invertir_texturas.py [--stamp sello] [--superponer carpeta] <salida> <carpeta> [<carpeta> ...]
+
+Con --superponer, si existe <carpeta>/<ruta del .inc.c> se invierte esa
+version en lugar de la del repo. Como el origen elegido puede cambiar sin
+que cambie ningun mtime, en ese modo se compara el resultado con la salida.
 """
 import os
 import re
@@ -66,24 +70,36 @@ def main():
     if len(sys.argv) < 3:
         sys.exit(__doc__)
     args = sys.argv[1:]
-    stamp = None
-    if args[:1] == ['--stamp']:
-        stamp, args = args[1], args[2:]
+    stamp = superponer = None
+    while args[:1] in (['--stamp'], ['--superponer']) and len(args) > 1:
+        if args[0] == '--stamp':
+            stamp = args[1]
+        else:
+            superponer = args[1]
+        args = args[2:]
+    if len(args) < 2:
+        sys.exit(__doc__)
     out_dir = args[0]
     includes = find_includes(args[1:])
     written = 0
     for inc, width in sorted(includes.items()):
-        if not os.path.exists(inc):
-            sys.exit('invertir_texturas: no existe %s (¿faltan los assets?)' % inc)
+        src = inc
+        if superponer and os.path.exists(os.path.join(superponer, inc)):
+            src = os.path.join(superponer, inc)
+        if not os.path.exists(src):
+            sys.exit('invertir_texturas: no existe %s (¿faltan los assets?)' % src)
         dst = os.path.join(out_dir, inc)
-        src_mtime = os.path.getmtime(inc)
-        if os.path.exists(dst) and os.path.getmtime(dst) >= src_mtime:
+        if not superponer and os.path.exists(dst) and os.path.getmtime(dst) >= os.path.getmtime(src):
             continue
-        with open(inc, encoding='utf-8', errors='replace') as f:
+        with open(src, encoding='utf-8', errors='replace') as f:
             text = f.read()
         if re.search(r'[A-Za-z_]{2,}', HEX_RE.sub('', text)):
-            sys.exit('invertir_texturas: %s no es un array de datos puro' % inc)
+            sys.exit('invertir_texturas: %s no es un array de datos puro' % src)
         text = HEX_RE.sub(lambda m: swap_value(m, width), text)
+        if superponer and os.path.exists(dst):
+            with open(dst) as f:
+                if f.read() == text:
+                    continue
         os.makedirs(os.path.dirname(dst), exist_ok=True)
         with open(dst, 'w') as f:
             f.write(text)

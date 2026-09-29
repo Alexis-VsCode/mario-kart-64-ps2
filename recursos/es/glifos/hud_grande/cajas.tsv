@@ -1,0 +1,16 @@
+caracter	textura	x_izq	x_der
+# tiempo_hud: TIME
+T	tiempo_hud	0	8
+I	tiempo_hud	8	12
+M	tiempo_hud	12	22
+E	tiempo_hud	22	31
+# tiempo_total_hud: TOTAL
+T	tiempo_total_hud	0	6
+O	tiempo_total_hud	6	12
+T	tiempo_total_hud	12	17
+A	tiempo_total_hud	17	24
+L	tiempo_total_hud	24	30
+# tiempo_vuelta_hud: LAP
+L	tiempo_vuelta_hud	0	8
+A	tiempo_vuelta_hud	8	18
+P	tiempo_vuelta_hud	18	29

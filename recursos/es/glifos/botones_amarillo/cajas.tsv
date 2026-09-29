@@ -1,0 +1,13 @@
+caracter	textura	x_izq	x_der
+# opcion_l: OPTION
+O	opcion_l	16	23
+P	opcion_l	23	30
+T	opcion_l	30	35
+I	opcion_l	35	39
+O	opcion_l	39	47
+N	opcion_l	47	56
+# datos_r: DATA
+D	datos_r	22	31
+A	datos_r	31	37
+T	datos_r	37	43
+A	datos_r	43	51

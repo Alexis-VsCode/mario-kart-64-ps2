@@ -1,0 +1,6 @@
+caracter	receta
+# No hay signos en REVERSE: dibujados con el alto de las letras (filas 36 a 48)
+!	parte("exclamacion", 36)
+¡	girar(parte("exclamacion", 36))
+# La tilde va en la fila 35, sobre la placa y lejos de la mano de Lakitu
+É	encima(glifo("E"), parte("acento", 35), 3, 0)

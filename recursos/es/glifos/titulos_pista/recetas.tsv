@@ -1,0 +1,5 @@
+caracter	receta
+# Q (BLOQUE): la O con una cola abajo a la derecha (filas 11 a 14)
+Q	encima(glifo("O"), parte("cola", 11), 3, 0)
+# Guion (MU-MU): barra dibujada a media altura (filas 7 a 10)
+-	avance(mover(parte("guion", 7), 1, 0), 7)
