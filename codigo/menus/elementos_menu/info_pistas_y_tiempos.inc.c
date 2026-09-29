@@ -150,7 +150,7 @@ void funcion_800A1FB0(MenuItem* parametro0) {
                 }
             }
             fijar_color_texto(VERDE_TEXTO);
-            imprimir_modo_centro_texto1_1(0x000000E6, 0x55 + 0x23, sonido_nombres_modo[sonido_modo], 0, 1.0f, 1.0f);
+            imprimir_modo_centro_texto1_1(0x000000E4, 0x55 + 0x23, sonido_nombres_modo[sonido_modo], 0, 1.0f, 1.0f);
             break;
         case SUB_MENU_BORRAR_ABANDONAR:
         case SUB_MENU_BORRAR_BORRAR:
@@ -418,9 +418,9 @@ void funcion_800A2EB8(MenuItem* parametro0) {
         sp70[variable_s2] = jugadores[gp_actual_carrera_jugador_id_por_puesto[variable_s2]].id_personaje;
     }
     fijar_color_texto(TEXTO_AZUL_VERDE_ROJO_CICLO_1);
-    imprimir_modo_texto_1(parametro0->column + 0x1E, parametro0->row + 0x19, "results", 0, 1.0f, 1.0f);
+    imprimir_modo_texto_1(parametro0->column + 7, parametro0->row + 0x19, texto_resultados, 0, 1.0f, 1.0f);
     fijar_color_texto(TEXTO_AZUL_VERDE_ROJO_CICLO_2);
-    imprimir_modo_texto_1(parametro0->column + 0x2C, parametro0->row + 0x28, "round", 0, 0.7f, 0.7f);
+    imprimir_modo_texto_1(parametro0->column + 0x2C, parametro0->row + 0x28, texto_ronda, 0, 0.7f, 0.7f);
     convertir_numero_a_ascii(indice_circuito_en_copa + 1, sp68);
     imprimir_modo_texto_1(parametro0->column + 0x57, parametro0->row + 0x28, &sp68[1], 0, 0.7f, 0.7f);
     for (variable_s2 = 0; variable_s2 < 4; variable_s2++) {
@@ -499,9 +499,9 @@ void funcion_800A34A8(MenuItem* parametro0) {
             funcion_800A3A10(id_personaje_por_puesto_total_gp);
         }
         fijar_color_texto(TEXTO_AZUL_VERDE_ROJO_CICLO_1);
-        imprimir_modo_texto_1(parametro0->column + 0x19, 0x19 - parametro0->row, "driver's points", 0, 0.8f, 0.8f);
+        imprimir_modo_texto_1(parametro0->column + 0x19, 0x19 - parametro0->row, texto_puntos_piloto, 0, 0.8f, 0.8f);
         fijar_color_texto(TEXTO_AZUL_VERDE_ROJO_CICLO_2);
-        imprimir_modo_texto_1(parametro0->column + 0x36, 0x28 - parametro0->row, "round", 0, 0.7f, 0.7f);
+        imprimir_modo_texto_1(parametro0->column + 0x36, 0x28 - parametro0->row, texto_ronda, 0, 0.7f, 0.7f);
         convertir_numero_a_ascii(indice_circuito_en_copa + 1, sp78);
         imprimir_modo_texto_1(parametro0->column + 0x61, (0x28 & 0xFFFFFFFF) - parametro0->row, &sp78[1], 0, 0.7f, 0.7f);
         for (puesto = 0; puesto < 4; puesto++) {
@@ -562,10 +562,10 @@ void funcion_800A34A8(MenuItem* parametro0) {
         fijar_color_texto(TEXTO_AZUL_VERDE_ROJO_CICLO_2);
         temporal_s0_3 = ((obtener_ancho_cadena(nombres_copa[seleccion_copa]) + 8) * 0.6f) / 2;
         imprimir_modo_centro_texto1_1(
-            (-(s32) (((obtener_ancho_cadena(dato_800E76CC[seleccion_cc]) + 8) * 0.6f) / 2) - parametro0->column) + 0xE6,
+            (-(s32) (((obtener_ancho_cadena(dato_800E76CC[seleccion_cc]) + 8) * 0.6f) / 2) - parametro0->column) + 0xE0,
             parametro0->row + 0xE1, nombres_copa[dato_800DC540], 0, 0.6f, 0.6f);
         imprimir_modo_centro_texto1_1(
-            (temporal_s0_3 - parametro0->column) + 0xE6, parametro0->row + 0xE1,
+            (temporal_s0_3 - parametro0->column) + 0xE0, parametro0->row + 0xE1,
             dato_800E76CC[juego_modo_sub_menu_columna[cantidad_jugador - 1][juego_modo_menu_columna[cantidad_jugador - 1]]], 0, 0.6f, 0.6f);
     }
 }
@@ -642,7 +642,7 @@ void renderizar_contrarreloj_texto_meta(MenuItem* parametro0) {
                               duplicar_nombres_circuito[orden_circuito_copa[seleccion_copa][indice_circuito_en_copa]], 0, 0.6f, 0.6f);
 
     fijar_color_texto(AMARILLO_TEXTO);
-    imprimir_modo_centro_texto1_1(parametro0->column + 0x46, parametro0->row + 0x28, texto_tiempo_vuelta, 0, 0.75f, 0.75f);
+    imprimir_modo_centro_texto1_1(parametro0->column + 0x40, parametro0->row + 0x28, texto_tiempo_vuelta, 0, 0.75f, 0.75f);
 
     for (grabar_tipo = 0, desplazamiento_renglon = 0; grabar_tipo < CONTRARRELOJ_3LAP_REGISTRO_5; grabar_tipo += 1, desplazamiento_renglon += 0xF) {
         renderizar_tiempo_vuelta(grabar_tipo, parametro0->column + 0x17, parametro0->row + desplazamiento_renglon + 0x37);
@@ -717,10 +717,10 @@ void funcion_800A3E60(MenuItem* parametro0) {
                     fijar_color_texto(AZUL_TEXTO);
                     gDPSetPrimColor(display_list_cabeza++, 0, 0, 0x00, 0x00, 0x00, 0x96);
                     imprimir_modo_texto_2(0xB2 - parametro0->column, parametro0->row + (0xD * variable_s1) + 0x93,
-                                      boton_pausa_texto[variable_s1 + 1], 0, 0.75f, 0.75f);
+                                      boton_pausa_texto[variable_s1 + 1], 0, 0.63f, 0.75f);
                 } else {
                     imprimir_modo_texto_1(0xB2 - parametro0->column, parametro0->row + (0xD * variable_s1) + 0x93,
-                                      boton_pausa_texto[variable_s1 + 1], 0, 0.75f, 0.75f);
+                                      boton_pausa_texto[variable_s1 + 1], 0, 0.63f, 0.75f);
                 }
             }
             break;
@@ -830,7 +830,7 @@ void renderizar_tiempo_vuelta(s32 numero_vuelta, s32 columna, s32 renglon) {
         time = h_ud_jugador[JUGADOR_UNO].algun_temporizador;
         fijar_color_texto(VERDE_TEXTO);
     }
-    imprimir_izquierda_texto1(columna + 0x21, renglon, texto_tiempo_prefijo[numero_vuelta], 0, 0.7f, 0.7f);
+    imprimir_izquierda_texto1(columna + 0x21, renglon, texto_tiempo_prefijo[numero_vuelta], 0, 0.65f, 0.7f);
     temporal_v0_2 = buscar_duplicado_items_menu(TIPO_ITEM_MENU_0BB);
     if (numero_vuelta < 3) {
         if (temporal_v0_2->param2 & (1 << numero_vuelta)) {

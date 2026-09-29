@@ -198,6 +198,13 @@ make test && make iso
 git add build compilaciones
 ```
 
+`build/` está versionado y `make test` escribe ahí sus copias y sus binarios.
+Después de las pruebas, para no subirlos por error:
+
+```bash
+git clean -fdq -- build && git checkout -- build
+```
+
 ## Ejecutar
 
 - **PCSX2** (con BIOS) y **Play!**: abrir la ISO de `compilaciones/`.

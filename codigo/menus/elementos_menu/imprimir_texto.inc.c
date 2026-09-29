@@ -616,7 +616,7 @@ void funcion_80095574(void) {
     }
     if (seleccion_menu_depuracion > DEPURACION_MENU_DESACTIVADO) {
         cargar_fuente_depuracion();
-        imprimir_cad2_depuracion(0x00000050, 0x00000064, "debug_mode");
+        imprimir_cad2_depuracion(0x00000050, 0x00000064, textos_menu_depuracion[TEXTO_DEPURACION_TITULO]);
         switch (seleccion_menu_depuracion) {
             case DEPURACION_MENU_DEPURACION_MODO:
                 imprimir_cad2_depuracion(0x00000046, 0x00000064, "*");
@@ -638,28 +638,28 @@ void funcion_80095574(void) {
                 break;
         }
         if (modo_depuracion_activacion) {
-            imprimir_cad2_depuracion(0x000000AA, 0x00000064, "on");
+            imprimir_cad2_depuracion(0x000000AA, 0x00000064, textos_menu_depuracion[TEXTO_DEPURACION_SI]);
         } else {
-            imprimir_cad2_depuracion(0x000000AA, 0x00000064, "off");
+            imprimir_cad2_depuracion(0x000000AA, 0x00000064, textos_menu_depuracion[TEXTO_DEPURACION_NO]);
         }
         if ((id_circuito_actual >= (CIRCUITOS_NUM - 1)) || (id_circuito_actual < 0)) {
             id_circuito_actual = 0;
         }
-        imprimir_num_cad(0x00000050, 0x0000006E, "map_number", id_circuito_actual);
+        imprimir_num_cad(0x00000050, 0x0000006E, textos_menu_depuracion[TEXTO_DEPURACION_PISTA], id_circuito_actual);
         if (id_circuito_actual < 0xA) {
             variable_v0 = 0;
         } else {
             variable_v0 = 8;
         }
         imprimir_cad2_depuracion(variable_v0 + 0xB9, 0x0000006E, obtener_circuito_depuracion_nombre);
-        imprimir_cad2_depuracion(0x00000050, 0x00000078, "screen_mode");
+        imprimir_cad2_depuracion(0x00000050, 0x00000078, textos_menu_depuracion[TEXTO_DEPURACION_PANTALLA]);
         imprimir_cad2_depuracion(0x000000AA, 0x00000078, depuracion_pantalla_modo_nombres[pantalla_modo_lista_indice]);
-        imprimir_cad2_depuracion(0x00000050, 0x00000082, "player");
+        imprimir_cad2_depuracion(0x00000050, 0x00000082, textos_menu_depuracion[TEXTO_DEPURACION_JUGADOR]);
         imprimir_cad2_depuracion(0x000000AA, 0x00000082, nombres_personaje_depuracion[selecciones_personaje[0]]);
-        imprimir_cad2_depuracion(0x00000050, 0x0000008C, "sound mode");
+        imprimir_cad2_depuracion(0x00000050, 0x0000008C, textos_menu_depuracion[TEXTO_DEPURACION_SONIDO]);
         imprimir_cad2_depuracion(0x000000AA, 0x0000008C, depuracion_sonido_modo_nombres[sonido_modo]);
         if (seleccion_menu_depuracion == DEPURACION_MENU_DAR_TODOS_ORO_COPA) {
-            imprimir_cad2_depuracion(0x00000050, 0x00000096, "push b to get all goldcup");
+            imprimir_cad2_depuracion(0x00000050, 0x00000096, textos_menu_depuracion[TEXTO_DEPURACION_ORO]);
         }
         funcion_80057778();
     }

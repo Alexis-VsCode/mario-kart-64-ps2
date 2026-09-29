@@ -309,12 +309,8 @@ void renderizar_menus(MenuItem* parametro0) {
                 break;
             case TIPO_ITEM_MENU_065:
             case TIPO_ITEM_MENU_066: {
-                f32 escalar_x;
-                if (parametro0->type == TIPO_ITEM_MENU_065) {
-                    escalar_x = 0.6f;
-                } else {
-                    escalar_x = 0.8f;
-                }
+                // Las dos cajas de records a 0.6: a 0.8 MEJOR VUELTA no cabe en los 100 px
+                f32 escalar_x = 0.6f;
                 funcion_800A86E8(parametro0);
                 fijar_color_texto(AMARILLO_TEXTO);
                 imprimir_modo_texto_1(parametro0->column + 8, parametro0->row + 0x10, texto_tiempo_mejor[parametro0->type - 0x65], 0, escalar_x,

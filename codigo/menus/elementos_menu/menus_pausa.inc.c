@@ -29,7 +29,8 @@ void renderizar_veces_vuelta(s32 grabar_tipo, s32 columna, s32 renglon) {
             registro_tiempo = funcion_800B4FB0(contrarreloj_indice_circuito_datos);
         }
     }
-    funcion_800939C8(columna + 0x14, renglon, dato_800E7744[grabar_tipo], 2, 0.65f, 0.65f);
+    // Proporcional: en celdas fijas el ordinal (1.o) ocupa tres y pisa los minutos
+    imprimir_modo_texto_1(columna + 0x0C, renglon, dato_800E7744[grabar_tipo], 0, 0.65f, 0.65f);
     if (sp30 == 0) {
         item = buscar_duplicado_items_menu(0x000000BB);
         if (grabar_tipo < 5) {
@@ -168,7 +169,7 @@ void renderizar_menu_pausa_versus(MenuItem* parametro0) {
             variable_s1 = variable_s0;
         }
         efecto_rainbow_texto(parametro0->state - 0x15, variable_s0, AMARILLO_TEXTO);
-        imprimir_modo_texto_1(temporal_s3->column - 2, temporal_s3->row + (13 * variable_s0), boton_pausa_texto[variable_s1], 0, 0.75f, 0.75f);
+        imprimir_modo_texto_1(temporal_s3->column - 2, temporal_s3->row + (13 * variable_s0), boton_pausa_texto[variable_s1], 0, 0.72f, 0.75f);
     }
 }
 
@@ -232,7 +233,7 @@ void renderizar_batalla_pausa(MenuItem* parametro0) {
             variable_s1 = variable_a1;
         }
         efecto_rainbow_texto(parametro0->state - 0x29, variable_a1, AMARILLO_TEXTO);
-        imprimir_modo_texto_1(temporal_s3->column - 2, temporal_s3->row + 13 * variable_a1, boton_pausa_texto[variable_s1], 0, 0.75f, 0.75f);
+        imprimir_modo_texto_1(temporal_s3->column - 2, temporal_s3->row + 13 * variable_a1, boton_pausa_texto[variable_s1], 0, 0.72f, 0.75f);
     }
 }
 
@@ -450,10 +451,10 @@ void funcion_800A6034(MenuItem* parametro0) {
         gDPSetPrimColor(display_list_cabeza++, 0, 0, 0x00, 0x00, 0x00, parametro0->param1);
         text = nombres_copa[dato_800DC540];
         fijar_color_texto(TEXTO_AZUL_VERDE_ROJO_CICLO_2);
-        imprimir_modo_centro_texto1_2(parametro0->column + 0x41, parametro0->row + 0xA0, text, 0, 0.85f, 1.0f);
+        imprimir_modo_centro_texto1_2(parametro0->column + 0x3C, parametro0->row + 0xA0, text, 0, 0.85f, 1.0f);
         text = nombres_circuito[id_circuito_actual];
         fijar_color_texto((s32) id_circuito_actual % 4);
-        imprimir_modo_centro_texto1_2(parametro0->column + 0x41, parametro0->row + 0xC3, text, 0, 0.65f, 0.85f);
+        imprimir_modo_centro_texto1_2(parametro0->column + 0x3C, parametro0->row + 0xC3, text, 0, 0.65f, 0.85f);
     }
 }
 
@@ -618,7 +619,7 @@ void funcion_800A69C8(SIN_USO MenuItem* parametro0) {
         }
         funcion_800A79F4(variable_s4[0], sp74);
         dibujar_texto(cosa->column + 0x10, cosa->row + 0x75, sp74, 0, 1.0f, 1.0f);
-        imprimir_modo_centro_texto1_2(dato_800E7380[variable_s0].column, dato_800E7380[variable_s0].row, temporal_s3, 0, 0.65f, 1.0f);
+        imprimir_modo_centro_texto1_2(dato_800E7380[variable_s0].column, dato_800E7380[variable_s0].row, temporal_s3, 0, 0.55f, 1.0f);
     }
     fijar_color_texto(AZUL_TEXTO);
     dibujar_texto(0x0000009E, dato_800E7300[0].row + 0x6D, "ー", 0, 1.0f, 1.0f);
@@ -694,7 +695,7 @@ void funcion_800A6E94(s32 jugador_cantidad, s32 id_jugador, u8* colocar_ary) {
     } else {
         fijar_color_texto(AMARILLO_TEXTO);
     }
-    dibujar_texto(temporal_s0->column + 4, temporal_s0->row + 0x5A, "1 ｓ ー", 0, 0.8f, 0.8f);
+    dibujar_texto(temporal_s0->column + 4, temporal_s0->row + 0x5A, texto_puesto_versus[0], 0, 0.8f, 0.8f);
     temporal_v0 = colocar_ary + (id_jugador * 3);
     convertir_numero_a_ascii(temporal_v0[0], sp40);
     dibujar_texto(temporal_s0->column + 0x2D, temporal_s0->row + 0x5A, sp40, 0, 0.8f, 0.8f);
@@ -703,7 +704,7 @@ void funcion_800A6E94(s32 jugador_cantidad, s32 id_jugador, u8* colocar_ary) {
     } else {
         fijar_color_texto(AZUL_TEXTO);
     }
-    dibujar_texto(temporal_s0->column + 4, temporal_s0->row + 0x69, "2 ｎ ー", 0, 0.8f, 0.8f);
+    dibujar_texto(temporal_s0->column + 4, temporal_s0->row + 0x69, texto_puesto_versus[1], 0, 0.8f, 0.8f);
     convertir_numero_a_ascii(temporal_v0[1], sp40);
     dibujar_texto(temporal_s0->column + 0x2D, temporal_s0->row + 0x69, sp40, 0, 0.8f, 0.8f);
     if (++idx_puesto == puesto) {
@@ -711,7 +712,7 @@ void funcion_800A6E94(s32 jugador_cantidad, s32 id_jugador, u8* colocar_ary) {
     } else {
         fijar_color_texto(TEXTO_ROJO);
     }
-    dibujar_texto(temporal_s0->column + 4, temporal_s0->row + 0x78, "3 ｒ ー", 0, 0.8f, 0.8f);
+    dibujar_texto(temporal_s0->column + 4, temporal_s0->row + 0x78, texto_puesto_versus[2], 0, 0.8f, 0.8f);
     convertir_numero_a_ascii(temporal_v0[2], sp40);
     dibujar_texto(temporal_s0->column + 0x2D, temporal_s0->row + 0x78, sp40, 0, 0.8f, 0.8f);
 }

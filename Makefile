@@ -238,6 +238,10 @@ clean:
 PRUEBAS := $(BUILD)/pruebas
 # char con signo como en el R5900 (en ARM el char del PC no lleva signo)
 CC_PRUEBAS := gcc -fsigned-char
+# Lo que incluye prueba_textos: se convierte en cada pasada porque build/ esta
+# versionado y un checkout puede dejar la copia mas nueva que su fuente
+TEXTOS_PRUEBA := codigo/menus/elementos_menu/textos_menu.inc.c codigo/ceremonia/creditos.c \
+                 $(wildcard recursos/pistas/metadatos/*.inc.c)
 test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(TKMK00TOOL) es
 	@mkdir -p $(PRUEBAS)
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -D_LANGUAGE_C -DF3DEX_GBI -DTARGET_PS2 -Iincluir -Iincluir/libultra \
@@ -255,6 +259,14 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -O1 -Iincluir -Iincluir/libultra -Icodigo -o $(PRUEBAS)/prueba_glifos \
 	    herramientas/pruebas/prueba_glifos.c codigo/sistema/caracteres_es.c
 	$(V)$(PRUEBAS)/prueba_glifos
+	$(V)for f in $(TEXTOS_PRUEBA); do $(PYTHON) $(CONVERTIR_EUCJP) $$f $(BUILD)/jp/$$f || exit 1; done
+	$(V)$(PYTHON) herramientas/pruebas/prueba_textos_tinta.py codigo/menus/elementos_menu/lista_glifos.inc.c \
+	    $(PRUEBAS)/prueba_textos_tinta.h
+	$(V)$(PYTHON) $(CONVERTIR_EUCJP) herramientas/pruebas/prueba_textos_esperados.inc.c \
+	    $(PRUEBAS)/prueba_textos_esperados.eucjp.inc.c
+	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -O1 -Iincluir -Iincluir/libultra -Icodigo -I$(PRUEBAS) -iquote $(BUILD)/jp \
+	    -o $(PRUEBAS)/prueba_textos herramientas/pruebas/prueba_textos.c codigo/sistema/caracteres_es.c -lm
+	$(V)$(PRUEBAS)/prueba_textos
 	$(V)$(PYTHON) herramientas/pruebas/prueba_glifos_es.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_tablas_glifos.py codigo/menus/elementos_menu/lista_glifos.inc.c
 	$(V)$(PYTHON) herramientas/pruebas/prueba_png_simple.py

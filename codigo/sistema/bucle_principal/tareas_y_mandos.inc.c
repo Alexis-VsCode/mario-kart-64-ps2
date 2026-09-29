@@ -617,15 +617,15 @@ void bucle_logica_carrera(void) {
                     rot_y = camara1->rot[1];
                     cantidad_camino_depuracion = dato_800DC5EC->contador_camino;
                     if (rot_y < GRADOS(45)) {
-                        funcion_80057A50(40, 100, "SOUTH  ", cantidad_camino_depuracion);
+                        funcion_80057A50(40, 100, "SUR    ", cantidad_camino_depuracion);
                     } else if (rot_y < GRADOS(135)) {
-                        funcion_80057A50(40, 100, "EAST   ", cantidad_camino_depuracion);
+                        funcion_80057A50(40, 100, "ESTE   ", cantidad_camino_depuracion);
                     } else if (rot_y < GRADOS(225)) {
-                        funcion_80057A50(40, 100, "NORTH  ", cantidad_camino_depuracion);
+                        funcion_80057A50(40, 100, "NORTE  ", cantidad_camino_depuracion);
                     } else if (rot_y < GRADOS(315)) {
-                        funcion_80057A50(40, 100, "WEST   ", cantidad_camino_depuracion);
+                        funcion_80057A50(40, 100, "OESTE  ", cantidad_camino_depuracion);
                     } else {
-                        funcion_80057A50(40, 100, "SOUTH  ", cantidad_camino_depuracion);
+                        funcion_80057A50(40, 100, "SUR    ", cantidad_camino_depuracion);
                     }
 
                 } else {
