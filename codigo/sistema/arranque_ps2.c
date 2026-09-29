@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
     inicializar_hilos();
     inicializar_hardware_libultra();
     guardar_segmentos_iniciales();
-    marcar_tiempos_ps2("depuración, hilos, segmentos");
+    marcar_tiempos_ps2("depuración/hilos/segmentos");
     ETAPA(3);
     inicializar_renderizador();
     marcar_tiempos_ps2("GS y texturas");

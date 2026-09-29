@@ -4,7 +4,8 @@
 Formatea cada linea de medidor_rendimiento.c con los valores mas anchos
 que puede mostrar y cuenta columnas como escribir_linea_5x7: una por
 caracter, lleve tilde o no. Lo que pasa de TEXTO_COLUMNAS se corta sin
-avisar. La linea MAX se prueba con cada paso del cronometro.
+avisar. La linea MAX se prueba con cada paso del cronometro, y cada paso
+cabe tambien en su columna del informe del cronometro.
 """
 import os
 import re
@@ -16,6 +17,7 @@ from prueba_textos_port import RAIZ, fuentes_del_codigo, literales_de  # noqa: E
 PANEL = "codigo/depuracion/medidor_rendimiento.c"
 TEXTO = "incluir/depuracion/texto_pantalla.h"
 FUENTE = "incluir/depuracion/fuente_5x7.h"
+CRONOMETRO = "codigo/sistema/cronometro_fases.c"
 
 MS = "99.9"  # decimas() hasta 99.9 ms por cuadro
 MS3 = "999"  # decimas_cortas(): 3 columnas hasta 999 ms
@@ -62,6 +64,12 @@ def columnas_panel():
     return ancho // int(definicion(FUENTE, "FUENTE_5X7_AVANCE"))
 
 
+def ancho_paso_informe():
+    """Ancho de la columna de pasos del informe ("%-26s")."""
+    with open(os.path.join(RAIZ, CRONOMETRO), encoding="utf-8") as f:
+        return int(re.search(r'"  %-(\d+)s ', f.read()).group(1))
+
+
 def pasos_cronometro():
     for ruta in fuentes_del_codigo():
         for _, paso in literales_de(ruta, ("marcar_tiempos_ps2", "MARCAR_TIEMPOS_PS2")):
@@ -75,6 +83,10 @@ def main():
     comprobar(formatos, "%s: no se encontro ninguna linea del panel" % PANEL)
     pasos = sorted(set(pasos_cronometro()))
     comprobar(pasos, "no se encontro ningun paso del cronometro")
+    ancho_paso = ancho_paso_informe()
+    for paso in pasos:
+        comprobar(len(paso) <= ancho_paso, "%s: el paso '%s' ocupa %d columnas de %d en el informe"
+                  % (CRONOMETRO, paso, len(paso), ancho_paso))
     for formato in formatos:
         if formato not in PEOR:
             comprobar(False, "%s: '%s' no tiene su peor caso en PEOR" % (PANEL, formato))
