@@ -50,6 +50,11 @@ def probar_igual_que_iconv(archivos):
     if shutil.which("iconv") is None:
         print("AVISO iconv no esta instalado: no se compara contra iconv")
         return
+    # El iconv de musl (imagen de ps2dev) no tiene JIS X 0212: no sirve de referencia
+    prueba = subprocess.run(["iconv", "-f", "UTF-8", "-t", "EUC-JP"], input="Á".encode("utf-8"), capture_output=True)
+    if prueba.stdout != b"\x8f\xaa\xa1":
+        print("AVISO el iconv del sistema no tiene JIS X 0212: no se compara contra iconv")
+        return
     with tempfile.TemporaryDirectory() as tmp:
         destino = os.path.join(tmp, "salida.c")
         for origen in archivos:
