@@ -101,7 +101,7 @@ void tkmk00decode(u32 *orig_, u8 *tmp_buffer, u16 *salida_rgba_16, s32 alpha_col
     if (decodificar_textura_menu((uint8_t *) orig_, tmp_buffer, (uint8_t *) salida_rgba_16, alpha_color_2) !=
         TEXTURA_MENU_OK) {
         registrar("tkmk00decode: firma desconocida en %p", orig_);
-        detener_por_error("textura de menu corrupta");
+        detener_por_error("textura de menú corrupta");
     }
     escribir_ram_tmem_ps2(salida_rgba_16, size);
 }
