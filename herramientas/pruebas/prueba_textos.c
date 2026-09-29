@@ -382,6 +382,7 @@ static void probar_lista_negra(const TablaTexto* t, s32 i) {
 }
 
 // (d) Cada cierre de exclamacion o interrogacion lleva su signo de apertura
+// antes que el
 #define GLIFO_CIERRA_EXCLAMACION 0x1A
 #define GLIFO_CIERRA_INTERROGACION 0x1C
 #define GLIFO_ABRE_EXCLAMACION (GLIFO_ES_PRIMERO + CAR_ES_ABRE_EXCLAMACION - 1)
@@ -393,6 +394,11 @@ static void probar_signos_apertura(const TablaTexto* t, s32 i) {
         indice = leer_glifo(c, &bytes);
         exclamacion += (indice == GLIFO_ABRE_EXCLAMACION) - (indice == GLIFO_CIERRA_EXCLAMACION);
         interrogacion += (indice == GLIFO_ABRE_INTERROGACION) - (indice == GLIFO_CIERRA_INTERROGACION);
+        COMPROBACION(exclamacion >= 0, "%s[%d]: un '!' cierra antes de su apertura", t->nombre, i);
+        COMPROBACION(interrogacion >= 0, "%s[%d]: un '?' cierra antes de su apertura", t->nombre, i);
+        if (exclamacion < 0 || interrogacion < 0) {
+            return;
+        }
     }
     COMPROBACION(exclamacion == 0, "%s[%d]: los signos de exclamacion no van en pareja", t->nombre, i);
     COMPROBACION(interrogacion == 0, "%s[%d]: los signos de interrogacion no van en pareja", t->nombre, i);
