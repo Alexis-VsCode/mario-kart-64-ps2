@@ -179,6 +179,16 @@ static void decimas(char *destino, u32 tam, u32 valor)
     snprintf(destino, tam, "%u.%u", (unsigned) (valor / 10), (unsigned) (valor % 10));
 }
 
+/* Decimas en 3 columnas como mucho: 12.3 -> "12", 1.2 -> "1.2". */
+static void decimas_cortas(char *destino, u32 tam, u32 valor)
+{
+    if (valor >= 100) {
+        snprintf(destino, tam, "%u", (unsigned) ((valor + 5) / 10));
+    } else {
+        decimas(destino, tam, valor);
+    }
+}
+
 static u32 ciclos_a_decimas_ms(u32 ciclos, u32 divisor)
 {
     if (divisor == 0) {
@@ -330,13 +340,13 @@ static void cerrar_ventana(u32 ahora, u32 vblank_ahora)
     {
         char t5[16];
 
-        decimas(t1, sizeof(t1), ciclos_a_decimas_ms(ciclos_seccion(PROF_VTX), frames));
-        decimas(t2, sizeof(t2), ciclos_a_decimas_ms(ciclos_seccion(PROF_TRI) + ciclos_seccion(PROF_RECT), frames));
-        decimas(t3, sizeof(t3),
-                ciclos_a_decimas_ms(ciclos_seccion(CARGA_PROF) + ciclos_seccion(PREPARAR_PROF) +
-                                        ciclos_seccion(DECODIFICACION_PROF), frames));
-        decimas(t4, sizeof(t4), ciclos_a_decimas_ms(ciclos_seccion(ESTADO_PROF), frames));
-        decimas(t5, sizeof(t5), ciclos_a_decimas_ms(ciclos_seccion(ENVIO_PROF), frames));
+        decimas_cortas(t1, sizeof(t1), ciclos_a_decimas_ms(ciclos_seccion(PROF_VTX), frames));
+        decimas_cortas(t2, sizeof(t2), ciclos_a_decimas_ms(ciclos_seccion(PROF_TRI) + ciclos_seccion(PROF_RECT), frames));
+        decimas_cortas(t3, sizeof(t3),
+                       ciclos_a_decimas_ms(ciclos_seccion(CARGA_PROF) + ciclos_seccion(PREPARAR_PROF) +
+                                               ciclos_seccion(DECODIFICACION_PROF), frames));
+        decimas_cortas(t4, sizeof(t4), ciclos_a_decimas_ms(ciclos_seccion(ESTADO_PROF), frames));
+        decimas_cortas(t5, sizeof(t5), ciclos_a_decimas_ms(ciclos_seccion(ENVIO_PROF), frames));
         snprintf(linea, sizeof(linea), "VÉRT %s TRI %s TEX %s EST %s ENV %s", t1, t2, t3, t4, t5);
         texto_escribir_linea(&texto, 11, linea, TEXTO_BLANCO);
     }

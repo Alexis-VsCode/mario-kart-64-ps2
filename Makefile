@@ -252,6 +252,7 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES))
 	    herramientas/pruebas/prueba_fuente_5x7.c codigo/depuracion/fuente_5x7.c codigo/sistema/caracteres_es.c
 	$(V)$(PRUEBAS)/prueba_fuente_5x7
 	$(V)$(PYTHON) herramientas/pruebas/prueba_textos_port.py $(JP_SRC) $(JP_PARTES)
+	$(V)$(PYTHON) herramientas/pruebas/prueba_ancho_panel.py
 	@# La tabla de la fuente de depuracion comparte archivo con datos que apuntan a texturas del
 	@# juego: --gc-sections deja solo lo que la prueba usa
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -O1 -D_LANGUAGE_C -DF3DEX_GBI=1 -DTARGET_PS2=1 -DVERSION_US=1 \

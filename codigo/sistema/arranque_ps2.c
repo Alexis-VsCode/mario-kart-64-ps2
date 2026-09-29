@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
     if (!inicializar_rom_ps2(argc > 0 ? argv[0] : NULL)) {
         detener_por_error("falta SMK64ROM.BIN: usa la ISO completa (o el ELF monolítico con uLaunchELF)");
     }
-    marcar_tiempos_ps2("datos del disco: inicio de la carga");
+    marcar_tiempos_ps2("disco: empieza la carga");
 
     inicializar_hilos();
     inicializar_hardware_libultra();
@@ -89,7 +89,8 @@ int main(int argc, char *argv[])
     inicializar_mandos_ps2();
     marcar_tiempos_ps2("mandos (SIO2MAN, PADMAN)");
     inicializar_memory_card();  /* necesita SIO2MAN, que carga inicializar_mandos_ps2 */
-    marcar_tiempos_ps2("memory card (MCMAN, MCSERV; la lectura sigue en segundo plano)");
+    /* la lectura de la memory card sigue en segundo plano */
+    marcar_tiempos_ps2("memory card (MCMAN/MCSERV)");
     ETAPA(5);
     inicializar_ps2_audio();
     marcar_tiempos_ps2("audio (LIBSD, AUDSRV)");
