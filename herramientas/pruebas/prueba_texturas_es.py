@@ -117,8 +117,15 @@ def probar_ida_y_vuelta(filas, refs, herramienta, tmp):
         else:
             esperado = datos == texturas_es.decodificar_original(f, herramienta)[0]
         comprobar(esperado, "%s: exportar + importar no da los bytes originales" % f["id"])
-    codigo, salida, errores = ejecutar("comprobar", "--manifiesto", MANIFIESTO, *pngs)
+    # Las que en espanol miden otra cosa (tamanio_es) no sirven tal cual
+    otro_tamanio = {"%s.%s.png" % (f["id"], f["formato"]) for f in filas
+                    if texturas_es.dimensiones_es(f) != texturas_es.dimensiones(f)}
+    iguales = [p for p in pngs if os.path.basename(p) not in otro_tamanio]
+    codigo, salida, errores = ejecutar("comprobar", "--manifiesto", MANIFIESTO, *iguales)
     comprobar(codigo == 0, "comprobar rechaza las originales: %s%s" % (salida, errores))
+    for png in sorted(p for p in pngs if os.path.basename(p) in otro_tamanio):
+        codigo, _, _ = ejecutar("comprobar", "--manifiesto", MANIFIESTO, png)
+        comprobar(codigo != 0, "%s: comprobar acepta la original aunque tamanio_es es otro" % png)
     r = subprocess.run([sys.executable, os.path.join(RAIZ, "herramientas", "texturas_es.py"), "importar",
                         pngs[0], os.path.join(tmp, "cli.bin")], capture_output=True, text=True)
     comprobar(r.returncode == 0 and os.path.exists(os.path.join(tmp, "cli.bin")), "la linea de comandos no importa")

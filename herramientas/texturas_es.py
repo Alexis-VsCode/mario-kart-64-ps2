@@ -6,9 +6,11 @@
     texturas_es.py comprobar [--manifiesto M] <id>.<formato>.png [...]
     texturas_es.py hoja <original.png> <nuevo.png> <salida.png>
     texturas_es.py tamanios [--manifiesto M] <carpeta es del build> <salida.h>
+    texturas_es.py inc [--manifiesto M] <id>.<formato>.png <salida.inc.c>
 
 El manifiesto (recursos/es/texturas.tsv) tiene una fila por textura
-revisada: id, origen, formato, tamanio (ANCHOxALTO), alfa (opaco o
+revisada: id, origen, formato, tamanio (ANCHOxALTO de la original),
+tamanio_es (si la version en espanol mide otra cosa), alfa (opaco o
 clave_00BE para las TKMK00, formato si el alfa va en los datos), png (el
 PNG en espanol, vacio si no se traduce), texto_es, retocado (si/no) y
 motivo_no (por que no se traduce). Los PNG se llaman <id>.<formato>.png:
@@ -30,7 +32,7 @@ RAIZ = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)),
 MANIFIESTO = os.path.join(RAIZ, "recursos", "es", "texturas.tsv")
 TKMK00 = os.path.join(RAIZ, "build", "herramientas", "tkmk00")
 ORIGINALES = os.path.join(RAIZ, "build", "ps2", "es", "originales")
-COLUMNAS = ["id", "origen", "formato", "tamanio", "alfa", "png", "texto_es", "retocado", "motivo_no"]
+COLUMNAS = ["id", "origen", "formato", "tamanio", "tamanio_es", "alfa", "png", "texto_es", "retocado", "motivo_no"]
 # Alfa con el que el juego decodifica el TKMK00 (TexturaMenu type 1 -> 0xBE)
 ALFA_TKMK00 = {"opaco": "0x01", "clave_00BE": "0xBE"}
 ALFAS = ("opaco", "clave_00BE", "formato")
@@ -61,6 +63,7 @@ def leer_manifiesto(ruta):
             raise ErrorManifiesto("%s:%d: formato, alfa o retocado invalido" % (ruta, numero))
         try:
             dimensiones(fila)
+            dimensiones_es(fila)
         except ValueError:
             raise ErrorManifiesto("%s:%d: tamanio %r no es ANCHOxALTO" % (ruta, numero, fila["tamanio"]))
         filas.append(fila)
@@ -73,6 +76,14 @@ def leer_manifiesto(ruta):
 def dimensiones(fila):
     """(ancho, alto) de la columna tamanio."""
     ancho, alto = fila["tamanio"].split("x")
+    return int(ancho), int(alto)
+
+
+def dimensiones_es(fila):
+    """(ancho, alto) de la version en espanol."""
+    if not fila["tamanio_es"]:
+        return dimensiones(fila)
+    ancho, alto = fila["tamanio_es"].split("x")
     return int(ancho), int(alto)
 
 
@@ -161,10 +172,10 @@ def problemas(ruta, filas):
         return ["%s no esta en el manifiesto" % id_]
     if formato != fila["formato"]:
         return ["formato %s, el manifiesto dice %s" % (formato, fila["formato"])]
-    ancho, alto = dimensiones(fila)
+    ancho, alto = dimensiones_es(fila)
     imagen = png_simple.leer(ruta)
     if (imagen.ancho, imagen.alto) != (ancho, alto):
-        return ["mide %dx%d, la original %dx%d" % (imagen.ancho, imagen.alto, ancho, alto)]
+        return ["mide %dx%d, el manifiesto dice %dx%d" % (imagen.ancho, imagen.alto, ancho, alto)]
     datos = ft.de_imagen(formato, imagen)
     if formato == "rgba16":
         transparentes = {(datos[i] << 8) | datos[i + 1] for i in range(0, len(datos), 2) if not datos[i + 1] & 1}
@@ -236,6 +247,21 @@ def tamanios(args):
     return 0
 
 
+def inc(args):
+    """.inc.c de un PNG, con valores del mismo ancho (u8 o u16) que el .inc.c original."""
+    id_, _ = partes_nombre(args.png)
+    fila = next((f for f in leer_manifiesto(args.manifiesto) if f["id"] == id_), None)
+    if fila is None or not fila["origen"].endswith(".inc.c"):
+        raise ErrorManifiesto("%s: no es una textura .inc.c del manifiesto" % args.png)
+    with open(os.path.join(RAIZ, fila["origen"])) as f:
+        ancho = ft.leer_inc_c(f.read())[1]
+    temporal = args.salida + ".tmp"
+    with open(temporal, "w") as f:
+        f.write(ft.escribir_inc_c(convertir(args.png), ancho))
+    os.replace(temporal, args.salida)
+    return 0
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Texturas con texto en espanol")
     sub = parser.add_subparsers(dest="orden", required=True)
@@ -262,6 +288,11 @@ def main(argv=None):
     p.add_argument("carpeta")
     p.add_argument("salida")
     p.set_defaults(funcion=tamanios)
+    p = sub.add_parser("inc", help="PNG a .inc.c para superponer al original")
+    p.add_argument("--manifiesto", default=MANIFIESTO)
+    p.add_argument("png")
+    p.add_argument("salida")
+    p.set_defaults(funcion=inc)
     args = parser.parse_args(argv)
     try:
         return args.funcion(args)

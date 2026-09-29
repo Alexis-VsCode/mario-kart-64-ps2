@@ -81,8 +81,8 @@ ifeq ($(MEDIDOR),1)
   DEFINES += -DSMK64_MEDIDOR=1
 endif
 
-# build/ps2/be primero: texturas u16 con los bytes invertidos
-INCLUDES := -I$(BUILD)/be -Iincluir -Iincluir/libultra -I$(BUILD) -I$(BUILD)/include -Icodigo -I. \
+# build/ps2/be primero: texturas u16 con los bytes invertidos; despues las .inc.c en espanol
+INCLUDES := -I$(BUILD)/be -I$(BUILD)/es -Iincluir -Iincluir/libultra -I$(BUILD) -I$(BUILD)/include -Icodigo -I. \
             -I$(PS2SDK)/ee/include -I$(PS2SDK)/common/include -I$(PS2DEV)/gsKit/include
 ifneq ($(EXTRA_INCLUDES),)
   INCLUDES += $(EXTRA_INCLUDES)
@@ -254,6 +254,7 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(
 	$(V)$(PYTHON) herramientas/pruebas/prueba_texturas_es.py $(TKMK00TOOL)
 	$(V)$(PYTHON) herramientas/pruebas/prueba_cableado_es.py $(BUILD)
 	$(V)$(PYTHON) herramientas/pruebas/prueba_composicion_es.py
+	$(V)$(PYTHON) herramientas/pruebas/prueba_hud_es.py $(BUILD)
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -Iincluir -o $(PRUEBAS)/prueba_textura_menu \
 	    herramientas/pruebas/prueba_textura_menu.c codigo/sistema/descompresion_textura_menu.c \
 	    codigo/sistema/descompresion_tkmk00.c codigo/sistema/descompresion_mio0.c herramientas/archivos_host.c
@@ -278,29 +279,37 @@ $(DLPACKER): herramientas/empaquetador_listas.c
 	@mkdir -p $(dir $@)
 	$(V)gcc $(HOST_CFLAGS) -Wno-unused-result -Iincluir/libultra -DF3DEX_GBI=1 -D_LANGUAGE_C=1 $< -o $@
 
-# --- Texturas u16 con los bytes invertidos -------------------------------------------
-
-SWAP_SOURCES := $(shell find codigo recursos -name '*.c' 2>/dev/null)
-$(SWAP_STAMP): herramientas/invertir_texturas.py $(SWAP_SOURCES)
-	@mkdir -p $(dir $@)
-	$(V)$(PYTHON) herramientas/invertir_texturas.py --stamp $@ $(BUILD)/be codigo recursos
-
 # --- Texturas en espanol ------------------------------------------------------------
 # PNG versionados en recursos/es/ (ver herramientas/texturas_es.py). mio0/: texturas de
 # menu que el juego guardaba en TKMK00; el build las guarda como MIO0 de su RGBA16.
 # crudo/: texturas que el juego carga tal cual, en el mismo formato y tamanio.
+# inc/: .inc.c que se incluyen desde C (HUD); el build los deja en $(BUILD)/es/<ruta
+# original> y tapan a la original (-I$(BUILD)/es y --superponer para be/).
 
 ES_PY    := herramientas/texturas_es.py herramientas/formatos_textura.py herramientas/png_simple.py
 ES_MIO0  := $(patsubst recursos/es/%.png,$(BUILD)/es/%.mio0,$(sort $(shell find recursos/es/mio0 -name '*.png' 2>/dev/null)))
 ES_CRUDO := $(patsubst recursos/es/%.png,$(BUILD)/es/%.bin,$(sort $(shell find recursos/es/crudo -name '*.png' 2>/dev/null)))
 ES_TAMANIOS := $(BUILD)/es/tamanios_es.h
+ES_INC   := $(patsubst recursos/es/inc/%.png,$(BUILD)/es/%.inc.c,$(sort $(shell find recursos/es/inc -name '*.png' 2>/dev/null)))
+# Sello con la lista de .inc.c: si se agrega o quita una, be/ y los datos se rehacen
+ES_SELLO := $(BUILD)/es/.inc_$(shell echo '$(ES_INC)' | md5sum | cut -c1-12)
 
-es: $(ES_MIO0) $(ES_TAMANIOS) $(ES_CRUDO)
+es: $(ES_MIO0) $(ES_TAMANIOS) $(ES_CRUDO) $(ES_INC) $(ES_SELLO)
 .SECONDARY: $(ES_MIO0:.mio0=.bin)
 
 $(BUILD)/es/%.bin: recursos/es/%.png $(ES_PY)
 	@mkdir -p $(dir $@)
 	$(V)$(PYTHON) herramientas/texturas_es.py importar $< $@
+
+$(BUILD)/es/%.inc.c: recursos/es/inc/%.png %.inc.c $(ES_PY)
+	@mkdir -p $(dir $@)
+	$(V)$(PYTHON) herramientas/texturas_es.py inc $< $@
+
+# Quita las .inc.c que ya no estan en la lista para que no tapen a la original
+$(ES_SELLO): $(ES_INC)
+	@mkdir -p $(dir $@)
+	$(V)find $(BUILD)/es -name '*.inc.c' $(foreach f,$(ES_INC),! -path '$(f)') -delete
+	$(V)rm -f $(BUILD)/es/.inc_* && touch $@
 
 # TAMANIO_ES_*: el campo size de las TexturaMenu de esas texturas
 $(ES_TAMANIOS): $(ES_MIO0) recursos/es/texturas.tsv $(ES_PY)
@@ -311,6 +320,14 @@ $(ES_TAMANIOS): $(ES_MIO0) recursos/es/texturas.tsv $(ES_PY)
 $(BUILD)/codigo/datos/texturas_tkmk00.o: $(ES_MIO0)
 $(BUILD)/codigo/datos/texturas_seleccion.o: $(ES_CRUDO)
 $(BUILD)/codigo/datos/texturas.o: $(ES_TAMANIOS)
+$(BUILD)/recursos/comunes/datos_comunes.data.o: $(ES_SELLO)
+
+# --- Texturas u16 con los bytes invertidos -------------------------------------------
+
+SWAP_SOURCES := $(shell find codigo recursos -name '*.c' 2>/dev/null)
+$(SWAP_STAMP): herramientas/invertir_texturas.py $(SWAP_SOURCES) $(ES_SELLO)
+	@mkdir -p $(dir $@)
+	$(V)$(PYTHON) herramientas/invertir_texturas.py --stamp $@ --superponer $(BUILD)/es $(BUILD)/be codigo recursos
 
 # --- Compilacion ----------------------------------------------------------------------
 

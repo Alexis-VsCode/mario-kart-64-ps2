@@ -227,6 +227,13 @@ void dibujar_textura_8x_hud_2d_16(s32, s32, u8*);
 void dibujar_textura_16x_hud_2d_16(s32, s32, u8*);
 void dibujar_textura_32x_hud_2d_8(s32, s32, u8*);
 void dibujar_textura_32x_hud_2d_16(s32, s32, u8*);
+
+// TIEMPO y VUELTA no entran en 32 columnas: sus texturas miden 64 y se dibujan
+// corridas para terminar donde terminaban las de 32 (no se acercan a los digitos).
+// La de VUELTA lleva debajo (filas 8 a 15) VTA., la de 3 y 4 jugadores.
+#define PALABRA_HUD_ANCHO 64
+#define PALABRA_HUD_X(x) ((x) - 16)
+#define PALABRA_HUD_VUELTA_CORTA ((u8*) comun_textura_hud_vuelta + PALABRA_HUD_ANCHO * 8 * 2)
 void funcion_8004CBC0(s32, s32, f32, u8*);
 void dibujar_textura_32x_hud_2d_32(s32, s32, u8*);
 void funcion_8004CC24(s32, s32, u8*);

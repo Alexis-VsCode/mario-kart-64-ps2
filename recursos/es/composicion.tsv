@@ -21,3 +21,6 @@ menu_copa_flor	copas	4,24,57,11	FLOWER CUP	4	formas=si lineas=23,31 placa=0 junt
 menu_copa_estrella	copas	11,24,45,11	STAR CUP	11	formas=si lineas=23,31 placa=0 juntar=-1 area=1,19,63,20
 menu_copa_especial	copas	5,24,56,11	SPECIAL CUP	5	formas=si lineas=23,31 placa=0 juntar=-1 area=1,22,63,17
 empezar_boton_empuje	pulsar_start	0,0,159,16	PUSH START BUTTON	1	juntar=0
+tiempo_hud	hud_grande	0,0,32,16	TIME	0	lienzo=64x16+32,0 area=0,0,64,16 alinear=derecha@64 juntar=-1 condensar=0.8:MPO sangrado=si
+tiempo_vuelta_hud	hud_grande	0,0,32,16	LAP	0	lienzo=64x16+32,0 area=0,0,64,16 alinear=derecha@64 juntar=-1 condensar=0.8:VUA sangrado=si
+vuelta_hud	hud_chico	0,0,32,8	LAP	0	lienzo=64x16+32,0 area=0,0,64,16 lineas=0,8 alinear=derecha@57,centro@32 juntar=-1 color_lineas=si sangrado=si

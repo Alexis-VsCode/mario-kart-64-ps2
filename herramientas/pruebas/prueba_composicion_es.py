@@ -62,11 +62,11 @@ def probar_textura(id_, comp, fila):
     except (ce.ErrorComposicion, OSError) as e:
         comprobar(False, "%s: %s" % (id_, e))
         return
-    original = ce.Textura.cargar(id_)
+    ancho, alto, base = ce.lienzo(comp, ce.Textura.cargar(id_))
     cx, cy, cw, ch = ce.area_de(comp)
     nuevo = imagen.a_rgba()
-    fuera = [(x, y) for y in range(original.alto) for x in range(original.ancho)
-             if not (cx <= x < cx + cw and cy <= y < cy + ch) and nuevo[y * original.ancho + x] != original.pixel(x, y)]
+    fuera = [(x, y) for y in range(alto) for x in range(ancho)
+             if not (cx <= x < cx + cw and cy <= y < cy + ch) and nuevo[y * ancho + x] != base[y * ancho + x]]
     comprobar(not fuera, "%s: cambian %d pixeles fuera de la caja" % (id_, len(fuera)))
     ruta = os.path.join(RAIZ, fila["png"])
     if fila["retocado"] == "no" and os.path.exists(ruta):

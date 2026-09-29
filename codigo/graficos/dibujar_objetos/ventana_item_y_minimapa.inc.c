@@ -478,8 +478,8 @@ void funcion_8004E6C4(s32 id_jugador) {
 }
 
 void dibujar_cantidad_vuelta_simplificado(s32 id_jugador) {
-    dibujar_textura_32x_hud_2d_8((s32) h_ud_jugador[id_jugador].vuelta_x, h_ud_jugador[id_jugador].vuelta_y + 3,
-                             (u8*) comun_textura_hud_vuelta);
+    dibujar_textura_hud_2d(PALABRA_HUD_X((s32) h_ud_jugador[id_jugador].vuelta_x), h_ud_jugador[id_jugador].vuelta_y + 3,
+                           PALABRA_HUD_ANCHO, 8, (u8*) comun_textura_hud_vuelta);
     dibujar_textura_32x_hud_2d_16(h_ud_jugador[id_jugador].vuelta_x + 0x1C, (s32) h_ud_jugador[id_jugador].vuelta_y,
                               (u8*) texturas_vuelta_hud[h_ud_jugador[id_jugador].cantidad_vuelta_tambien]);
 }
@@ -529,24 +529,24 @@ void funcion_8004EB38(s32 id_jugador) {
 
     temporal_s0 = &h_ud_jugador[id_jugador];
     if ((u8) temporal_s0->desconocido_7B != 0) {
-        funcion_8004C9D8(temporal_s0->tiempo_x_finalizacion_vuelta_1 - 0x13, temporal_s0->temporizador_y + 8, 0x00000080,
-                      (u8*) comun_textura_hud_tiempo, 0x00000020, 0x00000010, 0x00000020, 0x00000010);
+        funcion_8004C9D8(PALABRA_HUD_X(temporal_s0->tiempo_x_finalizacion_vuelta_1 - 0x13), temporal_s0->temporizador_y + 8, 0x00000080,
+                      (u8*) comun_textura_hud_tiempo, PALABRA_HUD_ANCHO, 0x00000010, PALABRA_HUD_ANCHO, 0x00000010);
         funcion_8004F950((s32) temporal_s0->tiempo_x_finalizacion_vuelta_1, (s32) temporal_s0->temporizador_y, 0x00000080, (s32) temporal_s0->algun_temporizador);
     }
     if ((u8) temporal_s0->desconocido_7C != 0) {
-        funcion_8004C9D8(temporal_s0->tiempo_x_finalizacion_vuelta_2 - 0x13, temporal_s0->temporizador_y + 8, 0x00000050,
-                      (u8*) comun_textura_hud_tiempo, 0x00000020, 0x00000010, 0x00000020, 0x00000010);
+        funcion_8004C9D8(PALABRA_HUD_X(temporal_s0->tiempo_x_finalizacion_vuelta_2 - 0x13), temporal_s0->temporizador_y + 8, 0x00000050,
+                      (u8*) comun_textura_hud_tiempo, PALABRA_HUD_ANCHO, 0x00000010, PALABRA_HUD_ANCHO, 0x00000010);
         funcion_8004F950((s32) temporal_s0->tiempo_x_finalizacion_vuelta_2, (s32) temporal_s0->temporizador_y, 0x00000050, (s32) temporal_s0->algun_temporizador);
     }
     if ((u8) temporal_s0->desconocido_7E != 0) {
-        funcion_8004C9D8((s32) temporal_s0->vuelta_despues_imagen_1_x, temporal_s0->vuelta_y + 3, 0x00000080, (u8*) comun_textura_hud_vuelta,
-                      0x00000020, 8, 0x00000020, 8);
+        funcion_8004C9D8(PALABRA_HUD_X((s32) temporal_s0->vuelta_despues_imagen_1_x), temporal_s0->vuelta_y + 3, 0x00000080,
+                      (u8*) comun_textura_hud_vuelta, PALABRA_HUD_ANCHO, 8, PALABRA_HUD_ANCHO, 8);
         funcion_8004C9D8(temporal_s0->vuelta_despues_imagen_1_x + 0x1C, (s32) temporal_s0->vuelta_y, 0x00000080,
                       (u8*) texturas_vuelta_hud[temporal_s0->cantidad_vuelta_tambien], 0x00000020, 0x00000010, 0x00000020, 0x00000010);
     }
     if ((u8) temporal_s0->desconocido_7F != 0) {
-        funcion_8004C9D8((s32) temporal_s0->vuelta_despues_imagen_2_x, temporal_s0->vuelta_y + 3, 0x00000050, (u8*) comun_textura_hud_vuelta,
-                      0x00000020, 8, 0x00000020, 8);
+        funcion_8004C9D8(PALABRA_HUD_X((s32) temporal_s0->vuelta_despues_imagen_2_x), temporal_s0->vuelta_y + 3, 0x00000050,
+                      (u8*) comun_textura_hud_vuelta, PALABRA_HUD_ANCHO, 8, PALABRA_HUD_ANCHO, 8);
         funcion_8004C9D8(temporal_s0->vuelta_despues_imagen_2_x + 0x1C, (s32) temporal_s0->vuelta_y, 0x00000050,
                       (u8*) texturas_vuelta_hud[temporal_s0->cantidad_vuelta_tambien], 0x00000020, 0x00000010, 0x00000020, 0x00000010);
     }
@@ -786,12 +786,14 @@ void renderizar_temporizador_hud(s32 id_jugador) {
             }
         } else {
             if (h_ud_jugador[id_jugador].temporizador_parpadear == 0) {
-                dibujar_textura_32x_hud_2d_16(h_ud_jugador[id_jugador].temporizador_x - 0x13, h_ud_jugador[id_jugador].temporizador_y + 8,
-                                          (u8*) comun_textura_hud_tiempo);
+                dibujar_textura_hud_2d(PALABRA_HUD_X(h_ud_jugador[id_jugador].temporizador_x - 0x13),
+                                       h_ud_jugador[id_jugador].temporizador_y + 8, PALABRA_HUD_ANCHO, 16,
+                                       (u8*) comun_textura_hud_tiempo);
                 imprimir_temporizador(h_ud_jugador[id_jugador].temporizador_x, h_ud_jugador[id_jugador].temporizador_y, h_ud_jugador[id_jugador].algun_temporizador);
             } else {
-                dibujar_textura_32x_hud_2d_16(h_ud_jugador[id_jugador].temporizador_x - 0x13, h_ud_jugador[id_jugador].temporizador_y + 8,
-                                          (u8*) comun_textura_hud_vuelta_tiempo);
+                dibujar_textura_hud_2d(PALABRA_HUD_X(h_ud_jugador[id_jugador].temporizador_x - 0x13),
+                                       h_ud_jugador[id_jugador].temporizador_y + 8, PALABRA_HUD_ANCHO, 16,
+                                       (u8*) comun_textura_hud_vuelta_tiempo);
                 if (dato_801657E3 != 0) {
                     imprimir_rainbow_temporizador(h_ud_jugador[id_jugador].temporizador_x, h_ud_jugador[id_jugador].temporizador_y,
                                         h_ud_jugador[id_jugador].algun_temporizador_1);

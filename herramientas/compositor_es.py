@@ -23,12 +23,15 @@ recursos/es/composicion.tsv dice, por textura: familia, caja (x,y,ancho,alto) do
 reescribe, texto en ingles y columna de su primer corte (autoprueba) y opciones:
   juntar=N      acerca las letras por filas dejando N columnas (negativo: se montan)
   espacio=N     columnas entre letras si no se juntan
-  condensar=F   estrecha cada letra a F de su ancho
+  condensar=F   estrecha cada letra a F de su ancho (F:LETRAS solo esas letras)
   lineas=Y,...  fila de cada linea (desplazamiento; con formas, fila de la letra)
   formas=si     todas las letras salen de las diminutas (textos de dos lineas)
   placa=N       fondo del color del contorno detras del texto, N pixeles mas grande
-  alinear=izquierda
+  alinear=M,... izquierda, derecha o centro por linea; M@N ancla el borde (o el centro) en N
   area=X,Y,W,H  zona que ocupa el espanol si no es la caja del ingles
+  lienzo=AxB+X,Y  la version en espanol mide AxB y lleva la original en (X, Y)
+  color_lineas=si  cada linea toma el degradado de las filas del original, no el de abajo
+  sangrado=si   los transparentes junto a las letras toman su color (texturas sin clave)
 El texto en espanol sale de la columna texto_es del manifiesto ('|' separa lineas).
 
 Cada pixel pegado se recolorea por fila: si viene de la misma textura y la misma fila
@@ -397,14 +400,18 @@ def colocar(familia, destino, lineas, caja, opc, en_ingles=False, x_en=None):
     """[(x0, dy, glifo)] de cada letra. En ingles usa las letras de la propia textura en orden."""
     cx, cy, cw, ch = caja
     espacio = int(opc.get("espacio", "0")) if not en_ingles else 0
-    factor = float(opc.get("condensar", "1")) if not en_ingles else 1.0
+    factor, _, solo = opc.get("condensar", "1").partition(":")
+    factor = float(factor) if not en_ingles else 1.0
     desplaz = [int(v) for v in opc.get("lineas", "0").split(",")] if not en_ingles else [0]
     if len(desplaz) != len(lineas):
         raise ErrorComposicion("%s: %d lineas y %d desplazamientos" % (destino.id, len(lineas), len(desplaz)))
     colocados = []
     usados = {}
     formas = opc.get("formas") == "si" and not en_ingles
-    for texto, dy in zip(lineas, desplaz):
+    alineaciones = opc.get("alinear", "centro").split(",")
+    for n, (texto, dy) in enumerate(zip(lineas, desplaz)):
+        alinear = alineaciones[min(n, len(alineaciones) - 1)]
+        linea = dy
         glifos = []
         for c in texto:
             indice = usados.get(c, 0) if en_ingles else None
@@ -413,7 +420,7 @@ def colocar(familia, destino, lineas, caja, opc, en_ingles=False, x_en=None):
                 glifos.append(familia.glifo_forma(c, dy))
                 continue
             g = familia.glifo(c, destino.id, indice)
-            glifos.append(_condensar(g, factor) if factor != 1.0 else g)
+            glifos.append(_condensar(g, factor) if factor != 1.0 and (not solo or c in solo) else g)
         if formas:
             dy = 0
         if "juntar" in opc and not en_ingles:
@@ -422,14 +429,20 @@ def colocar(familia, destino, lineas, caja, opc, en_ingles=False, x_en=None):
             xs = [sum(g.avance + espacio for g in glifos[:i]) for i in range(len(glifos))]
         pixeles = [x + px for x, g in zip(xs, glifos) for (px, _) in g.pixeles]
         izq, der = (min(pixeles), max(pixeles) + 1) if pixeles else (0, 0)
+        modo, _, ancla = alinear.partition("@")
         if en_ingles:
             base = x_en
-        elif opc.get("alinear", "centro") == "izquierda":
-            base = cx - izq
+        elif modo == "izquierda":
+            base = (int(ancla) if ancla else cx) - izq
+        elif modo == "derecha":
+            base = (int(ancla) if ancla else cx + cw) - der
+        elif ancla:
+            base = int(ancla) - (der - izq) // 2 - izq
         else:
             base = cx + (cw - (der - izq)) // 2 - izq
         propia = familia.filas_de(destino.id)[0]
-        colocados += [(base + x, dy + (propia - g.base if g.base is not None else 0), g) for x, g in zip(xs, glifos)]
+        colocados += [(base + x, dy + (propia - g.base if g.base is not None else 0), g, linea)
+                      for x, g in zip(xs, glifos)]
     return colocados
 
 
@@ -467,6 +480,23 @@ def transparente(textura, caja):
     return max(sorted(set(vistos)), key=vistos.count) if vistos else CLAVE_RGBA
 
 
+def lienzo(comp, destino, en_ingles=False, vacio=None):
+    """(ancho, alto, pixeles) de partida: la textura original, o con 'lienzo=AxB+X,Y' una mas
+    grande con la original en (X, Y) y el resto transparente."""
+    opc = opciones(comp["opciones"])
+    if en_ingles or "lienzo" not in opc:
+        return destino.ancho, destino.alto, list(destino.pixeles)
+    medida, _, lugar = opc["lienzo"].partition("+")
+    ancho, alto = (int(v) for v in medida.split("x"))
+    ox, oy = (int(v) for v in lugar.split(","))
+    vacio = vacio or transparente(destino, (0, 0, destino.ancho, destino.alto))
+    pixeles = [vacio] * (ancho * alto)
+    for y in range(destino.alto):
+        for x in range(destino.ancho):
+            pixeles[(y + oy) * ancho + x + ox] = destino.pixel(x, y)
+    return ancho, alto, pixeles
+
+
 def area_de(comp, en_ingles=False):
     """Zona que se reescribe: la caja del texto en ingles, o 'area' si el espanol ocupa otra."""
     opc = opciones(comp["opciones"])
@@ -482,12 +512,12 @@ def componer(id_, texto, comp, destino=None, en_ingles=False):
     caja = area_de(comp, en_ingles)
     cx, cy, cw, ch = caja
     colocados = colocar(familia, destino, texto.split("|"), caja, opc, en_ingles, int(comp["x_en"] or "0"))
-    salida = list(destino.pixeles)
-    vacio = (0, 0, 0, 255) if familia.fondo == "negro" else transparente(destino, caja)
+    vacio = (0, 0, 0, 255) if familia.fondo == "negro" else transparente(destino, area_de(comp, True))
+    ancho, alto, salida = lienzo(comp, destino, en_ingles, vacio)
     for y in range(cy, cy + ch):
         for x in range(cx, cx + cw):
-            salida[y * destino.ancho + x] = vacio
-    puntos = [(x0 + x, y + dy) for x0, dy, g in colocados for (x, y) in g.pixeles]
+            salida[y * ancho + x] = vacio
+    puntos = [(x0 + x, y + dy) for x0, dy, g, _ in colocados for (x, y) in g.pixeles]
     if puntos:
         xs, ys = [p[0] for p in puntos], [p[1] for p in puntos]
         if min(xs) < cx or max(xs) >= cx + cw or min(ys) < cy or max(ys) >= cy + ch:
@@ -498,13 +528,16 @@ def componer(id_, texto, comp, destino=None, en_ingles=False):
         for y in range(max(cy, min(ys) - margen), min(cy + ch, max(ys) + margen + 1)):
             color = tuple(cuantizar(c) for c in familia.referencia(destino.id, "n", y)) + (255,)
             for x in range(max(cx, min(xs) - margen), min(cx + cw, max(xs) + margen + 1)):
-                salida[y * destino.ancho + x] = color
+                salida[y * ancho + x] = color
+    por_linea = opc.get("color_lineas") == "si" and not en_ingles
     for pasada in ("c", "r"):
-        for x0, dy, g in colocados:
+        for x0, dy, g, linea in colocados:
             for (x, y), (p, clase, fuente, fy) in g.pixeles.items():
                 if clase == pasada:
-                    salida[(y + dy) * destino.ancho + x0 + x] = recolorear(familia, p, clase, fuente, fy,
-                                                                           destino.id, y + dy)
+                    fila = y + dy - linea if por_linea else y + dy
+                    salida[(y + dy) * ancho + x0 + x] = recolorear(familia, p, clase, fuente, fy, destino.id, fila)
+    if opc.get("sangrado") == "si" and not en_ingles:
+        sangrar(salida, ancho, caja)
     return salida
 
 
@@ -520,12 +553,29 @@ def recolorear(familia, p, clase, fuente, fy, destino, ty):
     return tuple(cuantizar(r + c - o) for r, c, o in zip(ref, p, origen)) + (255,)
 
 
+def sangrar(pixeles, ancho, caja):
+    """Los transparentes pegados a una letra toman su color (con alfa 0), como en las
+    originales, para que el filtrado no oscurezca el borde."""
+    cx, cy, cw, ch = caja
+    alto = len(pixeles) // ancho
+    copia = list(pixeles)
+    for y in range(cy, cy + ch):
+        for x in range(cx, cx + cw):
+            if copia[y * ancho + x][3]:
+                continue
+            vecinos = [copia[vy * ancho + vx] for vy in (y - 1, y, y + 1) for vx in (x - 1, x, x + 1)
+                       if 0 <= vx < ancho and 0 <= vy < alto and copia[vy * ancho + vx][3]]
+            if vecinos:
+                pixeles[y * ancho + x] = vecinos[0][:3] + (0,)
+
+
 def autoprueba(id_, comp):
     """Fraccion de pixeles de la caja iguales al original al recomponer el texto en ingles."""
     destino = Textura.cargar(id_)
     salida = componer(id_, comp["texto_en"], comp, destino, en_ingles=True)
     cx, cy, cw, ch = (int(v) for v in comp["caja"].split(","))
     iguales = sum(salida[y * destino.ancho + x] == destino.pixel(x, y)
+                  or salida[y * destino.ancho + x][3] == destino.pixel(x, y)[3] == 0
                   for y in range(cy, cy + ch) for x in range(cx, cx + cw))
     return iguales / float(cw * ch)
 
@@ -534,8 +584,9 @@ def png_compuesto(id_, fila, comp):
     """png_simple.Imagen de la textura en espanol, en su formato (sin perdida)."""
     destino = Textura.cargar(id_)
     pixeles = componer(id_, fila["texto_es"], comp, destino)
-    imagen = png_simple.Imagen(destino.ancho, destino.alto, "rgba", bytes(c for p in pixeles for c in p))
-    return ft.a_imagen(fila["formato"], ft.de_imagen(fila["formato"], imagen), destino.ancho, destino.alto)
+    ancho, alto, _ = lienzo(comp, destino)
+    imagen = png_simple.Imagen(ancho, alto, "rgba", bytes(c for p in pixeles for c in p))
+    return ft.a_imagen(fila["formato"], ft.de_imagen(fila["formato"], imagen), ancho, alto)
 
 
 def main(argv=None):

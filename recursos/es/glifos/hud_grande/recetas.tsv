@@ -1,0 +1,6 @@
+caracter	receta
+# V y U no estan en TIME, TOTAL ni LAP y la O de TOTAL va montada en la T:
+# dibujadas con trazo de 3 y contorno (filas 1 a 14)
+V	parte("v", 1)
+U	parte("u", 1)
+O	parte("o", 1)
