@@ -8,7 +8,16 @@ Port de Mario Kart 64 (versión estadounidense) a PlayStation 2. El repositorio 
 - **Sin probar en una PS2 real**, ni con OPL o uLaunchELF en hardware.
 - Video NTSC entrelazado a 640×448 (`codigo/graficos/sintetizador_gs.c`).
 - Limitación conocida: solo se leen los puertos de mando 1 y 2 de la consola, sin multitap (`PUERTOS_PS2` en `codigo/entrada/mandos.c`). En VS y Batalla de 3 o 4 jugadores, los jugadores 3 y 4 no tienen mando.
-- Los textos del juego son los de la versión original en inglés (ver [Idioma](#idioma)).
+- **Juego en español**: menús, mensajes, Memory Card, créditos, títulos de pista, HUD, carteles de Lakitu y pantallas propias del port. Detalle y estado de la verificación en [Idioma](#idioma).
+
+## Descarga
+
+La ISO ya compilada, en español, está en el repositorio: [`compilaciones/SLUS_999.99.SuperMarioKart64.iso`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/raw/main/compilaciones/SLUS_999.99.SuperMarioKart64.iso) (13 373 440 bytes, unos 12,8 MiB).
+
+- **PCSX2** (con BIOS) o **Play!**: abrir la ISO directamente.
+- **OPL**: copiar la carpeta `compilaciones/disco/OPL/CD/`, que lleva la misma ISO con el nombre que espera OPL, a la raíz del USB o del recurso SMB (sin probar en hardware).
+
+Para compilarla desde el código, ver [Compilar](#compilar).
 
 ## Características
 
@@ -29,8 +38,7 @@ Port de Mario Kart 64 (versión estadounidense) a PlayStation 2. El repositorio 
 | Toolchain de PS2 de [ps2dev](https://github.com/ps2dev/ps2dev): `mips64r5900el-ps2-elf-gcc`, ps2sdk y gsKit | La compilación incluida se hizo con EE GCC 15.2.0 | ELF para el EE |
 | GNU make | 4.3 o posterior; se recomienda 4.4 | Todo el proceso |
 | `gcc` del PC | C99 (probado con 13.3) | Herramientas del PC (`build/herramientas/`) y `make test` |
-| Python | 3.8 o posterior, solo biblioteca estándar | Scripts de `herramientas/` y `crear_iso.sh` |
-| `iconv` con EUC-JP | Se recomienda el de glibc | Conversión de los fuentes con texto japonés |
+| Python | 3.8 o posterior, solo biblioteca estándar | Scripts de `herramientas/` (entre ellos la conversión a EUC-JP y las texturas en español), `crear_iso.sh` y `make test` |
 | `genisoimage` (cdrkit) | Cualquiera | Solo para `make iso` |
 | `git` | Cualquiera | Opcional: fecha de la ISO |
 | GNU coreutils o BusyBox | — | `stat -c`, `md5sum`, `sha256sum`, `touch -d @N` |
@@ -40,7 +48,7 @@ Cómo se comprueban estas versiones:
 - **EE GCC:** `strings build/ps2/smk64.elf | grep 'GCC:'` muestra la versión usada en la compilación incluida.
 - **GNU make:** el Makefile usa objetivos agrupados (`&:`), que existen desde la 4.3. Con la 4.4 o posterior, `.NOTINTERMEDIATE` conserva los archivos intermedios de la ROM; con la 4.3, make los borra al terminar.
 - **Python:** con Python 3.8, las salidas de todos los scripts de `herramientas/` coinciden byte a byte con las versionadas en `build/ps2/`.
-- **iconv:** con el de glibc, la salida coincide byte a byte con las copias versionadas en `build/ps2/jp/`. El de musl (Alpine) no falla ante un carácter que no sabe convertir: lo cambia por `*`.
+- **Conversión a EUC-JP:** la hace `herramientas/convertir_eucjp.py`, sin `iconv`. Si hay un `iconv` instalado con JIS X 0212, `make test` compara su salida con la del conversor; si no, omite esa comparación.
 
 ## Instalación del entorno
 
@@ -72,7 +80,7 @@ cd ps2dev
 
 ### 2. Herramientas del PC
 
-En Ubuntu o Debian (`iconv` viene con glibc):
+En Ubuntu o Debian:
 
 ```bash
 sudo apt install make gcc python3 genisoimage git
@@ -105,7 +113,7 @@ docker run --rm -it -v "$PWD":/src -w /src \
 Dentro del contenedor:
 
 ```sh
-apk add --no-cache make gcc musl-dev python3 musl-utils cdrkit   # cdrkit trae genisoimage
+apk add --no-cache make gcc musl-dev python3 cdrkit   # cdrkit trae genisoimage
 . herramientas/entorno.sh
 make -j"$(nproc)" && make iso
 chown -R "$PROPIETARIO" build compilaciones
@@ -114,7 +122,6 @@ chown -R "$PROPIETARIO" build compilaciones
 - Fija la imagen por su digest (`ps2dev/ps2dev@sha256:…`) para que la compilación no cambie cuando se publique una imagen nueva.
 - `SOURCE_DATE_EPOCH` lleva la fecha del último commit, porque la imagen no tiene `git`. Sin ella, la ISO toma la fecha 0 (1970).
 - El contenedor se ejecuta como root. El `chown` final devuelve los archivos a tu usuario.
-- `musl-utils` trae el `iconv` de musl (ver la nota de [Requisitos](#requisitos)).
 
 ## Compilar
 
@@ -135,11 +142,13 @@ make iso
 | `make` / `make elf` | ELF final y `SMK64ROM.BIN` |
 | `make iso` | Imagen ISO para PCSX2, Play! y OPL (`herramientas/crear_iso.sh`) |
 | `make test` | Pruebas en el PC (ver [Pruebas](#pruebas)) |
-| `make herramientas` | Herramientas del PC: `build/herramientas/mio0` y `build/herramientas/empaquetador_listas` |
+| `make herramientas` | Herramientas del PC: `build/herramientas/mio0`, `build/herramientas/empaquetador_listas` y `build/herramientas/tkmk00` |
+| `make es` | Texturas en español a partir de los PNG de `recursos/es/`, en `build/ps2/es/` (la compilación normal ya lo hace) |
+| `make hoja-es` | Hojas de contacto original / español / máscara de diferencias en `build/ps2/es/hojas/`, para revisar el arte a ojo |
 | `make clean` | Borra `build/ps2/` y `build/herramientas/`, que están versionados (no toca `compilaciones/`) |
 | `make print-VARIABLE` | Muestra el valor de una variable del Makefile |
 
-En esta versión, el Makefile se detiene si `PS2SDK` no está definido, con cualquier objetivo: también `make test`, `make clean` y `make print-VARIABLE`. Carga antes el entorno.
+`make test`, `make herramientas`, `make es`, `make hoja-es` y `make clean` corren en el PC sin el SDK de PS2. Los demás objetivos, también `make print-VARIABLE`, se detienen si `PS2SDK` no está definido: carga antes el entorno.
 
 ### Variables
 
@@ -147,7 +156,7 @@ En esta versión, el Makefile se detiene si `PS2SDK` no está definido, con cual
 |---|---|
 | `DEBUG=1` | Panel de rendimiento en pantalla (L3 + R3) y registro por `printf`. Carpeta `build/ps2/debug/` |
 | `DEV=1` | Lo mismo que `DEBUG=1` salvo el panel, más registro y guiones de prueba por `host:`. ROM dentro del ELF por defecto. Carpeta `build/ps2/dev/` |
-| `DEBUG_AUDIO=1` | Estado del audio en el registro cada 2 s (`debug_audio:`) y página de audio en el panel. Exige `DEBUG=1` o `DEV=1`; con `DEV=1`, la página necesita `MEDIDOR=1`. Añade `debug_audio/` a la carpeta |
+| `DEBUG_AUDIO=1` | Estado del audio en el registro cada 2 s (`página de audio:`) y página de audio en el panel. Exige `DEBUG=1` o `DEV=1`; con `DEV=1`, la página necesita `MEDIDOR=1`. Añade `debug_audio/` a la carpeta |
 | `MONOLITICO=1` | Un solo ELF con toda la ROM dentro, sin `SMK64ROM.BIN`. Añade `monolitico/` a la carpeta |
 | `MEDIDOR=0/1` | Quita o incluye el panel de rendimiento. Por defecto vale 1 con `DEBUG=1` y 0 en el resto, también con `DEV=1` |
 | `ROM_STREAM=0/1` | ROM dentro del ELF (0) o en `SMK64ROM.BIN` (1). Por defecto vale 0 con `DEV=1` o `MONOLITICO=1` y 1 en el resto |
@@ -156,7 +165,7 @@ En esta versión, el Makefile se detiene si `PS2SDK` no está definido, con cual
 | `BUILD_ID` | Identificador que aparece en la pantalla de fallo (por defecto `2026-09-25`) |
 | `EXTRA_DEFINES` | Defines adicionales, por ejemplo `-DSMK64_PROF` (perfilador por muestreo) o `-DSMK64_DEV_FRAMEDUMP` (volcados de pantalla, con `DEV=1`) |
 
-`DEBUG`, `DEV`, `MONOLITICO` y `DEBUG_AUDIO` compilan en su propia carpeta. Si cambian otras opciones (`OPT`, `ROM_STREAM`, `MEDIDOR`, `BUILD_ID` o `EXTRA_DEFINES`), se recompila todo el código de esa carpeta. Los datos de la ROM y los fuentes preparados (`build/ps2/be/` y `build/ps2/jp/`) están en `build/ps2/` y son comunes a todas las variantes.
+`DEBUG`, `DEV`, `MONOLITICO` y `DEBUG_AUDIO` compilan en su propia carpeta. Si cambian otras opciones (`OPT`, `ROM_STREAM`, `MEDIDOR`, `BUILD_ID` o `EXTRA_DEFINES`), se recompila todo el código de esa carpeta. Los datos de la ROM y los fuentes preparados (`build/ps2/be/`, `build/ps2/jp/` y las texturas en español de `build/ps2/es/`) están en `build/ps2/` y son comunes a todas las variantes.
 
 ## Salida
 
@@ -176,10 +185,10 @@ La ISO lleva el volumen `SMK64_PS2` y arranca `cdrom0:\SLUS_999.99;1` en modo NT
 
 El repositorio incluye una compilación hecha:
 
-- `build/`: las variantes normal, `DEBUG=1` y `DEV=1`, los datos de la ROM, los ejecutables de las pruebas y las herramientas del PC.
+- `build/`: las variantes normal, `DEBUG=1` y `DEV=1`, los datos de la ROM (con las texturas en español), los ejecutables de las pruebas y las herramientas `mio0` y `empaquetador_listas`.
 - `compilaciones/`: la ISO normal y el contenido del disco.
 
-No incluye el ELF monolítico.
+No incluye el ELF monolítico ni la herramienta `tkmk00`, que `make test` compila al vuelo. La compilación versionada, en español, es la del commit `dda9a5f` («chore(build): binarios e ISO en espanol»).
 
 `make`, `make iso`, `make test` y `make clean` modifican o borran esos archivos. **No se commitean durante el trabajo.** Después de compilar y probar, restáuralos:
 
@@ -197,6 +206,8 @@ make -j"$(nproc)" && make DEBUG=1 -j"$(nproc)" && make DEV=1 -j"$(nproc)"
 make test && make iso
 git add build compilaciones
 ```
+
+La CI puede hacer ese commit: el job `publicar` de `.github/workflows/compilacion.yml` se lanza a mano (`workflow_dispatch`) con la entrada `publicar=si`. Compila desde cero, en la imagen de ps2dev fijada por digest, las variantes normal, `DEBUG=1` y `DEV=1`, corre `make test`, crea la ISO, exige GNU make 4.4 o posterior y commitea `build/ps2` y `compilaciones` en la misma rama. Así se generó `dda9a5f`.
 
 `build/` está versionado y `make test` escribe ahí sus copias y sus binarios.
 Después de las pruebas, para no subirlos por error:
@@ -307,7 +318,8 @@ build/ps2/rom.elf -> build/ps2/rom.bin
   - las texturas de 16 bits se copian con los bytes invertidos (`herramientas/invertir_texturas.py` → `build/ps2/be/`);
   - los bancos de audio pasan a little-endian (`herramientas/invertir_audio.py`);
   - los caminos del tren y del barco se precalculan (`herramientas/generar_caminos_vehiculos.py`);
-  - los fuentes con texto japonés pasan a EUC-JP con `iconv` (`build/ps2/jp/`).
+  - los fuentes de `JP_SRC` y los de `JP_PARTES` (sus partes `.inc.c` y los metadatos de pista), que en el repositorio están en UTF-8, pasan a EUC-JP con `herramientas/convertir_eucjp.py` (`build/ps2/jp/`);
+  - las texturas en español salen de los PNG de `recursos/es/` (`make es` → `build/ps2/es/`): las de menú se guardan en MIO0 y el cargador elige TKMK00 o MIO0 por la firma.
 
 ### Guardado
 
@@ -340,9 +352,11 @@ Al arrancar se carga la copia válida más reciente. Si la tarjeta no responde e
 | `recursos/sonido/` | Bancos de instrumentos, muestras y música (`musica/`) |
 | `recursos/comunes/`, `recursos/ceremonia/`, `recursos/logo_inicio/` | Bloques de datos que la ROM guarda comprimidos |
 | `compilacion/` | Scripts del enlazador (`ps2.ld`, `segmento_datos.ld`) |
-| `herramientas/` | Entorno, ISO, ROM, texturas, audio, icono, caminos del tren y del barco y empaquetador de listas |
+| `recursos/es/` | PNG y manifiestos de las texturas en español, y letras de cada familia para componerlas |
+| `herramientas/` | Entorno, ISO, ROM, texturas (también las del español), audio, icono, caminos del tren y del barco, empaquetador de listas y conversión a EUC-JP |
 | `herramientas/pruebas/` | Pruebas de `make test` |
-| `docs/traduccion/` | Especificación de la localización al español |
+| `herramientas/guiones/` | Guion de recorrido para `make DEV=1` (`recorrido_textos.txt`) |
+| `docs/traduccion/` | Localización al español: especificación, plan, glosario, trazabilidad y registro de cambios |
 | `build/` | Salida de la compilación (versionada) |
 | `compilaciones/` | ISO y contenido del disco (versionados) |
 
@@ -351,17 +365,23 @@ Los módulos grandes se reparten en partes `.inc.c` dentro de una carpeta con el
 ## Pruebas
 
 ```bash
-. herramientas/entorno.sh
 make test
-git checkout -- build compilaciones
+git clean -fdq -- build && git checkout -- build
 ```
 
-Las pruebas se compilan con el `gcc` del PC y fallan (código de salida distinto de 0) si alguna comprobación no se cumple. No usan el toolchain de PS2, pero en esta versión `make test` exige el entorno cargado. También usa `python3` para calcular la tabla de caminos si está desactualizada, y deja los ejecutables en `build/ps2/pruebas/`, que está versionada.
+`make test` no necesita el SDK de PS2 ni el entorno cargado. Las pruebas en C se compilan con el `gcc` del PC y `-fsigned-char` (el `char` del R5900 lleva signo); las demás son scripts de Python. Cualquier comprobación que no se cumple hace fallar `make test` con código de salida distinto de 0. Deja sus copias y ejecutables en `build/`, que está versionado: por eso la limpieza del final.
 
-| Prueba | Qué comprueba |
-|---|---|
-| `herramientas/pruebas/prueba_combinador.c` | Decodificación y evaluación del combinador de color (`codigo/graficos/combinador_color.c`) en seis casos: modulación, término aditivo, niebla en 2 ciclos, color plano, SHADE sin textura y `COMBINED_ALPHA`. También comprueba qué casos leen el texel |
-| `herramientas/pruebas/prueba_caminos_vehiculos.c` | Compara la tabla precalculada de caminos del tren y del barco (`build/ps2/tabla_caminos_vehiculos.h`, salida de `herramientas/generar_caminos_vehiculos.py`) con el algoritmo original, en modo normal y en modo espejo |
+Son 26 pruebas (8 en C y 18 en Python) más el comprobador del tope de líneas, todas en `herramientas/pruebas/`:
+
+| Área | Pruebas | Qué comprueban |
+|---|---|---|
+| Juego y port | `prueba_combinador.c`, `prueba_caminos_vehiculos.c` | Combinador de color en seis casos; tabla precalculada de caminos del tren y del barco contra el algoritmo original, en modo normal y espejo |
+| Codificación | `prueba_convertir_eucjp.py`, `prueba_metadatos_eucjp.py`, `prueba_caracteres_es.c` | Conversión a EUC-JP (errores con `ruta:línea:columna`), metadatos de pista convertidos, lectura de Á É Í Ó Ú Ñ Ü ¡ ¿ º ª en EUC-JP y UTF-8 y `quitar_diacriticos` |
+| Fuente del menú | `prueba_glifos.c`, `prueba_tablas_glifos.py`, `prueba_glifos_es.py` | Compatibilidad con la N64 (huella de índices y avances), tabla de 247 glifos, anchos y arte reproducible de los 11 glifos nuevos |
+| Textos | `prueba_textos.c` (con sus tablas `prueba_textos_*.inc.c` y `prueba_textos_tinta.py`) | Todas las tablas en español: glosario y lista negra, número de entradas, glifo para cada carácter, textos esperados byte a byte, zona segura medida por tinta, interlineado y signos de apertura |
+| Pantallas del port | `prueba_fuente_5x7.c`, `prueba_textos_port.py`, `prueba_ancho_panel.py`, `prueba_cadena_depuracion.c` | Fuente del panel con tildes, textos del panel, del registro y de la pantalla de fallo, ancho de las líneas del panel y fuente de depuración N64 |
+| Texturas | `prueba_png_simple.py`, `prueba_formatos_textura.py`, `prueba_tkmk00.py`, `prueba_textura_menu.c`, `prueba_invertir_texturas.py`, `prueba_texturas_es.py`, `prueba_cableado_es.py`, `prueba_composicion_es.py`, `prueba_hud_es.py`, `prueba_lakitu_es.py`, `prueba_titulos_es.py`, `prueba_cartel_es.py`, `prueba_hojas_es.py` | Herramientas de PNG y formatos, despacho TKMK00/MIO0, manifiesto, cableado en la ROM y tamaños, composición del arte, HUD sin solapes de 1 a 4 jugadores, 16 cuadros y paleta de Lakitu, títulos de pista, cartel de la granja y hojas de contacto |
+| Calidad | `herramientas/comprobar_lineas.py` | Ningún archivo de código pasa de 1000 líneas |
 
 ## Depuración
 
@@ -431,9 +451,26 @@ fin
 
 ## Idioma
 
-Los textos del juego siguen en inglés, como en la versión estadounidense. Las pantallas de depuración del port (panel de rendimiento y pantalla de fallo) usan español sin tildes, con algunas abreviaturas en inglés.
+El juego está en español, sin selección de idioma. La especificación, el plan, el glosario y la trazabilidad están en [`docs/traduccion/`](docs/traduccion/).
 
-La localización al español está en curso. Su especificación está en [`docs/traduccion/`](docs/traduccion/). El trabajo se reparte en estos roles:
+**Qué está en español:**
+
+- **Textos:** menús, opciones, pausa, tiempos y resultados, fantasmas, mensajes de la Memory Card («RANURA 1», «COPIAR FANTASMAS» con un aviso honesto porque en PS2 no hay otra tarjeta desde la que copiar), intro de la batalla, ceremonia y créditos (la mitad japonesa de los créditos se conserva). Los botones se nombran como en el DualShock 2: CRUZ, CUADRADO, SELECT y R1.
+- **Nombres de pista:** los oficiales de Nintendo en español (Pista Mario, Senda Arco Iris, Granja Mu-Mu…), con su fuente en el [glosario](docs/traduccion/glosario.md).
+- **Fuente del menú:** 11 glifos nuevos (Á É Í Ó Ú Ñ Ü ¡ ¿ º ª), dibujados a partir de los originales; los ordinales se escriben «1.º».
+- **Texturas con texto:** 55 texturas (títulos de menú, botones, copas, número de jugadores, los 20 títulos de pista, el cartel de la granja, TIEMPO y VUELTA en el HUD, puestos «1.º»…«8.º» y PULSA START) y los 48 cuadros de los carteles de Lakitu (¡ÚLTIMA!, VUELTA 2 y ¡REVÉS!). Salen de PNG versionados en `recursos/es/`, compuestos con letras de las propias texturas del juego.
+- **Pantallas del port:** panel de rendimiento y página de audio (con tildes), nombres de fase, registro y guiones de prueba. La pantalla de fallo usa `scr_printf` de ps2sdk, que solo tiene ASCII: muestra el texto sin tildes («PARADA DE DIAGNOSTICO»), mientras el registro lo conserva completo.
+
+**Qué no se traduce:** nombres de personaje, logotipos y carteles comerciales, 50cc/100cc/150cc, VS, onomatopeyas, las voces (son muestras de audio) y las texturas de la pantalla del Controller Pak, que el port no puede abrir. El detalle está en la [especificación](docs/traduccion/especificacion.md#22-excluido).
+
+**Cómo se comprobó:**
+
+- `make test`, sin el SDK de PS2: 26 pruebas y el tope de líneas en verde (ver [Pruebas](#pruebas)). La prueba de textos recorre todas las tablas con el decodificador del juego y mide cada texto por tinta contra la zona segura del televisor.
+- CI en verde en la ejecución [36518116212](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/36518116212): pruebas en el PC, compilación para PS2 (release, `DEBUG=1`, `make test` e ISO) y el job `publicar` (release, `DEBUG=1`, `DEV=1`, pruebas e ISO), que generó la compilación versionada `dda9a5f`.
+
+**Queda para el usuario:** el recorrido en PCSX2 con el guion `herramientas/guiones/recorrido_textos.txt` (`make DEV=1`, copiarlo como `smk64_input.txt` en la carpeta `host:` y sacar las capturas a mano en cada `nota`), las pantallas que el guion no recorre y una captura en TV para el sobrebarrido. La lista completa está en [`docs/traduccion/README.md`](docs/traduccion/README.md#pendiente).
+
+El trabajo se repartió en estos roles:
 
 | Rol | Alcance |
 |---|---|
@@ -444,9 +481,7 @@ La localización al español está en curso. Su especificación está en [`docs/
 | PORT | Pantallas propias del port: panel de rendimiento, pantalla de fallo y registro |
 | PRUEBAS | Prueba en rojo antes de cada cambio |
 | REVISIÓN | Revisión técnica y lingüística de cada bloque |
-| INTEGRACIÓN | Integración en `main` y commit de publicación de los binarios |
-
-Mientras ese trabajo no se integre, este README describe `main`: textos en inglés, conversión a EUC-JP con `iconv` y `make test` con el entorno cargado.
+| INTEGRACIÓN | Integración y commit de publicación de los binarios |
 
 ## Contribuir
 
@@ -462,7 +497,9 @@ git rev-list --count origin/main..fix/mi-cambio   # 0: todavía sin commits prop
 git rev-list --count fix/mi-cambio..origin/main   # 0: no le falta nada de main
 ```
 
-Nombre: `tipo/tema`, en minúsculas y con guiones (por ejemplo, `docs/readme-y-especificacion`).
+Nombre: `tipo/tema`, en minúsculas y con guiones (por ejemplo, `fix/tilde-en-la-pausa`). La rama se borra después de integrarla.
+
+Un cambio que toca textos o texturas en pantalla sigue además la [especificación de la traducción](docs/traduccion/especificacion.md) y el [glosario](docs/traduccion/glosario.md): primero se actualizan los textos esperados de `herramientas/pruebas/` y, si cambia un límite, una escala o un término, se registra en [`cambios.md`](docs/traduccion/cambios.md).
 
 ### 2. Prueba en rojo
 
@@ -537,16 +574,16 @@ Un cambio está terminado cuando:
 
 | Síntoma | Causa y solución |
 |---|---|
-| `PS2SDK no definido: ejecuta '. herramientas/entorno.sh'` | El entorno no está cargado en esta terminal. En esta versión pasa con cualquier objetivo, también `make test` y `make clean`. Ejecuta `. herramientas/entorno.sh` (con `.`, no como programa) y repite |
+| `PS2SDK no definido: ejecuta '. herramientas/entorno.sh'` | El entorno no está cargado en esta terminal. Pasa con cualquier objetivo salvo `test`, `herramientas`, `es`, `hoja-es` y `clean`. Ejecuta `. herramientas/entorno.sh` (con `.`, no como programa) y repite |
 | `entorno.sh: no hay toolchain de PS2 en ...` | No existe `$PS2DEV/ee/bin/mips64r5900el-ps2-elf-gcc`. Instala ps2dev o exporta `PS2DEV` con la ruta correcta |
 | `git status` muestra cambios en `build/` o `compilaciones/` | Es lo esperado después de compilar o probar: están versionados. Restaura con `git checkout -- build compilaciones` |
 | Al terminar `make` aparece una línea `rm ...` y faltan archivos en `build/ps2/recursos/` | GNU make 4.3 borra los intermedios de la ROM. La compilación es válida. Restaura con `git checkout -- build` o usa make 4.4 |
-| En pantalla: «falta SMK64ROM.BIN: usa la ISO completa (o el ELF monolitico con uLaunchELF)» | El ELF no encontró `SMK64ROM.BIN` en `host:` ni en el disco, o el del disco es más pequeño de lo que espera el ELF (de otra compilación). En el registro sale `ROM: no se encontro \SMK64ROM.BIN;1 en el disco ...` o `ROM: \SMK64ROM.BIN;1 mide X y deberia medir Y`. Usa la ISO de `make iso` o el ELF de `make MONOLITICO=1` |
+| En pantalla: «falta SMK64ROM.BIN: usa la ISO completa (o el ELF monolitico con uLaunchELF)» | El ELF no encontró `SMK64ROM.BIN` en `host:` ni en el disco, o el del disco es más pequeño de lo que espera el ELF (de otra compilación). La pantalla muestra el texto sin tildes; en el registro sale `ROM: no se encontró \SMK64ROM.BIN;1 en el disco ...` o `ROM: \SMK64ROM.BIN;1 mide X y debería medir Y`. Usa la ISO de `make iso` o el ELF de `make MONOLITICO=1` |
 | En pantalla: «no se pudo leer SMK64ROM.BIN del disco» | Falló una lectura durante la carga, tras 8 reintentos: imagen o disco dañado. Por `host:` también aparece si el archivo es más corto de lo esperado. En el registro sale `ROM: no se pudo leer SMK64ROM.BIN (trozo N)`. Vuelve a crear la ISO con `make iso` |
-| `iconv` falla al compilar | Hace falta un `iconv` que convierta de UTF-8 a EUC-JP. Se usa con los fuentes de `JP_SRC` del Makefile y sus partes `.inc.c`. Se recomienda el de glibc: el de musl no falla ante los caracteres que no sabe convertir, los cambia por `*` |
+| `error: <ruta>:<línea>:<columna>: '…' (U+XXXX) no existe en EUC-JP` | Un texto de los fuentes que se convierten (`JP_SRC` y `JP_PARTES` del Makefile) lleva un carácter que EUC-JP no tiene. La conversión la hace `herramientas/convertir_eucjp.py`, no `iconv`, y corta la compilación en ese punto. Cambia el carácter; si además no tiene glifo en la fuente del menú, `make test` lo señala en la prueba de textos |
 | `make_iso: falta genisoimage (apt install genisoimage)` | Instala `genisoimage` (en Alpine, el paquete `cdrkit`) |
 | `DEBUG_AUDIO=1 necesita DEBUG=1 o DEV=1` | Combina `DEBUG_AUDIO=1` con `DEBUG=1` o `DEV=1` |
-| La partida no se guarda | Hace falta una Memory Card de PS2 formateada en la ranura 1. Con `DEBUG=1` o `DEV=1`, el registro muestra los mensajes `memcard:` |
+| La partida no se guarda | Hace falta una Memory Card de PS2 formateada en la ranura 1. Con `DEBUG=1` o `DEV=1`, el registro muestra los mensajes `memory card:` |
 
 Las últimas líneas del registro también aparecen en la pantalla de fallo, en cualquier compilación.
 
