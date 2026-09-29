@@ -118,3 +118,24 @@ Se aplican las reglas de la sección «Contribuir» del [README principal](../..
 - nombres en español y `snake_case`;
 - archivos de código de 1000 líneas como máximo;
 - `make clean && make` y `make test` antes de enviar un cambio.
+
+## Verificación de cierre
+
+Comprobado el 2026-09-29 sobre `feature/idioma-espanol` (código de `dda9a5f`).
+
+- **Especificación → trazabilidad.** `especificacion.md` define 46 requisitos (`R-FUE` 8, `R-TXT` 8, `R-MC` 3, `R-TEX` 8, `R-PORT` 5, `R-INF` 6, `R-GOB` 8). Los 46 tienen fila en [trazabilidad.md](trazabilidad.md), la lista coincide sin sobrantes ni faltantes y todos tienen prueba asignada. Estado: 33 hechos (5 con una salvedad anotada), 11 parciales y 2 pendientes (R-GOB-04 y R-GOB-06, por falta de registro de revisión). Comprobación:
+
+  ```sh
+  diff <(grep -oE '^\*\*R-[A-Z]+-[0-9]+' especificacion.md | tr -d '*' | sort) \
+       <(grep -oE '^\| R-[A-Z]+-[0-9]+' trazabilidad.md | tr -d '| ' | sort)
+  ```
+
+- **Pruebas.** `env -u PS2SDK make test` termina con 0: 26 pruebas (8 en C y 18 en Python) y el comprobador del tope de líneas, 0 fallos; `prueba_textos` informa 0 tablas pendientes. Con `PYTHON=python3.8`, las copias de `build/ps2/jp` y `build/ps2/es` y la tabla de caminos salen idénticas a las versionadas.
+- **CI.** La ejecución [36518116212](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/36518116212) del workflow `compilacion`, sobre `c461c5b`, terminó en verde: `pruebas-pc`; `compilar-ps2` (release, `DEBUG=1`, `make test` e ISO); y `publicar` (release, `DEBUG=1`, `DEV=1`, `make test` e ISO), que generó `dda9a5f`. `mismo-binario` no corrió porque no se pidió una base.
+- **Definición de terminado** (README principal):
+  1. Compila: `make clean && make` en la CI (jobs `compilar-ps2` y `publicar`). No se compiló para PS2 en esta máquina, que no tiene el SDK.
+  2. `make test` pasa, sin regresiones: sí, en el PC y en la CI.
+  3. Documentación sincronizada: README y `docs/traduccion/` describen el estado de `dda9a5f`.
+  4. Árbol limpio: `git status --short` vacío después de `git clean -fdq -- build && git checkout -- build`.
+  5. Confirmación del responsable del proyecto: pendiente.
+- **Pendientes del usuario:** el recorrido en PCSX2 con `herramientas/guiones/recorrido_textos.txt` y las pantallas que el guion no cubre, la captura en TV y la confirmación del cierre (puntos 1, 2 y 7 de [Pendiente](#pendiente)).
