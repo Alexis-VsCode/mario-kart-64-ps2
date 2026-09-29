@@ -73,11 +73,32 @@ def probar_textura(id_, comp, fila):
         comprobar(png_simple.leer(ruta).a_rgba() == nuevo, "%s: %s no es la salida del compositor" % (id_, fila["png"]))
 
 
+def tinta(g, x0, x1, y0, y1):
+    """Pixeles de relleno del glifo dentro de la zona (fracciones de su caja)."""
+    xs, ys = [x for x, _ in g.pixeles], [y for _, y in g.pixeles]
+    ax, bx, ay, by = min(xs), max(xs) + 1, min(ys), max(ys) + 1
+    return sum(1 for (x, y), (_, clase, _, _) in g.pixeles.items() if clase == "r"
+               and ax + x0 * (bx - ax) <= x < ax + x1 * (bx - ax) and ay + y0 * (by - ay) <= y < ay + y1 * (by - ay))
+
+
+def probar_g_y_c():
+    """La G de ELIGE tiene barra adentro y la C de OPCIONES es mayuscula y abierta."""
+    familia = ce.Familia("titulos_menu")
+    for textura in ("seleccion_juego", "seleccion_jugador", "seleccion_mapa", "opcion"):
+        g, c = familia.glifo("G", textura), familia.glifo("C", textura)
+        comprobar(tinta(g, 0.45, 0.75, 0.45, 0.62) >= 6, "%s: la G no tiene barra adentro (se lee C)" % textura)
+        comprobar(tinta(c, 0.45, 1.0, 0.42, 0.58) == 0, "%s: la C esta cerrada a la derecha" % textura)
+        alto = lambda h: max(y for _, y in h.pixeles) - min(y for _, y in h.pixeles) + 1
+        comprobar(alto(c) >= 0.9 * alto(g), "%s: la C mide %d filas y la G %d (parece minuscula)"
+                  % (textura, alto(c), alto(g)))
+
+
 def main():
     manifiesto = {f["id"]: f for f in texturas_es.leer_manifiesto(texturas_es.MANIFIESTO)}
     comps = ce.leer_composicion()
     comprobar(len(comps) >= 4, "se esperaban texturas en %s" % ce.COMPOSICION)
     probar_familias()
+    probar_g_y_c()
     for id_, comp in sorted(comps.items()):
         comprobar(id_ in manifiesto and comp["familia"] in os.listdir(ce.GLIFOS), "%s: fila invalida" % id_)
         if id_ in manifiesto:

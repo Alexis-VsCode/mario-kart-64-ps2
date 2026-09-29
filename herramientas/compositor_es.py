@@ -10,7 +10,8 @@ Cada familia (recursos/es/glifos/<familia>/) tiene:
                mas frecuente, para letras claras sobre tablas), filas (y0,y1 de la linea),
                ventana (columnas a cada lado donde buscar el corte), umbral (luminancia
                que separa contorno de relleno), muestras (pixeles minimos de una fila
-               para tomar su color de referencia; si no, se usa la fila mas cercana)
+               para tomar su color de referencia; si no, se usa la fila mas cercana),
+               recetas_primero (letras cuya receta gana a la instancia propia en espanol)
   cajas.tsv    un glifo por fila: caracter, textura (id del manifiesto) y las columnas
                aproximadas de su corte izquierdo y derecho. El corte real es el camino
                mas oscuro que baja por esa zona, asi dos letras que se tocan se separan
@@ -136,6 +137,7 @@ class Familia:
         self.ventana = int(params.get("ventana", "2"))
         self.umbral = float(params.get("umbral", "60"))
         self.muestras = int(params.get("muestras", "1"))
+        self.recetas_primero = params.get("recetas_primero", "")
         self.cajas = leer_tsv(os.path.join(carpeta, "cajas.tsv"), ["caracter", "textura", "x_izq", "x_der"])
         ruta = os.path.join(carpeta, "elegidas.tsv")
         self.elegidas = {f["caracter"]: f for f in leer_tsv(ruta, ["caracter", "textura", "x_izq", "x_der"])} \
@@ -216,6 +218,8 @@ class Familia:
         propias = [c for c in lista if c["textura"] == preferida]
         if indice is None and caracter in self.elegidas:
             return self.glifo_de_caja(self.elegidas[caracter])
+        if indice is None and caracter in self.recetas_primero and caracter in self.recetas:
+            return evaluar_receta(self, self.recetas[caracter], preferida)
         if indice is not None and indice < len(propias):
             return self.glifo_de_caja(propias[indice])
         if propias:
@@ -383,7 +387,8 @@ RECETAS = {"cols": _cols, "filas": _filas, "espejo": _espejo, "junto": _junto, "
 
 
 def evaluar_receta(familia, texto, preferida):
-    """Expresion con llamadas a RECETAS, glifo("X") y parte("nombre", fila)."""
+    """Expresion con llamadas a RECETAS, glifo("X"), instancia("X") (la primera de cajas.tsv,
+    sin receta) y parte("nombre", fila)."""
     def valor(nodo):
         if isinstance(nodo, ast.Constant) and isinstance(nodo.value, (int, str)):
             return nodo.value
@@ -397,6 +402,11 @@ def evaluar_receta(familia, texto, preferida):
             args = [valor(a) for a in nodo.args]
             if nodo.func.id == "glifo":
                 return familia.glifo(args[0], preferida)
+            if nodo.func.id == "instancia":
+                cajas = familia.instancias(args[0])
+                if not cajas:
+                    raise ErrorComposicion("familia %s: no hay instancia de %r" % (familia.nombre, args[0]))
+                return familia.glifo_de_caja(cajas[0])
             if nodo.func.id == "parte":
                 return _parte(familia, *args)
             if nodo.func.id in RECETAS:

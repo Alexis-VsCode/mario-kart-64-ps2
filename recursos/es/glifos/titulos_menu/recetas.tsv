@@ -1,3 +1,8 @@
 caracter	receta
 # D: el palo de la P con la mitad derecha de la O
 D	junto(cols(glifo("P"), 0, 10), cols(glifo("O"), 14, 28))
+# G: la de GAME tiene la barra muy corta y se lee C; se le agrega la barra de adentro
+G	encima(instancia("G"), parte("barra_g", 15), 12, 0)
+# C: la de SELECT es mas baja (versalita); el arco de arriba de la G, el palo del
+# medio y el mismo arco dado vuelta de arriba abajo, con la boca abierta
+C	encima(encima(filas(instancia("G"), 3, 12), cols(filas(instancia("G"), 12, 20), 0, 9)), mover(espejo(girar(filas(instancia("G"), 3, 12))), 0, 17))
