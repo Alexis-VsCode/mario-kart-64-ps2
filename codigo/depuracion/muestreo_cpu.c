@@ -252,7 +252,7 @@ void terminar_perfil_muestreo(const char *nombre)
         fclose(f);
     }
     desbloquear_host();
-    registrar("perfil %s: %u muestras (kernel %u, fuera %u)", nombre, (unsigned) s_total, (unsigned) muestras_kernel,
+    registrar("perfil %s: %u muestras (núcleo %u, fuera %u)", nombre, (unsigned) s_total, (unsigned) muestras_kernel,
             (unsigned) muestras_fuera);
 }
 #endif

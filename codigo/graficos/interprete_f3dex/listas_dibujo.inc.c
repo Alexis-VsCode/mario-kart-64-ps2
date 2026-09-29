@@ -30,7 +30,7 @@ static void volcar_dl_a_host(const char *nombre)
         fclose(f);
     }
     desbloquear_host();
-    registrar("display list volcada: %s (%u comandos)", nombre, (unsigned) largo_volcado);
+    registrar("lista de dibujo volcada: %s (%u comandos)", nombre, (unsigned) largo_volcado);
 }
 #endif
 
@@ -51,7 +51,7 @@ static void ejecutar_dl(Gfx *dl)
         /* Un puntero fuera de la RAM no es una display list */
         if ((uintptr_t) dl < 0x00100000 || (uintptr_t) dl >= 0x02000000 || ((uintptr_t) dl & 7) != 0) {
             if (dl_cuts++ < 4) {
-                registrar("display list cortada: salto a %p tras %u comandos", (void *) dl, (unsigned) guardia);
+                registrar("lista de dibujo cortada: salto a %p tras %u comandos", (void *) dl, (unsigned) guardia);
             }
             dl_corte = 1;
             break;
@@ -112,7 +112,7 @@ static void ejecutar_dl(Gfx *dl)
                 if (tris_traza > 0) {
                     const Vtx *vv = (const Vtx *) direccion_seg(w1);
 
-                    registrar("vtx w0 %08x @%08x n%d v0 %d: (%d,%d,%d) tc %d,%d", (unsigned) w0, (unsigned) w1,
+                    registrar("vért w0 %08x @%08x n%d v0 %d: (%d,%d,%d) tc %d,%d", (unsigned) w0, (unsigned) w1,
                             (int) ((w0 >> 10) & 0x3F), (int) (((w0 >> 16) & 0xFF) / 2), vv->v.ob[0], vv->v.ob[1],
                             vv->v.ob[2], vv->v.tc[0], vv->v.tc[1]);
                 }
@@ -291,7 +291,7 @@ static void ejecutar_dl(Gfx *dl)
                 if (St.tijera[3] <= St.tijera[1]) St.tijera[3] = St.tijera[1] + 1;
 #ifdef SMK64_DEV
                 if (diag_frame) {
-                    registrar("scissor %d,%d-%d,%d", St.tijera[0], St.tijera[1], St.tijera[2], St.tijera[3]);
+                    registrar("tijera %d,%d-%d,%d", St.tijera[0], St.tijera[1], St.tijera[2], St.tijera[3]);
                 }
 #endif
                 if (memcmp(viejo, St.tijera, sizeof(viejo)) != 0) {
@@ -381,7 +381,7 @@ void inicializar_renderizador(void)
         tv[0].v.ob[2] = 5;
         cargar_mvp_vu0();
         transformar_vu0(&tv[0].v, res);
-        registrar("VU0: status %08x, (2,-3,5)*M = %d %d %d %d (esperado 45 50 55 60)", (unsigned) situacion, (int) res[0],
+        registrar("VU0: estado %08x, (2,-3,5)*M = %d %d %d %d (esperado 45 50 55 60)", (unsigned) situacion, (int) res[0],
                 (int) res[1], (int) res[2], (int) res[3]);
         memset(&St, 0, sizeof(St));
     }
@@ -572,7 +572,7 @@ static void interp_feedback(u32 periodo)
         retroceso = (int) largo_retroceso;
         largo_retroceso = largo_retroceso >= 120 ? 240 : largo_retroceso * 2;
         calm = 0;
-        rend_registro_ps2("60 FPS: el juego no llega a 30 Hz con el frame intermedio; se pausa unos segundos (libre %u us)",
+        rend_registro_ps2("60 FPS: el juego no llega a 30 Hz con el cuadro intermedio; se pausa unos segundos (libre %u us)",
                      (unsigned) (libre_en / 295));
     }
 }

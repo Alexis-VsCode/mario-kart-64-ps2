@@ -41,6 +41,7 @@
 #include "memoria/buffer_salida_graficos.h"
 #ifdef TARGET_PS2
 #include "sistema/perfilado.h"
+#include "depuracion/marcas_registro.h"
 #endif
 #include "bucle_principal/tareas_y_mandos.inc.c"
 #include "bucle_principal/hilos_video_y_audio.inc.c"

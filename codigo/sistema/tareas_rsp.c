@@ -25,13 +25,13 @@ void osSpTaskStartGo(OSTask *tarea)
     }
 
 #ifdef SMK64_TRAZA
-    marcar_punto_control(tarea->t.type == M_GFXTASK ? "rsp: graficos inicio" : "rsp: audio inicio");
+    marcar_punto_control(tarea->t.type == M_GFXTASK ? "RSP: gráficos, inicio" : "RSP: audio, inicio");
 #endif
     switch (tarea->t.type) {
         case M_GFXTASK:
             ejecutar_tarea_graficos((Gfx *) tarea->t.data_ptr);
 #ifdef SMK64_TRAZA
-            marcar_punto_control("rsp: graficos fin");
+            marcar_punto_control("RSP: gráficos, fin");
 #endif
             enviar_evento_sistema(OS_EVENT_SP);
             enviar_evento_sistema(OS_EVENT_DP);
@@ -41,7 +41,7 @@ void osSpTaskStartGo(OSTask *tarea)
             ejecutar_tarea_ps2_audio((u64 *) tarea->t.data_ptr, tarea->t.data_size);
             FIN_PROF(PROF_AUDIO);
 #ifdef SMK64_TRAZA
-            marcar_punto_control("rsp: audio fin");
+            marcar_punto_control("RSP: audio, fin");
 #endif
             enviar_evento_sistema(OS_EVENT_SP);
             break;

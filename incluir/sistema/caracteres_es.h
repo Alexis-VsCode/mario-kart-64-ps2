@@ -37,8 +37,8 @@ int caracter_es_marca(int car);
 
 // Copia origen en destino (tam bytes con el 0) sin diacriticos, para las
 // salidas que solo tienen ASCII: las letras pierden la tilde, la virgulilla
-// o la dieresis, los signos de apertura se omiten y los ordinales pasan a
-// 'o'/'a'.
+// o la dieresis, los signos de apertura se omiten, los ordinales pasan a
+// 'o'/'a' y cada byte >= 0x80 que no es del espanol pasa a '?'.
 void quitar_diacriticos(char* destino, int tam, const char* origen);
 
 #endif

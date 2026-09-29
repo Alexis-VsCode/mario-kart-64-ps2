@@ -366,14 +366,14 @@ void inicializar_ps2_audio(void)
         return;
     }
     if (audsrv_init() != 0) {
-        registrar("audsrv_init fallo: %s", audsrv_get_error_string());
+        registrar("audsrv_init falló: %s", audsrv_get_error_string());
         return;
     }
     fmt.bits = 16;
     fmt.freq = TASA_SALIDA;
     fmt.channels = 2;
     if (audsrv_set_format(&fmt) != 0) {
-        registrar("audsrv_set_format fallo: %s", audsrv_get_error_string());
+        registrar("audsrv_set_format falló: %s", audsrv_get_error_string());
         return;
     }
     audsrv_set_volume(MAX_VOLUME);
@@ -422,12 +422,12 @@ u32 osAiGetLength(void)
 
         if (empezado && en_cola <= 0 && ultimo_pico > 0 && logged < 40) {
             logged++;
-            rend_registro_ps2("audio: corte en VBlank %u (escena %d, esperas de la ROM %d, pico del bloque anterior %d)",
+            rend_registro_ps2("audio: corte en el retrazo %u (escena %d, esperas de la ROM %d, pico del bloque anterior %d)",
                     (unsigned) contador_vblank(), (int) estado_juego, esperando_rom_ps2, ultimo_pico);
         }
     }
     if ((++ai_frames % 1800) == 0) {
-        rend_registro_ps2("audio: %u cortes en los ultimos %u bloques", (unsigned) vaciados, 1800u);
+        rend_registro_ps2("audio: %u cortes en los últimos %u bloques", (unsigned) vaciados, 1800u);
         vaciados = 0;
     }
 #endif

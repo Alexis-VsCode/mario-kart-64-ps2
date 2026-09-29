@@ -501,7 +501,7 @@ static RegistroCarga *carga_que_contiene(u32 empezar, u32 palabras)
 static void cargar_malo(const char *op, const char *por_que, u32 w0, u32 w1)
 {
     if (loads_malo_tmem++ < 4) {
-        registrar("%s %s: %08x %08x timg %p ancho %u siz %u linea %u", op, por_que, (unsigned) w0, (unsigned) w1,
+        registrar("%s %s: %08x %08x timg %p ancho %u siz %u línea %u", op, por_que, (unsigned) w0, (unsigned) w1,
                 (const void *) s_timg.addr, (unsigned) s_timg.width, (unsigned) s_timg.siz,
                 (unsigned) tiles_rdp[(w1 >> 24) & 7].line);
     }

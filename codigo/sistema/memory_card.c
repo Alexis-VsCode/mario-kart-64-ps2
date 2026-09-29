@@ -222,7 +222,7 @@ void cargar_partida(void)
     int tiene_a, tiene_b, primer;
 
     if (!mc_ok || !listo_tarjeta_mc()) {
-        registrar("memcard: sin tarjeta en la ranura 1; la partida no se guardara hasta insertarla");
+        registrar("memory card: sin tarjeta en la ranura 1; la partida no se guardará hasta insertarla");
         return;
     }
     tiene_a = leer_cabecera(ARCHIVO_A_GUARDADO, &generar_a);
@@ -238,15 +238,16 @@ void cargar_partida(void)
         ranura_siguiente = 0;
         archivos_legacy = 1;
         if (publish(&copia_escritura)) {
-            registrar("memcard: partida de un build anterior (generacion %u)", (unsigned) copia_escritura.generacion);
+            registrar("memory card: partida de una compilación anterior (generación %u)",
+                      (unsigned) copia_escritura.generacion);
         }
         return;
     } else {
-        registrar("memcard: sin partida guardada (se crea al guardar)");
+        registrar("memory card: sin partida guardada (se crea al guardar)");
         return;
     }
     if (publish(&copia_escritura)) {
-        registrar("memcard: partida cargada (copia %c, generacion %u)", ranura_siguiente ? 'A' : 'B',
+        registrar("memory card: partida cargada (copia %c, generación %u)", ranura_siguiente ? 'A' : 'B',
                 (unsigned) copia_escritura.generacion);
     }
 }
@@ -271,9 +272,9 @@ void esperar_cargado_memcard_ps2(void)
         EI();
     }
     if (estado_carga == CARGA_ABANDONED && ms > 0) {
-        registrar("memcard: la tarjeta no contesto en %d ms; se sigue sin la partida y sin guardar", ms);
+        registrar("memory card: la tarjeta no contestó en %d ms; se sigue sin la partida y sin guardar", ms);
     } else if (ms > 0) {
-        registrar("memcard: el juego espero la lectura %d ms", ms);
+        registrar("memory card: el juego esperó la lectura %d ms", ms);
     }
 }
 
@@ -293,7 +294,7 @@ static int guardar_ahora(void)
     r = resultado_llamar_mc();
     if (r == 0) { /* directorio nuevo: primera vez en esta tarjeta */
         if (escribir_archivos_icono() != 0) {
-            registrar("memcard: no se pudo escribir el icono");
+            registrar("memory card: no se pudo escribir el icono");
         }
     } else if (r != -4) {
         return -2;
@@ -337,7 +338,7 @@ static void guardar_hilo(void *parametro)
     if (intr) {
         EI();
     }
-    registrar("memcard: lectura en segundo plano %u ms", (unsigned) ((ciclos_ps2() - t0) / 294912));
+    registrar("memory card: lectura en segundo plano %u ms", (unsigned) ((ciclos_ps2() - t0) / 294912));
     ChangeThreadPriority(GetThreadId(), PRIORIDAD_HILO_GUARDADO);
 
     for (;;) {
@@ -360,9 +361,9 @@ static void guardar_hilo(void *parametro)
         }
         r = guardar_ahora();
         if (r == 0) {
-            registrar("memcard: partida guardada (generacion %u)", (unsigned) generar);
+            registrar("memory card: partida guardada (generación %u)", (unsigned) generar);
         } else {
-            registrar("memcard: no se pudo guardar (%d); se reintentara", r);
+            registrar("memory card: no se pudo guardar (%d); se reintentará", r);
             marcar_partida_modificada_sin_aviso();
         }
     }
@@ -388,7 +389,7 @@ void inicializar_memory_card(void)
         devuelto = SifLoadModule("rom0:MCSERV", 0, NULL);
     }
     if (devuelto < 0 || mcInit(MC_TYPE_MC) < 0) {
-        registrar("memcard: no se pudo iniciar libmc (%d)", devuelto);
+        registrar("memory card: no se pudo iniciar libmc (%d)", devuelto);
     } else {
         mc_ok = 1;
     }
@@ -412,6 +413,6 @@ void inicializar_memory_card(void)
         StartThread(tid, NULL);
     } else {
         estado_carga = HECHO_CARGA; /* sin hilo no hay lectura: imagen vacia */
-        registrar("memcard: no se pudo crear el hilo de guardado");
+        registrar("memory card: no se pudo crear el hilo de guardado");
     }
 }

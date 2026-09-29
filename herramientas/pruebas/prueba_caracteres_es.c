@@ -82,7 +82,9 @@ static void probar_quitar_diacriticos(void) {
     quitar_diacriticos(salida, 5, "ABCD\xc3\x89" "FG");
     COMPROBACION(strcmp(salida, "ABCD") == 0, "corte por tamanio: '%s'", salida);
     quitar_diacriticos(salida, sizeof(salida), "fin cortado \xc3");
-    COMPROBACION(strcmp(salida, "fin cortado \xc3") == 0, "secuencia incompleta al final: '%s'", salida);
+    COMPROBACION(strcmp(salida, "fin cortado ?") == 0, "secuencia incompleta al final: '%s'", salida);
+    quitar_diacriticos(salida, sizeof(salida), "a\xc3" "b \xe2\x82\xac");
+    COMPROBACION(strcmp(salida, "a?b ???") == 0, "bytes que no son del espanol: '%s'", salida);
 }
 
 int main(void) {

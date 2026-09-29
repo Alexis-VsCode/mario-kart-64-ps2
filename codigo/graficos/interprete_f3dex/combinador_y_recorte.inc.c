@@ -332,7 +332,7 @@ static void dibujar_triangulo(int i0, int i1, int i2)
 
         if (((St.om_h >> G_MDSFT_TEXTLUT) & 3) == 2 && estado_juego == 4 && kart_pre < 16 && tiles_rdp[0].fmt == G_IM_FMT_CI) {
             kart_pre++;
-            registrar("pre-tri CI clip %x/%x/%x w %d %d %d x %d y %d z %d geom %x", v0->clip, v1->clip, v2->clip,
+            registrar("tri previo CI recorte %x/%x/%x w %d %d %d x %d y %d z %d geom %x", v0->clip, v1->clip, v2->clip,
                     (int) v0->w, (int) v1->w, (int) v2->w, (int) v0->x, (int) v0->y, (int) v0->z, (unsigned) St.geom);
         }
     }
@@ -603,7 +603,7 @@ static void dibujar_fillrect(u32 w0, u32 w1)
 
 #ifdef SMK64_GFX_TRACE
     if (tris_traza > 0) {
-        registrar("fill cyc%d (%d,%d)-(%d,%d) fill%08x prim%02x%02x%02x%02x omL%x cc%06x/%08x cimg%x zimg%x", ciclo,
+        registrar("relleno cyc%d (%d,%d)-(%d,%d) fill%08x prim%02x%02x%02x%02x omL%x cc%06x/%08x cimg%x zimg%x", ciclo,
                 (int) ulx, (int) uly, (int) lrx, (int) lry, (unsigned) St.color_relleno, St.prim[0], St.prim[1], St.prim[2],
                 St.prim[3], (unsigned) St.om_l, (unsigned) St.combinacion0, (unsigned) St.combinacion1, (unsigned) St.cimg,
                 (unsigned) St.zimg);
@@ -728,7 +728,7 @@ extern u16 juego_en_pausa;
 void alternar_interp_gfx_ps2(void)
 {
     interp_user = !interp_user;
-    registrar("60 FPS (frame intermedio): %s", interp_user ? "activado" : "desactivado");
+    registrar("60 FPS (cuadro intermedio): %s", interp_user ? "activado" : "desactivado");
 }
 
 int ps2_gfx_interp_activado(void)

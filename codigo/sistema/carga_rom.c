@@ -117,7 +117,7 @@ static void hilo_cargador(void *parametro)
         fclose(archivo_host);
         archivo_host = NULL;
     }
-    registrar("ROM: %u KB cargados en segundo plano en %u VBlanks; %u esperas del juego (%u VBlanks en total)",
+    registrar("ROM: %u KB cargados en segundo plano en %u retrazos; %u esperas del juego (%u retrazos en total)",
             (unsigned) (trozos * TROZO / 1024), (unsigned) (contador_vblank() - vblank_inicio), (unsigned) s_waits,
             (unsigned) vblanks_espera);
     ExitDeleteThread();
@@ -136,7 +136,7 @@ int inicializar_rom_ps2(const char *camino_arranque)
     trozos = (bytes_flujo + TROZO - 1) / TROZO;
     bytes_flujo = trozos * TROZO; /* el fichero va rellenado a trozos enteros */
     if (trozos > TROZOS_MAX) {
-        detener_por_error("ROM: SMK64ROM.BIN mas grande de lo previsto");
+        detener_por_error("ROM: SMK64ROM.BIN más grande de lo previsto");
     }
 
     /* Arrancado desde disco (OPL, disco, PCSX2 con ISO) */
@@ -150,12 +150,12 @@ int inicializar_rom_ps2(const char *camino_arranque)
 
         sceCdInit(SCECdINoD);
         if (!sceCdSearchFile(&archivo, DISC_ARCHIVO_ROM)) {
-            registrar("ROM: no se encontro %s en el disco (arranque: %s)", DISC_ARCHIVO_ROM,
+            registrar("ROM: no se encontró %s en el disco (arranque: %s)", DISC_ARCHIVO_ROM,
                     camino_arranque != NULL ? camino_arranque : "?");
             return 0;
         }
         if (archivo.size < bytes_flujo) {
-            registrar("ROM: %s mide %u y deberia medir %u", DISC_ARCHIVO_ROM, (unsigned) archivo.size, (unsigned) bytes_flujo);
+            registrar("ROM: %s mide %u y debería medir %u", DISC_ARCHIVO_ROM, (unsigned) archivo.size, (unsigned) bytes_flujo);
             return 0;
         }
         s_lsn = archivo.lsn;

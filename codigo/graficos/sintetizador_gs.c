@@ -9,6 +9,7 @@
 #include "sistema/sistema_ps2.h"
 #include "graficos/pantallas_gigantes.h"
 #include "sistema/perfilado.h"
+#include "depuracion/marcas_registro.h"
 #ifdef SMK64_MEDIDOR
 #include "depuracion/medidor_rendimiento.h"
 #endif
@@ -118,7 +119,7 @@ static void esperar_gif(void)
 
     while (*D2_CHCR & 0x100) {
         if (++giros == 20u * 1000u * 1000u) { /* lecturas sin cache: ~1-2 s */
-            detener_por_gif_trabado("GIF DMA sin terminar tras ~20M lecturas");
+            detener_por_gif_trabado(MARCA_GIF " DMA sin terminar tras ~20M lecturas");
         }
     }
 #ifdef SMK64_MEDIDOR

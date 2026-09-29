@@ -445,7 +445,7 @@ void inicializar_guiones_prueba(void)
     guion = malloc(size + 1);
     if (guion == NULL || fread(guion, 1, size, f) != (size_t) size) {
         fclose(f);
-        registrar("autotest: no se pudo leer el guion");
+        registrar("autoprueba: no se pudo leer el guion");
         return;
     }
     fclose(f);
@@ -471,7 +471,7 @@ void inicializar_guiones_prueba(void)
             continue;
         }
         if (pasos_num == PASOS_MAX) {
-            probar_registro("GUION DEMASIADO LARGO (max %d ordenes)", PASOS_MAX);
+            probar_registro("GUION DEMASIADO LARGO (máx. %d órdenes)", PASOS_MAX);
             break;
         }
         {
@@ -480,7 +480,7 @@ void inicializar_guiones_prueba(void)
             strncpy(copiar, line, sizeof(copiar) - 1);
             copiar[sizeof(copiar) - 1] = '\0';
             if (!analizar_linea(line, &pasos[pasos_num])) {
-                probar_registro("ERROR DE SINTAXIS en la linea %d: %s", no_linea, copiar);
+                probar_registro("ERROR DE SINTAXIS en la línea %d: %s", no_linea, copiar);
                 fallos++;
                 continue;
             }
@@ -489,8 +489,8 @@ void inicializar_guiones_prueba(void)
         pasos_num++;
     }
     activo = 1;
-    probar_registro("guion cargado: %d ordenes", pasos_num);
-    registrar("autotest: guion de %d ordenes", pasos_num);
+    probar_registro("guion cargado: %d órdenes", pasos_num);
+    registrar("autoprueba: guion de %d órdenes", pasos_num);
 }
 
 int guion_prueba_activo(void)
@@ -563,7 +563,7 @@ static void registrar_rend(void)
         u32 frames = s_frame - frame_rend;
         u32 vbl = vb - vblank_rend;
 
-        probar_registro("  ritmo: %u frames en %u VBlanks = %u.%02u VBlanks/frame (estado %d)", (unsigned) frames,
+        probar_registro("  ritmo: %u cuadros en %u retrazos = %u.%02u retrazos/cuadro (estado %d)", (unsigned) frames,
                  (unsigned) vbl, (unsigned) (vbl / frames), (unsigned) (vbl * 100 / frames % 100), (int) estado_juego);
         frame_rend = s_frame;
         vblank_rend = vb;
@@ -575,7 +575,7 @@ static void terminar(const char *por_que)
     extern s32 menu_texturas_salteado;
 
     hecho = 1;
-    probar_registro("texturas de menu omitidas: %d", (int) menu_texturas_salteado);
+    probar_registro("texturas de menú omitidas: %d", (int) menu_texturas_salteado);
     probar_registro("FIN DEL GUION (%s): %d fallos", por_que, fallos);
 }
 
@@ -617,13 +617,13 @@ static void ejecutar_paso(OSContPad *relleno)
             case OP_HASTA:
             case PULSACION_OP_HASTA:
                 if (comparar(leer_variable(st->variable), st->cmp, st->value)) {
-                    probar_registro("ok: %s %s %d (linea %d, %d frames)", nombres_variable[st->variable], nombres_cmp[st->cmp],
+                    probar_registro("ok: %s %s %d (línea %d, %d cuadros)", nombres_variable[st->variable], nombres_cmp[st->cmp],
                              (int) st->value, st->line, (int) frame_paso);
                     break;
                 }
                 if (frame_paso >= st->count) {
                     fallos++;
-                    probar_registro("FALLO: %s %s %d no se cumplio en %d frames (linea %d; vale %d)", nombres_variable[st->variable],
+                    probar_registro("FALLO: %s %s %d no se cumplió en %d cuadros (línea %d; vale %d)", nombres_variable[st->variable],
                              nombres_cmp[st->cmp], (int) st->value, (int) st->count, st->line,
                              (int) leer_variable(st->variable));
                     terminar("abortado");
@@ -636,11 +636,11 @@ static void ejecutar_paso(OSContPad *relleno)
                 return;
             case COMPROBACION_OP:
                 if (comparar(leer_variable(st->variable), st->cmp, st->value)) {
-                    probar_registro("ok: %s %s %d (linea %d)", nombres_variable[st->variable], nombres_cmp[st->cmp], (int) st->value,
+                    probar_registro("ok: %s %s %d (línea %d)", nombres_variable[st->variable], nombres_cmp[st->cmp], (int) st->value,
                              st->line);
                 } else {
                     fallos++;
-                    probar_registro("FALLO: %s %s %d (linea %d; vale %d)", nombres_variable[st->variable], nombres_cmp[st->cmp],
+                    probar_registro("FALLO: %s %s %d (línea %d; vale %d)", nombres_variable[st->variable], nombres_cmp[st->cmp],
                              (int) st->value, st->line, (int) leer_variable(st->variable));
                 }
                 break;
@@ -655,7 +655,7 @@ static void ejecutar_paso(OSContPad *relleno)
                         }
                     }
                 }
-                probar_registro("autopiloto %s", autopiloto ? "si" : "no");
+                probar_registro("autopiloto %s", autopiloto ? "sí" : "no");
                 break;
             case DISPARO_OP:
                 if (frame_paso == 0) {
@@ -684,13 +684,13 @@ static void ejecutar_paso(OSContPad *relleno)
                 break;
             case ERROR_OP:
                 if (st->value == 0) {
-                    probar_registro("provocando una excepcion (escritura en 0x1)");
+                    probar_registro("provocando una excepción (escritura en 0x1)");
                     *(volatile u32 *) 1 = 0;
                 } else {
                     volatile s32 zero = 0;
                     volatile s32 r;
 
-                    probar_registro("provocando una excepcion (division por cero)");
+                    probar_registro("provocando una excepción (división por cero)");
                     r = 100 / zero;
                     (void) r;
                 }
@@ -701,10 +701,10 @@ static void ejecutar_paso(OSContPad *relleno)
                 break;
             case OP_SI:
                 if (comparar(leer_variable(st->variable), st->cmp, st->value)) {
-                    probar_registro("si %s %s %d: si (linea %d)", nombres_variable[st->variable], nombres_cmp[st->cmp], (int) st->value,
+                    probar_registro("si %s %s %d: sí (línea %d)", nombres_variable[st->variable], nombres_cmp[st->cmp], (int) st->value,
                              st->line);
                 } else {
-                    probar_registro("si %s %s %d: no (vale %d), se saltan %d ordenes (linea %d)", nombres_variable[st->variable],
+                    probar_registro("si %s %s %d: no (vale %d), se saltan %d órdenes (línea %d)", nombres_variable[st->variable],
                              nombres_cmp[st->cmp], (int) st->value, (int) leer_variable(st->variable), (int) st->count, st->line);
                     act += st->count;
                 }
@@ -738,7 +738,7 @@ static void ejecutar_paso(OSContPad *relleno)
                     const Jugador *pl = &jugadores[i];
                     const Camara *c = &camaras[i];
 
-                    probar_registro("  jugador %d tipo %04x pos %d %d %d | camara %d (sigue a %d) pos %d %d %d mira %d %d %d rot %d",
+                    probar_registro("  jugador %d tipo %04x pos %d %d %d | cámara %d (sigue a %d) pos %d %d %d mira %d %d %d rot %d",
                              i, (unsigned) pl->type, (int) pl->pos[0], (int) pl->pos[1], (int) pl->pos[2], i,
                              (int) c->id_jugador, (int) c->pos[0], (int) c->pos[1], (int) c->pos[2], (int) c->mirar_a[0],
                              (int) c->mirar_a[1], (int) c->mirar_a[2], (int) c->rot[1]);
@@ -749,7 +749,7 @@ static void ejecutar_paso(OSContPad *relleno)
                     extern f32 acercar_camara[];
 
                     for (i = 0; i < 4; i++) {
-                        probar_registro("  camara %d modo %d (guardado %d) campo de vision %d.%02d", i, (int) dato_80164678[i],
+                        probar_registro("  cámara %d modo %d (guardado %d) campo de visión %d.%02d", i, (int) dato_80164678[i],
                                  (int) dato_80164670[i], (int) acercar_camara[i], (int) (acercar_camara[i] * 100) % 100);
                     }
                 }
@@ -759,7 +759,7 @@ static void ejecutar_paso(OSContPad *relleno)
                 if (ps2_gfx_interp_activado() != st->value) {
                     alternar_interp_gfx_ps2();
                 }
-                probar_registro("intermedio %s", st->value ? "si" : "no");
+                probar_registro("intermedio %s", st->value ? "sí" : "no");
                 break;
             case OP_STICKY:
                 s_sticky[s_relleno] = st->buttons;
@@ -775,7 +775,7 @@ static void ejecutar_paso(OSContPad *relleno)
             }
             case VOLCADO_OP:
                 pedir_volcado_display_list();
-                probar_registro("volcado de la display list pedido");
+                probar_registro("volcado de la lista de dibujo pedido");
                 break;
             case FIN_OP:
                 terminar("fin");

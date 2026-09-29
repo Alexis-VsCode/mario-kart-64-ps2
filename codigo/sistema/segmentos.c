@@ -29,7 +29,7 @@ void guardar_segmentos_iniciales(void)
 {
     copia_carrera = copia(_inicio_datos_carreras, _fin_datos_carreras);
     copia_final = copia(_inicio_datos_final, _fin_datos_final);
-    registrar("segmentos: racing %u+%u B, ending %u+%u B",
+    registrar("segmentos: carrera %u+%u B, final %u+%u B",
             (unsigned) (_fin_datos_carreras - _inicio_datos_carreras), (unsigned) (_fin_bss_carreras - _inicio_bss_carreras),
             (unsigned) (_fin_datos_final - _inicio_datos_final), (unsigned) (_fin_bss_final - _inicio_bss_final));
 }

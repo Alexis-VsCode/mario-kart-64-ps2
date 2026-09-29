@@ -125,13 +125,13 @@ int ps2_audio_monitor_lineas(char (*lineas_2)[64], int lineas_max)
             n++;                                   \
         }                                          \
     } while (0)
-    LINEA("AUDIO N64 COLA %u MS CORTES %u TAREA MAX %u US", (unsigned) s.ms_cola, (unsigned) s.vaciados,
+    LINEA("AUDIO N64 COLA %u MS CORTES %u TAREA MÁX %u US", (unsigned) s.ms_cola, (unsigned) s.vaciados,
          (unsigned) s.max_us_tarea);
-    LINEA("NOTAS %u/%u MUSICA %u EFECTOS %u VOCES %u", (unsigned) s.activo_notas, (unsigned) s.max_notas,
+    LINEA("NOTAS %u/%u MÚSICA %u EFECTOS %u VOCES %u", (unsigned) s.activo_notas, (unsigned) s.max_notas,
          (unsigned) s.musica_notas, (unsigned) (s.sfx_notas - s.voz_notas), (unsigned) s.voz_notas);
     LINEA("EFECTOS POR BANCO %u %u %u %u %u %u", s.sfx_por_banco[0], s.sfx_por_banco[1], s.sfx_por_banco[2], s.sfx_por_banco[3],
          s.sfx_por_banco[4], s.sfx_por_banco[5]);
-    LINEA("MUSICA SEQ %s + %s  EFECTOS SEQ %s", m0, m1, s.sec[2] == 0xFF ? "-" : "0");
+    LINEA("MÚSICA SEC %s + %s  EFECTOS SEC %s", m0, m1, s.sec[2] == 0xFF ? "-" : "0");
     LINEA("PICO %d ROBOS %u DESCARTES %u BLOQUES %u", (int) s.pico, (unsigned) s.steals_nota,
          (unsigned) s.drops_nota, (unsigned) s.blocks);
 #undef LINEA
@@ -151,7 +151,7 @@ void ps2_audio_monitor_frame(void)
     }
     n = ps2_audio_monitor_lineas(lineas_2, 8);
     for (i = 0; i < n; i++) {
-        rend_registro_ps2("debug_audio: %s", lineas_2[i]);
+        rend_registro_ps2("página de audio: %s", lineas_2[i]);
     }
 #endif
 }

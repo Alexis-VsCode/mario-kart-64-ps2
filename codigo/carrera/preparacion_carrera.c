@@ -194,19 +194,19 @@ void preparar_carrera(void) {
 #endif
         cargar_circuito(id_circuito_actual);
         circuito_generar_colision_malla();
-        MARCAR_TIEMPOS_PS2("colision: vertices y fin");
+        MARCAR_TIEMPOS_PS2("colisión: vértices y fin");
         dato_8015F730 = siguiente_libre_memoria_direccion;
     } else {
         siguiente_libre_memoria_direccion = dato_8015F730;
     }
     funcion_802969F8();
-    MARCAR_TIEMPOS_PS2("func_802969F8");
+    MARCAR_TIEMPOS_PS2("ajustes de la pista");
     funcion_80005310();
-    MARCAR_TIEMPOS_PS2("func_80005310 (fantasmas)");
+    MARCAR_TIEMPOS_PS2("fantasmas");
     funcion_8003D080();
-    MARCAR_TIEMPOS_PS2("func_8003D080 (jugadores)");
+    MARCAR_TIEMPOS_PS2("jugadores y cámaras");
     inicializar_hud();
-    MARCAR_TIEMPOS_PS2("init_hud");
+    MARCAR_TIEMPOS_PS2("indicadores en pantalla");
     estado_carrera = NINGUNO_CARRERA;
     caparazones_aparecido_num = 0;
     dato_800DC5B8 = 0;
@@ -216,7 +216,7 @@ void preparar_carrera(void) {
     funcion_802A74BC();
     fijar_perspectiva_y_proporcion_aspecto();
     funcion_80091FA4();
-    MARCAR_TIEMPOS_PS2("camaras y pantallas");
+    MARCAR_TIEMPOS_PS2("cámaras y pantallas");
     cargar_texturas_actores_inicializacion_y();
     MARCAR_TIEMPOS_PS2("actores y texturas");
 

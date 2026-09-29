@@ -11,6 +11,7 @@
 #include "depuracion/estadisticas_memoria.h"
 #include "depuracion/texto_pantalla.h"
 #include "depuracion/medidor_rendimiento.h"
+#include "depuracion/marcas_registro.h"
 
 #define VBLANKS_POR_VENTANA 60
 #define VBLANKS_POR_SEGUNDO_X100 5994u
@@ -178,6 +179,16 @@ static void decimas(char *destino, u32 tam, u32 valor)
     snprintf(destino, tam, "%u.%u", (unsigned) (valor / 10), (unsigned) (valor % 10));
 }
 
+/* Decimas en 3 columnas como mucho: 12.3 -> "12", 1.2 -> "1.2". */
+static void decimas_cortas(char *destino, u32 tam, u32 valor)
+{
+    if (valor >= 100) {
+        snprintf(destino, tam, "%u", (unsigned) ((valor + 5) / 10));
+    } else {
+        decimas(destino, tam, valor);
+    }
+}
+
 static u32 ciclos_a_decimas_ms(u32 ciclos, u32 divisor)
 {
     if (divisor == 0) {
@@ -237,7 +248,7 @@ static void cerrar_ventana(u32 ahora, u32 vblank_ahora)
     u32 frames = v->frames ? v->frames : 1;
     Acumulado *a = &acumulado;
     EstadisticasMemoria mem;
-    char linea[TEXTO_COLUMNAS + 8];
+    char linea[TEXTO_COLUMNAS * 2 + 8]; /* UTF-8: hasta 2 bytes por columna */
     char t1[16], t2[16], t3[16], t4[16];
     u32 fps_promedio;
     u32 cola_ms = (v->cola_audio_minima == ~0u) ? 0 : v->cola_audio_minima / AUDIO_BYTES_POR_MS;
@@ -263,44 +274,44 @@ static void cerrar_ventana(u32 ahora, u32 vblank_ahora)
     snprintf(t3, sizeof(t3), "%u.%u", (unsigned) (a->fps_maximo / 100), (unsigned) (a->fps_maximo % 100 / 10));
     snprintf(t4, sizeof(t4), "%u.%u", (unsigned) (fps_promedio / 100), (unsigned) (fps_promedio % 100 / 10));
     if (a->ventanas_cerradas <= 1) {
-        snprintf(linea, sizeof(linea), "FPS %s  MIN -  MAX -  PROM -", t1);
+        snprintf(linea, sizeof(linea), "FPS %s  MÍN -  MÁX -  PROM -", t1);
     } else {
-        snprintf(linea, sizeof(linea), "FPS %s MIN %s MAX %s PROM %s", t1, t2, t3, t4);
+        snprintf(linea, sizeof(linea), "FPS %s MÍN %s MÁX %s PROM %s", t1, t2, t3, t4);
     }
     texto_escribir_linea(&texto, 0, linea, color_fps(fps));
 
     decimas(t1, sizeof(t1), ciclos_a_decimas_ms(transcurrido, frames));
     decimas(t2, sizeof(t2), ciclos_a_decimas_ms(v->periodo_maximo, 1));
-    snprintf(linea, sizeof(linea), "FRAME %s MS  PICO %s  CPU %u%%", t1, t2, (unsigned) pct_cpu);
+    snprintf(linea, sizeof(linea), "CUADRO %s MS  PICO %s  CPU %u%%", t1, t2, (unsigned) pct_cpu);
     texto_escribir_linea(&texto, 1, linea, pct_cpu >= 90 ? TEXTO_AMARILLO : TEXTO_BLANCO);
 
     decimas(t1, sizeof(t1), ciclos_a_decimas_ms(v->render_ciclos, frames));
     decimas(t2, sizeof(t2), ciclos_a_decimas_ms(v->ciclos_audio, frames));
     decimas(t3, sizeof(t3), ciclos_a_decimas_ms(v->ciclos_espera_gs, frames));
     decimas(t4, sizeof(t4), ciclos_a_decimas_ms(v->ciclos_espera_dma, frames));
-    snprintf(linea, sizeof(linea), "MS/F REND %s AUD %s GS %s DMA %s", t1, t2, t3, t4);
+    snprintf(linea, sizeof(linea), "MS/C REND %s AUD %s GS %s DMA %s", t1, t2, t3, t4);
     texto_escribir_linea(&texto, 2, linea, TEXTO_BLANCO);
 
     snprintf(linea, sizeof(linea), "CPU%% VIDEO %u JUEGO %u AUDIO %u LIBRE %u", (unsigned) pct_video,
              (unsigned) pct_juego, (unsigned) pct_audio, (unsigned) pct_libre);
     texto_escribir_linea(&texto, 3, linea, pct_libre < 10 ? TEXTO_AMARILLO : TEXTO_BLANCO);
 
-    snprintf(linea, sizeof(linea), "DMA %u/F %uKB/F SUBIDAS %u/F %uKB/F", (unsigned) (v->envios / frames),
+    snprintf(linea, sizeof(linea), "DMA %u/C %uKB/C SUBIDAS %u/C %uKB/C", (unsigned) (v->envios / frames),
              (unsigned) (v->bytes_paquete / frames / 1024), (unsigned) (v->subidas / frames),
              (unsigned) (v->bytes_subidas / frames / 1024));
     texto_escribir_linea(&texto, 4, linea, TEXTO_BLANCO);
 
-    snprintf(linea, sizeof(linea), "TRIS %u RECT %u TEX %u %u/%uKB", (unsigned) (v->triangulos / frames),
+    snprintf(linea, sizeof(linea), "TRI %u RECT %u TEX %u %u/%uKB", (unsigned) (v->triangulos / frames),
              (unsigned) (v->rectangulos / frames), (unsigned) mem.texturas_entradas,
              (unsigned) (mem.texturas_bytes / 1024), (unsigned) (mem.texturas_capacidad / 1024));
     texto_escribir_linea(&texto, 5, linea, TEXTO_BLANCO);
 
-    snprintf(linea, sizeof(linea), "LIBRE %uKB POOL %uKB AUD %u/%uKB", (unsigned) (mem.monton_libre / 1024),
+    snprintf(linea, sizeof(linea), "LIBRE %uKB RESERVA %uKB AUD %u/%uKB", (unsigned) (mem.monton_libre / 1024),
              (unsigned) (mem.pool_juego_libre / 1024), (unsigned) (mem.audio_usado / 1024),
              (unsigned) (mem.audio_total / 1024));
     texto_escribir_linea(&texto, 6, linea, TEXTO_BLANCO);
 
-    snprintf(linea, sizeof(linea), "AUDIO CORTES %u COLA MIN %u MS", (unsigned) a->cortes_audio, (unsigned) cola_ms);
+    snprintf(linea, sizeof(linea), "AUDIO CORTES %u COLA MÍN %u MS", (unsigned) a->cortes_audio, (unsigned) cola_ms);
     texto_escribir_linea(&texto, 7, linea, a->cortes_audio != 0 ? TEXTO_AMARILLO : TEXTO_BLANCO);
 
     progreso_rom_ps2(&rom_cargados, &rom_total);
@@ -308,8 +319,8 @@ static void cerrar_ventana(u32 ahora, u32 vblank_ahora)
              (unsigned) (rom_total != 0 ? rom_cargados * 100 / rom_total : 100));
     texto_escribir_linea(&texto, 8, linea, (rom_total != 0 && rom_cargados < rom_total) ? TEXTO_AMARILLO : TEXTO_BLANCO);
 
-    hay_arranque = summary_tiempos_ps2("arranque", &arranque_us, &paso_largo_arranque, &largo_arranque_us);
-    hay_carga = summary_tiempos_ps2("carga de pista", &carga_us, &paso_largo, &largo_us);
+    hay_arranque = summary_tiempos_ps2(GRUPO_ARRANQUE, &arranque_us, &paso_largo_arranque, &largo_arranque_us);
+    hay_carga = summary_tiempos_ps2(GRUPO_CARGA_PISTA, &carga_us, &paso_largo, &largo_us);
     ms_o_guion(t1, sizeof(t1), hay_arranque, arranque_us);
     ms_o_guion(t2, sizeof(t2), hay_carga, carga_us);
     snprintf(linea, sizeof(linea), "ARRANQUE %s MS  CARGA PISTA %s MS", t1, t2);
@@ -320,23 +331,23 @@ static void cerrar_ventana(u32 ahora, u32 vblank_ahora)
         largo_us = largo_arranque_us;
     }
     if (paso_largo != NULL) {
-        snprintf(linea, sizeof(linea), "MAX %u MS %s", (unsigned) ((largo_us + 500) / 1000), paso_largo);
+        snprintf(linea, sizeof(linea), "MÁX %u MS %s", (unsigned) ((largo_us + 500) / 1000), paso_largo);
     } else {
-        snprintf(linea, sizeof(linea), "MAX -");
+        snprintf(linea, sizeof(linea), "MÁX -");
     }
     texto_escribir_linea(&texto, 10, linea, TEXTO_BLANCO);
 
     {
         char t5[16];
 
-        decimas(t1, sizeof(t1), ciclos_a_decimas_ms(ciclos_seccion(PROF_VTX), frames));
-        decimas(t2, sizeof(t2), ciclos_a_decimas_ms(ciclos_seccion(PROF_TRI) + ciclos_seccion(PROF_RECT), frames));
-        decimas(t3, sizeof(t3),
-                ciclos_a_decimas_ms(ciclos_seccion(CARGA_PROF) + ciclos_seccion(PREPARAR_PROF) +
-                                        ciclos_seccion(DECODIFICACION_PROF), frames));
-        decimas(t4, sizeof(t4), ciclos_a_decimas_ms(ciclos_seccion(ESTADO_PROF), frames));
-        decimas(t5, sizeof(t5), ciclos_a_decimas_ms(ciclos_seccion(ENVIO_PROF), frames));
-        snprintf(linea, sizeof(linea), "VTX %s TRI %s TEX %s EST %s ENV %s", t1, t2, t3, t4, t5);
+        decimas_cortas(t1, sizeof(t1), ciclos_a_decimas_ms(ciclos_seccion(PROF_VTX), frames));
+        decimas_cortas(t2, sizeof(t2), ciclos_a_decimas_ms(ciclos_seccion(PROF_TRI) + ciclos_seccion(PROF_RECT), frames));
+        decimas_cortas(t3, sizeof(t3),
+                       ciclos_a_decimas_ms(ciclos_seccion(CARGA_PROF) + ciclos_seccion(PREPARAR_PROF) +
+                                               ciclos_seccion(DECODIFICACION_PROF), frames));
+        decimas_cortas(t4, sizeof(t4), ciclos_a_decimas_ms(ciclos_seccion(ESTADO_PROF), frames));
+        decimas_cortas(t5, sizeof(t5), ciclos_a_decimas_ms(ciclos_seccion(ENVIO_PROF), frames));
+        snprintf(linea, sizeof(linea), "VÉRT %s TRI %s TEX %s EST %s ENV %s", t1, t2, t3, t4, t5);
         texto_escribir_linea(&texto, 11, linea, TEXTO_BLANCO);
     }
 
@@ -345,19 +356,19 @@ static void cerrar_ventana(u32 ahora, u32 vblank_ahora)
     if ((++ventanas_registro % 5) != 0) {
         return;
     }
-    registrar("medidor: escena %d fps %u.%02u min %u max %u prom %u (x100) frame %u pico %u (0,1 ms)", (int) estado_juego,
+    registrar("medidor: escena %d fps %u.%02u mín %u máx %u prom %u (x100) cuadro %u pico %u (0,1 ms)", (int) estado_juego,
             (unsigned) (fps / 100), (unsigned) (fps % 100), (unsigned) a->fps_minimo, (unsigned) a->fps_maximo,
             (unsigned) fps_promedio, (unsigned) ciclos_a_decimas_ms(transcurrido, frames),
             (unsigned) ciclos_a_decimas_ms(v->periodo_maximo, 1));
-    registrar("medidor: cpu %u%% video %u%% juego %u%% audio %u%% otros %u%% libre %u%%; por frame (0,1 ms) render %u "
-            "audio %u espgs %u dma %u; audio cortes %u cola min %u ms",
+    registrar("medidor: cpu %u%% video %u%% juego %u%% audio %u%% otros %u%% libre %u%%; por cuadro (0,1 ms) dibujo %u "
+            "audio %u espgs %u dma %u; audio cortes %u cola mín %u ms",
             (unsigned) pct_cpu, (unsigned) pct_video, (unsigned) pct_juego, (unsigned) pct_audio, (unsigned) pct_otros,
             (unsigned) pct_libre,
             (unsigned) ciclos_a_decimas_ms(v->render_ciclos, frames), (unsigned) ciclos_a_decimas_ms(v->ciclos_audio, frames),
             (unsigned) ciclos_a_decimas_ms(v->ciclos_espera_gs, frames),
             (unsigned) ciclos_a_decimas_ms(v->ciclos_espera_dma, frames), (unsigned) a->cortes_audio, (unsigned) cola_ms);
-    registrar("medidor: por frame envios %u paquete %uKB subidas %u %uKB tris %u rect %u; tex %u %u/%uKB libre %uKB "
-            "pool %uKB audio %u/%uKB",
+    registrar("medidor: por cuadro envíos %u paquete %uKB subidas %u %uKB tri %u rect %u; tex %u %u/%uKB libre %uKB "
+            "reserva %uKB audio %u/%uKB",
             (unsigned) (v->envios / frames), (unsigned) (v->bytes_paquete / frames / 1024),
             (unsigned) (v->subidas / frames), (unsigned) (v->bytes_subidas / frames / 1024),
             (unsigned) (v->triangulos / frames), (unsigned) (v->rectangulos / frames),

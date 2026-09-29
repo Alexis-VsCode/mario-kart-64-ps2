@@ -123,7 +123,7 @@ void fin_tiempos_ps2(void)
 void ps2_tiempos_esperado_frame(const void *dl)
 {
     if (activo != NULL && dl_esperado == NULL) {
-        marcar_tiempos_ps2("primer frame: logica");
+        marcar_tiempos_ps2("primer cuadro: lógica");
         dl_esperado = dl;
     }
 }
@@ -132,7 +132,7 @@ void ps2_tiempos_frame_shown(const void *dl)
 {
     if (activo != NULL && dl_esperado != NULL && dl == dl_esperado) {
         dl_esperado = NULL;
-        marcar_tiempos_ps2("primer frame: render");
+        marcar_tiempos_ps2("primer cuadro: dibujo");
         fin_tiempos_ps2();
     }
 }
@@ -157,7 +157,7 @@ int informe_tiempos_ps2(const char *group, char lineas_2[][96], int lineas_max)
         return 0;
     }
     total = us_duracion(g->ciclos_total, g->total_vblanks);
-    snprintf(lineas_2[n++], 96, "%s (%u): %u.%03u ms, %u VBlanks", g->name, (unsigned) g->runs, (unsigned) (total / 1000),
+    snprintf(lineas_2[n++], 96, "%s (%u): %u.%03u ms, %u retrazos", g->name, (unsigned) g->runs, (unsigned) (total / 1000),
              (unsigned) (total % 1000), (unsigned) g->total_vblanks);
     for (i = 0; i < g->count && n < lineas_max; i++) {
         u32 us = us_duracion(g->pasos[i].ciclos, g->pasos[i].vblanks);

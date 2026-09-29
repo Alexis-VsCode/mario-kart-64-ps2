@@ -188,7 +188,7 @@ void avanzar_temporizadores(void)
         EI();
     }
     if (roto) {
-        registrar("temporizadores: lista rota (ciclo), se vacia");
+        registrar("temporizadores: lista rota (ciclo), se vacía");
     }
     for (i = 0; i < ndue; i++) {
         osSendMesg(debido[i].mq, debido[i].msg, OS_MESG_NOBLOCK);

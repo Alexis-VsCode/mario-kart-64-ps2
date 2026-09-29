@@ -129,7 +129,7 @@ void hilo3_video(SIN_USO void* parametro0) {
     OSMesg mens;
     SIN_USO s32 relleno[4];
 
-    MARCAR_PUNTO_CONTROL("thread3_video");
+    MARCAR_PUNTO_CONTROL("hilo 3: video");
     framebuffers_fisico[0] = (u16*) &framebuffer_0;
     framebuffers_fisico[1] = (u16*) &framebuffer_1;
     framebuffers_fisico[2] = (u16*) &framebuffer_2;
@@ -140,11 +140,11 @@ void hilo3_video(SIN_USO void* parametro0) {
         framebuffer1[i] = 0;
     }
     preparar_colas_msj();
-    MARCAR_PUNTO_CONTROL("setup_game_memory");
-    MARCAR_TIEMPOS_PS2("main_func: hilos");
+    MARCAR_PUNTO_CONTROL("memoria del juego");
+    MARCAR_TIEMPOS_PS2("principal: hilos");
     preparar_memoria_juego();
-    MARCAR_TIEMPOS_PS2("setup_game_memory");
-    MARCAR_PUNTO_CONTROL("setup_game_memory hecho");
+    MARCAR_TIEMPOS_PS2("memoria del juego");
+    MARCAR_PUNTO_CONTROL("memoria del juego lista");
 
 #ifdef TARGET_PS2
     crear_hilo(&hilo_audio, 4, &hilo4_audio, 0, pila_hilo_audio + CANTIDAD_ARREGLO(pila_hilo_audio), 110);
@@ -219,11 +219,11 @@ void actualizar_estado_juego(void) {
             ahora_cargado_circuito_id = NULO_CIRCUITO;
             break;
         case CARRERA:
-            EMPEZAR_TIEMPOS_PS2("carga de pista");
+            EMPEZAR_TIEMPOS_PS2(GRUPO_CARGA_PISTA);
             inicializar_carrera_segmento();
-            MARCAR_TIEMPOS_PS2("init_segment_racing");
+            MARCAR_TIEMPOS_PS2("segmento de carrera");
             preparar_carrera();
-            MARCAR_TIEMPOS_PS2("setup_race (resto)");
+            MARCAR_TIEMPOS_PS2("resto de la preparación");
             break;
         case FINAL:
             ahora_cargado_circuito_id = NULO_CIRCUITO;
@@ -240,7 +240,7 @@ void actualizar_estado_juego(void) {
 }
 
 void hilo5_bucle_juego(SIN_USO void* parametro) {
-    MARCAR_PUNTO_CONTROL("thread5_game_loop");
+    MARCAR_PUNTO_CONTROL("hilo 5: juego");
     osCreateMesgQueue(&gfx_cola_vblank, gfx_buf_msj, 1);
     osCreateMesgQueue(&cola_vblank_juego, &buf_msj_juego, 1);
     inicializar_mandos();
@@ -256,10 +256,10 @@ void hilo5_bucle_juego(SIN_USO void* parametro) {
     desconocido_nmi_4 = &p_app_nmi_buffer[23];
     desconocido_nmi_5 = &p_app_nmi_buffer[25];
     desconocido_nmi_6 = &p_app_nmi_buffer[28];
-    MARCAR_PUNTO_CONTROL("rendering_init");
+    MARCAR_PUNTO_CONTROL("inicio del dibujo");
     inicializar_renderizado();
     leer_mandos();
-    MARCAR_PUNTO_CONTROL("func_800C5CB8");
+    MARCAR_PUNTO_CONTROL("inicio del sonido");
     funcion_800C5CB8();
     MARCAR_PUNTO_CONTROL("bucle de juego");
 
@@ -270,15 +270,15 @@ void hilo5_bucle_juego(SIN_USO void* parametro) {
             estado_juego = siguiente_estado_juego;
             actualizar_estado_juego();
         }
-        MARCAR_PUNTO_CONTROL("frame: inicio");
+        MARCAR_PUNTO_CONTROL("cuadro: inicio");
         perfilador_registro_hilo5_tiempo(INICIO_THREAD5);
         {
             EMPEZAR_PROF(JUEGO_PROF);
             config_gfx_pool();
             leer_mandos();
-            MARCAR_PUNTO_CONTROL("frame: game_state_handler");
+            MARCAR_PUNTO_CONTROL("cuadro: estado del juego");
             manejador_estado_juego();
-            MARCAR_PUNTO_CONTROL("frame: display_and_vsync");
+            MARCAR_PUNTO_CONTROL("cuadro: listas de dibujo");
             maestro_fin_display_list();
             FIN_PROF(JUEGO_PROF);
         }
@@ -289,9 +289,9 @@ void hilo5_bucle_juego(SIN_USO void* parametro) {
 
 void hilo4_audio(SIN_USO void* parametro) {
     SIN_USO u32 unused[3];
-    MARCAR_PUNTO_CONTROL("thread4_audio");
+    MARCAR_PUNTO_CONTROL("hilo 4: audio");
     inicializar_audio();
-    MARCAR_PUNTO_CONTROL("audio_init hecho");
+    MARCAR_PUNTO_CONTROL("audio iniciado");
     osCreateMesgQueue(&sonido_cola_msj, sonido_buf_msj, CANTIDAD_ARREGLO(sonido_buf_msj));
 #ifdef TARGET_PS2
     {

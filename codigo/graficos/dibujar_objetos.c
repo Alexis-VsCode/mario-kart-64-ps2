@@ -30,6 +30,7 @@
 #include "recursos/pistas/todos_datos_pistas.h"
 #include <juego/vehiculos.h>
 #include "datos/vertices_jugadores_y_listas.h"
+#include "sistema/caracteres_es.h"
 #include "dibujar_objetos/cargar_texturas.inc.c"
 #include "dibujar_objetos/texturas_hud.inc.c"
 #include "dibujar_objetos/ventana_item_y_minimapa.inc.c"
