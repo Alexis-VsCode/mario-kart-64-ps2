@@ -24,3 +24,11 @@ empezar_boton_empuje	pulsar_start	0,0,159,16	PUSH START BUTTON	1	juntar=0
 tiempo_hud	hud_grande	0,0,32,16	TIME	0	lienzo=64x16+32,0 area=0,0,64,16 alinear=derecha@64 juntar=-1 condensar=0.8:MPO sangrado=si
 tiempo_vuelta_hud	hud_grande	0,0,32,16	LAP	0	lienzo=64x16+32,0 area=0,0,64,16 alinear=derecha@64 juntar=-1 condensar=0.8:VUA sangrado=si
 vuelta_hud	hud_chico	0,0,32,8	LAP	0	lienzo=64x16+32,0 area=0,0,64,16 lineas=0,8 alinear=derecha@57,centro@32 juntar=-1 color_lineas=si sangrado=si
+hud_1ro	ordinales	50,28,78,36	st	58	fijo=1 alinear=izquierda@50
+hud_2do	ordinales	55,28,73,36	nd	55	fijo=1 alinear=izquierda@55
+hud_3ro	ordinales	52,28,76,36	rd	53	fijo=1 alinear=izquierda@52
+hud_4to	ordinales	54,28,74,36	th	57	fijo=1 alinear=izquierda@54
+hud_5to	ordinales	54,28,74,36	th	56	fijo=1 alinear=izquierda@54
+hud_6to	ordinales	52,28,76,36	th	57	fijo=1 alinear=izquierda@52
+hud_7mo	ordinales	39,28,89,36	th	52	fijo=1 alinear=izquierda@39
+hud_8vo	ordinales	54,28,74,36	th	56	fijo=1 alinear=izquierda@54

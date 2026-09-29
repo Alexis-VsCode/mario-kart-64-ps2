@@ -32,6 +32,7 @@ FUENTES_C = ["codigo/graficos/dibujar_objetos/ventana_item_y_minimapa.inc.c",
              "codigo/carrera/objetos_y_efectos/hud_pantalla_dividida.inc.c"]
 INICIO_HUD = "codigo/carrera/inicio_hud_y_objetos/objetos_pista_y_hud_jugadores.inc.c"
 HUD_ANIMADO = "codigo/carrera/objetos_y_efectos/hud_animado.inc.c"
+ORDINALES = ("hud_1ro", "hud_2do", "hud_3ro", "hud_4to", "hud_5to", "hud_6to", "hud_7mo", "hud_8vo")
 CAJA_ITEM_1J = (140, 16, 180, 48)   # 40x32 centrada en (0xA0, -0x20 + 0x40)
 
 fallos = 0
@@ -60,6 +61,18 @@ def probar_manifiesto(filas):
     comprobar(por_id.get("tiempo_total_hud", {}).get("motivo_no"), "tiempo_total_hud (TOTAL) no se traduce")
 
 
+def probar_ordinales(filas):
+    """Paso 1b: 1st..8th pasan a 1.o..8.o (letra volada) en i4 128x64, desde recursos/es/inc/."""
+    por_id = {f["id"]: f for f in filas}
+    for n, id_ in enumerate(ORDINALES, 1):
+        f = por_id.get(id_, {})
+        comprobar(f.get("texto_es") == "%d.\u00ba" % n and f.get("formato") == "i4" and f.get("tamanio") == "128x64"
+                  and f.get("png") == "recursos/es/inc/%s%s.i4.png" % (TEXTURAS, id_),
+                  "%s: se espera %d.\u00ba en i4 128x64 desde recursos/es/inc/" % (id_, n))
+    for id_ in ("primer_lugar", "segundo_lugar", "tercer_lugar", "cuarto_lugar"):
+        comprobar(por_id.get(id_, {}).get("motivo_no") == "solo la cifra", "%s: solo tiene la cifra" % id_)
+
+
 def probar_superposicion(filas, build):
     """Paso 2: make es deja los .inc.c en la ruta original y al invertir bytes se usan esos."""
     carpeta = os.path.join(build, "es")
@@ -79,6 +92,8 @@ def probar_superposicion(filas, build):
             comprobar(datos == texturas_es.convertir(os.path.join(RAIZ, f["png"])), "%s: el .inc.c no da el PNG" % f["id"])
             comprobar(ancho == ft.leer_inc_c(leer(f["origen"]))[1], "%s: el .inc.c cambia de u8 a u16" % f["id"])
             invertido = os.path.join(tmp, f["origen"])
+            # u8: no se invierte, el compilador la toma de $(BUILD)/es porque be/ no la tiene
+            comprobar(ancho == 2 or not os.path.exists(invertido), "%s: be/ tapa la de es/" % f["id"])
             if ancho == 2 and os.path.exists(invertido):
                 al_reves = bytes(b for i in range(0, len(datos), 2) for b in (datos[i + 1], datos[i]))
                 comprobar(ft.leer_inc_c(open(invertido).read())[0] == al_reves, "%s: be/ no usa el espanol" % f["id"])
@@ -218,6 +233,7 @@ def main():
         sys.exit(__doc__)
     filas = texturas_es.leer_manifiesto(texturas_es.MANIFIESTO)
     probar_manifiesto(filas)
+    probar_ordinales(filas)
     probar_superposicion(filas, os.path.abspath(sys.argv[1]))
     probar_codigo()
     probar_geometria(filas)

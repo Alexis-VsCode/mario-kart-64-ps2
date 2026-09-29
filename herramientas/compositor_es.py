@@ -32,6 +32,7 @@ reescribe, texto en ingles y columna de su primer corte (autoprueba) y opciones:
   lienzo=AxB+X,Y  la version en espanol mide AxB y lleva la original en (X, Y)
   color_lineas=si  cada linea toma el degradado de las filas del original, no el de abajo
   sangrado=si   los transparentes junto a las letras toman su color (texturas sin clave)
+  fijo=N        los N primeros caracteres del espanol ya estan en la textura (fuera del area)
 El texto en espanol sale de la columna texto_es del manifiesto ('|' separa lineas).
 
 Cada pixel pegado se recolorea por fila: si viene de la misma textura y la misma fila
@@ -511,6 +512,8 @@ def componer(id_, texto, comp, destino=None, en_ingles=False):
     opc = opciones(comp["opciones"])
     caja = area_de(comp, en_ingles)
     cx, cy, cw, ch = caja
+    if not en_ingles:
+        texto = texto[int(opc.get("fijo", "0")):]
     colocados = colocar(familia, destino, texto.split("|"), caja, opc, en_ingles, int(comp["x_en"] or "0"))
     vacio = (0, 0, 0, 255) if familia.fondo == "negro" else transparente(destino, area_de(comp, True))
     ancho, alto, salida = lienzo(comp, destino, en_ingles, vacio)
@@ -585,6 +588,9 @@ def png_compuesto(id_, fila, comp):
     destino = Textura.cargar(id_)
     pixeles = componer(id_, fila["texto_es"], comp, destino)
     ancho, alto, _ = lienzo(comp, destino)
+    if fila["formato"] in ("i4", "ia8"):
+        # grises de 4 bits: el mas cercano de 0, 17, ..., 255
+        pixeles = [tuple(int(round(c / 17.0)) * 17 for c in p) for p in pixeles]
     imagen = png_simple.Imagen(ancho, alto, "rgba", bytes(c for p in pixeles for c in p))
     return ft.a_imagen(fila["formato"], ft.de_imagen(fila["formato"], imagen), ancho, alto)
 

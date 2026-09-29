@@ -10,6 +10,7 @@ batalla_modo	recursos/texturas/menus/tkmk00/batalla_modo.rgba16.tkmk00	rgba16	64
 borrar_datos_registro_confirmacion	recursos/texturas/generales/borrar_datos_registro_confirmacion.ia16.mio0	ia16	180x32		formato			no	no se muestra
 borrar_texto	recursos/texturas/generales/borrar_texto.ia16.mio0	ia16	28x10		formato			no	no se muestra
 cielo_azul_fondo	recursos/texturas/menus/tkmk00/cielo_azul_fondo.rgba16.tkmk00	rgba16	320x240		opaco			no	sin texto
+cuarto_lugar	recursos/comunes/texturas/cuarto_lugar.i4.inc.c	i4	64x64		formato			no	solo la cifra
 datos	recursos/texturas/menus/tkmk00/datos.rgba16.tkmk00	rgba16	64x18		clave_00BE	recursos/es/mio0/menus/datos.rgba16.png	DATOS	no	
 datos_juego_texto	recursos/texturas/generales/datos_juego_texto.ia16.mio0	ia16	56x10		formato			no	no se muestra
 datos_r	recursos/texturas/menus/tkmk00/datos_r.rgba16.tkmk00	rgba16	58x19		clave_00BE	recursos/es/mio0/menus/datos_r.rgba16.png	R1|DATOS	no	
@@ -22,6 +23,14 @@ franja_blanco	recursos/texturas/menus/tkmk00/franja_blanco.rgba16.tkmk00	rgba16	
 franja_oro	recursos/texturas/menus/tkmk00/franja_oro.rgba16.tkmk00	rgba16	256x15		opaco			no	sin texto
 franja_oro_verde	recursos/texturas/menus/tkmk00/franja_oro_verde.rgba16.tkmk00	rgba16	256x29		opaco			no	sin texto
 hash_texto	recursos/texturas/generales/hash_texto.ia16.mio0	ia16	8x10		formato			no	no se muestra
+hud_1ro	recursos/comunes/texturas/hud_1ro.i4.inc.c	i4	128x64		formato	recursos/es/inc/recursos/comunes/texturas/hud_1ro.i4.png	1.º	no	
+hud_2do	recursos/comunes/texturas/hud_2do.i4.inc.c	i4	128x64		formato	recursos/es/inc/recursos/comunes/texturas/hud_2do.i4.png	2.º	no	
+hud_3ro	recursos/comunes/texturas/hud_3ro.i4.inc.c	i4	128x64		formato	recursos/es/inc/recursos/comunes/texturas/hud_3ro.i4.png	3.º	no	
+hud_4to	recursos/comunes/texturas/hud_4to.i4.inc.c	i4	128x64		formato	recursos/es/inc/recursos/comunes/texturas/hud_4to.i4.png	4.º	no	
+hud_5to	recursos/comunes/texturas/hud_5to.i4.inc.c	i4	128x64		formato	recursos/es/inc/recursos/comunes/texturas/hud_5to.i4.png	5.º	no	
+hud_6to	recursos/comunes/texturas/hud_6to.i4.inc.c	i4	128x64		formato	recursos/es/inc/recursos/comunes/texturas/hud_6to.i4.png	6.º	no	
+hud_7mo	recursos/comunes/texturas/hud_7mo.i4.inc.c	i4	128x64		formato	recursos/es/inc/recursos/comunes/texturas/hud_7mo.i4.png	7.º	no	
+hud_8vo	recursos/comunes/texturas/hud_8vo.i4.inc.c	i4	128x64		formato	recursos/es/inc/recursos/comunes/texturas/hud_8vo.i4.png	8.º	no	
 juego_menu_1j	recursos/texturas/menus/tkmk00/juego_menu_1j.rgba16.tkmk00	rgba16	64x54		clave_00BE	recursos/es/mio0/menus/juego_menu_1j.rgba16.png	1 JUG.	no	
 juego_menu_2j	recursos/texturas/menus/tkmk00/juego_menu_2j.rgba16.tkmk00	rgba16	64x54		clave_00BE	recursos/es/mio0/menus/juego_menu_2j.rgba16.png	2 JUG.	no	
 juego_menu_3j	recursos/texturas/menus/tkmk00/juego_menu_3j.rgba16.tkmk00	rgba16	64x54		clave_00BE	recursos/es/mio0/menus/juego_menu_3j.rgba16.png	3 JUG.	no	
@@ -51,13 +60,16 @@ opcion	recursos/texturas/menus/tkmk00/opcion.rgba16.tkmk00	rgba16	130x32		opaco	
 opcion_l	recursos/texturas/menus/tkmk00/opcion_l.rgba16.tkmk00	rgba16	58x19		clave_00BE	recursos/es/mio0/menus/opcion_l.rgba16.png	SELECT|OPCIONES	no	
 original_n64_reinsertar_por_favor_controller_pak	recursos/texturas/generales/original_n64_reinsertar_por_favor_controller_pak.ia16.mio0	ia16	180x32		formato			no	no se muestra
 paginas_texto	recursos/texturas/generales/paginas_texto.ia16.mio0	ia16	32x10		formato			no	no se muestra
+primer_lugar	recursos/comunes/texturas/primer_lugar.i4.inc.c	i4	64x64		formato			no	solo la cifra
 registro_no_borrado	recursos/texturas/generales/registro_no_borrado.ia16.mio0	ia16	180x32		formato			no	no se muestra
 registro_seleccion	recursos/texturas/generales/registro_seleccion.ia16.mio0	ia16	68x10		formato			no	no se muestra
 registro_seleccionado_borrando	recursos/texturas/generales/registro_seleccionado_borrando.ia16.mio0	ia16	180x32		formato			no	no se muestra
+segundo_lugar	recursos/comunes/texturas/segundo_lugar.i4.inc.c	i4	64x64		formato			no	solo la cifra
 seleccion_juego	recursos/texturas/menus/tkmk00/seleccion_juego.rgba16.tkmk00	rgba16	200x32		opaco	recursos/es/mio0/menus/seleccion_juego.rgba16.png	ELIGE MODO	no	
 seleccion_jugador	recursos/texturas/menus/tkmk00/seleccion_jugador.rgba16.tkmk00	rgba16	220x32		opaco	recursos/es/mio0/menus/seleccion_jugador.rgba16.png	ELIGE PILOTO	no	
 seleccion_mapa	recursos/texturas/menus/tkmk00/seleccion_mapa.rgba16.tkmk00	rgba16	190x32		opaco	recursos/es/mio0/menus/seleccion_mapa.rgba16.png	ELIGE PISTA	no	
 tabla_de_contenido	recursos/texturas/generales/tabla_de_contenido.ia16.mio0	ia16	88x10		formato			no	no se muestra
+tercer_lugar	recursos/comunes/texturas/tercer_lugar.i4.inc.c	i4	64x64		formato			no	solo la cifra
 tiempo_hud	recursos/comunes/texturas/tiempo_hud.rgba16.inc.c	rgba16	32x16	64x16	formato	recursos/es/inc/recursos/comunes/texturas/tiempo_hud.rgba16.png	TIEMPO	no	
 tiempo_total_hud	recursos/comunes/texturas/tiempo_total_hud.rgba16.inc.c	rgba16	32x16		formato			no	se escribe igual
 tiempo_vuelta_hud	recursos/comunes/texturas/tiempo_vuelta_hud.rgba16.inc.c	rgba16	32x16	64x16	formato	recursos/es/inc/recursos/comunes/texturas/tiempo_vuelta_hud.rgba16.png	VUELTA	no	
