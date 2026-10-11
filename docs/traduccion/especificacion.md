@@ -791,10 +791,10 @@ Los comentarios explican un contrato o una invariante. Las funciones de varios p
 - **Aceptación:** este comando sale vacío:
 
   ```sh
-  grep -rnE 'R-(FUE|TXT|MC|TEX|PORT|INF|GOB)-[0-9]' codigo incluir herramientas
+  grep -rnE --exclude-dir=__pycache__ 'R-(FUE|TXT|MC|TEX|PORT|INF|GOB|VID|TRU)-[0-9]' codigo incluir herramientas
   ```
 
-- **Prueba:** ese comando en la revisión. Sale vacío en `dda9a5f`, en `d5f95cc5` y en `a29bd920`.
+- **Prueba:** ese comando en la revisión. Sale vacío en `dda9a5f`, en `d5f95cc5` y en `a29bd920`; en `85010a1f` encuentra 8 líneas en 4 archivos de `herramientas/` ([deuda.md](deuda.md), D-25).
 
 **R-GOB-08. La documentación se actualiza en la misma iteración.**
 

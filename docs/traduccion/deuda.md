@@ -13,3 +13,9 @@ Saldar una entrada sigue el proceso normal: si cambia un requisito o un contrato
 | Id | Qué | Medida | Por qué no ahora | Dónde se saldaría |
 |---|---|---|---|---|
 | D-23 | Con la reserva `efecto_mtx` llena, `funcion_800652D4` (`particulas_derrape.inc.c:690`) vuelve sin cargar matriz y sus llamadores en `particulas_derrape.inc.c`, `particulas_y_onomatopeyas.inc.c` y `globos_batalla.inc.c` dibujan la partícula con la matriz anterior: no escribe fuera del arreglo (R-FUE-09), pero sale un artefacto visual ([acta de F10 §6](revisiones/2026-10-11-version-1.2.0.md#6-v120deudas-deuda-técnica-cc-27)) | Que la función devuelva si cargó la matriz y que cada llamador se salte el dibujo si no | Hallazgo Baja; solo ocurre con el cuadro saturado y toca archivos de otro dueño | `codigo/carrera/objetos_y_efectos/particulas_y_onomatopeyas.inc.c` y los demás llamadores |
+
+## Gobernanza
+
+| Id | Qué | Medida | Por qué no ahora | Dónde se saldaría |
+|---|---|---|---|---|
+| D-25 | R-GOB-07: comentarios y docstrings de F10 citan identificadores de requisito o de deuda: `herramientas/ci/comprobar_incremental.sh:2`, `herramientas/ci/tope_rom.py:2`, `herramientas/pruebas/prueba_tope_rom.py:2` y `:40`, y `herramientas/pruebas/prueba_texturas_es.py:14`, `:57`, `:292` y `:319` ([acta de F10 §12](revisiones/2026-10-11-version-1.2.0.md#12-integración)) | Describir lo que comprueban sin nombrar el requisito; el identificador va en el commit y en [trazabilidad.md](trazabilidad.md) | Lo encontró la documentación de F10 después de integrar; ninguna revisión de rama lo señaló y los archivos son de otro dueño | Esos cuatro archivos, en un commit sin cambio de conducta |
