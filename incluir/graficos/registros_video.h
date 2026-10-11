@@ -45,9 +45,12 @@ static inline void calcular_registros_video(const BaseVideo *base, const Opcione
     s32 dy;
 
     // CON_BANDAS: cada píxel ocupa 3/4 de los VCK de antes y la imagen se
-    // centra; el negro de fuera del área de DISPLAY hace de bandas
+    // centra; el negro de fuera del área de DISPLAY hace de bandas. Con
+    // bases de 1 o 2 VCK por píxel MAGH se queda en 0, el mínimo del campo
     if (o->formato == FORMATO_CON_BANDAS) {
-        magh = (magh + 1) * 3 / 4 - 1;
+        u32 vck = (magh + 1) * 3 / 4;
+
+        magh = vck ? vck - 1 : 0;
         dw = dw * 3 / 4;
         dx += (s32) (base->dw - dw) / 2;
     }
@@ -57,7 +60,7 @@ static inline void calcular_registros_video(const BaseVideo *base, const Opcione
     r->pmode = o->antiparpadeo ? PMODE_ANTIPARPADEO : PMODE_GSKIT;
     r->dispfb2_extra = o->antiparpadeo ? 1ULL << DISPFB_DBY_BIT : 0;
     r->display = (u64) video_recortar(dx, 0xFFF) | ((u64) (video_recortar(dy, 0x7FF) & ~1u) << 12) |
-                 ((u64) magh << 23) | ((u64) base->magv << 27) | ((u64) (dw - 1) << 32) |
+                 ((u64) (magh & 0xF) << 23) | ((u64) base->magv << 27) | ((u64) (dw - 1) << 32) |
                  ((u64) (base->dh - 1) << 44);
 }
 
