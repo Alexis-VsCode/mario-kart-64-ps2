@@ -4,7 +4,9 @@
 #include <PR/ultratypes.h>
 
 #define CENTRO_PALANCA   128
-#define ZONA_MUERTA_PALANCA 24
+/* Solo absorbe el ruido del stick en reposo: el juego aplica después su propia zona
+   muerta de 12 sobre el valor convertido, y la suma de las dos fija dónde empieza el giro. */
+#define ZONA_MUERTA_PALANCA 8
 #define MAX_PALANCA_N64  80 /* recorrido tipico de un stick de N64 en MK64 */
 
 static inline s8 convertir_eje(u8 crudo)
