@@ -412,7 +412,7 @@ static void guardar_hilo(void *parametro)
         }
         r = guardar_ahora();
         if (r == 0) {
-            registrar("memory card: partida guardada (generación %u)", (unsigned) generar);
+            registrar("memory card: partida guardada (generación %u)", (unsigned) copia_escritura.generacion);
         } else if (!mc_ok) {
             registrar("memory card: no se pudo guardar (%d); la tarjeta no contesta y no se reintentará", r);
         } else {
