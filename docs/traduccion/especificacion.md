@@ -291,7 +291,7 @@ Los dos bordes quedan dentro de x ∈ [16, 296] y dentro del límite propio del 
 - **S:** zona segura del televisor, [16, 296];
 - **G:** geometría del código (caja, vecino o salto de línea);
 - **I:** máximo del inglés en ese lugar, solo donde la posición depende de otro elemento que no se puede acotar mejor;
-- **C:** captura aprobada en [cambios.md](cambios.md).
+- **C:** captura aprobada en [cambios.md](cambios.md). Histórico: ningún lugar lo usa y, desde CC-12, no se aprueban capturas.
 
 `tinta_izq` y `tinta_der` salen de los `.i4` de la fuente, los originales y los del español (`prueba_textos_tinta.py`).
 

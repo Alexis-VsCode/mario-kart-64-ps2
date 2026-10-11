@@ -49,7 +49,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - La escala vertical sigue en 0,8.
 - **Archivos y líneas:** `codigo/menus/elementos_menu/dibujar_menus.inc.c:313-321`.
 - **Alternativas descartadas:** abreviar a «MEJOR VTA», porque contradice el glosario.
-- **Evidencia requerida:** captura antes/después de la selección de pista en contrarreloj. La medida la comprueba `prueba_textos.c` con el límite de la caja en `prueba_textos_lugares.inc.c`; la captura queda para el recorrido de F6.
+- **Evidencia requerida:** captura antes/después de la selección de pista en contrarreloj. La medida la comprueba `prueba_textos.c` con el límite de la caja en `prueba_textos_lugares.inc.c`; la captura se retiró con F6 (CC-12).
 - **Aprobación:** no quedó registrada aparte; el cambio se integró con su rama en `feature/idioma-espanol`.
 - **Commit:** `b061832` (escala horizontal de la caja de la mejor vuelta de 0,8 a 0,6, «MEJOR VUELTA» llegaba a x = 319 con la caja en 297).
 
@@ -111,7 +111,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - abreviar siempre (VTA., TPO.), porque contradice la decisión cerrada del HUD;
   - una familia de glifos del HUD más estrecha, porque rompe la coherencia visual con el resto del HUD.
 - **Evidencia requerida:** prueba de no solapamiento en `prueba_texturas_es.py` sobre todas las llamadas, hoja del HUD y capturas en carrera con 1, 2 y 4 jugadores, incluida la pantalla de tiempos de vuelta.
-- **Lo aplicado:** las tres texturas pasan a 64 de ancho y se dibujan alineadas por la derecha donde terminaban las de 32 (`PALABRA_HUD_X`), así el borde que da a los dígitos no se mueve. La prueba de no solapamiento está en `prueba_hud_es.py`, de 1 a 4 jugadores. Con 3 y 4 jugadores VUELTA no cabe y se abrevia: ver CC-07. Las capturas en carrera quedan para el recorrido de F6.
+- **Lo aplicado:** las tres texturas pasan a 64 de ancho y se dibujan alineadas por la derecha donde terminaban las de 32 (`PALABRA_HUD_X`), así el borde que da a los dígitos no se mueve. La prueba de no solapamiento está en `prueba_hud_es.py`, de 1 a 4 jugadores. Con 3 y 4 jugadores VUELTA no cabe y se abrevia: ver CC-07. Las capturas en carrera se retiraron con F6 (CC-12).
 - **Aprobación:** no quedó registrada aparte; el cambio se integró con su rama en `feature/idioma-espanol`.
 - **Commit:** `7e0d345`.
 
@@ -184,7 +184,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Cambio:** la textura chica de VUELTA (`vuelta_hud`, manifiesto `VUELTA|VTA.`) lleva «VTA.» en las filas 8 a 15, y el código la usa con 3 y 4 jugadores.
 - **Archivos:** `recursos/es/inc/recursos/comunes/texturas/`, `codigo/carrera/objetos_y_efectos/hud_pantalla_dividida.inc.c` y `ventana_item_y_minimapa.inc.c`.
 - **Alternativas descartadas:** abreviar también con 1 y 2 jugadores.
-- **Evidencia:** `prueba_hud_es.py` (ninguna palabra pisa dígitos ni la parte de otro jugador, de 1 a 4 jugadores). Las capturas con 3 y 4 jugadores quedan para el recorrido de F6.
+- **Evidencia:** `prueba_hud_es.py` (ninguna palabra pisa dígitos ni la parte de otro jugador, de 1 a 4 jugadores). Las capturas con 3 y 4 jugadores se retiraron con F6 (CC-12).
 - **Aprobación:** no quedó registrada aparte; se registra aquí porque el cambio ya está integrado.
 - **Commit:** `7e0d345`.
 
