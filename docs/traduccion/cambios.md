@@ -730,3 +730,24 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - la hoja de contacto, revisada por un revisor distinto del autor.
 - **Aprobación:** responsable del proyecto: aprobado (pidió reconstruir y mejorar las texturas, 2026-10-11).
 - **Commit:** —
+
+### CC-29: clasificación de las texturas sin revisar
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-TEX-02
+- **Motivo:** tras las filas de carpeta de D-05 quedan unas 1200 texturas sin clasificar en 10 rutas (`PENDIENTES` en `prueba_texturas_es.py`). Entre ellas hay carteles de pista con texto en inglés.
+- **Cambio:**
+  - Se mira cada textura y se le da una de estas salidas:
+    - **sin texto:** fila de carpeta o de textura;
+    - **logotipo o cartel comercial** (marcas, patrocinadores, nombres propios): se conserva por §2.2 y su fila lleva el motivo;
+    - **no se muestra en el port:** fila con su evidencia;
+    - **texto general visible:** se traduce con el compositor.
+  - Cada clasificación con texto la revisa un refutador.
+  - Al terminar, `PENDIENTES` queda vacía.
+- **Evidencia requerida:**
+  - `prueba_texturas_es.py` en verde con `PENDIENTES` vacía;
+  - las traducciones con su prueba y su hoja de contacto;
+  - la revisión de un agente distinto del autor.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
+- **Commit:** —
