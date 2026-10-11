@@ -35,6 +35,7 @@
 #include "carrera/aparicion_jugadores.h"
 #include "graficos/dibujar_jugador.h"
 #include "juego/decodificacion.h"
+#include "juego/trucos.h"
 #include "sistema/bucle_principal.h"
 #include "elementos_menu/textos_y_tablas.inc.c"
 #include "elementos_menu/animaciones_personajes.inc.c"
