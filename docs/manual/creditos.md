@@ -17,7 +17,7 @@ En `c2ed147` y `ae93f71` añadió, entre otras cosas, el multitap, el arranque d
 
 ## Base: la descompilación de Mario Kart 64
 
-El código del juego sale de la descompilación comunitaria de Mario Kart 64 (versión estadounidense), sobre la que se construyó el port.
+El código del juego sale de la [descompilación comunitaria de Mario Kart 64](https://github.com/n64decomp/mk64) (versión estadounidense), sobre la que se construyó el port.
 
 ## Localización, sincronización y mejoras: Alexis Barrera
 
