@@ -404,7 +404,7 @@ Tiene que cubrir también:
 - `recursos/texturas/fuente_pantalla_fallo.ia1.inc.c`;
 - los `.incbin` de `codigo/datos/*.s`.
 
-Cada textura tiene una fila, o su carpeta entera tiene una fila de exclusión con motivo. `objetos/cartel_meta` se revisa textura a textura, porque lleva el logotipo. PULSA START se registra como RGBA16 crudo (R-TEX-03).
+Cada textura tiene una fila, o su carpeta entera tiene una fila de exclusión con motivo. Hay dos filas de exclusión, con `motivo_no` y el resto de columnas vacío: `carpeta:<ruta>` excluye una carpeta y sus subcarpetas, y la ruta tiene que ser una carpeta; `archivo:<ruta>` excluye un solo archivo que las órdenes no leen (rgba32, ia1, ci8), y la ruta tiene que ser un archivo ([CC-29](cambios.md)). `objetos/cartel_meta` se revisa textura a textura, porque lleva el logotipo. PULSA START se registra como RGBA16 crudo (R-TEX-03).
 
 - **Aceptación:**
   - ninguna textura queda sin fila ni sin exclusión de carpeta;
