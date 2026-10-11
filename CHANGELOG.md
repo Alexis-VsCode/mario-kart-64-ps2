@@ -27,7 +27,7 @@ Primera versión publicada: el port a PS2 de anthoo582, localizado por completo 
 
 **Fase F8:**
 
-- La CI compila también `make DEV=1`, y suma los jobs a pedido `release` (Release con la ISO y `SHA256SUMS`) y `limpiar-ramas` (borra las ramas ya contenidas en `main`) (`24ed39a0`, CC-09).
+- La CI compila también `make DEV=1`, y suma los jobs a pedido `release` (Release con la ISO y `SHA256SUMS`) y `limpiar-ramas` (borra las ramas ya contenidas en `main`). Las entradas `publicar` y `limpiar_ramas` aceptan «si» y «sí» (`24ed39a0`, `b69f1548`, CC-09).
 - Registro DEV de las cadenas del menú que la fuente no dibuja: secuencias inválidas o bytes de UTF-8 sin convertir, una vez por cadena, en las tres impresoras de texto (`a5e97ddf`, `f38d6de6`, `94cdfea5`; R-FUE-05).
 - Pruebas nuevas en `make test`:
   - `lut_textura_glifo` se define una sola vez y sin los alias de la N64 (`e600bd6e`);
