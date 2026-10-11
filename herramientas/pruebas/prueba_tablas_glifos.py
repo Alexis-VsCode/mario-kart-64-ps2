@@ -11,6 +11,9 @@ orden no se cumple. La tabla tiene que tener las 236 entradas por si misma.
 Ademas, lut_textura_glifo se define una sola vez, desde la lista GLIFO y fuera
 de todo #if, sin alias de las tablas en que la N64 la partia: con otra
 definicion para AVOID_UB los glifos del espanol leen fuera de la tabla.
+
+Las letras se dibujan con matrices de la reserva efecto_mtx: bajo AVOID_UB,
+funcion_80095BD0 deja de cargar matrices al llegar al tamanio de la reserva.
 """
 import glob
 import os
@@ -20,6 +23,9 @@ import sys
 RAIZ = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", ".."))
 TABLAS = os.path.join(RAIZ, "codigo", "menus", "elementos_menu", "textos_y_tablas.inc.c")
 CABECERA_MENU = os.path.join(RAIZ, "incluir", "menus", "elementos_menu.h")
+CARGAR_TEXTURAS = os.path.join(RAIZ, "codigo", "menus", "elementos_menu", "cargar_texturas_menu.inc.c")
+BUCLE_PRINCIPAL = os.path.join(RAIZ, "incluir", "sistema", "bucle_principal.h")
+TAMANIO_RESERVA = "MTX_EFECTO_POOL_TAMANIO"
 ALTO_DIACRITICO = 8
 
 GLIFOS_ORIGINALES = 236
@@ -146,6 +152,20 @@ def probar_sin_tablas_partidas():
             comprobar(not dentro, "%s nombra %s, que es parte de lut_textura_glifo" % (os.path.relpath(ruta, RAIZ), nombre))
 
 
+def probar_tope_reserva():
+    """Bajo AVOID_UB el tope de funcion_80095BD0 es el tamanio con que se declara efecto_mtx."""
+    texto = open(CARGAR_TEXTURAS, encoding="utf-8").read()
+    funcion = re.search(r"^Gfx\* funcion_80095BD0\(.*?^}", texto, re.S | re.M)
+    comprobar(funcion is not None, "no se encuentra funcion_80095BD0")
+    rama = re.search(r"#ifdef AVOID_UB\n(.*?)#else", funcion.group(0), re.S) if funcion else None
+    topes = re.findall(r"cantidad_efecto_matriz\s*>=\s*(\w+)", rama.group(1)) if rama else []
+    comprobar(topes == [TAMANIO_RESERVA], "funcion_80095BD0: bajo AVOID_UB el tope es %s, se esperaba %s"
+              % (", ".join(topes) or "ninguno", TAMANIO_RESERVA))
+    reserva = re.findall(r"\bMtx\s+efecto_mtx\s*\[\s*(\w+)\s*\]", open(BUCLE_PRINCIPAL, encoding="utf-8").read())
+    comprobar(reserva == [TAMANIO_RESERVA], "efecto_mtx se declara con %s matrices, se esperaba %s"
+              % (", ".join(reserva) or "ninguna declaracion", TAMANIO_RESERVA))
+
+
 def main():
     if len(sys.argv) != 2:
         sys.exit(__doc__)
@@ -165,6 +185,7 @@ def main():
                 comprobar(anchos[nuevo] == anchos[base], "el glifo 0x%02X tiene que medir como el 0x%02X" % (nuevo, base))
     probar_definicion_unica()
     probar_sin_tablas_partidas()
+    probar_tope_reserva()
     print("%d comprobaciones, %d fallos" % (comprobaciones, fallos))
     sys.exit(1 if fallos else 0)
 
