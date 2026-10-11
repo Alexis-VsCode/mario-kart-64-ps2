@@ -28,9 +28,6 @@ Barrera a partir del commit base 0e7b7d51 del repositorio original
 
   Código nuevo del port
     codigo/depuracion/fuente_5x7.c
-    codigo/graficos/dibujar_objetos/cadena_depuracion.inc.c
-    codigo/menus/elementos_menu/glifos.inc.c, lista_glifos.inc.c,
-      textos_menu.inc.c
     codigo/sistema/caracteres_es.c, descompresion_textura_menu.c
     incluir/carrera/cilindrada_200cc.h, rivales_sin_ventaja.h,
       truco_objeto.h
@@ -52,7 +49,11 @@ Esta licencia NO cubre, y no concede ningún derecho sobre:
     extraídos o derivados de ellos (recursos/, codigo/datos/, build/,
     compilaciones/ y las imágenes de herramientas/emulador/referencias/),
     que pertenecen a Nintendo;
-  - el código de la descompilación comunitaria de Mario Kart 64;
+  - el código de la descompilación comunitaria de Mario Kart 64, incluidas
+    las partes que este fork trasladó a archivos propios
+    (codigo/graficos/dibujar_objetos/cadena_depuracion.inc.c y
+    codigo/menus/elementos_menu/glifos.inc.c, lista_glifos.inc.c y
+    textos_menu.inc.c), que siguen la situación del archivo de origen;
   - el código del repositorio original anthoo582/mario-kart-64-ps2,
     incluidos los archivos añadidos por su autor después del commit base
     (codigo/entrada/multitap.c, incluir/entrada/multitap.h y
