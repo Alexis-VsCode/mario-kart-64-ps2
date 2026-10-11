@@ -2,7 +2,7 @@
 
 Port de Mario Kart 64 (versión estadounidense) a PlayStation 2, con todo el texto que ve el jugador en español. El repositorio incluye el juego descompilado, una capa de compatibilidad que sustituye el hardware de la Nintendo 64 por el de la PS2 y todos los recursos ya extraídos (texturas, pistas, karts, música y efectos). No hace falta la ROM original para compilar ni para jugar.
 
-Es el port a PS2 de anthoo582, con la localización completa al español, la sincronización con el repositorio original y las mejoras de Alexis Barrera. Cada cambio sigue una especificación aprobada y una prueba que falla antes del cambio (ver [CONTRIBUTING.md](CONTRIBUTING.md)).
+Es el port a PS2 de anthoo582, con la localización completa al español, la sincronización con el repositorio original y las mejoras de Alexis Barrera. Cada cambio sigue una especificación aprobada y, cuando se puede probar en el PC, una prueba que falla antes del cambio (ver [CONTRIBUTING.md](CONTRIBUTING.md)).
 
 ## Estado
 
