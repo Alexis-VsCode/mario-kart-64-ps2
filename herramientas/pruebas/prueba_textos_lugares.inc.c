@@ -16,52 +16,52 @@
 // --- Opciones y datos de las pistas --------------------------------------------
 
 LUGAR(L_OPCIONES, menu_opcion_texto, 0, 3, 4, IZQ, 0x32, 0.9f, 1.0f, 0, 0x1C, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:146")
+      "S; info_pistas_y_tiempos.inc.c:178")
 LUGAR(L_OPCION_SONIDO, menu_opcion_texto, 1, 1, 1, IZQ, 0x32, 0.9f, 1.0f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:146")
+      "S; info_pistas_y_tiempos.inc.c:178")
 LUGAR(L_SONIDO_VALOR, sonido_nombres_modo, 0, 3, 1, CENTRO, 0xE4, 1.0f, 1.0f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:153")
+      "S; info_pistas_y_tiempos.inc.c:188")
 SIN_SOLAPE(L_OPCION_SONIDO, L_SONIDO_VALOR, 4, "G: el modo de sonido va en la fila de la opcion")
 LUGAR(L_OPCION_PORT, menu_opcion_texto_port, 0, 0, 1, IZQ, 0x32, 0.9f, 1.0f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; quinta fila de OPCIONES, info_pistas_y_tiempos.inc.c:150")
+      "S; quinta fila de OPCIONES, info_pistas_y_tiempos.inc.c:178")
 LUGAR(L_CONFIG_TITULO, menu_opcion_texto_port, 0, 0, 1, CENTRO, 0xA0, 0.9f, 1.0f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:164")
+      "S; info_pistas_y_tiempos.inc.c:200")
 LUGAR(L_CONFIG_FILAS, configuracion_filas, 0, 8, 9, IZQ, 0x20, 0.75f, 0.75f, 0, 0x10, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:167")
-LUGAR(L_CONFIG_SI_NO, configuracion_si_no, 0, 1, 1, DER, 0x124, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:175")
+      "S; info_pistas_y_tiempos.inc.c:203")
+LUGAR(L_CONFIG_SI_NO, configuracion_si_no, 0, 1, 1, DER, 0x11C, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
+      "S; info_pistas_y_tiempos.inc.c:210")
 SIN_SOLAPE(L_CONFIG_FILAS, L_CONFIG_SI_NO, 4, "G: el SI o el NO va en la fila de cualquier interruptor")
 LUGAR(L_CONFIG_FILA_FORMATO, configuracion_filas, 3, 3, 1, IZQ, 0x20, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
-      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:167")
-LUGAR(L_CONFIG_FORMATOS, configuracion_formatos, 0, 2, 1, DER, 0x124, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
-      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:175")
+      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:203")
+LUGAR(L_CONFIG_FORMATOS, configuracion_formatos, 0, 2, 1, DER, 0x11C, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
+      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:210")
 SIN_SOLAPE(L_CONFIG_FILA_FORMATO, L_CONFIG_FORMATOS, 4, "G: el formato va en la fila FORMATO")
 LUGAR(L_CONFIG_FILA_OBJETO, configuracion_filas, 5, 5, 1, IZQ, 0x20, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
-      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:167")
-LUGAR(L_CONFIG_OBJETOS, configuracion_objetos, 0, 15, 1, DER, 0x124, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
-      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:175")
+      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:203")
+LUGAR(L_CONFIG_OBJETOS, configuracion_objetos, 0, 15, 1, DER, 0x11C, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
+      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:210")
 SIN_SOLAPE(L_CONFIG_FILA_OBJETO, L_CONFIG_OBJETOS, 4, "G: el objeto va en la fila OBJETO")
 LUGAR(L_BORRAR_TODO, dato_800E7878, 0, 2, 3, IZQ, 0x28, 1.0f, 1.0f, 0, 0x14, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:159")
+      "S; info_pistas_y_tiempos.inc.c:219")
 LUGAR(L_BORRAR_TODO_OPCION, dato_800E7840, 0, 1, 2, IZQ, 0x84, 1.0f, 1.0f, 0, 0x19, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:163")
+      "S; info_pistas_y_tiempos.inc.c:223")
 LUGAR(L_BORRADO, dato_800E7884, 0, 2, 3, IZQ, 0x32, 1.0f, 1.0f, 0, 0x14, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:173")
+      "S; info_pistas_y_tiempos.inc.c:233")
 LUGAR(L_DATOS_BOTONES, datos_menu_texto, 0, 0, 1, DER, 0x125, 0.55f, 0.55f, 0, 0, 78, 297,
       "I: el ingles iba de 78 a 297; dibujar_menus.inc.c:365")
 LUGAR(L_DISTANCIA, distancia_texto, 0, 0, 1, IZQ, 0x2D, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:14")
+      "S; info_pistas_y_tiempos.inc.c:16")
 LUGAR(L_LONGITUD, longitudes_circuito, 0, 19, 1, DER, 0xA5, 0.75f, 0.75f, 1, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:15")
+      "S; info_pistas_y_tiempos.inc.c:17")
 SIN_SOLAPE(L_DISTANCIA, L_LONGITUD, 0, "G: la longitud va en la misma fila, alineada a la derecha en 0xA5")
 LUGAR(L_REGISTROS_MENU, opcion_menu_texto, 0, 2, 3, IZQ, 0x25, 0.6f, 0.6f, 0, 0xD, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; los datos de la pista van debajo, desde y=0x86; info_pistas_y_tiempos.inc.c:66,69")
+      "S; los datos de la pista van debajo, desde y=0x86; info_pistas_y_tiempos.inc.c:68,71")
 LUGAR(L_REGISTROS_CONFIRMAR, borrar_mejor_fantasma_texto, 0, 5, 3, IZQ, 0x1B, 0.65f, 0.65f, 0, 0xD, ZONA_SEGURA_IZQ,
-      ZONA_SEGURA_DER, "S; los datos de la pista van debajo, desde y=0x86; info_pistas_y_tiempos.inc.c:92")
+      ZONA_SEGURA_DER, "S; los datos de la pista van debajo, desde y=0x86; info_pistas_y_tiempos.inc.c:94")
 LUGAR(L_REGISTROS_OPCION, dato_800E7840, 0, 1, 2, IZQ, 0x43, 0.65f, 0.65f, 0, 0xD, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:103")
+      "S; info_pistas_y_tiempos.inc.c:105")
 LUGAR(L_REGISTROS_ERROR, dato_800E7860, 0, 1, 2, IZQ, 0x2A, 0.75f, 0.75f, 0, 0x10, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:117")
+      "S; info_pistas_y_tiempos.inc.c:119")
 
 // --- Copas y cilindradas ------------------------------------------------------------
 
@@ -74,9 +74,9 @@ LUGAR(L_COPA_TROFEO, texto_copa, 1, 3, 1, IZQ, 0x28 + 0x20, 0.7f, 0.7f, 0, 0, ZO
 PAREJA(nombres_copa, 0, 3, dato_800E76CC, 0, 3, 0xA0, 1.0f, 10, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
        "S; pausa del gran premio, menus_pausa.inc.c:195-200")
 PAREJA(nombres_copa, 0, 4, dato_800E76CC, 0, 3, 0xF5 - 0xA0, 0.6f, 8, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-       "S; resultados, columna final 0xA0 (actualizar_seleccion.inc.c:369), info_pistas_y_tiempos.inc.c:445")
+       "S; resultados, columna final 0xA0 (actualizar_seleccion.inc.c:369), info_pistas_y_tiempos.inc.c:505")
 PAREJA(nombres_copa, 0, 4, dato_800E76CC, 0, 3, 0xE0, 0.6f, 8, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-       "S; puntos, columna final 0 (entrada_menus.inc.c:3), info_pistas_y_tiempos.inc.c:563")
+       "S; puntos, columna final 0 (entrada_menus.inc.c:3), info_pistas_y_tiempos.inc.c:623")
 PAREJA(nombres_copa, 0, 3, dato_800E76DC, 0, 3, 0xA0, 1.0f, 10, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
        "S; ceremonia, posicion final dato_800E7480[0], menus_pausa.inc.c:756-762")
 
@@ -87,21 +87,21 @@ LUGAR(L_PISTA_TITULO, nombres_circuito, 0, 19, 1, CENTRO, 0xA0, 1.0f, 1.0f, 0, 0
 LUGAR(L_PISTA_PRESENTACION, nombres_circuito, 0, 19, 1, CENTRO, 0xA0 + 0x3C, 0.65f, 0.85f, 0, 0, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; columna final 0xA0 (actualizar_seleccion.inc.c:550), menus_pausa.inc.c:455")
 LUGAR(L_PISTA_DATOS, duplicar_nombres_circuito, 0, 19, 1, CENTRO, 0x69, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
-      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:11")
+      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:13")
 LUGAR(L_PISTA_META, duplicar_nombres_circuito, 0, 19, 1, CENTRO, 0xA0 + 0x43, 0.6f, 0.6f, 0, 0, ZONA_SEGURA_IZQ,
-      ZONA_SEGURA_DER, "S; columna final 0xA0, info_pistas_y_tiempos.inc.c:642")
+      ZONA_SEGURA_DER, "S; columna final 0xA0, info_pistas_y_tiempos.inc.c:702")
 LUGAR(L_PISTA_PANEL, duplicar_nombres_circuito, 0, 19, 1, CENTRO, 0x55, 0.6f, 0.6f, 0, 0, ZONA_SEGURA_IZQ,
-      ZONA_SEGURA_DER, "S; columna final 0, info_pistas_y_tiempos.inc.c:686")
+      ZONA_SEGURA_DER, "S; columna final 0, info_pistas_y_tiempos.inc.c:746")
 LUGAR(L_PISTA_PAUSA, duplicar_nombres_circuito, 0, 19, 1, CENTRO, 0xA0, 1.0f, 1.0f, 0, 0, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; menus_pausa.inc.c:115,203,318")
 LUGAR(L_PISTA_RECORD_INICIO, duplicar_nombres_circuito, 0, 0, 1, CENTRO, 0x9B, 0.9f, 0.9f, 0, 0, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; la caja se ajusta al texto, dibujar_menus.inc.c:76-80")
 LUGAR(L_PISTA_FANTASMA_1, duplicar_nombres_circuito_2, 0, 19, 1, IZQ, 0x2A, 0.5f, 0.5f, 0, 0, ZONA_SEGURA_IZQ,
-      0x20 + 0x89 - 2, "G: la lista de la segunda tarjeta empieza en x=0xA9; info_pistas_y_tiempos.inc.c:260")
+      0x20 + 0x89 - 2, "G: la lista de la segunda tarjeta empieza en x=0xA9; info_pistas_y_tiempos.inc.c:320")
 LUGAR(L_PISTA_FANTASMA_2, duplicar_nombres_circuito_2, 0, 19, 1, IZQ, 0x2A + 0x89, 0.5f, 0.5f, 0, 0, ZONA_SEGURA_IZQ,
-      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:260")
+      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:320")
 LUGAR(L_PISTA_FANTASMA_PANEL, duplicar_nombres_circuito_2, 0, 19, 1, IZQ, 0xBB, 0.45f, 0.45f, 0, 0, ZONA_SEGURA_IZQ,
-      ZONA_SEGURA_DER, "S; columna final 0, info_pistas_y_tiempos.inc.c:753")
+      ZONA_SEGURA_DER, "S; columna final 0, info_pistas_y_tiempos.inc.c:813")
 LUGAR(L_PISTA_FANTASMA_PAUSA, duplicar_nombres_circuito_2, 0, 19, 1, IZQ, 0x69, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; menus_pausa.inc.c:383")
 
@@ -126,7 +126,7 @@ LUGAR(L_PAUSA_GRAN_PREMIO_2, boton_pausa_texto, 4, 4, 1, IZQ, 0x78, 0.75f, 0.75f
 LUGAR(L_FIN_CONTRARRELOJ, boton_pausa_texto, 1, 6, 6, IZQ, 0x69, 0.75f, 0.75f, 0, 0xD, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; menus_pausa.inc.c:352")
 LUGAR(L_FIN_CONTRARRELOJ_PANEL, boton_pausa_texto, 1, 6, 6, IZQ, 0xB2, 0.63f, 0.75f, 0, 0xD, ZONA_SEGURA_IZQ,
-      ZONA_SEGURA_DER, "S; columna final 0 (entrada_menus.inc.c:3), info_pistas_y_tiempos.inc.c:719-723")
+      ZONA_SEGURA_DER, "S; columna final 0 (entrada_menus.inc.c:3), info_pistas_y_tiempos.inc.c:779-723")
 LUGAR(L_REPETICION, boton_pausa_texto, 5, 5, 1, IZQ, 0xBF, 0.8f, 0.8f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
       "S; menus_pausa.inc.c:304")
 // Fin del gran premio: entradas 1 y 4
@@ -143,9 +143,9 @@ LUGAR(L_VICTORIA_IZQUIERDA, texto_perder_victoria, 0, 1, 1, CENTRO, 0x30, 0.55f,
 LUGAR(L_VICTORIA_DERECHA, texto_perder_victoria, 0, 1, 1, CENTRO, 0x109, 0.55f, 1.0f, 0, 0, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; dato_800E7380[1], menus_pausa.inc.c:621")
 LUGAR(L_RECORDS_DATOS, texto_tiempo_mejor, 0, 1, 1, IZQ, 0xA0, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:18,25")
+      "S; info_pistas_y_tiempos.inc.c:20,27")
 LUGAR(L_RECORDS_META, texto_tiempo_mejor, 0, 1, 1, IZQ, 0xB4 - 0xA0, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
-      ZONA_SEGURA_DER, "S; columna final 0xA0 (actualizar_seleccion.inc.c:764), info_pistas_y_tiempos.inc.c:652,659")
+      ZONA_SEGURA_DER, "S; columna final 0xA0 (actualizar_seleccion.inc.c:764), info_pistas_y_tiempos.inc.c:712,719")
 LUGAR(L_RECORDS_PAUSA, texto_tiempo_mejor, 0, 1, 1, CENTRO, 0x9D, 0.8f, 0.8f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
       "S; menus_pausa.inc.c:117,128,328,339")
 LUGAR(L_RECORDS_CAJA_1, texto_tiempo_mejor, 0, 0, 1, IZQ, 0x17 + 8, 0.6f, 0.8f, 0, 0, ZONA_SEGURA_IZQ, 0x17 + 0x64 - 2,
@@ -153,21 +153,21 @@ LUGAR(L_RECORDS_CAJA_1, texto_tiempo_mejor, 0, 0, 1, IZQ, 0x17 + 8, 0.6f, 0.8f, 
 LUGAR(L_RECORDS_CAJA_2, texto_tiempo_mejor, 1, 1, 1, IZQ, 0xC5 + 8, 0.6f, 0.8f, 0, 0, ZONA_SEGURA_IZQ, 0xC5 + 0x64 - 2,
       "G: caja de 100 px en x=0xC5 (dato_800E7258, manejar_menus.inc.c:518); dibujar_menus.inc.c:320")
 LUGAR(L_VUELTAS_META, texto_tiempo_vuelta, 0, 0, 1, CENTRO, 0xA0 + 0x40, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
-      ZONA_SEGURA_DER, "S; columna final 0xA0, info_pistas_y_tiempos.inc.c:645")
+      ZONA_SEGURA_DER, "S; columna final 0xA0, info_pistas_y_tiempos.inc.c:705")
 LUGAR(L_VUELTAS_PANEL, texto_tiempo_vuelta, 0, 0, 1, CENTRO, 0x55, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
-      ZONA_SEGURA_DER, "S; columna final 0, info_pistas_y_tiempos.inc.c:688")
+      ZONA_SEGURA_DER, "S; columna final 0, info_pistas_y_tiempos.inc.c:748")
 LUGAR(L_PREFIJO_META, texto_tiempo_prefijo, 0, 3, 1, DER, 0xA0 + 0x17 + 0x21, 0.65f, 0.7f, 0, 0, ZONA_SEGURA_IZQ,
-      ZONA_SEGURA_DER, "S; columna final 0xA0, info_pistas_y_tiempos.inc.c:833")
+      ZONA_SEGURA_DER, "S; columna final 0xA0, info_pistas_y_tiempos.inc.c:893")
 LUGAR(L_PREFIJO_PANEL, texto_tiempo_prefijo, 0, 3, 1, DER, 0x26 + 0x21, 0.65f, 0.7f, 0, 0, ZONA_SEGURA_IZQ,
-      ZONA_SEGURA_DER, "S; columna final 0, info_pistas_y_tiempos.inc.c:833")
+      ZONA_SEGURA_DER, "S; columna final 0, info_pistas_y_tiempos.inc.c:893")
 LUGAR(L_RESULTADOS, texto_resultados, 0, 0, 1, IZQ, 0xA0 + 7, 1.0f, 1.0f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; columna final 0xA0 (actualizar_seleccion.inc.c:369), info_pistas_y_tiempos.inc.c:421")
+      "S; columna final 0xA0 (actualizar_seleccion.inc.c:369), info_pistas_y_tiempos.inc.c:481")
 LUGAR(L_RONDA_RESULTADOS, texto_ronda, 0, 0, 1, IZQ, 0xA0 + 0x2C, 0.7f, 0.7f, 0, 0, ZONA_SEGURA_IZQ, 250.5f,
-      "I: el numero de la ronda va en 0xA0 + 0x57 y 'round' llegaba a 250.2; info_pistas_y_tiempos.inc.c:423-425")
+      "I: el numero de la ronda va en 0xA0 + 0x57 y 'round' llegaba a 250.2; info_pistas_y_tiempos.inc.c:483-425")
 LUGAR(L_PUNTOS, texto_puntos_piloto, 0, 0, 1, IZQ, 0x19, 0.8f, 0.8f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; columna final 0 (entrada_menus.inc.c:3), info_pistas_y_tiempos.inc.c:502")
+      "S; columna final 0 (entrada_menus.inc.c:3), info_pistas_y_tiempos.inc.c:562")
 LUGAR(L_RONDA_PUNTOS, texto_ronda, 0, 0, 1, IZQ, 0x36, 0.7f, 0.7f, 0, 0, ZONA_SEGURA_IZQ, 100.5f,
-      "I: el numero de la ronda va en 0x61 y 'round' llegaba a 100.2; info_pistas_y_tiempos.inc.c:504-506")
+      "I: el numero de la ronda va en 0x61 y 'round' llegaba a 100.2; info_pistas_y_tiempos.inc.c:564-506")
 LUGAR(L_PUESTO_VERSUS, texto_puesto_versus, 0, 2, 1, MONO, 4, 0.8f, 0.8f, 0, 0, -1000, 41,
       "G: relativo a la columna; la tinta de las veces (en 0x2D, centradas) empieza en 41.4 como pronto; "
       "menus_pausa.inc.c:697-716")
@@ -178,61 +178,61 @@ LUGAR(L_PUESTO_RECORD, dato_800E7744, 0, 5, 1, IZQ, 0x0C, 0.65f, 0.65f, 0, 0, -1
 // --- Memory Card y fantasmas ---------------------------------------------------------
 
 LUGAR(L_MC_RANURA_1, dato_800E7890, 0, 15, 4, IZQ, 0x23, 0.8f, 0.8f, 0, 0x14, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:195")
+      "S; info_pistas_y_tiempos.inc.c:255")
 LUGAR(L_MC_RANURA_2, dato_800E78D0, 0, 11, 3, IZQ, 0x32, 0.9f, 0.9f, 0, 0x14, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:183")
+      "S; info_pistas_y_tiempos.inc.c:243")
 LUGAR(L_MC_NO_SE_PUEDE, dato_800E7900, 0, 5, 3, IZQ, 0x41, 0.9f, 0.9f, 0, 0x14, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:203")
+      "S; info_pistas_y_tiempos.inc.c:263")
 LUGAR(L_MC_CREANDO, dato_800E7A48, 0, 2, 3, IZQ, 0x50, 1.0f, 1.0f, 0, 0x14, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:210")
-LUGAR(L_MC_PREGUNTA, dato_800E7920, 0, 1, 1, CENTRO, 0xA0, 0.6f, 0.6f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:232")
-LUGAR(L_MC_TARJETA_1, dato_800E7918, 0, 1, 1, CENTRO, 0x5C, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ, 0xA0,
-      "G: la segunda tarjeta se centra en 0xDE; info_pistas_y_tiempos.inc.c:235")
-LUGAR(L_MC_TARJETA_2, dato_800E7918, 0, 1, 1, CENTRO, 0x5C + 0x82, 0.75f, 0.75f, 0, 0, 0xA0, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:235")
-LUGAR(L_MC_AVISO, dato_800E7928, 0, 1, 2, CENTRO, 0xA0, 0.8f, 0.8f, 0, 0x14, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
       "S; info_pistas_y_tiempos.inc.c:270")
+LUGAR(L_MC_PREGUNTA, dato_800E7920, 0, 1, 1, CENTRO, 0xA0, 0.6f, 0.6f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
+      "S; info_pistas_y_tiempos.inc.c:292")
+LUGAR(L_MC_TARJETA_1, dato_800E7918, 0, 1, 1, CENTRO, 0x5C, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ, 0xA0,
+      "G: la segunda tarjeta se centra en 0xDE; info_pistas_y_tiempos.inc.c:295")
+LUGAR(L_MC_TARJETA_2, dato_800E7918, 0, 1, 1, CENTRO, 0x5C + 0x82, 0.75f, 0.75f, 0, 0, 0xA0, ZONA_SEGURA_DER,
+      "S; info_pistas_y_tiempos.inc.c:295")
+LUGAR(L_MC_AVISO, dato_800E7928, 0, 1, 2, CENTRO, 0xA0, 0.8f, 0.8f, 0, 0x14, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
+      "S; info_pistas_y_tiempos.inc.c:330")
 LUGAR(L_MC_SALIR, dato_800E7930, 0, 0, 1, IZQ, 0x6E, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ, 0x6E + 0x32 - 2,
-      "G: la segunda opcion empieza en x=0xA0; info_pistas_y_tiempos.inc.c:312")
+      "G: la segunda opcion empieza en x=0xA0; info_pistas_y_tiempos.inc.c:372")
 LUGAR(L_MC_COPIAR, dato_800E7930, 1, 1, 1, IZQ, 0x6E + 0x32, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:312")
+      "S; info_pistas_y_tiempos.inc.c:372")
 LUGAR(L_MC_COPIANDO, dato_800E7938, 0, 1, 1, CENTRO, 0xA0, 1.0f, 1.0f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:320")
+      "S; info_pistas_y_tiempos.inc.c:380")
 LUGAR(L_MC_SIN_DATOS_COPIA, dato_800E7A44, 0, 0, 1, IZQ, 0x2A + 0x89, 0.5f, 0.5f, 0, 0, ZONA_SEGURA_IZQ,
-      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:256")
+      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:316")
 LUGAR(L_MC_SIN_DATOS_META, dato_800E7A44, 0, 0, 1, IZQ, 0xBB, 0.45f, 0.45f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; columna final 0, info_pistas_y_tiempos.inc.c:750")
+      "S; columna final 0, info_pistas_y_tiempos.inc.c:810")
 LUGAR(L_MC_SIN_DATOS_PAUSA, dato_800E7A44, 0, 0, 1, IZQ, 0x69, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
       "S; menus_pausa.inc.c:380")
 LUGAR(L_MC_AVISO_GRABAR, dato_800E7940, 0, 15, 4, IZQ, 0x23, 0.65f, 0.65f, 0, 0xD, ZONA_SEGURA_IZQ, 0x122,
       "G: caja negra de 0x1E a 0x122 (dibujar_menus.inc.c:729); dibujar_menus.inc.c:733")
 LUGAR(L_FANTASMA_PANEL, dato_800E798C, 0, 41, 7, IZQ, 0xA2, 0.6f, 0.6f, 0, 0xD, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:736")
+      "S; info_pistas_y_tiempos.inc.c:796")
 LUGAR(L_FANTASMA_PAUSA, dato_800E798C, 0, 41, 7, IZQ, 0x4D, 0.8f, 0.8f, 0, 0xD, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
       "S; menus_pausa.inc.c:365")
 LUGAR(L_ELEGIR_ARCHIVO_PANEL, dato_800E7A3C, 0, 1, 2, IZQ, 0xA5, 0.7f, 0.7f, 0, 0xD, ZONA_SEGURA_IZQ, 298,
-      "I: el ingles llegaba a 298; info_pistas_y_tiempos.inc.c:743")
+      "I: el ingles llegaba a 298; info_pistas_y_tiempos.inc.c:803")
 LUGAR(L_ELEGIR_ARCHIVO_PAUSA, dato_800E7A3C, 0, 1, 2, IZQ, 0x5A, 0.8f, 0.8f, 0, 0xD, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; menus_pausa.inc.c:373")
 LUGAR(L_CREANDO_PANEL, dato_800E7A48, 0, 2, 3, IZQ, 0xAA, 0.8f, 0.8f, 0, 0xD, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:762")
+      "S; info_pistas_y_tiempos.inc.c:822")
 LUGAR(L_CREANDO_PAUSA, dato_800E7A48, 0, 2, 3, IZQ, 0x64, 0.8f, 0.8f, 0, 0xD, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
       "S; menus_pausa.inc.c:392")
 LUGAR(L_SOBRESCRIBIR_PANEL, dato_800E7A60, 0, 2, 3, IZQ, 0xA3, 0.67f, 0.67f, 0, 0xD, ZONA_SEGURA_IZQ,
-      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:770")
+      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:830")
 LUGAR(L_SOBRESCRIBIR_PAUSA, dato_800E7A60, 0, 2, 3, IZQ, 0x55, 0.8f, 0.8f, 0, 0xD, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; menus_pausa.inc.c:399")
 LUGAR(L_GRABAR_OPCION_PANEL, dato_800E7A6C, 0, 1, 2, IZQ, 0xC8, 0.75f, 0.75f, 0, 0xF, ZONA_SEGURA_IZQ,
-      ZONA_SEGURA_DER, "S; columna final 0, info_pistas_y_tiempos.inc.c:774")
+      ZONA_SEGURA_DER, "S; columna final 0, info_pistas_y_tiempos.inc.c:834")
 LUGAR(L_GRABAR_OPCION_PAUSA, dato_800E7A6C, 0, 1, 2, IZQ, 0x7D, 0.8f, 0.8f, 0, 0xF, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; menus_pausa.inc.c:403")
 LUGAR(L_GRABANDO_PANEL, dato_800E7A74, 0, 2, 3, IZQ, 0xA3, 0.67f, 0.67f, 0, 0xD, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
-      "S; info_pistas_y_tiempos.inc.c:780")
+      "S; info_pistas_y_tiempos.inc.c:840")
 LUGAR(L_GRABANDO_PAUSA, dato_800E7A74, 0, 2, 3, IZQ, 0x55, 0.8f, 0.8f, 0, 0xD, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
       "S; menus_pausa.inc.c:409")
 LUGAR(L_ERROR_GRABAR_PANEL, dato_800E7A80, 0, 1, 2, IZQ, 0xAA, 0.75f, 0.75f, 0, 0xD, ZONA_SEGURA_IZQ,
-      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:786")
+      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:846")
 LUGAR(L_ERROR_GRABAR_PAUSA, dato_800E7A80, 0, 1, 2, IZQ, 0x5D, 0.8f, 0.8f, 0, 0xD, ZONA_SEGURA_IZQ,
       ZONA_SEGURA_DER, "S; menus_pausa.inc.c:415")
 LUGAR(L_NO_SE_PUEDE_GRABAR, dato_800E7A34, 0, 1, 2, IZQ, 0xC0, 0.45f, 0.45f, 0, 0xA, ZONA_SEGURA_IZQ,

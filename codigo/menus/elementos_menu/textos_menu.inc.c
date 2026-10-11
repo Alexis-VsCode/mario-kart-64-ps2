@@ -192,6 +192,31 @@ char* menu_opcion_texto[] = {
     "BORRAR TODOS LOS DATOS",
 };
 
+// Quinta fila de OPCIONES, aparte para no cambiar las 4 originales; también
+// es el título de su subpantalla
+char* menu_opcion_texto_port[] = {
+    "CONFIGURACIÓN Y TRUCOS",
+};
+
+// Filas del menú CONFIGURACIÓN Y TRUCOS en el orden de enum FilaConfiguracion;
+// '(' se dibuja "cc"
+char* configuracion_filas[] = {
+    "ANTIPARPADEO",     "POSICIÓN X", "POSICIÓN Y",          "FORMATO", "DESBLOQUEAR TODO",
+    "OBJETO",           "200(",       "RIVALES SIN VENTAJA", "VOLVER",
+};
+
+char* configuracion_si_no[] = { "NO", "SÍ" };
+
+// Por enum FormatoPantalla
+char* configuracion_formatos[] = { "NORMAL", "CON BANDAS", "PANORÁMICO" };
+
+// Por el valor de enum ITEMS; 0 es la ruleta normal y el 13 no se elige nunca
+char* configuracion_objetos[] = {
+    "NORMAL",     "PLÁTANO",    "RACIMO",        "C. VERDE",        "3 C. VERDES", "C. ROJO",
+    "3 C. ROJOS", "C. AZUL",    "RAYO",          "CAJA FALSA",      "ESTRELLA",    "BOO",
+    "CHAMPIÑÓN",  "",           "3 CHAMPIÑONES", "CHAMPIÑÓN DORADO",
+};
+
 char* dato_800E7878[] = {
     "SE BORRARÁN TODOS LOS",
     "DATOS PARA SIEMPRE.",
