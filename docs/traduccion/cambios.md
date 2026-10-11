@@ -422,3 +422,20 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Evidencia requerida:** `prueba_region_ps2.c` con los valores de ROMVER y uno inválido, con rojo y mutación.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
 - **Commit:** —
+
+### CC-16: publicación comprobada y ELF monolítico en la Release
+
+- **Estado:** aprobado (responsable del proyecto, 2026-10-11, plan F9). Amplía CC-09.
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-INF-05
+- **Motivo:**
+  - `publicar` oculta un fallo real del commit con `|| echo "sin cambios"`.
+  - `release` no comprueba que el SHA-256 de la ISO coincida con el de las notas.
+  - Para jugar desde USB con uLaunchELF hace falta el ELF de `make MONOLITICO=1`, y nadie lo publica.
+- **Cambio:**
+  - **`publicar`:** solo omite el commit si `git diff --cached --quiet`.
+  - **`release`:** corre en el contenedor de ps2dev y falla si el SHA-256 de la ISO no está en las notas. Compila `make MONOLITICO=1` en la referencia publicada y adjunta ese ELF con su suma. El ELF no se versiona en `compilaciones/`.
+- **Alternativas descartadas:** versionar el ELF monolítico en el repositorio, que agrega un archivo grande en cada versión.
+- **Evidencia requerida:** la Release `v1.1.0` con la ISO, el ELF monolítico y `SHA256SUMS`, todo comprobado.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
+- **Commit:** —
