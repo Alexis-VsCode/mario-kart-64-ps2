@@ -7,12 +7,14 @@ El manifiesto lista las 63 texturas TKMK00 con el alfa que usa el juego y
 el motivo de las que no se traducen. Exportar e importar cada una da
 exactamente los bytes originales decodificados (SHA-1 de
 referencias_tkmk00.txt); comprobar rechaza PNG que no sirven y la hoja de
-contacto marca solo lo que cambio.
+contacto marca solo lo que cambio. Ningun texto_es nombra los botones de
+la N64, la N64 ni el Controller Pak: van los botones de la PS2.
 """
 import contextlib
 import hashlib
 import io
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -37,6 +39,12 @@ CONTROLLER_PAK = ["n64_controller_pak_seleccion_datos", "borrar_datos_registro_c
                   "registro_seleccionado_borrando", "registro_seleccion", "fin_texto", "tabla_de_contenido",
                   "hash_texto", "datos_juego_texto", "paginas_texto", "libre_paginas_texto", "borrar_texto",
                   "abandonar_texto"]
+
+# Botones y nombres de la N64 que no pueden ir como palabra suelta en un
+# texto_es. R1, L1, SELECT, START, CRUZ o CUADRADO son de la PS2 y valen.
+BOTONES_N64 = {"L", "R", "Z", "A", "B", "N64"}
+ICONOS_N64 = ("\u24b6", "\u24b7")  # A y B en un circulo
+CONTROLLER_PAK_TEXTO = re.compile(r"\bCONTROLLER\s+PAK\b")
 
 fallos = 0
 comprobaciones = 0
@@ -190,6 +198,26 @@ def probar_hoja(tmp):
     comprobar(rojos == {(x, y) for x in range(9, 12) for y in range(6, 9)}, "mascara: %d pixeles rojos" % len(rojos))
 
 
+def nombres_n64(texto_es):
+    """Botones y nombres de la N64 que aparecen en texto_es ('|' separa lineas)."""
+    texto = " ".join(texto_es.upper().split("|"))
+    nombres = sorted(set(re.findall(r"[^\W_]+", texto)) & BOTONES_N64)
+    nombres += [icono for icono in ICONOS_N64 if icono in texto]
+    if CONTROLLER_PAK_TEXTO.search(texto):
+        nombres.append("CONTROLLER PAK")
+    return nombres
+
+
+def probar_botones(filas):
+    """Paso 5: los texto_es nombran los botones de la PS2, no los de la N64."""
+    for texto, esperado in (("L|OPCIONES", ["L"]), ("R1|DATOS", []), ("\u24b6 VER", ["\u24b6"]),
+                            ("N64 CONTROLLER|PAK", ["N64", "CONTROLLER PAK"]), ("¿OK?", [])):
+        comprobar(nombres_n64(texto) == esperado, "nombres_n64(%r) = %r" % (texto, nombres_n64(texto)))
+    for f in filas:
+        n64 = nombres_n64(f["texto_es"])
+        comprobar(not n64, "%s: '%s' nombra %s de la N64" % (f["id"], f["texto_es"], ", ".join(n64)))
+
+
 def main():
     if len(sys.argv) != 2:
         sys.exit(__doc__)
@@ -201,6 +229,7 @@ def main():
         probar_ida_y_vuelta(filas, refs, herramienta, tmp)
         probar_rechazos(herramienta, tmp)
         probar_hoja(tmp)
+    probar_botones(filas)
     print("%d comprobaciones, %d fallos" % (comprobaciones, fallos))
     sys.exit(1 if fallos else 0)
 

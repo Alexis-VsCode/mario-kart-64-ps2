@@ -5,8 +5,9 @@
 
 #define MEDIDOR_CICLOS_POR_MS 294912u
 
-/* VRAM que reserva el panel (textura CT32 de 256x96 */
-#define MEDIDOR_VRAM_BYTES (96 * 1024)
+/* VRAM que reserva el panel: la textura CT32 de 256x108 ocupa 4 filas de 4
+   paginas del GS (64x32 pixeles, 8 KB cada una) */
+#define MEDIDOR_VRAM_BYTES (128 * 1024)
 
 static inline u32 medidor_leer_ciclos(void)
 {

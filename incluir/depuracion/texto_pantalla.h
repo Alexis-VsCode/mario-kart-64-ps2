@@ -6,11 +6,12 @@
 #include "depuracion/fuente_5x7.h"
 
 #define TEXTO_ANCHO_TEXTURA 256
-/* 96 filas */
-#define TEXTO_ALTO_TEXTURA  96
+/* 12 lineas de TEXTO_ALTO_LINEA; el GS la lee con 128 filas (TEXTO_ALTO_GS_LOG2) */
+#define TEXTO_ALTO_TEXTURA  108
 #define TEXTO_ALTO_GS_LOG2  7
 #define TEXTO_ANCHO_LETRA   FUENTE_5X7_AVANCE
-#define TEXTO_ALTO_LINEA    FUENTE_5X7_FILAS /* fila del signo + 7 de letra */
+/* fila del signo + 7 de letra + 1 libre: la tilde no toca la linea de arriba */
+#define TEXTO_ALTO_LINEA    (FUENTE_5X7_FILAS + 1)
 #define TEXTO_COLUMNAS      (TEXTO_ANCHO_TEXTURA / TEXTO_ANCHO_LETRA)
 #define TEXTO_LINEAS        (TEXTO_ALTO_TEXTURA / TEXTO_ALTO_LINEA)
 
