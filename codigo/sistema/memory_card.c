@@ -278,7 +278,7 @@ int cargando_memcard_ps2(void)
 void esperar_cargado_memcard_ps2(void)
 {
     u32 t0 = ciclos_ps2();
-    u32 ms = 0; /* tiempo real: DelayThread puede tardar más que lo pedido */
+    u32 ms = 0; /* tiempo real: DelayThread puede tardar más de lo pedido */
     int intr;
 
     while (estado_carga == PENDIENTE_CARGA && ms < MS_TIMEOUT_CARGA) {
