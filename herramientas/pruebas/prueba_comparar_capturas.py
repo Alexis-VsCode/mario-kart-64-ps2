@@ -116,6 +116,22 @@ def main():
         os.makedirs(vacia)
         comprobar(cc.comparar(capturas, vacia, 1.0, 255) != [], "sin referencias falla")
 
+    # Un bloque de 32x16 cambiado en 640x448 (0,18 %) debe fallar con la tolerancia por defecto
+    ancho, alto = 640, 448
+    base = bytes((x * 7 + y * 3) % 256 for y in range(alto) for x in range(ancho * 3))
+    cambiada = bytearray(base)
+    for y in range(100, 116):
+        for x in range(200, 232):
+            i = (y * ancho + x) * 3
+            cambiada[i] = (cambiada[i] + 128) % 256
+    ref = png_simple.Imagen(ancho, alto, "rgb", base)
+    cap = png_simple.Imagen(ancho, alto, "rgb", bytes(cambiada))
+    fraccion = cc.fraccion_distinta(cap, ref, cc.UMBRAL)
+    comprobar(fraccion == 32 * 16 / (ancho * alto), "bloque 32x16: fracción %r" % fraccion)
+    comprobar(fraccion > cc.TOLERANCIA,
+              "bloque 32x16 (%.4f %%) pasa con la tolerancia por defecto %.4f %%"
+              % (fraccion * 100, cc.TOLERANCIA * 100))
+
     print("%d comprobaciones, %d %s" % (comprobaciones, fallos, "fallo" if fallos == 1 else "fallos"))
     sys.exit(1 if fallos else 0)
 
