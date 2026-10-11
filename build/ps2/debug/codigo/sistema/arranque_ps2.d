@@ -30,7 +30,8 @@ build/ps2/debug/codigo/sistema/arranque_ps2.o: \
  incluir/libultra/PR/libultra.h incluir/sistema/sistema_ps2.h \
  incluir/graficos/interprete_f3dex.h incluir/audio/salida_audio.h \
  incluir/sistema/guardado_ps2.h incluir/sistema/cronometro_fases.h \
- incluir/depuracion/marcas_registro.h incluir/sistema/caracteres_es.h
+ incluir/depuracion/marcas_registro.h incluir/sistema/caracteres_es.h \
+ incluir/sistema/region_ps2.h
 /usr/local/ps2dev/ps2sdk/ee/include/delaythread.h:
 /usr/local/ps2dev/ps2sdk/common/include/tamtypes.h:
 /usr/local/ps2dev/ps2sdk/ee/include/timer.h:
@@ -80,3 +81,4 @@ incluir/sistema/guardado_ps2.h:
 incluir/sistema/cronometro_fases.h:
 incluir/depuracion/marcas_registro.h:
 incluir/sistema/caracteres_es.h:
+incluir/sistema/region_ps2.h:
