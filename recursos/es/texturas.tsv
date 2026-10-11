@@ -96,3 +96,27 @@ titulo_toads_turnpike	recursos/texturas/menus/tkmk00/titulo_toads_turnpike.rgba1
 titulo_wario_stadium	recursos/texturas/menus/tkmk00/titulo_wario_stadium.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_wario_stadium.rgba16.png	ESTADIO WARIO	no	
 titulo_yoshi_valley	recursos/texturas/menus/tkmk00/titulo_yoshi_valley.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_yoshi_valley.rgba16.png	VALLE DE YOSHI	no	
 vuelta_hud	recursos/comunes/texturas/vuelta_hud.rgba16.inc.c	rgba16	32x8	64x16	formato	recursos/es/inc/recursos/comunes/texturas/vuelta_hud.rgba16.png	VUELTA|VTA.	no	
+carpeta:recursos/texturas/efectos/onomatopeyas									onomatopeyas (CRASH, POOMP!, WHIRRRR) y sus globos: se conservan
+carpeta:recursos/texturas/karts									cuadros y paletas de los karts: sin texto, solo el emblema del personaje
+carpeta:recursos/texturas/lakitu/bandera_cuadros									Lakitu con la bandera a cuadros: sin texto
+carpeta:recursos/texturas/lakitu/luces_rojas									Lakitu con el semáforo: sin texto
+carpeta:recursos/texturas/lakitu/luz_azul									Lakitu con el semáforo: sin texto
+carpeta:recursos/texturas/lakitu/rescate									Lakitu con la caña de pescar: sin texto
+carpeta:recursos/texturas/lakitu/sin_luces									Lakitu con el semáforo: sin texto
+carpeta:recursos/texturas/menus/contornos_pistas									contornos de las pistas en la selección: sin texto
+carpeta:recursos/texturas/menus/vistas_previas_pistas									vistas previas de las pistas: sin texto legible, solo logotipos del escenario
+carpeta:recursos/texturas/objetos/arboles									árboles: sin texto
+carpeta:recursos/texturas/objetos/caparazon_azul									caparazón azul: sin texto
+carpeta:recursos/texturas/objetos/caparazon_verde									caparazón verde: sin texto
+carpeta:recursos/texturas/objetos/cartel_meta									logotipo MARIO KART del cartel de meta en sus 8 trozos: se conserva
+carpeta:recursos/texturas/pistas/banshee_boardwalk									decorado de la pista (murciélagos, fantasmas, peces): sin texto
+carpeta:recursos/texturas/pistas/bowsers_castle									Thwomp: sin texto
+carpeta:recursos/texturas/pistas/choco_mountain									pared y roca: sin texto
+carpeta:recursos/texturas/pistas/frappe_snowland									muñecos de nieve, árboles y nieve: sin texto
+carpeta:recursos/texturas/pistas/koopa_troopa_beach									cangrejos, pájaros y palmeras: sin texto
+carpeta:recursos/texturas/pistas/rainbow_road									neones de personajes, Chain Chomp y reflejos: sin texto
+carpeta:recursos/texturas/pistas/royal_raceway									paleta de la planta piraña: sin texto
+carpeta:recursos/texturas/pistas/sherbet_land									hielo y pingüinos: sin texto
+carpeta:recursos/texturas/pistas/toads_turnpike									camiones, cisternas, autos y ómnibus: sin texto, solo matrículas
+carpeta:recursos/texturas/pistas/yoshi_valley									erizo, huevo y bandera de Yoshi: sin texto
+carpeta:recursos/texturas/seleccion_personaje									caras de los personajes en la selección: sin texto
