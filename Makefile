@@ -265,6 +265,9 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(
 	$(V)$(PRUEBAS)/prueba_fuente_5x7
 	$(V)$(PYTHON) herramientas/pruebas/prueba_textos_port.py $(JP_SRC) $(JP_PARTES)
 	$(V)$(PYTHON) herramientas/pruebas/prueba_arranque.py
+	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -Iincluir -Iincluir/libultra -Icodigo \
+	    -o $(PRUEBAS)/prueba_cronometro_fases herramientas/pruebas/prueba_cronometro_fases.c
+	$(V)$(PRUEBAS)/prueba_cronometro_fases
 	$(V)$(PYTHON) herramientas/pruebas/prueba_ancho_panel.py
 	@# La tabla de la fuente de depuracion comparte archivo con datos que apuntan a texturas del
 	@# juego: --gc-sections deja solo lo que la prueba usa

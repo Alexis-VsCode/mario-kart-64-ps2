@@ -6,7 +6,9 @@
 #include "sistema/sistema_ps2.h"
 #include "sistema/cronometro_fases.h"
 
-#define GRUPOS_MAX 4
+/* Al menos uno por cada GRUPO_ de marcas_registro.h (4) y margen. Sin hueco libre,
+   empezar_tiempos_ps2 reutiliza el ultimo y el grupo que habia pierde su informe. */
+#define GRUPOS_MAX 6
 #define PASOS_MAX  24
 
 typedef struct {
