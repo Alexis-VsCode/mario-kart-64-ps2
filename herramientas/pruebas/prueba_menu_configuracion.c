@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "juego/definiciones.h"
 #include "menus/menu_configuracion.h"
 
 static int s_fallos, s_comprobaciones;
@@ -35,6 +36,10 @@ int main(void) {
     comprobar("fila 0 +1", config_mover_fila(0, 1, CONFIG_FILAS), 1);
     comprobar("VOLVER -1", config_mover_fila(CONFIG_FILA_VOLVER, -1, CONFIG_FILAS), CONFIG_FILA_VOLVER - 1);
     comprobar("VOLVER es la novena", CONFIG_FILA_VOLVER, 8);
+
+    // Los valores (NO, 0, NORMAL) se pintan opacos y del color de las
+    // etiquetas; VERDE_TEXTO es semitransparente y apenas se leía
+    comprobar("color de los valores", CONFIG_COLOR_VALOR, AMARILLO_TEXTO);
 
     // Los valores con nombre dan la vuelta en los dos sentidos
     comprobar("NO +1", config_ciclar_valor(0, 1, 2), 1);

@@ -14,6 +14,39 @@ pulsa START
 espera 120
 captura menu
 
+# OPCIONES (L de N64 = SELECT en PS2), quinta entrada: CONFIGURACIÓN Y TRUCOS.
+# L solo abre OPCIONES con el cursor en el número de jugadores: el segundo
+# START lo pasó a los modos, así que antes se vuelve atrás con B.
+# El cursor empieza en la primera (0x15); cuatro veces abajo llega a 0x19 (25)
+# y A abre la subpantalla en su primera fila (0x50 = 80). La memoria mc0: está
+# vacía en cada ejecución, así que los valores son los de fábrica.
+pulsa B
+espera 60
+pulsa L
+hasta menu == 5 600
+espera 120
+pulsa ABAJO
+espera 20
+pulsa ABAJO
+espera 20
+pulsa ABAJO
+espera 20
+pulsa ABAJO
+espera 20
+comprueba seleccion == 25
+pulsa A
+hasta seleccion == 80 300
+espera 120
+captura configuracion
+
+# Vuelta al menú principal: B sale de la subpantalla y B de OPCIONES
+pulsa B
+hasta seleccion == 25 300
+espera 60
+pulsa B
+hasta menu == 11 600
+espera 120
+
 # Gran premio: piloto y pista por defecto hasta la carrera
 pulsa_hasta A estado == 4 3600
 espera 400

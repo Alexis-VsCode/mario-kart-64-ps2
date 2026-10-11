@@ -24,14 +24,14 @@ empezar_boton_empuje	pulsar_start	0,0,159,16	PUSH START BUTTON	1	juntar=0
 tiempo_hud	hud_grande	0,0,32,16	TIME	0	lienzo=64x16+32,0 area=0,0,64,16 alinear=derecha@64 juntar=-1 condensar=0.8:MPO sangrado=si
 tiempo_vuelta_hud	hud_grande	0,0,32,16	LAP	0	lienzo=64x16+32,0 area=0,0,64,16 alinear=derecha@64 juntar=-1 condensar=0.8:UA sangrado=si
 vuelta_hud	hud_chico	0,0,32,8	LAP	0	lienzo=64x16+32,0 area=0,0,64,16 lineas=0,8 alinear=derecha@57,centro@32 juntar=-1 color_lineas=si sangrado=si
-hud_1ro	ordinales	50,28,78,36	st	58	fijo=1 alinear=izquierda@50 area=50,0,78,64 borrar=50,28,78,36 avance=.:5
+hud_1ro	ordinales	50,28,78,36	st	58	fijo=1 alinear=izquierda@50 area=50,0,78,64 borrar=50,28,78,36 avance=.:8
 hud_2do	ordinales	55,28,73,36	nd	55	fijo=1 alinear=izquierda@55 area=55,0,73,64 borrar=55,28,73,36 avance=.:7
-hud_3ro	ordinales	52,28,76,36	rd	53	fijo=1 alinear=izquierda@52 area=52,0,76,64 borrar=52,28,76,36 avance=.:6
-hud_4to	ordinales	54,28,74,36	th	57	fijo=1 alinear=izquierda@54 area=54,0,74,64 borrar=54,28,74,36 avance=.:0
-hud_5to	ordinales	54,28,74,36	th	56	fijo=1 alinear=izquierda@54 area=54,0,74,64 borrar=54,28,74,36 avance=.:3
-hud_6to	ordinales	52,28,76,36	th	57	fijo=1 alinear=izquierda@52 area=52,0,76,64 borrar=52,28,76,36 avance=.:4
+hud_3ro	ordinales	52,28,76,36	rd	53	fijo=1 alinear=izquierda@52 area=52,0,76,64 borrar=52,28,76,36 avance=.:8
+hud_4to	ordinales	54,28,74,36	th	57	fijo=1 alinear=izquierda@54 area=54,0,74,64 borrar=54,28,74,36 avance=.:8
+hud_5to	ordinales	54,28,74,36	th	56	fijo=1 alinear=izquierda@54 area=54,0,74,64 borrar=54,28,74,36 avance=.:8
+hud_6to	ordinales	52,28,76,36	th	57	fijo=1 alinear=izquierda@52 area=52,0,76,64 borrar=52,28,76,36 avance=.:8
 hud_7mo	ordinales	39,28,89,36	th	52	fijo=1 alinear=izquierda@39 area=39,0,89,64 borrar=39,28,89,36 avance=.:15
-hud_8vo	ordinales	54,28,74,36	th	56	fijo=1 alinear=izquierda@54 area=54,0,74,64 borrar=54,28,74,36 avance=.:6
+hud_8vo	ordinales	54,28,74,36	th	56	fijo=1 alinear=izquierda@54 area=54,0,74,64 borrar=54,28,74,36 avance=.:8
 titulo_mario_raceway	titulos_pista	1,2,138,14	MARIO RACEWAY	26	juntar=-1
 titulo_choco_mountain	titulos_pista	1,2,138,14	CHOCO MOUNTAIN	22	juntar=-1
 titulo_bowsers_castle	titulos_pista	1,2,138,14	BOWSER'S CASTLE	21	juntar=-1

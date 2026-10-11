@@ -20,6 +20,10 @@ enum FilaConfiguracion {
     CONFIG_FILAS
 };
 
+// Color de la columna de valores: AMARILLO_TEXTO (enum COLOR_ID), opaco
+// como las etiquetas. VERDE_TEXTO sale semitransparente y no se leía.
+#define CONFIG_COLOR_VALOR 3
+
 // Como OPCIONES: arriba y abajo se paran en la primera y la última fila
 static inline int config_mover_fila(int fila, int delta, int num_filas)
 {

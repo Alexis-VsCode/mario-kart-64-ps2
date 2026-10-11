@@ -20,7 +20,7 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 import png_simple  # noqa: E402
 
-TOLERANCIA = 0.02
+TOLERANCIA = 0.001
 UMBRAL = 24
 
 

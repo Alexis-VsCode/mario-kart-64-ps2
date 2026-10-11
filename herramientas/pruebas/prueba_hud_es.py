@@ -48,6 +48,7 @@ def comprobar(cond, mensaje):
     if not cond:
         fallos += 1
         print("FALLO " + mensaje)
+    return cond
 
 
 def leer(ruta):
@@ -74,6 +75,48 @@ def probar_ordinales(filas):
                   "%s: se espera %d.\u00ba en i4 128x64 desde recursos/es/inc/" % (id_, n))
     for id_ in ("primer_lugar", "segundo_lugar", "tercer_lugar", "cuarto_lugar"):
         comprobar(por_id.get(id_, {}).get("motivo_no") == "solo la cifra", "%s: solo tiene la cifra" % id_)
+
+
+def componentes(img, umbral):
+    """Manchas conexas (4 vecinos) de pixeles con luminancia >= umbral, como listas de (x, y)."""
+    px = img.a_rgba()
+    claros = {(x, y) for y in range(img.alto) for x in range(img.ancho)
+              if px[y * img.ancho + x][3] and luminancia(px[y * img.ancho + x]) >= umbral}
+    manchas = []
+    while claros:
+        pila, mancha = [claros.pop()], []
+        while pila:
+            x, y = pila.pop()
+            mancha.append((x, y))
+            for v in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
+                if v in claros:
+                    claros.remove(v)
+                    pila.append(v)
+        manchas.append(mancha)
+    return manchas
+
+
+def probar_punto_ordinal(filas):
+    """Paso 1d: se lee cifra, punto y o volada (8.\u00ba, no 8\u00ba.): el punto queda a la izquierda
+    de la o volada, sin compartir columnas, y apoyado en la linea de base de la cifra."""
+    por_id = {f["id"]: f for f in filas}
+    for id_ in ORDINALES:
+        img = png_simple.leer(os.path.join(RAIZ, por_id[id_]["png"]))
+        manchas = sorted(componentes(img, UMBRAL_CONTORNO), key=len, reverse=True)
+        if not comprobar(len(manchas) >= 3, "%s: se esperan cifra, punto y o volada" % id_):
+            continue
+        cifra = manchas[0]
+        resto = manchas[1:3]
+        punto = max(resto, key=lambda m: max(y for _, y in m))
+        volada = min(resto, key=lambda m: min(y for _, y in m))
+        fondo_cifra = max(y for _, y in cifra)
+        comprobar(punto is not volada and max(x for x, _ in punto) < min(x for x, _ in volada),
+                  "%s: el punto (columnas hasta %d) no queda a la izquierda de la o volada (desde %d)"
+                  % (id_, max(x for x, _ in punto), min(x for x, _ in volada)))
+        comprobar(abs(max(y for _, y in punto) - fondo_cifra) <= 3,
+                  "%s: el punto no se apoya en la linea de base de la cifra" % id_)
+        comprobar(max(y for _, y in volada) < min(y for _, y in punto),
+                  "%s: la o volada no queda arriba del punto" % id_)
 
 
 def luminancia(p):
@@ -255,6 +298,7 @@ def main():
     probar_manifiesto(filas)
     probar_ordinales(filas)
     probar_bordes(filas)
+    probar_punto_ordinal(filas)
     probar_superposicion(filas, os.path.abspath(sys.argv[1]))
     probar_codigo()
     probar_geometria(filas)
