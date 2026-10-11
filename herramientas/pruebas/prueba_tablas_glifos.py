@@ -170,7 +170,7 @@ def probar_tope_reserva():
               % (", ".join(topes) or "ninguno", TAMANIO_RESERVA))
     reserva = re.findall(r"\bMtx\s+efecto_mtx\s*\[\s*(\w+)\s*\]", open(BUCLE_PRINCIPAL, encoding="utf-8").read())
     comprobar(reserva == [TAMANIO_RESERVA], "efecto_mtx se declara con %s matrices, se esperaba %s"
-              % (", ".join(reserva) or "ninguna declaracion", TAMANIO_RESERVA))
+              % (", ".join(reserva) or "ninguna declaración", TAMANIO_RESERVA))
 
 
 def probar_registro_texto_invalido():

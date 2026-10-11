@@ -150,11 +150,11 @@ static void probar_primer_byte_invalido(void) {
     s32 i;
     for (i = 0; i < (s32) CANTIDAD_ARREGLO(buenas); i++) {
         s32 posicion = primer_byte_invalido(buenas[i], leer_glifo);
-        COMPROBACION(posicion == -1, "cadena buena %d: byte invalido en %d", i, posicion);
+        COMPROBACION(posicion == -1, "cadena buena %d: byte inválido en %d", i, posicion);
     }
     for (i = 0; i < (s32) CANTIDAD_ARREGLO(malas); i++) {
         s32 posicion = primer_byte_invalido(malas[i].cadena, leer_glifo);
-        COMPROBACION(posicion == malas[i].posicion, "cadena mala %d: byte invalido en %d, se esperaba %d", i, posicion,
+        COMPROBACION(posicion == malas[i].posicion, "cadena mala %d: byte inválido en %d, se esperaba %d", i, posicion,
                      malas[i].posicion);
     }
 }
