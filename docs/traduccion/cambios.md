@@ -240,3 +240,21 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - `git ls-remote --heads origin` con solo `main` al final.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
 - **Commit:** —
+
+### CC-10: recorrido de PCSX2 con capturas automáticas
+
+- **Estado:** aprobado (responsable del proyecto, 2026-10-11)
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-FUE-07, R-TXT-07, R-MC-03, R-TEX-05, R-PORT-02, R-PORT-03 (los que dependen del recorrido de F6)
+- **Motivo:** el recorrido de F6 se hacía a mano: `recorrido_textos.txt` paraba en cada `nota` para sacar la captura con F8. Además no cubría datos y récords, contrarreloj, VS, batalla, ¡REVÉS!, Memory Card, ceremonia ni créditos. Desde `ae93f71`, la orden `captura <nombre>` guarda `host:<nombre>.tga` en las compilaciones DEV.
+- **Cambio:**
+  - **Guiones:** 5 guiones en `herramientas/guiones/` (menús, gran premio, modos, Memory Card, ceremonia y créditos). Cada uno empieza en el arranque y termina en `fin`. Esperan cada pantalla con `pulsa_hasta`, `comprueba` y `siguiente_estado` en lugar de esperas a ciegas, y sacan una `captura` por pantalla.
+  - **`prueba_guiones.py`:** valida los guiones contra las órdenes, variables y botones que lee de `guiones_prueba.c`.
+  - **`hoja_capturas.py`:** arma una hoja PNG con las capturas en el orden del guion, marca las que faltan y deja un índice con los `FALLO` del registro.
+- **Archivos:** `herramientas/guiones/`, `herramientas/hoja_capturas.py`, `herramientas/hojas_es.py` (refactor sin cambio de conducta), `herramientas/pruebas/` y `Makefile` (líneas de prueba).
+- **Alternativas descartadas:** seguir con capturas a mano.
+- **Evidencia requerida:**
+  - `prueba_guiones.py` y `prueba_hoja_capturas.py` en verde, cada una con una mutación demostrada;
+  - el recorrido real lo corre el usuario en PCSX2.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
+- **Commit:** —
