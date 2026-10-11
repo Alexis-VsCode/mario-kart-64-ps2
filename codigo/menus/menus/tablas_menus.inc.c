@@ -1,5 +1,7 @@
 // Tablas menus
 
+#include "menus/menu_configuracion.h"
+
 #if MODO_DEPURACION_ACTIVACION
 #define ALTERNAR_MODO_DEPURACION true
 #define SELECCION_MENU_DEPURACION DEPURACION_MENU_DEPURACION_MODO
@@ -178,6 +180,55 @@ void actualizar_menus(void) {
     }
 }
 
+// Si el menú CONFIGURACIÓN Y TRUCOS cambió algo desde que se entró: solo
+// entonces se escribe SMK64CFG.DAT al salir
+static bool configuracion_cambiada;
+
+// Subpantalla CONFIGURACIÓN Y TRUCOS: arriba y abajo mueven la fila con los
+// sonidos y el cursor de OPCIONES; izquierda, derecha y A cambian el valor
+// (A sobre VOLVER sale, igual que B)
+static void act_menu_configuracion(u16 boton_y_palanca, MenuItem* cursor) {
+    s32 fila = seleccion_menu_sub - SUB_MENU_CONFIG_MIN;
+    s32 nueva_fila;
+    s32 delta = 0;
+
+    if (boton_y_palanca & D_JPAD) {
+        delta = 1;
+    } else if (boton_y_palanca & U_JPAD) {
+        delta = -1;
+    }
+    nueva_fila = config_mover_fila(fila, delta, CONFIG_FILAS);
+    if (nueva_fila != fila) {
+        seleccion_menu_sub = SUB_MENU_CONFIG_MIN + nueva_fila;
+        reproducir_sonido2(SONIDO_MOVIMIENTO_CURSOR_MENU);
+        if (cursor->paramf < 4.2) {
+            cursor->paramf += 4.0;
+        }
+        cursor->estado_sub = delta;
+        return;
+    }
+    if ((boton_y_palanca & B_BUTTON) || ((boton_y_palanca & A_BUTTON) && (fila == CONFIG_FILA_VOLVER))) {
+        seleccion_menu_sub = SUB_MENU_OPCION_CONFIGURACION;
+        reproducir_sonido2(SONIDO_ATRAS_IR_MENU);
+        if (configuracion_cambiada) {
+            pedir_guardado_opciones();
+        }
+        return;
+    }
+    if (boton_y_palanca & L_JPAD) {
+        delta = -1;
+    } else if (boton_y_palanca & (R_JPAD | A_BUTTON)) {
+        delta = 1;
+    } else {
+        return;
+    }
+    if (config_cambiar(&opciones_port, fila, delta)) {
+        configuracion_cambiada = true;
+        opciones_cambiadas();
+        reproducir_sonido2(SONIDO_MOVIMIENTO_CURSOR_MENU);
+    }
+}
+
 void act_menu_opciones(struct Mando* mando, u16 idx_mando) {
     u16 boton_y_palanca;
     MenuItem* sp38;
@@ -199,7 +250,8 @@ void act_menu_opciones(struct Mando* mando, u16 idx_mando) {
             case SUB_MENU_OPCION_RETORNO_JUEGO_SELECCION:
             case SUB_MENU_OPCION_SONIDO_MODO:
             case SUB_MENU_OPCION_COPIA_CONTROLLER_PAK:
-            case SUB_MENU_OPCION_BORRAR_TODOS_DATOS: {
+            case SUB_MENU_OPCION_BORRAR_TODOS_DATOS:
+            case SUB_MENU_OPCION_CONFIGURACION: {
                 variable_temporal = false;
                 if ((boton_y_palanca & D_JPAD) && (seleccion_menu_sub < SUB_MENU_OPCION_MAX)) {
                     seleccion_menu_sub += 1;
@@ -332,10 +384,27 @@ void act_menu_opciones(struct Mando* mando, u16 idx_mando) {
                             reproducir_sonido2(SONIDO_ATRAS_IR_MENU);
                             return;
                         }
+                        case SUB_MENU_OPCION_CONFIGURACION: {
+                            seleccion_menu_sub = SUB_MENU_CONFIG_MIN;
+                            configuracion_cambiada = false;
+                            reproducir_sonido2(SONIDO_SELECCION_MENU);
+                            return;
+                        }
                     }
                 }
                 break;
             }
+            case SUB_MENU_CONFIG_ANTIPARPADEO:
+            case SUB_MENU_CONFIG_POSICION_X:
+            case SUB_MENU_CONFIG_POSICION_Y:
+            case SUB_MENU_CONFIG_FORMATO:
+            case SUB_MENU_CONFIG_DESBLOQUEAR:
+            case SUB_MENU_CONFIG_OBJETO:
+            case SUB_MENU_CONFIG_200CC:
+            case SUB_MENU_CONFIG_RIVALES:
+            case SUB_MENU_CONFIG_VOLVER:
+                act_menu_configuracion(boton_y_palanca, sp38);
+                return;
             case SUB_MENU_BORRAR_ABANDONAR:
             case SUB_MENU_BORRAR_BORRAR: {
                 if ((boton_y_palanca & D_JPAD) && (seleccion_menu_sub < SUB_MENU_BORRAR_MAX)) {

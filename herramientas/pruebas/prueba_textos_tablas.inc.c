@@ -37,6 +37,13 @@ TABLA(dato_800E7840, 2, 0, 1, FUENTE_MENU, 0, ES)
 TABLA(borrar_mejor_fantasma_texto, 6, 0, 5, FUENTE_MENU, 0, ES)
 TABLA(dato_800E7860, 2, 0, 1, FUENTE_MENU, 0, ES)
 
+// Menú CONFIGURACIÓN Y TRUCOS del port: no tienen original, la cantidad es la suya
+TABLA(menu_opcion_texto_port, 1, 0, 0, FUENTE_MENU, 0, ES)
+TABLA(configuracion_filas, 9, 0, 8, FUENTE_MENU, PERMITE_CC, ES)
+TABLA(configuracion_si_no, 2, 0, 1, FUENTE_MENU, 0, ES)
+TABLA(configuracion_formatos, 3, 0, 2, FUENTE_MENU, 0, ES)
+TABLA(configuracion_objetos, 16, 0, 15, FUENTE_MENU, 0, ES)
+
 // Pausa, tiempos y resultados
 TABLA(texto_perder_victoria, 2, 0, 1, FUENTE_MENU, 0, ES)
 TABLA(texto_tiempo_mejor, 2, 0, 1, FUENTE_MENU, 0, ES)

@@ -521,6 +521,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - Estilo del juego:
     - fuente del texto del menú, caja negra translúcida y cursor giratorio;
     - arcoíris en la fila elegida y el valor en verde;
+    - el valor va alineado a la derecha en x=0x11C, no detrás del nombre como en la maqueta, para que los valores largos no pisen la caja; las 9 filas van de y=0x58 a y=0xD8;
     - los sonidos de OPCIONES.
   - Controles:
     - arriba/abajo mueven la fila y se paran en los extremos;
