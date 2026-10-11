@@ -46,6 +46,12 @@ jobs:
         run: make clean
       - name: make (release)
         run: . herramientas/entorno.sh && make -j"$(nproc)"
+      # R-TEX-03 (D-03): la ROM crece menos de 256 KiB sobre la de main
+      - name: Tope de crecimiento de la ROM
+        run: python3 herramientas/ci/tope_rom.py build/ps2/rom.bin
+      # R-TEX-08 (D-04): quitar una sustitución y recompilar sin make clean
+      - name: Build incremental sin una sustitución
+        run: . herramientas/entorno.sh && sh herramientas/ci/comprobar_incremental.sh
       - name: make DEBUG=1
         run: . herramientas/entorno.sh && make DEBUG=1 -j"$(nproc)"
       # Los guiones de prueba y los registros DEV solo compilan con DEV=1
@@ -53,6 +59,9 @@ jobs:
         run: . herramientas/entorno.sh && make DEV=1 -j"$(nproc)"
       - name: make test
         run: make test
+      # D-07: la fuente de scr_putchar tiene las letras del español en CP437
+      - name: Fuente de libdebug
+        run: . herramientas/entorno.sh && python3 herramientas/ci/inspeccionar_fuente_libdebug.py
       - name: make iso
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE" && . herramientas/entorno.sh && make iso
       - name: Guardar los binarios
@@ -64,7 +73,72 @@ jobs:
             build/ps2/SMK64ROM.BIN
             build/ps2/smk64.map
             build/ps2/debug/SLUS_999.99
+            build/ps2/dev/SLUS_999.99
             compilaciones/*.iso
+
+  # CC-26: arranca el ELF de DEV (con la ROM dentro) en Play! con un guion de host:
+  emulador:
+    name: Guion en el emulador (Play!)
+    needs: compilar-ps2
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      PLAY_URL: "https://purei.org/downloads/play/stable/0.72/Play!-8de4a71f-x86_64.AppImage"
+      PLAY_SHA256: 5523586c7d89f90e0e6eb9cbc70008d1d6ef3d38656fea809517d3f5fd3004d3
+      PLAY: play/squashfs-root/usr/bin/Play
+      ELF: build/ps2/dev/SLUS_999.99
+    steps:
+      - name: Hora de inicio
+        run: echo "INICIO_JOB=$(date +%s)" >> "$GITHUB_ENV"
+      - uses: actions/checkout@v4
+      - name: Bajar los binarios
+        uses: actions/download-artifact@v4
+        with:
+          name: smk64-ps2
+      # Xvfb y renderizado por software: Vulkan de lavapipe (las capturas leen la RAM
+      # del GS, que con OpenGL queda vacía) y las bibliotecas que la AppImage no lleva
+      - name: Dependencias
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xvfb mesa-vulkan-drivers libvulkan1 libegl1 libopengl0 libgl1 \
+            libglx-mesa0 libasound2t64 libfontconfig1 libx11-xcb1 libxkbcommon-x11-0 libxcb-cursor0
+      - name: Play! con versión y SHA-256 fijados
+        run: |
+          mkdir -p play
+          curl -sSfL -o play/Play.AppImage "$PLAY_URL"
+          echo "$PLAY_SHA256  play/Play.AppImage" | sha256sum -c -
+          chmod +x play/Play.AppImage
+          cd play && ./Play.AppImage --appimage-extract > /dev/null
+      # Dos ejecuciones: las dos se comparan con las referencias y entre sí
+      - name: Primera ejecución
+        run: sh herramientas/emulador/ejecutar_play.sh "$PLAY" "$ELF" emu/1 herramientas/emulador/guion_ci.txt 900
+      - name: Segunda ejecución
+        run: sh herramientas/emulador/ejecutar_play.sh "$PLAY" "$ELF" emu/2 herramientas/emulador/guion_ci.txt 900
+      - name: Registro, región (ROMVER sintético europeo) y guion
+        run: |
+          python3 herramientas/emulador/comprobar_registro.py "emu/1/Play Data Files/vfs/host" PAL
+          python3 herramientas/emulador/comprobar_registro.py "emu/2/Play Data Files/vfs/host" PAL
+      - name: Capturas frente a las referencias y entre las dos ejecuciones
+        run: |
+          python3 herramientas/emulador/comparar_capturas.py "emu/1/Play Data Files/vfs/host" herramientas/emulador/referencias
+          python3 herramientas/emulador/comparar_capturas.py "emu/2/Play Data Files/vfs/host" herramientas/emulador/referencias
+          mkdir -p emu/ref1
+          python3 herramientas/emulador/comparar_capturas.py --generar "emu/1/Play Data Files/vfs/host" emu/ref1
+          python3 herramientas/emulador/comparar_capturas.py "emu/2/Play Data Files/vfs/host" emu/ref1
+      - name: El job dura menos de 30 minutos
+        run: |
+          DURACION=$(( $(date +%s) - INICIO_JOB ))
+          echo "duración: ${DURACION} s"
+          test "$DURACION" -lt 1800
+      - name: Guardar registros y capturas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: emulador
+          path: |
+            emu/*/play.log
+            emu/*/Play Data Files/vfs/host/smk64_*.txt
+            emu/*/Play Data Files/vfs/host/*.tga
 
   mismo-binario:
     name: Comparar el binario con la base
