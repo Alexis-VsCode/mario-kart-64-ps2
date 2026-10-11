@@ -391,7 +391,7 @@ $(BUILD)/es/%.bin: recursos/es/%.png $(ES_PY)
 	@mkdir -p $(dir $@)
 	$(V)$(PYTHON) herramientas/texturas_es.py importar $< $@
 
-$(BUILD)/es/%.inc.c: recursos/es/inc/%.png %.inc.c $(ES_PY)
+$(BUILD)/es/%.inc.c: recursos/es/inc/%.png %.inc.c recursos/es/paletas.tsv $(ES_PY)
 	@mkdir -p $(dir $@)
 	$(V)$(PYTHON) herramientas/texturas_es.py inc $< $@
 

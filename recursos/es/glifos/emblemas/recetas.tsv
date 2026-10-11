@@ -1,0 +1,3 @@
+caracter	receta
+# J cursiva dibujada como la P: palo de 6 columnas inclinado y gancho abajo a la izquierda
+J	parte("jota", 10)

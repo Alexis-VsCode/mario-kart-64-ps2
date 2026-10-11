@@ -18,7 +18,9 @@ carpeta:<ruta>, motivo_no obligatorio y el resto vacio) excluye la carpeta
 y sus subcarpetas sin fila por textura, tambien las que se anadan
 despues. Una fila de archivo (id archivo:<ruta>, mismas reglas) excluye
 solo ese archivo (formatos que las ordenes no leen, como rgba32, ia1 o
-ci8). Las ordenes no usan ninguna de las dos. Los PNG se llaman <id>.<formato>.png:
+ci8 sin paleta registrada). Las ordenes no usan ninguna de las dos. Una ci8 lleva
+su tlut en recursos/es/paletas.tsv (origen y tlut): se exporta como PNG
+indexado con esa paleta y solo se acepta con la misma paleta. Los PNG se llaman <id>.<formato>.png:
 importar saca el formato del sufijo y rechaza lo que no se pueda guardar
 sin perdida. La carpeta dentro de recursos/es/ dice que genera el build:
 mio0/ un MIO0 del binario, crudo/ el binario, inc/ un .inc.c en la ruta
@@ -35,6 +37,7 @@ import png_simple
 
 RAIZ = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 MANIFIESTO = os.path.join(RAIZ, "recursos", "es", "texturas.tsv")
+PALETAS = os.path.join(RAIZ, "recursos", "es", "paletas.tsv")
 TKMK00 = os.path.join(RAIZ, "build", "herramientas", "tkmk00")
 ORIGINALES = os.path.join(RAIZ, "build", "ps2", "es", "originales")
 COLUMNAS = ["id", "origen", "formato", "tamanio", "tamanio_es", "alfa", "png", "texto_es", "retocado", "motivo_no"]
@@ -164,6 +167,30 @@ def decodificar_original(fila, tkmk00):
     return leer_origen(fila, tkmk00)[:ancho * alto * ft.BITS[fila["formato"]] // 8], ancho, alto
 
 
+def tlut_de(fila, ruta=PALETAS):
+    """Bytes rgba16 de la tlut de una textura ci8 (recursos/es/paletas.tsv)."""
+    with open(ruta, encoding="utf-8") as f:
+        lineas = [l.split("\t") for l in f.read().splitlines() if l and not l.startswith("#")]
+    if not lineas or lineas[0] != ["origen", "tlut"]:
+        raise ErrorManifiesto("%s: la cabecera tiene que ser: origen tlut" % ruta)
+    tluts = {l[0]: l[1] for l in lineas[1:] if len(l) == 2}
+    if fila["origen"] not in tluts:
+        raise ErrorManifiesto("%s: ci8 sin tlut en %s" % (fila["id"], ruta))
+    with open(os.path.join(RAIZ, tluts[fila["origen"]])) as f:
+        return ft.leer_inc_c(f.read())[0]
+
+
+def paleta_de(fila):
+    """Paleta RGBA de una textura ci8."""
+    tlut = tlut_de(fila)
+    return [ft.rgba16_a_rgba((tlut[i] << 8) | tlut[i + 1]) for i in range(0, len(tlut), 2)]
+
+
+def a_imagen(fila, datos, ancho, alto):
+    """Imagen de una textura del manifiesto (las ci8 con su paleta)."""
+    return ft.a_imagen(fila["formato"], datos, ancho, alto, tlut_de(fila) if fila["formato"] == "ci8" else None)
+
+
 def partes_nombre(ruta):
     """(id, formato) de <id>.<formato>.png"""
     partes = os.path.basename(ruta).split(".")
@@ -177,16 +204,28 @@ def exportar(args):
     os.makedirs(args.salida, exist_ok=True)
     for fila in filas:
         datos, ancho, alto = decodificar_original(fila, args.tkmk00)
-        imagen = ft.a_imagen(fila["formato"], datos, ancho, alto)
+        imagen = a_imagen(fila, datos, ancho, alto)
         png_simple.escribir(os.path.join(args.salida, "%s.%s.png" % (fila["id"], fila["formato"])), imagen)
     print("texturas_es: %d texturas en %s" % (len(filas), args.salida))
     return 0
 
 
-def convertir(ruta):
+def indices_ci8(ruta, imagen, filas):
+    """Indices de un PNG ci8; su paleta tiene que ser la tlut de la textura."""
+    id_, _ = partes_nombre(ruta)
+    fila = next((f for f in filas if f["id"] == id_), None)
+    if fila is None or fila["formato"] != "ci8":
+        raise ErrorManifiesto("%s: no es una textura ci8 del manifiesto" % ruta)
+    indices, tlut = ft.de_imagen("ci8", imagen)
+    if tlut != tlut_de(fila):
+        raise ErrorManifiesto("%s: la paleta no es la tlut de %s" % (ruta, id_))
+    return indices
+
+
+def convertir(ruta, manifiesto=MANIFIESTO):
     _, formato = partes_nombre(ruta)
     if formato == "ci8":
-        raise ErrorManifiesto("%s: ci8 necesita su paleta; importar no lo soporta" % ruta)
+        return indices_ci8(ruta, png_simple.leer(ruta), leer_manifiesto(manifiesto))
     return ft.de_imagen(formato, png_simple.leer(ruta))
 
 
@@ -211,6 +250,9 @@ def problemas(ruta, filas):
     imagen = png_simple.leer(ruta)
     if (imagen.ancho, imagen.alto) != (ancho, alto):
         return ["mide %dx%d, el manifiesto dice %dx%d" % (imagen.ancho, imagen.alto, ancho, alto)]
+    if formato == "ci8":
+        indices_ci8(ruta, imagen, filas)
+        return []
     datos = ft.de_imagen(formato, imagen)
     if formato == "rgba16":
         transparentes = {(datos[i] << 8) | datos[i + 1] for i in range(0, len(datos), 2) if not datos[i + 1] & 1}
@@ -292,7 +334,7 @@ def inc(args):
         ancho = ft.leer_inc_c(f.read())[1]
     temporal = args.salida + ".tmp"
     with open(temporal, "w") as f:
-        f.write(ft.escribir_inc_c(convertir(args.png), ancho))
+        f.write(ft.escribir_inc_c(convertir(args.png, args.manifiesto), ancho))
     os.replace(temporal, args.salida)
     return 0
 

@@ -49,6 +49,10 @@ cuarto_lugar	recursos/comunes/texturas/cuarto_lugar.i4.inc.c	i4	64x64		formato		
 datos	recursos/texturas/menus/tkmk00/datos.rgba16.tkmk00	rgba16	64x18		clave_00BE	recursos/es/mio0/menus/datos.rgba16.png	DATOS	no	
 datos_juego_texto	recursos/texturas/generales/datos_juego_texto.ia16.mio0	ia16	56x10		formato			no	no se muestra
 datos_r	recursos/texturas/menus/tkmk00/datos_r.rgba16.tkmk00	rgba16	58x19		clave_00BE	recursos/es/mio0/menus/datos_r.rgba16.png	R1|DATOS	no	
+emblema_1j_jugador	recursos/comunes/texturas/emblema_1j_jugador.ci8.inc.c	ci8	64x32		formato	recursos/es/inc/recursos/comunes/texturas/emblema_1j_jugador.ci8.png	1J	no	
+emblema_2j_jugador	recursos/comunes/texturas/emblema_2j_jugador.ci8.inc.c	ci8	64x32		formato	recursos/es/inc/recursos/comunes/texturas/emblema_2j_jugador.ci8.png	2J	no	
+emblema_3j_jugador	recursos/comunes/texturas/emblema_3j_jugador.ci8.inc.c	ci8	64x32		formato	recursos/es/inc/recursos/comunes/texturas/emblema_3j_jugador.ci8.png	3J	no	
+emblema_4j_jugador	recursos/comunes/texturas/emblema_4j_jugador.ci8.inc.c	ci8	64x32		formato	recursos/es/inc/recursos/comunes/texturas/emblema_4j_jugador.ci8.png	4J	no	
 emblema_luigi_cartel	recursos/texturas/generales/66C7A8.rgba16.mio0	rgba16	32x32		formato			no	emblema L de Luigi: logotipo
 emblema_mario_cartel	recursos/texturas/generales/66C8F4.rgba16.mio0	rgba16	32x32		formato			no	emblema M de Mario: logotipo
 empezar	recursos/texturas/menus/tkmk00/empezar.rgba16.tkmk00	rgba16	64x18		clave_00BE	recursos/es/mio0/menus/empezar.rgba16.png	EMPEZAR	no	
@@ -185,10 +189,6 @@ titulo_yoshi_valley	recursos/texturas/menus/tkmk00/titulo_yoshi_valley.rgba16.tk
 velocimetro	recursos/comunes/texturas/velocimetro.i4.inc.c	i4	64x96		formato			no	cifras y la unidad km/h: se escribe igual
 vuelta_hud	recursos/comunes/texturas/vuelta_hud.rgba16.inc.c	rgba16	32x8	64x16	formato	recursos/es/inc/recursos/comunes/texturas/vuelta_hud.rgba16.png	VUELTA|VTA.	no	
 carpeta:recursos/comunes/texturas									resto sin texto: retratos, objetos, semáforo, partículas, bombas, minimapa, cifras del HUD y paletas
-archivo:recursos/comunes/texturas/emblema_1j_jugador.ci8.inc.c									pendiente: 1P→1J; la fuente del emblema no tiene J y ci8 no se importa
-archivo:recursos/comunes/texturas/emblema_2j_jugador.ci8.inc.c									pendiente: 2P→2J; la fuente del emblema no tiene J y ci8 no se importa
-archivo:recursos/comunes/texturas/emblema_3j_jugador.ci8.inc.c									pendiente: 3P→3J; la fuente del emblema no tiene J y ci8 no se importa
-archivo:recursos/comunes/texturas/emblema_4j_jugador.ci8.inc.c									pendiente: 4P→4J; la fuente del emblema no tiene J y ci8 no se importa
 carpeta:recursos/texturas/efectos/onomatopeyas									onomatopeyas (CRASH, POOMP!, WHIRRRR) y sus globos: se conservan
 archivo:recursos/texturas/fuente_pantalla_fallo.ia1.inc.c									fuente hexadecimal de la pantalla de fallo: glifos sueltos
 carpeta:recursos/texturas/generales									resto sin texto: decorado, glifos sueltos y copias .inc.c de los .mio0 con fila

@@ -1,0 +1,6 @@
+origen	tlut
+# ci8 que se traducen: la tlut con la que el juego las dibuja
+recursos/comunes/texturas/emblema_1j_jugador.ci8.inc.c	recursos/comunes/texturas/tlut_emblema_jugador.tlut.inc.c
+recursos/comunes/texturas/emblema_2j_jugador.ci8.inc.c	recursos/comunes/texturas/tlut_emblema_jugador.tlut.inc.c
+recursos/comunes/texturas/emblema_3j_jugador.ci8.inc.c	recursos/comunes/texturas/tlut_emblema_jugador.tlut.inc.c
+recursos/comunes/texturas/emblema_4j_jugador.ci8.inc.c	recursos/comunes/texturas/tlut_emblema_jugador.tlut.inc.c
