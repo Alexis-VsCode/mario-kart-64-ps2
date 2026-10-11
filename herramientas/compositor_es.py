@@ -36,6 +36,8 @@ reescribe, texto en ingles y columna de su primer corte (autoprueba) y opciones:
   placa=N       fondo del color del contorno detras del texto, N pixeles mas grande
   alinear=M,... izquierda, derecha o centro por linea; M@N ancla el borde (o el centro) en N
   area=X,Y,W,H  zona que ocupa el espanol si no es la caja del ingles
+  borrar=X,Y,W,H  zona que se borra si no es el area (el resto del area ya es fondo)
+  avance=C:N    en esta textura, el caracter C avanza N columnas (coloca el siguiente)
   lienzo=AxB+X,Y  la version en espanol mide AxB y lleva la original en (X, Y)
   color_lineas=si  cada linea toma el degradado de las filas del original, no el de abajo
   sangrado=si   los transparentes junto a las letras toman su color (texturas sin clave)
@@ -456,6 +458,8 @@ def colocar(familia, destino, lineas, caja, opc, en_ingles=False, x_en=None):
     usados = {}
     formas = opc.get("formas") == "si" and not en_ingles
     alineaciones = opc.get("alinear", "centro").split(",")
+    avances = {} if en_ingles else {c: int(n) for c, _, n in
+                                    (v.rpartition(":") for v in opc.get("avance", "").split(",") if v)}
     for n, (texto, dy) in enumerate(zip(lineas, desplaz)):
         alinear = alineaciones[min(n, len(alineaciones) - 1)]
         linea = dy
@@ -467,7 +471,10 @@ def colocar(familia, destino, lineas, caja, opc, en_ingles=False, x_en=None):
                 glifos.append(familia.glifo_forma(c, dy))
                 continue
             g = familia.glifo(c, destino.id, indice)
-            glifos.append(_condensar(g, factor) if factor != 1.0 and (not solo or c in solo) else g)
+            g = _condensar(g, factor) if factor != 1.0 and (not solo or c in solo) else g
+            if c in avances:
+                g = Glifo(g.pixeles, avances[c], g.base)
+            glifos.append(g)
         if formas:
             dy = 0
         if "juntar" in opc and not en_ingles:
@@ -586,8 +593,9 @@ def componer(id_, texto, comp, destino=None, en_ingles=False):
     colocados = colocar(familia, destino, texto.split("|"), caja, opc, en_ingles, int(comp["x_en"] or "0"))
     vacio = (0, 0, 0, 255) if familia.fondo == "negro" else transparente(destino, area_de(comp, True))
     ancho, alto, salida = lienzo(comp, destino, en_ingles, vacio)
-    for y in range(cy, cy + ch):
-        for x in range(cx, cx + cw):
+    bx, by, bw, bh = caja if en_ingles or "borrar" not in opc else tuple(int(v) for v in opc["borrar"].split(","))
+    for y in range(by, by + bh):
+        for x in range(bx, bx + bw):
             if familia.fondo == "madera":
                 # se borran solo las letras: la veta de las tablas queda
                 if pintura(salida[y * ancho + x]):
