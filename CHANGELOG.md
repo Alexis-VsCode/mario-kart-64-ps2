@@ -48,6 +48,8 @@ Versión con el menú de configuración y trucos, las opciones de imagen, la ver
 - **D-23 sigue abierta:** con la reserva `efecto_mtx` llena, una partícula puede dibujarse con la matriz anterior ([deuda.md](docs/traduccion/deuda.md)).
 - **Sin hardware real ni TV:** el tacto del stick, el multitap, el cambio de Memory Card en caliente y el rendimiento en PANORÁMICO. El antiparpadeo, las bandas y la posición solo se comprueban por los valores de los registros, porque las capturas leen la VRAM antes del PCRTC.
 - ROMVER solo se verificó por la ruta con reinicio del IOP y con un ROMVER sintético.
+- D-06 (verificación visual en una TV o una PS2) y D-17 (ROMVER en consola real y bajo OPL) pasan a los [límites declarados](docs/traduccion/especificacion.md#9-límites-declarados) en lo que la CI no puede ver; el job del emulador cubre el resto (CC-26).
+- **D-25 abierta:** algunos comentarios de las herramientas de la CI y de sus pruebas citan identificadores de requisito o de deuda ([deuda.md](docs/traduccion/deuda.md)).
 - En PANORÁMICO, los objetos y la pista pueden aparecer tarde en los bordes, y el marcador sale estirado.
 
 ## [1.1.0] - 2026-10-11
