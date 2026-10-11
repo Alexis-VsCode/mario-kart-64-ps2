@@ -170,6 +170,7 @@ Cada integración deja un acta en `docs/traduccion/revisiones/AAAA-MM-DD-<tema>.
 - **Orden:** `publicar` → merge a `main` → `release` → `limpiar-ramas`, cada paso con el anterior en verde. El detalle de cada job está en el [manual técnico](docs/manual/tecnico.md#ci-y-publicación).
 - Los datos que solo existen después del commit de publicación (tamaño y SHA-256 de la ISO, commit de publicación y ejecución de la CI) se completan en un commit `docs` antes del merge a `main`.
 - Lo que no se puede comprobar con las pruebas del PC ni con la CI se declara como limitación en el [manual de usuario](docs/manual/usuario.md#limitaciones-conocidas) y en las notas de la versión. No se piden recorridos ni capturas a nadie ([CC-12](docs/traduccion/cambios.md)).
+- Las notas de la versión se leen fuera del repositorio, en la Release, y por eso resumen en frases cortas la comprobación de la ISO, el uso y las limitaciones del [manual de usuario](docs/manual/usuario.md). Cuando cambia el manual, se revisan con él.
 
 ## Documentación
 
