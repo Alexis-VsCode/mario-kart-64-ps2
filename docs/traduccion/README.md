@@ -36,7 +36,7 @@ El detalle por requisito y por commit está en [trazabilidad.md](trazabilidad.md
 2. **Confirmación de G5.** CC-11 pedía `prueba_combinador` y G5 se integró con evidencia de código: falta que el responsable del proyecto lo confirme ([CC-11](cambios.md), [deuda.md](deuda.md) D-01).
 3. **Publicación:** job `publicar` sobre `feature/sincronizacion-upstream`, que regenera `build/` y `compilaciones/` desde cero. La ejecución de la CI y el commit de publicación se anotan en [trazabilidad.md](trazabilidad.md#evidencia-común).
 4. **Fusión a `main`** de `feature/sincronizacion-upstream`.
-5. **Release v1.0.0:** job `release` sobre `main`, con la ISO versionada y las notas de [docs/versiones/v1.0.0.md](../versiones/v1.0.0.md). El tamaño y el SHA-256 de la ISO están en esas notas.
+5. **Release v1.0.0:** job `release` sobre `main`, después de fusionar el commit de publicación, con la ISO versionada y las notas de [docs/versiones/v1.0.0.md](../versiones/v1.0.0.md). El tamaño y el SHA-256 de la ISO están en esas notas.
 6. **Limpieza de ramas:** job `limpiar-ramas` sobre `main`. Al final, `git ls-remote --heads origin` lista solo `main` ([CC-09](cambios.md)). Se comprueba después de la fusión a `main`.
 
 ## Próximo paso

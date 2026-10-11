@@ -337,7 +337,7 @@ git status --short         # vacío
 2. `compilar-ps2`: `make clean`, `make`, `make DEBUG=1`, `make DEV=1` (desde F8), `make test` y `make iso` en el contenedor `ps2dev/ps2dev`.
 3. `mismo-binario`, a mano con una `base`.
 4. `publicar`, a mano con `publicar=si` o `sí`: commit de publicación `build(compilaciones): binarios e ISO en español`. Así se generó `dda9a5f` en F7 (entonces con tipo `chore`).
-5. `release`, a mano con `release=<etiqueta>`: Release con la ISO versionada, `SHA256SUMS` y las notas de `docs/versiones/<etiqueta>.md`. No depende de `publicar`, así que se lanza en otra ejecución, sobre el commit de publicación; si no, sube la ISO anterior.
+5. `release`, a mano con `release=<etiqueta>`: Release con la ISO versionada, `SHA256SUMS` y las notas de `docs/versiones/<etiqueta>.md`. Se lanza en otra ejecución, sobre `main`, después de fusionar el commit de publicación; el orden completo está en el [manual técnico](../manual/tecnico.md#ci-y-publicación).
 6. `limpiar-ramas`, a mano con `limpiar_ramas=si` o `sí`: borra las ramas remotas cuya punta ya está en `main`.
 
 ### 9.3 Evidencia visual

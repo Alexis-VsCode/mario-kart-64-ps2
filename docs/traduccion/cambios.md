@@ -251,7 +251,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - el workflow tiene seis jobs: `pruebas-pc`, `compilar-ps2` (ahora también con `make DEV=1`), `mismo-binario`, `publicar`, `release` y `limpiar-ramas`;
   - `BUILD_ID ?= 2026-10-11` en el `Makefile`;
   - las entradas a pedido aceptan `si` y `sí` (`b69f1548`, de la revisión lingüística);
-  - `release` no depende de `publicar`: se lanza en una segunda ejecución, sobre el commit de publicación, para que suba la ISO nueva (hallazgo Baja del [acta de F8](revisiones/2026-10-11-sincronizacion.md));
+  - `release` no depende de `publicar`: se lanza en una segunda ejecución, sobre `main`, después de fusionar el commit de publicación, para que suba la ISO nueva (hallazgo Baja del [acta de F8](revisiones/2026-10-11-sincronizacion.md));
   - commit de publicación: en [trazabilidad.md](trazabilidad.md#evidencia-común); Release y SHA-256 de la ISO: en las [notas de la v1.0.0](../versiones/v1.0.0.md); ramas remotas: se comprueban después de la fusión a `main`, con `limpiar-ramas`.
 - **Aprobación:**
   - responsable del proyecto: aprobado (2026-10-11);

@@ -57,7 +57,7 @@ En todas las ramas, el diff de dos puntos contra `feature/sincronizacion-upstrea
 - Archivo: `.github/workflows/compilacion.yml:124`
 - Riesgo: `release` no depende de `publicar`. Lanzados a la vez, `release` etiqueta el commit anterior a la publicación y sube la ISO vieja.
 - Recomendación: lanzar `release` en una segunda ejecución, sobre el commit de publicación, o añadir `&& inputs.publicar != 'si'` a su condición.
-- Estado: aceptado como procedimiento: primero `publicar` y después `release`, en otra ejecución, sobre el commit de publicación ([plan.md §9.2](../plan.md#92-en-la-ci)).
+- Estado: aceptado como procedimiento: primero `publicar` y después `release`, en otra ejecución, sobre `main`, después de fusionar el commit de publicación ([manual técnico](../../manual/tecnico.md#ci-y-publicación)).
 
 **Hallazgos lingüísticos:**
 
