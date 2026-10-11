@@ -216,7 +216,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - La lista negra de `prueba_textos_port.py` se amplió primero (`748db117`, rojo) y los textos se tradujeron después (`36fc9e40`, verde).
   - Dos pruebas nuevas protegen lo que la fusión podía perder sin error de compilación: `prueba_arranque.py` (`inicializar_depuracion()` antes del reinicio del IOP, `664d9013`) y `prueba_tablas_glifos.py` (`lut_textura_glifo` se define una vez, fuera de todo `#if` y sin los alias del original, `e600bd6e`).
   - El comando de R-GOB-01 sobre `origin/main..feature/sincronizacion-upstream` devuelve los dos commits del original que trae la fusión, `c2ed147` y `ae93f71`. Son historia del repositorio original y no se reescriben.
-  - CI de PS2 con `-lmtap`: <<PUBLICACION>>.
+  - CI de PS2 con `-lmtap`: la ejecución de F8 anotada en [trazabilidad.md](trazabilidad.md#evidencia-común).
 - **Aprobación:**
   - responsable del proyecto: aprobado (2026-10-11);
   - REVISIÓN: lingüística de `feature/sincronizacion-upstream` aprobada con observaciones; `664d9013` y `e600bd6e` se revisaron con `sinc/sistema` y `sinc/pendientes` ([acta de F8](revisiones/2026-10-11-sincronizacion.md));
@@ -252,7 +252,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - `BUILD_ID ?= 2026-10-11` en el `Makefile`;
   - las entradas a pedido aceptan `si` y `sí` (`b69f1548`, de la revisión lingüística);
   - `release` no depende de `publicar`: se lanza en una segunda ejecución, sobre el commit de publicación, para que suba la ISO nueva (hallazgo Baja del [acta de F8](revisiones/2026-10-11-sincronizacion.md));
-  - commit de publicación, Release con su SHA-256 y ramas remotas al final: <<PUBLICACION>>.
+  - commit de publicación: en [trazabilidad.md](trazabilidad.md#evidencia-común); Release y SHA-256 de la ISO: en las [notas de la v1.0.0](../versiones/v1.0.0.md); ramas remotas: se comprueban después de la fusión a `main`, con `limpiar-ramas`.
 - **Aprobación:**
   - responsable del proyecto: aprobado (2026-10-11);
   - REVISIÓN: técnica y lingüística de `sinc/ci` aprobadas con observaciones;

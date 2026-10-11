@@ -666,7 +666,7 @@ El `Makefile` declara `OBJETIVOS_PC := test clean herramientas es hoja-es` (`f8f
 `BUILD_ID` vale por defecto la fecha de la versión, `2026-10-11` (`Makefile:52`, `6251a4a6`). El paso G-FALLO previsto no se añadió (ver R-PORT-03).
 
 - **Aceptación:** la CI termina en verde en cada push y en el PR.
-- **Prueba:** ejecuciones de la CI (ver [trazabilidad.md](trazabilidad.md)). La última de F7, [36518116212](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/36518116212) sobre `c461c5b`, terminó en verde en `pruebas-pc`, `compilar-ps2` y `publicar`, que generó `dda9a5f`. La de F8: <<PUBLICACION>>.
+- **Prueba:** ejecuciones de la CI (ver [trazabilidad.md](trazabilidad.md)). La última de F7, [36518116212](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/36518116212) sobre `c461c5b`, terminó en verde en `pruebas-pc`, `compilar-ps2` y `publicar`, que generó `dda9a5f`. La de F8 está anotada en [trazabilidad.md](trazabilidad.md#evidencia-común).
 
 **R-INF-06. Ningún archivo de código pasa el tope de líneas.**
 

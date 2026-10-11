@@ -39,7 +39,7 @@ Relaciona cada requisito de la [especificación](especificacion.md) con su prueb
   - `git log --name-only … -- build compilaciones` sale vacío: `build/` y `compilaciones/` esperan al commit de publicación (R-GOB-05);
   - `git log --format='%(trailers)'` sale vacío en todos los commits; el grep de R-GOB-07 sale vacío;
   - `make test` terminó con 0 fallos en el worktree de revisión de cada rama integrada ([acta](revisiones/2026-10-11-sincronizacion.md));
-  - CI de F8 (`pruebas-pc`, `compilar-ps2` con `make DEV=1` y `publicar`): <<PUBLICACION>>.
+  - CI de F8 (`pruebas-pc`, `compilar-ps2` con `make DEV=1` y `publicar`): ejecución <<PUBLICACION>>, commit de publicación <<PUBLICACION>>.
 
 ## Commits de F1–F3
 
@@ -178,7 +178,7 @@ No se integraron `sinc/graficos` (salvo G5) ni `sinc/recorrido` (CC-10 rechazado
 | R-INF-02 Conversor EUC-JP | `prueba_convertir_eucjp.py` | `727c7ed`, `476dd52` | hecho | CI n.º 1 |
 | R-INF-03 Metadatos convertidos | `prueba_metadatos_eucjp.py` | `ecbfd5c` | hecho | CI n.º 1; rojo comprobado |
 | R-INF-04 `-fsigned-char` y dependencias de `test` | `make -n test`; huella de R-FUE-02 | `ecbfd5c`, `8fdea7c` | hecho | `make -n test`: `-fsigned-char` en los 8 `gcc` de prueba |
-| R-INF-05 CI | ejecuciones de la CI | `7387d01`, `6dd12e7`, `a3d0bae`, `c461c5b`; F8: `24ed39a0`, `6251a4a6`, `b69f1548` | hecho; el paso G-FALLO no se añadió | CI 36518116212; CI de F8: <<PUBLICACION>> ([CC-09](cambios.md)) |
+| R-INF-05 CI | ejecuciones de la CI | `7387d01`, `6dd12e7`, `a3d0bae`, `c461c5b`; F8: `24ed39a0`, `6251a4a6`, `b69f1548` | hecho; el paso G-FALLO no se añadió | CI 36518116212; CI de F8 en [Evidencia común](#evidencia-común) ([CC-09](cambios.md)) |
 | R-INF-06 Tope de líneas | `comprobar_lineas.py` en `make test` | `f1f3d3d` | hecho | 0 archivos por encima del tope en `dda9a5f` |
 | R-GOB-01 Formato de commits | comando de R-GOB-01 | todas | parcial: 4 commits `chore` en F1–F7 | [CC-06](cambios.md). En F8 el comando solo devuelve `c2ed147` y `ae93f71`, del original ([CC-08](cambios.md)); la publicación pasa a tipo `build` ([CC-09](cambios.md)) |
 | R-GOB-02 Refactor separado | `comparar_preprocesado.py`; job `mismo-binario`; caracterización | `418ea18`, `1c9545d`, `d87d14f`, `15136d3`, `3db4b80`, `9d2b711`, `40ed241`, `26a0bbc`, `4da5ab9`, `47a7371` | parcial: falta la prueba registrada de `15136d3` | F2: ver «Commits de F1–F3» y CI n.º 5. `9d2b711`, `40ed241` y `26a0bbc`: `comparar_preprocesado.py` da `igual` (en su mensaje). `3db4b80`: caracterización con la huella de la fuente ASCII. `4da5ab9` y `47a7371`: verificación en `6794945` ([CC-06](cambios.md)) |
