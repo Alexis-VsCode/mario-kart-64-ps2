@@ -3,3 +3,5 @@ fondo	negro
 filas	28,62
 ventana	3
 umbral	60
+# el color de referencia sale de filas con letra entera (las de arriba de st/nd/rd/th son grises)
+muestras	28

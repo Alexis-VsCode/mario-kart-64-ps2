@@ -1,5 +1,6 @@
 caracter	receta
-# Punto y letra volada dibujados con la inclinacion de las cifras (1 columna cada 4 filas):
-# el punto apoyado en la linea de base (filas 51 a 58), la o volada arriba (filas 30 a 48)
+# Punto y letra volada dibujados con la inclinacion de las cifras (1 columna cada 4 o 5 filas):
+# el punto apoyado en la linea de base (filas 51 a 58); la o volada, rellena y subrayada, a la
+# altura de la parte de arriba de la cifra (filas 3 a 21)
 .	parte("punto", 51)
-º	parte("volada", 30)
+º	parte("volada", 3)
