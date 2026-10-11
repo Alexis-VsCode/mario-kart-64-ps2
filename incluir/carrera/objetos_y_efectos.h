@@ -187,7 +187,7 @@ void funcion_80064F88(Jugador*, s8, s8, s8);
 void funcion_80065030(Jugador*, s8, s8, s8);
 void funcion_800650FC(Jugador*, s8, s8, s8);
 void funcion_800651F4(Jugador*, s8, s8, s8);
-void funcion_800652D4(Vec3f, Vec3s, f32);
+s32 funcion_800652D4(Vec3f, Vec3s, f32);
 void funcion_8006538C(Jugador*, s8, s16, s8);
 void funcion_800658A0(Jugador*, s8, s16, s8);
 void renderizar_particulas_derrape_jugador(Jugador*, s8, s16, s8);

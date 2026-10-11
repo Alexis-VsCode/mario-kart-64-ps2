@@ -18,7 +18,9 @@ void renderizar_particulas_suelo_jugador(Jugador* jugador, SIN_USO s8 indice_jug
         sp_d4[0] = 0;
         sp_d4[1] = jugador->desconocido_048[parametro3];
         sp_d4[2] = 0;
-        funcion_800652D4(pos, sp_d4, jugador->pool_particula_1[parametro2].scale * jugador->size);
+        if (!funcion_800652D4(pos, sp_d4, jugador->pool_particula_1[parametro2].scale * jugador->size)) {
+            return;
+        }
         if ((s32) jugador->pool_particula_1[parametro2].tipo_superficie != PASTO) {
             prim_rojo =
                 ((dato_800E47DC[jugador->pool_particula_1[parametro2].rojo] >> 0x10) & 0xFF) - jugador->pool_particula_1[parametro2].verde;
@@ -85,7 +87,9 @@ void funcion_800664E0(Jugador* jugador, SIN_USO s8 indice_jugador, s16 parametro
         sp4_c[0] = 0;
         sp4_c[1] = jugador->desconocido_048[parametro3];
         sp4_c[2] = 0;
-        funcion_800652D4(sp54, sp4_c, jugador->pool_particula_1[parametro2].scale * jugador->size);
+        if (!funcion_800652D4(sp54, sp4_c, jugador->pool_particula_1[parametro2].scale * jugador->size)) {
+            return;
+        }
         gSPDisplayList(display_list_cabeza++, dato_0D008DB8);
         gDPSetAlphaCompare(display_list_cabeza++, G_AC_DITHER);
         gDPLoadTextureBlock(display_list_cabeza++, dato_8018D48C, G_IM_FMT_IA, G_IM_SIZ_8b, 32, 32, 0,
@@ -116,7 +120,9 @@ void funcion_80066714(Jugador* jugador, SIN_USO s32 parametro1, s16 parametro2, 
         sp54[0] = 0;
         sp54[1] = jugador->desconocido_048[parametro3];
         sp54[2] = 0;
-        funcion_800652D4(sp5_c, sp54, jugador->pool_particula_1[parametro2].scale * jugador->size);
+        if (!funcion_800652D4(sp5_c, sp54, jugador->pool_particula_1[parametro2].scale * jugador->size)) {
+            return;
+        }
         gSPDisplayList(display_list_cabeza++, dato_0D008C90);
         gDPSetTextureLUT(display_list_cabeza++, G_TT_NONE);
         gDPLoadTextureBlock(display_list_cabeza++, comun_textura_particula_fuego, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 64, 0,
@@ -149,7 +155,9 @@ void funcion_80066998(Jugador* jugador, SIN_USO s8 parametro1, s16 parametro2, s
         sp4_c[0] = 0x4000;
         sp4_c[1] = jugador->desconocido_048[parametro3];
         sp4_c[2] = 0;
-        funcion_800652D4(sp54, sp4_c, jugador->pool_particula_0[parametro2].scale * jugador->size);
+        if (!funcion_800652D4(sp54, sp4_c, jugador->pool_particula_0[parametro2].scale * jugador->size)) {
+            return;
+        }
         gSPDisplayList(display_list_cabeza++, dato_0D008DB8);
         gDPLoadTextureBlock(display_list_cabeza++, dato_8018D48C, G_IM_FMT_IA, G_IM_SIZ_8b, 32, 32, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
@@ -181,7 +189,9 @@ void funcion_80066BAC(Jugador* jugador, SIN_USO s8 parametro1, s16 parametro2, s
         }
         sp_d4[1] = jugador->desconocido_048[parametro3];
         sp_d4[2] = 0;
-        funcion_800652D4(sp_dc, sp_d4, jugador->pool_particula_0[parametro2].scale * jugador->size);
+        if (!funcion_800652D4(sp_dc, sp_d4, jugador->pool_particula_0[parametro2].scale * jugador->size)) {
+            return;
+        }
         if (jugador->pool_particula_0[parametro2].rojo == 0) {
             gSPDisplayList(display_list_cabeza++, dato_0D008DB8);
             gDPSetCombineMode(display_list_cabeza++, G_CC_MODULATEIDECALA, G_CC_MODULATEIDECALA);
@@ -235,7 +245,9 @@ void funcion_80067280(Jugador* jugador, SIN_USO s8 parametro1, s16 parametro2, s
         sp74[2] = 0;
         if (jugador->pool_particula_3[parametro2].desconocido_010 == 1) {
             sp74[1] = jugador->desconocido_048[parametro3] - 0x2000;
-            funcion_800652D4(sp7_c, sp74, jugador->pool_particula_3[parametro2].scale * jugador->size);
+            if (!funcion_800652D4(sp7_c, sp74, jugador->pool_particula_3[parametro2].scale * jugador->size)) {
+                return;
+            }
             gSPDisplayList(display_list_cabeza++, dato_0D008DB8);
             gDPLoadTextureBlock(display_list_cabeza++, dato_8018D48C, G_IM_FMT_IA, G_IM_SIZ_8b, 32, 32, 0,
                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
@@ -244,7 +256,9 @@ void funcion_80067280(Jugador* jugador, SIN_USO s8 parametro1, s16 parametro2, s
             gSPDisplayList(display_list_cabeza++, dato_0D008E70);
         } else {
             sp74[1] = jugador->desconocido_048[parametro3] + 0x2000;
-            funcion_800652D4(sp7_c, sp74, jugador->pool_particula_3[parametro2].scale * jugador->size);
+            if (!funcion_800652D4(sp7_c, sp74, jugador->pool_particula_3[parametro2].scale * jugador->size)) {
+                return;
+            }
             gSPDisplayList(display_list_cabeza++, dato_0D008DB8);
             gDPLoadTextureBlock(display_list_cabeza++, dato_8018D48C, G_IM_FMT_IA, G_IM_SIZ_8b, 32, 32, 0,
                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
@@ -268,7 +282,9 @@ void renderizar_jugador_impulso_chispa_particulas(Jugador* jugador, SIN_USO s8 p
         sp84[0] = 0;
         sp84[1] = jugador->desconocido_048[parametro3];
         sp84[2] = 0;
-        funcion_800652D4(sp8_c, sp84, jugador->pool_particula_3[parametro2].scale * jugador->size);
+        if (!funcion_800652D4(sp8_c, sp84, jugador->pool_particula_3[parametro2].scale * jugador->size)) {
+            return;
+        }
         if (jugador->pool_particula_3[parametro2].desconocido_010 == 1) {
             gSPDisplayList(display_list_cabeza++, dato_0D008DB8);
             gDPLoadTextureBlock(display_list_cabeza++, comun_textura_particula_chispa, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
@@ -300,7 +316,9 @@ void renderizar_whrrrr_onomatopeya_jugador(Jugador* jugador, SIN_USO s8 parametr
         sp94[0] = 0;
         sp94[1] = jugador->pool_particula_2[parametro4].rotacion;
         sp94[2] = 0;
-        funcion_800652D4(sp9_c, sp94, jugador->size * parametro2);
+        if (!funcion_800652D4(sp9_c, sp94, jugador->size * parametro2)) {
+            return;
+        }
         gSPDisplayList(display_list_cabeza++, dato_0D008C90);
         gSPClearGeometryMode(display_list_cabeza++, G_CULL_BOTH);
         gDPLoadTLUT_pal256(display_list_cabeza++, dato_800E52D0);
@@ -334,7 +352,9 @@ void renderizar_burbuja_voz_jugador(Jugador* jugador, s8 parametro1, u8* textura
         sp7_c[0] = jugador->pos[0] + (senos((0x4000 & 0xFFFFFFFF) - (jugador->rotacion[1] + jugador->desconocido_0C0)) * parametro4);
         sp7_c[1] = jugador->pos[1] + jugador->tamanio_caja_envolvente - sp54[jugador->id_personaje] - 2.0f;
         sp7_c[2] = jugador->pos[2] + (coss((0x4000 & 0xFFFFFFFF) - (jugador->rotacion[1] + jugador->desconocido_0C0)) * parametro4);
-        funcion_800652D4(sp7_c, sp74, jugador->pool_particula_2[parametro3].scale * jugador->size);
+        if (!funcion_800652D4(sp7_c, sp74, jugador->pool_particula_2[parametro3].scale * jugador->size)) {
+            return;
+        }
         gSPDisplayList(display_list_cabeza++, dato_0D008DB8);
         gDPLoadTextureBlock(display_list_cabeza++, textura, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
@@ -360,7 +380,9 @@ void renderizar_nota_musica(Jugador* jugador, s8 parametro1, u8* textura, s8 par
         sp7_c[0] = jugador->pos[0] + (senos((0x4000 & 0xFFFFFFFF) - (jugador->rotacion[1] + jugador->desconocido_0C0)) * parametro4);
         sp7_c[1] = jugador->pos[1] + jugador->tamanio_caja_envolvente - sp54[jugador->id_personaje] - 2.0f;
         sp7_c[2] = jugador->pos[2] + (coss((0x4000 & 0xFFFFFFFF) - (jugador->rotacion[1] + jugador->desconocido_0C0)) * parametro4);
-        funcion_800652D4(sp7_c, sp74, jugador->pool_particula_2[parametro3].scale * jugador->size * 0.8);
+        if (!funcion_800652D4(sp7_c, sp74, jugador->pool_particula_2[parametro3].scale * jugador->size * 0.8)) {
+            return;
+        }
         gSPDisplayList(display_list_cabeza++, dato_0D008DB8);
         gDPLoadTextureBlock(display_list_cabeza++, textura, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
@@ -383,7 +405,9 @@ void renderizar_error_onomatopeya_jugador(Jugador* jugador, SIN_USO s8 parametro
         sp94[0] = 0;
         sp94[1] = jugador->desconocido_048[parametro3];
         sp94[2] = 0;
-        funcion_800652D4(sp9_c, sp94, jugador->pool_particula_2[parametro4].scale * jugador->size);
+        if (!funcion_800652D4(sp9_c, sp94, jugador->pool_particula_2[parametro4].scale * jugador->size)) {
+            return;
+        }
         gSPDisplayList(display_list_cabeza++, dato_0D008C90);
         gDPLoadTLUT_pal256(display_list_cabeza++, dato_800E52D0);
         gDPSetTextureLUT(display_list_cabeza++, G_TT_RGBA16);
@@ -413,7 +437,9 @@ void funcion_80068724(Jugador* jugador, SIN_USO s8 parametro1, SIN_USO f32 param
         sp7_c[0] = 0;
         sp7_c[1] = jugador->desconocido_048[parametro3];
         sp7_c[2] = 0;
-        funcion_800652D4(sp84, sp7_c, jugador->pool_particula_2[parametro4].scale * jugador->size);
+        if (!funcion_800652D4(sp84, sp7_c, jugador->pool_particula_2[parametro4].scale * jugador->size)) {
+            return;
+        }
         gSPDisplayList(display_list_cabeza++, dato_0D008DB8);
         gDPSetCombineMode(display_list_cabeza++, G_CC_MODULATEIDECALA, G_CC_MODULATEIDECALA);
         gDPSetRenderMode(display_list_cabeza++, G_RM_ZB_CLD_SURF, G_RM_ZB_CLD_SURF2);
@@ -442,7 +468,9 @@ void renderizar_boing_onomatopeya_jugador(Jugador* jugador, SIN_USO s8 parametro
         sp5_c[0] = 0;
         sp5_c[1] = jugador->desconocido_048[parametro3];
         sp5_c[2] = 0;
-        funcion_800652D4(sp64, sp5_c, jugador->pool_particula_2[parametro4].scale * jugador->size);
+        if (!funcion_800652D4(sp64, sp5_c, jugador->pool_particula_2[parametro4].scale * jugador->size)) {
+            return;
+        }
         gSPDisplayList(display_list_cabeza++, dato_0D008D58);
         gDPSetTextureLUT(display_list_cabeza++, G_TT_NONE);
         gDPLoadTextureBlock(display_list_cabeza++, dato_8018D4A0, G_IM_FMT_IA, G_IM_SIZ_8b, 64, 32, 0,
@@ -467,7 +495,9 @@ void renderizar_pomp_onomatopeya_jugador(Jugador* jugador, SIN_USO s8 parametro1
         sp94[0] = 0;
         sp94[1] = jugador->desconocido_048[parametro3];
         sp94[2] = 0;
-        funcion_800652D4(sp9_c, sp94, jugador->pool_particula_2[parametro4].scale * jugador->size);
+        if (!funcion_800652D4(sp9_c, sp94, jugador->pool_particula_2[parametro4].scale * jugador->size)) {
+            return;
+        }
         gSPDisplayList(display_list_cabeza++, dato_0D008C90);
         gDPLoadTLUT_pal256(display_list_cabeza++, dato_800E52D0);
         gDPSetTextureLUT(display_list_cabeza++, G_TT_RGBA16);
@@ -499,7 +529,9 @@ void renderizar_particulas_golpe_actor(Jugador* jugador, SIN_USO s8 parametro1, 
         sp54[1] = jugador->desconocido_048[parametro3];
         jugador->pool_particula_3[parametro2].verde += 0x1C71;
         sp54[2] = jugador->pool_particula_3[parametro2].verde;
-        funcion_800652D4(sp5_c, sp54, jugador->size * 0.5);
+        if (!funcion_800652D4(sp5_c, sp54, jugador->size * 0.5)) {
+            return;
+        }
         gSPDisplayList(display_list_cabeza++, dato_0D008D58);
         gDPSetTextureLUT(display_list_cabeza++, G_TT_NONE);
         gDPLoadTextureBlock(display_list_cabeza++, dato_8018D488, G_IM_FMT_IA, G_IM_SIZ_8b, 32, 32, 0,
@@ -540,7 +572,9 @@ void funcion_80069444(Jugador* jugador, SIN_USO s8 parametro1, s16 parametro2, s
         sp6_c[0] = 0;
         sp6_c[1] = jugador->desconocido_048[parametro3];
         sp6_c[2] = 0;
-        funcion_800652D4(sp74, sp6_c, jugador->size * 1.5);
+        if (!funcion_800652D4(sp74, sp6_c, jugador->size * 1.5)) {
+            return;
+        }
         gSPDisplayList(display_list_cabeza++, dato_0D008DB8);
         gDPLoadTextureBlock(display_list_cabeza++, polvo_suelo_cargado, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
@@ -565,7 +599,9 @@ void renderizar_pared_golpe_estrella_particulas(Jugador* jugador, SIN_USO s8 par
         sp54[0] = 0;
         sp54[1] = jugador->desconocido_048[parametro3];
         sp54[2] = 0;
-        funcion_800652D4(sp5_c, sp54, jugador->size * parametro4);
+        if (!funcion_800652D4(sp5_c, sp54, jugador->size * parametro4)) {
+            return;
+        }
         gSPDisplayList(display_list_cabeza++, dato_0D008D58);
         gDPSetTextureLUT(display_list_cabeza++, G_TT_NONE);
         gDPLoadTextureBlock(display_list_cabeza++, dato_8018D488, G_IM_FMT_IA, G_IM_SIZ_8b, 32, 32, 0,
@@ -592,7 +628,9 @@ void funcion_80069938(Jugador* jugador, SIN_USO s8 parametro1, s16 parametro2, s
         sp54[0] = 0;
         sp54[1] = jugador->desconocido_048[parametro3];
         sp54[2] = jugador->pool_particula_3[parametro2].rojo;
-        funcion_800652D4(sp5_c, sp54, jugador->pool_particula_3[parametro2].scale * jugador->size);
+        if (!funcion_800652D4(sp5_c, sp54, jugador->pool_particula_3[parametro2].scale * jugador->size)) {
+            return;
+        }
         gSPDisplayList(display_list_cabeza++, dato_0D008D58);
         gDPSetTextureLUT(display_list_cabeza++, G_TT_NONE);
         gDPLoadTextureBlock(display_list_cabeza++, dato_8018D488, G_IM_FMT_IA, G_IM_SIZ_8b, 32, 32, 0,
@@ -625,7 +663,9 @@ void funcion_80069BA8(Jugador* jugador, SIN_USO s8 parametro1, s16 parametro2, s
         sp4_c[0] = 0;
         sp4_c[1] = jugador->desconocido_048[parametro3];
         sp4_c[2] = 0;
-        funcion_800652D4(sp54, sp4_c, jugador->pool_particula_3[parametro2].scale * jugador->size);
+        if (!funcion_800652D4(sp54, sp4_c, jugador->pool_particula_3[parametro2].scale * jugador->size)) {
+            return;
+        }
         gSPDisplayList(display_list_cabeza++, dato_0D008DB8);
         gDPLoadTextureBlock(display_list_cabeza++, dato_8018D48C, G_IM_FMT_IA, G_IM_SIZ_8b, 32, 32, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
@@ -648,7 +688,9 @@ void funcion_80069DB8(Jugador* jugador, SIN_USO s8 parametro1, s16 parametro2, s
         sp54[0] = 0;
         sp54[1] = jugador->desconocido_048[parametro3];
         sp54[2] = 0;
-        funcion_800652D4(sp5_c, sp54, jugador->pool_particula_3[parametro2].scale * jugador->size);
+        if (!funcion_800652D4(sp5_c, sp54, jugador->pool_particula_3[parametro2].scale * jugador->size)) {
+            return;
+        }
         gSPDisplayList(display_list_cabeza++, dato_0D008D58);
         gDPSetTextureLUT(display_list_cabeza++, G_TT_NONE);
         gDPLoadTextureBlock(display_list_cabeza++, dato_8018D49C, G_IM_FMT_IA, G_IM_SIZ_16b, 16, 16, 0,
@@ -673,7 +715,9 @@ void funcion_8006A01C(Jugador* jugador, SIN_USO s8 parametro1, s16 parametro2, s
         sp4_c[0] = 0;
         sp4_c[1] = jugador->desconocido_048[parametro3];
         sp4_c[2] = 0;
-        funcion_800652D4(sp54, sp4_c, jugador->pool_particula_1[parametro2].scale * jugador->size);
+        if (!funcion_800652D4(sp54, sp4_c, jugador->pool_particula_1[parametro2].scale * jugador->size)) {
+            return;
+        }
 
         gSPDisplayList(display_list_cabeza++, dato_0D008D58);
         gDPSetTextureLUT(display_list_cabeza++, G_TT_NONE);
@@ -705,7 +749,9 @@ void funcion_8006A280(Jugador* jugador, SIN_USO s8 parametro1, s16 parametro2, s
         sp54[0] = 0;
         sp54[1] = jugador->desconocido_048[parametro3];
         sp54[2] = 0;
-        funcion_800652D4(sp5_c, sp54, jugador->pool_particula_0[parametro2].scale * jugador->size);
+        if (!funcion_800652D4(sp5_c, sp54, jugador->pool_particula_0[parametro2].scale * jugador->size)) {
+            return;
+        }
         gSPDisplayList(display_list_cabeza++, dato_0D008D58);
         gDPSetTextureLUT(display_list_cabeza++, G_TT_NONE);
         gDPLoadTextureBlock_4b(display_list_cabeza++, *dato_800E47A0[jugador->pool_particula_0[parametro2].temporizador], G_IM_FMT_I, 64, 64,
