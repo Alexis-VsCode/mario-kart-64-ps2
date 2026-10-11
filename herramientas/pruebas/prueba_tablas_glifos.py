@@ -7,6 +7,10 @@ car_a_indice_glifo devuelve indices de 0 a 235 (ancho_pantalla_glifo tiene
 236 anchos). En la N64 lut_textura_glifo tenia 91 entradas y el resto
 seguia en los arreglos que el enlazador ponia a continuacion; en PS2 ese
 orden no se cumple. La tabla tiene que tener las 236 entradas por si misma.
+
+Ademas, lut_textura_glifo se define una sola vez, desde la lista GLIFO y fuera
+de todo #if, sin alias de las tablas en que la N64 la partia: con otra
+definicion para AVOID_UB los glifos del espanol leen fuera de la tabla.
 """
 import glob
 import os
@@ -14,10 +18,21 @@ import re
 import sys
 
 RAIZ = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", ".."))
+TABLAS = os.path.join(RAIZ, "codigo", "menus", "elementos_menu", "textos_y_tablas.inc.c")
+CABECERA_MENU = os.path.join(RAIZ, "incluir", "menus", "elementos_menu.h")
 ALTO_DIACRITICO = 8
 
 GLIFOS_ORIGINALES = 236
 GLIFOS_TOTAL = GLIFOS_ORIGINALES + 11
+
+# Tablas de la N64 que siguen a lut_textura_glifo (dato_800E7FF0..dato_800E822C):
+# aqui son parte de ella y no tienen nombre propio
+TABLAS_PARTIDAS = (0x800E7FF0, 0x800E822C)
+
+# Cuerpo de lut_textura_glifo: solo la lista GLIFO
+CUERPO_LUT = [r"#\s*define\s+GLIFO\(\s*(\w+)\s*,\s*\w+\s*\)\s+(\w+)\s*,",
+              r'#\s*include\s+"lista_glifos\.inc\.c"',
+              r"#\s*undef\s+GLIFO"]
 
 # Indice -> textura, sacado del orden de la N64 (direcciones 0x800E7E84..0x800E8234)
 FIJOS = {
@@ -95,6 +110,42 @@ def probar_partes_de_signo(lut):
                 comprobar(valida, "%s: parte %d de alto %s fuera de un glifo del espanol" % (nombre, orden, alto))
 
 
+def probar_definicion_unica():
+    """lut_textura_glifo: una definicion, fuera de todo #if y hecha con la lista GLIFO."""
+    lineas = open(TABLAS, encoding="utf-8").read().split("\n")
+    abiertos = 0
+    definiciones = []
+    for numero, linea in enumerate(lineas):
+        linea = linea.strip()
+        if re.match(r"#\s*if", linea):
+            abiertos += 1
+        elif re.match(r"#\s*endif", linea):
+            abiertos -= 1
+        elif re.match(r"TexturaMenu\s*\*\s*lut_textura_glifo\s*\[", linea):
+            definiciones.append((numero, abiertos))
+    comprobar(len(definiciones) == 1, "textos_y_tablas.inc.c define lut_textura_glifo %d veces" % len(definiciones))
+    for numero, abierto in definiciones:
+        comprobar(abierto == 0, "textos_y_tablas.inc.c:%d: lut_textura_glifo dentro de un #if" % (numero + 1))
+        cuerpo = []
+        for linea in lineas[numero + 1:]:
+            if linea.startswith("};"):
+                break
+            if linea.strip() and not linea.strip().startswith("//"):
+                cuerpo.append(linea.strip())
+        coincide = [re.fullmatch(patron, linea) for patron, linea in zip(CUERPO_LUT, cuerpo)]
+        valida = len(cuerpo) == len(CUERPO_LUT) and all(coincide) and coincide[0].group(1) == coincide[0].group(2)
+        comprobar(valida, "textos_y_tablas.inc.c:%d: lut_textura_glifo no sale solo de la lista GLIFO" % (numero + 1))
+
+
+def probar_sin_tablas_partidas():
+    """Ni la tabla ni la cabecera nombran las partes de lut_textura_glifo de la N64."""
+    for ruta in (TABLAS, CABECERA_MENU):
+        texto = open(ruta, encoding="utf-8").read()
+        for nombre, direccion in sorted(set(re.findall(r"\b(dato_([0-9A-F]{8}))\b", texto))):
+            dentro = TABLAS_PARTIDAS[0] <= int(direccion, 16) <= TABLAS_PARTIDAS[1]
+            comprobar(not dentro, "%s nombra %s, que es parte de lut_textura_glifo" % (os.path.relpath(ruta, RAIZ), nombre))
+
+
 def main():
     if len(sys.argv) != 2:
         sys.exit(__doc__)
@@ -112,6 +163,8 @@ def main():
         for nuevo, base in sorted(MISMO_ANCHO.items()):
             if nuevo < len(anchos):
                 comprobar(anchos[nuevo] == anchos[base], "el glifo 0x%02X tiene que medir como el 0x%02X" % (nuevo, base))
+    probar_definicion_unica()
+    probar_sin_tablas_partidas()
     print("%d comprobaciones, %d fallos" % (comprobaciones, fallos))
     sys.exit(1 if fallos else 0)
 
