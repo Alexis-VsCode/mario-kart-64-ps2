@@ -228,7 +228,9 @@ void funcion_8006C0C8(Vec3f parametro0, f32 parametro1, s32 rgb, s16 alpha) {
     sp44[0] = 0;
     sp44[1] = camara1->rot[1];
     sp44[2] = 0;
-    funcion_800652D4(sp4_c, sp44, parametro1);
+    if (!funcion_800652D4(sp4_c, sp44, parametro1)) {
+        return;
+    }
     gSPDisplayList(display_list_cabeza++, dato_0D008DB8);
     gDPLoadTextureBlock(display_list_cabeza++, dato_8018D48C, G_IM_FMT_IA, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
@@ -253,7 +255,9 @@ void funcion_8006C294(Vec3f parametro0, f32 parametro1, s32 rgb, s16 alpha) {
     sp54[0] = 0;
     sp54[1] = camara1->rot[1];
     sp54[2] = 0;
-    funcion_800652D4(sp5_c, sp54, parametro1);
+    if (!funcion_800652D4(sp5_c, sp54, parametro1)) {
+        return;
+    }
     gSPDisplayList(display_list_cabeza++, dato_0D008D58);
     gDPSetTextureLUT(display_list_cabeza++, G_TT_NONE);
     gDPLoadTextureBlock(display_list_cabeza++, dato_8018D488, G_IM_FMT_IA, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_CLAMP,
@@ -278,7 +282,9 @@ void funcion_8006C4D4(Vec3f parametro0, f32 parametro1, s32 rgb, s16 alpha, s16 
     sp44[0] = 0;
     sp44[1] = camara1->rot[1];
     sp44[2] = 0;
-    funcion_800652D4(sp4_c, sp44, parametro1);
+    if (!funcion_800652D4(sp4_c, sp44, parametro1)) {
+        return;
+    }
     gSPDisplayList(display_list_cabeza++, dato_0D008DB8);
     gDPLoadTextureBlock(display_list_cabeza++, comun_textura_particula_chispa[parametro4], G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,

@@ -687,13 +687,14 @@ void funcion_800651F4(Jugador* jugador, SIN_USO s8 parametro1, SIN_USO s8 parame
     }
 }
 
-void funcion_800652D4(Vec3f parametro0, Vec3s parametro1, f32 escalar) {
+// Devuelve 0 si la reserva está llena y no cargó matriz: el llamador no debe dibujar
+s32 funcion_800652D4(Vec3f parametro0, Vec3s parametro1, f32 escalar) {
     Mat4 sp20;
 
 #ifdef AVOID_UB
-    // Sin matriz libre en la reserva no se carga ninguna: la partícula sale con la anterior
+    // Sin matriz libre en la reserva no se carga ninguna
     if (cantidad_efecto_matriz >= MTX_EFECTO_POOL_TAMANIO) {
-        return;
+        return 0;
     }
 #endif
     trasladar_rotacion_mtxf(sp20, parametro0, parametro1);
@@ -701,6 +702,7 @@ void funcion_800652D4(Vec3f parametro0, Vec3s parametro1, f32 escalar) {
     convertir_a_matriz_punto_fijo(&gfx_pool->efecto_mtx[cantidad_efecto_matriz], sp20);
     gSPMatrix(display_list_cabeza++, VIRTUAL_A_FISICO(&gfx_pool->efecto_mtx[cantidad_efecto_matriz]),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    return 1;
 }
 
 void funcion_8006538C(Jugador* jugador, s8 indice_jugador, s16 parametro2, s8 parametro3) {
@@ -732,7 +734,9 @@ void funcion_8006538C(Jugador* jugador, s8 indice_jugador, s16 parametro2, s8 pa
             verde_amb = (colores_amb[1] >> 0x08) & 0xFF;
             azul_amb = (colores_amb[1] >> 0x00) & 0xFF;
             prim_alpha = jugador->pool_particula_0[parametro2].alpha;
-            funcion_800652D4(sp_b4, sp_ac, ((jugador->pool_particula_0[parametro2].scale * jugador->size) * 1.4));
+            if (!funcion_800652D4(sp_b4, sp_ac, ((jugador->pool_particula_0[parametro2].scale * jugador->size) * 1.4))) {
+                return;
+            }
             gSPDisplayList(display_list_cabeza++, dato_0D008DB8);
             gDPLoadTextureBlock(display_list_cabeza++, comun_textura_particula_humo[jugador->pool_particula_0[parametro2].desconocido_010],
                                 G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
@@ -748,7 +752,9 @@ void funcion_8006538C(Jugador* jugador, s8 indice_jugador, s16 parametro2, s8 pa
             verde_amb = (colores_amb[jugador->pool_particula_0[parametro2].rojo] >> 0x08) & 0xFF;
             azul_amb = (colores_amb[jugador->pool_particula_0[parametro2].rojo] >> 0x00) & 0xFF;
             prim_alpha = jugador->pool_particula_0[parametro2].alpha;
-            funcion_800652D4(sp_b4, sp_ac, jugador->pool_particula_0[parametro2].scale * jugador->size);
+            if (!funcion_800652D4(sp_b4, sp_ac, jugador->pool_particula_0[parametro2].scale * jugador->size)) {
+                return;
+            }
             gSPDisplayList(display_list_cabeza++, dato_0D008DB8);
             gDPLoadTextureBlock(display_list_cabeza++, comun_textura_particula_humo[jugador->pool_particula_0[parametro2].desconocido_010],
                                 G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
@@ -779,7 +785,9 @@ void funcion_800658A0(Jugador* jugador, SIN_USO s8 indice_jugador, s16 parametro
         sp4_c[0] = 0;
         sp4_c[1] = jugador->desconocido_048[parametro3];
         sp4_c[2] = 0;
-        funcion_800652D4(sp54, sp4_c, jugador->pool_particula_0[parametro2].scale * jugador->size);
+        if (!funcion_800652D4(sp54, sp4_c, jugador->pool_particula_0[parametro2].scale * jugador->size)) {
+            return;
+        }
         gSPDisplayList(display_list_cabeza++, dato_0D008DB8);
         gDPLoadTextureBlock(display_list_cabeza++, dato_8018D48C, G_IM_FMT_IA, G_IM_SIZ_8b, 32, 32, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
@@ -821,7 +829,9 @@ void renderizar_particulas_derrape_jugador(Jugador* jugador, SIN_USO s8 indice_j
         sp_ac[0] = 0;
         sp_ac[1] = jugador->desconocido_048[parametro3];
         sp_ac[2] = 0;
-        funcion_800652D4(sp_b4, sp_ac, jugador->pool_particula_1[parametro2].scale * jugador->size);
+        if (!funcion_800652D4(sp_b4, sp_ac, jugador->pool_particula_1[parametro2].scale * jugador->size)) {
+            return;
+        }
         if (variable_s0 == 0) {
             gSPDisplayList(display_list_cabeza++, dato_0D008DB8);
             gDPLoadTextureBlock(display_list_cabeza++, *dato_800E4770[variable_s0], G_IM_FMT_I, G_IM_SIZ_8b, 16, 16, 0,
