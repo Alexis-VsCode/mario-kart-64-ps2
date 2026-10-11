@@ -300,7 +300,7 @@ void gs_inicializar(void)
 
     registrar("GS: fb %x/%x z %x texturas %x-%x", (unsigned) s_gs->ScreenBuffer[0], (unsigned) s_gs->ScreenBuffer[1],
             (unsigned) s_gs->ZBuffer, (unsigned) gs_vram_inicio_texturas(), (unsigned) gs_vram_fin_texturas());
-    registrar("video: PMODE %x DISPLAY %x%08x", (unsigned) registros_video.pmode,
+    registrar("vídeo: PMODE %x área visible %x%08x", (unsigned) registros_video.pmode,
             (unsigned) (registros_video.display >> 32), (unsigned) registros_video.display);
 }
 
