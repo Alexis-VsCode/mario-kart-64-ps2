@@ -98,6 +98,52 @@ void quitar_diacriticos(char* destino, int tam, const char* origen) {
     }
 }
 
+// Codigo CP437 de cada caracter en mayuscula y en minuscula; 0 si no hay glifo
+static const unsigned char cp437[CAR_ES_TOTAL][2] = {
+    [CAR_ES_A_AGUDA] = { 0, 0xA0 },
+    [CAR_ES_E_AGUDA] = { 0x90, 0x82 },
+    [CAR_ES_I_AGUDA] = { 0, 0xA1 },
+    [CAR_ES_O_AGUDA] = { 0, 0xA2 },
+    [CAR_ES_U_AGUDA] = { 0, 0xA3 },
+    [CAR_ES_ENIE] = { 0xA5, 0xA4 },
+    [CAR_ES_U_DIERESIS] = { 0x9A, 0x81 },
+    [CAR_ES_ABRE_EXCLAMACION] = { 0xAD, 0 },
+    [CAR_ES_ABRE_INTERROGACION] = { 0xA8, 0 },
+    [CAR_ES_ORDINAL_O] = { 0xA7, 0 },
+    [CAR_ES_ORDINAL_A] = { 0xA6, 0 },
+};
+
+void a_cp437(char* destino, int tam, const char* origen) {
+    int escritos = 0;
+
+    while (*origen != 0 && escritos < tam - 1) {
+        int bytes, minuscula;
+        int car = leer_caracter_es(origen, &bytes, &minuscula);
+        unsigned char codigo = (car == CAR_ES_NINGUNO) ? 0 : cp437[car][minuscula];
+
+        if (codigo != 0) {
+            destino[escritos++] = (char) codigo;
+            origen += bytes;
+        } else {
+            // Sin glifo: la transliteracion de quitar_diacriticos de ese caracter solo
+            char trozo[4] = { 0 }, ascii[2];
+            int i;
+
+            for (i = 0; i < bytes; i++) {
+                trozo[i] = origen[i];
+            }
+            quitar_diacriticos(ascii, sizeof(ascii), trozo);
+            if (ascii[0] != 0) {
+                destino[escritos++] = ascii[0];
+            }
+            origen += bytes;
+        }
+    }
+    if (tam > 0) {
+        destino[escritos] = 0;
+    }
+}
+
 int primer_byte_invalido(char* cadena, LectorGlifo leer) {
     int posicion = 0;
     int bytes, i;
