@@ -5,6 +5,7 @@
 
 #include "ceremonia/camara_ceremonia.h"
 #include "carrera/camara.h"
+#include "graficos/vista_panoramica.h"
 #include "sistema/matematicas.h"
 #include "ceremonia/ceremonia_y_creditos.h"
 #include "sistema/bucle_principal.h"
@@ -37,7 +38,7 @@ void inicializar_ceremonia_podio_camara(void) {
     camaras[0].arriba[1] = 1.0f;
     camaras[0].arriba[2] = 0.0f;
     acercar_camara[0] = 40.0f;
-    aspecto_pantalla = 1.33333333f;
+    aspecto_pantalla = aspecto_panoramico(1.33333333f, opciones_port.formato);
     circuito_cerca_persp = 3.0f;
     persp_lejos_circuito = 6800.0f;
     inicializar_camara_cinematica();
