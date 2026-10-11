@@ -39,7 +39,7 @@ Alexis Barrera (GitHub: [Alexis-VsCode](https://github.com/Alexis-VsCode)) manti
 - la tabla de texturas de glifos cubre los 236 glifos originales, que en PS2 se leían fuera de la tabla (`4e35120`);
 - el texto del menú no escribe más matrices de las que tiene su reserva (`dcc0914`).
 
-**Sincronización con el original** hasta `ae93f71`: fusión `9f4d0215` y textos nuevos del original en español (`748db117` y `36fc9e40`). Después de la sincronización, las correcciones de [CC-11](../traduccion/cambios.md) (E3, E4, E5, G5, L2 y L3) están en la rama de integración `feature/sincronizacion-upstream` hasta su fusión a `main`.
+**Sincronización con el original** hasta `ae93f71`: fusión `9f4d0215` y textos nuevos del original en español (`748db117` y `36fc9e40`). Después de la sincronización, las correcciones de [CC-11](../traduccion/cambios.md): E3 `176651ed`, E4 `a86960cf`, E5 `61a88a74`, G5 `ce98830c`, L2 `9adc3192` y L3 `ac4fcdae`.
 
 ## Herramientas de terceros
 
@@ -49,4 +49,4 @@ Alexis Barrera (GitHub: [Alexis-VsCode](https://github.com/Alexis-VsCode)) manti
 
 ## Licencia y marcas
 
-Ni el repositorio original ni este fork declaran una licencia, y este repositorio no añade ninguna. Mario Kart 64, Nintendo 64, PlayStation 2, DualShock y el resto de marcas citadas pertenecen a sus respectivos dueños. Proyecto de preservación sin afiliación con Nintendo ni con Sony.
+Ver el [aviso legal](../../README.md#aviso-legal) de la portada.
