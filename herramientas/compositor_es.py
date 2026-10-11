@@ -37,6 +37,8 @@ reescribe, texto en ingles y columna de su primer corte (autoprueba) y opciones:
   alinear=M,... izquierda, derecha o centro por linea; M@N ancla el borde (o el centro) en N
   area=X,Y,W,H  zona que ocupa el espanol si no es la caja del ingles
   borrar=X,Y,W,H  zona que se borra si no es el area (el resto del area ya es fondo)
+  contorno=si   cada letra (ya estrechada) se cierra con un contorno de 1 pixel donde su
+                relleno llega al corte (letras sueltas en una fuente que las monta)
   avance=C:N    en esta textura, el caracter C avanza N columnas (coloca el siguiente)
   lienzo=AxB+X,Y  la version en espanol mide AxB y lleva la original en (X, Y)
   color_lineas=si  cada linea toma el degradado de las filas del original, no el de abajo
@@ -472,6 +474,8 @@ def colocar(familia, destino, lineas, caja, opc, en_ingles=False, x_en=None):
                 continue
             g = familia.glifo(c, destino.id, indice)
             g = _condensar(g, factor) if factor != 1.0 and (not solo or c in solo) else g
+            if opc.get("contorno") == "si" and not en_ingles:
+                g = _contornear(g)
             if c in avances:
                 g = Glifo(g.pixeles, avances[c], g.base)
             glifos.append(g)
