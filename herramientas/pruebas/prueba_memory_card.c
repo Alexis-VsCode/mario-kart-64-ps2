@@ -253,6 +253,15 @@ static void pedir_guardar_partida(void) {
     pedir_guardado();
 }
 
+// Se cambia la tarjeta por una con partidas más nuevas que la sesión
+static void cambiar_tarjeta_y_guardar(void) {
+    poner_partida(ARCHIVO_A_GUARDADO, 50);
+    poner_partida(ARCHIVO_B_GUARDADO, 49);
+    sim_programar_info(-1);
+    guardado_ps2.generacion = 2;
+    pedir_guardar_partida();
+}
+
 static void prueba_hilo(void) {
     empezar();
     poner_partida(ARCHIVO_A_GUARDADO, 5);
@@ -263,6 +272,15 @@ static void prueba_hilo(void) {
     comprobar(generacion_en_tarjeta(ARCHIVO_B_GUARDADO) == 6, "hilo", "no se guardó en la B");
     comprobar(en_registro("partida guardada (generación 6)"), "hilo", "falta el registro del guardado");
     comprobar(!cargando_memcard_ps2(), "hilo", "la carga sigue pendiente");
+
+    // Con otra tarjeta, el registro da la generación escrita, no la de la sesión
+    empezar();
+    sim_carpeta = 1;
+    sim_al_esperar = cambiar_tarjeta_y_guardar;
+    sim_correr_hilo();
+    comprobar(generacion_en_tarjeta(ARCHIVO_B_GUARDADO) == 51, "hilo con otra tarjeta", "la B no lleva la 51");
+    comprobar(en_registro("partida guardada (generación 51)"), "hilo con otra tarjeta",
+              "el registro no da la generación escrita");
 
     // Sin tarjeta que conteste no se intenta guardar
     empezar();
