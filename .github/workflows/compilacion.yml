@@ -7,11 +7,19 @@ on:
   workflow_dispatch:
     inputs:
       base:
-        description: "Referencia para comparar el binario (vacio: no se compara)"
+        description: "Referencia para comparar el binario (vacío: no se compara)"
         required: false
         default: ""
       publicar:
-        description: "si: regenera build/ y compilaciones/ y los commitea en la rama"
+        description: "sí: regenera build/ y compilaciones/ y los commitea en la rama"
+        required: false
+        default: "no"
+      release:
+        description: "Etiqueta de la Release (vacío: no se publica); las notas salen de docs/versiones/<etiqueta>.md"
+        required: false
+        default: ""
+      limpiar_ramas:
+        description: "sí: borra las ramas remotas que ya están contenidas en main"
         required: false
         default: "no"
 
@@ -33,13 +41,16 @@ jobs:
       - name: Dependencias del PC
         run: apk add --no-cache bash build-base python3 git coreutils findutils cdrkit
       - uses: actions/checkout@v4
-      # build/ esta versionado: sin esto make podria reutilizar objetos del repo
+      # build/ está versionado: sin esto make podría reutilizar objetos del repo
       - name: make clean
         run: make clean
       - name: make (release)
         run: . herramientas/entorno.sh && make -j"$(nproc)"
       - name: make DEBUG=1
         run: . herramientas/entorno.sh && make DEBUG=1 -j"$(nproc)"
+      # Los guiones de prueba y los registros DEV solo compilan con DEV=1
+      - name: make DEV=1
+        run: . herramientas/entorno.sh && make DEV=1 -j"$(nproc)"
       - name: make test
         run: make test
       - name: make iso
@@ -73,7 +84,7 @@ jobs:
 
   publicar:
     name: Commit de publicacion (build/ y compilaciones/)
-    if: github.event_name == 'workflow_dispatch' && inputs.publicar == 'si'
+    if: github.event_name == 'workflow_dispatch' && (inputs.publicar == 'si' || inputs.publicar == 'sí')
     runs-on: ubuntu-latest
     container: ps2dev/ps2dev@sha256:7327334ab94e273b1723761fcd4a3591a31b78bbc28e4c281ad0fa42b3c8264d
     permissions:
@@ -102,5 +113,52 @@ jobs:
           git config user.name "Alexis Barrera"
           git config user.email "mochobarrera12@gmail.com"
           git add -A build/ps2 compilaciones
-          git commit -m "chore(build): binarios e ISO en espanol" -m "Regenerados desde cero con la imagen de ps2dev: release, DEBUG, DEV, pruebas e ISO." || echo "sin cambios"
+          git commit -m "build(compilaciones): binarios e ISO en español" \
+            -m "Regenerados desde cero con la imagen de ps2dev: release, DEBUG, DEV, pruebas e ISO." \
+            -m "Fuentes: ${{ github.sha }}. Ejecución: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            || echo "sin cambios"
           git push origin HEAD:${{ github.ref_name }}
+
+  release:
+    name: Release con la ISO
+    if: github.event_name == 'workflow_dispatch' && inputs.release != ''
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ETIQUETA: ${{ inputs.release }}
+      ISO: compilaciones/SLUS_999.99.SuperMarioKart64.iso
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publicar la ISO versionada con sus notas
+        run: |
+          NOTAS="docs/versiones/$ETIQUETA.md"
+          test -f "$ISO" || { echo "falta $ISO"; exit 1; }
+          test -f "$NOTAS" || { echo "faltan las notas $NOTAS"; exit 1; }
+          sha256sum "$ISO" | sed 's#compilaciones/##' > SHA256SUMS
+          cat SHA256SUMS
+          gh release create "$ETIQUETA" "$ISO" SHA256SUMS --target "$GITHUB_SHA" \
+            --title "Mario Kart 64 PS2 en español $ETIQUETA" --notes-file "$NOTAS"
+
+  limpiar-ramas:
+    name: Borrar las ramas ya contenidas en main
+    if: github.event_name == 'workflow_dispatch' && (inputs.limpiar_ramas == 'si' || inputs.limpiar_ramas == 'sí')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      # Solo se borra una rama si su punta ya está en main: no se pierde ningún commit
+      - name: Borrar
+        run: |
+          git for-each-ref --format='%(refname:strip=3)' refs/remotes/origin | while read -r rama; do
+            case "$rama" in main|HEAD) continue ;; esac
+            if git merge-base --is-ancestor "origin/$rama" origin/main; then
+              git push origin --delete "$rama"
+            else
+              echo "se conserva $rama: tiene commits que no estan en main"
+            fi
+          done
