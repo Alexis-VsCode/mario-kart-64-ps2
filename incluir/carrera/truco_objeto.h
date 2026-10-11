@@ -4,7 +4,7 @@
 #include <juego/definiciones.h>
 #include "sistema/opciones_port.h"
 
-// Truco OBJETO (CC-23): la caja de un jugador humano da siempre el objeto
+// Truco OBJETO: la caja de un jugador humano da siempre el objeto
 // elegido. Se aplica después del sorteo para que el generador aleatorio avance
 // igual; la CPU y el Boo no pasan por aquí.
 

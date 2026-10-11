@@ -297,7 +297,7 @@ static void prueba_hilo(void) {
     comprobar(sim_n_traza == 1 && sim_ordenes_ocupado == 0, "hilo sin tarjeta", "se pidieron más órdenes");
 }
 
-// Opciones del port en SMK64CFG.DAT (CC-18): se leen en el hilo tras la
+// Opciones del port en SMK64CFG.DAT: se leen en el hilo tras la
 // partida y se escriben en él cuando el menú lo pide
 static int opciones_iguales(const OpcionesPort *a, const OpcionesPort *b) {
     return memcmp(a, b, sizeof(*a)) == 0;

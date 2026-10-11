@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""herramientas/ci/tope_rom.py: la ROM crece menos de 256 KiB (R-TEX-03, D-03).
+"""herramientas/ci/tope_rom.py: la ROM crece menos de 256 KiB sobre la base medida.
 
 La base es build/ps2/rom.bin de main medido en F7 (11 292 880 B). Con
 base + 256 KiB - 1 bytes pasa; con base + 256 KiB, no.
@@ -37,7 +37,7 @@ def ejecutar(tamanio, *extra):
 def main():
     base = tope_rom.BASE
     limite = base + 256 * 1024
-    comprobar(base == 11292880, "la base es la de R-TEX-03: %d" % base)
+    comprobar(base == 11292880, "la base es la medida en main: %d" % base)
     comprobar(tope_rom.dentro_del_tope(base, base), "la base pasa")
     comprobar(tope_rom.dentro_del_tope(limite - 1, base), "límite - 1 pasa")
     comprobar(not tope_rom.dentro_del_tope(limite, base), "el límite no pasa")

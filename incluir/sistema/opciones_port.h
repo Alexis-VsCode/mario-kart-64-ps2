@@ -6,7 +6,7 @@
 #include "sistema/crc32.h"
 
 // Ajustes de imagen y trucos del port, guardados en SMK64CFG.DAT aparte de la
-// partida (CC-18). Flujo: el menú de CC-19 escribe opciones_port y llama a
+// partida. Flujo: el menú CONFIGURACIÓN Y TRUCOS escribe opciones_port y llama a
 // opciones_cambiadas() en cada cambio, y al salir a pedir_guardado_opciones();
 // el GS relee opciones_port en el retrazo cuando cambia version_opciones_port;
 // los trucos leen opciones_port directamente.

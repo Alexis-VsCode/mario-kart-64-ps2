@@ -1,7 +1,7 @@
 #ifndef JUEGO_TRUCOS_H
 #define JUEGO_TRUCOS_H
 
-// Truco DESBLOQUEAR TODO (CC-22). Las consultas aceptan el truco sin escribir
+// Truco DESBLOQUEAR TODO. Las consultas aceptan el truco sin escribir
 // nunca el desbloqueo en la partida guardada.
 
 // puntos_150cc: los 2 bits por copa de la partida; 0xFF es oro en las cuatro

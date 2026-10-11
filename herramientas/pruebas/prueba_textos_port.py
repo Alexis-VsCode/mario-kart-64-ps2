@@ -375,6 +375,26 @@ def revisar_pantalla_ascii():
                 nombres.add(valor)
 
 
+# Identificadores de requisito (R-XXX-N), de criterio (CC-N) o de deuda (D-NN):
+# van en el commit y en la trazabilidad, no en el codigo ni en las herramientas
+IDENTIFICADOR = re.compile(r"\b(?:R-(?:FUE|TXT|MC|TEX|PORT|INF|GOB|VID|TRU)-[0-9]+|CC-[0-9]+|D-[0-9]{2})\b")
+CARPETAS_SIN_IDENTIFICADORES = ("codigo", "incluir", "herramientas")
+
+
+def revisar_identificadores():
+    for carpeta in CARPETAS_SIN_IDENTIFICADORES:
+        for base, carpetas, nombres in os.walk(os.path.join(RAIZ, carpeta)):
+            carpetas[:] = sorted(c for c in carpetas if c != "__pycache__")
+            for nombre in sorted(nombres):
+                ruta = os.path.join(base, nombre)
+                with open(ruta, "rb") as f:
+                    texto = f.read().decode("utf-8", "replace")
+                for n, linea in enumerate(texto.splitlines(), 1):
+                    hallado = IDENTIFICADOR.search(linea)
+                    comprobar(not hallado, "%s:%d: cita '%s'; describe el contrato sin el identificador"
+                              % (os.path.relpath(ruta, RAIZ), n, hallado and hallado.group(0)))
+
+
 def archivos_de(archivos):
     if archivos is TODO_EL_CODIGO:
         return list(fuentes_del_codigo())
@@ -387,6 +407,7 @@ def main():
     claves = claves_guion()
     revisar_marcas()
     revisar_pantalla_ascii()
+    revisar_identificadores()
     for que, archivos, llamadas in REVISIONES:
         for ruta in archivos_de(archivos):
             anchos = set()

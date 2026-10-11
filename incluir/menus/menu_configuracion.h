@@ -3,7 +3,7 @@
 
 #include "sistema/opciones_port.h"
 
-// Navegación y valores del menú CONFIGURACIÓN Y TRUCOS (CC-19). Lógica pura:
+// Navegación y valores del menú CONFIGURACIÓN Y TRUCOS. Lógica pura:
 // el menú la llama con la fila elegida y el sentido (+1 derecha o X, -1
 // izquierda), y la prueba del PC la comprueba sin el juego.
 

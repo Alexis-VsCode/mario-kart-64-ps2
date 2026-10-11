@@ -3,7 +3,7 @@
 
 El inspector busca el símbolo msx (256 glifos de 8x8, un byte por fila) en
 libdebug.a o en un objeto ELF32 suelto y exige que los códigos CP437 de
-á é í ó ú ñ Ñ ü ¿ ¡ tengan los glifos esperados (D-07). Aquí la fuente se
+á é í ó ú ñ Ñ ü ¿ ¡ tengan los glifos esperados. Aquí la fuente se
 arma con los glifos esperados del propio inspector dentro de un .o y de un
 .a sintéticos; un solo bit cambiado tiene que dar fallo.
 """

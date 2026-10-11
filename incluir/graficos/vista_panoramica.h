@@ -3,7 +3,7 @@
 
 #include "sistema/opciones_port.h"
 
-// Vista panorámica Hor+ (CC-21): en FORMATO_PANORAMICO la tele estira la
+// Vista panorámica Hor+: en FORMATO_PANORAMICO la tele estira la
 // imagen a 16:9, así que se ve 4/3 más de ancho con el mismo alto. Se aplica a
 // aspecto_pantalla donde la carrera, la vista dividida y la ceremonia lo
 // asignan, nunca en guPerspectiveF, para que los menús no cambien.

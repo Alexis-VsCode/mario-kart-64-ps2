@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Comprueba que la fuente de libdebug tiene las letras del español en CP437 (D-07).
+"""Comprueba que la fuente de libdebug tiene las letras del español en CP437.
 
 Uso: inspeccionar_fuente_libdebug.py [libdebug.a | objeto.o]
      (por defecto $PS2SDK/ee/lib/libdebug.a)
