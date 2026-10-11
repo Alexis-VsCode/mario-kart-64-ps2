@@ -175,9 +175,13 @@ SIN_TILDE = {
     "division": "división",
     "camara": "cámara",
     "vision": "visión",
+    "tiron": "tirón",
+    "proxima": "próxima",
+    "monton": "montón",
+    "creditos": "créditos",
 }
 # Verbo en pasado salvo detras de un determinante (el fallo, un cambio)
-AMBIGUAS = {"fallo": "falló", "cambio": "cambió"}
+AMBIGUAS = {"fallo": "falló", "cambio": "cambió", "acepto": "aceptó", "termino": "terminó", "quedo": "quedó"}
 DETERMINANTES = {"el", "un", "del", "al", "sin", "cada", "otro", "su", "este", "ese", "primer"}
 # La palabra que abre el literal seguida de ':' es una etiqueta (FALLO: ...)
 ETIQUETA = re.compile(r"^\s*(\w+)\s*:")
