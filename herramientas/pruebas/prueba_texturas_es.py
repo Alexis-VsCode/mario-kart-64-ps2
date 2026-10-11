@@ -8,7 +8,9 @@ el motivo de las que no se traducen. Exportar e importar cada una da
 exactamente los bytes originales decodificados (SHA-1 de
 referencias_tkmk00.txt); comprobar rechaza PNG que no sirven y la hoja de
 contacto marca solo lo que cambio. Ningun texto_es nombra los botones de
-la N64, la N64 ni el Controller Pak: van los botones de la PS2.
+la N64, la N64 ni el Controller Pak: van los botones de la PS2. Cada textura de
+las carpetas y .incbin de R-TEX-02 tiene una fila o una fila de carpeta
+(carpeta:<ruta>) con motivo.
 """
 import contextlib
 import hashlib
@@ -22,6 +24,7 @@ import tempfile
 RAIZ = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 sys.path.insert(0, os.path.join(RAIZ, "herramientas"))
 
+import lakitu_es  # noqa: E402
 import png_simple  # noqa: E402
 import texturas_es  # noqa: E402
 
@@ -45,6 +48,28 @@ CONTROLLER_PAK = ["n64_controller_pak_seleccion_datos", "borrar_datos_registro_c
 BOTONES_N64 = {"L", "R", "Z", "A", "B", "N64"}
 ICONOS_N64 = ("\u24b6", "\u24b7")  # A y B en un circulo
 CONTROLLER_PAK_TEXTO = re.compile(r"\bCONTROLLER\s+PAK\b")
+
+# Lo que R-TEX-02 manda cubrir, ademas de los .incbin de codigo/datos/*.s
+CARPETAS_R_TEX_02 = ["recursos/comunes/texturas"] + ["recursos/texturas/" + c for c in (
+    "sin_comprimir", "generales", "efectos", "lakitu", "pistas", "objetos", "karts", "seleccion_personaje")]
+ARCHIVOS_R_TEX_02 = ["recursos/texturas/fuente_pantalla_fallo.ia1.inc.c"]
+INCBIN = re.compile(r'\.incbin\s+"(recursos/texturas/[^"]+)"')
+
+# Carpetas con texto visible que no es logotipo ni cartel comercial (por
+# ejemplo el cartel de bienvenida en ingles de generales/): ni se excluyen
+# ni tienen aun una fila por textura. Quitar la entrada al cubrirlas.
+PENDIENTES = [
+    "recursos/comunes/texturas",  # HUD y objetos; 16 con fila, el resto sin revisar
+    "recursos/texturas/generales",  # carteles de pista (bienvenida, Nintendo, Luigi's...)
+    "recursos/texturas/sin_comprimir",  # 2 mitades de MOO MOO FARM y PULSA START con fila
+    "recursos/texturas/pistas/dks_jungle_parkway",  # cartel del barco
+    "recursos/texturas/pistas/kalimari_desert",  # 64 de la locomotora y senales de cruce
+    "recursos/texturas/pistas/luigi_raceway",  # carteles
+    "recursos/texturas/pistas/mario_raceway",  # carteles
+    "recursos/texturas/pistas/moo_moo_farm",  # cartel MOO MOO FARM
+    "recursos/texturas/pistas/wario_stadium",  # carteles
+    "recursos/texturas/fuente_pantalla_fallo.ia1.inc.c",  # fuente: un archivo, no una carpeta
+]
 
 fallos = 0
 comprobaciones = 0
@@ -218,6 +243,63 @@ def probar_botones(filas):
         comprobar(not n64, "%s: '%s' nombra %s de la N64" % (f["id"], f["texto_es"], ", ".join(n64)))
 
 
+def texturas_r_tex_02():
+    """Rutas (relativas a la raiz) de las texturas que R-TEX-02 manda cubrir."""
+    rutas = set(ARCHIVOS_R_TEX_02)
+    for carpeta in CARPETAS_R_TEX_02:
+        for dir_, _, archivos in os.walk(os.path.join(RAIZ, carpeta)):
+            rutas.update(os.path.relpath(os.path.join(dir_, a), RAIZ) for a in archivos)
+    datos = os.path.join(RAIZ, "codigo", "datos")
+    for s in sorted(os.listdir(datos)):
+        if s.endswith(".s"):
+            with open(os.path.join(datos, s)) as f:
+                rutas.update(INCBIN.findall(f.read()))
+    return sorted(rutas)
+
+
+def dentro(ruta, carpeta):
+    return ruta.startswith(carpeta.rstrip("/") + "/")
+
+
+def sin_cubrir(rutas, filas, carpetas):
+    """Las rutas sin fila propia, sin carpeta excluida y fuera del manifiesto de Lakitu."""
+    con_fila = {f["origen"] for f in filas}
+    cubiertas = [c["ruta"] for c in carpetas]
+    cubiertas += ["recursos/texturas/lakitu/" + f["carpeta"] for f in lakitu_es.leer_manifiesto()]
+    return [r for r in rutas if r not in con_fila and not any(dentro(r, c) for c in cubiertas)]
+
+
+def probar_carpetas(filas):
+    """Paso 6: filas de carpeta y cobertura de R-TEX-02."""
+    cabecera = "\t".join(texturas_es.COLUMNAS)
+    textura = "\t".join(["ok", "recursos/texturas/menus/tkmk00/ok.rgba16.tkmk00", "rgba16", "64x18", "", "opaco", "",
+                         "", "no", "x"])
+    carpeta = "carpeta:recursos/texturas/karts" + "\t" * 9 + "sprites"
+    with tempfile.TemporaryDirectory() as tmp:
+        tsv = os.path.join(tmp, "m.tsv")
+        for lineas, valida in (([textura, carpeta], True), ([carpeta.replace("sprites", "")], False),
+                               ([carpeta.replace("\t\t\t", "\trgba16\t\t", 1)], False),
+                               (["carpeta:\t" + "\t" * 8 + "x"], False)):
+            with open(tsv, "w") as f:
+                f.write("\n".join([cabecera] + lineas) + "\n")
+            try:
+                leidas = texturas_es.leer_manifiesto(tsv)
+                carpetas = texturas_es.leer_carpetas(tsv)
+                ok = valida and [f["id"] for f in leidas] == ["ok"] and carpetas == [
+                    {"ruta": "recursos/texturas/karts", "motivo": "sprites"}]
+            except texturas_es.ErrorManifiesto:
+                ok = not valida
+            comprobar(ok, "fila de carpeta %r: se esperaba %s" % (lineas[-1], "aceptarla" if valida else "rechazarla"))
+    carpetas = texturas_es.leer_carpetas(MANIFIESTO)
+    for c in carpetas:
+        comprobar(os.path.isdir(os.path.join(RAIZ, c["ruta"])), "carpeta:%s no existe" % c["ruta"])
+    faltan = sin_cubrir(texturas_r_tex_02(), filas, carpetas)
+    fuera = [r for r in faltan if not any(r == p or dentro(r, p) for p in PENDIENTES)]
+    comprobar(not fuera, "%d texturas sin fila ni carpeta excluida, p. ej. %s" % (len(fuera), ", ".join(fuera[:5])))
+    for p in PENDIENTES:
+        comprobar(any(r == p or dentro(r, p) for r in faltan), "%s ya esta cubierta: quitarla de PENDIENTES" % p)
+
+
 def main():
     if len(sys.argv) != 2:
         sys.exit(__doc__)
@@ -230,6 +312,7 @@ def main():
         probar_rechazos(herramienta, tmp)
         probar_hoja(tmp)
     probar_botones(filas)
+    probar_carpetas(filas)
     print("%d comprobaciones, %d fallos" % (comprobaciones, fallos))
     sys.exit(1 if fallos else 0)
 
