@@ -1,0 +1,21 @@
+# Guion del job 'emulador' de la CI (CC-26). Se copia como host:smk64_input.txt
+# y se arranca build/ps2/dev/SLUS_999.99 en Play!. Cada 'captura' deja
+# host:<nombre>.tga, que comparar_capturas.py compara con referencias/<nombre>.png.
+# Las capturas van a un cuadro fijo del juego para que dos ejecuciones coincidan.
+
+# Titulo con PULSA START
+espera 300
+captura titulo
+
+# Menu principal (ELIGE MODO)
+pulsa START
+espera 120
+pulsa START
+espera 120
+captura menu
+
+# Gran premio: piloto y pista por defecto hasta la carrera
+pulsa_hasta A estado == 4 3600
+espera 400
+captura carrera
+fin

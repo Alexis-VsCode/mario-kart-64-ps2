@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<Config>
+<Preference Name="video.gshandler" Type="integer" Value="1" />
+<Preference Name="renderer.ramreads.enabled" Type="boolean" Value="true" />
+</Config>
