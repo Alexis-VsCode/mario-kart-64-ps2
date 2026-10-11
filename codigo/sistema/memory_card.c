@@ -12,6 +12,7 @@
 #include "entrada/multitap.h"
 #include "sistema/guardado_ps2.h"
 #include "sistema/cronometro_fases.h"
+#include "sistema/eleccion_guardado.h"
 
 #define PUERTO_MC 0
 #define RANURA_MC 0
@@ -32,6 +33,7 @@ static s32 sema_tic = -1;
 static u8 pila_guardado[16 * 1024] __attribute__((aligned(16)));
 static ImagenGuardadoPs2 copia_escritura __attribute__((aligned(64)));
 static int ranura_siguiente;      /* copia que recibe el proximo guardado */
+static u32 desplazamiento_gen;    /* se suma a la generación de la sesión al escribir */
 static int archivos_legacy;   /* quedan SMK64.SAV / SMK64.TMP de builds anteriores */
 
 enum { PENDIENTE_CARGA, HECHO_CARGA, CARGA_ABANDONED };
@@ -84,15 +86,20 @@ static int resultado_llamar_mc(void)
     return result;
 }
 
-static int listo_tarjeta_mc(void)
+/* *nueva queda en 1 si libmc contesta -1: la tarjeta no es la de la orden anterior */
+static int listo_tarjeta_mc(int *nueva)
 {
     int type = 0, free = 0, format = 0; /* libmc solo los rellena si la orden termina */
+    int r;
 
+    *nueva = 0;
     if (!mc_ok || mcGetInfo(PUERTO_MC, RANURA_MC, &type, &free, &format) != 0) {
         return 0;
     }
     /* 0: la misma tarjeta; -1: otra ya formateada */
-    return resultado_llamar_mc() >= -1 && mc_ok && type == sceMcTypePS2 && format;
+    r = resultado_llamar_mc();
+    *nueva = r == -1;
+    return r >= -1 && mc_ok && type == sceMcTypePS2 && format;
 }
 
 static int escribir_archivo_mc(const char *path, const void *datos, int size)
@@ -236,9 +243,9 @@ static int publish(const ImagenGuardadoPs2 *img)
 void cargar_partida(void)
 {
     u32 generar_a = 0, generar_b = 0;
-    int tiene_a, tiene_b, primer;
+    int tiene_a, tiene_b, primer, nueva;
 
-    if (!mc_ok || !listo_tarjeta_mc()) {
+    if (!mc_ok || !listo_tarjeta_mc(&nueva)) {
         registrar("memory card: sin tarjeta en la ranura 1; la partida no se guardará hasta insertarla");
         return;
     }
@@ -295,14 +302,39 @@ void esperar_cargado_memcard_ps2(void)
     }
 }
 
+/* En una tarjeta que no es la leída por cargar_partida, la copia que se pisa y la
+   generación salen de sus cabeceras, para que lo escrito quede como la partida más
+   nueva. guardado_ps2.generacion no se toca: el hilo la usa para espaciar los guardados. */
+static int releer_tarjeta_nueva(u32 generacion_sesion)
+{
+    u32 gen_a = 0, gen_b = 0;
+    int valida_a = leer_cabecera(ARCHIVO_A_GUARDADO, &gen_a);
+    int valida_b = leer_cabecera(ARCHIVO_B_GUARDADO, &gen_b);
+    EleccionGuardado e;
+
+    if (!mc_ok) {
+        return -1;
+    }
+    e = elegir_copia_guardado(valida_a, gen_a, valida_b, gen_b);
+    ranura_siguiente = e.copia;
+    desplazamiento_gen = desplazamiento_generacion(generacion_sesion, e.generacion_minima);
+    registrar("memory card: tarjeta nueva; se guardará en la copia %c con la generación %u o más",
+              e.copia == COPIA_GUARDADO_A ? 'A' : 'B', (unsigned) (generacion_sesion + desplazamiento_gen));
+    return 0;
+}
+
 static int guardar_ahora(void)
 {
-    int r;
+    int r, nueva;
 
-    if (!listo_tarjeta_mc()) {
+    if (!listo_tarjeta_mc(&nueva)) {
         return -1;
     }
     memcpy(&copia_escritura, &guardado_ps2, sizeof(copia_escritura));
+    if (nueva && releer_tarjeta_nueva(copia_escritura.generacion) != 0) {
+        return -1;
+    }
+    copia_escritura.generacion += desplazamiento_gen;
     copia_escritura.magic = MAGICO_GUARDADO_PS2;
     copia_escritura.version = VERSION_GUARDADO_PS2;
     copia_escritura.checksum = crc_imagen(&copia_escritura);
