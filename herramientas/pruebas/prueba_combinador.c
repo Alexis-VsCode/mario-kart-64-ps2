@@ -102,6 +102,14 @@ int main(void)
         COMPROBACION(combinador_lee_rgb_texel(&cc), "combined_alpha: el RGB depende del texel via el alfa");
     }
 
+    /* 7. Alfa con tramado: alfa^2 en escala 0..128 y un negativo no cubre nada. */
+    {
+        COMPROBACION(cerca(combinador_alfa_tramado(-64.0f), 0), "tramado(-64)=%f", combinador_alfa_tramado(-64.0f));
+        COMPROBACION(cerca(combinador_alfa_tramado(0.0f), 0), "tramado(0)=%f", combinador_alfa_tramado(0.0f));
+        COMPROBACION(cerca(combinador_alfa_tramado(64.0f), 32), "tramado(64)=%f", combinador_alfa_tramado(64.0f));
+        COMPROBACION(cerca(combinador_alfa_tramado(128.0f), 128), "tramado(128)=%f", combinador_alfa_tramado(128.0f));
+    }
+
     printf("%d comprobaciones, %d fallos\n", s_checks, s_fails);
     return s_fails != 0;
 }
