@@ -360,6 +360,18 @@ def _condensar(g, factor):
     return Glifo(pix, int(round(g.avance * factor)), g.base)
 
 
+def _contornear(g):
+    """Contorno de 1 pixel (8 vecinos) alrededor del relleno, donde no hay nada."""
+    pix = dict(g.pixeles)
+    for (x, y), p in g.pixeles.items():
+        if p[1] == "r":
+            for vx in (-1, 0, 1):
+                for vy in (-1, 0, 1):
+                    if (x + vx, y + vy) not in pix:
+                        pix[(x + vx, y + vy)] = (None, "c", None, y + vy)
+    return Glifo(pix, g.avance, g.base)
+
+
 def _avance(g, n):
     return Glifo(dict(g.pixeles), n)
 
@@ -383,14 +395,14 @@ def _parte(familia, nombre, y0):
 
 RECETAS = {"cols": _cols, "filas": _filas, "espejo": _espejo, "junto": _junto, "encima": _encima,
            "mover": _mover, "avance": _avance, "borrar": _borrar, "condensar": _condensar, "girar": _girar,
-           "forma": _forma}
+           "forma": _forma, "contornear": _contornear}
 
 
 def evaluar_receta(familia, texto, preferida):
-    """Expresion con llamadas a RECETAS, glifo("X"), instancia("X") (la primera de cajas.tsv,
-    sin receta) y parte("nombre", fila)."""
+    """Expresion con llamadas a RECETAS, glifo("X"), instancia("X"[, n]) (la primera, o la
+    n-esima, de cajas.tsv, sin receta) y parte("nombre", fila)."""
     def valor(nodo):
-        if isinstance(nodo, ast.Constant) and isinstance(nodo.value, (int, str)):
+        if isinstance(nodo, ast.Constant) and isinstance(nodo.value, (int, float, str)):
             return nodo.value
         if isinstance(nodo, ast.UnaryOp) and isinstance(nodo.op, ast.USub):
             return -valor(nodo.operand)
@@ -404,9 +416,10 @@ def evaluar_receta(familia, texto, preferida):
                 return familia.glifo(args[0], preferida)
             if nodo.func.id == "instancia":
                 cajas = familia.instancias(args[0])
-                if not cajas:
-                    raise ErrorComposicion("familia %s: no hay instancia de %r" % (familia.nombre, args[0]))
-                return familia.glifo_de_caja(cajas[0])
+                n = args[1] if len(args) > 1 else 0
+                if n >= len(cajas):
+                    raise ErrorComposicion("familia %s: no hay instancia %d de %r" % (familia.nombre, n, args[0]))
+                return familia.glifo_de_caja(cajas[n])
             if nodo.func.id == "parte":
                 return _parte(familia, *args)
             if nodo.func.id in RECETAS:

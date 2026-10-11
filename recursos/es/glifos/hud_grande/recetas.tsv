@@ -1,6 +1,9 @@
 caracter	receta
 # V y U no estan en TIME, TOTAL ni LAP y la O de TOTAL va montada en la T:
 # dibujadas con trazo de 3 y contorno (filas 1 a 14)
-V	parte("v", 1)
+# (la V de VUELTA ya va estrecha: el contorno se rehace despues de estrecharla)
+V	contornear(condensar(parte("v", 1), 0.75))
 U	parte("u", 1)
 O	parte("o", 1)
+# A de VUELTA: la de LAP pierde el contorno derecho en el corte con la P; se lo devuelve
+A	contornear(instancia("A", 1))
