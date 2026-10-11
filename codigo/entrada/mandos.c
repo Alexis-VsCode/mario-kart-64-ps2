@@ -8,6 +8,7 @@
 #include <PR/os.h>
 
 #include "sistema/sistema_ps2.h"
+#include "entrada/eje_palanca.h"
 #include "entrada/multitap.h"
 #include "graficos/interprete_f3dex.h"
 #include "depuracion/guiones_prueba.h"
@@ -27,26 +28,6 @@ static int padman_ok;
 
 u8 __osContLastCmd;
 u8 __osMaxControllers = MAXCONTROLLERS;
-
-#define CENTRO_PALANCA   128
-#define ZONA_MUERTA_PALANCA 24
-#define MAX_PALANCA_N64  80 /* recorrido tipico de un stick de N64 en MK64 */
-
-static s8 convertir_eje(u8 crudo)
-{
-    int v = (int) crudo - CENTRO_PALANCA;
-    int sign = (v < 0) ? -1 : 1;
-
-    v *= sign;
-    if (v < ZONA_MUERTA_PALANCA) {
-        return 0;
-    }
-    v = (v - ZONA_MUERTA_PALANCA) * MAX_PALANCA_N64 / (127 - ZONA_MUERTA_PALANCA);
-    if (v > MAX_PALANCA_N64) {
-        v = MAX_PALANCA_N64;
-    }
-    return (s8) (v * sign);
-}
 
 static void convertir(const struct padButtonStatus *in, int analogico, OSContPad *salida)
 {
@@ -80,7 +61,10 @@ static void convertir(const struct padButtonStatus *in, int analogico, OSContPad
         if (in->rjoy_v > CENTRO_PALANCA + 64) n |= D_CBUTTONS;
     }
 
-    if (sx == 0 && sy == 0) {
+    if (!analogico || (eje_en_reposo(in->ljoy_h) && eje_en_reposo(in->ljoy_v))) {
+        if (b & (PAD_LEFT | PAD_RIGHT | PAD_UP | PAD_DOWN)) {
+            sx = sy = 0;
+        }
         if (b & PAD_LEFT)  sx = -MAX_PALANCA_N64;
         if (b & PAD_RIGHT) sx = MAX_PALANCA_N64;
         if (b & PAD_UP)    sy = MAX_PALANCA_N64;
