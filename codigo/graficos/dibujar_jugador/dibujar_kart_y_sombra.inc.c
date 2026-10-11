@@ -668,6 +668,12 @@ void funcion_80025DE8(Jugador* jugador, s8 id_jugador, s8 id_pantalla, s8 voltea
     Vec3f sp9_c;
     Vec3s sp94;
 
+#ifdef AVOID_UB
+    // Sin matriz libre en la reserva esta capa del kart no se dibuja
+    if (cantidad_efecto_matriz >= MTX_EFECTO_POOL_TAMANIO) {
+        return;
+    }
+#endif
     sp9_c[0] = jugador->pos[0] + (senos(-jugador->rotacion[1]) * -1.5);
     sp9_c[1] = ((jugador->pos[1] - jugador->tamanio_caja_envolvente) + jugador->desconocido_108) + 0.1;
     sp9_c[2] = jugador->pos[2] + (coss(-jugador->rotacion[1]) * -1.5);
@@ -712,6 +718,12 @@ void renderizar_reflejo_hielo_jugador(Jugador* jugador, s8 id_jugador, s8 id_pan
     Vec3f sp9_c;
     Vec3s sp94;
 
+#ifdef AVOID_UB
+    // Sin matriz libre en la reserva el reflejo no se dibuja
+    if (cantidad_efecto_matriz >= MTX_EFECTO_POOL_TAMANIO) {
+        return;
+    }
+#endif
     sp94[0] = 0;
     sp94[1] = jugador->desconocido_048[id_pantalla];
     sp94[2] = jugador->desconocido_050[id_pantalla] + 0x8000; // invert Y
