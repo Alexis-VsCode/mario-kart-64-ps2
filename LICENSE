@@ -1,0 +1,87 @@
+Licencia MIT para los aportes de este fork
+
+Copyright (c) 2026 Alexis Barrera
+
+ALCANCE
+
+Esta licencia cubre únicamente los archivos creados en este fork por Alexis
+Barrera a partir del commit base 0e7b7d51 del repositorio original
+(anthoo582/mario-kart-64-ps2), que son los siguientes:
+
+  Documentación
+    README.md, CHANGELOG.md, CONTRIBUTING.md, LICENSE
+    docs/ (manual, traducción, actas de revisión y notas de versión)
+
+  Herramientas, pruebas e integración continua
+    .github/workflows/compilacion.yml
+    herramientas/archivos_host.c
+    herramientas/ci/
+    herramientas/emulador/ (guiones, configuración, comparación de capturas
+      y revisión del registro; las imágenes de referencia de
+      herramientas/emulador/referencias/ quedan excluidas, ver abajo)
+    herramientas/guiones/
+    herramientas/pruebas/
+    herramientas/comparar_binario.sh, comparar_preprocesado.py,
+      comprobar_lineas.py, compositor_es.py, convertir_eucjp.py,
+      formatos_textura.py, generar_glifos_es.py, hojas_es.py, lakitu_es.py,
+      png_simple.py, texturas_es.py
+
+  Código nuevo del port
+    codigo/depuracion/fuente_5x7.c
+    codigo/sistema/caracteres_es.c, descompresion_textura_menu.c
+    incluir/carrera/cilindrada_200cc.h, rivales_sin_ventaja.h,
+      truco_objeto.h
+    incluir/depuracion/fuente_5x7.h, marcas_registro.h
+    incluir/entrada/eje_palanca.h
+    incluir/graficos/registros_video.h, vista_panoramica.h
+    incluir/juego/trucos.h
+    incluir/menus/menu_configuracion.h
+    incluir/sistema/caracteres_es.h, crc32.h,
+      descompresion_textura_menu.h, eleccion_guardado.h, opciones_port.h,
+      region_ps2.h
+
+EXCLUSIONES
+
+Esta licencia NO cubre, y no concede ningún derecho sobre:
+
+  - el juego Mario Kart 64, sus marcas, personajes, gráficos, texturas,
+    modelos, pistas, música, efectos de sonido y textos, ni los datos
+    extraídos o derivados de ellos (recursos/, codigo/datos/, build/,
+    compilaciones/ y las imágenes de herramientas/emulador/referencias/),
+    que pertenecen a Nintendo;
+  - el código de la descompilación comunitaria de Mario Kart 64, incluidas
+    las partes que este fork trasladó a archivos propios
+    (codigo/graficos/dibujar_objetos/cadena_depuracion.inc.c y
+    codigo/menus/elementos_menu/glifos.inc.c, lista_glifos.inc.c y
+    textos_menu.inc.c), que siguen la situación del archivo de origen;
+  - el código del repositorio original anthoo582/mario-kart-64-ps2,
+    incluidos los archivos añadidos por su autor después del commit base
+    (codigo/entrada/multitap.c, incluir/entrada/multitap.h y
+    codigo/graficos/interprete_f3dex/diagnostico_cc.inc.c);
+  - las modificaciones hechas en este fork sobre archivos que ya existían en
+    el repositorio original o en la descompilación, que siguen la situación
+    de esos archivos;
+  - el SDK de PS2 (ps2sdk, gsKit) y cualquier otra dependencia de terceros.
+
+Ni el repositorio original ni la descompilación declaran una licencia en este
+repositorio, y esta licencia no la sustituye.
+
+TEXTO DE LA LICENCIA
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
