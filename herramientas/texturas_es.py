@@ -16,7 +16,8 @@ PNG en espanol, vacio si no se traduce), texto_es, retocado (si/no) y
 motivo_no (por que no se traduce). Una fila de carpeta (id
 carpeta:<ruta>, motivo_no obligatorio y el resto vacio) excluye la carpeta
 y sus subcarpetas sin fila por textura, tambien las que se anadan
-despues; las ordenes no la usan. Los PNG se llaman <id>.<formato>.png:
+despues; si la ruta es un archivo, excluye solo ese archivo (formatos que
+las ordenes no leen, como rgba32 o ia1). Las ordenes no la usan. Los PNG se llaman <id>.<formato>.png:
 importar saca el formato del sufijo y rechaza lo que no se pueda guardar
 sin perdida. La carpeta dentro de recursos/es/ dice que genera el build:
 mio0/ un MIO0 del binario, crudo/ el binario, inc/ un .inc.c en la ruta

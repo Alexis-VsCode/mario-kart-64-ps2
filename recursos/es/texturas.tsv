@@ -3,27 +3,66 @@ id	origen	formato	tamanio	tamanio_es	alfa	png	texto_es	retocado	motivo_no
 150cc	recursos/texturas/menus/tkmk00/150cc.rgba16.tkmk00	rgba16	64x18		clave_00BE			no	unidad
 50cc	recursos/texturas/menus/tkmk00/50cc.rgba16.tkmk00	rgba16	64x18		clave_00BE			no	unidad
 abandonar_texto	recursos/texturas/generales/abandonar_texto.ia16.mio0	ia16	24x10		formato			no	no se muestra
+activo_senial_cruce_abajo_derecha	recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_abajo_derecha.inc.c	rgba16	32x64		formato			no	pendiente: RAILROAD CROSSING en diagonal y diminuto; el compositor no escribe en diagonal
+activo_senial_cruce_abajo_izquierda	recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_abajo_izquierda.inc.c	rgba16	32x64		formato			no	pendiente: RAILROAD CROSSING en diagonal y diminuto; el compositor no escribe en diagonal
+activo_senial_cruce_arriba_derecha	recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_arriba_derecha.inc.c	rgba16	32x64		formato			no	pendiente: RAILROAD CROSSING en diagonal y diminuto; el compositor no escribe en diagonal
+activo_senial_cruce_arriba_izquierda	recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_arriba_izquierda.inc.c	rgba16	32x64		formato			no	pendiente: RAILROAD CROSSING en diagonal y diminuto; el compositor no escribe en diagonal
 atardecer_fondo	recursos/texturas/menus/tkmk00/atardecer_fondo.rgba16.tkmk00	rgba16	320x240		opaco			no	sin texto
+azul_amarillo_numero_1	recursos/texturas/generales/azul_amarillo_numero_1.rgba16.mio0	rgba16	32x32		formato			no	solo la cifra
+azul_amarillo_numero_2	recursos/texturas/generales/azul_amarillo_numero_2.rgba16.mio0	rgba16	32x32		formato			no	solo la cifra
+azul_amarillo_numero_3	recursos/texturas/generales/azul_amarillo_numero_3.rgba16.mio0	rgba16	32x32		formato			no	solo la cifra
+azul_amarillo_numero_4	recursos/texturas/generales/azul_amarillo_numero_4.rgba16.mio0	rgba16	32x32		formato			no	solo la cifra
+barco_mario_cartel	recursos/texturas/pistas/dks_jungle_parkway/barco_mario_cartel.inc.c	rgba16	64x32		formato			no	nombre propio
 barra_oro	recursos/texturas/menus/tkmk00/barra_oro.rgba16.tkmk00	rgba16	256x40		opaco			no	sin texto
 barra_rosa	recursos/texturas/menus/tkmk00/barra_rosa.rgba16.tkmk00	rgba16	90x16		opaco			no	sin texto
 batalla_modo	recursos/texturas/menus/tkmk00/batalla_modo.rgba16.tkmk00	rgba16	64x18		clave_00BE	recursos/es/mio0/menus/batalla_modo.rgba16.png	BATALLA	no	
 borrar_datos_registro_confirmacion	recursos/texturas/generales/borrar_datos_registro_confirmacion.ia16.mio0	ia16	180x32		formato			no	no se muestra
 borrar_texto	recursos/texturas/generales/borrar_texto.ia16.mio0	ia16	28x10		formato			no	no se muestra
+cartel_azul_64	recursos/texturas/generales/cartel_azul_64.rgba16.mio0	rgba16	64x32		formato			no	64 del logotipo de N64
+cartel_bienvenida_0	recursos/texturas/generales/cartel_bienvenida_0.rgba16.mio0	rgba16	64x32		formato			no	pendiente: WELCOME; la fuente goteante no tiene B, I, N, V, D ni S
+cartel_bienvenida_1	recursos/texturas/generales/cartel_bienvenida_1.rgba16.mio0	rgba16	64x32		formato			no	pendiente: WELCOME; la fuente goteante no tiene B, I, N, V, D ni S
+cartel_disparo_caparazon_0	recursos/texturas/generales/cartel_disparo_caparazon_0.rgba16.mio0	rgba16	64x32		formato			no	cartel comercial Shell Shot!
+cartel_disparo_caparazon_1	recursos/texturas/generales/cartel_disparo_caparazon_1.rgba16.mio0	rgba16	64x32		formato			no	cartel comercial Shell Shot!
+cartel_go_mario	recursos/texturas/pistas/mario_raceway/derecha_cartel.inc.c	rgba16	32x64		formato			no	pendiente: GO; la fuente del cartel no tiene la Y ni la A de YA
 cartel_granja_derecha	recursos/texturas/pistas/moo_moo_farm/derecha_cartel.mio0	rgba16	64x32		formato	recursos/es/mio0/pistas/moo_moo_farm/cartel_granja_derecha.rgba16.png	MU-MU	no	
+cartel_granja_derecha_enlace	recursos/texturas/pistas/moo_moo_farm/derecha_cartel.inc.c	rgba16	64x32		formato			no	no se muestra: copia para enlazar, se dibuja el .mio0 traducido
 cartel_granja_izquierda	recursos/texturas/pistas/moo_moo_farm/izquierda_cartel.mio0	rgba16	64x32		formato	recursos/es/mio0/pistas/moo_moo_farm/cartel_granja_izquierda.rgba16.png	GRANJA	no	
+cartel_granja_izquierda_enlace	recursos/texturas/pistas/moo_moo_farm/izquierda_cartel.inc.c	rgba16	64x32		formato			no	no se muestra: copia para enlazar, se dibuja el .mio0 traducido
+cartel_koopa_aire_0	recursos/texturas/generales/cartel_koopa_aire_0.rgba16.mio0	rgba16	64x32		formato			no	cartel comercial KOOPA AIR
+cartel_koopa_aire_1	recursos/texturas/generales/cartel_koopa_aire_1.rgba16.mio0	rgba16	64x32		formato			no	cartel comercial KOOPA AIR
+cartel_luigis_0	recursos/texturas/generales/cartel_luigis_0.rgba16.mio0	rgba16	64x32		formato			no	cartel comercial Luigi's
+cartel_luigis_1	recursos/texturas/generales/cartel_luigis_1.rgba16.mio0	rgba16	64x32		formato			no	cartel comercial Luigi's
+cartel_mario_estrella_0	recursos/texturas/generales/cartel_mario_estrella_0.rgba16.mio0	rgba16	64x32		formato			no	cartel comercial MARIO STAR
+cartel_mario_estrella_1	recursos/texturas/generales/cartel_mario_estrella_1.rgba16.mio0	rgba16	64x32		formato			no	cartel comercial MARIO STAR
+cartel_nintendo_0	recursos/texturas/generales/cartel_nintendo_0.rgba16.mio0	rgba16	64x32		formato			no	cartel comercial Nintendo
+cartel_nintendo_1	recursos/texturas/generales/cartel_nintendo_1.rgba16.mio0	rgba16	64x32		formato			no	cartel comercial Nintendo
+cartel_nintendo_rojo_0	recursos/texturas/generales/cartel_nintendo_rojo_0.rgba16.mio0	rgba16	64x32		formato			no	cartel comercial Nintendo
+cartel_nintendo_rojo_1	recursos/texturas/generales/cartel_nintendo_rojo_1.rgba16.mio0	rgba16	64x32		formato			no	cartel comercial Nintendo
+cartel_wario_abajo_derecha	recursos/texturas/pistas/wario_stadium/cartel_abajo_derecha.inc.c	rgba16	64x32		formato			no	nombre propio (WARIO)
+cartel_wario_abajo_izquierda	recursos/texturas/pistas/wario_stadium/cartel_abajo_izquierda.inc.c	rgba16	64x32		formato			no	nombre propio (WARIO)
+cartel_wario_arriba_derecha	recursos/texturas/pistas/wario_stadium/cartel_arriba_derecha.inc.c	rgba16	64x32		formato			no	nombre propio (WARIO)
+cartel_wario_arriba_izquierda	recursos/texturas/pistas/wario_stadium/cartel_arriba_izquierda.inc.c	rgba16	64x32		formato			no	nombre propio (WARIO)
+cartel_yoshi	recursos/texturas/generales/cartel_yoshi.rgba16.mio0	rgba16	64x32		formato			no	nombre propio (YOS de YOSHI)
 cielo_azul_fondo	recursos/texturas/menus/tkmk00/cielo_azul_fondo.rgba16.tkmk00	rgba16	320x240		opaco			no	sin texto
+copyright_1996	recursos/texturas/sin_comprimir/copyright_1996.rgba16	rgba16	124x17		formato			no	aviso de copyright de Nintendo: se conserva
 cuarto_lugar	recursos/comunes/texturas/cuarto_lugar.i4.inc.c	i4	64x64		formato			no	solo la cifra
 datos	recursos/texturas/menus/tkmk00/datos.rgba16.tkmk00	rgba16	64x18		clave_00BE	recursos/es/mio0/menus/datos.rgba16.png	DATOS	no	
 datos_juego_texto	recursos/texturas/generales/datos_juego_texto.ia16.mio0	ia16	56x10		formato			no	no se muestra
 datos_r	recursos/texturas/menus/tkmk00/datos_r.rgba16.tkmk00	rgba16	58x19		clave_00BE	recursos/es/mio0/menus/datos_r.rgba16.png	R1|DATOS	no	
+emblema_luigi_cartel	recursos/texturas/generales/66C7A8.rgba16.mio0	rgba16	32x32		formato			no	emblema L de Luigi: logotipo
+emblema_mario_cartel	recursos/texturas/generales/66C8F4.rgba16.mio0	rgba16	32x32		formato			no	emblema M de Mario: logotipo
 empezar	recursos/texturas/menus/tkmk00/empezar.rgba16.tkmk00	rgba16	64x18		clave_00BE	recursos/es/mio0/menus/empezar.rgba16.png	EMPEZAR	no	
 empezar_boton_empuje	recursos/texturas/sin_comprimir/empezar_boton_empuje.rgba16	rgba16	159x16		formato	recursos/es/crudo/sin_comprimir/empezar_boton_empuje.rgba16.png	PULSA START	no	
+exclamacion_boing	recursos/texturas/generales/exclamacion_boing.ia8.mio0	ia8	64x32		formato			no	onomatopeya BOING!
 extra	recursos/texturas/menus/tkmk00/extra.rgba16.tkmk00	rgba16	64x18		clave_00BE			no	se escribe igual
 fantasma_menu	recursos/texturas/menus/tkmk00/fantasma_menu.rgba16.tkmk00	rgba16	64x18		clave_00BE	recursos/es/mio0/menus/fantasma_menu.rgba16.png	FANTASMA	no	
 fin_texto	recursos/texturas/generales/fin_texto.ia16.mio0	ia16	20x10		formato			no	no se muestra
 franja_blanco	recursos/texturas/menus/tkmk00/franja_blanco.rgba16.tkmk00	rgba16	256x10		opaco			no	sin texto
 franja_oro	recursos/texturas/menus/tkmk00/franja_oro.rgba16.tkmk00	rgba16	256x15		opaco			no	sin texto
 franja_oro_verde	recursos/texturas/menus/tkmk00/franja_oro_verde.rgba16.tkmk00	rgba16	256x29		opaco			no	sin texto
+fuente_cc	recursos/texturas/sin_comprimir/fuente_cc.i4	i4	26x16		formato			no	unidad
+fuente_cc_grande	recursos/texturas/sin_comprimir/7F99F4.i4	i4	16x16		formato			no	unidad
+gris_azul_tablero	recursos/texturas/generales/gris_azul_tablero.rgba16.mio0	rgba16	64x32		formato			no	nombre propio (HI de YOSHI)
 hash_texto	recursos/texturas/generales/hash_texto.ia16.mio0	ia16	8x10		formato			no	no se muestra
 hud_1ro	recursos/comunes/texturas/hud_1ro.i4.inc.c	i4	128x64		formato	recursos/es/inc/recursos/comunes/texturas/hud_1ro.i4.png	1.º	no	
 hud_2do	recursos/comunes/texturas/hud_2do.i4.inc.c	i4	128x64		formato	recursos/es/inc/recursos/comunes/texturas/hud_2do.i4.png	2.º	no	
@@ -33,11 +72,55 @@ hud_5to	recursos/comunes/texturas/hud_5to.i4.inc.c	i4	128x64		formato	recursos/e
 hud_6to	recursos/comunes/texturas/hud_6to.i4.inc.c	i4	128x64		formato	recursos/es/inc/recursos/comunes/texturas/hud_6to.i4.png	6.º	no	
 hud_7mo	recursos/comunes/texturas/hud_7mo.i4.inc.c	i4	128x64		formato	recursos/es/inc/recursos/comunes/texturas/hud_7mo.i4.png	7.º	no	
 hud_8vo	recursos/comunes/texturas/hud_8vo.i4.inc.c	i4	128x64		formato	recursos/es/inc/recursos/comunes/texturas/hud_8vo.i4.png	8.º	no	
+inactivo_senial_cruce_abajo_derecha	recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_abajo_derecha.inc.c	rgba16	32x64		formato			no	pendiente: RAILROAD CROSSING en diagonal y diminuto; el compositor no escribe en diagonal
+inactivo_senial_cruce_abajo_izquierda	recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_abajo_izquierda.inc.c	rgba16	32x64		formato			no	pendiente: RAILROAD CROSSING en diagonal y diminuto; el compositor no escribe en diagonal
+inactivo_senial_cruce_arriba_derecha	recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_arriba_derecha.inc.c	rgba16	32x64		formato			no	pendiente: RAILROAD CROSSING en diagonal y diminuto; el compositor no escribe en diagonal
+inactivo_senial_cruce_arriba_izquierda	recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_arriba_izquierda.inc.c	rgba16	32x64		formato			no	pendiente: RAILROAD CROSSING en diagonal y diminuto; el compositor no escribe en diagonal
 juego_menu_1j	recursos/texturas/menus/tkmk00/juego_menu_1j.rgba16.tkmk00	rgba16	64x54		clave_00BE	recursos/es/mio0/menus/juego_menu_1j.rgba16.png	1 JUG.	no	
 juego_menu_2j	recursos/texturas/menus/tkmk00/juego_menu_2j.rgba16.tkmk00	rgba16	64x54		clave_00BE	recursos/es/mio0/menus/juego_menu_2j.rgba16.png	2 JUG.	no	
 juego_menu_3j	recursos/texturas/menus/tkmk00/juego_menu_3j.rgba16.tkmk00	rgba16	64x54		clave_00BE	recursos/es/mio0/menus/juego_menu_3j.rgba16.png	3 JUG.	no	
 juego_menu_4j	recursos/texturas/menus/tkmk00/juego_menu_4j.rgba16.tkmk00	rgba16	64x54		clave_00BE	recursos/es/mio0/menus/juego_menu_4j.rgba16.png	4 JUG.	no	
+katakana_7F7234	recursos/texturas/sin_comprimir/7F7234.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F72B4	recursos/texturas/sin_comprimir/7F72B4.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F7334	recursos/texturas/sin_comprimir/7F7334.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F73B4	recursos/texturas/sin_comprimir/7F73B4.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F7434	recursos/texturas/sin_comprimir/7F7434.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F74B4	recursos/texturas/sin_comprimir/7F74B4.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F7534	recursos/texturas/sin_comprimir/7F7534.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F75B4	recursos/texturas/sin_comprimir/7F75B4.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F7634	recursos/texturas/sin_comprimir/7F7634.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F76B4	recursos/texturas/sin_comprimir/7F76B4.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F7734	recursos/texturas/sin_comprimir/7F7734.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F77B4	recursos/texturas/sin_comprimir/7F77B4.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F7834	recursos/texturas/sin_comprimir/7F7834.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F78B4	recursos/texturas/sin_comprimir/7F78B4.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F7934	recursos/texturas/sin_comprimir/7F7934.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F79B4	recursos/texturas/sin_comprimir/7F79B4.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F7A34	recursos/texturas/sin_comprimir/7F7A34.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F7AB4	recursos/texturas/sin_comprimir/7F7AB4.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F7B34	recursos/texturas/sin_comprimir/7F7B34.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F7BB4	recursos/texturas/sin_comprimir/7F7BB4.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F7C34	recursos/texturas/sin_comprimir/7F7C34.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F7CB4	recursos/texturas/sin_comprimir/7F7CB4.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F7D34	recursos/texturas/sin_comprimir/7F7D34.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F7DB4	recursos/texturas/sin_comprimir/7F7DB4.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F7E34	recursos/texturas/sin_comprimir/7F7E34.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F7EB4	recursos/texturas/sin_comprimir/7F7EB4.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F7F34	recursos/texturas/sin_comprimir/7F7F34.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F7FB4	recursos/texturas/sin_comprimir/7F7FB4.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F8034	recursos/texturas/sin_comprimir/7F8034.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F80B4	recursos/texturas/sin_comprimir/7F80B4.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F8134	recursos/texturas/sin_comprimir/7F8134.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F81B4	recursos/texturas/sin_comprimir/7F81B4.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F8234	recursos/texturas/sin_comprimir/7F8234.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F82B4	recursos/texturas/sin_comprimir/7F82B4.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F8334	recursos/texturas/sin_comprimir/7F8334.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F83B4	recursos/texturas/sin_comprimir/7F83B4.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F8434	recursos/texturas/sin_comprimir/7F8434.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F84B4	recursos/texturas/sin_comprimir/7F84B4.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
+katakana_7F8534	recursos/texturas/sin_comprimir/7F8534.i4	i4	16x16		formato			no	no se muestra: katakana, solo lo usan cadenas japonesas
 libre_paginas_texto	recursos/texturas/generales/libre_paginas_texto.ia16.mio0	ia16	56x10		formato			no	no se muestra
+locomotora_64	recursos/texturas/pistas/kalimari_desert/locomotora_64.inc.c	rgba16	32x32		formato			no	64 de la locomotora: logotipo
 lugar_n64_controller_pak_en_mando_1	recursos/texturas/generales/lugar_n64_controller_pak_en_mando_1.ia16.mio0	ia16	180x32		formato			no	no se muestra
 menu_con_item	recursos/texturas/menus/tkmk00/menu_con_item.rgba16.tkmk00	rgba16	64x18		clave_00BE			no	no se muestra
 menu_copa_especial	recursos/texturas/menus/tkmk00/menu_copa_especial.rgba16.tkmk00	rgba16	65x40		clave_00BE	recursos/es/mio0/menus/menu_copa_especial.rgba16.png	COPA|ESPECIAL	no	
@@ -60,6 +143,10 @@ nombre_yoshi	recursos/texturas/menus/tkmk00/nombre_yoshi.rgba16.tkmk00	rgba16	64
 ok	recursos/texturas/menus/tkmk00/ok.rgba16.tkmk00	rgba16	31x19		clave_00BE	recursos/es/mio0/menus/ok.rgba16.png	¿OK?	no	
 opcion	recursos/texturas/menus/tkmk00/opcion.rgba16.tkmk00	rgba16	130x32		opaco	recursos/es/mio0/menus/opcion.rgba16.png	OPCIONES	no	
 opcion_l	recursos/texturas/menus/tkmk00/opcion_l.rgba16.tkmk00	rgba16	58x19		clave_00BE	recursos/es/mio0/menus/opcion_l.rgba16.png	SELECT|OPCIONES	no	
+ordinal_nd	recursos/texturas/sin_comprimir/7F9CF4.i4	i4	26x16		formato			no	no se muestra: sufijo ND; las cadenas usan 2.º (R-TXT-07)
+ordinal_rd	recursos/texturas/sin_comprimir/7FA0C4.i4	i4	26x16		formato			no	no se muestra: sufijo RD; las cadenas usan 3.º (R-TXT-07)
+ordinal_st	recursos/texturas/sin_comprimir/7FA194.i4	i4	26x16		formato			no	no se muestra: sufijo ST; las cadenas usan 1.º (R-TXT-07)
+ordinal_th	recursos/texturas/sin_comprimir/7FA264.i4	i4	26x16		formato			no	no se muestra: sufijo TH; las cadenas usan 4.º (R-TXT-07)
 original_n64_reinsertar_por_favor_controller_pak	recursos/texturas/generales/original_n64_reinsertar_por_favor_controller_pak.ia16.mio0	ia16	180x32		formato			no	no se muestra
 paginas_texto	recursos/texturas/generales/paginas_texto.ia16.mio0	ia16	32x10		formato			no	no se muestra
 primer_lugar	recursos/comunes/texturas/primer_lugar.i4.inc.c	i4	64x64		formato			no	solo la cifra
@@ -95,8 +182,17 @@ titulo_skyscraper	recursos/texturas/menus/tkmk00/titulo_skyscraper.rgba16.tkmk00
 titulo_toads_turnpike	recursos/texturas/menus/tkmk00/titulo_toads_turnpike.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_toads_turnpike.rgba16.png	AUTOPISTA TOAD	no	
 titulo_wario_stadium	recursos/texturas/menus/tkmk00/titulo_wario_stadium.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_wario_stadium.rgba16.png	ESTADIO WARIO	no	
 titulo_yoshi_valley	recursos/texturas/menus/tkmk00/titulo_yoshi_valley.rgba16.tkmk00	rgba16	140x18		clave_00BE	recursos/es/mio0/menus/titulo_yoshi_valley.rgba16.png	VALLE DE YOSHI	no	
+velocimetro	recursos/comunes/texturas/velocimetro.i4.inc.c	i4	64x96		formato			no	cifras y la unidad km/h: se escribe igual
 vuelta_hud	recursos/comunes/texturas/vuelta_hud.rgba16.inc.c	rgba16	32x8	64x16	formato	recursos/es/inc/recursos/comunes/texturas/vuelta_hud.rgba16.png	VUELTA|VTA.	no	
+carpeta:recursos/comunes/texturas									resto sin texto: retratos, objetos, semáforo, partículas, bombas, minimapa, cifras del HUD y paletas
+carpeta:recursos/comunes/texturas/emblema_1j_jugador.ci8.inc.c									pendiente: 1P→1J; la fuente del emblema no tiene J y ci8 no se importa
+carpeta:recursos/comunes/texturas/emblema_2j_jugador.ci8.inc.c									pendiente: 2P→2J; la fuente del emblema no tiene J y ci8 no se importa
+carpeta:recursos/comunes/texturas/emblema_3j_jugador.ci8.inc.c									pendiente: 3P→3J; la fuente del emblema no tiene J y ci8 no se importa
+carpeta:recursos/comunes/texturas/emblema_4j_jugador.ci8.inc.c									pendiente: 4P→4J; la fuente del emblema no tiene J y ci8 no se importa
 carpeta:recursos/texturas/efectos/onomatopeyas									onomatopeyas (CRASH, POOMP!, WHIRRRR) y sus globos: se conservan
+carpeta:recursos/texturas/fuente_pantalla_fallo.ia1.inc.c									fuente hexadecimal de la pantalla de fallo: glifos sueltos
+carpeta:recursos/texturas/generales									resto sin texto: decorado, glifos sueltos y copias .inc.c de los .mio0 con fila
+carpeta:recursos/texturas/generales/logo_mario_kart_64.rgba32.mio0									logotipo MARIO KART 64 (rgba32): se conserva
 carpeta:recursos/texturas/karts									cuadros y paletas de los karts: sin texto, solo el emblema del personaje
 carpeta:recursos/texturas/lakitu/bandera_cuadros									Lakitu con la bandera a cuadros: sin texto
 carpeta:recursos/texturas/lakitu/luces_rojas									Lakitu con el semáforo: sin texto
@@ -112,11 +208,17 @@ carpeta:recursos/texturas/objetos/cartel_meta									logotipo MARIO KART del ca
 carpeta:recursos/texturas/pistas/banshee_boardwalk									decorado de la pista (murciélagos, fantasmas, peces): sin texto
 carpeta:recursos/texturas/pistas/bowsers_castle									Thwomp: sin texto
 carpeta:recursos/texturas/pistas/choco_mountain									pared y roca: sin texto
+carpeta:recursos/texturas/pistas/dks_jungle_parkway									árboles, barco y frutas: sin texto
 carpeta:recursos/texturas/pistas/frappe_snowland									muñecos de nieve, árboles y nieve: sin texto
+carpeta:recursos/texturas/pistas/kalimari_desert									tren y cactus: sin texto
 carpeta:recursos/texturas/pistas/koopa_troopa_beach									cangrejos, pájaros y palmeras: sin texto
+carpeta:recursos/texturas/pistas/luigi_raceway									cara de Luigi y globo: sin texto
+carpeta:recursos/texturas/pistas/mario_raceway									Mario haciendo la V y planta piraña: sin texto
+carpeta:recursos/texturas/pistas/moo_moo_farm									vacas, topos y tierra: sin texto
 carpeta:recursos/texturas/pistas/rainbow_road									neones de personajes, Chain Chomp y reflejos: sin texto
 carpeta:recursos/texturas/pistas/royal_raceway									paleta de la planta piraña: sin texto
 carpeta:recursos/texturas/pistas/sherbet_land									hielo y pingüinos: sin texto
 carpeta:recursos/texturas/pistas/toads_turnpike									camiones, cisternas, autos y ómnibus: solo cifras de matrícula, se conservan
 carpeta:recursos/texturas/pistas/yoshi_valley									erizo, huevo y bandera de Yoshi: sin texto
 carpeta:recursos/texturas/seleccion_personaje									caras de los personajes en la selección: sin texto
+carpeta:recursos/texturas/sin_comprimir									resto sin texto: glifos sueltos de las fuentes y marcos de jugador con su cifra
