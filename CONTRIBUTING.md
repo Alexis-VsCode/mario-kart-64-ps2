@@ -62,9 +62,11 @@ git rev-list --count <rama>..<origen>         # 0: no le falta nada del origen
 - **Comprobación**, que tiene que salir vacía:
 
   ```sh
-  git log --format=%s origin/main..HEAD \
+  git log --format=%s origin/main..HEAD ^upstream/main \
     | grep -vE "^((feat|fix|refactor|test|build|ci|docs)\([a-z0-9_-]+\)|ci): |^Merge branch '"
   ```
+
+  `upstream/main` es la rama principal del repositorio original, con el remoto configurado como explica el [manual técnico](docs/manual/tecnico.md#traer-actualizaciones-del-repositorio-original). Los commits del original que trae una fusión con él conservan su mensaje y no siguen este formato; `^upstream/main` los deja fuera (en F8, `c2ed147` y `ae93f71`, aceptados en CC-08).
 
 ## Reglas de código
 
@@ -182,7 +184,7 @@ Un cambio está terminado cuando se cumplen todos estos puntos:
 2. **Compila en la CI** con la imagen `ps2dev/ps2dev` fijada por digest: `make`, `make DEBUG=1`, `make DEV=1` y `make iso` (job `compilar-ps2`).
 3. **`make test` pasa sin regresiones**, en el PC y en la CI (jobs `pruebas-pc` y `compilar-ps2`).
 4. **Pruebas:** cada prueba nueva cubre un caso válido y uno de error, con el rojo y la mutación restaurada demostrados en el mensaje del commit. Si no hay arnés posible en el PC, el mensaje lleva la evidencia de código y la prueba que falta está en [deuda.md](docs/traduccion/deuda.md).
-5. **Commits:** con formato, una sola cosa por commit, stage por ruta, sin trailers y sin `build/` ni `compilaciones/`. El comando de [Commits](#commits) sale vacío.
+5. **Commits:** con formato, una sola cosa por commit, stage por ruta, sin trailers y sin `build/` ni `compilaciones/`. El comando de [Commits](#commits) sale vacío; los commits del repositorio original que trae una fusión con él quedan fuera (CC-08).
 6. **Documentación sincronizada** en la misma rama, con cada documento nuevo enlazado desde un índice.
 7. **Limitaciones declaradas:** lo que no comprueban las pruebas ni la CI está escrito como limitación, sin pasos manuales para nadie.
 8. **Árbol limpio:** `git status --short` vacío, con `build/` y `compilaciones/` restaurados.
