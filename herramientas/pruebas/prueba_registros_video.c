@@ -56,6 +56,25 @@ int main(void) {
     comprobar("DX bandas", CAMPO(r.display, 0, 12), 652 + 320);
     comprobar("DH bandas", CAMPO(r.display, 44, 11), 447);
 
+    // Bandas con bases de pocos VCK por píxel: MAGH no baja de 0 ni pisa
+    // los campos vecinos
+    {
+        BaseVideo mag0 = { 652, 50, 0, 1, 640, 448 };
+        BaseVideo mag1 = { 652, 50, 1, 1, 1280, 448 };
+        OpcionesPort o;
+
+        opciones_por_defecto(&o, 0);
+        o.formato = FORMATO_CON_BANDAS;
+        calcular_registros_video(&mag0, &o, &r);
+        comprobar("MAGH bandas base 0", CAMPO(r.display, 23, 4), 0);
+        comprobar("MAGV bandas base 0", CAMPO(r.display, 27, 2), 1);
+        comprobar("DW bandas base 0", CAMPO(r.display, 32, 12), 479);
+        comprobar("DH bandas base 0", CAMPO(r.display, 44, 11), 447);
+        calcular_registros_video(&mag1, &o, &r);
+        comprobar("MAGH bandas base 1", CAMPO(r.display, 23, 4), 0);
+        comprobar("MAGV bandas base 1", CAMPO(r.display, 27, 2), 1);
+    }
+
     // Posición: 8 VCK y 2 líneas por paso
     r = calcular(0, 3, -2, FORMATO_NORMAL);
     comprobar("DX desplazado", CAMPO(r.display, 0, 12), 652 + 24);
