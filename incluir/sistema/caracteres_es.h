@@ -41,4 +41,15 @@ int caracter_es_marca(int car);
 // 'o'/'a' y cada byte >= 0x80 que no es del espanol pasa a '?'.
 void quitar_diacriticos(char* destino, int tam, const char* origen);
 
+// Lector con la forma de leer_glifo (glifos.inc.c): indice del glifo que
+// empieza en car (-1 espacio, -2 invalido) y, en *bytes, lo que ocupa
+typedef int (*LectorGlifo)(char* car, int* bytes);
+
+// Posicion del primer glifo de cadena que la fuente no dibuja: leer lo da
+// por invalido, empieza por C2 o C3 (byte guia de UTF-8 sin pasar a EUC-JP)
+// u ocuparia el 0 final. -1 si no hay ninguno. Avanza lo que dice leer, asi
+// que un C2/C3 que es el segundo byte de un kana no cuenta. Nunca lee mas
+// alla del 0 final.
+int primer_byte_invalido(char* cadena, LectorGlifo leer);
+
 #endif

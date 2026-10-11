@@ -57,6 +57,11 @@ void bloquear_host(void);
 void desbloquear_host(void);
 /* El DMA del GIF no termina */
 void detener_por_gif_trabado(const char *por_que) __attribute__((noreturn));
+#ifdef SMK64_DEV
+/* Registra una vez por puntero una cadena del menu que la fuente no dibuja
+   entera; leer es leer_glifo (ver primer_byte_invalido en caracteres_es.h) */
+void registrar_texto_invalido(char *cadena, int (*leer)(char *car, int *bytes));
+#endif
 
 /* ROM embebida (generada por el build, ver tools/ps2/) */
 extern u8 __rom_start[];

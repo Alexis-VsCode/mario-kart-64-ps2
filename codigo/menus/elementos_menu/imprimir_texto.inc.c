@@ -52,6 +52,12 @@ void imprimir_texto1(s32 columna, s32 renglon, char* text, s32 tracking, f32 esc
     s32 bytes_glifo;
     s32 sp60;
 
+#if defined(TARGET_PS2) && defined(SMK64_DEV)
+    {
+        void registrar_texto_invalido(char* cadena, LectorGlifo leer);
+        registrar_texto_invalido(text, leer_glifo);
+    }
+#endif
     while (*cadena_temporal != 0) {
         indice_glifo = leer_glifo(cadena_temporal, &bytes_glifo);
         if (indice_glifo >= 0) {

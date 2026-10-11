@@ -207,6 +207,33 @@ void comprobar_vigilancia(const char *where, void *llamador)
         }
     }
 }
+
+/* Cadenas del menu ya registradas por llevar un byte que la fuente no dibuja.
+   Se compara el puntero, no el texto. Con la tabla llena se deja de registrar:
+   las cadenas invalidas que aparezcan despues no se avisan. */
+#define CADENAS_INVALIDAS_MAX 16
+static const char *cadenas_invalidas[CADENAS_INVALIDAS_MAX];
+static int cantidad_cadenas_invalidas;
+
+void registrar_texto_invalido(char *cadena, LectorGlifo leer)
+{
+    char legible[64];
+    int posicion = primer_byte_invalido(cadena, leer);
+    int i;
+
+    if (posicion < 0 || cantidad_cadenas_invalidas == CADENAS_INVALIDAS_MAX) {
+        return;
+    }
+    for (i = 0; i < cantidad_cadenas_invalidas; i++) {
+        if (cadenas_invalidas[i] == cadena) {
+            return;
+        }
+    }
+    cadenas_invalidas[cantidad_cadenas_invalidas++] = cadena;
+    quitar_diacriticos(legible, sizeof(legible), cadena);
+    registrar("texto del menú con un byte inválido (%02x) en la posición %d: \"%s\"",
+            (unsigned) (u8) cadena[posicion], posicion, legible);
+}
 #endif
 
 static int cantidad_punto_control;
