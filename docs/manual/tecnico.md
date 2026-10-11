@@ -30,7 +30,7 @@ Cómo está hecho el port, cómo se compila, se prueba y se publica, y cómo se 
 | Pieza de la N64 | Sustituto en PS2 | Archivo |
 |---|---|---|
 | RSP gráfico (F3DEX) y RDP | Intérprete de listas de dibujo | `codigo/graficos/interprete_f3dex.c` y `interprete_f3dex/` |
-| Combinador de color | Evaluación del combinador | `codigo/graficos/combinador_color.c` |
+| Combinador de color | Evaluación del combinador; el alfa con tramado es la función pura `combinador_alfa_tramado()` | `codigo/graficos/combinador_color.c`, `incluir/graficos/combinador_color.h` |
 | TMEM | Carga y caché de texturas | `codigo/graficos/memoria_texturas.c` y `memoria_texturas/` |
 | Salida de video | Paquetes y framebuffers del GS | `codigo/graficos/sintetizador_gs.c` |
 | RSP de audio | Microcódigo en C | `codigo/audio/microcodigo_audio.c` y `microcodigo_audio/` |
@@ -39,8 +39,11 @@ Cómo está hecho el port, cómo se compila, se prueba y se publica, y cómo se 
 | Hilos y mensajes | Hilos del kernel del EE | `codigo/sistema/hilos.c` |
 | VI, retrazo y temporizadores | Interrupción de VBlank | `codigo/sistema/retrazo_vertical.c` |
 | DMA del cartucho (PI) | Copia desde la ROM en RAM | `codigo/sistema/hardware.c`, `codigo/sistema/carga_rom.c` |
-| EEPROM y Controller Pak | Imagen guardada en la Memory Card | `codigo/sistema/guardado_ps2.c`, `codigo/sistema/memory_card.c` |
-| Mandos | `libpad` | `codigo/entrada/mandos.c` |
+| EEPROM y Controller Pak | Imagen guardada en la Memory Card; la copia que se pisa en una tarjeta nueva la elige una función pura | `codigo/sistema/guardado_ps2.c`, `codigo/sistema/memory_card.c`, `incluir/sistema/eleccion_guardado.h` |
+| Mandos | `libpad`; la conversión del eje del stick y el reposo de la cruceta son funciones puras | `codigo/entrada/mandos.c`, `incluir/entrada/eje_palanca.h` |
+| Sin equivalente: región de la consola | Lectura de `rom0:ROMVER` al arrancar, solo para el registro: el vídeo sale siempre en NTSC a 60 Hz | `codigo/sistema/arranque_ps2.c`, `incluir/sistema/region_ps2.h` |
+
+Las funciones puras de esas cabeceras son `static inline` y no dependen del SDK de PS2: el código del port las usa y `make test` las prueba en el PC (ver [Pruebas](#pruebas)). La lógica que las rodea, con libmc, libpad o la BIOS, solo compila con el SDK.
 
 ## La ROM
 
@@ -228,12 +231,12 @@ make iso
 | `DEBUG=1` | Panel de rendimiento en pantalla (L3 + R3) y registro por `printf`. Carpeta `build/ps2/debug/` |
 | `DEV=1` | Lo mismo que `DEBUG=1` salvo el panel, más registro y guiones de prueba por `host:`. ROM dentro del ELF por defecto. Carpeta `build/ps2/dev/` |
 | `DEBUG_AUDIO=1` | Estado del audio en el registro cada 2 s (`página de audio:`) y página de audio en el panel. Exige `DEBUG=1` o `DEV=1`; con `DEV=1`, la página necesita `MEDIDOR=1`. Añade `debug_audio/` a la carpeta |
-| `MONOLITICO=1` | Un solo ELF con toda la ROM dentro, sin `SMK64ROM.BIN`. Añade `monolitico/` a la carpeta |
+| `MONOLITICO=1` | Un solo ELF con toda la ROM dentro, sin `SMK64ROM.BIN`, para uLaunchELF. Añade `monolitico/` a la carpeta. El job `release` lo compila y lo publica como `SLUS_999.99.monolitico.elf` |
 | `MEDIDOR=0/1` | Quita o incluye el panel de rendimiento. Por defecto vale 1 con `DEBUG=1` y 0 en el resto, también con `DEV=1` |
 | `ROM_STREAM=0/1` | ROM dentro del ELF (0) o en `SMK64ROM.BIN` (1). Por defecto vale 0 con `DEV=1` o `MONOLITICO=1` y 1 en el resto |
 | `V=1` | Muestra los comandos completos |
 | `OPT` | Optimización del código del juego (por defecto `-O2`) |
-| `BUILD_ID` | Identificador que aparece en la pantalla de fallo (por defecto `2026-10-11`, la fecha de la versión 1.0.0; `DEBUG=1` y `DEV=1` le añaden `-debug` y `-dev`) |
+| `BUILD_ID` | Identificador que aparece en la pantalla de fallo (por defecto `2026-10-11`, la fecha de las versiones 1.0.0 y 1.1.0; `DEBUG=1` y `DEV=1` le añaden `-debug` y `-dev`) |
 | `EXTRA_DEFINES` | Defines adicionales, por ejemplo `-DSMK64_PROF` (perfilador por muestreo), `-DSMK64_DEV_FRAMEDUMP` (volcados de pantalla, con `DEV=1`), `-DFILTRADO_TEXTURAS=0` (texturas sin suavizado, vecino más cercano) o `-DSMK64_DIAG_CC` (con `DEV=1`, registra los colores que el GS no reproduce igual que el RDP) |
 
 `DEBUG`, `DEV`, `MONOLITICO` y `DEBUG_AUDIO` compilan en su propia carpeta. Si cambian otras opciones (`OPT`, `ROM_STREAM`, `MEDIDOR`, `BUILD_ID` o `EXTRA_DEFINES`), se recompila todo el código de esa carpeta. Los datos de la ROM y los fuentes preparados (`build/ps2/be/`, `build/ps2/jp/` y las texturas en español de `build/ps2/es/`) están en `build/ps2/` y son comunes a todas las variantes.
@@ -259,7 +262,7 @@ El repositorio incluye una compilación hecha:
 - `build/`: las variantes normal, `DEBUG=1` y `DEV=1`, los datos de la ROM (con las texturas en español), los ejecutables de las pruebas y las herramientas `mio0` y `empaquetador_listas`.
 - `compilaciones/`: la ISO normal y el contenido del disco.
 
-No incluye el ELF monolítico ni la herramienta `tkmk00`, que `make test` compila al vuelo. La compilación versionada es la del último commit de publicación, `build(compilaciones): binarios e ISO en español`; la de la versión 1.0.0 es `900c9be`.
+No incluye el ELF monolítico, que compila y publica el job `release`, ni la herramienta `tkmk00`, que `make test` compila al vuelo. La compilación versionada es la del último commit de publicación, `build(compilaciones): binarios e ISO en español`; la de la versión 1.0.0 es `900c9be` y la de la 1.1.0, <<PUBLICACION>>.
 
 `make`, `make iso`, `make test` y `make clean` modifican o borran esos archivos. **No se commitean durante el trabajo.** Después de compilar y probar, restáuralos:
 
@@ -289,22 +292,23 @@ git clean -fdq -- build && git checkout -- build
 
 `make test` no necesita el SDK de PS2 ni el entorno cargado. Las pruebas en C se compilan con el `gcc` del PC y `-fsigned-char` (el `char` del R5900 lleva signo); las demás son scripts de Python. Cualquier comprobación que no se cumple hace fallar `make test` con código de salida distinto de 0. Deja sus copias y ejecutables en `build/`, que está versionado: por eso la limpieza del final.
 
-El objetivo `test` del `Makefile` corre 28 pruebas de `herramientas/pruebas/` (9 en C y 19 en Python) y después el comprobador del tope de líneas, `herramientas/comprobar_lineas.py`. Cada prueba termina con una línea `N comprobaciones, M fallos`, salvo `prueba_caminos_vehiculos`, que informa por camino:
+El objetivo `test` del `Makefile` corre 31 pruebas de `herramientas/pruebas/` (12 en C y 19 en Python) y después el comprobador del tope de líneas, `herramientas/comprobar_lineas.py`. Cada prueba termina con una línea `N comprobaciones, M fallos`, salvo `prueba_caminos_vehiculos`, que informa por camino:
 
 | Área | Pruebas | Qué comprueban |
 |---|---|---|
-| Juego y port | `prueba_combinador.c`, `prueba_caminos_vehiculos.c` | Combinador de color en seis casos; tabla precalculada de caminos del tren y del barco contra el algoritmo original, en modo normal y espejo |
+| Juego y port | `prueba_combinador.c`, `prueba_caminos_vehiculos.c` | Combinador de color en seis casos y el alfa con tramado (-64 da 0, 64 da 32 y 128 da 128); tabla precalculada de caminos del tren y del barco contra el algoritmo original, en modo normal y espejo |
+| Mandos, Memory Card y región | `prueba_eje_palanca.c`, `prueba_eleccion_guardado.c`, `prueba_region_ps2.c` | Conversión del eje del stick (centro, extremos ±80, simetría, monotonía y giro a 28 o menos del centro) y reposo de la cruceta por debajo de `ZONA_REPOSO_CRUCETA`; copia que se pisa y generación mínima al guardar en una tarjeta nueva; región PAL, NTSC o desconocida a partir de `rom0:ROMVER` |
 | Codificación | `prueba_convertir_eucjp.py`, `prueba_metadatos_eucjp.py`, `prueba_caracteres_es.c` | Conversión a EUC-JP (errores con `ruta:línea:columna`), metadatos de pista convertidos, lectura de Á É Í Ó Ú Ñ Ü ¡ ¿ º ª en EUC-JP y UTF-8 y `quitar_diacriticos` |
 | Pantallas del port | `prueba_fuente_5x7.c`, `prueba_textos_port.py`, `prueba_ancho_panel.py`, `prueba_cadena_depuracion.c` | Fuente del panel con tildes; textos del panel, del registro y de la pantalla de fallo, con la lista negra ampliada a los textos nuevos del original; ancho de las líneas del panel y la fila libre entre líneas; fuente de depuración N64 |
-| Arranque y cronómetro | `prueba_arranque.py`, `prueba_cronometro_fases.c` | `inicializar_depuracion()` va en `main()` antes del reinicio del IOP y el cronómetro se abre antes del primer paso; el cronómetro de fases admite los 6 grupos |
-| Fuente del menú | `prueba_glifos.c`, `prueba_glifos_es.py`, `prueba_tablas_glifos.py` | Compatibilidad con la N64 (huella de índices y avances) y detector del primer byte que la fuente no dibuja; anchos y arte reproducible de los 11 glifos nuevos; tabla de 247 glifos definida una sola vez, tope de la reserva de matrices y registro DEV en las tres impresoras de cadenas |
+| Arranque y cronómetro | `prueba_arranque.py`, `prueba_cronometro_fases.c` | `inicializar_depuracion()` va en `main()` antes del reinicio del IOP y el cronómetro se abre antes del primer paso; el cronómetro de fases admite los 6 grupos, y `GRUPOS_MAX` es mayor que el número de `GRUPO_` de `marcas_registro.h` |
+| Fuente del menú | `prueba_glifos.c`, `prueba_glifos_es.py`, `prueba_tablas_glifos.py` | Compatibilidad con la N64 (huella de índices y avances) y detector del primer byte que la fuente no dibuja; anchos y arte reproducible de los 11 glifos nuevos; tabla de 247 glifos definida una sola vez, tope de la reserva de matrices (la condición entera) y registro DEV en las tres impresoras de cadenas |
 | Textos | `prueba_textos.c` (con sus tablas `prueba_textos_*.inc.c` y `prueba_textos_tinta.py`) | Todas las tablas en español: glosario y lista negra, número de entradas, glifo para cada carácter, textos esperados byte a byte, zona segura medida por tinta, interlineado y signos de apertura |
 | Texturas | `prueba_png_simple.py`, `prueba_formatos_textura.py`, `prueba_tkmk00.py`, `prueba_invertir_texturas.py`, `prueba_texturas_es.py`, `prueba_cableado_es.py`, `prueba_composicion_es.py`, `prueba_hud_es.py`, `prueba_lakitu_es.py`, `prueba_titulos_es.py`, `prueba_cartel_es.py`, `prueba_hojas_es.py`, `prueba_textura_menu.c` | Herramientas de PNG y formatos, despacho TKMK00/MIO0, manifiesto (sin botones de la N64 en los textos), cableado en la ROM y tamaños, composición del arte, HUD sin solapes de 1 a 4 jugadores, 16 cuadros y paleta de Lakitu, títulos de pista, cartel de la granja y hojas de contacto |
 | Calidad | `herramientas/comprobar_lineas.py` | Ningún archivo de código pasa de 1000 líneas |
 
-Medido el 2026-10-11 en `d5f95cc5` (base de la documentación de F8) con `make test`: código de salida 0, las 28 pruebas con 0 fallos (`prueba_textos`: 225 242 comprobaciones y 0 tablas pendientes) y 0 archivos por encima del tope de líneas.
+Medido el 2026-10-11 en `a29bd920` (base de la documentación de la versión 1.1.0) con `make test`: código de salida 0, las 31 pruebas con 0 fallos (`prueba_textos`: 225 242 comprobaciones y 0 tablas pendientes; `prueba_eje_palanca`: 417; `prueba_eleccion_guardado`: 20; `prueba_region_ps2`: 16) y 0 archivos por encima del tope de líneas.
 
-**Qué no se comprueba.** Ninguna prueba mira la imagen en pantalla: los textos se comprueban byte a byte y por tinta, y las texturas por sus datos, pero no hay capturas registradas de la versión en español ([CC-12](../traduccion/cambios.md)). Los guiones de `DEV=1` (ver [Guiones de prueba](#guiones-de-prueba-dev1)) escriben en `host:` y necesitan un emulador: son opcionales y no forman parte de `make test`. Las correcciones de CC-11 que solo compilan con el SDK de PS2 (E4, E5, G5 y L2) llevan su evidencia en el mensaje del commit.
+**Qué no se comprueba.** Ninguna prueba mira la imagen en pantalla: los textos se comprueban byte a byte y por tinta, y las texturas por sus datos, pero no hay capturas registradas de la versión en español ([CC-12](../traduccion/cambios.md)). Los guiones de `DEV=1` (ver [Guiones de prueba](#guiones-de-prueba-dev1)) escriben en `host:` y necesitan un emulador: son opcionales y no forman parte de `make test`. Las correcciones que solo compilan con el SDK de PS2 llevan su evidencia en el mensaje del commit: de CC-11, E4, E5 y L2 (G5 ya tiene prueba, por [CC-17](../traduccion/cambios.md)); de la versión 1.1.0, la lógica de `memory_card.c` con libmc ([CC-13](../traduccion/cambios.md)), `convertir()` en `mandos.c` (CC-14) y la lectura de `rom0:ROMVER` en `arranque_ps2.c` (CC-15). Lo que falta verificar en una consola está en [deuda.md](../traduccion/deuda.md).
 
 ## Depuración
 
@@ -384,15 +388,15 @@ fin
 
 ## CI y publicación
 
-El workflow `compilacion` (`.github/workflows/compilacion.yml`) corre en cada push y pull request, y también a pedido (`workflow_dispatch`). Los jobs de compilación usan la imagen `ps2dev/ps2dev@sha256:7327334ab94e273b1723761fcd4a3591a31b78bbc28e4c281ad0fa42b3c8264d`, fijada por digest.
+El workflow `compilacion` (`.github/workflows/compilacion.yml`) corre en cada push y pull request, y también a pedido (`workflow_dispatch`). Los jobs de compilación y `release` usan la imagen `ps2dev/ps2dev@sha256:7327334ab94e273b1723761fcd4a3591a31b78bbc28e4c281ad0fa42b3c8264d`, fijada por digest.
 
 | Job | Cuándo corre | Qué hace |
 |---|---|---|
 | `pruebas-pc` | Siempre | `make test` en `ubuntu-latest`, sin el SDK |
 | `compilar-ps2` | Siempre | `make clean`; `make` (release), `make DEBUG=1` y `make DEV=1`; `make test`; `make iso`. Guarda como artefacto `smk64-ps2` el ELF release, `SMK64ROM.BIN`, el mapa, el ELF de `DEBUG=1` y la ISO |
 | `mismo-binario` | A pedido, con `base` no vacía | `herramientas/comparar_binario.sh <base>` para release y para `DEBUG=1`: compila la base y el árbol actual desde cero y compara el ELF sin símbolos y `SMK64ROM.BIN`. Un refactor tiene que dar los mismos bytes |
-| `publicar` | A pedido, con `publicar` = `si` o `sí` | Exige GNU make 4.4 o posterior; `make clean`, las variantes release, `DEBUG=1` y `DEV=1`, `make test` y `make iso`. Commitea `build/ps2` y `compilaciones` con el mensaje `build(compilaciones): binarios e ISO en español`, con el commit de origen y la ejecución en el cuerpo, y hace push a la misma rama |
-| `release` | A pedido, con `release` = etiqueta | Exige `compilaciones/SLUS_999.99.SuperMarioKart64.iso` y `docs/versiones/<etiqueta>.md`. Crea la Release `<etiqueta>` sobre el commit lanzado, con el título «Mario Kart 64 PS2 en español <etiqueta>», la ISO versionada y `SHA256SUMS`, y esas notas como cuerpo |
+| `publicar` | A pedido, con `publicar` = `si` o `sí` | Exige GNU make 4.4 o posterior; `make clean`, las variantes release, `DEBUG=1` y `DEV=1`, `make test` y `make iso`. Prepara `build/ps2` y `compilaciones`; si no hay nada preparado (`git diff --cached --quiet`), termina en verde sin commit. Si hay cambios, commitea con el mensaje `build(compilaciones): binarios e ISO en español`, con el commit de origen y la ejecución en el cuerpo, y hace push a la misma rama. Un fallo del commit o del push detiene el job en rojo |
+| `release` | A pedido, con `release` = etiqueta | Corre en el contenedor de ps2dev. Exige `compilaciones/SLUS_999.99.SuperMarioKart64.iso` y `docs/versiones/<etiqueta>.md`, y se detiene si el SHA-256 de la ISO no aparece en esas notas. Después, `make clean` y `make MONOLITICO=1`, que deja el ELF monolítico como `SLUS_999.99.monolitico.elf`. Escribe `SHA256SUMS` con dos líneas, la ISO y el ELF monolítico, y crea la Release `<etiqueta>` sobre el commit lanzado, con el título «Mario Kart 64 PS2 en español <etiqueta>», los tres archivos y esas notas como cuerpo |
 | `limpiar-ramas` | A pedido, con `limpiar_ramas` = `si` o `sí` | Borra cada rama remota cuya punta ya está en `main` (`git merge-base --is-ancestor`). Conserva `main` y las ramas con commits propios |
 
 Entradas a pedido (Actions → `compilacion` → Run workflow, o `POST /repos/{dueño}/{repo}/actions/workflows/compilacion.yml/dispatches` con `ref` e `inputs`):
@@ -408,10 +412,10 @@ Una versión se publica en este orden, cada paso con el anterior terminado en ve
 
 1. **`publicar`**, lanzado sobre la rama de integración: deja en ella el commit de publicación con los binarios y la ISO regenerados desde cero.
 2. **Merge a `main`** de la rama de integración, con la revisión aprobada (ver [CONTRIBUTING.md](../../CONTRIBUTING.md)).
-3. **`release`**, lanzado sobre `main` con la etiqueta de la versión: publica la ISO que quedó versionada en `compilaciones/`. Las notas (`docs/versiones/<etiqueta>.md`) tienen que estar ya en `main`.
+3. **`release`**, lanzado sobre `main` con la etiqueta de la versión: publica la ISO que quedó versionada en `compilaciones/` y el ELF monolítico que compila en ese momento. Las notas (`docs/versiones/<etiqueta>.md`) tienen que estar ya en `main`, con el SHA-256 de la ISO versionada.
 4. **`limpiar-ramas`**, lanzado sobre `main`: solo borra lo que ya está fusionado.
 
-El SHA-256 de `SHA256SUMS` tiene que coincidir con el de la ISO versionada (`sha256sum compilaciones/SLUS_999.99.SuperMarioKart64.iso`). Para la versión 1.0.0: ejecución de CI [38123501282](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38123501282), commit de publicación `900c9be`.
+El job `release` comprueba que el SHA-256 de la ISO versionada (`sha256sum compilaciones/SLUS_999.99.SuperMarioKart64.iso`) esté en las notas. El ELF monolítico no se versiona: su suma se conoce cuando termina `release` y queda en el `SHA256SUMS` de la Release. Para la versión 1.0.0: ejecución de CI [38123501282](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38123501282), commit de publicación `900c9be`. Para la 1.1.0: ejecución <<PUBLICACION>>, commit de publicación <<PUBLICACION>>.
 
 ## Traer actualizaciones del repositorio original
 
@@ -460,12 +464,15 @@ Cambiar cualquiera de estos archivos o ajustes exige un CC aprobado en [cambios.
 
 | Archivo o ajuste | Por qué está así |
 |---|---|
-| Digest de `ps2dev/ps2dev` en `.github/workflows/compilacion.yml` (3 apariciones: `compilar-ps2`, `mismo-binario` y `publicar`) | Fija el compilador para que el binario sea reproducible. Las tres tienen que cambiar juntas, y el cambio se comprueba con `mismo-binario` |
+| Digest de `ps2dev/ps2dev` en `.github/workflows/compilacion.yml` (4 apariciones: `compilar-ps2`, `mismo-binario`, `publicar` y `release`) | Fija el compilador para que el binario sea reproducible. Las cuatro tienen que cambiar juntas, y el cambio se comprueba con `mismo-binario`. El ELF monolítico de la Release sale del mismo toolchain que la ISO |
 | `herramientas/entorno.sh` | Lo cargan todas las compilaciones, locales y de la CI. Define `PS2DEV`, `PS2SDK`, `GSKIT` y el `PATH` del toolchain |
 | `Makefile`: objetivo `test` | Define qué corre `make test` y en qué orden. Una prueba que sale de la lista deja de comprobarse sin aviso |
 | `Makefile`: `BUILD_ID`, `JP_SRC` y `JP_PARTES` | `BUILD_ID` identifica la compilación en la pantalla de fallo. `JP_SRC` y `JP_PARTES` deciden qué fuentes pasan a EUC-JP |
 | `build/` y `compilaciones/` | Están versionados. Solo cambian en el commit de publicación, que hace el job `publicar` |
 | Tabla de glifos: `lista_glifos.inc.c`, `textos_y_tablas.inc.c` y `animaciones_personajes.inc.c` (en `codigo/menus/elementos_menu/`) | Los índices de los 236 glifos originales tienen que coincidir con los de la N64 (`prueba_glifos.c`); los 11 del español van detrás |
+| `incluir/entrada/eje_palanca.h`: `ZONA_MUERTA_PALANCA` y `ZONA_REPOSO_CRUCETA` | Fijan dónde empieza el giro (28 de 127 junto con la zona muerta del juego) y hasta dónde la cruceta hace de stick (25 del centro). `prueba_eje_palanca.c` falla si el giro empieza más allá de 28; el reposo lo comprueba con la propia constante, así que cambiar `ZONA_REPOSO_CRUCETA` no la pone en rojo ([CC-14](../traduccion/cambios.md)) |
+| `incluir/sistema/eleccion_guardado.h` | Decide qué copia se pisa en una tarjeta nueva y con qué generación. Un error pisa la partida más nueva o hace cargar la vieja ([CC-13](../traduccion/cambios.md)) |
+| `GS_MODE_NTSC` en `codigo/graficos/sintetizador_gs.c` | El juego avanza al ritmo del retrazo: a 50 Hz iría un 17 % más lento. Las consolas PAL salen también en NTSC a 60 Hz ([CC-15](../traduccion/cambios.md)) |
 | `recursos/es/texturas.tsv` | Manifiesto de las texturas en español: qué se traduce, qué se excluye y con qué texto |
 | `merge.directoryRenames=false` al fusionar el original | Sin él, git mueve archivos de `build/ps2/debug/` a `build/ps2/dev/` |
 

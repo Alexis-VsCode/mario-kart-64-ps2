@@ -8,6 +8,52 @@ El detalle de cada cambio está en el commit que se cita y en [docs/traduccion/]
 
 Nada todavía.
 
+## [1.1.0] - 2026-10-11
+
+Versión de mantenimiento de la fase F9, con los cambios de especificación CC-13 a CC-17 de [cambios.md](docs/traduccion/cambios.md) y parte de la [deuda técnica](docs/traduccion/deuda.md) de la 1.0.0. `BUILD_ID` sigue en `2026-10-11`, la fecha de la versión. Notas de la Release: [docs/versiones/v1.1.0.md](docs/versiones/v1.1.0.md).
+
+### Añadido
+
+- La Release publica también el ELF monolítico, `SLUS_999.99.monolitico.elf`, para jugar desde USB con uLaunchELF sin compilar y sin `SMK64ROM.BIN`. `SHA256SUMS` lleva una línea por la ISO y otra por el ELF (`4bdd41a8`, CC-16).
+- Al arrancar, el juego lee la región de la consola en `rom0:ROMVER`. En una consola PAL, el registro avisa de que la imagen es NTSC a 60 Hz y de que hace falta una TV que lo acepte. El modo de vídeo no cambia (`807d2c45`, `3b11daa5`, `ac1a1090`; CC-15).
+- Pruebas nuevas en `make test`, que pasa a 31 pruebas (`a29bd920`):
+  - `prueba_eleccion_guardado.c`: la copia que se pisa y la generación mínima al guardar en una tarjeta nueva (`2e578b4b`);
+  - `prueba_eje_palanca.c`: la conversión del eje del stick y el reposo de la cruceta (`4a48ff6a`, `ddbdc023`);
+  - `prueba_region_ps2.c`: la región PAL, NTSC o desconocida a partir de ROMVER (`807d2c45`);
+  - los casos del alfa con tramado en `prueba_combinador.c` (`d41996f7`, CC-17).
+- La sección [Consolas PAL y NTSC](docs/manual/usuario.md#consolas-pal-y-ntsc) del manual de usuario.
+
+### Cambiado
+
+- La zona muerta del stick izquierdo baja de 24 a 8: el kart empieza a girar con 28 de 127 (un 22 % del recorrido), en lugar de 41 (un 32 %). La cruceta sigue haciendo de stick mientras el izquierdo está a 25 o menos del centro, con su propio umbral `ZONA_REPOSO_CRUCETA` (`1fc4c437`, `dcbe656e`, `34ab306d`, `2b37f61f`; CC-14).
+- El alfa con tramado de `G_AC_DITHER` pasa a la función pura `combinador_alfa_tramado()` de `incluir/graficos/combinador_color.h`, sin cambio de conducta (`ff313bc5`, CC-17). Salda D-01 y D-02.
+- El job `release` corre en el contenedor de ps2dev, se detiene si el SHA-256 de la ISO no está en las notas de la versión y compila el ELF monolítico (`4bdd41a8`, CC-16).
+- El registro del ritmo de física dice «ritmo de física» en lugar de «ritmo 3-4P», porque también actúa con 2 jugadores (`7e9edfaa`).
+- La comprobación de lo descargado pasa a `sha256sum -c --ignore-missing SHA256SUMS`, porque `SHA256SUMS` tiene dos líneas y basta con descargar uno de los dos archivos ([manual de usuario](docs/manual/usuario.md#descarga-y-comprobación)).
+
+### Corregido
+
+- **Memory Card** (CC-13):
+  - al insertar una tarjeta después de arrancar o cambiarla en caliente, el guardado escribía en la tarjeta nueva sin leer sus copias y podía pisar la partida más nueva; ahora pisa la más vieja y escribe con una generación mayor (`b989feca`, `e4937a28`, `8c69e253`);
+  - la espera de la partida al arrancar se mide con el reloj y no en vueltas del bucle (`41441ae5`);
+  - el segundo borrado de los archivos de versiones anteriores solo se hace si la tarjeta sigue contestando (`3e62e63e`, D-12);
+  - los resultados de `mcGetInfo` ya no se escriben en la pila si la tarjeta contesta tarde (`abe7c205`, D-13);
+  - D-11 se mantiene, con la decisión escrita en CC-13.
+- El job `publicar` ya no oculta un fallo del commit: solo omite el commit si no hay nada preparado (`4bdd41a8`, CC-16).
+- Deuda técnica:
+  - D-09: la prueba del tope de la reserva de matrices mira la condición entera (`bb8d41bd`, `b780d986`);
+  - D-10: `GRUPOS_MAX` tiene que ser mayor que el número de grupos de `marcas_registro.h` (`3e2067a4`);
+  - D-14: el registro del multitap dice «sin multitap» en lugar de «no» (`1d8f5670`);
+  - D-15: los textos de `compilacion.yml` llevan tildes (`c641d19b`).
+
+### Conocido
+
+- **Sin verificar en una consola real lo nuevo de esta versión:** el tacto del stick, la lectura de ROMVER con el IOP reiniciado y bajo OPL sin reinicio, y el cambio de Memory Card en caliente (D-06).
+- **Sin probar en una PS2 real**, ni con OPL o uLaunchELF en hardware, ni con un multitap real. Según el autor del port original, se probó en PCSX2 (con BIOS) y en Play!.
+- **Sin verificación visual registrada** de la versión en español (CC-12).
+- Con una consola PAL hace falta una TV que acepte NTSC a 60 Hz.
+- La deuda técnica abierta, con su motivo, está en [deuda.md](docs/traduccion/deuda.md).
+
 ## [1.0.0] - 2026-10-11
 
 Primera versión publicada: el port a PS2 de anthoo582, localizado por completo al español (fases F0 a F7) y sincronizado con el repositorio original hasta `ae93f71` (fase F8). Notas de la Release: [docs/versiones/v1.0.0.md](docs/versiones/v1.0.0.md).
@@ -83,5 +129,6 @@ Se conservó la tabla de glifos de este repositorio, que tiene las 236 entradas 
 - La pantalla de fallo sale sin tildes; el registro las conserva.
 - La deuda técnica abierta, con su motivo, está en [deuda.md](docs/traduccion/deuda.md).
 
-[Sin publicar]: https://github.com/Alexis-VsCode/mario-kart-64-ps2/compare/v1.0.0...main
+[Sin publicar]: https://github.com/Alexis-VsCode/mario-kart-64-ps2/compare/v1.1.0...main
+[1.1.0]: https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/tag/v1.1.0
 [1.0.0]: https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/tag/v1.0.0
