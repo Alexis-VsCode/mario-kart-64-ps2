@@ -49,6 +49,8 @@ CONTROLLER_PAK = ["n64_controller_pak_seleccion_datos", "borrar_datos_registro_c
 BOTONES_N64 = {"L", "R", "Z", "A", "B", "N64"}
 ICONOS_N64 = ("\u24b6", "\u24b7")  # A y B en un circulo
 CONTROLLER_PAK_TEXTO = re.compile(r"\bCONTROLLER\s+PAK\b")
+# Frases donde la A es la preposicion, no el boton (la cruz de Kalimari Desert)
+FRASES_CON_A = re.compile(r"\bPASO\s+A\s+NIVEL\b")
 
 # Lo que R-TEX-02 manda cubrir, ademas de los .incbin de codigo/datos/*.s
 CARPETAS_R_TEX_02 = ["recursos/comunes/texturas"] + ["recursos/texturas/" + c for c in (
@@ -66,7 +68,7 @@ PENDIENTES = []
 # (especificacion §2, CC-29). Son deuda (D-24). TEXTURAS_PENDIENTES solo
 # puede bajar: al traducir una, se quita su "pendiente:" y se baja aqui.
 PREFIJO_PENDIENTE = "pendiente:"
-TEXTURAS_PENDIENTES = 15
+TEXTURAS_PENDIENTES = 7
 
 fallos = 0
 comprobaciones = 0
@@ -223,7 +225,7 @@ def probar_hoja(tmp):
 def nombres_n64(texto_es):
     """Botones y nombres de la N64 que aparecen en texto_es ('|' separa lineas)."""
     texto = " ".join(texto_es.upper().split("|"))
-    nombres = sorted(set(re.findall(r"[^\W_]+", texto)) & BOTONES_N64)
+    nombres = sorted(set(re.findall(r"[^\W_]+", FRASES_CON_A.sub(" ", texto))) & BOTONES_N64)
     nombres += [icono for icono in ICONOS_N64 if icono in texto]
     if CONTROLLER_PAK_TEXTO.search(texto):
         nombres.append("CONTROLLER PAK")
@@ -233,7 +235,8 @@ def nombres_n64(texto_es):
 def probar_botones(filas):
     """Paso 5: los texto_es nombran los botones de la PS2, no los de la N64."""
     for texto, esperado in (("L|OPCIONES", ["L"]), ("R1|DATOS", []), ("\u24b6 VER", ["\u24b6"]),
-                            ("N64 CONTROLLER|PAK", ["N64", "CONTROLLER PAK"]), ("¿OK?", [])):
+                            ("N64 CONTROLLER|PAK", ["N64", "CONTROLLER PAK"]), ("¿OK?", []),
+                            ("PASO|A NIVEL", []), ("PASO A|A", ["A"])):
         comprobar(nombres_n64(texto) == esperado, "nombres_n64(%r) = %r" % (texto, nombres_n64(texto)))
     for f in filas:
         n64 = nombres_n64(f["texto_es"])
