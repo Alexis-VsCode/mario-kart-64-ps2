@@ -864,3 +864,24 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Evidencia requerida:** revisión técnica y lingüística de la documentación, y comprobar que ninguna página nombra un empleador ni una institución.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
 - **Commit:** —
+
+### CC-31: capturas de referencia al día y comparación estricta
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-INF-07
+- **Motivo:**
+  - Las referencias del emulador son anteriores a CC-28: el menú muestra la placa negra vieja.
+  - `comparar_capturas.py` admite hasta un 2 % de píxeles distintos, así que un cambio de textura pequeño pasa sin aviso.
+  - Las dos ejecuciones de la CI dan un 0 % de diferencia entre sí.
+- **Cambio:**
+  - La tolerancia por defecto pasa de 0,02 a 0,001.
+  - Las referencias se regeneran con el ELF de DEV actual y se revisan a ojo.
+  - El guion captura también el menú CONFIGURACIÓN Y TRUCOS, si la navegación es determinista.
+  - Las imágenes de la página del proyecto (`docs/img/`) se actualizan.
+- **Evidencia requerida:**
+  - una prueba en rojo con un bloque de 32×16 cambiado (0,18 %) frente a la tolerancia vieja;
+  - el job del emulador en verde con la tolerancia nueva;
+  - la revisión visual de las referencias.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
+- **Commit:** —
