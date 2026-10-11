@@ -13,7 +13,9 @@ revisada: id, origen, formato, tamanio (ANCHOxALTO de la original),
 tamanio_es (si la version en espanol mide otra cosa), alfa (opaco o
 clave_00BE para las TKMK00, formato si el alfa va en los datos), png (el
 PNG en espanol, vacio si no se traduce), texto_es, retocado (si/no) y
-motivo_no (por que no se traduce). Los PNG se llaman <id>.<formato>.png:
+motivo_no (por que no se traduce). Una fila de carpeta (id
+carpeta:<ruta>, motivo_no obligatorio y el resto vacio) excluye la carpeta
+y sus subcarpetas sin fila por textura; las ordenes no la usan. Los PNG se llaman <id>.<formato>.png:
 importar saca el formato del sufijo y rechaza lo que no se pueda guardar
 sin perdida. La carpeta dentro de recursos/es/ dice que genera el build:
 mio0/ un MIO0 del binario, crudo/ el binario, inc/ un .inc.c en la ruta
@@ -36,6 +38,7 @@ COLUMNAS = ["id", "origen", "formato", "tamanio", "tamanio_es", "alfa", "png", "
 # Alfa con el que el juego decodifica el TKMK00 (TexturaMenu type 1 -> 0xBE)
 ALFA_TKMK00 = {"opaco": "0x01", "clave_00BE": "0xBE"}
 ALFAS = ("opaco", "clave_00BE", "formato")
+PREFIJO_CARPETA = "carpeta:"
 # Lo que genera el build segun la carpeta del PNG dentro de recursos/es/
 SALIDAS = {"mio0": ".mio0", "crudo": ".bin", "inc": ".inc.c"}
 CLAVE = 0x00BE
@@ -47,8 +50,8 @@ class ErrorManifiesto(ValueError):
     pass
 
 
-def leer_manifiesto(ruta):
-    """Lista de filas (dict por columna)."""
+def leer_filas(ruta):
+    """(numero de linea, dict por columna) de todas las filas, de textura y de carpeta."""
     with open(ruta, encoding="utf-8") as f:
         lineas = f.read().splitlines()
     if not lineas or lineas[0].split("\t") != COLUMNAS:
@@ -58,7 +61,30 @@ def leer_manifiesto(ruta):
         campos = linea.split("\t")
         if len(campos) != len(COLUMNAS):
             raise ErrorManifiesto("%s:%d: %d columnas, se esperaban %d" % (ruta, numero, len(campos), len(COLUMNAS)))
-        fila = dict(zip(COLUMNAS, campos))
+        filas.append((numero, dict(zip(COLUMNAS, campos))))
+    return filas
+
+
+def leer_carpetas(ruta):
+    """Filas de carpeta: lista de {ruta, motivo}."""
+    carpetas = []
+    for numero, fila in leer_filas(ruta):
+        if not fila["id"].startswith(PREFIJO_CARPETA):
+            continue
+        carpeta = fila["id"][len(PREFIJO_CARPETA):].rstrip("/")
+        if not carpeta or not fila["motivo_no"] or any(fila[c] for c in COLUMNAS[1:-1]):
+            raise ErrorManifiesto("%s:%d: una fila de carpeta lleva la ruta y motivo_no, y nada mas" % (ruta, numero))
+        carpetas.append({"ruta": carpeta, "motivo": fila["motivo_no"]})
+    return carpetas
+
+
+def leer_manifiesto(ruta):
+    """Lista de filas de textura (dict por columna); las de carpeta se validan y se omiten."""
+    leer_carpetas(ruta)
+    filas = []
+    for numero, fila in leer_filas(ruta):
+        if fila["id"].startswith(PREFIJO_CARPETA):
+            continue
         if fila["formato"] not in ft.FORMATOS or fila["alfa"] not in ALFAS or fila["retocado"] not in ("si", "no"):
             raise ErrorManifiesto("%s:%d: formato, alfa o retocado invalido" % (ruta, numero))
         try:
