@@ -2,6 +2,7 @@
 #include <kernel.h>
 #include <libmc.h>
 #include <loadfile.h>
+#include <osd_config.h>
 #include <sifrpc.h>
 #include <stdio.h>
 #include <string.h>
@@ -14,6 +15,7 @@
 #include "sistema/cronometro_fases.h"
 #include "sistema/eleccion_guardado.h"
 #include "sistema/crc32.h"
+#include "sistema/opciones_port.h"
 
 #define PUERTO_MC 0
 #define RANURA_MC 0
@@ -24,6 +26,7 @@
 #define ARCHIVO_TEMPORAL_VIEJO DIR_GUARDADO "/SMK64.TMP"
 #define ARCHIVO_ICONO DIR_GUARDADO "/SMK64.ICO"
 #define ARCHIVO_ICONO_SYS DIR_GUARDADO "/icon.sys"
+#define ARCHIVO_OPCIONES DIR_GUARDADO "/SMK64CFG.DAT"
 
 extern u8 icono_partida[];
 extern u32 tamanio_icono_partida;
@@ -36,6 +39,15 @@ static ImagenGuardadoPs2 copia_escritura __attribute__((aligned(64)));
 static int ranura_siguiente;      /* copia que recibe el proximo guardado */
 static u32 desplazamiento_gen;    /* se suma a la generación de la sesión al escribir */
 static int archivos_legacy;   /* quedan SMK64.SAV / SMK64.TMP de builds anteriores */
+static int tarjeta_por_releer; /* el guardado de opciones vio otra tarjeta: la partida relee sus cabeceras */
+
+OpcionesPort opciones_port;
+volatile u32 version_opciones_port;
+int pantalla_osd_169;
+static volatile int opciones_pedidas;
+/* Lo que hay en SMK64CFG.DAT, para no reescribirlo sin cambios */
+static u8 opciones_en_tarjeta[TAM_OPCIONES_PORT];
+static int opciones_en_tarjeta_validas;
 
 enum { PENDIENTE_CARGA, HECHO_CARGA, CARGA_ABANDONED };
 static volatile int estado_carga = PENDIENTE_CARGA;
@@ -345,9 +357,10 @@ static int guardar_ahora(void)
         return -1;
     }
     memcpy(&copia_escritura, &guardado_ps2, sizeof(copia_escritura));
-    if (nueva && releer_tarjeta_nueva(copia_escritura.generacion) != 0) {
+    if ((nueva || tarjeta_por_releer) && releer_tarjeta_nueva(copia_escritura.generacion) != 0) {
         return -1;
     }
+    tarjeta_por_releer = 0;
     copia_escritura.generacion += desplazamiento_gen;
     copia_escritura.magic = MAGICO_GUARDADO_PS2;
     copia_escritura.version = VERSION_GUARDADO_PS2;
@@ -374,6 +387,71 @@ static int guardar_ahora(void)
     return 0;
 }
 
+/* Solo desde el hilo de guardado, como todo lo que llama a libmc. Si la carga se
+   abandonó, el menú ya puede haber cambiado las opciones: no se pisan. */
+static void cargar_opciones(void)
+{
+    static u8 buf[TAM_OPCIONES_PORT] __attribute__((aligned(64)));
+    OpcionesPort leidas;
+    int intr, aplicadas;
+
+    if (!mc_ok) {
+        return;
+    }
+    if (leer_archivo_mc(ARCHIVO_OPCIONES, buf, sizeof(buf)) != TAM_OPCIONES_PORT ||
+        !opciones_deserializar(buf, &leidas, pantalla_osd_169)) {
+        registrar("memory card: sin opciones del port o dañadas; se usan las de por defecto");
+        return;
+    }
+    opciones_serializar(&leidas, opciones_en_tarjeta);
+    opciones_en_tarjeta_validas = 1;
+    intr = DI();
+    aplicadas = estado_carga != CARGA_ABANDONED;
+    if (aplicadas) {
+        opciones_port = leidas;
+        opciones_cambiadas();
+    }
+    if (intr) {
+        EI();
+    }
+    if (aplicadas) {
+        registrar("memory card: opciones del port cargadas");
+    }
+}
+
+/* 0 si se escribieron, 1 si no habían cambiado y negativo si falló */
+static int guardar_opciones(void)
+{
+    static u8 buf[TAM_OPCIONES_PORT] __attribute__((aligned(64)));
+    OpcionesPort copia;
+    int nueva, intr = DI();
+
+    copia = opciones_port;
+    if (intr) {
+        EI();
+    }
+    if (!listo_tarjeta_mc(&nueva)) {
+        return -1;
+    }
+    if (nueva) {
+        tarjeta_por_releer = 1;
+        opciones_en_tarjeta_validas = 0;
+    }
+    opciones_serializar(&copia, buf);
+    if (opciones_en_tarjeta_validas && memcmp(buf, opciones_en_tarjeta, sizeof(buf)) == 0) {
+        return 1;
+    }
+    if (preparar_carpeta() != 0) {
+        return -2;
+    }
+    if (escribir_archivo_mc(ARCHIVO_OPCIONES, buf, sizeof(buf)) != 0) {
+        return -3;
+    }
+    memcpy(opciones_en_tarjeta, buf, sizeof(buf));
+    opciones_en_tarjeta_validas = 1;
+    return 0;
+}
+
 static void alarma_tic(s32 id, u16 time, void *parametro)
 {
     (void) id;
@@ -397,6 +475,7 @@ static void guardar_hilo(void *parametro)
     if (intr) {
         EI();
     }
+    cargar_opciones();
     registrar("memory card: lectura en segundo plano %u ms", (unsigned) ((ciclos_ps2() - t0) / 294912));
     ChangeThreadPriority(GetThreadId(), PRIORIDAD_HILO_GUARDADO);
 
@@ -411,6 +490,15 @@ static void guardar_hilo(void *parametro)
             WaitSema(sema_tic);
         } while (generar != guardado_ps2.generacion);
         while (PollSema(sema_guardado) >= 0) {
+        }
+        if (opciones_pedidas && mc_ok) {
+            opciones_pedidas = 0;
+            r = guardar_opciones();
+            if (r == 0) {
+                registrar("memory card: opciones del port guardadas");
+            } else if (r < 0) {
+                registrar("memory card: no se pudieron guardar las opciones del port (%d)", r);
+            }
         }
         if (!tomar_partida_modificada()) {
             continue;
@@ -440,6 +528,12 @@ void pedir_guardado(void)
     }
 }
 
+void pedir_guardado_opciones(void)
+{
+    opciones_pedidas = 1;
+    pedir_guardado();
+}
+
 void inicializar_memory_card(void)
 {
     ee_sema_t sema;
@@ -448,6 +542,14 @@ void inicializar_memory_card(void)
     int devuelto;
 
     int x = modulos_mando_x_ps2();
+
+    /* Hasta que el hilo lea SMK64CFG.DAT; TV_SCREEN_FULL no es 16:9 */
+    pantalla_osd_169 = configGetTvScreenType() == TV_SCREEN_169;
+    opciones_por_defecto(&opciones_port, pantalla_osd_169);
+    opciones_en_tarjeta_validas = 0;
+    opciones_pedidas = 0;
+    tarjeta_por_releer = 0;
+    opciones_cambiadas();
 
     /* SIO2MAN (o XSIO2MAN) ya lo cargo inicializar_mandos_ps2(); MCMAN tiene que ser de la misma familia. */
     if (!cargar_modulo_iop(x ? "rom0:XMCMAN" : "rom0:MCMAN") || !cargar_modulo_iop(x ? "rom0:XMCSERV" : "rom0:MCSERV") ||
