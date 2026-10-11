@@ -8,8 +8,10 @@ Cada familia (recursos/es/glifos/<familia>/) tiene:
   familia.tsv  parametros: fondo (negro, transparente, fila: el color saturado mas
                frecuente de cada fila, para placas con degradado; fila_clara: igual, pero solo
                entre los claros, para letras oscuras sobre un degradado claro; madera: el oscuro
-               mas frecuente, para letras claras sobre tablas; o tinta: letras oscuras
-               o rojas sobre tablas claras, que se borran con la veta de su misma fila), filas (y0,y1 de la linea),
+               mas frecuente, para letras claras sobre tablas; tinta: letras oscuras
+               o rojas sobre tablas claras, que se borran con la veta de su misma fila; o relieve:
+               los grises puros, para letras en relieve sobre metal; lo que tiene tinte es la letra,
+               su sombra clara y su borde), filas (y0,y1 de la linea),
                ventana (columnas a cada lado donde buscar el corte), umbral (luminancia
                que separa contorno de relleno), muestras (pixeles minimos de una fila
                para tomar su color de referencia; si no, se usa la fila mas cercana),
@@ -47,6 +49,13 @@ reescribe, texto en ingles y columna de su primer corte (autoprueba) y opciones:
   sangrado=si   los transparentes junto a las letras toman su color (texturas sin clave)
   fijo=N        los N primeros caracteres del espanol ya estan en la textura (fuera del area)
 El texto en espanol sale de la columna texto_es del manifiesto ('|' separa lineas).
+
+Con fondo=relieve se borra solo lo que tiene tinte dentro de la zona y cada pixel borrado
+toma el gris de su fila (media de los grises puros mas cercanos a cada lado, con el grano
+del metal); en las partes, 'o' es la sombra clara: el color mas frecuente del borde claro
+de las letras de esa textura. Las texturas ci8 salen con la paleta de su tlut: cada
+pixel conserva su indice si no cambio y si no toma el color mas cercano de los que ya usa
+la textura (como los carteles de Lakitu).
 
 Cada pixel pegado se recolorea por fila: si viene de la misma textura y la misma fila
 queda igual; si no, conserva su diferencia con el color mediano de su clase (contorno o
@@ -123,7 +132,7 @@ class Textura:
                 cls._cache[id_] = cls(id_, *cuadro)
                 return cls._cache[id_]
             datos, ancho, alto = texturas_es.decodificar_original(filas[id_], texturas_es.TKMK00)
-            imagen = ft.a_imagen(filas[id_]["formato"], datos, ancho, alto)
+            imagen = texturas_es.a_imagen(filas[id_], datos, ancho, alto)
             cls._cache[id_] = cls(id_, ancho, alto, imagen.a_rgba())
         return cls._cache[id_]
 
@@ -167,6 +176,8 @@ class Familia:
             return p[3] and not pintura(p)
         if self.fondo == "tinta":
             return not tinta(p)
+        if self.fondo == "relieve":
+            return gris_puro(p)
         return p[3] == 0
 
     def clase(self, p):
@@ -246,6 +257,14 @@ class Familia:
         if clave in self.recetas:
             return evaluar_receta(self, self.recetas[clave].replace("FILA", str(fila)), None)
         return _forma(caracter.lower(), fila)
+
+    def sombra(self, textura_id):
+        """Relieve: el color claro (relleno, 'r') mas frecuente en los glifos de la textura."""
+        claros = [p[:3] for caja in self.cajas if caja["textura"] == textura_id
+                  for p, cl, _, _ in self.glifo_de_caja(caja).pixeles.values() if cl == "r"]
+        if not claros:
+            raise ErrorComposicion("textura %s sin glifos en la familia %s" % (textura_id, self.nombre))
+        return max(sorted(set(claros)), key=claros.count)
 
     def referencia(self, textura_id, clase, y):
         """Color de una clase en una fila, sobre los glifos de esa textura: mediana del
@@ -533,6 +552,36 @@ def juntar(glifos, hueco):
     return xs
 
 
+def gris_puro(p):
+    """Relieve: gris sin tinte del metal (fondo)."""
+    return p[3] == 255 and p[0] == p[1] == p[2]
+
+
+def gris_relieve(textura, x, y, borrados):
+    """Gris de fondo en (x, y): media de los 3 grises puros mas cercanos a cada lado de la
+    fila (fuera de lo borrado) y el grano de la fila de arriba o de abajo en esa columna."""
+    def lado(paso):
+        vistos, cx = [], x + paso
+        while 0 <= cx < textura.ancho and len(vistos) < 3:
+            p = textura.pixel(cx, y)
+            if (cx, y) not in borrados and gris_puro(p):
+                vistos.append((abs(cx - x), p[0]))
+            cx += paso
+        return vistos
+    izq, der = lado(-1), lado(1)
+    if not izq and not der:
+        raise ErrorComposicion("%s: fila %d sin fondo gris" % (textura.id, y))
+    media = lambda v: sum(c for _, c in v) / float(len(v))
+    if izq and der:
+        di, dd = izq[0][0], der[0][0]
+        base = (media(izq) * dd + media(der) * di) / float(di + dd)
+    else:
+        base = media(izq or der)
+    grano = ((x * 7 + y * 13) % 5 - 2) * 3
+    v = cuantizar(base + grano)
+    return (v, v, v, 255)
+
+
 def pintura(p):
     """Letra pintada sobre madera: clara y casi gris (la veta es parda aunque brille)."""
     mx = max(p[:3])
@@ -619,9 +668,14 @@ def componer(id_, texto, comp, destino=None, en_ingles=False):
     vacio = (0, 0, 0, 255) if familia.fondo == "negro" else transparente(destino, area_de(comp, True))
     ancho, alto, salida = lienzo(comp, destino, en_ingles, vacio)
     bx, by, bw, bh = caja if en_ingles or "borrar" not in opc else tuple(int(v) for v in opc["borrar"].split(","))
+    borrados = {(x, y) for y in range(by, by + bh) for x in range(bx, bx + bw)
+                if familia.fondo == "relieve" and not gris_puro(destino.pixel(x, y))}
     for y in range(by, by + bh):
         for x in range(bx, bx + bw):
-            if familia.fondo == "madera":
+            if familia.fondo == "relieve":
+                if (x, y) in borrados:
+                    salida[y * ancho + x] = gris_relieve(destino, x, y, borrados)
+            elif familia.fondo == "madera":
                 # se borran solo las letras: la veta de las tablas queda
                 if pintura(salida[y * ancho + x]):
                     salida[y * ancho + x] = color_fila(destino, y, "madera")
@@ -645,7 +699,7 @@ def componer(id_, texto, comp, destino=None, en_ingles=False):
             for x in range(max(cx, min(xs) - margen), min(cx + cw, max(xs) + margen + 1)):
                 salida[y * ancho + x] = color
     por_linea = opc.get("color_lineas") == "si" and not en_ingles
-    for pasada in ("c", "r"):
+    for pasada in ("s", "c", "r") if familia.fondo == "relieve" else ("c", "r"):
         for x0, dy, g, linea in colocados:
             for (x, y), (p, clase, fuente, fy) in g.pixeles.items():
                 if clase == pasada:
@@ -659,6 +713,8 @@ def componer(id_, texto, comp, destino=None, en_ingles=False):
 def recolorear(familia, p, clase, fuente, fy, destino, ty):
     if fuente == destino and fy == ty:
         return p
+    if clase == "s" and familia.fondo == "relieve":
+        return tuple(familia.sombra(destino)) + (255,)
     if fuente is None:
         contorno, relleno = familia.referencia(destino, "n", ty), familia.referencia(destino, "r", ty)
         ref = {"c": contorno, "r": relleno}.get(clase) or tuple((a + b) / 2.0 for a, b in zip(contorno, relleno))
@@ -700,6 +756,14 @@ def png_compuesto(id_, fila, comp):
     destino = Textura.cargar(id_)
     pixeles = componer(id_, fila["texto_es"], comp, destino)
     ancho, alto, _ = lienzo(comp, destino)
+    if fila["formato"] == "ci8":
+        import lakitu_es
+        if (ancho, alto) != (destino.ancho, destino.alto):
+            raise ErrorComposicion("%s: una ci8 no puede cambiar de tamanio (lienzo)" % id_)
+        originales = texturas_es.decodificar_original(fila, texturas_es.TKMK00)[0]
+        pal = texturas_es.paleta_de(fila)
+        indices = lakitu_es.cuantizar_a_paleta(pixeles, originales, pal, sorted(set(originales)))
+        return png_simple.Imagen(ancho, alto, "indexado", indices, pal)
     if fila["formato"] in ("i4", "ia8"):
         # grises de 4 bits: el mas cercano de 0, 17, ..., 255
         pixeles = [tuple(int(round(c / 17.0)) * 17 for c in p) for p in pixeles]

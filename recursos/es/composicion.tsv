@@ -57,3 +57,7 @@ cartel_granja_derecha	cartel_granja	0,3,57,26	OFARM	3	juntar=1 alinear=izquierda
 cartel_bienvenida_0	cartel_bienvenida	3,2,61,28	WELC	6	juntar=1 condensar=0.75:E alinear=derecha@64
 cartel_bienvenida_1	cartel_bienvenida	0,2,60,28	COME	0	juntar=1 alinear=izquierda@1
 cartel_mario	cartel_mario	14,9,17,17	G	15	area=14,9,17,31 avance=Y:0 alinear=centro@22
+emblema_1j_jugador	emblemas	28,9,25,20	P	30	fijo=1 alinear=izquierda@33
+emblema_2j_jugador	emblemas	33,9,23,20	P	33	fijo=1 alinear=izquierda@36
+emblema_3j_jugador	emblemas	31,9,25,20	P	33	fijo=1 alinear=izquierda@36
+emblema_4j_jugador	emblemas	32,9,24,20	P	33	fijo=1 alinear=izquierda@36
