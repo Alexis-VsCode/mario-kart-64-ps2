@@ -243,7 +243,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 
 ### CC-10: recorrido de PCSX2 con capturas automáticas
 
-- **Estado:** aprobado (responsable del proyecto, 2026-10-11)
+- **Estado:** rechazado (responsable del proyecto, 2026-10-11). El proyecto no depende de capturas ni de pasos manuales de nadie: se verifica con las pruebas del PC y la CI. No se integra nada de este cambio y `herramientas/guiones/recorrido_textos.txt` queda como estaba.
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-FUE-07, R-TXT-07, R-MC-03, R-TEX-05, R-PORT-02, R-PORT-03 (los que dependen del recorrido de F6)
 - **Motivo:** el recorrido de F6 se hacía a mano: `recorrido_textos.txt` paraba en cada `nota` para sacar la captura con F8. Además no cubría datos y récords, contrarreloj, VS, batalla, ¡REVÉS!, Memory Card, ceremonia ni créditos. Desde `ae93f71`, la orden `captura <nombre>` guarda `host:<nombre>.tga` en las compilaciones DEV.
@@ -272,13 +272,13 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   | E3 | `GRUPOS_MAX` de 4 a 6: con los grupos nuevos de ceremonia y créditos la tabla quedaba llena, y un quinto grupo pisaba el cuarto en silencio | `cronometro_fases.c` | prueba en el PC si el cronómetro compila sin el SDK; si no, evidencia de código |
   | E4 | Lectura de la ROM: 4 intentos de 5 s más 1 s de cancelación (unos 24 s), por debajo de los 30 s del perro guardián, para que se vea «no se pudo leer SMK64ROM.BIN» y no «cuelgue» | `carga_rom.c` | evidencia de código |
   | E5 | Memory Card: con el tiempo vencido, el -1 se tomaba por «tarjeta nueva formateada». Ahora `type`/`format` se inicializan, se exige `mc_ok` y se deja de reintentar con la tarjeta desactivada | `memory_card.c` | evidencia de código |
-  | G2 | Captura de los guiones: se lee el pedido una sola vez y se borra solo si no cambió; el volcado fija `RGBAQ` para que el alfa del `.tga` sea opaco | `tarea_graficos.inc.c`, `guiones_prueba.c`, `sintetizador_gs.c` | captura del recorrido |
-  | G4 | El tramado por primitiva solo se activa si el combinador lee SHADE o hay niebla. Las letras del menú y los puestos 1.º…8.º son triángulos de color plano y salían con una trama de 4×4 | `matrices_y_vertices.inc.c` | captura antes/después; si no mejora, no se integra |
   | G5 | `G_AC_DITHER`: el alfa negativo se limita a 0 antes de elevarlo al cuadrado | `combinador_y_recorte.inc.c` | `prueba_combinador` |
   | L2 | Si la reserva de matrices está agotada, la letra no se dibuja y su tilde tampoco (antes caía sobre la letra anterior). Registro DEV una vez cuando se agota | `letras_y_fundidos.inc.c`, `cargar_texturas_menu.inc.c` | evidencia de código y registro DEV |
   | L3 | Panel 5x7: una fila libre entre líneas para que las tildes no toquen la línea de arriba (`TEXTO_ALTO_LINEA` 9, textura de 108 filas, 112 KB de VRAM) | `texto_pantalla.h`, `texto_pantalla.c`, `medidor_rendimiento.h` | `prueba_fuente_5x7.c` |
 
 - **No se tocan (documentado):**
+  - **G2:** la captura de los guiones (`captura` y `graba`, solo DEV) puede perder un pedido y deja el alfa del `.tga` del último vértice. Ningún flujo del proyecto usa capturas (CC-10 rechazado), así que queda como propuesta para el repositorio original.
+  - **G4:** el tramado por primitiva también alcanza a las letras del menú y a los puestos del HUD, que son triángulos y no rectángulos como dice el comentario del original. Corregirlo cambia la imagen y no hay forma de verificarlo sin capturas, así que queda como propuesta para el repositorio original.
   - **G3:** la segunda pasada `m·TEXEL + PRIM` no desplaza el modo REGION_REPEAT. Hoy ningún dibujo lo usa, así que no hay caso visible.
   - **Marcar el atlas una vez por pasada:** es una optimización sin medición.
   - **Audio, multitap, reinicio del IOP, 60 FPS, física y atlas:** sin defecto.
