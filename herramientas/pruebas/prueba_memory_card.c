@@ -169,6 +169,35 @@ static void prueba_deja_de_contestar(void) {
     }
 }
 
+// Si una lectura de la carga vence, no se pide ninguna otra: ni la cabecera B
+// ni las partidas
+static void prueba_carga_deja_de_contestar(void) {
+    static const char *const colgadas[] = { "mcOpen " ARCHIVO_A_GUARDADO, "mcRead " ARCHIVO_A_GUARDADO,
+                                            "mcClose " ARCHIVO_A_GUARDADO };
+    unsigned i;
+
+    for (i = 0; i < sizeof(colgadas) / sizeof(colgadas[0]); i++) {
+        empezar();
+        mc_ok = 1;
+        poner_partida(ARCHIVO_A_GUARDADO, 7);
+        poner_partida(ARCHIVO_B_GUARDADO, 8);
+        sim_colgar(colgadas[i], 1);
+        cargar_partida();
+        comprobar(mc_ok == 0, colgadas[i], "libmc sigue activa");
+        comprobar(sim_ordenes_ocupado == 0, colgadas[i], "orden pedida tras vencer la espera");
+        comprobar(!sim_en_traza(ARCHIVO_B_GUARDADO), colgadas[i], "se leyó la B");
+        comprobar(estado_carga == PENDIENTE_CARGA, colgadas[i], "se publicó una partida");
+    }
+
+    // Vence la escritura del icono en una tarjeta sin la carpeta
+    empezar();
+    mc_ok = 1;
+    estado_carga = HECHO_CARGA;
+    sim_colgar("mcWrite " ARCHIVO_ICONO_SYS, 1);
+    comprobar(guardar_ahora() != 0, "icono colgado", "el guardado no falló");
+    comprobar(sim_ordenes_ocupado == 0, "icono colgado", "orden pedida tras vencer la espera");
+}
+
 // El juego espera la lectura como mucho 5 s de tiempo real, aunque
 // DelayThread tarde más de lo pedido
 static void prueba_espera_arranque(void) {
@@ -248,6 +277,7 @@ int main(void) {
     prueba_carga();
     prueba_tarjeta_nueva();
     prueba_deja_de_contestar();
+    prueba_carga_deja_de_contestar();
     prueba_espera_arranque();
     prueba_borrado_legacy();
     prueba_hilo();
