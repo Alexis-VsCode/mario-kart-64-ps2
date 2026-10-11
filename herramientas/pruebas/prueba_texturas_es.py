@@ -61,6 +61,13 @@ INCBIN = re.compile(r'\.incbin\s+"(recursos/texturas/[^"]+)"')
 # una entrada nueva aqui tiene que quitarse al cubrirla.
 PENDIENTES = []
 
+# Texturas con texto general visible que aun no se traducen: su motivo_no
+# empieza por "pendiente:" y no cuenta como motivo para conservarlas
+# (especificacion §2, CC-29). Son deuda (D-24). TEXTURAS_PENDIENTES solo
+# puede bajar: al traducir una, se quita su "pendiente:" y se baja aqui.
+PREFIJO_PENDIENTE = "pendiente:"
+TEXTURAS_PENDIENTES = 15
+
 fallos = 0
 comprobaciones = 0
 
@@ -294,6 +301,12 @@ def probar_carpetas(filas):
     comprobar(not fuera, "%d texturas sin fila ni carpeta excluida, p. ej. %s" % (len(fuera), ", ".join(fuera[:5])))
     for p in PENDIENTES:
         comprobar(any(r == p or dentro(r, p) for r in faltan), "%s ya esta cubierta: quitarla de PENDIENTES" % p)
+    pendientes = [f["id"] for f in filas if f["motivo_no"].startswith(PREFIJO_PENDIENTE)]
+    pendientes += [c["ruta"] for c in carpetas if c["motivo"].startswith(PREFIJO_PENDIENTE)]
+    comprobar(not any(c["tipo"] == "carpeta" and c["motivo"].startswith(PREFIJO_PENDIENTE) for c in carpetas),
+              "una fila de carpeta no puede ser pendiente: cada textura pendiente lleva su fila")
+    comprobar(len(pendientes) == TEXTURAS_PENDIENTES, "hay %d texturas pendientes y TEXTURAS_PENDIENTES dice %d"
+              % (len(pendientes), TEXTURAS_PENDIENTES))
 
 
 def main():

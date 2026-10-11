@@ -746,8 +746,9 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - Una textura suelta que las órdenes no leen (rgba32, ia1, ci8) se excluye con una fila de archivo, `archivo:<ruta>`, distinta de la fila de carpeta de D-05. `prueba_texturas_es.py` exige que `carpeta:` apunte a una carpeta y `archivo:` a un archivo (R-TEX-02).
   - Cada clasificación con texto la revisa un refutador.
   - Al terminar, `PENDIENTES` queda vacía.
+  - «pendiente:» no es un motivo para conservar texto. Las 15 texturas con texto general visible que aún no se pueden traducir (WELCOME, GO, RAILROAD CROSSING y 1P a 4P) llevan `motivo_no` «pendiente: …», cuentan en `TEXTURAS_PENDIENTES` de `prueba_texturas_es.py`, que solo puede bajar, y quedan como deuda ([D-24](deuda.md)). CC-29 no se cierra hasta que se traduzcan o un CC decida conservarlas.
 - **Evidencia requerida:**
-  - `prueba_texturas_es.py` en verde con `PENDIENTES` vacía;
+  - `prueba_texturas_es.py` en verde con `PENDIENTES` vacía y `TEXTURAS_PENDIENTES` a 0;
   - las traducciones con su prueba y su hoja de contacto;
   - la revisión de un agente distinto del autor.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
