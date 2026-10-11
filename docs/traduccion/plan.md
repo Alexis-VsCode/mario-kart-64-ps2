@@ -3,7 +3,8 @@
 Este documento dice cómo se cumplió la [especificación](especificacion.md) y el estado de cada fase. El trabajo se repartió en roles que avanzaron en paralelo, cada uno en su propia rama y su propio worktree (`git worktree add`). Solo INTEGRACIÓN integró.
 
 - **F0 a F7** (localización, hasta 2026-09-29) están cerradas y se conservan como histórico: sus ramas se fusionaron en `feature/idioma-espanol`, que se fusionó a `main` (`3f43c005`). F6 se retiró por [CC-12](cambios.md).
-- **F8** (sincronización con el original, 2026-10-11) está integrada en `feature/sincronizacion-upstream`. Lo que queda por hacer está en [README.md § Pendiente](README.md#pendiente).
+- **F8** (sincronización con el original, 2026-10-11) está cerrada: se integró en `feature/sincronizacion-upstream`, se publicó en `900c9be3` y está en `main` (`af3bfa05`), la versión 1.0.0.
+- **F9** (versión 1.1.0, 2026-10-11) está integrada en `feature/version-1.1.0`. Lo que queda por hacer está en [README.md § Pendiente](README.md#pendiente).
 
 ## 1. Principios
 
@@ -94,7 +95,25 @@ main (3f43c005)
          └─ sinc/doc-traduccion             docs/traduccion (CC-12)
 ```
 
-### 3.3 Verificación al crear una rama
+### 3.3 F9
+
+`feature/version-1.1.0` nace de `main` en `af3bfa05` y empieza con el registro de CC-13 a CC-17. Las cinco ramas de código salieron de `5b1caac8`, el último registro, y se integraron con `git merge --no-ff`; las dos de documentación salen de `a29bd920`, con el código ya integrado. El detalle de cada una está en [F9](#f9-versión-110).
+
+```
+main (af3bfa05)
+ └─ feature/version-1.1.0                 integración de F9
+     ├─ (5b1caac8)                         registro de CC-13 a CC-17
+     │   ├─ v110/graficos                   CC-17, D-01, D-02          → 9289608a
+     │   ├─ v110/memoria                    CC-13, D-11, D-12, D-13    → 4465f614
+     │   ├─ v110/region                     CC-15                      → d105a89b
+     │   ├─ v110/ci-textos                  CC-16, D-09, D-10, D-14, D-15 → 12579275
+     │   └─ v110/entrada                    CC-14 y reposo de la cruceta → 4563d816
+     └─ (a29bd920)                         las tres pruebas nuevas en make test
+         ├─ v110/doc-manual                 manual, notas de la versión y CHANGELOG
+         └─ v110/doc-traduccion             docs/traduccion y acta de F9
+```
+
+### 3.4 Verificación al crear una rama
 
 Para una rama nueva se ejecuta todo esto y se adjunta la salida al PR. `merge-base` no sirve como prueba.
 
@@ -117,7 +136,8 @@ git log --format='%ae' origin/main..<rama> | sort -u
 | F5 | REVISIÓN ×2 | Revisión adversarial de cada bloque y verificación de las mutaciones restauradas | — | Sin hallazgos Alta o Media abiertos | Cerrada (histórico) sin registro en el repositorio (ver [trazabilidad.md](trazabilidad.md), R-GOB-03 y R-GOB-04). Desde F8 la revisión queda en [revisiones/](revisiones/) |
 | F6 | Responsable del proyecto | Recorrido en PCSX2 con el guion DEV y al menos una captura en TV | — | Capturas aprobadas | **Retirada por [CC-12](cambios.md)**: la versión se verifica con las pruebas del PC y la CI. La falta de verificación visual es una limitación declarada ([deuda.md](deuda.md), D-06) |
 | F7 | INTEGRACIÓN | Integración, regeneración de `build/` y `compilaciones/`, sección «Idioma» del README y requisitos del README sin `iconv` obligatorio | `feature/idioma-espanol` | Definición de terminado de entonces (§8) | Cerrada (histórico): merges, `dda9a5f` (job `publicar`, CI 36518116212) y fusión a `main` (`3f43c005`) |
-| F8 | INTEGRACIÓN, autores por rama y REVISIÓN ×2 | Sincronización con el original hasta `ae93f71` (CC-08), CI con Release y limpieza de ramas (CC-09), correcciones con evidencia (CC-11), pendientes técnicos de F3 y F4 y documentación (CC-12) | `feature/sincronizacion-upstream` y `sinc/*` | [Definition of Done](../../CONTRIBUTING.md) y [acta de revisión](revisiones/2026-10-11-sincronizacion.md) sin hallazgos Alta o Media abiertos, salvo el de G5 | Integrada. Falta la publicación, la Release, la fusión a `main` y la limpieza de ramas ([README.md § Pendiente](README.md#pendiente)) |
+| F8 | INTEGRACIÓN, autores por rama y REVISIÓN ×2 | Sincronización con el original hasta `ae93f71` (CC-08), CI con Release y limpieza de ramas (CC-09), correcciones con evidencia (CC-11), pendientes técnicos de F3 y F4 y documentación (CC-12) | `feature/sincronizacion-upstream` y `sinc/*` | [Definition of Done](../../CONTRIBUTING.md) y [acta de revisión](revisiones/2026-10-11-sincronizacion.md) sin hallazgos Alta o Media abiertos, salvo el de G5 | Cerrada: publicación `900c9be3` y fusión a `main` (`af3bfa05`), versión 1.0.0. El hallazgo de G5 se resolvió en F9 (CC-17) |
+| F9 | INTEGRACIÓN, autores por rama y REVISIÓN ×2 | Versión 1.1.0: Memory Card (CC-13), zona muerta del stick (CC-14), región de la consola (CC-15), publicación comprobada y ELF monolítico (CC-16), prueba del alfa con tramado (CC-17) y deudas D-01, D-02 y D-09 a D-15 | `feature/version-1.1.0` y `v110/*` | [Definition of Done](../../CONTRIBUTING.md) y [acta de revisión](revisiones/2026-10-11-version-1.1.0.md) sin hallazgos Alta o Media abiertos | Integrada en `a29bd920`. Falta la documentación de `v110/doc-manual` y `v110/doc-traduccion`, la publicación, la fusión a `main`, la Release `v1.1.0` y la limpieza de ramas ([README.md § Pendiente](README.md#pendiente)) |
 
 ### F1: infraestructura (hecha en `idioma/infra`, ya fusionada)
 
@@ -232,6 +252,26 @@ El responsable del proyecto aprobó el plan de F8 el 2026-10-11. Los cambios se 
 
 `sinc/sistema` se integró con los mensajes reescritos para quitar los trailers que encontró REVISIÓN; los árboles son los revisados. La correspondencia de hashes está en el [acta](revisiones/2026-10-11-sincronizacion.md#resumen).
 
+### F9: versión 1.1.0
+
+El responsable del proyecto aprobó el plan de F9 el 2026-10-11. Los cambios se registraron antes de tocar el código (`0c39b416`, `111eb2c7`, `33cbcbb3`, `2857317b` y `5b1caac8`: CC-13 a CC-17). Después, en `feature/version-1.1.0`:
+
+1. **Ramas de código**, una por frente, desde `5b1caac8`, cada una con su revisión técnica y lingüística ([acta](revisiones/2026-10-11-version-1.1.0.md)).
+2. **Integración** con `--no-ff`, en este orden: `v110/graficos` (`9289608a`) → `v110/memoria` (`4465f614`) → `v110/region` (`d105a89b`) → `v110/ci-textos` (`12579275`) → `v110/entrada` (`4563d816`). `v110/entrada` esperó al arreglo de la cruceta, el hallazgo Media de su revisión.
+3. **Registro ajustado a la revisión:** `f09697ca` (CC-13, CC-14 y CC-17) y `6519d73e` (CC-14 con el reposo de la cruceta).
+4. **`make test`** con las tres pruebas nuevas (`a29bd920`): 31 pruebas y el tope de líneas.
+5. **Documentación** en `v110/doc-manual` y `v110/doc-traduccion`, que salen de `a29bd920`.
+
+| Rama | Contenido | Commits | Integración |
+|---|---|---|---|
+| `v110/graficos` | Alfa con tramado en una función pura, con prueba (CC-17; salda D-01 y D-02) | `ff313bc5`, `d41996f7` | `9289608a` |
+| `v110/memoria` | Tarjeta nueva sin pisar la copia más nueva, espera con el reloj, segundo borrado con `mc_ok` y `mcGetInfo` fuera de la pila (CC-13; salda D-11 a D-13) | `2e578b4b`, `b989feca`, `e4937a28`, `41441ae5`, `3e62e63e`, `abe7c205`, `8c69e253` | `4465f614` |
+| `v110/region` | Región de la consola a partir de `rom0:ROMVER` y registro al arrancar (CC-15) | `807d2c45`, `3b11daa5`, `ac1a1090` | `d105a89b` |
+| `v110/ci-textos` | Publicación comprobada y ELF monolítico en la Release (CC-16); D-09, D-10, D-14 y D-15; registro «ritmo» en lugar de «3-4P» | `bb8d41bd`, `3e2067a4`, `1d8f5670`, `7e9edfaa`, `c641d19b`, `4bdd41a8`, `b780d986` | `12579275` |
+| `v110/entrada` | Zona muerta del stick de 24 a 8 y reposo propio de la cruceta (CC-14) | `1fc4c437`, `4a48ff6a`, `dcbe656e`, `ddbdc023`, `34ab306d`, `2b37f61f` | `4563d816` |
+
+El arreglo de la cruceta se revisó con otros hashes y el mismo parche; la correspondencia está en el [acta](revisiones/2026-10-11-version-1.1.0.md#resumen).
+
 ## 5. Ciclo por bloque
 
 1. **Rojo (PRUEBAS).** La prueba nueva falla, y su salida se adjunta al PR.
@@ -336,8 +376,8 @@ git status --short         # vacío
 1. `pruebas-pc`: `make test` sin SDK.
 2. `compilar-ps2`: `make clean`, `make`, `make DEBUG=1`, `make DEV=1` (desde F8), `make test` y `make iso` en el contenedor `ps2dev/ps2dev`.
 3. `mismo-binario`, a mano con una `base`.
-4. `publicar`, a mano con `publicar=si` o `sí`: commit de publicación `build(compilaciones): binarios e ISO en español`. Así se generó `dda9a5f` en F7 (entonces con tipo `chore`).
-5. `release`, a mano con `release=<etiqueta>`: Release con la ISO versionada, `SHA256SUMS` y las notas de `docs/versiones/<etiqueta>.md`. Se lanza en otra ejecución, sobre `main`, después de fusionar el commit de publicación; el orden completo está en el [manual técnico](../manual/tecnico.md#ci-y-publicación).
+4. `publicar`, a mano con `publicar=si` o `sí`: commit de publicación `build(compilaciones): binarios e ISO en español`. Así se generó `dda9a5f` en F7 (entonces con tipo `chore`). Desde F9 solo omite el commit si no hay nada preparado (`git diff --cached --quiet`); cualquier otro fallo detiene el job (CC-16).
+5. `release`, a mano con `release=<etiqueta>`, en el contenedor `ps2dev/ps2dev`: comprueba que el SHA-256 de la ISO versionada está en `docs/versiones/<etiqueta>.md`, compila `make MONOLITICO=1` y publica la ISO, `SLUS_999.99.monolitico.elf` y un `SHA256SUMS` con las dos líneas, con esas notas (CC-16). Se lanza en otra ejecución, sobre `main`, después de fusionar el commit de publicación; el orden completo está en el [manual técnico](../manual/tecnico.md#ci-y-publicación).
 6. `limpiar-ramas`, a mano con `limpiar_ramas=si` o `sí`: borra las ramas remotas cuya punta ya está en `main`.
 
 ### 9.3 Evidencia visual

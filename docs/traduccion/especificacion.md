@@ -2,6 +2,7 @@
 
 - **Estado:** implementada e integrada. Lo que queda por hacer está en [README.md § Pendiente](README.md#pendiente) y la deuda técnica, en [deuda.md](deuda.md).
 - **Sincronizada con** `feature/sincronizacion-upstream` en `d5f95cc5` (2026-10-11): la localización de F0 a F7, ya en `main` (`3f43c005`), más la sincronización con el original hasta `ae93f71` y las ramas de F8 (`sinc/ci`, `sinc/graficos-g5`, `sinc/sistema`, `sinc/pendientes` y `sinc/panel`). Desde CC-12, los criterios que dependían del recorrido de F6 se aceptan con lo que comprueban las pruebas del PC y la CI.
+- **Al día con** `feature/version-1.1.0` en `a29bd920` (F9, versión 1.1.0): los cambios de [CC-13 a CC-17](cambios.md) que tocan requisitos están en R-PORT-02, R-INF-05 y R-GOB-01; el resto, en el registro de cambios y en [trazabilidad.md](trazabilidad.md).
 
 ## 1. Objetivo
 
@@ -568,6 +569,7 @@ Las pruebas de este apartado son `herramientas/pruebas/prueba_fuente_5x7.c` y `h
   - `codigo/memoria/memoria_carrera/descomprimir_pista.inc.c:437-453` («pista: offsets», «pista: display lists», «pista: vertices (copia)»…);
   - `codigo/graficos/dibujar_pistas/pistas_toads_a_big_donut.inc.c:392-394` («colision: malla», «colision: cuadricula»);
   - las partes `.inc.c` de los fuentes de `JP_SRC` del Makefile que marcan fases.
+- **Región de la consola** ([CC-15](cambios.md); hecho en `ac1a1090`): al arrancar, `registrar_region_consola()` (`codigo/sistema/arranque_ps2.c`) registra «consola PAL: la imagen sale en NTSC a 60 Hz; hace falta una TV que acepte 60 Hz», «consola NTSC» o «región de la consola desconocida». La región la da `region_de_romver()` (`incluir/sistema/region_ps2.h`), probada en `prueba_region_ps2.c`. El modo de vídeo no cambia.
 - Dentro de los archivos que se convierten a EUC-JP (`JP_SRC` y sus partes), estos textos van solo en ASCII, porque el panel y el registro leen UTF-8.
 - **Aceptación:** los textos coinciden con los esperados, ninguna línea del panel pasa de su ancho y entre dos líneas del panel queda una fila libre.
 - **Prueba:** `prueba_fuente_5x7.c` (ancho de las líneas), `prueba_textos_port.py` (lista negra y ASCII dentro de los archivos convertidos) y `prueba_ancho_panel.py` (ancho y, desde `4612a508`, paso entre líneas, alto de la textura y VRAM por páginas). Las capturas de F6 se retiraron (CC-12).
@@ -652,15 +654,15 @@ El `Makefile` declara `OBJETIVOS_PC := test clean herramientas es hoja-es` (`f8f
 
 **R-INF-05. Hay CI.**
 
-`.github/workflows/compilacion.yml` (hecho en `7387d01`, `6dd12e7`, `a3d0bae` y `c461c5b`; en F8, `24ed39a0` y `b69f1548`, [CC-09](cambios.md)) se lanza en cada push y pull request, y a mano con cuatro entradas (`base`, `publicar`, `release` y `limpiar_ramas`). Las entradas de sí o no aceptan `si` y `sí`. Tiene seis jobs:
+`.github/workflows/compilacion.yml` (hecho en `7387d01`, `6dd12e7`, `a3d0bae` y `c461c5b`; en F8, `24ed39a0` y `b69f1548`, [CC-09](cambios.md); en F9, `c641d19b` y `4bdd41a8`, [CC-16](cambios.md)) se lanza en cada push y pull request, y a mano con cuatro entradas (`base`, `publicar`, `release` y `limpiar_ramas`). Las entradas de sí o no aceptan `si` y `sí`. Tiene seis jobs:
 
 | Job | Qué hace |
 |---|---|
 | `pruebas-pc` | `make test` en `ubuntu-latest`, sin SDK |
 | `compilar-ps2` | En el contenedor `ps2dev/ps2dev` fijado por digest: `make clean`, `make`, `make DEBUG=1`, `make DEV=1`, `make test` y `make iso`. Guarda como artefactos `build/ps2/SLUS_999.99`, `build/ps2/SMK64ROM.BIN`, `build/ps2/smk64.map`, `build/ps2/debug/SLUS_999.99` y la ISO |
 | `mismo-binario` | Solo a mano, con la entrada `base`. Corre `herramientas/comparar_binario.sh` contra la base, en release y con `DEBUG=1` |
-| `publicar` | Solo a mano, con `publicar=si`. En el mismo contenedor y con GNU make 4.4 o posterior: `make clean`, `make`, `make DEBUG=1`, `make DEV=1`, `make test` y `make iso`, y commitea `build/ps2` y `compilaciones` en la rama con el asunto `build(compilaciones): binarios e ISO en español` y, en el cuerpo, el commit de origen y la ejecución (commit de publicación, R-GOB-05) |
-| `release` | Solo a mano, con `release=<etiqueta>`. Publica una Release de GitHub sobre el commit lanzado, con la ISO versionada de `compilaciones/`, un `SHA256SUMS` y las notas de `docs/versiones/<etiqueta>.md`; si falta la ISO o las notas, falla. No depende de `publicar`: se lanza en otra ejecución, sobre `main`, después de fusionar el commit de publicación |
+| `publicar` | Solo a mano, con `publicar=si`. En el mismo contenedor y con GNU make 4.4 o posterior: `make clean`, `make`, `make DEBUG=1`, `make DEV=1`, `make test` y `make iso`, y commitea `build/ps2` y `compilaciones` en la rama con el asunto `build(compilaciones): binarios e ISO en español` y, en el cuerpo, el commit de origen y la ejecución (commit de publicación, R-GOB-05). Solo omite el commit si `git diff --cached --quiet`; cualquier otro fallo detiene el job |
+| `release` | Solo a mano, con `release=<etiqueta>`, en el mismo contenedor que `compilar-ps2`. Falla si falta la ISO versionada de `compilaciones/`, si faltan las notas de `docs/versiones/<etiqueta>.md` o si el SHA-256 de la ISO no está en ellas. Compila `make clean` y `make MONOLITICO=1` y publica una Release de GitHub sobre el commit lanzado con la ISO, `SLUS_999.99.monolitico.elf` y un `SHA256SUMS` con las dos líneas, y esas notas. El ELF monolítico no se versiona. No depende de `publicar`: se lanza en otra ejecución, sobre `main`, después de fusionar el commit de publicación |
 | `limpiar-ramas` | Solo a mano, con `limpiar_ramas=si`. Borra las ramas remotas cuya punta ya está en `main` (`git merge-base --is-ancestor`); conserva `main` y toda rama con commits propios |
 
 `BUILD_ID` vale por defecto la fecha de la versión, `2026-10-11` (`Makefile:52`, `6251a4a6`). El paso G-FALLO previsto no se añadió (ver R-PORT-03).
@@ -697,6 +699,7 @@ El `Makefile` declara `OBJETIVOS_PC := test clean herramientas es hoja-es` (`f8f
 - **Prueba:** ese comando en la revisión del PR.
   - En `dda9a5f` (F7) devolvía 4 commits de tipo `chore`, que no está entre los admitidos: `31eaf62`, `da631b0`, `6794945` y `dda9a5f`. Están registrados en [CC-06](cambios.md) y ya están en `main`.
   - En `feature/sincronizacion-upstream` (`d5f95cc5`) devuelve los 2 commits del repositorio original que trae la fusión, `c2ed147` y `ae93f71` ([CC-08](cambios.md)). Ningún commit propio de F8 lo incumple.
+  - En `feature/version-1.1.0` (`a29bd920`) devuelve `b780d986`, de tipo `style`, que no está entre los admitidos. Ya está integrado y no se reescribe ([acta de F9](revisiones/2026-10-11-version-1.1.0.md#7-integración)).
 
 **R-GOB-02. El refactor no se mezcla con el cambio funcional.**
 
@@ -737,7 +740,7 @@ Un commit `refactor(...)` no cambia el comportamiento, y un commit funcional no 
 - Los archivos de `build/` y `compilaciones/` que tocan las pruebas se restauran.
 - `build/` y `compilaciones/` solo cambian en el commit de publicación de cada versión (`dda9a5f` en F7; el de F8 lo hace el job `publicar`).
 - **Aceptación:** `git status --short` vacío, y ningún commit salvo el de publicación toca `build/` ni `compilaciones/`.
-- **Prueba:** `git log --name-only origin/main..HEAD -- build compilaciones`. En `dda9a5f` solo listaba ese commit, el de publicación. En `feature/sincronizacion-upstream` (`d5f95cc5`) sale vacío: la fusión deja `build/` y `compilaciones/` como en `main` ([CC-08](cambios.md)).
+- **Prueba:** `git log --name-only origin/main..HEAD -- build compilaciones`. En `dda9a5f` solo listaba ese commit, el de publicación. En `feature/sincronizacion-upstream` (`d5f95cc5`) sale vacío: la fusión deja `build/` y `compilaciones/` como en `main` ([CC-08](cambios.md)). En `feature/version-1.1.0` (`a29bd920`) también sale vacío.
 
 **R-GOB-06. El stage se hace por ruta explícita.**
 
@@ -756,7 +759,7 @@ Los comentarios explican un contrato o una invariante. Las funciones de varios p
   grep -rnE 'R-(FUE|TXT|MC|TEX|PORT|INF|GOB)-[0-9]' codigo incluir herramientas
   ```
 
-- **Prueba:** ese comando en la revisión. Sale vacío en `dda9a5f` y en `d5f95cc5`.
+- **Prueba:** ese comando en la revisión. Sale vacío en `dda9a5f`, en `d5f95cc5` y en `a29bd920`.
 
 **R-GOB-08. La documentación se actualiza en la misma iteración.**
 
