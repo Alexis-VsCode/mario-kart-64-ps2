@@ -360,8 +360,10 @@ static int guardar_ahora(void)
         /* Los ficheros del formato anterior ya no hacen falta. */
         mcDelete(PUERTO_MC, RANURA_MC, ARCHIVO_TEMPORAL_VIEJO);
         resultado_llamar_mc();
-        mcDelete(PUERTO_MC, RANURA_MC, ARCHIVO_GUARDADO_VIEJO);
-        resultado_llamar_mc();
+        if (mc_ok) {
+            mcDelete(PUERTO_MC, RANURA_MC, ARCHIVO_GUARDADO_VIEJO);
+            resultado_llamar_mc();
+        }
         archivos_legacy = 0;
     }
     return 0;
