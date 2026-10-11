@@ -453,6 +453,11 @@ static int agregar_posible_pasada(void)
     return ccx[i].agregar;
 }
 
+/* Suavizado de texturas: bilineal donde el N64 filtra (G_TF_BILERP). 0: vecino mas cercano. */
+#ifndef FILTRADO_TEXTURAS
+#define FILTRADO_TEXTURAS 1
+#endif
+
 #define ZMODE(l)  (((l) >> 10) & 3)
 
 /* Generaciones de las caches por vertice (VerticeRsp) */
@@ -470,10 +475,13 @@ static const float mul_desplaz_k[16] = {
 };
 
 static int prim_texturizado;  /* el combinador usa texel */
-static int agregar_dividir;      /* m*TEXEL + a en dos pasadas (solo triangulos) */
+static int agregar_dividir;      /* m*TEXEL + a en dos pasadas */
 static int decal;
 static int niebla_en;
 static int mezcla_alpha;
+/* G_AC_DITHER: el RDP compara el alfa con ruido por pixel, asi que dibuja una fraccion alfa de los
+   pixeles y cada uno mezclado con alfa: en promedio cubre alfa^2. Se usa ese promedio. */
+static int alfa_dither;
 
 static u64 reg_tijera(void)
 {
@@ -551,7 +559,7 @@ static void actualizar_generaciones_vertice(int es_rect)
         memcpy(cs.prim, St.prim, 4);
         memcpy(cs.amb, St.amb, 4);
         cs.lod = St.prim_lod_frac;
-        cs.texturizado = (u8) St.gs.texturizado;
+        cs.texturizado = (u8) (St.gs.texturizado | (alfa_dither << 1));
         cs.agregar_dividir = (u8) agregar_dividir;
         cs.alpha_tex = (u8) alpha_desde_tex;
         cc_cambiado = !equal_palabras(&cs, &cc_sig, sizeof(cs) / 4);
@@ -612,7 +620,8 @@ typedef struct {
     InfoTextura tex;
     float mul_st[2], agregar_st[2], reb[4];
     u32 comprobacion;
-    u8 valido_tex, decal, alpha_desde_tex, prim_texturizado, agregar_dividir, niebla_en, mezcla_alpha, inc_cc, inc_proy;
+    u8 valido_tex, decal, alpha_desde_tex, prim_texturizado, agregar_dividir, niebla_en, mezcla_alpha, alfa_dither, inc_cc,
+        inc_proy;
 } RecEstado;
 
 #define MAX_REC_ESTADO 1536
@@ -649,6 +658,7 @@ static void construir_estado(int tile, int es_rect)
             agregar_dividir = r->agregar_dividir;
             niebla_en = r->niebla_en;
             mezcla_alpha = r->mezcla_alpha;
+            alfa_dither = r->alfa_dither;
             mul_st[0] = r->mul_st[0];
             mul_st[1] = r->mul_st[1];
             agregar_st[0] = r->agregar_st[0];
@@ -689,6 +699,7 @@ static void construir_estado(int tile, int es_rect)
                 r->agregar_dividir = (u8) agregar_dividir;
                 r->niebla_en = (u8) niebla_en;
                 r->mezcla_alpha = (u8) mezcla_alpha;
+                r->alfa_dither = (u8) alfa_dither;
                 r->mul_st[0] = mul_st[0];
                 r->mul_st[1] = mul_st[1];
                 r->agregar_st[0] = agregar_st[0];
@@ -790,6 +801,7 @@ static void construir_impl_estado(int tile, int es_rect)
     }
     niebla_en = (ciclo == 1) && (((mezclar_bits >> 14) & 3) == G_BL_CLR_FOG) && (St.geom & G_FOG);
     mezcla_alpha = 0;
+    alfa_dither = 0;
     if ((l & FORCE_BL) || m == G_BL_CLR_MEM) {
         if (m == G_BL_CLR_MEM && b == G_BL_1MA) {
             st->alpha = GS_SETREG_ALPHA(0, 1, 0, 1, 0);
@@ -813,8 +825,15 @@ static void construir_impl_estado(int tile, int es_rect)
             aref = 1;
         }
     } else if ((l & 3) == G_AC_DITHER) {
+        if (!mezcla_alpha) {
+            /* Sin mezcla el ruido deja pasar una fraccion alfa de pixeles opacos: mezcla con alfa */
+            st->alpha = GS_SETREG_ALPHA(0, 1, 0, 1, 0);
+            mezcla_alpha = 1;
+        } else {
+            alfa_dither = 1;
+        }
         ate = 1;
-        aref = 0x40;
+        aref = 1;
     } else if ((l & CVG_X_ALPHA) && (l & ALPHA_CVG_SEL)) {
         ate = 1;
         aref = 0x40;
@@ -837,7 +856,7 @@ static void construir_impl_estado(int tile, int es_rect)
     st->tijera = es_rect ? reg_tijera() : tri_reg_tijera();
     st->fogcol = (u64) St.fogc[0] | ((u64) St.fogc[1] << 8) | ((u64) St.fogc[2] << 16);
 
-    filter = ((St.om_h >> G_MDSFT_TEXTFILT) & 3) != 0 && ciclo != (G_CYC_COPY >> G_MDSFT_CYCLETYPE);
+    filter = FILTRADO_TEXTURAS && ((St.om_h >> G_MDSFT_TEXTFILT) & 3) != 0 && ciclo != (G_CYC_COPY >> G_MDSFT_CYCLETYPE);
     St.valido_tex = 0;
     agregar_dividir = 0;
     if (prim_texturizado) {
@@ -856,7 +875,7 @@ static void construir_impl_estado(int tile, int es_rect)
                 banderas_tex |= BLANCO_RGB_TMEM;
             }
         } else {
-            agregar_dividir = !es_rect;
+            agregar_dividir = 1;
         }
         if (preparar_textura_2(es_rect ? tile : St.tex_tile, tlut, banderas_tex | (es_rect ? TMEM_PARA_RECT : 0))) {
             St.valido_tex = 1;
@@ -868,14 +887,14 @@ static void construir_impl_estado(int tile, int es_rect)
             if (app) {
                 InfoTextura blanco;
 
-                preparar_textura(St.tex_tile, tlut, BLANCO_RGB_TMEM, &blanco);
+                preparar_textura(es_rect ? tile : St.tex_tile, tlut, BLANCO_RGB_TMEM | (es_rect ? TMEM_PARA_RECT : 0), &blanco);
             }
             st->tex0 = St.tex.tex0 | ((u64) (alpha_desde_tex ? 1 : 0) << 34) | ((u64) 0 << 35) ;
             st->tex1 = GS_SETREG_TEX1(1, 0, filter, filter, 0, 0, 0);
             st->clamp = St.tex.clamp;
             {
                 const TileRdp *tt = &tiles_rdp[St.tex_tile];
-                float mitad = (((St.om_h >> G_MDSFT_TEXTFILT) & 3) != 0) ? 0.5f : 0.0f;
+                float mitad = (FILTRADO_TEXTURAS && ((St.om_h >> G_MDSFT_TEXTFILT) & 3) != 0) ? 0.5f : 0.0f;
 
                 mul_st[0] = (1.0f / 32.0f) * mul_desplaz_k[tt->shifts & 15] * St.tex.maceta_w_inv;
                 mul_st[1] = (1.0f / 32.0f) * mul_desplaz_k[tt->shiftt & 15] * St.tex.maceta_h_inv;
@@ -889,8 +908,11 @@ static void construir_impl_estado(int tile, int es_rect)
         }
     }
     st->texturizado = prim_texturizado && St.valido_tex;
+    DIAG_CC_ESTADO(es_rect, prim_texturizado && !afecta_rgb_texel() && alpha_desde_tex);
     st->prim = (1 << 3)  | (st->texturizado ? (1 << 4) : 0) | (niebla_en ? (1 << 5) : 0) |
                (mezcla_alpha ? (1 << 6) : 0);
+    /* Los triangulos 3D llevan Gouraud, niebla o transparencias; el HUD, los menus y el texto son rectangulos. */
+    st->dither = !es_rect && ciclo < (G_CYC_COPY >> G_MDSFT_CYCLETYPE);
     EMPEZAR_PX();
     gs_aplicar_estado(st);
     FIN_PX(3);
