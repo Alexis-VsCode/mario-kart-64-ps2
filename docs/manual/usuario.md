@@ -174,9 +174,9 @@ El juego está en español, sin selección de idioma. La especificación, el pla
 
 - **Textos:** menús, opciones, pausa, tiempos y resultados, fantasmas, mensajes de la Memory Card («RANURA 1», «COPIAR FANTASMAS» con un aviso honesto porque en PS2 no hay otra tarjeta desde la que copiar), intro de la batalla, ceremonia y créditos (la mitad japonesa de los créditos se conserva). Los botones se nombran como en el DualShock 2: CRUZ, CUADRADO, SELECT y R1.
 - **Nombres de pista:** los oficiales de Nintendo en español (Pista Mario, Senda Arco Iris, Granja Mu-Mu…), con su fuente en el [glosario](../traduccion/glosario.md).
-- **Menú del port:** CONFIGURACIÓN Y TRUCOS, con el estilo y la fuente de OPCIONES. La fuente no tiene «:» ni «/», por eso no se escribe «16:9».
+- **Menú del port:** CONFIGURACIÓN Y TRUCOS, con el estilo y la fuente de OPCIONES; desde la 1.2.1, los valores se ven en amarillo opaco, como las etiquetas. La fuente no tiene «:» ni «/», por eso no se escribe «16:9».
 - **Fuente del menú:** 11 glifos nuevos (Á É Í Ó Ú Ñ Ü ¡ ¿ º ª), dibujados a partir de los originales; los ordinales se escriben «1.º».
-- **Texturas con texto:** 55 texturas (títulos de menú, botones, copas, número de jugadores, los 20 títulos de pista, el cartel de la granja, TIEMPO y VUELTA en el HUD, puestos «1.º»…«8.º» y PULSA START) y los 48 cuadros de los carteles de Lakitu (¡ÚLTIMA!, VUELTA 2 y ¡REVÉS!). En la 1.2.0 se reconstruyeron el «º» de los puestos, VUELTA, los botones y copas de dos líneas y el título de la Pista de la Jungla DK, y se tradujeron los carteles de pista con texto: BIENVENIDOS, YA (el GO de la Pista Mario), PASO A NIVEL (la señal de cruce del Desierto Kalimari) y los emblemas 1J a 4J. Salen de PNG versionados en `recursos/es/`, compuestos con letras de las propias texturas del juego. Las 1229 texturas del juego están clasificadas en el manifiesto `recursos/es/texturas.tsv`: traducidas, sin texto, logotipo o cartel comercial, o no visibles en el port.
+- **Texturas con texto:** 55 texturas (títulos de menú, botones, copas, número de jugadores, los 20 títulos de pista, el cartel de la granja, TIEMPO y VUELTA en el HUD, puestos «1.º»…«8.º» y PULSA START) y los 48 cuadros de los carteles de Lakitu (¡ÚLTIMA!, VUELTA 2 y ¡REVÉS!). En la 1.2.0 se reconstruyeron el «º» de los puestos, VUELTA, los botones y copas de dos líneas y el título de la Pista de la Jungla DK (en la 1.2.1, el punto de los puestos pasa a ir antes de la «º», «8.º»), y se tradujeron los carteles de pista con texto: BIENVENIDOS, YA (el GO de la Pista Mario), PASO A NIVEL (la señal de cruce del Desierto Kalimari) y los emblemas 1J a 4J. Salen de PNG versionados en `recursos/es/`, compuestos con letras de las propias texturas del juego. Las 1229 texturas del juego están clasificadas en el manifiesto `recursos/es/texturas.tsv`: traducidas, sin texto, logotipo o cartel comercial, o no visibles en el port.
 - **Pantallas del port:** panel de rendimiento y página de audio (con tildes), nombres de fase, registro y guiones de prueba. La pantalla de fallo escribe con tildes («PARADA DE DIAGNÓSTICO») mediante `scr_putchar` de ps2sdk y los glifos CP437 de su fuente, que la CI comprueba en cada compilación.
 
 **Qué no se traduce:** nombres de personaje, logotipos y carteles comerciales, 50cc/100cc/150cc, VS, onomatopeyas, las voces (son muestras de audio) y las texturas de la pantalla del Controller Pak, que el port no puede abrir. El detalle está en la [especificación](../traduccion/especificacion.md#22-excluido).
@@ -185,9 +185,9 @@ Cómo se comprobó la localización está en el [manual técnico](tecnico.md#pru
 
 ## Limitaciones conocidas
 
-Al 2026-10-11, versión 1.2.0:
+Al 2026-10-11, versión 1.2.1:
 
-- **Sin probar en PS2 real ni en una TV.** Tampoco con OPL ni uLaunchELF en hardware, ni con un multitap real. Según el autor del port original, se probó en PCSX2 (con BIOS) y en Play!. Desde la 1.2.0, la CI arranca el juego en Play! en cada cambio y compara capturas del título, del menú y de la carrera con referencias aprobadas.
+- **Sin probar en PS2 real ni en una TV.** Tampoco con OPL ni uLaunchELF en hardware, ni con un multitap real. Según el autor del port original, se probó en PCSX2 (con BIOS) y en Play!. Desde la 1.2.0, la CI arranca el juego en Play! en cada cambio y compara capturas del título, del menú, del menú de configuración y de la carrera con referencias aprobadas.
 - **Verificado solo por los valores de los registros de vídeo:** el antiparpadeo, las bandas y la posición. Las capturas del emulador leen la memoria de vídeo antes de la salida a la TV, así que no los muestran. Falta comprobar en una TV cómo se ven.
 - **Sin verificar en una consola real:**
   - el tacto del stick con la zona muerta de 8;
