@@ -32,7 +32,8 @@ static void combinar_color(const u8 sombreado[4], VtxColor *o)
             o->a = cc[3].a * 128.0f; /* alfa constante: se usa con TCC abajo */
         }
         if (alfa_dither) {
-            o->a = o->a * o->a * (1.0f / 128.0f);
+            /* El RDP limita el alfa combinado a [0, 1] antes de la prueba: un negativo no cubre nada */
+            o->a = o->a > 0.0f ? o->a * o->a * (1.0f / 128.0f) : 0.0f;
         }
     } else {
         o->r = (cc[0].m + cc[0].a) * 255.0f;
@@ -40,7 +41,7 @@ static void combinar_color(const u8 sombreado[4], VtxColor *o)
         o->b = (cc[2].m + cc[2].a) * 255.0f;
         o->a = (cc[3].m + cc[3].a) * 128.0f;
         if (alfa_dither) {
-            o->a = o->a * o->a * (1.0f / 128.0f);
+            o->a = o->a > 0.0f ? o->a * o->a * (1.0f / 128.0f) : 0.0f;
         }
     }
 }
