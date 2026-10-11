@@ -1,5 +1,7 @@
 // Estado carrera
 
+#include "graficos/vista_panoramica.h"
+
 #pragma intrinsic(sqrtf)
 
 extern s16 cantidad_globo_jugador[];
@@ -184,7 +186,8 @@ void funcion_8028E438(void) {
             if (temporal_v0->inicio_x_pantalla == 160) {
                 phi_v1_4++;
             }
-            aspecto_pantalla = (f32) ((f32) temporal_v0->ancho_pantalla / (f32) temporal_v0->altura_pantalla);
+            aspecto_pantalla = aspecto_panoramico((f32) temporal_v0->ancho_pantalla / (f32) temporal_v0->altura_pantalla,
+                                                  opciones_port.formato);
             if (phi_v1_4 == 4) {
                 dato_8015F894 = 2;
                 modo_pantalla_activo = MODO_PANTALLA_1P;
@@ -264,7 +267,8 @@ void funcion_8028E678(void) {
                 phi_a0_10++;
             }
 
-            aspecto_pantalla = (f32) ((f32) dato_800DC5EC->ancho_pantalla / (f32) dato_800DC5EC->altura_pantalla);
+            aspecto_pantalla = aspecto_panoramico((f32) dato_800DC5EC->ancho_pantalla / (f32) dato_800DC5EC->altura_pantalla,
+                                                  opciones_port.formato);
             if (phi_a0_10 == 4) {
                 dato_8015F894 = 3;
                 funcion_80092500();
@@ -298,7 +302,8 @@ void funcion_8028E678(void) {
                 phi_a0_10++;
             }
 
-            aspecto_pantalla = (f32) ((f32) dato_800DC5EC->ancho_pantalla / (f32) dato_800DC5EC->altura_pantalla);
+            aspecto_pantalla = aspecto_panoramico((f32) dato_800DC5EC->ancho_pantalla / (f32) dato_800DC5EC->altura_pantalla,
+                                                  opciones_port.formato);
             if (phi_a0_10 == 4) {
                 dato_8015F894 = 3;
                 funcion_80092500();
@@ -321,7 +326,7 @@ void funcion_8028E678(void) {
                 dato_800DC5F0->inicio_y_pantalla = dato_800DC5EC->inicio_y_pantalla;
 
                 modo_pantalla_activo = PANTALLA_MODO_2J_PANTALLA_DIVIDIDA_VERTICAL;
-                aspecto_pantalla = 1.33333337;
+                aspecto_pantalla = aspecto_panoramico(1.33333337f, opciones_port.formato);
                 seleccion_cantidad_jugador_1 = 2;
                 funcion_8003DB5C();
                 funcion_8005994C();

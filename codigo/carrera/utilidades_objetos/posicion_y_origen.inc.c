@@ -1,5 +1,7 @@
 // Posicion y origen
 
+#include "graficos/vista_panoramica.h"
+
 f32 funcion_8008933C(Jugador* jugador, s32 indice_objeto, f32 parametro2, f32 parametro3) {
     f32 variable_f2;
     f32 algo_;
@@ -277,6 +279,7 @@ bool es_visible_objeto_en_camara(s32 indice_objeto, Camara* camara, u16 angulo) 
     s32 variable_t0;
 
     variable_t0 = false;
+    angulo = cono_visibilidad(angulo, opciones_port.formato);
     temporal_t2 = (obtener_angulo_entre_xy(camara->pos[0], lista_objeto[indice_objeto].pos[0], camara->pos[2],
                                     lista_objeto[indice_objeto].pos[2]) +
                ((s32) angulo / 2)) -
