@@ -9,8 +9,9 @@ exactamente los bytes originales decodificados (SHA-1 de
 referencias_tkmk00.txt); comprobar rechaza PNG que no sirven y la hoja de
 contacto marca solo lo que cambio. Ningun texto_es nombra los botones de
 la N64, la N64 ni el Controller Pak: van los botones de la PS2. Cada textura de
-las carpetas y .incbin de R-TEX-02 tiene una fila o una fila de carpeta
-(carpeta:<ruta>, una carpeta o un archivo suelto) con motivo.
+las carpetas y .incbin de R-TEX-02 tiene una fila, una fila de carpeta
+(carpeta:<ruta>, solo carpetas) o una fila de archivo (archivo:<ruta>,
+solo archivos) con motivo.
 """
 import contextlib
 import hashlib
@@ -253,9 +254,10 @@ def dentro(ruta, carpeta):
 def sin_cubrir(rutas, filas, carpetas):
     """Las rutas sin fila propia, sin carpeta excluida y fuera del manifiesto de Lakitu."""
     con_fila = {f["origen"] for f in filas}
-    cubiertas = [c["ruta"] for c in carpetas]
+    archivos = {c["ruta"] for c in carpetas if c["tipo"] == "archivo"}
+    cubiertas = [c["ruta"] for c in carpetas if c["tipo"] == "carpeta"]
     cubiertas += ["recursos/texturas/lakitu/" + f["carpeta"] for f in lakitu_es.leer_manifiesto()]
-    return [r for r in rutas if r not in con_fila and not any(r == c or dentro(r, c) for c in cubiertas)]
+    return [r for r in rutas if r not in con_fila and r not in archivos and not any(dentro(r, c) for c in cubiertas)]
 
 
 def probar_carpetas(filas):
@@ -264,9 +266,10 @@ def probar_carpetas(filas):
     textura = "\t".join(["ok", "recursos/texturas/menus/tkmk00/ok.rgba16.tkmk00", "rgba16", "64x18", "", "opaco", "",
                          "", "no", "x"])
     carpeta = "carpeta:recursos/texturas/karts" + "\t" * 9 + "sprites"
+    archivo = "archivo:recursos/texturas/fuente_pantalla_fallo.ia1.inc.c" + "\t" * 9 + "glifos"
     with tempfile.TemporaryDirectory() as tmp:
         tsv = os.path.join(tmp, "m.tsv")
-        for lineas, valida in (([textura, carpeta], True), ([carpeta.replace("sprites", "")], False),
+        for lineas, valida in (([textura, carpeta, archivo], True), ([archivo.replace("glifos", "")], False), ([carpeta.replace("sprites", "")], False),
                                ([carpeta.replace("\t\t\t", "\trgba16\t\t", 1)], False),
                                (["carpeta:\t" + "\t" * 8 + "x"], False)):
             with open(tsv, "w") as f:
@@ -275,13 +278,17 @@ def probar_carpetas(filas):
                 leidas = texturas_es.leer_manifiesto(tsv)
                 carpetas = texturas_es.leer_carpetas(tsv)
                 ok = valida and [f["id"] for f in leidas] == ["ok"] and carpetas == [
-                    {"ruta": "recursos/texturas/karts", "motivo": "sprites"}]
+                    {"tipo": "carpeta", "ruta": "recursos/texturas/karts", "motivo": "sprites"},
+                    {"tipo": "archivo", "ruta": "recursos/texturas/fuente_pantalla_fallo.ia1.inc.c", "motivo": "glifos"}]
             except texturas_es.ErrorManifiesto:
                 ok = not valida
             comprobar(ok, "fila de carpeta %r: se esperaba %s" % (lineas[-1], "aceptarla" if valida else "rechazarla"))
     carpetas = texturas_es.leer_carpetas(MANIFIESTO)
     for c in carpetas:
-        comprobar(os.path.exists(os.path.join(RAIZ, c["ruta"])), "carpeta:%s no existe" % c["ruta"])
+        ruta = os.path.join(RAIZ, c["ruta"])
+        existe = os.path.isdir(ruta) if c["tipo"] == "carpeta" else os.path.isfile(ruta)
+        comprobar(existe, "%s:%s no existe o no es %s" % (c["tipo"], c["ruta"], "una carpeta" if c["tipo"] == "carpeta"
+                                                           else "un archivo"))
     faltan = sin_cubrir(texturas_r_tex_02(), filas, carpetas)
     fuera = [r for r in faltan if not any(r == p or dentro(r, p) for p in PENDIENTES)]
     comprobar(not fuera, "%d texturas sin fila ni carpeta excluida, p. ej. %s" % (len(fuera), ", ".join(fuera[:5])))

@@ -16,8 +16,9 @@ PNG en espanol, vacio si no se traduce), texto_es, retocado (si/no) y
 motivo_no (por que no se traduce). Una fila de carpeta (id
 carpeta:<ruta>, motivo_no obligatorio y el resto vacio) excluye la carpeta
 y sus subcarpetas sin fila por textura, tambien las que se anadan
-despues; si la ruta es un archivo, excluye solo ese archivo (formatos que
-las ordenes no leen, como rgba32 o ia1). Las ordenes no la usan. Los PNG se llaman <id>.<formato>.png:
+despues. Una fila de archivo (id archivo:<ruta>, mismas reglas) excluye
+solo ese archivo (formatos que las ordenes no leen, como rgba32, ia1 o
+ci8). Las ordenes no usan ninguna de las dos. Los PNG se llaman <id>.<formato>.png:
 importar saca el formato del sufijo y rechaza lo que no se pueda guardar
 sin perdida. La carpeta dentro de recursos/es/ dice que genera el build:
 mio0/ un MIO0 del binario, crudo/ el binario, inc/ un .inc.c en la ruta
@@ -41,6 +42,8 @@ COLUMNAS = ["id", "origen", "formato", "tamanio", "tamanio_es", "alfa", "png", "
 ALFA_TKMK00 = {"opaco": "0x01", "clave_00BE": "0xBE"}
 ALFAS = ("opaco", "clave_00BE", "formato")
 PREFIJO_CARPETA = "carpeta:"
+PREFIJO_ARCHIVO = "archivo:"
+PREFIJOS_EXCLUSION = (PREFIJO_CARPETA, PREFIJO_ARCHIVO)
 # Lo que genera el build segun la carpeta del PNG dentro de recursos/es/
 SALIDAS = {"mio0": ".mio0", "crudo": ".bin", "inc": ".inc.c"}
 CLAVE = 0x00BE
@@ -68,25 +71,28 @@ def leer_filas(ruta):
 
 
 def leer_carpetas(ruta, filas=None):
-    """Filas de carpeta: lista de {ruta, motivo}; filas evita releer el archivo."""
+    """Filas de carpeta y de archivo: lista de {tipo, ruta, motivo}, con tipo
+    "carpeta" o "archivo"; filas evita releer el archivo."""
     carpetas = []
     for numero, fila in filas if filas is not None else leer_filas(ruta):
-        if not fila["id"].startswith(PREFIJO_CARPETA):
+        prefijo = next((p for p in PREFIJOS_EXCLUSION if fila["id"].startswith(p)), None)
+        if prefijo is None:
             continue
-        carpeta = fila["id"][len(PREFIJO_CARPETA):].rstrip("/")
+        carpeta = fila["id"][len(prefijo):].rstrip("/")
         if not carpeta or not fila["motivo_no"] or any(fila[c] for c in COLUMNAS[1:-1]):
-            raise ErrorManifiesto("%s:%d: una fila de carpeta lleva la ruta y motivo_no, y nada mas" % (ruta, numero))
-        carpetas.append({"ruta": carpeta, "motivo": fila["motivo_no"]})
+            raise ErrorManifiesto("%s:%d: una fila de %s lleva la ruta y motivo_no, y nada mas"
+                                  % (ruta, numero, prefijo[:-1]))
+        carpetas.append({"tipo": prefijo[:-1], "ruta": carpeta, "motivo": fila["motivo_no"]})
     return carpetas
 
 
 def leer_manifiesto(ruta):
-    """Lista de filas de textura (dict por columna); las de carpeta se validan y se omiten."""
+    """Lista de filas de textura (dict por columna); las de carpeta y archivo se validan y se omiten."""
     todas = leer_filas(ruta)
     leer_carpetas(ruta, todas)
     filas = []
     for numero, fila in todas:
-        if fila["id"].startswith(PREFIJO_CARPETA):
+        if fila["id"].startswith(PREFIJOS_EXCLUSION):
             continue
         if fila["formato"] not in ft.FORMATOS or fila["alfa"] not in ALFAS or fila["retocado"] not in ("si", "no"):
             raise ErrorManifiesto("%s:%d: formato, alfa o retocado invalido" % (ruta, numero))

@@ -185,14 +185,14 @@ titulo_yoshi_valley	recursos/texturas/menus/tkmk00/titulo_yoshi_valley.rgba16.tk
 velocimetro	recursos/comunes/texturas/velocimetro.i4.inc.c	i4	64x96		formato			no	cifras y la unidad km/h: se escribe igual
 vuelta_hud	recursos/comunes/texturas/vuelta_hud.rgba16.inc.c	rgba16	32x8	64x16	formato	recursos/es/inc/recursos/comunes/texturas/vuelta_hud.rgba16.png	VUELTA|VTA.	no	
 carpeta:recursos/comunes/texturas									resto sin texto: retratos, objetos, semáforo, partículas, bombas, minimapa, cifras del HUD y paletas
-carpeta:recursos/comunes/texturas/emblema_1j_jugador.ci8.inc.c									pendiente: 1P→1J; la fuente del emblema no tiene J y ci8 no se importa
-carpeta:recursos/comunes/texturas/emblema_2j_jugador.ci8.inc.c									pendiente: 2P→2J; la fuente del emblema no tiene J y ci8 no se importa
-carpeta:recursos/comunes/texturas/emblema_3j_jugador.ci8.inc.c									pendiente: 3P→3J; la fuente del emblema no tiene J y ci8 no se importa
-carpeta:recursos/comunes/texturas/emblema_4j_jugador.ci8.inc.c									pendiente: 4P→4J; la fuente del emblema no tiene J y ci8 no se importa
+archivo:recursos/comunes/texturas/emblema_1j_jugador.ci8.inc.c									pendiente: 1P→1J; la fuente del emblema no tiene J y ci8 no se importa
+archivo:recursos/comunes/texturas/emblema_2j_jugador.ci8.inc.c									pendiente: 2P→2J; la fuente del emblema no tiene J y ci8 no se importa
+archivo:recursos/comunes/texturas/emblema_3j_jugador.ci8.inc.c									pendiente: 3P→3J; la fuente del emblema no tiene J y ci8 no se importa
+archivo:recursos/comunes/texturas/emblema_4j_jugador.ci8.inc.c									pendiente: 4P→4J; la fuente del emblema no tiene J y ci8 no se importa
 carpeta:recursos/texturas/efectos/onomatopeyas									onomatopeyas (CRASH, POOMP!, WHIRRRR) y sus globos: se conservan
-carpeta:recursos/texturas/fuente_pantalla_fallo.ia1.inc.c									fuente hexadecimal de la pantalla de fallo: glifos sueltos
+archivo:recursos/texturas/fuente_pantalla_fallo.ia1.inc.c									fuente hexadecimal de la pantalla de fallo: glifos sueltos
 carpeta:recursos/texturas/generales									resto sin texto: decorado, glifos sueltos y copias .inc.c de los .mio0 con fila
-carpeta:recursos/texturas/generales/logo_mario_kart_64.rgba32.mio0									logotipo MARIO KART 64 (rgba32): se conserva
+archivo:recursos/texturas/generales/logo_mario_kart_64.rgba32.mio0									logotipo MARIO KART 64 (rgba32): se conserva
 carpeta:recursos/texturas/karts									cuadros y paletas de los karts: sin texto, solo el emblema del personaje
 carpeta:recursos/texturas/lakitu/bandera_cuadros									Lakitu con la bandera a cuadros: sin texto
 carpeta:recursos/texturas/lakitu/luces_rojas									Lakitu con el semáforo: sin texto

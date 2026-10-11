@@ -743,6 +743,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
     - **logotipo o cartel comercial** (marcas, patrocinadores, nombres propios): se conserva por §2.2 y su fila lleva el motivo;
     - **no se muestra en el port:** fila con su evidencia;
     - **texto general visible:** se traduce con el compositor.
+  - Una textura suelta que las órdenes no leen (rgba32, ia1, ci8) se excluye con una fila de archivo, `archivo:<ruta>`, distinta de la fila de carpeta de D-05. `prueba_texturas_es.py` exige que `carpeta:` apunte a una carpeta y `archivo:` a un archivo (R-TEX-02).
   - Cada clasificación con texto la revisa un refutador.
   - Al terminar, `PENDIENTES` queda vacía.
 - **Evidencia requerida:**
