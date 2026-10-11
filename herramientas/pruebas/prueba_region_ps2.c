@@ -54,6 +54,13 @@ int main(void) {
         s_fallos++;
         printf("FALLO texto NULL: se esperaba región desconocida\n");
     }
+    // Un ROMVER válido del que solo se leyeron 13 bytes: la guarda de largo
+    // tiene que bastar sola, aunque el byte 14 del búfer sea una cifra
+    s_comprobaciones++;
+    if (region_de_romver("0160EC20010704", 13) != REGION_DESCONOCIDA) {
+        s_fallos++;
+        printf("FALLO largo 13: se esperaba región desconocida\n");
+    }
 
     printf("%d comprobaciones, %d fallos\n", s_comprobaciones, s_fallos);
     return s_fallos != 0;
