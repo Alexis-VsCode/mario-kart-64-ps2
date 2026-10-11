@@ -695,7 +695,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   | D-18 | Función pura de la cruceta |
   | D-19 | Caso de largo 13 |
   | D-20 | El registro da la generación escrita |
-  | D-21 | La cabecera B se lee solo con `mc_ok` |
+  | D-21 | La cabecera B se lee solo con `mc_ok`; además, `leer_archivo_mc` y `escribir_archivo_mc` no envían ninguna orden con `mc_ok` a 0, de modo que una tarjeta que no contesta no recibe más órdenes en toda la sesión |
   | D-22 | Erratas y «1 fallo» en singular |
   | D-06 y D-17 | Mediante CC-26 |
 
