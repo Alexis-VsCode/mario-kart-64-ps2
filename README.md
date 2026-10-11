@@ -83,10 +83,6 @@ git checkout -- build compilaciones && git clean -fdq -- build compilaciones
 | [Notas de la versión 1.0.0](docs/versiones/v1.0.0.md) | Cuerpo de la Release |
 | [docs/traduccion/](docs/traduccion/README.md) | Localización: estado, especificación, plan, glosario, trazabilidad, cambios, actas de revisión y deuda técnica |
 
-## Contribuir
-
-Antes de abrir una rama, lee [CONTRIBUTING.md](CONTRIBUTING.md): ahí están la Definition of Done, las reglas que no se negocian y el formato de commits y revisiones.
-
 ## Aviso legal
 
 Proyecto de preservación sin afiliación con Nintendo ni con Sony. Mario Kart 64, Nintendo 64, PlayStation 2, DualShock y el resto de marcas citadas pertenecen a sus respectivos dueños.
