@@ -464,7 +464,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - `publicar` omite el commit solo si `git diff --cached --quiet`; cualquier otro fallo detiene el job.
   - `release` corre en el mismo contenedor de ps2dev que `compilar-ps2`, falla si el SHA-256 de la ISO no está en `docs/versiones/<etiqueta>.md`, compila `make clean` y `make MONOLITICO=1` y publica la ISO, `SLUS_999.99.monolitico.elf` y un `SHA256SUMS` con las dos líneas.
   - Comprobado en el PC con los bloques `run:` del workflow: `publicar` sale con 1 ante un commit que falla (antes, con 0); `release` sale con 1 con unas notas sin la suma. `make MONOLITICO=1` y `gh release create` solo se ejecutan en la CI.
-  - Release `v1.1.0`: <<PUBLICACION>>
+  - Release `v1.1.0`: ejecución, tamaño y SHA-256 de la ISO y del ELF monolítico en [trazabilidad.md](trazabilidad.md#evidencia-común).
 - **Aprobación:**
   - responsable del proyecto: aprobado (2026-10-11);
   - REVISIÓN: técnica de `v110/ci-textos`, aprobada con observaciones en las dos pasadas; lingüística, con cambios requeridos, resuelto en `b780d986` ([acta de F9](revisiones/2026-10-11-version-1.1.0.md#4-v110ci-textos-publicación-y-deudas-chicas-cc-16));

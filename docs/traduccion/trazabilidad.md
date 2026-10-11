@@ -45,7 +45,7 @@ Relaciona cada requisito de la [especificación](especificacion.md) con su prueb
   - el comando de R-GOB-01 devuelve solo `b780d986`, de tipo `style` ([acta de F9 §7](revisiones/2026-10-11-version-1.1.0.md#7-integración));
   - `git log --name-only … -- build compilaciones` sale vacío, `git log --format='%(trailers)'` también, y el grep de R-GOB-07 sale vacío;
   - los 38 commits son de Alexis Barrera;
-  - CI y publicación de F9: <<PUBLICACION>>
+  - CI, publicación y Release `v1.1.0` de F9 (commit de publicación, ejecución, tamaño y SHA-256 de la ISO y del ELF monolítico): <<PUBLICACION>>
 
 ## Commits de F1–F3
 

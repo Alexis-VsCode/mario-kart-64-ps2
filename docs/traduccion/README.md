@@ -38,7 +38,7 @@ El detalle por requisito y por commit está en [trazabilidad.md](trazabilidad.md
 ## Pendiente
 
 1. **Documentación de F9:** integrar `v110/doc-manual` (manual de usuario con el aviso de los 60 Hz y `sha256sum -c --ignore-missing`, notas de la versión y `CHANGELOG.md`) y `v110/doc-traduccion` en `feature/version-1.1.0`.
-2. **Publicación:** job `publicar` sobre `feature/version-1.1.0`. Commit de publicación, ejecución, tamaño y SHA-256 de la ISO y del ELF monolítico: <<PUBLICACION>>
+2. **Publicación:** job `publicar` sobre `feature/version-1.1.0`. El commit de publicación, la ejecución y las sumas quedan en [trazabilidad.md](trazabilidad.md#evidencia-común).
 3. **Fusión a `main`** de `feature/version-1.1.0`.
 4. **Release v1.1.0:** job `release` sobre `main`, con la ISO versionada, el ELF monolítico y las notas de `docs/versiones/v1.1.0.md`, que tienen que llevar el SHA-256 de la ISO o el job falla ([CC-16](cambios.md)).
 5. **Limpieza de ramas:** job `limpiar-ramas` sobre `main`. Al final, `git ls-remote --heads origin` lista solo `main` ([CC-09](cambios.md)).
@@ -99,7 +99,7 @@ Comprobado el 2026-10-11 sobre `feature/version-1.1.0` en `a29bd920`.
 - **Especificación → trazabilidad.** Los 46 requisitos siguen teniendo fila en [trazabilidad.md](trazabilidad.md) y la lista coincide con el comando de la [verificación de F8](#verificación-de-f8). Estado: 39 hechos y 7 parciales (R-TEX-02, R-PORT-03, R-GOB-01, R-GOB-02, R-GOB-03, R-GOB-04 y R-GOB-06). R-GOB-08 pasa a hecho con el cierre de F8; R-GOB-01 suma `b780d986`, de tipo `style`.
 - **Pruebas.** `env -u PS2SDK make test` termina con 0: 31 pruebas y el tope de líneas, 0 fallos.
 - **Gobernanza.** Sobre `origin/main..feature/version-1.1.0`: 38 commits, todos de Alexis Barrera; el comando de R-GOB-01 solo devuelve `b780d986`; ningún commit toca `build/` ni `compilaciones/`; no hay trailers; el grep de R-GOB-07 sale vacío.
-- **CI de F9:** <<PUBLICACION>>
+- **CI de F9:** ejecución, commit de publicación y sumas en [trazabilidad.md](trazabilidad.md#evidencia-común).
 
 ## Verificación de F8
 
