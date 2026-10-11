@@ -7,7 +7,7 @@ Port de Mario Kart 64 (versión estadounidense) a PlayStation 2. El repositorio 
 - Probado en **PCSX2** (con BIOS real) y en **Play!**.
 - **Sin probar en una PS2 real**, ni con OPL o uLaunchELF en hardware.
 - Video NTSC entrelazado a 640×448 (`codigo/graficos/sintetizador_gs.c`).
-- Limitación conocida: solo se leen los puertos de mando 1 y 2 de la consola, sin multitap (`PUERTOS_PS2` en `codigo/entrada/mandos.c`). En VS y Batalla de 3 o 4 jugadores, los jugadores 3 y 4 no tienen mando.
+- Multitap de PS2 (SCPH-10090 o SCPH-70110) para 3 y 4 jugadores, sin probar con un multitap real. Sin multitap se leen los puertos 1 y 2. Ver [Multitap](#multitap).
 - **Juego en español**: menús, mensajes, Memory Card, créditos, títulos de pista, HUD, carteles de Lakitu y pantallas propias del port. Detalle y estado de la verificación en [Idioma](#idioma).
 
 ## Descarga
@@ -21,10 +21,11 @@ Para compilarla desde el código, ver [Compilar](#compilar).
 
 ## Características
 
-- Las 20 pistas (16 de carrera y 4 de batalla), los 8 personajes y los modos Gran Premio, Contrarreloj, VS y Batalla.
+- Las 20 pistas (16 de carrera y 4 de batalla), los 8 personajes y los modos Gran Premio, Contrarreloj, VS y Batalla, de 1 a 4 jugadores con multitap.
 - Gráficos: un intérprete de listas de dibujo F3DEX, con el combinador de color y la TMEM de la N64, que produce paquetes para el GS.
 - Audio original: las muestras de la ROM se mezclan con la misma aritmética que la N64 (microcódigo de audio reescrito en C) y salen a 48 kHz por `audsrv`.
-- Modo 60 FPS, activo por defecto y conmutable con R3. Dibuja un cuadro intermedio solo durante la carrera, fuera de pausa, y solo si queda tiempo de CPU. La lógica del juego sigue a 30 Hz, como en el original.
+- Modo 60 FPS, activo por defecto y conmutable con R3. Dibuja un cuadro intermedio solo durante la carrera, fuera de pausa, y solo si queda tiempo de CPU con margen. La lógica del juego sigue a 30 Hz, como en el original. Si el cuadro intermedio provoca un tirón, el juego pasa unos segundos a 30 FPS; desde el tercer tirón de una carrera sigue a 30 FPS estables hasta la siguiente (`codigo/graficos/interprete_f3dex/listas_dibujo.inc.c`).
+- De 2 a 4 jugadores, si una imagen tarda más de lo previsto, la física da hasta 4 pasos por imagen para que la carrera no vaya en cámara lenta (`codigo/sistema/ritmo_fisica.c`).
 - Partidas guardadas en la Memory Card de la ranura 1, en dos copias alternas con CRC32.
 - Los datos de la ROM se leen del disco en segundo plano desde el arranque.
 - En el bucle de créditos, START o A del mando 1 vuelven a la pantalla de título.
@@ -163,7 +164,7 @@ make iso
 | `V=1` | Muestra los comandos completos |
 | `OPT` | Optimización del código del juego (por defecto `-O2`) |
 | `BUILD_ID` | Identificador que aparece en la pantalla de fallo (por defecto `2026-09-25`) |
-| `EXTRA_DEFINES` | Defines adicionales, por ejemplo `-DSMK64_PROF` (perfilador por muestreo) o `-DSMK64_DEV_FRAMEDUMP` (volcados de pantalla, con `DEV=1`) |
+| `EXTRA_DEFINES` | Defines adicionales, por ejemplo `-DSMK64_PROF` (perfilador por muestreo), `-DSMK64_DEV_FRAMEDUMP` (volcados de pantalla, con `DEV=1`), `-DFILTRADO_TEXTURAS=0` (texturas sin suavizado, vecino más cercano) o `-DSMK64_DIAG_CC` (con `DEV=1`, registra los colores que el GS no reproduce igual que el RDP) |
 
 `DEBUG`, `DEV`, `MONOLITICO` y `DEBUG_AUDIO` compilan en su propia carpeta. Si cambian otras opciones (`OPT`, `ROM_STREAM`, `MEDIDOR`, `BUILD_ID` o `EXTRA_DEFINES`), se recompila todo el código de esa carpeta. Los datos de la ROM y los fuentes preparados (`build/ps2/be/`, `build/ps2/jp/` y las texturas en español de `build/ps2/es/`) están en `build/ps2/` y son comunes a todas las variantes.
 
@@ -219,7 +220,7 @@ git clean -fdq -- build && git checkout -- build
 ## Ejecutar
 
 - **PCSX2** (con BIOS) y **Play!**: abrir la ISO de `compilaciones/`.
-- **OPL** (sin probar en hardware): copiar la carpeta `compilaciones/disco/OPL/CD/` a la raíz del USB o del recurso SMB.
+- **OPL** (sin probar en hardware): copiar la carpeta `compilaciones/disco/OPL/CD/` a la raíz del USB o del recurso SMB. Lanzado desde OPL, el juego no reinicia el IOP (lo detecta por la firma del núcleo de OPL y por arrancar desde `cdrom`), así que OPL no tiene que volver a montar el USB, el HDD o la red. A cambio no hay VMC, PADEMU ni IGR de OPL: la partida se guarda en la Memory Card física.
 - **uLaunchELF** (sin probar en hardware): usar el ELF de `make MONOLITICO=1` (`build/ps2/monolitico/SLUS_999.99`), que hay que compilar. El `SLUS_999.99` normal busca `SMK64ROM.BIN` solo en `host:` y en el disco, no junto al ELF (`codigo/sistema/carga_rom.c`). Según el código, lanzado desde un USB sin disco debería detenerse con el error «falta SMK64ROM.BIN».
 - **ELF suelto en un emulador con `host:`**: `SMK64ROM.BIN` tiene que estar en la carpeta que el emulador expone como `host:`.
 
@@ -252,6 +253,18 @@ Funciones propias del port (solo en el mando 1):
 | START o A en el bucle de créditos | Vuelve a la pantalla de título |
 
 El stick izquierdo tiene una zona muerta de 24 y se escala al recorrido de un stick de N64 (máximo 80). El stick derecho activa los botones C cuando se aleja más de 64 del centro.
+
+### Multitap
+
+Cada jugador queda fijo a su conector, aunque otro mando se desconecte (`conector_jugador_ps2` en `codigo/entrada/multitap.c`):
+
+| Multitap | Jugador 1 | Jugador 2 | Jugador 3 | Jugador 4 |
+|---|---|---|---|---|
+| En el puerto 1 | 1-A | 1-B | 1-C | 1-D |
+| Solo en el puerto 2 | Puerto 1 | 2-A | 2-B | 2-C |
+| Sin multitap | Puerto 1 | Puerto 2 | — | — |
+
+El multitap se detecta al arrancar y se vuelve a comprobar una vez por segundo. Usa los módulos XSIO2MAN, XPADMAN y XMTAPMAN de la BIOS, y XMCMAN y XMCSERV para la Memory Card. Si la BIOS no los trae, el juego carga SIO2MAN y PADMAN y funciona con dos mandos.
 
 ## Arquitectura
 
