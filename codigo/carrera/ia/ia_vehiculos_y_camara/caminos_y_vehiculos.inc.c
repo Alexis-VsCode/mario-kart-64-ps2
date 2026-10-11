@@ -1,6 +1,7 @@
 // Caminos y vehiculos
 
 #include "carrera/cilindrada_200cc.h"
+#include "carrera/rivales_sin_ventaja.h"
 #include "sistema/opciones_port.h"
 
 s32 actualizar_seleccion_camino_jugador(s32 jugador_id, s32 indice_camino) {
@@ -423,7 +424,9 @@ void actualizar_jugador(s32 id_jugador) {
                     }
                     if ((cantidad_jugador > 0) && (cantidad_jugador < 3) && (dato_80163330[id_jugador] == 1) &&
                         (dato_8016334C[id_jugador] < gp_actual_carrera_puesto_por_id_jugador[id_jugador])) {
-                        anterior_cpu_objetivo_rapidez[id_jugador] = 8.333333f;
+                        // Truco RIVALES SIN VENTAJA: el objetivo base en vez de la recuperacion
+                        anterior_cpu_objetivo_rapidez[id_jugador] = objetivo_cpu_sin_ventaja(
+                            8.333333f, obtener_circuito_cpu_normal_objetivo_rapidez(seleccion_cc), opciones_port.truco_rivales);
                     } else if (dato_80162FD0 == (s16) 1U) {
                         anterior_cpu_objetivo_rapidez[id_jugador] = CIRCUITO_D_OBTENER_0D0096B8(seleccion_cc);
                         jugador_pista_posicion_factor_instruccion[id_jugador].target = -0.5f;
