@@ -95,11 +95,12 @@ static int listo_tarjeta_mc(int *nueva)
     return r >= -1 && mc_ok && type == sceMcTypePS2 && format;
 }
 
+/* Tras un vencimiento no se pide nada más: la orden vencida sigue en curso */
 static int escribir_archivo_mc(const char *path, const void *datos, int size)
 {
     int fd, n;
 
-    if (mcOpen(PUERTO_MC, RANURA_MC, path, sceMcFileCreateFile | sceMcFileAttrWriteable) != 0) {
+    if (!mc_ok || mcOpen(PUERTO_MC, RANURA_MC, path, sceMcFileCreateFile | sceMcFileAttrWriteable) != 0) {
         return -1;
     }
     fd = resultado_llamar_mc();
@@ -120,7 +121,7 @@ static int leer_archivo_mc(const char *path, void *datos, int size)
 {
     int fd, n;
 
-    if (mcOpen(PUERTO_MC, RANURA_MC, path, sceMcFileAttrReadable) != 0) {
+    if (!mc_ok || mcOpen(PUERTO_MC, RANURA_MC, path, sceMcFileAttrReadable) != 0) {
         return -1;
     }
     fd = resultado_llamar_mc();
