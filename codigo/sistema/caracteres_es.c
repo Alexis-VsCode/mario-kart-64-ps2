@@ -29,6 +29,9 @@ static const CodigoEs codigos[CAR_ES_TOTAL] = {
 #define EUC_SS3 0x8F
 #define FILA_MAYUSCULAS 0xAA
 #define DESPLAZAMIENTO_MINUSCULA_UTF8 0x20
+#define UTF8_GUIA_C2 0xC2
+#define UTF8_GUIA_C3 0xC3
+#define GLIFO_INVALIDO (-2)
 
 static int es_letra(int car) {
     return codigos[car].base >= 'A' && codigos[car].base <= 'Z' && codigos[car].euc2 == FILA_MAYUSCULAS;
@@ -93,4 +96,23 @@ void quitar_diacriticos(char* destino, int tam, const char* origen) {
     if (tam > 0) {
         destino[escritos] = 0;
     }
+}
+
+int primer_byte_invalido(char* cadena, LectorGlifo leer) {
+    int posicion = 0;
+    int bytes, i;
+
+    while (cadena[posicion] != 0) {
+        unsigned char guia = (unsigned char) cadena[posicion];
+        if (guia == UTF8_GUIA_C2 || guia == UTF8_GUIA_C3 || leer(cadena + posicion, &bytes) == GLIFO_INVALIDO) {
+            return posicion;
+        }
+        for (i = 1; i < bytes; i++) {
+            if (cadena[posicion + i] == 0) {
+                return posicion;
+            }
+        }
+        posicion += bytes;
+    }
+    return -1;
 }

@@ -7,6 +7,7 @@ Gfx* imprimir_letra(Gfx* parametro0, TexturaMenu* textura_glifo, f32 parametro2,
     f32 cosa1;
     TexturaMenu* variable_s0;
     s32 letra_dibujada = 0;
+    s16 matrices_antes;
 
     variable_s0 = segmentado_a_duplicado_virtual(textura_glifo);
     while (variable_s0->textura_datos != NULL) {
@@ -44,6 +45,7 @@ Gfx* imprimir_letra(Gfx* parametro0, TexturaMenu* textura_glifo, f32 parametro2,
         } else {
             temporal_v0_2 = (u8*) funcion_8009B8C4(variable_s0->textura_datos);
             if (temporal_v0_2 != 0) {
+                matrices_antes = cantidad_efecto_matriz;
                 switch (mode) { /* irregular */
                     case 1:
                         gSPDisplayList(parametro0++, dato_020077F8);
@@ -56,7 +58,9 @@ Gfx* imprimir_letra(Gfx* parametro0, TexturaMenu* textura_glifo, f32 parametro2,
                                              variable_s0->height, escalar_x, escalar_y);
                         break;
                 }
-                letra_dibujada = 1;
+                // Sin matriz libre, funcion_80095BD0 no dibuja la letra; su signo
+                // tampoco, porque se dibuja con la matriz de la letra
+                letra_dibujada = (cantidad_efecto_matriz != matrices_antes);
             }
             variable_s0++;
         }

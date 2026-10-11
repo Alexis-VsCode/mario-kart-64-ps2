@@ -126,6 +126,39 @@ static void probar_secuencias_rotas(void) {
     }
 }
 
+// Recorre con leer_glifo: un -2, un C2/C3 al empezar un glifo (UTF-8 sin
+// convertir) o un glifo que ocuparia el 0 final dan su posicion
+static void probar_primer_byte_invalido(void) {
+    static char* buenas[] = { "", "MARIO", "A B", "CAMPE" E_O "N", E_ABRE_EXCL "GANADOR!", "\xa1\xbc\xa1\xbc",
+                              "\xa4\xc3" /* C3 de segundo byte de un kana */ };
+    static const struct {
+        char* cadena;
+        s32 posicion;
+    } malas[] = {
+        { "\x8f", 0 },
+        { "\x8f\xaa", 0 },
+        { "\x8f\xaa\xa2", 0 },
+        { "\x8f\xa2\xc3", 0 },
+        { "AB\x8f\xaa", 2 },
+        { "CAMPE\xc3\x93N", 5 }, // UTF-8 sin convertir
+        { "\xc2\xa1HOLA", 0 },
+        { E_A "\xc3\x81", 3 },
+        { "\xc3\x93#", 0 }, // la primera de dos
+        { "A#", 1 },        // ASCII sin glifo
+        { "OK\xa5", 2 },    // A5 tomaria el 0 final como segundo byte
+    };
+    s32 i;
+    for (i = 0; i < (s32) CANTIDAD_ARREGLO(buenas); i++) {
+        s32 posicion = primer_byte_invalido(buenas[i], leer_glifo);
+        COMPROBACION(posicion == -1, "cadena buena %d: byte inválido en %d", i, posicion);
+    }
+    for (i = 0; i < (s32) CANTIDAD_ARREGLO(malas); i++) {
+        s32 posicion = primer_byte_invalido(malas[i].cadena, leer_glifo);
+        COMPROBACION(posicion == malas[i].posicion, "cadena mala %d: byte inválido en %d, se esperaba %d", i, posicion,
+                     malas[i].posicion);
+    }
+}
+
 static void probar_anchos_espanol(void) {
     COMPROBACION(obtener_ancho_cadena("CAMPE" E_O "N") == obtener_ancho_cadena("CAMPEON"), "CAMPEON con tilde");
     COMPROBACION(obtener_ancho_cadena(E_A) == obtener_ancho_cadena("A"), "A con tilde");
@@ -137,6 +170,7 @@ int main(void) {
     probar_anchos();
     probar_espanol();
     probar_secuencias_rotas();
+    probar_primer_byte_invalido();
     probar_anchos_espanol();
     printf("%d comprobaciones, %d fallos\n", s_comprobaciones, s_fallos);
     return s_fallos != 0;

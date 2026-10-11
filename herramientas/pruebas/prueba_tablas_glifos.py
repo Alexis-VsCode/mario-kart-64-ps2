@@ -7,6 +7,17 @@ car_a_indice_glifo devuelve indices de 0 a 235 (ancho_pantalla_glifo tiene
 236 anchos). En la N64 lut_textura_glifo tenia 91 entradas y el resto
 seguia en los arreglos que el enlazador ponia a continuacion; en PS2 ese
 orden no se cumple. La tabla tiene que tener las 236 entradas por si misma.
+
+Ademas, lut_textura_glifo se define una sola vez, desde la lista GLIFO y fuera
+de todo #if, sin alias de las tablas en que la N64 la partia: con otra
+definicion para AVOID_UB los glifos del espanol leen fuera de la tabla.
+
+Las letras se dibujan con matrices de la reserva efecto_mtx: bajo AVOID_UB,
+funcion_80095BD0 deja de cargar matrices al llegar al tamanio de la reserva.
+
+Toda impresora de imprimir_texto.inc.c que lee glifos con leer_glifo pasa antes
+la cadena a registrar_texto_invalido en la compilacion DEV: las tres se paran en
+el primer glifo invalido sin avisar.
 """
 import glob
 import os
@@ -14,10 +25,27 @@ import re
 import sys
 
 RAIZ = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", ".."))
+TABLAS = os.path.join(RAIZ, "codigo", "menus", "elementos_menu", "textos_y_tablas.inc.c")
+CABECERA_MENU = os.path.join(RAIZ, "incluir", "menus", "elementos_menu.h")
+CARGAR_TEXTURAS = os.path.join(RAIZ, "codigo", "menus", "elementos_menu", "cargar_texturas_menu.inc.c")
+BUCLE_PRINCIPAL = os.path.join(RAIZ, "incluir", "sistema", "bucle_principal.h")
+IMPRIMIR_TEXTO = os.path.join(RAIZ, "codigo", "menus", "elementos_menu", "imprimir_texto.inc.c")
+REGISTRO_DEV = (r"#if defined\(TARGET_PS2\) && defined\(SMK64_DEV\)\n[^#]*"
+                r"\bregistrar_texto_invalido\(text, leer_glifo\);[^#]*#endif")
+TAMANIO_RESERVA = "MTX_EFECTO_POOL_TAMANIO"
 ALTO_DIACRITICO = 8
 
 GLIFOS_ORIGINALES = 236
 GLIFOS_TOTAL = GLIFOS_ORIGINALES + 11
+
+# Tablas de la N64 que siguen a lut_textura_glifo (dato_800E7FF0..dato_800E822C):
+# aqui son parte de ella y no tienen nombre propio
+TABLAS_PARTIDAS = (0x800E7FF0, 0x800E822C)
+
+# Cuerpo de lut_textura_glifo: solo la lista GLIFO
+CUERPO_LUT = [r"#\s*define\s+GLIFO\(\s*(\w+)\s*,\s*\w+\s*\)\s+(\w+)\s*,",
+              r'#\s*include\s+"lista_glifos\.inc\.c"',
+              r"#\s*undef\s+GLIFO"]
 
 # Indice -> textura, sacado del orden de la N64 (direcciones 0x800E7E84..0x800E8234)
 FIJOS = {
@@ -95,6 +123,70 @@ def probar_partes_de_signo(lut):
                 comprobar(valida, "%s: parte %d de alto %s fuera de un glifo del espanol" % (nombre, orden, alto))
 
 
+def probar_definicion_unica():
+    """lut_textura_glifo: una definicion, fuera de todo #if y hecha con la lista GLIFO."""
+    lineas = open(TABLAS, encoding="utf-8").read().split("\n")
+    abiertos = 0
+    definiciones = []
+    for numero, linea in enumerate(lineas):
+        linea = linea.strip()
+        if re.match(r"#\s*if", linea):
+            abiertos += 1
+        elif re.match(r"#\s*endif", linea):
+            abiertos -= 1
+        elif re.match(r"TexturaMenu\s*\*\s*lut_textura_glifo\s*\[", linea):
+            definiciones.append((numero, abiertos))
+    comprobar(len(definiciones) == 1, "textos_y_tablas.inc.c define lut_textura_glifo %d veces" % len(definiciones))
+    for numero, abierto in definiciones:
+        comprobar(abierto == 0, "textos_y_tablas.inc.c:%d: lut_textura_glifo dentro de un #if" % (numero + 1))
+        cuerpo = []
+        for linea in lineas[numero + 1:]:
+            if linea.startswith("};"):
+                break
+            if linea.strip() and not linea.strip().startswith("//"):
+                cuerpo.append(linea.strip())
+        coincide = [re.fullmatch(patron, linea) for patron, linea in zip(CUERPO_LUT, cuerpo)]
+        valida = len(cuerpo) == len(CUERPO_LUT) and all(coincide) and coincide[0].group(1) == coincide[0].group(2)
+        comprobar(valida, "textos_y_tablas.inc.c:%d: lut_textura_glifo no sale solo de la lista GLIFO" % (numero + 1))
+
+
+def probar_sin_tablas_partidas():
+    """Ni la tabla ni la cabecera nombran las partes de lut_textura_glifo de la N64."""
+    for ruta in (TABLAS, CABECERA_MENU):
+        texto = open(ruta, encoding="utf-8").read()
+        for nombre, direccion in sorted(set(re.findall(r"\b(dato_([0-9A-F]{8}))\b", texto))):
+            dentro = TABLAS_PARTIDAS[0] <= int(direccion, 16) <= TABLAS_PARTIDAS[1]
+            comprobar(not dentro, "%s nombra %s, que es parte de lut_textura_glifo" % (os.path.relpath(ruta, RAIZ), nombre))
+
+
+def probar_tope_reserva():
+    """Bajo AVOID_UB el tope de funcion_80095BD0 es el tamanio con que se declara efecto_mtx."""
+    texto = open(CARGAR_TEXTURAS, encoding="utf-8").read()
+    funcion = re.search(r"^Gfx\* funcion_80095BD0\(.*?^}", texto, re.S | re.M)
+    comprobar(funcion is not None, "no se encuentra funcion_80095BD0")
+    rama = re.search(r"#ifdef AVOID_UB\n(.*?)#else", funcion.group(0), re.S) if funcion else None
+    topes = re.findall(r"cantidad_efecto_matriz\s*>=\s*(\w+)", rama.group(1)) if rama else []
+    comprobar(topes == [TAMANIO_RESERVA], "funcion_80095BD0: bajo AVOID_UB el tope es %s, se esperaba %s"
+              % (", ".join(topes) or "ninguno", TAMANIO_RESERVA))
+    reserva = re.findall(r"\bMtx\s+efecto_mtx\s*\[\s*(\w+)\s*\]", open(BUCLE_PRINCIPAL, encoding="utf-8").read())
+    comprobar(reserva == [TAMANIO_RESERVA], "efecto_mtx se declara con %s matrices, se esperaba %s"
+              % (", ".join(reserva) or "ninguna declaración", TAMANIO_RESERVA))
+
+
+def probar_registro_texto_invalido():
+    """Cada funcion de imprimir_texto.inc.c que llama a leer_glifo registra antes la cadena en DEV."""
+    texto = open(IMPRIMIR_TEXTO, encoding="utf-8").read()
+    impresoras = 0
+    for nombre, cuerpo in re.findall(r"^void (\w+)\(.*?\{\n(.*?)^}", texto, re.S | re.M):
+        primera = cuerpo.find("leer_glifo(")
+        if primera < 0:
+            continue
+        impresoras += 1
+        comprobar(re.search(REGISTRO_DEV, cuerpo[:primera]) is not None,
+                  "%s: no pasa la cadena a registrar_texto_invalido antes de leer_glifo" % nombre)
+    comprobar(impresoras == 3, "imprimir_texto.inc.c: %d funciones leen glifos, se esperaban 3" % impresoras)
+
+
 def main():
     if len(sys.argv) != 2:
         sys.exit(__doc__)
@@ -112,6 +204,10 @@ def main():
         for nuevo, base in sorted(MISMO_ANCHO.items()):
             if nuevo < len(anchos):
                 comprobar(anchos[nuevo] == anchos[base], "el glifo 0x%02X tiene que medir como el 0x%02X" % (nuevo, base))
+    probar_definicion_unica()
+    probar_sin_tablas_partidas()
+    probar_tope_reserva()
+    probar_registro_texto_invalido()
     print("%d comprobaciones, %d fallos" % (comprobaciones, fallos))
     sys.exit(1 if fallos else 0)
 
