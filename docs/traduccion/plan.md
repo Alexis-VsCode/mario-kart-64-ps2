@@ -4,7 +4,8 @@ Este documento dice cómo se cumplió la [especificación](especificacion.md) y 
 
 - **F0 a F7** (localización, hasta 2026-09-29) están cerradas y se conservan como histórico: sus ramas se fusionaron en `feature/idioma-espanol`, que se fusionó a `main` (`3f43c005`). F6 se retiró por [CC-12](cambios.md).
 - **F8** (sincronización con el original, 2026-10-11) está cerrada: se integró en `feature/sincronizacion-upstream`, se publicó en `900c9be3` y está en `main` (`af3bfa05`), la versión 1.0.0.
-- **F9** (versión 1.1.0, 2026-10-11) está integrada en `feature/version-1.1.0`. Lo que queda por hacer está en [README.md § Pendiente](README.md#pendiente).
+- **F9** (versión 1.1.0, 2026-10-11) está cerrada: se integró en `feature/version-1.1.0`, se publicó en `45bbe10a` y está en `main`.
+- **F10** (versión 1.2.0, 2026-10-11) está integrada en `feature/version-1.2.0` (`85010a1f`). Lo que queda por hacer está en [README.md § Pendiente](README.md#pendiente).
 
 ## 1. Principios
 
@@ -113,7 +114,38 @@ main (af3bfa05)
          └─ v110/doc-traduccion             docs/traduccion y acta de F9
 ```
 
-### 3.4 Verificación al crear una rama
+### 3.4 F10
+
+`feature/version-1.2.0` nace de `main` en `fc17498f` y empieza con el registro de CC-18 a CC-27 (`edad2078`). `v120/contrato` fija las opciones del port y las ramas que las usan salen de su último commit, `93cb4d04`. CC-28 y CC-29 se registraron antes de sus ramas. Todas se integraron con `git merge --no-ff`. El detalle de cada una está en [F10](#f10-versión-120).
+
+```
+main (fc17498f)
+ └─ feature/version-1.2.0                 integración de F10
+     ├─ (edad2078)                         registro de CC-18 a CC-27
+     │   └─ v120/contrato                   CC-18, contrato de las opciones   → 226a3ce3
+     │       └─ (93cb4d04)
+     │           ├─ v120/memoria            CC-18, D-16, D-20, D-21, D-22     → 48e951fc
+     │           ├─ v120/imagen             CC-20, CC-21                      → 9b206935
+     │           ├─ v120/menu               CC-19                             → 8a62d5a1
+     │           ├─ v120/trucos             CC-22 a CC-25                     → 159c4396
+     │           ├─ v120/deudas             D-07, D-08, D-18, D-19, D-22      → 6e6a2108
+     │           ├─ v120/manifiesto         D-05                              → c3e1d30e
+     │           └─ v120/ci-emulador        CC-26, D-03, D-04, D-07 (CI)      → 10f290a3
+     ├─ (0081dca5)                         registro de CC-28
+     │   └─ v120/texturas                   CC-28                             → b7b03ee3
+     ├─ 91c7254e, 3bbac652, 3cf36394, 979fcf14   correcciones de INTEGRACIÓN
+     ├─ (0f15c448)                         registro de CC-29
+     │   └─ v120/texturas-pistas            CC-29, clasificación              → 616213c8
+     │       └─ (df9aea49)
+     │           ├─ v120/tx-bienvenida      BIENVENIDOS                       → 3017fe10
+     │           ├─ v120/tx-ya              YA                                → 19c6095a
+     │           ├─ v120/tx-emblemas        1J a 4J                           → 843906d1
+     │           └─ v120/tx-cruce           PASO A NIVEL                      → 85010a1f
+     └─ (85010a1f)
+         └─ v120/doc-traduccion             docs/traduccion y acta de F10
+```
+
+### 3.5 Verificación al crear una rama
 
 Para una rama nueva se ejecuta todo esto y se adjunta la salida al PR. `merge-base` no sirve como prueba.
 
@@ -137,7 +169,8 @@ git log --format='%ae' origin/main..<rama> | sort -u
 | F6 | Responsable del proyecto | Recorrido en PCSX2 con el guion DEV y al menos una captura en TV | — | Capturas aprobadas | **Retirada por [CC-12](cambios.md)**: la versión se verifica con las pruebas del PC y la CI. La falta de verificación visual es una limitación declarada ([deuda.md](deuda.md), D-06) |
 | F7 | INTEGRACIÓN | Integración, regeneración de `build/` y `compilaciones/`, sección «Idioma» del README y requisitos del README sin `iconv` obligatorio | `feature/idioma-espanol` | Definición de terminado de entonces (§8) | Cerrada (histórico): merges, `dda9a5f` (job `publicar`, CI 36518116212) y fusión a `main` (`3f43c005`) |
 | F8 | INTEGRACIÓN, autores por rama y REVISIÓN ×2 | Sincronización con el original hasta `ae93f71` (CC-08), CI con Release y limpieza de ramas (CC-09), correcciones con evidencia (CC-11), pendientes técnicos de F3 y F4 y documentación (CC-12) | `feature/sincronizacion-upstream` y `sinc/*` | [Definition of Done](../../CONTRIBUTING.md) y [acta de revisión](revisiones/2026-10-11-sincronizacion.md) sin hallazgos Alta o Media abiertos, salvo el de G5 | Cerrada: publicación `900c9be3` y fusión a `main` (`af3bfa05`), versión 1.0.0. El hallazgo de G5 se resolvió en F9 (CC-17) |
-| F9 | INTEGRACIÓN, autores por rama y REVISIÓN ×2 | Versión 1.1.0: Memory Card (CC-13), zona muerta del stick (CC-14), región de la consola (CC-15), publicación comprobada y ELF monolítico (CC-16), prueba del alfa con tramado (CC-17) y deudas D-01, D-02 y D-09 a D-15 | `feature/version-1.1.0` y `v110/*` | [Definition of Done](../../CONTRIBUTING.md) y [acta de revisión](revisiones/2026-10-11-version-1.1.0.md) sin hallazgos Alta o Media abiertos | Integrada en `a29bd920`. Falta la documentación de `v110/doc-manual` y `v110/doc-traduccion`, la publicación, la fusión a `main`, la Release `v1.1.0` y la limpieza de ramas ([README.md § Pendiente](README.md#pendiente)) |
+| F9 | INTEGRACIÓN, autores por rama y REVISIÓN ×2 | Versión 1.1.0: Memory Card (CC-13), zona muerta del stick (CC-14), región de la consola (CC-15), publicación comprobada y ELF monolítico (CC-16), prueba del alfa con tramado (CC-17) y deudas D-01, D-02 y D-09 a D-15 | `feature/version-1.1.0` y `v110/*` | [Definition of Done](../../CONTRIBUTING.md) y [acta de revisión](revisiones/2026-10-11-version-1.1.0.md) sin hallazgos Alta o Media abiertos | Cerrada: publicada en `45bbe10a` y en `main` |
+| F10 | INTEGRACIÓN, autores por rama y REVISIÓN ×2 | Versión 1.2.0: opciones del port (CC-18), menú CONFIGURACIÓN Y TRUCOS (CC-19), imagen (CC-20, CC-21), trucos (CC-22 a CC-25), emulador en la CI (CC-26), deuda técnica (CC-27), texturas (CC-28, CC-29) y portafolio (CC-30) | `feature/version-1.2.0` y `v120/*` | [Definition of Done](../../CONTRIBUTING.md) y [acta de revisión](revisiones/2026-10-11-version-1.2.0.md) sin hallazgos Alta o Media abiertos | Integrada en `85010a1f`, CI [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616). Falta la documentación, la publicación (<<PUBLICACION>>), la fusión a `main`, la Release `v1.2.0` y la limpieza de ramas ([README.md § Pendiente](README.md#pendiente)) |
 
 ### F1: infraestructura (hecha en `idioma/infra`, ya fusionada)
 
@@ -272,6 +305,34 @@ El responsable del proyecto aprobó el plan de F9 el 2026-10-11. Los cambios se 
 
 El arreglo de la cruceta se revisó con otros hashes y el mismo parche; la correspondencia está en el [acta](revisiones/2026-10-11-version-1.1.0.md#resumen).
 
+### F10: versión 1.2.0
+
+El responsable del proyecto aprobó el plan de F10 el 2026-10-11, con la maqueta del menú. Los cambios se registraron antes de tocar el código: CC-18 a CC-27 en `edad2078`, CC-28 en `0081dca5` y CC-29 en `0f15c448`. CC-30 (portafolio) se registró con la documentación. Después, en `feature/version-1.2.0`:
+
+1. **Contrato** de las opciones del port en `v120/contrato` (`93cb4d04`), del que salen las ramas que lo usan.
+2. **Ramas de código**, una por frente, cada una con su revisión técnica y lingüística ([acta](revisiones/2026-10-11-version-1.2.0.md)).
+3. **Integración** con `--no-ff`, en el orden de la tabla. Los hallazgos que pedían tocar zonas compartidas se resolvieron en INTEGRACIÓN: `91c7254e` (DESBLOQUEAR TODO al reconstruir el menú), `3bbac652` (opciones escritas antes de subir su versión), `3cf36394` (pruebas nuevas en `make test`) y `979fcf14` (el emulador exige «vídeo: PMODE 8046»).
+4. **Texturas sin revisar** (CC-29): clasificación en `v120/texturas-pistas` y traducción de las 15 pendientes en cuatro ramas paralelas.
+5. **CI** en verde: [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616), con el job del emulador.
+6. **Documentación** en `v120/doc-traduccion` y las demás ramas de documentación, que salen de `85010a1f`.
+
+| Rama | Contenido | Commits | Integración |
+|---|---|---|---|
+| `v120/contrato` | `OpcionesPort` y formato de `SMK64CFG.DAT` (CC-18) | `d6bf7381`, `a760841b`, `93cb4d04` | `226a3ce3` |
+| `v120/memoria` | `SMK64CFG.DAT` en el hilo de guardado y arnés de libmc (CC-18; D-16, D-20, D-21, D-22) | `36796171`, `289e9c78`, `2c83c0f8`, `c94152e0`, `c69d9ef4`, `b38d42c4`, `2275f2c8`, `098af916`, `8c022b34`, `1727504e`, `d7e296f9` | `48e951fc` |
+| `v120/imagen` | Antiparpadeo, posición, CON BANDAS y PANORÁMICO (CC-20, CC-21) | `deeba019`, `fa835b62`, `9173dde8`, `064830d8`, `92c1f1f3`, `fd4286e3`, `c52e2f8d`, `761d735d`, `2093202d`, `d8ebb3ac`, `d5ee5381` | `9b206935` |
+| `v120/menu` | Menú CONFIGURACIÓN Y TRUCOS (CC-19) | `7abb1f92`, `7c5439e4`, `b8954cee`, `146b23af`, `be1248ff` | `8a62d5a1` |
+| `v120/trucos` | DESBLOQUEAR TODO, OBJETO, 200CC y RIVALES SIN VENTAJA (CC-22 a CC-25) | `9d310c2c`, `be355571`, `4efcf0be`, `5a19ff97`, `038c39c0`, `c80fe61e`, `0e75a425`, `f46bc633`, `a6397211`, `4c0323bf` | `159c4396` |
+| `v120/deudas` | D-07, D-08, D-18, D-19 y D-22 (CC-27) | `0c962092`, `00b25b9d`, `9a92bc41`, `e0f76493`, `bd70c399`, `3d67d29d`, `e16f26d8`, `93231a07`, `64805e8c`, `a989c0f5`, `d2ce4c18`, `b06d4cbe`, `8e311363`, `278f45a5`, `ab75b9aa`, `0f75b754`, `dc6d4730`, `3a30f145` | `6e6a2108` |
+| `v120/manifiesto` | Filas de carpeta del manifiesto (D-05) | `fee9830b`, `22fbc484`, `9032ab75`, `7638072f`, `de397d10`, `742d480c`, `d57a6bef` | `c3e1d30e` |
+| `v120/texturas` | Reconstrucción del HUD y de los menús (CC-28) | `3b5e4aef`, `d7b3feb9`, `2175d03b`, `9d9ac85e`, `bace922a` | `b7b03ee3` |
+| `v120/ci-emulador` | Job del emulador, tope de la ROM, build incremental y fuente de libdebug (CC-26; D-03, D-04, D-07) | `7491fd24`, `98a042b7`, `a7bae5d4`, `570a0a12`, `99fa9b5c`, `a27fd80f`, `2c3a8b29`, `04adf1f6`, `f48b7a41`, `68bc6dce` | `10f290a3` |
+| `v120/texturas-pistas` | Clasificación de las texturas sin revisar (CC-29) | `a6fa679e`, `4216877e`, `431c3186`, `df9aea49` | `616213c8` |
+| `v120/tx-bienvenida` | BIENVENIDOS (D-24) | `fe010d2a`, `cb32c871` | `3017fe10` |
+| `v120/tx-ya` | YA (D-24) | `bb31482f`, `3505ff26` | `19c6095a` |
+| `v120/tx-emblemas` | 1J a 4J (D-24) | `bc4516de`, `caf7756f` | `843906d1` |
+| `v120/tx-cruce` | PASO A NIVEL (D-24) | `f7866dd3`, `625105f4` | `85010a1f` |
+
 ## 5. Ciclo por bloque
 
 1. **Rojo (PRUEBAS).** La prueba nueva falla, y su salida se adjunta al PR.
@@ -351,7 +412,7 @@ Hay una razón para borrar `build/ps2/jp` antes de probar: al restaurar `build/`
   - nombres de botón de PS2;
   - naturalidad dentro del espacio disponible.
 - **Regla general:** el autor nunca revisa su propio bloque.
-- **Registro:** desde F8, la revisión de cada integración queda en un acta en [revisiones/](revisiones/), con el formato de [CONTRIBUTING.md](../../CONTRIBUTING.md). La de F8 es [2026-10-11-sincronizacion.md](revisiones/2026-10-11-sincronizacion.md).
+- **Registro:** desde F8, la revisión de cada integración queda en un acta en [revisiones/](revisiones/), con el formato de [CONTRIBUTING.md](../../CONTRIBUTING.md). La de F8 es [2026-10-11-sincronizacion.md](revisiones/2026-10-11-sincronizacion.md); la de F9, [2026-10-11-version-1.1.0.md](revisiones/2026-10-11-version-1.1.0.md), y la de F10, [2026-10-11-version-1.2.0.md](revisiones/2026-10-11-version-1.2.0.md).
 
 ## 8. Definición de terminado
 
@@ -371,14 +432,15 @@ git status --short         # vacío
 
 ### 9.2 En la CI
 
-`.github/workflows/compilacion.yml` corre en cada push y pull request, y a mano (`workflow_dispatch`). Tiene seis jobs; el detalle de cada uno está en R-INF-05 de la [especificación](especificacion.md) y el procedimiento de publicación, en el [manual técnico](../manual/tecnico.md).
+`.github/workflows/compilacion.yml` corre en cada push y pull request, y a mano (`workflow_dispatch`). Tiene siete jobs; el detalle de cada uno está en R-INF-05 de la [especificación](especificacion.md) y el procedimiento de publicación, en el [manual técnico](../manual/tecnico.md).
 
 1. `pruebas-pc`: `make test` sin SDK.
-2. `compilar-ps2`: `make clean`, `make`, `make DEBUG=1`, `make DEV=1` (desde F8), `make test` y `make iso` en el contenedor `ps2dev/ps2dev`.
-3. `mismo-binario`, a mano con una `base`.
-4. `publicar`, a mano con `publicar=si` o `sí`: commit de publicación `build(compilaciones): binarios e ISO en español`. Así se generó `dda9a5f` en F7 (entonces con tipo `chore`). Desde F9 solo omite el commit si no hay nada preparado (`git diff --cached --quiet`); cualquier otro fallo detiene el job (CC-16).
-5. `release`, a mano con `release=<etiqueta>`, en el contenedor `ps2dev/ps2dev`: comprueba que el SHA-256 de la ISO versionada está en `docs/versiones/<etiqueta>.md`, compila `make MONOLITICO=1` y publica la ISO, `SLUS_999.99.monolitico.elf` y un `SHA256SUMS` con las dos líneas, con esas notas (CC-16). Se lanza en otra ejecución, sobre `main`, después de fusionar el commit de publicación; el orden completo está en el [manual técnico](../manual/tecnico.md#ci-y-publicación).
-6. `limpiar-ramas`, a mano con `limpiar_ramas=si` o `sí`: borra las ramas remotas cuya punta ya está en `main`.
+2. `compilar-ps2`: `make clean`, `make`, el tope de crecimiento de la ROM y el build incremental (desde F10), `make DEBUG=1`, `make DEV=1` (desde F8), `make test`, la inspección de la fuente de libdebug (desde F10) y `make iso` en el contenedor `ps2dev/ps2dev`.
+3. `emulador` (desde F10, CC-26): arranca dos veces el ELF de DEV en Play! 0.72 sin BIOS, revisa el registro y compara las capturas de título, menú y carrera con `herramientas/emulador/referencias/` y entre sí.
+4. `mismo-binario`, a mano con una `base`.
+5. `publicar`, a mano con `publicar=si` o `sí`: commit de publicación `build(compilaciones): binarios e ISO en español`. Así se generó `dda9a5f` en F7 (entonces con tipo `chore`). Desde F9 solo omite el commit si no hay nada preparado (`git diff --cached --quiet`); cualquier otro fallo detiene el job (CC-16).
+6. `release`, a mano con `release=<etiqueta>`, en el contenedor `ps2dev/ps2dev`: comprueba que el SHA-256 de la ISO versionada está en `docs/versiones/<etiqueta>.md`, compila `make MONOLITICO=1` y publica la ISO, `SLUS_999.99.monolitico.elf` y un `SHA256SUMS` con las dos líneas, con esas notas (CC-16). Se lanza en otra ejecución, sobre `main`, después de fusionar el commit de publicación; el orden completo está en el [manual técnico](../manual/tecnico.md#ci-y-publicación).
+7. `limpiar-ramas`, a mano con `limpiar_ramas=si` o `sí`: borra las ramas remotas cuya punta ya está en `main`.
 
 ### 9.3 Evidencia visual
 
@@ -388,4 +450,4 @@ git status --short         # vacío
 
 ### 9.4 En PCSX2 y en TV (retirado)
 
-El recorrido en PCSX2 con `herramientas/guiones/recorrido_textos.txt` y la captura en TV eran la fase F6. [CC-12](cambios.md) la retiró: la versión se verifica con las pruebas del PC y la CI, y nadie corre recorridos ni manda capturas. Lo que eso deja sin comprobar se declara como limitación ([deuda.md](deuda.md), D-06). Cómo jugar en PCSX2, en Play! o en una PS2 está en el [manual de usuario](../manual/usuario.md).
+El recorrido en PCSX2 con `herramientas/guiones/recorrido_textos.txt` y la captura en TV eran la fase F6. [CC-12](cambios.md) la retiró: la versión se verifica con las pruebas del PC y la CI, y nadie corre recorridos ni manda capturas. Desde F10 la CI arranca el juego en Play! (CC-26); lo que eso deja sin comprobar está en los [límites declarados](especificacion.md#9-límites-declarados). Cómo jugar en PCSX2, en Play! o en una PS2 está en el [manual de usuario](../manual/usuario.md).

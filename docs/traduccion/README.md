@@ -9,43 +9,46 @@ Esta carpeta documenta el trabajo con el que todo lo que ve el jugador en el por
 
 Los nombres de carpetas, funciones, variables y comentarios del código ya están en español. Aquí solo se trata el texto que sale en pantalla.
 
-## Estado de F9 (2026-10-11)
+## Estado de F10 (2026-10-11)
 
-La localización (F0 a F7) y la sincronización con el original (F8) están cerradas y en `main` (`af3bfa05`): la versión 1.0.0, publicada en `900c9be3`. F9, la versión 1.1.0, está integrada en `feature/version-1.1.0` (`a29bd920`), que nace de `af3bfa05`. `BUILD_ID` sigue en 2026-10-11, la fecha de la versión.
+La localización (F0 a F7), la sincronización con el original (F8, versión 1.0.0) y la versión 1.1.0 (F9, publicada en `45bbe10a`) están cerradas y en `main`. F10, la versión 1.2.0, está integrada en `feature/version-1.2.0` (`85010a1f`), con el PR en borrador [#5](https://github.com/Alexis-VsCode/mario-kart-64-ps2/pull/5). `BUILD_ID` sigue en 2026-10-11, la fecha de la versión.
 
-Hecho en F9:
+Hecho en F10:
 
-- **Memory Card** ([CC-13](cambios.md)): al insertar o cambiar la tarjeta ya no se pisa la copia más nueva; la espera de la partida al arrancar se mide con el reloj; el segundo borrado solo se hace con `mc_ok` (D-12); los resultados de `mcGetInfo` salen de la pila (D-13). D-11 se mantiene, con la decisión escrita en CC-13.
-- **Stick** ([CC-14](cambios.md)): la zona muerta del port baja de 24 a 8 y el giro empieza a 28 de 127 (22 %, antes 32 %). La cruceta conserva su reposo hasta 25 del centro (`ZONA_REPOSO_CRUCETA` 26).
-- **Región** ([CC-15](cambios.md)): el arranque lee `rom0:ROMVER` y, en una consola PAL, registra que la imagen sale en NTSC a 60 Hz y que hace falta una TV que lo acepte. El modo de vídeo no cambia.
-- **Publicación** ([CC-16](cambios.md)): `publicar` ya no oculta un fallo del commit; `release` corre en el contenedor de ps2dev, comprueba que el SHA-256 de la ISO esté en las notas y adjunta `SLUS_999.99.monolitico.elf` con su línea en `SHA256SUMS`.
-- **Alfa con tramado** ([CC-17](cambios.md)): pasa a una función pura con prueba; salda D-01 y D-02.
-- **Deudas chicas:** D-09, D-10, D-14 y D-15, y el registro del ritmo de física dice «ritmo» en lugar de «3-4P».
-- **Pruebas:** `make test` pasa a 31 pruebas, con `prueba_eleccion_guardado`, `prueba_eje_palanca` y `prueba_region_ps2`.
-- **Revisión** técnica y lingüística de cada rama, registrada en el [acta de F9](revisiones/2026-10-11-version-1.1.0.md).
+- **Opciones del port** ([CC-18](cambios.md)): `SMK64CFG.DAT`, un archivo aparte en la Memory Card, guarda las opciones de imagen y los trucos sin tocar la partida.
+- **Menú CONFIGURACIÓN Y TRUCOS** ([CC-19](cambios.md)): quinta entrada de OPCIONES, con el estilo de los menús del juego. Filas: ANTIPARPADEO, POSICIÓN X, POSICIÓN Y, FORMATO (NORMAL, CON BANDAS o PANORÁMICO), DESBLOQUEAR TODO, OBJETO, 200CC, RIVALES SIN VENTAJA y VOLVER.
+- **Imagen** ([CC-20](cambios.md) y [CC-21](cambios.md)): antiparpadeo opcional, apagado por defecto; posición de la imagen; CON BANDAS por defecto si la PS2 está en 16:9, y vista PANORÁMICA.
+- **Trucos** ([CC-22](cambios.md) a [CC-25](cambios.md)): los récords se guardan aunque haya trucos activos, y el manual lo advierte. 200CC solo aplica en GP y VS a 150cc y puntúa como 150cc. Un objeto que no vale en batalla da la ruleta normal. DESBLOQUEAR TODO se aplica al cambiar de pantalla.
+- **Emulador en la CI** ([CC-26](cambios.md)): el job «Guion en el emulador (Play!)» arranca dos veces el ELF de DEV en Play! 0.72 sin BIOS. Comprueba el registro (región PAL con un ROMVER sintético y «vídeo: PMODE 8046») y compara las capturas de título, menú y carrera con sus referencias y entre sí.
+- **Deuda** ([CC-27](cambios.md)): saldadas D-03 a D-08, D-16 a D-22 y D-24. Queda D-23, y D-25 apareció al documentar ([deuda.md](deuda.md)).
+- **Texturas** ([CC-28](cambios.md) y [CC-29](cambios.md)): reconstruidas (el «º» de los puestos, VUELTA, botones y copas, el título de la Jungla DK) y traducidas (BIENVENIDOS, YA, 1J a 4J y PASO A NIVEL). El manifiesto clasifica 1229 texturas.
+- **Pruebas:** `make test` suma las pruebas de opciones, Memory Card, registros de vídeo, vista panorámica, menú, trucos, reserva de matrices y herramientas de la CI. CI en verde: [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616).
+- **Revisión** técnica y lingüística de cada rama, registrada en el [acta de F10](revisiones/2026-10-11-version-1.2.0.md).
+- **Portafolio** ([CC-30](cambios.md), aprobado): aviso legal reforzado, autoría, caso de estudio, página web y licencia MIT de los aportes.
 
-Sin verificar en consola real: el tacto del stick, la lectura de ROMVER por las dos rutas del IOP (reiniciado y bajo OPL) y el cambio de tarjeta en caliente ([deuda.md](deuda.md): D-06, D-16 y D-17).
+Lo que no se puede comprobar sin hardware real ni TV está en los [límites declarados](especificacion.md#9-límites-declarados): el tacto; el antiparpadeo, las bandas y la posición, comprobados solo por valores de registro; el multitap; el cambio de tarjeta en caliente; el rendimiento en PANORÁMICO, y la lectura de ROMVER fuera de la ruta con reinicio del IOP. En PANORÁMICO, los objetos o la pista pueden aparecer tarde en los bordes, y el marcador sale estirado.
 
 | Fase | Contenido | Estado |
 |---|---|---|
 | F0–F5, F7 | Documentación, infraestructura, fuente, cadenas, texturas, pantallas del port, revisión e integración de la localización | Cerradas (histórico), en `main`. Detalle en [plan.md §4](plan.md#4-fases) |
 | F6 | Recorrido en PCSX2 y captura en TV | Retirada por CC-12 |
 | F8 | Sincronización con el original, CI, correcciones y documentación | Cerrada: versión 1.0.0, en `main` (`af3bfa05`). [Acta](revisiones/2026-10-11-sincronizacion.md) |
-| F9 | Versión 1.1.0: CC-13 a CC-17 y deudas chicas | Integrada y publicada (`45bbe10a`). Falta lo de [Pendiente](#pendiente) |
+| F9 | Versión 1.1.0: CC-13 a CC-17 y deudas chicas | Cerrada: publicada en `45bbe10a`, en `main`. [Acta](revisiones/2026-10-11-version-1.1.0.md) |
+| F10 | Versión 1.2.0: CC-18 a CC-30, deuda técnica, menú de configuración y trucos, emulador en la CI | Integrada en `85010a1f`. Falta lo de [Pendiente](#pendiente). [Acta](revisiones/2026-10-11-version-1.2.0.md) |
 
 El detalle por requisito y por commit está en [trazabilidad.md](trazabilidad.md); la deuda técnica, en [deuda.md](deuda.md).
 
 ## Pendiente
 
-1. **Fusión a `main`** de `feature/version-1.1.0` (fast-forward, con el PR #4 como registro).
-2. **Release v1.1.0:** job `release` sobre `main`, con la ISO versionada, el ELF monolítico y las notas de [docs/versiones/v1.1.0.md](../versiones/v1.1.0.md), que llevan el SHA-256 de la ISO ([CC-16](cambios.md)).
-3. **Limpieza de ramas:** job `limpiar-ramas` sobre `main`. Al final, `git ls-remote --heads origin` lista solo `main` ([CC-09](cambios.md)).
-
-La documentación de F9 ya está integrada y la publicación está hecha: commit `45bbe10a`, con los datos en [trazabilidad.md](trazabilidad.md#evidencia-común).
+1. **Documentación de F10:** integrar `v120/doc-traduccion` y las demás ramas de documentación, entre ellas las de CC-30.
+2. **Publicación:** job `publicar` sobre `feature/version-1.2.0`; commit, tamaño y SHA-256 de la ISO: <<PUBLICACION>>.
+3. **Fusión a `main`** de `feature/version-1.2.0`, con el PR #5 como registro.
+4. **Release v1.2.0:** job `release` sobre `main`, con la ISO versionada, el ELF monolítico y las notas de la versión, que llevan el SHA-256 de la ISO ([CC-16](cambios.md)).
+5. **Limpieza de ramas:** job `limpiar-ramas` sobre `main` ([CC-09](cambios.md)).
 
 ## Próximo paso
 
-Fusionar a `main` y lanzar `release` y después `limpiar-ramas`, en ese orden (ver el [manual técnico](../manual/tecnico.md)). El código y la documentación de F9 están integrados y revisados, y la publicación `45bbe10a` tiene la ISO de la versión 1.1.0.
+Integrar la documentación de F10 y lanzar `publicar`, y después fusionar a `main` y lanzar `release` y `limpiar-ramas`, en ese orden (ver el [manual técnico](../manual/tecnico.md)).
 
 ## Punto de partida (verificado en `main`, `0e7b7d5`)
 
@@ -60,23 +63,25 @@ Fusionar a `main` y lanzar `release` y después `limpiar-ramas`, en ese orden (v
 | Documento | Contenido |
 |---|---|
 | [especificacion.md](especificacion.md) | Qué hay que cumplir: alcance, exclusiones, requisitos numerados con criterio de aceptación y prueba, decisiones cerradas y riesgos |
-| [plan.md](plan.md) | Cómo se hizo: fases F0–F9 con su estado, roles y archivos, ramas, puertas de calidad, ciclo por bloque y verificación |
+| [plan.md](plan.md) | Cómo se hizo: fases F0–F10 con su estado, roles y archivos, ramas, puertas de calidad, ciclo por bloque y verificación |
 | [glosario.md](glosario.md) | Términos aprobados y su fuente |
-| [trazabilidad.md](trazabilidad.md) | Relación entre requisito, prueba, commits y evidencia, con el estado de cada requisito y los commits de F8 y F9 |
-| [cambios.md](cambios.md) | Registro de cambios de la especificación (CC-01 a CC-17): límites, escalas, términos, decisiones y diferencias con el plan aprobado |
-| [revisiones/](revisiones/) | Actas de revisión: la de F8, [2026-10-11-sincronizacion.md](revisiones/2026-10-11-sincronizacion.md), con las propuestas para el repositorio original, y la de F9, [2026-10-11-version-1.1.0.md](revisiones/2026-10-11-version-1.1.0.md) |
-| [deuda.md](deuda.md) | Deuda técnica: lo que se sabe que falta, por qué no se hizo y dónde se haría |
+| [trazabilidad.md](trazabilidad.md) | Relación entre requisito, prueba, commits y evidencia, con el estado de cada requisito y los commits de F8, F9 y F10 |
+| [cambios.md](cambios.md) | Registro de cambios de la especificación (CC-01 a CC-30): límites, escalas, términos, decisiones y diferencias con el plan aprobado |
+| [revisiones/](revisiones/) | Actas de revisión: la de F8, [2026-10-11-sincronizacion.md](revisiones/2026-10-11-sincronizacion.md), con las propuestas para el repositorio original, la de F9, [2026-10-11-version-1.1.0.md](revisiones/2026-10-11-version-1.1.0.md), y la de F10, [2026-10-11-version-1.2.0.md](revisiones/2026-10-11-version-1.2.0.md) |
+| [deuda.md](deuda.md) | Deuda técnica: lo que se sabe que falta, por qué no se hizo y dónde se haría. Lo que no se puede comprobar sin hardware está en los [límites declarados](especificacion.md#9-límites-declarados) |
 
 ## Cómo se trabaja
 
 Las reglas del proyecto (Definition of Done, autoría, commits, ramas, revisión y acta) están en [CONTRIBUTING.md](../../CONTRIBUTING.md), y cómo compilar, probar y publicar, en el [manual técnico](../manual/tecnico.md). En esta carpeta se añaden dos cosas propias de la localización:
 
-1. **Primero la especificación.** Cada cambio del código responde a un requisito (`R-FUE`, `R-TXT`, `R-MC`, `R-TEX`, `R-PORT`, `R-INF`, `R-GOB`). Si cambia un requisito, un límite, una escala o un término, primero se registra en [cambios.md](cambios.md) y se aprueba. Después se toca el código.
+1. **Primero la especificación.** Cada cambio del código responde a un requisito (`R-FUE`, `R-TXT`, `R-MC`, `R-TEX`, `R-PORT`, `R-INF`, `R-GOB`, `R-VID`, `R-TRU`). Si cambia un requisito, un límite, una escala o un término, primero se registra en [cambios.md](cambios.md) y se aprueba. Después se toca el código.
 2. **Trazabilidad.** Los identificadores de requisito aparecen en los commits y en esta carpeta, nunca en el código ([trazabilidad.md](trazabilidad.md)).
 
 ## Ramas
 
-F9 se trabaja en `feature/version-1.1.0`, que nace de `main` (`af3bfa05`), con una rama `v110/*` por frente integrada con `git merge --no-ff`. El esquema de las ramas, de dónde sale cada una y su merge están en [plan.md §3.3](plan.md#33-f9).
+F10 se trabaja en `feature/version-1.2.0`, que nace de `main` (`fc17498f`), con una rama `v120/*` por frente integrada con `git merge --no-ff`. El esquema de las ramas, de dónde sale cada una y su merge están en [plan.md §3.4](plan.md#34-f10).
+
+F9 se trabajó en `feature/version-1.1.0`, que nace de `main` (`af3bfa05`), con una rama `v110/*` por frente; ya está en `main` y su esquema está en [plan.md §3.3](plan.md#33-f9).
 
 F8 se trabajó en `feature/sincronizacion-upstream`, que nace de `main` (`3f43c005`), con una subrama por bloque; ya está en `main` y su esquema está en [plan.md §3.2](plan.md#32-f8).
 
@@ -91,6 +96,15 @@ El resto de objetivos y variables de `make` están en el [manual técnico](../ma
 | `make es` / `make hoja-es` | Texturas en español en `build/ps2/es/` / hojas de contacto en `build/ps2/es/hojas/`, sin el SDK |
 | `python3 herramientas/comparar_preprocesado.py <antes> <después> <fuente.c>…` | Comprueba en el PC, sin SDK, que un refactor no cambia lo que ve el compilador |
 | `sh herramientas/comparar_binario.sh <base> [DEBUG=1]` | Compara el ELF y la ROM con los de una base. Necesita el SDK (en la CI, job `mismo-binario`) |
+
+## Verificación de F10
+
+Comprobado el 2026-10-11 sobre `feature/version-1.2.0` en `85010a1f`.
+
+- **Especificación → trazabilidad.** `especificacion.md` define 58 requisitos (`R-FUE` 9, `R-TXT` 8, `R-MC` 4, `R-TEX` 8, `R-PORT` 5, `R-INF` 7, `R-GOB` 8, `R-VID` 5, `R-TRU` 4). Los 58 tienen fila en [trazabilidad.md](trazabilidad.md) y la lista coincide con el comando de la [verificación de F8](#verificación-de-f8). Estado: 51 hechos y 7 parciales (R-GOB-01, R-GOB-02, R-GOB-03, R-GOB-04, R-GOB-06, R-GOB-07 y R-GOB-08). R-TEX-02 y R-PORT-03 pasan a hechos; R-GOB-07 pasa a parcial por D-25, y R-GOB-08 sigue parcial hasta integrar la documentación, como en F8 y F9.
+- **Pruebas.** `PS2SDK= make test` termina con 0: las 44 pruebas que imprimen su resumen dan 0 fallos y el tope de líneas, 0 archivos por encima.
+- **Gobernanza.** Sobre `main..feature/version-1.2.0`: 113 commits (99 más 14 merges), todos de Alexis Barrera; el comando de R-GOB-01 sale vacío; ningún commit toca `build/` ni `compilaciones/`; no hay trailers; el grep de R-GOB-07 encuentra 8 líneas en 4 archivos de `herramientas/` (D-25).
+- **CI de F10:** [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616), en verde. La publicación: <<PUBLICACION>>.
 
 ## Verificación de F9
 

@@ -492,7 +492,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 
 ### CC-18: archivo de opciones del port en la Memory Card
 
-- **Estado:** aprobado
+- **Estado:** aplicado
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-MC-04 (nuevo)
 - **Motivo:** los ajustes de imagen y los trucos de CC-19 a CC-25 tienen que sobrevivir al apagado sin tocar la partida guardada. La imagen de guardado (`guardado_ps2.h`) no tiene espacio libre y exige la versión exacta: cambiarla invalidaría las partidas existentes.
@@ -503,12 +503,21 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - Si falta el archivo o está dañado, se usan los valores por defecto y el juego sigue.
 - **Alternativas descartadas:** ampliar la imagen de guardado, porque obliga a migrar las partidas.
 - **Evidencia requerida:** prueba del PC con ida y vuelta, magia, versión y CRC erróneos, valores fuera de rango, el CRC32 de «123456789» igual a 0xCBF43926 y mutaciones restauradas.
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
-- **Commit:** —
+- **Lo aplicado:**
+  - `d6bf7381` (refactor) lleva el CRC32 a una cabecera compartida con `memory_card.c`.
+  - `a760841b` (prueba) y `93cb4d04` (contrato): `incluir/sistema/opciones_port.h` define `OpcionesPort`, los valores por defecto según la configuración de la PS2, el saneado y el formato de 32 bytes. Rojo: no compilaba sin la cabecera.
+  - `098af916` (prueba) y `8c022b34`: el hilo de guardado lee y escribe `SMK64CFG.DAT`; `prueba_memory_card.c`, con la libmc simulada de D-16, da 83 comprobaciones y 0 fallos. Rojo: no compilaba sin `ARCHIVO_OPCIONES`.
+  - `3bbac652` (integración): los campos quedan escritos antes de que el retrazo vea la versión nueva de las opciones (hallazgo Baja de `v120/imagen`).
+  - Sin Memory Card, las opciones duran hasta apagar la consola. El cambio de tarjeta en caliente no se ha probado en hardware ([especificación §9](especificacion.md#9-límites-declarados)).
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11);
+  - REVISIÓN: el contrato se revisó con `v120/memoria`; técnica, aprobada con observaciones; lingüística, aprobada ([acta de F10](revisiones/2026-10-11-version-1.2.0.md#2-v120memoria-archivo-de-opciones-y-memory-card-cc-18-cc-27));
+  - INTEGRACIÓN: merges `226a3ce3` (`v120/contrato`) y `48e951fc` (`v120/memoria`) (2026-10-11).
+- **Commit:** `d6bf7381`, `a760841b`, `93cb4d04`, `098af916`, `8c022b34`, `3bbac652` y los merges `226a3ce3` y `48e951fc`.
 
 ### CC-19: menú «CONFIGURACIÓN Y TRUCOS»
 
-- **Estado:** aprobado
+- **Estado:** aplicado
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-VID-05 (nuevo), R-TXT-04, R-TXT-05
 - **Motivo:** el jugador necesita cambiar los ajustes de imagen y los trucos sin combinaciones de botones ocultas. El responsable del proyecto eligió una entrada de menú con el mismo estilo que los menús del juego y aprobó la maqueta.
@@ -531,12 +540,20 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - La navegación y el ciclo de valores van en una función pura con su prueba. Los textos nuevos entran en las pruebas de textos y de lugares.
 - **Alternativas descartadas:** combinaciones de botones con L3, porque son ocultas, y texturas nuevas, porque el estilo ya existe en el juego.
 - **Evidencia requerida:** pruebas de navegación y de textos (rojo, mutación, verde), compilación de PS2 en la CI y la pasada del emulador de CC-26 por el menú.
-- **Aprobación:** responsable del proyecto: aprobado, con la maqueta (2026-10-11).
-- **Commit:** —
+- **Lo aplicado:**
+  - `7abb1f92` (prueba) y `7c5439e4`: `incluir/menus/menu_configuracion.h` con la navegación, el ciclo de valores y el objeto de 0 a 15 sin el 13; `prueba_menu_configuracion.c`, 55 comprobaciones y 0 fallos. Rojo: no compilaba sin la cabecera. Mutación del salto del 13, repetida en la corrección: 5 fallos, restaurada.
+  - `b8954cee` (prueba) y `146b23af`: quinta fila de OPCIONES y subpantalla, con sus textos en las pruebas de textos y de lugares (glifos, texto esperado, zona segura y sin solape entre etiqueta y valor).
+  - `91c7254e` (integración): DESBLOQUEAR TODO se aplica al reconstruir cada pantalla de menú (CC-22).
+  - La CI recorre el menú en el emulador y compara su captura con la referencia (CC-26).
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11), con la maqueta;
+  - REVISIÓN: técnica de `v120/menu`, aprobada con observaciones; lingüística, aprobada ([acta de F10](revisiones/2026-10-11-version-1.2.0.md#4-v120menu-menú-configuración-y-trucos-cc-19));
+  - INTEGRACIÓN: merge `8a62d5a1` (2026-10-11).
+- **Commit:** `7abb1f92`, `7c5439e4`, `b8954cee`, `146b23af`, `be1248ff` (alineación del valor), `91c7254e` y el merge `8a62d5a1`.
 
 ### CC-20: antiparpadeo y posición de la imagen en 480i
 
-- **Estado:** aprobado
+- **Estado:** aplicado
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-VID-01, R-VID-02 (nuevos), R-PORT-02
 - **Motivo:**
@@ -556,12 +573,20 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - antiparpadeo activado por defecto, porque ablanda la imagen en emuladores y TV modernas y no hay verificación en hardware;
   - 480p, por la misma razón que en CC-15.
 - **Evidencia requerida:** prueba de los valores de registro (por defecto 0x8046 y el DISPLAY de gsKit; antiparpadeo 0x8027 y DBY en el bit 43; DY par) con mutaciones, y el registro del arranque en el emulador.
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
-- **Commit:** —
+- **Lo aplicado:**
+  - `deeba019` (prueba) y `fa835b62`: `incluir/graficos/registros_video.h` calcula PMODE, DISPFB2 y DISPLAY. Por defecto, 0x8046 y el DISPLAY de gsKit; con antiparpadeo, 0x8027 y DBY en el bit 43; DY siempre par. Rojo: no compilaba sin la cabecera.
+  - `9173dde8`: `sintetizador_gs.c` escribe los registros en el retrazo cuando cambian las opciones; `2093202d` ajusta el texto del registro de vídeo.
+  - `979fcf14` (integración): el job del emulador exige en el registro «vídeo: PMODE 8046», el valor por defecto.
+  - El efecto en una TV no se ha visto: las capturas leen la VRAM antes del PCRTC ([especificación §9](especificacion.md#9-límites-declarados)).
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11);
+  - REVISIÓN: técnica de `v120/imagen`, aprobada con observaciones; lingüística, aprobada ([acta de F10](revisiones/2026-10-11-version-1.2.0.md#3-v120imagen-antiparpadeo-posición-y-formato-cc-20-cc-21));
+  - INTEGRACIÓN: merge `9b206935` (2026-10-11).
+- **Commit:** `deeba019`, `fa835b62`, `9173dde8`, `2093202d`, `979fcf14` y el merge `9b206935`.
 
 ### CC-21: formato 4:3, con bandas o panorámico según la configuración de la PS2
 
-- **Estado:** aprobado
+- **Estado:** aplicado
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-VID-03, R-VID-04 (nuevos)
 - **Motivo:**
@@ -580,12 +605,20 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - aplicar el aspecto dentro de `guPerspectiveF`, que también ensancha los menús.
 - **Riesgo:** los tramos de pista se eligen por cuadrante de cámara, así que puede faltar pista en los bordes en PANORÁMICO. Se comprueba con el emulador; si aparece, el valor PANORÁMICO se retira antes de publicar.
 - **Evidencia requerida:** pruebas puras del aspecto (1,333 → 1,778; 0,667 → 0,889; 2,667 → 3,556), del cono con tope y de los registros con bandas, con mutaciones, más las capturas del emulador.
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
-- **Commit:** —
+- **Lo aplicado:**
+  - CON BANDAS sale de `registros_video.h` (MAGH=2, DW=1920, DX centrado). La revisión encontró que con bases de MAGH 0 o 1 el cálculo pasaba por debajo de cero: rojo en `d8ebb3ac` (4 fallos de 66), arreglado en `d5ee5381`.
+  - `064830d8` (prueba) y `92c1f1f3`: `incluir/graficos/vista_panoramica.h` con el aspecto (1,333 → 1,778; 0,667 → 0,889; 2,667 → 3,556) y el cono ensanchado 4/3 con tope. Rojo: no compilaba sin la cabecera.
+  - `fd4286e3`, `c52e2f8d` y `761d735d` aplican el aspecto en la vista de cada pantalla, al cambiar de pantalla en la carrera y en la ceremonia.
+  - El valor PANORÁMICO se mantiene. En los bordes pueden aparecer tarde objetos o tramos de pista, el marcador sale estirado y el rendimiento no se ha medido en hardware ([especificación §9](especificacion.md#9-límites-declarados)).
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11);
+  - REVISIÓN: técnica de `v120/imagen`, aprobada con observaciones; lingüística, aprobada ([acta de F10](revisiones/2026-10-11-version-1.2.0.md#3-v120imagen-antiparpadeo-posición-y-formato-cc-20-cc-21));
+  - INTEGRACIÓN: merge `9b206935` (2026-10-11).
+- **Commit:** `d8ebb3ac`, `d5ee5381`, `064830d8`, `92c1f1f3`, `fd4286e3`, `c52e2f8d`, `761d735d` y el merge `9b206935`.
 
 ### CC-22: truco DESBLOQUEAR TODO
 
-- **Estado:** aprobado
+- **Estado:** aplicado
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-TRU-01 (nuevo)
 - **Motivo:** el responsable del proyecto pidió los trucos de CC-22 a CC-25, apagados de fábrica.
@@ -596,12 +629,18 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - El cursor se recorta si EXTRA deja de existir.
 - **Límite declarado:** los trofeos EXTRA ganados con el truco se guardan y quedan ocultos si se apaga.
 - **Evidencia requerida:** prueba pura con rojo y mutaciones (`&&` en lugar de `||`, `<` en lugar de `<=`).
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
-- **Commit:** —
+- **Lo aplicado:**
+  - `9d310c2c` (prueba) y `be355571`: `incluir/juego/trucos.h`. La consulta del modo EXTRA y la de los fantasmas del staff leen una copia que solo cambia en `truco_desbloquear_aplicar()`, que también recorta el cursor de cilindrada. Rojo: no compilaba sin la cabecera.
+  - La revisión vio que nadie llamaba a `truco_desbloquear_aplicar()` (Media). Se resolvió en la integración con `91c7254e`: se llama al reconstruir cada pantalla de menú, así que el truco se aplica al cambiar de pantalla.
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11);
+  - REVISIÓN: técnica de `v120/trucos`, aprobada con observaciones; lingüística, aprobada ([acta de F10](revisiones/2026-10-11-version-1.2.0.md#5-v120trucos-los-cuatro-trucos-cc-22-a-cc-25));
+  - INTEGRACIÓN: merge `159c4396` (2026-10-11).
+- **Commit:** `9d310c2c`, `be355571`, `91c7254e` y el merge `159c4396`.
 
 ### CC-23: truco OBJETO
 
-- **Estado:** aprobado
+- **Estado:** aplicado
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-TRU-02 (nuevo)
 - **Motivo:** como CC-22.
@@ -610,12 +649,18 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - **Qué no cambia:** el generador aleatorio avanza igual, y la CPU y el Boo no cambian.
   - **Cuándo no se sustituye:** en batalla solo se usan los objetos válidos en batalla. En contrarreloj, en otros modos o con un valor inválido, sale el objeto normal.
 - **Evidencia requerida:** prueba pura con los casos de GP, batalla, contrarreloj e inválidos, y mutaciones.
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
-- **Commit:** —
+- **Lo aplicado:**
+  - `4efcf0be` (prueba) y `5a19ff97`: `incluir/carrera/truco_objeto.h` y el enganche en `funcion_8007AFB0`, con casos de Gran Premio, Versus, batalla, contrarreloj e inválidos. Rojo: no compilaba sin la cabecera.
+  - Un objeto que no vale en batalla da la ruleta normal, sin aviso; el menú no filtra por modo.
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11);
+  - REVISIÓN: técnica de `v120/trucos`, aprobada con observaciones; lingüística, aprobada ([acta de F10](revisiones/2026-10-11-version-1.2.0.md#5-v120trucos-los-cuatro-trucos-cc-22-a-cc-25));
+  - INTEGRACIÓN: merge `159c4396` (2026-10-11).
+- **Commit:** `4efcf0be`, `5a19ff97` y el merge `159c4396`.
 
 ### CC-24: truco 200CC
 
-- **Estado:** aprobado
+- **Estado:** aplicado
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-TRU-03 (nuevo)
 - **Motivo:** como CC-22.
@@ -632,12 +677,19 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - peor caso de velocidad por paso por debajo de 8,8, con margen para las pendientes;
   - la mutación 37/32 tiene que fallar.
 - **Riesgo:** curvas más difíciles y la CPU fuera de su camino. Se comprueba con el emulador.
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
-- **Commit:** —
+- **Lo aplicado:**
+  - `038c39c0` (prueba) y `c80fe61e`: `incluir/carrera/cilindrada_200cc.h`, con la fórmula del empuje contra las tablas originales, el factor 35/32, el peor caso por debajo de 8,8 y los modos en que aplica. Rojo: no compilaba sin la cabecera.
+  - `a6397211` (revisión, Baja) quita la escritura del empuje que `aparecer_jugador()` pisaba después.
+  - Solo aplica en Gran Premio y Versus a 150cc, y puntúa como 150cc.
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11);
+  - REVISIÓN: técnica de `v120/trucos`, aprobada con observaciones; lingüística, aprobada ([acta de F10](revisiones/2026-10-11-version-1.2.0.md#5-v120trucos-los-cuatro-trucos-cc-22-a-cc-25));
+  - INTEGRACIÓN: merge `159c4396` (2026-10-11).
+- **Commit:** `038c39c0`, `c80fe61e`, `a6397211` y el merge `159c4396`.
 
 ### CC-25: truco RIVALES SIN VENTAJA
 
-- **Estado:** aprobado
+- **Estado:** aplicado
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-TRU-04 (nuevo)
 - **Motivo:** como CC-22.
@@ -647,12 +699,19 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - **Lo que no cambia:** las órdenes de velocidad de cada pista quedan intactas.
 - **Límite declarado:** solo tiene efecto en el Gran Premio.
 - **Evidencia requerida:** prueba pura con rojo y mutaciones.
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
-- **Commit:** —
+- **Lo aplicado:**
+  - `0e75a425` (prueba) y `f46bc633`: `incluir/carrera/rivales_sin_ventaja.h` y los dos enganches del control de velocidad. Rojo: no compilaba sin la cabecera.
+  - `4c0323bf` (revisión, Baja): el rival designado conserva su control de velocidad, como dice el cambio.
+  - El efecto en el juego no se puede medir con una prueba, porque la CPU no es determinista.
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11);
+  - REVISIÓN: técnica de `v120/trucos`, aprobada con observaciones; lingüística, aprobada ([acta de F10](revisiones/2026-10-11-version-1.2.0.md#5-v120trucos-los-cuatro-trucos-cc-22-a-cc-25));
+  - INTEGRACIÓN: merge `159c4396` (2026-10-11).
+- **Commit:** `0e75a425`, `f46bc633`, `4c0323bf` y el merge `159c4396`.
 
 ### CC-26: verificación en un emulador dentro de la CI
 
-- **Estado:** aprobado. Matiza CC-12: sigue sin pedirse nada al usuario; la CI arranca el juego sola.
+- **Estado:** aplicado. Matiza CC-12: sigue sin pedirse nada al usuario; la CI arranca el juego sola.
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-INF-05, R-INF-07 (nuevo)
 - **Motivo:** D-06 y D-17 no se podían saldar sin ver el juego arrancar. Play! arranca un ELF sin BIOS (`--elf`) y monta `host:`, `rom0:` y la Memory Card como carpetas.
@@ -674,12 +733,21 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - **Si algún criterio falla:** CC-26 pasa a rechazado con la URL de la ejecución. D-06 y D-17 pasan a límites declarados.
 - **Límite:** las capturas leen la VRAM antes del PCRTC, así que el antiparpadeo, las bandas y la posición se comprueban por los valores de registro.
 - **Evidencia requerida:** la ejecución del job en verde, o su rechazo documentado.
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
-- **Commit:** —
+- **Lo aplicado:**
+  - `7491fd24` (prueba) y `98a042b7`: comparación de las capturas TGA con sus referencias y entre ejecuciones, con rechazo de la imagen uniforme.
+  - `a7bae5d4` (prueba) y `570a0a12`: revisión del registro (sin pánico ni cuelgue, con la línea de región del ROMVER sintético) y del fin del guion.
+  - `2c3a8b29`: job «Guion en el emulador (Play!)», que arranca dos veces el ELF de DEV en Play! 0.72 sin BIOS. `979fcf14` exige además «vídeo: PMODE 8046». Las referencias de título, menú y carrera están en `herramientas/emulador/referencias/`.
+  - Ejecución en verde: [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616), con todos los criterios para continuar cumplidos.
+  - D-06 y D-17 se saldan en lo que la CI comprueba. El tacto, la imagen en una TV y la lectura de ROMVER sin reiniciar el IOP quedan como límites declarados ([especificación §9](especificacion.md#9-límites-declarados)).
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11);
+  - REVISIÓN: técnica de `v120/ci-emulador`, aprobada con observaciones; el hallazgo Media de la ejecución pendiente se cierra con [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616); lingüística, aprobada ([acta de F10](revisiones/2026-10-11-version-1.2.0.md#9-v120ci-emulador-emulador-y-ci-cc-26-cc-27));
+  - INTEGRACIÓN: merge `10f290a3` (2026-10-11).
+- **Commit:** `7491fd24`, `98a042b7`, `a7bae5d4`, `570a0a12`, `2c3a8b29`, `979fcf14` y el merge `10f290a3`.
 
 ### CC-27: cierre de la deuda técnica
 
-- **Estado:** aprobado
+- **Estado:** aplicado. Queda D-23 en [deuda.md](deuda.md); lo que no se puede comprobar sin hardware pasa a límites declarados.
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-TEX-02, R-TEX-03, R-TEX-08, R-PORT-03, R-FUE-09 (nuevo), R-MC-01, R-MC-02
 - **Motivo:** el responsable del proyecto pidió no dejar deuda. Lo que no se puede saldar sin hardware pasa a límite declarado.
@@ -701,12 +769,22 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   | D-06 y D-17 | Mediante CC-26 |
 
 - **Evidencia requerida:** cada cierre con su prueba en rojo y la mutación restaurada, o con la ejecución de la CI. `deuda.md` queda sin filas, o solo con límites declarados.
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
-- **Commit:** —
+- **Lo aplicado:** cada deuda con sus commits está en [trazabilidad.md § Deuda saldada en F10](trazabilidad.md#deuda-saldada-en-f10). En resumen:
+  - **CI** (`v120/ci-emulador`): tope de la ROM (`99fa9b5c`, `a27fd80f`; D-03), build incremental real (`04adf1f6`; D-04) e inspección de la fuente de libdebug (`f48b7a41`, `68bc6dce`; D-07).
+  - **Código** (`v120/deudas`): pantalla de fallo con tildes mediante `scr_putchar` (`b06d4cbe`, `8e311363`, `278f45a5`, `ab75b9aa`; D-07), tope de `efecto_mtx` en los seis sitios (`e16f26d8`, `93231a07`, `64805e8c`, `a989c0f5`, `d2ce4c18`, `0f75b754`, `dc6d4730`; D-08), cruceta en una función pura (`e0f76493`, `bd70c399`, `3d67d29d`; D-18), largo 13 (`0c962092`; D-19) y erratas (`00b25b9d`, `9a92bc41`; D-22).
+  - **Memory Card** (`v120/memoria`): arnés con libmc simulada (`36796171`; D-16), generación escrita en el registro (`c94152e0`, `c69d9ef4`; D-20), ninguna orden después de una vencida (`289e9c78`, `2c83c0f8`; D-21) y errata (`b38d42c4`; D-22).
+  - **Manifiesto** (`v120/manifiesto`): filas de carpeta (`fee9830b`, `22fbc484`, `9032ab75`, `7638072f`; D-05), completado con CC-29.
+  - La revisión de `v120/deudas` dejó D-23, la partícula dibujada con la matriz anterior (`3a30f145`).
+  - `3cf36394` (integración) pone en `make test` las pruebas nuevas de la versión.
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11);
+  - REVISIÓN: técnica de `v120/deudas`, con cambios requeridos (Alta: la prueba de la reserva no estaba en `make test`), resuelto en `0f75b754` y `dc6d4730`, y aprobada con observaciones; técnica de `v120/memoria`, `v120/manifiesto` y `v120/ci-emulador`, aprobadas con observaciones; lingüística, aprobada o aprobada con observaciones ([acta de F10](revisiones/2026-10-11-version-1.2.0.md#6-v120deudas-deuda-técnica-cc-27));
+  - INTEGRACIÓN: merges `48e951fc`, `6e6a2108`, `c3e1d30e` y `10f290a3` (2026-10-11).
+- **Commit:** los de [trazabilidad.md § Deuda saldada en F10](trazabilidad.md#deuda-saldada-en-f10), `3cf36394` y los merges `48e951fc`, `6e6a2108`, `c3e1d30e` y `10f290a3`.
 
 ### CC-28: reconstrucción de texturas del HUD y de los menús
 
-- **Estado:** aprobado
+- **Estado:** aplicado
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-TEX-04, R-TEX-05
 - **Motivo:** la auditoría de las 58 texturas en español encontró estos defectos (todas se generan con `compositor_es.py`):
@@ -728,12 +806,20 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - `prueba_composicion_es.py` igual al compositor;
   - las pruebas de textura en verde;
   - la hoja de contacto, revisada por un revisor distinto del autor.
-- **Aprobación:** responsable del proyecto: aprobado (pidió reconstruir y mejorar las texturas, 2026-10-11).
-- **Commit:** —
+- **Lo aplicado:**
+  - `3b5e4aef` (prueba): el borde de las palabras del HUD solo lleva contorno, en rojo con VUELTA; `d7b3feb9` lo corrige.
+  - `2175d03b` («º» de los puestos), `9d9ac85e` (letra pequeña con contorno y sin placa) y `bace922a` (título de la Jungla DK), todo regenerado con `compositor_es.py`. En la revisión, `prueba_composicion_es.py` da 856 comprobaciones y 0 fallos.
+  - Mutación de la revisión: con el PNG anterior de VUELTA, `prueba_hud_es.py` falla.
+  - Los binarios de `build/ps2/es` se regeneran en el commit de publicación (<<PUBLICACION>>), como fija R-GOB-05.
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11);
+  - REVISIÓN: técnica de `v120/texturas`, aprobada con observaciones, con la hoja de contacto revisada por un revisor distinto del autor ([acta de F10](revisiones/2026-10-11-version-1.2.0.md#8-v120texturas-reconstrucción-del-hud-y-de-los-menús-cc-28));
+  - INTEGRACIÓN: merge `b7b03ee3` (2026-10-11).
+- **Commit:** `3b5e4aef`, `d7b3feb9`, `2175d03b`, `9d9ac85e`, `bace922a` y el merge `b7b03ee3`.
 
 ### CC-29: clasificación de las texturas sin revisar
 
-- **Estado:** aprobado
+- **Estado:** aplicado
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-TEX-02
 - **Motivo:** tras las filas de carpeta de D-05 quedan unas 1200 texturas sin clasificar en 10 rutas (`PENDIENTES` en `prueba_texturas_es.py`). Entre ellas hay carteles de pista con texto en inglés.
@@ -746,10 +832,35 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - Una textura suelta que las órdenes no leen (rgba32, ia1, ci8) se excluye con una fila de archivo, `archivo:<ruta>`, distinta de la fila de carpeta de D-05. `prueba_texturas_es.py` exige que `carpeta:` apunte a una carpeta y `archivo:` a un archivo (R-TEX-02).
   - Cada clasificación con texto la revisa un refutador.
   - Al terminar, `PENDIENTES` queda vacía.
-  - «pendiente:» no es un motivo para conservar texto. Las 15 texturas con texto general visible que aún no se pueden traducir (WELCOME, GO, RAILROAD CROSSING y 1P a 4P) llevan `motivo_no` «pendiente: …», cuentan en `TEXTURAS_PENDIENTES` de `prueba_texturas_es.py`, que solo puede bajar, y quedan como deuda ([D-24](deuda.md)). CC-29 no se cierra hasta que se traduzcan o un CC decida conservarlas.
+  - «pendiente:» no es un motivo para conservar texto. Las 15 texturas con texto general visible que aún no se pueden traducir (WELCOME, GO, RAILROAD CROSSING y 1P a 4P) llevan `motivo_no` «pendiente: …», cuentan en `TEXTURAS_PENDIENTES` de `prueba_texturas_es.py`, que solo puede bajar, y quedan como deuda ([D-24](deuda.md)). CC-29 no se cierra hasta que se traduzcan o un CC decida conservarlas. En F10 se tradujeron las 15.
 - **Evidencia requerida:**
   - `prueba_texturas_es.py` en verde con `PENDIENTES` vacía y `TEXTURAS_PENDIENTES` a 0;
   - las traducciones con su prueba y su hoja de contacto;
   - la revisión de un agente distinto del autor.
+- **Lo aplicado:**
+  - `a6fa679e` (prueba) y `4216877e`: las texturas sin revisar quedan clasificadas en `recursos/es/texturas.tsv` y `PENDIENTES` queda vacía. En total, el manifiesto clasifica 1229 texturas.
+  - `431c3186` separa las filas `archivo:` de las `carpeta:` (hallazgo Media) y `df9aea49` cuenta las pendientes en `TEXTURAS_PENDIENTES` y registra D-24 (hallazgo Alta).
+  - Traducidas con el compositor y con su prueba: YA en Mario Raceway (`bb31482f`, `3505ff26`), BIENVENIDOS en dos mitades (`fe010d2a`, `cb32c871`), los emblemas 1J a 4J en ci8 con su paleta (`bc4516de`, `caf7756f`) y PASO A NIVEL en diagonal en las 8 señales de cruce (`f7866dd3`, `625105f4`).
+  - `TEXTURAS_PENDIENTES` queda en 0 y D-24 se salda.
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11);
+  - REVISIÓN: técnica de `v120/texturas-pistas`, con cambios requeridos, resuelto en `431c3186` y `df9aea49`; las cuatro ramas de texturas traducidas, aprobadas con observaciones después de repetir las mutaciones ([acta de F10](revisiones/2026-10-11-version-1.2.0.md#10-v120texturas-pistas-clasificación-de-las-texturas-sin-revisar-cc-29) y [§11](revisiones/2026-10-11-version-1.2.0.md#11-texturas-traducidas-v120tx-bienvenida-v120tx-ya-v120tx-emblemas-y-v120tx-cruce-cc-29));
+  - INTEGRACIÓN: merges `616213c8`, `3017fe10`, `19c6095a`, `843906d1` y `85010a1f` (2026-10-11).
+- **Commit:** `0f15c448` (registro), `a6fa679e`, `4216877e`, `431c3186`, `df9aea49`, `bb31482f`, `3505ff26`, `fe010d2a`, `cb32c871`, `bc4516de`, `caf7756f`, `f7866dd3`, `625105f4` y los merges `616213c8`, `3017fe10`, `19c6095a`, `843906d1` y `85010a1f`.
+
+### CC-30: portafolio: aviso legal reforzado, autoría, caso de estudio, página web y licencia MIT de los aportes
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** ninguno de la traducción; toca la documentación pública del proyecto (R-GOB-08).
+- **Motivo:** el proyecto se publica sin fines de lucro, con fines educativos, de preservación y de apoyo a la comunidad, y distribuye la ISO y el ELF como el repositorio original (`anthoo582/mario-kart-64-ps2`). Hace falta dejar claro quién hizo qué, con qué fin y en qué condiciones, con el crédito a anthoo582 y al proyecto de descompilación de mk64.
+- **Cambio:**
+  - **Aviso legal reforzado:** los derechos del juego son de Nintendo; el proyecto no tiene fines de lucro y no está afiliado a Nintendo.
+  - **Autoría:** Alexis Barrera, desarrollador e ingeniero de observabilidad, autor de la localización, la sincronización y las versiones 1.1.0 y 1.2.0, con los créditos al port y a la descompilación.
+  - **Caso de estudio:** el motivo (Mario Kart 64 es el juego de su infancia y quería mejorarlo, traducirlo y jugarlo en su PS2 aprovechando la descompilación), cómo se trabajó y qué se aprendió.
+  - **Página web** del proyecto con ese contenido.
+  - **Licencia MIT** solo para los aportes propios; no cambia las condiciones del código de origen ni cubre los recursos del juego.
+- **Alternativas descartadas:** una licencia para todo el repositorio, porque el código de origen y los recursos del juego tienen sus propias condiciones.
+- **Evidencia requerida:** revisión técnica y lingüística de la documentación, y comprobar que ninguna página nombra un empleador ni una institución.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
 - **Commit:** —

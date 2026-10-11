@@ -3,6 +3,7 @@
 - **Estado:** implementada e integrada. Lo que queda por hacer está en [README.md § Pendiente](README.md#pendiente) y la deuda técnica, en [deuda.md](deuda.md).
 - **Sincronizada con** `feature/sincronizacion-upstream` en `d5f95cc5` (2026-10-11): la localización de F0 a F7, ya en `main` (`3f43c005`), más la sincronización con el original hasta `ae93f71` y las ramas de F8 (`sinc/ci`, `sinc/graficos-g5`, `sinc/sistema`, `sinc/pendientes` y `sinc/panel`). Desde CC-12, los criterios que dependían del recorrido de F6 se aceptan con lo que comprueban las pruebas del PC y la CI.
 - **Al día con** `feature/version-1.1.0` en `a29bd920` (F9, versión 1.1.0): de los requisitos que declaran [CC-13 a CC-17](cambios.md), cambia el texto de R-PORT-02 (CC-15) y R-INF-05 (CC-16); el de R-MC-01 y R-MC-02 (CC-13) no cambia y su evidencia nueva está en [trazabilidad.md](trazabilidad.md). R-GOB-01 anota un hallazgo de la integración (`b780d986`), no un cambio de un CC; el resto, en el registro de cambios.
+- **Al día con** `feature/version-1.2.0` en `85010a1f` (F10, versión 1.2.0): [CC-18 a CC-29](cambios.md) añaden R-FUE-09, R-MC-04, R-INF-07, R-VID-01 a R-VID-05 y R-TRU-01 a R-TRU-04, y cambian R-TEX-02, R-TEX-03, R-TEX-08, R-PORT-03 y R-INF-05. Lo que no se puede comprobar sin hardware está en [§9](#9-límites-declarados).
 
 ## 1. Objetivo
 
@@ -212,6 +213,14 @@ Una secuencia `8F` incompleta o desconocida devuelve -2 y avanza 1 byte. Nunca p
   - `GLIFOS_ES_NOMBRES` del `Makefile` coincide con la lista de la herramienta.
 - **Prueba:** `herramientas/pruebas/prueba_glifos_es.py` (hecho en `9abb8d7`).
 
+**R-FUE-09. Nadie escribe `efecto_mtx` fuera de la reserva.**
+
+- Toda función que escribe en `gfx_pool->efecto_mtx[cantidad_efecto_matriz…]` compara antes el índice con `MTX_EFECTO_POOL_TAMANIO`, como `funcion_80095BD0` (R-FUE-07). Si usa matrices de más (`mtx + N` o `efecto_mtx[cantidad_efecto_matriz + N]`), el tope suma esas N.
+- Afecta a los seis sitios de la especificación anterior: `imprimir_texto.inc.c`, `menus_pausa.inc.c`, `particulas_derrape.inc.c`, `globos_batalla.inc.c`, `dibujar_kart_y_sombra.inc.c` y `actores_podio.c` (hecho en `93231a07`, `64805e8c`, `a989c0f5` y `d2ce4c18`, [CC-27](cambios.md)).
+- Con la reserva llena, lo que no cabe no se dibuja. La partícula de `funcion_800652D4` sale con la matriz anterior ([deuda.md](deuda.md), D-23).
+- **Aceptación:** ninguna escritura en `efecto_mtx` sin un tope que cubra su desplazamiento.
+- **Prueba:** `herramientas/pruebas/prueba_reserva_matrices.py`, estática, en `make test` (hecho en `e16f26d8`, `0f75b754` y `dc6d4730`).
+
 ### 5.2 R-TXT: cadenas
 
 Las pruebas de este apartado están en `herramientas/pruebas/prueba_textos.c` (nuevo; hecho en `ae9dc3c`). Las cadenas pasaron a `codigo/menus/elementos_menu/textos_menu.inc.c` en `15136d3`. La prueba recorre las tablas reales, en la copia EUC-JP que compila el build, con el decodificador del juego (`glifos.inc.c`). Sus datos:
@@ -371,6 +380,18 @@ Todo mensaje que en el original nombra «CONTROLLER 1» nombra «RANURA 1», y t
   - `git diff <base> -- codigo/menus/menus/tablas_menus.inc.c` sale vacío en el bloque B4.
 - **Prueba:** `prueba_textos.c` (esperados) y el `git diff` de `tablas_menus.inc.c`. La captura de F6 se retiró (CC-12).
 
+**R-MC-04. Las opciones del port van en su propio archivo.**
+
+- `SMK64CFG.DAT`, en `/BASLUS-99999SMK64/`, guarda las opciones de imagen y los trucos en 32 bytes: magia `MKCF`, versión, tamaño, campos, bytes reservados y CRC32 ([CC-18](cambios.md)). La imagen de la partida guardada no cambia.
+- La lógica pura (valores por defecto, serializar, validar y sanear) está en `incluir/sistema/opciones_port.h` (nuevo). Solo el hilo de guardado lee y escribe el archivo, al arrancar y al salir del menú de [R-VID-05](#58-r-vid-imagen) si algo cambió.
+- Si el archivo falta o está dañado, se usan los valores por defecto sin error. Sin Memory Card, las opciones duran hasta apagar la consola.
+- **Aceptación:**
+  - la ida y vuelta da lo mismo; magia, versión, tamaño o CRC erróneos dan los valores por defecto;
+  - los valores fuera de rango se recortan y el objeto 13 pasa a 0;
+  - el CRC32 de «123456789» es 0xCBF43926;
+  - ninguna orden a libmc después de una que venció.
+- **Prueba:** `herramientas/pruebas/prueba_opciones_port.c` y `prueba_memory_card.c`, con la libmc simulada de `herramientas/pruebas/sdk_simulado/` (hecho en `a760841b`, `93cb4d04`, `098af916` y `8c022b34`).
+
 ### 5.4 R-TEX: texturas
 
 **R-TEX-01. El cargador elige el formato por la firma.**
@@ -397,6 +418,8 @@ Todo mensaje que en el original nombra «CONTROLLER 1» nombra «RANURA 1», y t
 
 En total, 55 para traducir y 42 con motivo. Los 3 carteles de Lakitu tienen su propio manifiesto, `recursos/es/lakitu/lakitu.tsv`.
 
+En F10 el manifiesto pasa a clasificar 1229 texturas, con filas de textura, de carpeta y de archivo ([CC-27](cambios.md) y [CC-29](cambios.md)). Las 15 con texto general visible que quedaron como pendientes se tradujeron: YA (`cartel_go_mario`), BIENVENIDOS (`cartel_bienvenida_0` y `_1`), 1J a 4J (`emblema_Nj_jugador`, en ci8 con su paleta) y PASO A NIVEL (las 8 `*_senial_cruce_*`).
+
 Tiene que cubrir también:
 
 - `recursos/comunes/texturas/`;
@@ -407,10 +430,11 @@ Tiene que cubrir también:
 Cada textura tiene una fila, o su carpeta entera tiene una fila de exclusión con motivo. Hay dos filas de exclusión, con `motivo_no` y el resto de columnas vacío: `carpeta:<ruta>` excluye una carpeta y sus subcarpetas, y la ruta tiene que ser una carpeta; `archivo:<ruta>` excluye un solo archivo que las órdenes no leen (rgba32, ia1, ci8), y la ruta tiene que ser un archivo ([CC-29](cambios.md)). `objetos/cartel_meta` se revisa textura a textura, porque lleva el logotipo. PULSA START se registra como RGBA16 crudo (R-TEX-03).
 
 - **Aceptación:**
-  - ninguna textura queda sin fila ni sin exclusión de carpeta;
+  - ninguna textura queda sin fila ni sin exclusión de carpeta o de archivo;
+  - `PENDIENTES` está vacía y `TEXTURAS_PENDIENTES` vale 0: ningún `motivo_no` empieza por «pendiente:»;
   - ninguna fila tiene `texto_es` y `motivo_no` a la vez;
   - el alfa de cada fila TKMK00 coincide con el de `referencias_tkmk00.txt`.
-- **Prueba:** `herramientas/pruebas/prueba_texturas_es.py` comprueba las 63 filas TKMK00, las 15 del Controller Pak y que ninguna fila tenga `texto_es` y `motivo_no` a la vez; `prueba_cableado_es.py`, `prueba_hud_es.py` y `prueba_cartel_es.py` comprueban las filas traducidas de fuera de TKMK00. **Pendiente:** ninguna prueba recorre las demás carpetas y `.incbin` que enumera este requisito para exigir a cada textura una fila o una exclusión de carpeta ([deuda.md](deuda.md), D-05).
+- **Prueba:** `herramientas/pruebas/prueba_texturas_es.py` comprueba las 63 filas TKMK00, las 15 del Controller Pak, que ninguna fila tenga `texto_es` y `motivo_no` a la vez y, desde F10, que cada textura de las carpetas y `.incbin` de este requisito tenga fila o exclusión (hecho en `fee9830b`, `22fbc484`, `a6fa679e`, `4216877e`, `431c3186` y `df9aea49`). `prueba_cableado_es.py`, `prueba_hud_es.py` y `prueba_cartel_es.py` comprueban las filas traducidas de fuera de TKMK00, y las pruebas de cada cartel traducido en F10 comparan su PNG con la salida del compositor.
 
 **R-TEX-03. Los tamaños de las texturas traducidas salen del manifiesto.**
 
@@ -427,7 +451,7 @@ Cada textura tiene una fila, o su carpeta entera tiene una fila de exclusión co
   - la textura cabe en `buffer_comprimido_menu`: 0xCE00 en los menús y 0x2800 en carrera y ceremonia (`animaciones_personajes.inc.c:338, 434`);
   - la cabecera MIO0 declara `ancho·alto·2` bytes;
   - hay `.balign 16` antes de cada `glabel` en `codigo/datos/texturas_tkmk00.s`;
-  - la ROM crece menos de 256 KB en total (medido a mano en la compilación versionada de F7: `build/ps2/rom.bin` pasa de 11 292 880 B en `main` a 11 299 024 B, 6 144 B más, y `SMK64ROM.BIN` no cambia de tamaño; no hay prueba automática, ver [deuda.md](deuda.md), D-03);
+  - la ROM crece menos de 256 KB en total (medido a mano en la compilación versionada de F7: `build/ps2/rom.bin` pasa de 11 292 880 B en `main` a 11 299 024 B, 6 144 B más, y `SMK64ROM.BIN` no cambia de tamaño; desde F10 lo comprueba el paso «Tope de crecimiento de la ROM» del job `compilar-ps2`, `herramientas/ci/tope_rom.py`, con su prueba `prueba_tope_rom.py`; hecho en `99fa9b5c` y `a27fd80f`);
   - el cartel MOO MOO FARM usa el mismo mecanismo de tamaño en `recursos/pistas/moo_moo_farm/desplazamientos.c:57-58`;
   - PULSA START en español mide 5088 B y su entrada `TexturaMenu` no cambia.
 - **Prueba:** `prueba_cableado_es.py` (hecho en `37633d3`; texturas crudas desde `78b7177`) y `prueba_cartel_es.py` (hecho en `c86be95`).
@@ -511,7 +535,7 @@ Así, `opcion_l` pasa a «SELECT OPCIONES» y `datos_r` a «R1 DATOS», los dos 
   - si se quita una sustitución, el siguiente build incremental vuelve a la textura original;
   - una sustitución que no es un arreglo de datos falla;
   - ningún build mezcla idiomas.
-- **Prueba:** `herramientas/pruebas/prueba_invertir_texturas.py` (hecho en `fdd6a54`) y `prueba_hud_es.py`, que comprueba la superposición y las reglas del sello en el `Makefile`. No ejecuta un build incremental real ([deuda.md](deuda.md), D-04).
+- **Prueba:** `herramientas/pruebas/prueba_invertir_texturas.py` (hecho en `fdd6a54`) y `prueba_hud_es.py`, que comprueba la superposición y las reglas del sello en el `Makefile`. Desde F10, el paso «Build incremental sin una sustitución» de `compilar-ps2` (`herramientas/ci/comprobar_incremental.sh`, hecho en `04adf1f6`) quita una sustitución del HUD, compila sin `make clean` y exige que vuelva la textura original.
 
 #### Textos esperados en texturas
 
@@ -577,7 +601,7 @@ Las pruebas de este apartado son `herramientas/pruebas/prueba_fuente_5x7.c` y `h
 **R-PORT-03. La pantalla de fallo no muestra basura.**
 
 - Todo texto que llega a `scr_printf` pasa antes por `quitar_diacriticos` (hecho en `9e6bec7`): Á → A, Ñ → N, º → o, y ¡ ¿ se omiten. Los puntos de entrada son `linea_pantalla` (`codigo/depuracion/depuracion.c:315-326`) y `detener_arranque` (`codigo/sistema/arranque_ps2.c:27-36`).
-- **Puerta G-FALLO:** estaba previsto un paso de la CI que inspeccionara la fuente de libdebug y, si tenía glifos CP437, transcodificara las letras disponibles (á é í ó ú ñ Ñ ü Ü É ¿ ¡ º ª). No se hizo: la pantalla de fallo translitera siempre con `quitar_diacriticos` (`0c05c15`), y desde `ba66cf9` todo byte ≥ 0x80 que no forma un carácter del español sale como '?'. El registro conserva las tildes ([deuda.md](deuda.md), D-07).
+- **Puerta G-FALLO:** hecha en F10 ([CC-27](cambios.md)). El paso «Fuente de libdebug» de `compilar-ps2` (`herramientas/ci/inspeccionar_fuente_libdebug.py`, hecho en `f48b7a41` y `68bc6dce`) exige en la fuente `msx` de libdebug los glifos CP437 de á é í ó ú ñ Ñ ü ¿ ¡. La pantalla de fallo escribe esas letras con `scr_putchar` después de `a_cp437` (hecho en `b06d4cbe`, `8e311363`, `278f45a5` y `ab75b9aa`); las demás se transliteran como antes. Todo byte ≥ 0x80 que no forma un carácter del español sigue saliendo como '?'. El registro conserva las tildes.
 - Textos fijos en español:
   - «PARADA DE DIAGNÓSTICO»;
   - estados de hilo: RUN/READY/WAIT/SUSP/WSUSP pasan a EJEC/LISTO/ESPERA/SUSP/ESUSP (`depuracion.c:290-291`);
@@ -585,7 +609,7 @@ Las pruebas de este apartado son `herramientas/pruebas/prueba_fuente_5x7.c` y `h
 - **Aceptación:**
   - `quitar_diacriticos("después, ¿cuántos? ÑANDÚ")` da `"despues, cuantos? NANDU"`, también cuando el destino corta la cadena (hecho en `9e6bec7`);
   - la pantalla no muestra bytes ≥ 0x80 sin mapear.
-- **Prueba:** `prueba_caracteres_es.c` (caso `probar_quitar_diacriticos`) y `prueba_textos_port.py` (toda función que llama a `scr_printf` pasa antes el texto por `quitar_diacriticos`). La captura con `make DEBUG=1 EXTRA_DEFINES=-DSMK64_BOOT_STOP=<etapa>` que preveía F6 se retiró (CC-12).
+- **Prueba:** `prueba_caracteres_es.c` (casos `probar_quitar_diacriticos` y de `a_cp437`), `prueba_textos_port.py` (toda función que llama a `scr_printf` pasa antes el texto por `quitar_diacriticos`, y toda llamada a `scr_putchar` por `a_cp437`) y `prueba_fuente_libdebug.py`. La captura con `make DEBUG=1 EXTRA_DEFINES=-DSMK64_BOOT_STOP=<etapa>` que preveía F6 se retiró (CC-12).
 
 **R-PORT-04. Cada marca del registro tiene una sola definición.**
 
@@ -654,21 +678,22 @@ El `Makefile` declara `OBJETIVOS_PC := test clean herramientas es hoja-es` (`f8f
 
 **R-INF-05. Hay CI.**
 
-`.github/workflows/compilacion.yml` (hecho en `7387d01`, `6dd12e7`, `a3d0bae` y `c461c5b`; en F8, `24ed39a0` y `b69f1548`, [CC-09](cambios.md); en F9, `c641d19b` y `4bdd41a8`, [CC-16](cambios.md)) se lanza en cada push y pull request, y a mano con cuatro entradas (`base`, `publicar`, `release` y `limpiar_ramas`). Las entradas de sí o no aceptan `si` y `sí`. Tiene seis jobs:
+`.github/workflows/compilacion.yml` (hecho en `7387d01`, `6dd12e7`, `a3d0bae` y `c461c5b`; en F8, `24ed39a0` y `b69f1548`, [CC-09](cambios.md); en F9, `c641d19b` y `4bdd41a8`, [CC-16](cambios.md); en F10, `a27fd80f`, `04adf1f6`, `68bc6dce`, `2c3a8b29` y `979fcf14`, [CC-26](cambios.md) y [CC-27](cambios.md)) se lanza en cada push y pull request, y a mano con cuatro entradas (`base`, `publicar`, `release` y `limpiar_ramas`). Las entradas de sí o no aceptan `si` y `sí`. Tiene siete jobs:
 
-| Job | Qué hace |
-|---|---|
-| `pruebas-pc` | `make test` en `ubuntu-latest`, sin SDK |
-| `compilar-ps2` | En el contenedor `ps2dev/ps2dev` fijado por digest: `make clean`, `make`, `make DEBUG=1`, `make DEV=1`, `make test` y `make iso`. Guarda como artefactos `build/ps2/SLUS_999.99`, `build/ps2/SMK64ROM.BIN`, `build/ps2/smk64.map`, `build/ps2/debug/SLUS_999.99` y la ISO |
-| `mismo-binario` | Solo a mano, con la entrada `base`. Corre `herramientas/comparar_binario.sh` contra la base, en release y con `DEBUG=1` |
-| `publicar` | Solo a mano, con `publicar=si`. En el mismo contenedor y con GNU make 4.4 o posterior: `make clean`, `make`, `make DEBUG=1`, `make DEV=1`, `make test` y `make iso`, y commitea `build/ps2` y `compilaciones` en la rama con el asunto `build(compilaciones): binarios e ISO en español` y, en el cuerpo, el commit de origen y la ejecución (commit de publicación, R-GOB-05). Solo omite el commit si `git diff --cached --quiet`; cualquier otro fallo detiene el job |
-| `release` | Solo a mano, con `release=<etiqueta>`, en el mismo contenedor que `compilar-ps2`. Falla si falta la ISO versionada de `compilaciones/`, si faltan las notas de `docs/versiones/<etiqueta>.md` o si el SHA-256 de la ISO no está en ellas. Compila `make clean` y `make MONOLITICO=1` y publica una Release de GitHub sobre el commit lanzado con la ISO, `SLUS_999.99.monolitico.elf` y un `SHA256SUMS` con las dos líneas, y esas notas. El ELF monolítico no se versiona. No depende de `publicar`: se lanza en otra ejecución, sobre `main`, después de fusionar el commit de publicación |
-| `limpiar-ramas` | Solo a mano, con `limpiar_ramas=si`. Borra las ramas remotas cuya punta ya está en `main` (`git merge-base --is-ancestor`); conserva `main` y toda rama con commits propios |
+| Job | Nombre | Qué hace |
+|---|---|---|
+| `pruebas-pc` | Pruebas en el PC | `make test` en `ubuntu-latest`, sin SDK |
+| `compilar-ps2` | Compilar para PS2 | En el contenedor `ps2dev/ps2dev` fijado por digest: `make clean`; `make` (release); tope de crecimiento de la ROM (R-TEX-03); build incremental sin una sustitución (R-TEX-08); `make DEBUG=1`; `make DEV=1`; `make test`; inspección de la fuente de libdebug (R-PORT-03) y `make iso`. Guarda como artefactos el ELF de release, de `DEBUG=1` y de `DEV=1`, `SMK64ROM.BIN`, `smk64.map` y la ISO |
+| `emulador` | Guion en el emulador (Play!) | Después de `compilar-ps2`. Arranca dos veces el ELF de DEV en Play! 0.72 sin BIOS y comprueba el registro, la región y las capturas (R-INF-07) |
+| `mismo-binario` | Comparar el binario con la base | Solo a mano, con la entrada `base`. Corre `herramientas/comparar_binario.sh` contra la base, en release y con `DEBUG=1` |
+| `publicar` | Commit de publicación | Solo a mano, con `publicar=si`. En el mismo contenedor y con GNU make 4.4 o posterior: `make clean`, `make`, `make DEBUG=1`, `make DEV=1`, `make test` y `make iso`, y commitea `build/ps2` y `compilaciones` en la rama con el asunto `build(compilaciones): binarios e ISO en español` y, en el cuerpo, el commit de origen y la ejecución (commit de publicación, R-GOB-05). Solo omite el commit si `git diff --cached --quiet`; cualquier otro fallo detiene el job |
+| `release` | Release con la ISO y el ELF monolítico | Solo a mano, con `release=<etiqueta>`, en el mismo contenedor que `compilar-ps2`. Falla si falta la ISO versionada de `compilaciones/`, si faltan las notas de `docs/versiones/<etiqueta>.md` o si el SHA-256 de la ISO no está en ellas. Compila `make clean` y `make MONOLITICO=1` y publica una Release de GitHub sobre el commit lanzado con la ISO, `SLUS_999.99.monolitico.elf` y un `SHA256SUMS` con las dos líneas, y esas notas. El ELF monolítico no se versiona. Se lanza en otra ejecución, sobre `main`, después de fusionar el commit de publicación |
+| `limpiar-ramas` | — | Solo a mano, con `limpiar_ramas=si`. Borra las ramas remotas cuya punta ya está en `main` (`git merge-base --is-ancestor`); conserva `main` y toda rama con commits propios |
 
-`BUILD_ID` vale por defecto la fecha de la versión, `2026-10-11` (`Makefile:52`, `6251a4a6`). El paso G-FALLO previsto no se añadió (ver R-PORT-03).
+`BUILD_ID` vale por defecto la fecha de la versión, `2026-10-11` (`Makefile:52`, `6251a4a6`).
 
 - **Aceptación:** la CI termina en verde en cada push y en el PR.
-- **Prueba:** ejecuciones de la CI (ver [trazabilidad.md](trazabilidad.md)). La última de F7, [36518116212](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/36518116212) sobre `c461c5b`, terminó en verde en `pruebas-pc`, `compilar-ps2` y `publicar`, que generó `dda9a5f`. La de F8 está anotada en [trazabilidad.md](trazabilidad.md#evidencia-común).
+- **Prueba:** ejecuciones de la CI (ver [trazabilidad.md](trazabilidad.md)). La última de F7, [36518116212](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/36518116212) sobre `c461c5b`, terminó en verde en `pruebas-pc`, `compilar-ps2` y `publicar`, que generó `dda9a5f`. La de F10, [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616), terminó en verde en `pruebas-pc`, `compilar-ps2` y `emulador`. Las de F8 y F9 están anotadas en [trazabilidad.md](trazabilidad.md#evidencia-común). Los pasos nuevos de F10 tienen su prueba en el PC: `prueba_tope_rom.py`, `prueba_fuente_libdebug.py`, `prueba_comprobar_registro.py` y `prueba_comparar_capturas.py`.
 
 **R-INF-06. Ningún archivo de código pasa el tope de líneas.**
 
@@ -678,6 +703,16 @@ El `Makefile` declara `OBJETIVOS_PC := test clean herramientas es hoja-es` (`f8f
 - Los `.s` de datos que ya superan el tope no crecen: `codigo/datos/karts/kart_*.s` (5915 líneas), `otras_texturas.s` (2139) y `texturas_fuentes.s` (1753). Lo nuevo va en archivos propios, como `codigo/datos/texturas_fuentes_es.s` (hecho en `5718601`).
 - **Aceptación:** el comprobador termina con 0, y `wc -l` de esos `.s` no crece.
 - **Prueba:** `make test` (el comprobador no revisa los `.s`) y revisión.
+
+**R-INF-07. La CI arranca el juego en un emulador.**
+
+- El job `emulador` ([CC-26](cambios.md), hecho en `2c3a8b29`, `570a0a12`, `98a042b7` y `979fcf14`) baja Play! 0.72 con su SHA-256 fijado y lo corre bajo Xvfb con Vulkan por software. Arranca dos veces el ELF de DEV sin BIOS, con el guion `herramientas/emulador/guion_ci.txt` por `host:` y un ROMVER sintético europeo.
+- `herramientas/emulador/comprobar_registro.py` exige en cada registro el bucle principal sin pánico ni cuelgue, la línea de región PAL, «vídeo: PMODE 8046» y el fin del guion con 0 fallos y sin capturas perdidas.
+- `herramientas/emulador/comparar_capturas.py` compara las capturas de título, menú y carrera con `herramientas/emulador/referencias/` y las de las dos ejecuciones entre sí, con tolerancia, y rechaza una captura uniforme.
+- El job dura menos de 30 minutos.
+- Las capturas leen la VRAM antes del PCRTC: el antiparpadeo, las bandas y la posición se comprueban por los valores de registro (R-VID-01 a R-VID-03), no por la imagen ([§9](#9-límites-declarados)).
+- **Aceptación:** el job termina en verde.
+- **Prueba:** `prueba_comprobar_registro.py` y `prueba_comparar_capturas.py` en `make test`, y la ejecución [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616).
 
 ### 5.7 R-GOB: gobernanza
 
@@ -756,10 +791,10 @@ Los comentarios explican un contrato o una invariante. Las funciones de varios p
 - **Aceptación:** este comando sale vacío:
 
   ```sh
-  grep -rnE 'R-(FUE|TXT|MC|TEX|PORT|INF|GOB)-[0-9]' codigo incluir herramientas
+  grep -rnE --exclude-dir=__pycache__ 'R-(FUE|TXT|MC|TEX|PORT|INF|GOB|VID|TRU)-[0-9]' codigo incluir herramientas
   ```
 
-- **Prueba:** ese comando en la revisión. Sale vacío en `dda9a5f`, en `d5f95cc5` y en `a29bd920`.
+- **Prueba:** ese comando en la revisión. Sale vacío en `dda9a5f`, en `d5f95cc5` y en `a29bd920`; en `85010a1f` encuentra 8 líneas en 4 archivos de `herramientas/` ([deuda.md](deuda.md), D-25).
 
 **R-GOB-08. La documentación se actualiza en la misma iteración.**
 
@@ -767,6 +802,79 @@ Si un bloque cambia una estructura o un contrato, el mismo PR actualiza la espec
 
 - **Aceptación:** la revisión no encuentra documentos desfasados.
 - **Prueba:** revisión del PR.
+
+### 5.8 R-VID: imagen
+
+**R-VID-01. El antiparpadeo es opcional y está apagado por defecto.**
+
+- Con ANTIPARPADEO en SÍ: PMODE 0x8027 (los dos circuitos de lectura, CRTMD=1, MMOD=1, ALP=0x80) y DISPFB2 con DBY=1 en el bit 43 ([CC-20](cambios.md)).
+- Con NO, el valor por defecto, PMODE es 0x8046 y los registros son los de la versión 1.1.0.
+- Los registros se calculan con una función pura (`incluir/graficos/registros_video.h`, nuevo) y se escriben en el retrazo cuando cambian las opciones.
+- **Aceptación:** los valores de los dos casos; la CI exige «vídeo: PMODE 8046» en el registro del arranque.
+- **Prueba:** `prueba_registros_video.c` (hecho en `deeba019` y `fa835b62`) y el job `emulador` (R-INF-07).
+
+**R-VID-02. La posición de la imagen se ajusta con límites.**
+
+- POSICIÓN X va de -32 a +32 y POSICIÓN Y de -16 a +16. DX se mueve en VCK (MAGH+1 por píxel) y DY siempre en pasos pares, igual en DISPLAY1 y DISPLAY2.
+- **Aceptación:** con posición 0,0 el DISPLAY es el de gsKit; DY siempre par; los extremos no salen de los límites del registro.
+- **Prueba:** `prueba_registros_video.c`.
+
+**R-VID-03. El formato CON BANDAS conserva la proporción en una TV 16:9.**
+
+- FORMATO vale NORMAL, CON BANDAS o PANORÁMICO ([CC-21](cambios.md)). Sin archivo de opciones, vale CON BANDAS si la PS2 está configurada en 16:9 (`configGetTvScreenType()` da `TV_SCREEN_169`) y NORMAL en otro caso.
+- CON BANDAS se hace en el PCRTC: MAGH y DW a 3/4 y DX centrado; el dibujo del juego no cambia. Con bases de MAGH 0 o 1 el cálculo no pasa por debajo de cero (hecho en `d5ee5381`).
+- **Aceptación:** MAGH=2 y DW=1920 centrado con la base actual; MAGV, DW y DH intactos con bases de MAGH 0 y 1.
+- **Prueba:** `prueba_registros_video.c` (con el caso de `d8ebb3ac`).
+
+**R-VID-04. El formato PANORÁMICO amplía la vista sin cambiar los menús.**
+
+- `aspecto_pantalla` se multiplica por 4/3 en la carrera, la pantalla dividida y la ceremonia, no en `guPerspectiveF` (hecho en `92c1f1f3`, `fd4286e3`, `c52e2f8d` y `761d735d`).
+- El cono de visibilidad de los objetos se ensancha 4/3 con tope.
+- El marcador sale estirado y en los bordes pueden aparecer tarde objetos o tramos de pista ([§9](#9-límites-declarados)).
+- **Aceptación:** 1,333 → 1,778; 0,667 → 0,889; 2,667 → 3,556, solo en PANORÁMICO; el cono con tope en 0xFFFF.
+- **Prueba:** `prueba_vista_panoramica.c` (hecho en `064830d8`).
+
+**R-VID-05. El menú CONFIGURACIÓN Y TRUCOS sigue el estilo del juego.**
+
+- Quinta entrada de OPCIONES con 9 filas: ANTIPARPADEO, POSICIÓN X, POSICIÓN Y, FORMATO, DESBLOQUEAR TODO, OBJETO, 200CC, RIVALES SIN VENTAJA y VOLVER ([CC-19](cambios.md)).
+- Fuente del menú, caja translúcida, cursor giratorio, arcoíris en la fila elegida, valor en verde alineado a la derecha y los sonidos de OPCIONES.
+- Arriba y abajo se paran en los extremos; izquierda y derecha cambian el valor y dan la vuelta; la posición se limita a su rango; OBJETO recorre de 0 a 15 sin el 13.
+- Al salir, las opciones se guardan si algo cambió (R-MC-04).
+- **Aceptación:** la navegación y los textos cumplen R-TXT-03 y R-TXT-04 (glifos, zona segura y sin solape entre etiqueta y valor).
+- **Prueba:** `prueba_menu_configuracion.c` y las pruebas de textos y de lugares (hecho en `7abb1f92`, `7c5439e4`, `b8954cee` y `146b23af`); la captura del menú en el job `emulador`.
+
+### 5.9 R-TRU: trucos
+
+Los cuatro trucos están apagados de fábrica. Los récords y las copas se guardan aunque haya trucos activos; el manual de usuario lo advierte.
+
+**R-TRU-01. DESBLOQUEAR TODO muestra el modo EXTRA sin escribirlo en la partida.**
+
+- La consulta del modo EXTRA y la de los fantasmas del staff aceptan el truco mediante funciones puras de `incluir/juego/trucos.h` (nuevo; [CC-22](cambios.md)).
+- El valor se aplica al reconstruir cada pantalla de menú, es decir, al cambiar de pantalla (hecho en `91c7254e`). El cursor de cilindrada se recorta si EXTRA deja de existir.
+- Los trofeos EXTRA ganados con el truco se guardan y quedan ocultos si se apaga.
+- **Aceptación:** sin truco, solo 0xFF da EXTRA; con truco, siempre; el umbral del fantasma incluye el igual.
+- **Prueba:** `prueba_trucos.c` (hecho en `9d310c2c` y `be355571`).
+
+**R-TRU-02. OBJETO fija el objeto de la caja para los jugadores humanos.**
+
+- Tras el sorteo, el resultado se sustituye por el objeto elegido si vale en el modo ([CC-23](cambios.md)). El generador aleatorio avanza igual; la CPU y el Boo no cambian.
+- En batalla, un objeto que no vale da la ruleta normal; en contrarreloj, y con un valor inválido, sale el objeto normal.
+- **Aceptación:** los casos de Gran Premio, Versus, batalla, contrarreloj e inválidos.
+- **Prueba:** `prueba_truco_objeto.c` (hecho en `4efcf0be` y `5a19ff97`).
+
+**R-TRU-03. 200CC solo aplica en Gran Premio y Versus a 150cc.**
+
+- Modificador ×35/32 de la rapidez máxima de humanos y CPU y del objetivo de velocidad de la CPU ([CC-24](cambios.md)). `seleccion_cc` sigue en 150cc: puntúa como 150cc y la pausa dice 150cc.
+- No aplica en contrarreloj ni en batalla.
+- **Aceptación:** la fórmula del empuje coincide con las tablas originales; el peor caso por paso queda por debajo de 8,8; la mutación 37/32 falla.
+- **Prueba:** `prueba_cilindrada_200cc.c` (hecho en `038c39c0`, `c80fe61e` y `a6397211`).
+
+**R-TRU-04. RIVALES SIN VENTAJA quita el impulso de la CPU rezagada.**
+
+- La CPU acelera solo hasta el objetivo de su tabla, y la velocidad fija de recuperación pasa a ese objetivo base ([CC-25](cambios.md)). Las órdenes de velocidad de cada pista y el rival designado no cambian (hecho en `4c0323bf`).
+- Solo tiene efecto en el Gran Premio.
+- **Aceptación:** acelera por debajo del objetivo y no en el objetivo; el objetivo base sustituye al fijo solo con el truco activo.
+- **Prueba:** `prueba_rivales_sin_ventaja.c` (hecho en `0e75a425` y `f46bc633`).
 
 ## 6. Decisiones cerradas
 
@@ -794,9 +902,9 @@ Las diferencias entre lo ejecutado y el plan aprobado están registradas en [CC-
 | Un carácter sin glifo da -2 y `imprimir_texto1` borra la cadena entera | R-TXT-03: la prueba de textos valida cada carácter con el decodificador real |
 | Se cuela UTF-8 sin convertir (metadatos) | R-INF-03, hecho en `ecbfd5c`, y `prueba_textos.c`, que lee las copias convertidas. En DEV, el registro de `C2`/`C3` de las tres impresoras (R-FUE-05, `f38d6de6` y `94cdfea5`) |
 | Las tildes chocan con la línea anterior | R-TXT-05 y [CC-02](cambios.md) |
-| El sobrebarrido de la TV no se ve en PCSX2 | Zona segura x ∈ [16, 296] (R-TXT-04), comprobada en todas las tablas. No hay captura en TV: F6 se retiró (CC-12) y la falta de verificación visual se declara como limitación ([deuda.md](deuda.md), D-06) |
+| El sobrebarrido de la TV no se ve en PCSX2 | Zona segura x ∈ [16, 296] (R-TXT-04), comprobada en todas las tablas, y POSICIÓN X/Y (R-VID-02). No hay captura en TV ([§9](#9-límites-declarados)) |
 | El texto del menú desborda el pool de matrices (tope 0x2F7 > 660) | R-FUE-07: tope real en `funcion_80095BD0` (`dcc0914`, prueba en `697f3af6`), diacrítico sin matriz propia (`5718601`) y, sin matriz libre, ni letra ni signo (`9adc3192`) |
-| Otros sitios escriben `efecto_mtx` sin tope: `imprimir_texto.inc.c:272-273, 323-324, 344-345`; `menus_pausa.inc.c:255-256, 552, 578`; `particulas_derrape.inc.c:695`; `globos_batalla.inc.c:62, 181`; `dibujar_kart_y_sombra.inc.c:680, 729`; `actores_podio.c:200` | Fuera del alcance de R-FUE-07. Registrado como deuda ([deuda.md](deuda.md), D-08); si hace falta, se abre un requisito propio en [cambios.md](cambios.md) |
+| Otros sitios escriben `efecto_mtx` sin tope: `imprimir_texto.inc.c`, `menus_pausa.inc.c`, `particulas_derrape.inc.c`, `globos_batalla.inc.c`, `dibujar_kart_y_sombra.inc.c` y `actores_podio.c` | R-FUE-09, hecho en F10. Queda la partícula dibujada con la matriz anterior ([deuda.md](deuda.md), D-23) |
 | Una pantalla supera `TEXTURA_MAX_MAPA` (200, `incluir/menus/elementos_menu.h:620`) | Contador DEV `menu_texturas_salteado` (`cargar_texturas_menu.inc.c:786`), que el guion DEV escribe en su registro al terminar (`guiones_prueba.c:638`) |
 | Una `TexturaMenu` con `size` 0 se copia truncada | R-TEX-03 |
 | Un build incremental mezcla idiomas | R-TEX-08: sello `ES_SELLO` en el `Makefile` (`7e0d345`) |
@@ -807,3 +915,18 @@ Las diferencias entre lo ejecutado y el plan aprobado están registradas en [CC-
 | Un nombre de pista no tiene fuente oficial confirmada | El glosario cita la fuente y la confianza de cada nombre. Ciudad Bloque y Doble Piso quedan con confianza baja |
 | Conflictos de fusión en archivos compartidos (`Makefile`, `textos_y_tablas.inc.c`, `incluir/menus/elementos_menu.h`) | Dueño por zona ([plan.md §2](plan.md#2-roles)) e integración en el orden fijado. Tras integrar las cinco ramas, `prueba_textos_port.py` detectó una tilde que faltaba en un aviso de texturas; se corrigió en `0ff568e` |
 | El texto de Lakitu es ilegible en los cuadros de canto | Solo se exige no tocar nada fuera de la máscara y una altura ≥ 8 px en el cuadro plano (R-TEX-06) |
+
+## 9. Límites declarados
+
+Lo que la versión 1.2.0 no puede comprobar sin hardware real ni TV. Sustituye a D-06 y D-17 de [deuda.md](deuda.md), que la CI salda en lo que puede ver ([CC-26](cambios.md) y [CC-27](cambios.md)). Si alguien aporta un registro, una captura o un defecto en hardware, se registra en un CC y se corrige con su prueba.
+
+| Límite | Qué se comprueba en su lugar | Requisitos |
+|---|---|---|
+| El tacto del stick y de la cruceta en un mando real | Las funciones puras de `eje_palanca.h` (`prueba_eje_palanca.c`) | CC-14 |
+| El antiparpadeo, las bandas y la posición en una TV: las capturas del emulador leen la VRAM antes del PCRTC | Los valores de registro (`prueba_registros_video.c`) y «vídeo: PMODE 8046» en el registro del emulador | R-VID-01 a R-VID-03, R-INF-07 |
+| El multitap | Nada en la CI; el registro dice «sin multitap» si falta | R-PORT-04 |
+| El cambio de Memory Card en caliente | El arnés con libmc simulada (`prueba_memory_card.c`) | R-MC-01, R-MC-02, R-MC-04 |
+| El rendimiento en PANORÁMICO | Nada; el emulador no mide el rendimiento de una consola | R-VID-04 |
+| La lectura de `rom0:ROMVER` en consola real y bajo OPL sin reiniciar el IOP | La ruta con reinicio del IOP, en el emulador con un ROMVER sintético, y `prueba_region_ps2.c` | R-PORT-02 |
+| En PANORÁMICO, objetos o tramos de pista que aparecen tarde en los bordes, porque los tramos se eligen por cuadrante de cámara | Las capturas de carrera de la CI, con el formato por defecto | R-VID-04 |
+| En PANORÁMICO, el marcador sale estirado | Nada; se advierte en el manual de usuario | R-VID-04 |
