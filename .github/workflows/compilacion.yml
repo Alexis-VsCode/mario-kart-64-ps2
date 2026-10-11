@@ -59,6 +59,9 @@ jobs:
         run: . herramientas/entorno.sh && make DEV=1 -j"$(nproc)"
       - name: make test
         run: make test
+      # D-07: la fuente de scr_putchar tiene las letras del español en CP437
+      - name: Fuente de libdebug
+        run: . herramientas/entorno.sh && python3 herramientas/ci/inspeccionar_fuente_libdebug.py
       - name: make iso
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE" && . herramientas/entorno.sh && make iso
       - name: Guardar los binarios
