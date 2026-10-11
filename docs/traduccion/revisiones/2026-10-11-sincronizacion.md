@@ -4,7 +4,7 @@
 - **Rama de integración:** `feature/sincronizacion-upstream`, que nace de `main` (`3f43c005`) y trae el original hasta `ae93f71` con la fusión `9f4d0215`.
 - **Cambios que cubre:** [CC-08 a CC-12](../cambios.md).
 - **Roles:** cada rama la escribió un autor y la revisaron REVISIÓN técnica y REVISIÓN lingüística, nunca el autor. Solo INTEGRACIÓN integró, con `git merge --no-ff`.
-- **Formato de los hallazgos:** el de [plan.md §7](../plan.md#7-revisión). Cada hallazgo indica además cómo quedó: resuelto (con su commit), aceptado (con su motivo) o abierto (con su entrada en [deuda.md](../deuda.md)).
+- **Formato:** el del acta de revisión de [CONTRIBUTING.md](../../../CONTRIBUTING.md#acta-de-revisión). La línea «Estado» de cada hallazgo dice cómo quedó: resuelto (con su commit), aceptado (con su motivo) o abierto (con su entrada en [deuda.md](../deuda.md)).
 
 ## Resumen
 

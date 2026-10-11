@@ -295,15 +295,7 @@ Hay una razón para borrar `build/ps2/jp` antes de probar: al restaurar `build/`
 
 ## 7. Revisión
 
-- **Formato de cada hallazgo:**
-
-  ```
-  [Alta|Media|Baja] Título
-  Archivo: ruta:línea
-  Riesgo: qué falla y en qué caso
-  Recomendación: qué cambiar
-  ```
-
+- **Formato de cada hallazgo:** el del acta de revisión de [CONTRIBUTING.md](../../CONTRIBUTING.md#acta-de-revisión).
 - **Revisión técnica:**
   - requisitos y pruebas del bloque;
   - que el refactor no se mezcle con cambios funcionales;
