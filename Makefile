@@ -268,6 +268,15 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -Iincluir -Iincluir/libultra -Icodigo \
 	    -o $(PRUEBAS)/prueba_cronometro_fases herramientas/pruebas/prueba_cronometro_fases.c
 	$(V)$(PRUEBAS)/prueba_cronometro_fases
+	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -Iincluir -Iincluir/libultra -Icodigo \
+	    -o $(PRUEBAS)/prueba_eleccion_guardado herramientas/pruebas/prueba_eleccion_guardado.c
+	$(V)$(PRUEBAS)/prueba_eleccion_guardado
+	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -Iincluir -Iincluir/libultra \
+	    -o $(PRUEBAS)/prueba_eje_palanca herramientas/pruebas/prueba_eje_palanca.c
+	$(V)$(PRUEBAS)/prueba_eje_palanca
+	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -Iincluir \
+	    -o $(PRUEBAS)/prueba_region_ps2 herramientas/pruebas/prueba_region_ps2.c
+	$(V)$(PRUEBAS)/prueba_region_ps2
 	$(V)$(PYTHON) herramientas/pruebas/prueba_ancho_panel.py
 	@# La tabla de la fuente de depuracion comparte archivo con datos que apuntan a texturas del
 	@# juego: --gc-sections deja solo lo que la prueba usa
