@@ -59,6 +59,17 @@ int main(void) {
     COMPROBACION(giro >= 0 && giro <= DISTANCIA_GIRO_MAX,
                  "el giro empieza a %d del centro, se esperaba como mucho %d", giro, DISTANCIA_GIRO_MAX);
 
+    // La cruceta hace de stick mientras el izquierdo está en reposo: el reposo usa su propio
+    // umbral, para que la deriva de un stick gastado no la anule
+    COMPROBACION(eje_en_reposo(128), "el centro no cuenta como reposo");
+    for (d = 1; d < ZONA_REPOSO_CRUCETA; d++) {
+        COMPROBACION(eje_en_reposo((u8) (128 + d)) && eje_en_reposo((u8) (128 - d)),
+                     "una deriva de %d no cuenta como reposo", d);
+    }
+    COMPROBACION(!eje_en_reposo((u8) (128 + ZONA_REPOSO_CRUCETA)) && !eje_en_reposo((u8) (128 - ZONA_REPOSO_CRUCETA)),
+                 "a %d del centro el stick ya no está en reposo", ZONA_REPOSO_CRUCETA);
+    COMPROBACION(!eje_en_reposo(255) && !eje_en_reposo(0), "los extremos cuentan como reposo");
+
     printf("prueba_eje_palanca: %d comprobaciones, %d fallos\n", s_comprobaciones, s_fallos);
     return s_fallos != 0;
 }
