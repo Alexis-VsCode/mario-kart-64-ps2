@@ -87,7 +87,6 @@ void aparecer_jugador(Jugador* jugador, s8 indice_jugador, f32 renglon_inicial, 
     // mitad de la carrera vale para la siguiente
     if (cilindrada_200cc_aplica(opciones_port.truco_200cc, seleccion_modo, seleccion_cc)) {
         jugador->arriba_rapidez = cilindrada_200cc_rapidez(jugador->arriba_rapidez, true);
-        jugador->desconocido_210 = cilindrada_200cc_empuje(jugador->arriba_rapidez);
     }
 
     jugador->pos[0] = renglon_inicial;
