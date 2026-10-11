@@ -9,38 +9,43 @@ Esta carpeta documenta el trabajo con el que todo lo que ve el jugador en el por
 
 Los nombres de carpetas, funciones, variables y comentarios del código ya están en español. Aquí solo se trata el texto que sale en pantalla.
 
-## Estado de F8 (2026-10-11)
+## Estado de F9 (2026-10-11)
 
-La localización (F0 a F7) está cerrada y en `main` (`3f43c005`). F8, la sincronización con el repositorio original, está integrada y publicada en `feature/sincronizacion-upstream`: commit de publicación `900c9be`, ejecución [38123501282](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38123501282). La versión que sale de ella es la 1.0.0, con `BUILD_ID` 2026-10-11.
+La localización (F0 a F7) y la sincronización con el original (F8) están cerradas y en `main` (`af3bfa05`): la versión 1.0.0, publicada en `900c9be3`. F9, la versión 1.1.0, está integrada en `feature/version-1.1.0` (`a29bd920`), que nace de `af3bfa05`. `BUILD_ID` sigue en 2026-10-11, la fecha de la versión.
 
-Hecho en F8:
+Hecho en F9:
 
-- **Sincronización** con `anthoo582/mario-kart-64-ps2` hasta `ae93f71` (fusión `9f4d0215`, [CC-08](cambios.md)): multitap, arranque desde OPL sin reiniciar el IOP, tiempos límite en el IOP, el CD y la Memory Card, 60 FPS más estables y caché de texturas por columnas. Los textos nuevos del original están en español (`748db117` y `36fc9e40`).
-- **CI** ([CC-09](cambios.md)): `compilar-ps2` compila también `make DEV=1`; el commit de publicación pasa a tipo `build`; jobs a pedido `release` y `limpiar-ramas`.
-- **Correcciones con evidencia** ([CC-11](cambios.md)): E3, E4, E5, G5, L2 y L3. G2 y G4 se retiraron y quedan como propuesta para el original. G5 se integró sin prueba en el PC y L3 usa 128 KB de VRAM en lugar de 112 KB; las dos diferencias están registradas en CC-11.
-- **Pendientes técnicos de F3 y F4:** registro DEV de R-FUE-05 en las tres impresoras, prueba del tope de R-FUE-07, prueba de los botones de R-TEX-07 y prueba de la tabla de glifos frente a la forma del original (G1).
-- **Revisión** técnica y lingüística de cada rama, registrada en el [acta de F8](revisiones/2026-10-11-sincronizacion.md).
-- **Decisiones del responsable del proyecto:** CC-10 (recorrido con capturas) rechazado y [CC-12](cambios.md): la versión se verifica con las pruebas del PC y la CI, sin pasos manuales; F6 queda retirada.
+- **Memory Card** ([CC-13](cambios.md)): al insertar o cambiar la tarjeta ya no se pisa la copia más nueva; la espera de la partida al arrancar se mide con el reloj; el segundo borrado solo se hace con `mc_ok` (D-12); los resultados de `mcGetInfo` salen de la pila (D-13). D-11 se mantiene, con la decisión escrita en CC-13.
+- **Stick** ([CC-14](cambios.md)): la zona muerta del port baja de 24 a 8 y el giro empieza a 28 de 127 (22 %, antes 32 %). La cruceta conserva su reposo hasta 25 del centro (`ZONA_REPOSO_CRUCETA` 26).
+- **Región** ([CC-15](cambios.md)): el arranque lee `rom0:ROMVER` y, en una consola PAL, registra que la imagen sale en NTSC a 60 Hz y que hace falta una TV que lo acepte. El modo de vídeo no cambia.
+- **Publicación** ([CC-16](cambios.md)): `publicar` ya no oculta un fallo del commit; `release` corre en el contenedor de ps2dev, comprueba que el SHA-256 de la ISO esté en las notas y adjunta `SLUS_999.99.monolitico.elf` con su línea en `SHA256SUMS`.
+- **Alfa con tramado** ([CC-17](cambios.md)): pasa a una función pura con prueba; salda D-01 y D-02.
+- **Deudas chicas:** D-09, D-10, D-14 y D-15, y el registro del ritmo de física dice «ritmo» en lugar de «3-4P».
+- **Pruebas:** `make test` pasa a 31 pruebas, con `prueba_eleccion_guardado`, `prueba_eje_palanca` y `prueba_region_ps2`.
+- **Revisión** técnica y lingüística de cada rama, registrada en el [acta de F9](revisiones/2026-10-11-version-1.1.0.md).
+
+Sin verificar en consola real: el tacto del stick, la lectura de ROMVER por las dos rutas del IOP (reiniciado y bajo OPL) y el cambio de tarjeta en caliente ([deuda.md](deuda.md): D-06, D-16 y D-17).
 
 | Fase | Contenido | Estado |
 |---|---|---|
-| F0–F5, F7 | Documentación, infraestructura, fuente, cadenas, texturas, pantallas del port, revisión e integración de la localización | Cerradas (histórico), en `main` (`3f43c005`). Detalle en [plan.md §4](plan.md#4-fases) |
+| F0–F5, F7 | Documentación, infraestructura, fuente, cadenas, texturas, pantallas del port, revisión e integración de la localización | Cerradas (histórico), en `main`. Detalle en [plan.md §4](plan.md#4-fases) |
 | F6 | Recorrido en PCSX2 y captura en TV | Retirada por CC-12 |
-| F8 | Sincronización con el original, CI, correcciones y documentación | Integrada y publicada. Falta lo de [Pendiente](#pendiente) |
+| F8 | Sincronización con el original, CI, correcciones y documentación | Cerrada: versión 1.0.0, en `main` (`af3bfa05`). [Acta](revisiones/2026-10-11-sincronizacion.md) |
+| F9 | Versión 1.1.0: CC-13 a CC-17 y deudas chicas | Integrada en `feature/version-1.1.0`. Falta lo de [Pendiente](#pendiente) |
 
 El detalle por requisito y por commit está en [trazabilidad.md](trazabilidad.md); la deuda técnica, en [deuda.md](deuda.md).
 
 ## Pendiente
 
-1. **Fusión a `main`** de `feature/sincronizacion-upstream` (fast-forward, con el PR #3 como registro).
-2. **Release v1.0.0:** job `release` sobre `main`, con la ISO versionada y las notas de [docs/versiones/v1.0.0.md](../versiones/v1.0.0.md).
-3. **Limpieza de ramas:** job `limpiar-ramas` sobre `main`. Al final, `git ls-remote --heads origin` lista solo `main` ([CC-09](cambios.md)).
-
-G5 queda integrado con evidencia de código en lugar de `prueba_combinador`: está registrado como deuda ([deuda.md](deuda.md), D-01).
+1. **Documentación de F9:** integrar `v110/doc-manual` (manual de usuario con el aviso de los 60 Hz y `sha256sum -c --ignore-missing`, notas de la versión y `CHANGELOG.md`) y `v110/doc-traduccion` en `feature/version-1.1.0`.
+2. **Publicación:** job `publicar` sobre `feature/version-1.1.0`. El commit de publicación, la ejecución y las sumas quedan en [trazabilidad.md](trazabilidad.md#evidencia-común).
+3. **Fusión a `main`** de `feature/version-1.1.0`.
+4. **Release v1.1.0:** job `release` sobre `main`, con la ISO versionada, el ELF monolítico y las notas de `docs/versiones/v1.1.0.md`, que tienen que llevar el SHA-256 de la ISO o el job falla ([CC-16](cambios.md)).
+5. **Limpieza de ramas:** job `limpiar-ramas` sobre `main`. Al final, `git ls-remote --heads origin` lista solo `main` ([CC-09](cambios.md)).
 
 ## Próximo paso
 
-Fusionar a `main` y lanzar `release` y después `limpiar-ramas`, en ese orden (ver el [manual técnico](../manual/tecnico.md)). La documentación de F8 (`sinc/manual`, `sinc/proceso` y `sinc/doc-traduccion`) ya está integrada y revisada, y el commit de publicación `900c9be` tiene la ISO de la versión 1.0.0.
+Integrar la documentación de F9 y lanzar `publicar`; después, fusionar a `main` y lanzar `release` y `limpiar-ramas`, en ese orden (ver el [manual técnico](../manual/tecnico.md)). El código de F9 ya está integrado y revisado, y `make test` termina con 0 en `a29bd920`.
 
 ## Punto de partida (verificado en `main`, `0e7b7d5`)
 
@@ -55,11 +60,11 @@ Fusionar a `main` y lanzar `release` y después `limpiar-ramas`, en ese orden (v
 | Documento | Contenido |
 |---|---|
 | [especificacion.md](especificacion.md) | Qué hay que cumplir: alcance, exclusiones, requisitos numerados con criterio de aceptación y prueba, decisiones cerradas y riesgos |
-| [plan.md](plan.md) | Cómo se hizo: fases F0–F8 con su estado, roles y archivos, ramas, puertas de calidad, ciclo por bloque y verificación |
+| [plan.md](plan.md) | Cómo se hizo: fases F0–F9 con su estado, roles y archivos, ramas, puertas de calidad, ciclo por bloque y verificación |
 | [glosario.md](glosario.md) | Términos aprobados y su fuente |
-| [trazabilidad.md](trazabilidad.md) | Relación entre requisito, prueba, commits y evidencia, con el estado de cada requisito y los commits de F8 |
-| [cambios.md](cambios.md) | Registro de cambios de la especificación (CC-01 a CC-12): límites, escalas, términos, decisiones y diferencias con el plan aprobado |
-| [revisiones/](revisiones/) | Actas de revisión. La de F8 es [2026-10-11-sincronizacion.md](revisiones/2026-10-11-sincronizacion.md), con las propuestas para el repositorio original |
+| [trazabilidad.md](trazabilidad.md) | Relación entre requisito, prueba, commits y evidencia, con el estado de cada requisito y los commits de F8 y F9 |
+| [cambios.md](cambios.md) | Registro de cambios de la especificación (CC-01 a CC-17): límites, escalas, términos, decisiones y diferencias con el plan aprobado |
+| [revisiones/](revisiones/) | Actas de revisión: la de F8, [2026-10-11-sincronizacion.md](revisiones/2026-10-11-sincronizacion.md), con las propuestas para el repositorio original, y la de F9, [2026-10-11-version-1.1.0.md](revisiones/2026-10-11-version-1.1.0.md) |
 | [deuda.md](deuda.md) | Deuda técnica: lo que se sabe que falta, por qué no se hizo y dónde se haría |
 
 ## Cómo se trabaja
@@ -71,7 +76,9 @@ Las reglas del proyecto (Definition of Done, autoría, commits, ramas, revisión
 
 ## Ramas
 
-F8 se trabajó en `feature/sincronizacion-upstream`, que nace de `main` (`3f43c005`), con una subrama por bloque integrada con `git merge --no-ff`. El esquema de las subramas, de dónde sale cada una y su merge están en [plan.md §3.2](plan.md#32-f8).
+F9 se trabaja en `feature/version-1.1.0`, que nace de `main` (`af3bfa05`), con una rama `v110/*` por frente integrada con `git merge --no-ff`. El esquema de las ramas, de dónde sale cada una y su merge están en [plan.md §3.3](plan.md#33-f9).
+
+F8 se trabajó en `feature/sincronizacion-upstream`, que nace de `main` (`3f43c005`), con una subrama por bloque; ya está en `main` y su esquema está en [plan.md §3.2](plan.md#32-f8).
 
 Las ramas de F0 a F7 (`docs/readme-y-especificacion`, `idioma/infra`, `idioma/fuente`, `idioma/texturas`, `idioma/cadenas`, `idioma/port` y `feature/idioma-espanol`) ya están en `main`; su esquema está en [plan.md §3.1](plan.md#31-f0-a-f7-histórico).
 
@@ -84,6 +91,15 @@ El resto de objetivos y variables de `make` están en el [manual técnico](../ma
 | `make es` / `make hoja-es` | Texturas en español en `build/ps2/es/` / hojas de contacto en `build/ps2/es/hojas/`, sin el SDK |
 | `python3 herramientas/comparar_preprocesado.py <antes> <después> <fuente.c>…` | Comprueba en el PC, sin SDK, que un refactor no cambia lo que ve el compilador |
 | `sh herramientas/comparar_binario.sh <base> [DEBUG=1]` | Compara el ELF y la ROM con los de una base. Necesita el SDK (en la CI, job `mismo-binario`) |
+
+## Verificación de F9
+
+Comprobado el 2026-10-11 sobre `feature/version-1.1.0` en `a29bd920`.
+
+- **Especificación → trazabilidad.** Los 46 requisitos siguen teniendo fila en [trazabilidad.md](trazabilidad.md) y la lista coincide con el comando de la [verificación de F8](#verificación-de-f8). Estado: 38 hechos y 8 parciales (R-TEX-02, R-PORT-03, R-GOB-01, R-GOB-02, R-GOB-03, R-GOB-04, R-GOB-06 y R-GOB-08). R-GOB-08 sigue parcial hasta integrar `v110/doc-manual` y `v110/doc-traduccion`, como en F8; R-GOB-01 suma `b780d986`, de tipo `style`.
+- **Pruebas.** `env -u PS2SDK make test` termina con 0: 31 pruebas y el tope de líneas, 0 fallos.
+- **Gobernanza.** Sobre `origin/main..feature/version-1.1.0`: 38 commits, todos de Alexis Barrera; el comando de R-GOB-01 solo devuelve `b780d986`; ningún commit toca `build/` ni `compilaciones/`; no hay trailers; el grep de R-GOB-07 sale vacío.
+- **CI de F9:** ejecución, commit de publicación y sumas en [trazabilidad.md](trazabilidad.md#evidencia-común).
 
 ## Verificación de F8
 
@@ -99,4 +115,4 @@ Comprobado el 2026-10-11 sobre `feature/sincronizacion-upstream` en `d5f95cc5`.
 - **Pruebas.** `make test` terminó con 0 fallos en el worktree de revisión de cada rama integrada ([acta](revisiones/2026-10-11-sincronizacion.md)).
 - **Gobernanza.** Sobre `origin/main..feature/sincronizacion-upstream`: el comando de R-GOB-01 solo devuelve `c2ed147` y `ae93f71`, del original; ningún commit toca `build/` ni `compilaciones/`; no hay trailers; el grep de R-GOB-07 sale vacío.
 - **CI de F8:** ejecución y commit de publicación en [trazabilidad.md](trazabilidad.md#evidencia-común).
-- **Definition of Done:** la de [CONTRIBUTING.md](../../CONTRIBUTING.md), que se cierra con la publicación y la fusión a `main` ([Pendiente](#pendiente)).
+- **Definition of Done:** la de [CONTRIBUTING.md](../../CONTRIBUTING.md), que se cerró con la publicación (`900c9be3`) y la fusión a `main` (`af3bfa05`).
