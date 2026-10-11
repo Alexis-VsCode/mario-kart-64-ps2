@@ -165,7 +165,8 @@ def probar_tope_reserva():
     funcion = re.search(r"^Gfx\* funcion_80095BD0\(.*?^}", texto, re.S | re.M)
     comprobar(funcion is not None, "no se encuentra funcion_80095BD0")
     rama = re.search(r"#ifdef AVOID_UB\n(.*?)#else", funcion.group(0), re.S) if funcion else None
-    topes = re.findall(r"cantidad_efecto_matriz\s*>=\s*(\w+)", rama.group(1)) if rama else []
+    # El tope es la expresión entera, hasta el paréntesis que cierra la condición
+    topes = re.findall(r"cantidad_efecto_matriz\s*>=\s*([^)]*?)\s*\)\s*\{", rama.group(1)) if rama else []
     comprobar(topes == [TAMANIO_RESERVA], "funcion_80095BD0: bajo AVOID_UB el tope es %s, se esperaba %s"
               % (", ".join(topes) or "ninguno", TAMANIO_RESERVA))
     reserva = re.findall(r"\bMtx\s+efecto_mtx\s*\[\s*(\w+)\s*\]", open(BUCLE_PRINCIPAL, encoding="utf-8").read())

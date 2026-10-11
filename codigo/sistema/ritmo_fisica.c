@@ -46,7 +46,7 @@ void ps2_ritmo_imagen(u32 periodo)
         pasos++;
         late_hist = 0;
         good_frames = 0;
-        rend_registro_ps2("ritmo 3-4P: %d pasos por imagen (no llegaba)", (int) pasos);
+        rend_registro_ps2("ritmo de física: %d pasos por imagen (no llegaba)", (int) pasos);
         return;
     }
     if (pasos <= 2 || dt < 4 || di > dt) {
@@ -59,7 +59,8 @@ void ps2_ritmo_imagen(u32 periodo)
             pasos--;
             good_frames = 0;
             late_hist = 0;
-            rend_registro_ps2("ritmo 3-4P: %d pasos por imagen (ocupado %u us)", (int) pasos, (unsigned) us_ocupado);
+            rend_registro_ps2("ritmo de física: %d pasos por imagen (ocupado %u us)", (int) pasos,
+                              (unsigned) us_ocupado);
         }
     } else {
         good_frames = 0;

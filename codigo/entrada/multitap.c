@@ -47,7 +47,7 @@ void inicializar_multitap_ps2(void)
         mtap_abierto[puerto] = mtapPortOpen(puerto) == 1;
         mtap_conectado[puerto] = mtap_abierto[puerto] && mtapGetConnection(puerto) == 1;
         registrar("multitap en el puerto %d: %s", puerto + 1,
-                  mtap_conectado[puerto] ? "conectado" : (mtap_abierto[puerto] ? "no" : "sin servicio"));
+                  mtap_conectado[puerto] ? "conectado" : (mtap_abierto[puerto] ? "sin multitap" : "sin servicio"));
     }
     ultima_vigilancia = contador_vblank();
 }

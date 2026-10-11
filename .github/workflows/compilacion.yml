@@ -83,7 +83,7 @@ jobs:
         run: . herramientas/entorno.sh && sh herramientas/comparar_binario.sh "${{ inputs.base }}" DEBUG=1
 
   publicar:
-    name: Commit de publicacion (build/ y compilaciones/)
+    name: Commit de publicación (build/ y compilaciones/)
     if: github.event_name == 'workflow_dispatch' && (inputs.publicar == 'si' || inputs.publicar == 'sí')
     runs-on: ubuntu-latest
     container: ps2dev/ps2dev@sha256:7327334ab94e273b1723761fcd4a3591a31b78bbc28e4c281ad0fa42b3c8264d
@@ -95,7 +95,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}
-      # Con make 4.3 se borran los intermedios de la ROM y quedarian como borrados
+      # Con make 4.3 se borran los intermedios de la ROM y quedarían como borrados
       - name: make 4.4 o posterior
         run: make --version | head -1 && make --version | head -1 | awk '{split($3,v,"."); exit !(v[1]>4 || (v[1]==4 && v[2]>=4))}'
       - name: Compilar todas las variantes versionadas
@@ -108,38 +108,62 @@ jobs:
           make DEV=1 -j"$(nproc)"
           make test
           make iso
-      - name: Commit de publicacion
+      - name: Commit de publicación
         run: |
           git config user.name "Alexis Barrera"
           git config user.email "mochobarrera12@gmail.com"
           git add -A build/ps2 compilaciones
+          # Solo se omite el commit si no hay nada preparado; cualquier otro fallo detiene el job
+          if git diff --cached --quiet; then
+            echo "sin cambios en build/ps2 ni en compilaciones: no hace falta commit de publicación"
+            exit 0
+          fi
           git commit -m "build(compilaciones): binarios e ISO en español" \
             -m "Regenerados desde cero con la imagen de ps2dev: release, DEBUG, DEV, pruebas e ISO." \
-            -m "Fuentes: ${{ github.sha }}. Ejecución: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
-            || echo "sin cambios"
+            -m "Fuentes: ${{ github.sha }}. Ejecución: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           git push origin HEAD:${{ github.ref_name }}
 
   release:
-    name: Release con la ISO
+    name: Release con la ISO y el ELF monolítico
     if: github.event_name == 'workflow_dispatch' && inputs.release != ''
     runs-on: ubuntu-latest
+    # La misma imagen que compilar-ps2: el ELF monolítico sale del mismo toolchain que la ISO
+    container: ps2dev/ps2dev@sha256:7327334ab94e273b1723761fcd4a3591a31b78bbc28e4c281ad0fa42b3c8264d
     permissions:
       contents: write
     env:
       GH_TOKEN: ${{ github.token }}
       ETIQUETA: ${{ inputs.release }}
       ISO: compilaciones/SLUS_999.99.SuperMarioKart64.iso
+      ELF_MONOLITICO: SLUS_999.99.monolitico.elf
     steps:
+      - name: Dependencias del PC
+        run: apk add --no-cache bash build-base python3 git coreutils findutils cdrkit github-cli
       - uses: actions/checkout@v4
-      - name: Publicar la ISO versionada con sus notas
+      # La ISO publicada es la versionada, y su suma tiene que ser la que dicen las notas
+      - name: Comprobar la ISO versionada con sus notas
         run: |
           NOTAS="docs/versiones/$ETIQUETA.md"
           test -f "$ISO" || { echo "falta $ISO"; exit 1; }
           test -f "$NOTAS" || { echo "faltan las notas $NOTAS"; exit 1; }
+          SUMA=$(sha256sum "$ISO" | cut -d ' ' -f 1)
+          grep -q "$SUMA" "$NOTAS" || { echo "el SHA-256 de la ISO ($SUMA) no está en $NOTAS"; exit 1; }
           sha256sum "$ISO" | sed 's#compilaciones/##' > SHA256SUMS
+      # build/ está versionado: sin make clean el ELF podría salir de objetos del repo
+      - name: make MONOLITICO=1
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          . herramientas/entorno.sh
+          make clean
+          make MONOLITICO=1 -j"$(nproc)"
+          cp build/ps2/monolitico/SLUS_999.99 "$ELF_MONOLITICO"
+          sha256sum "$ELF_MONOLITICO" >> SHA256SUMS
           cat SHA256SUMS
-          gh release create "$ETIQUETA" "$ISO" SHA256SUMS --target "$GITHUB_SHA" \
-            --title "Mario Kart 64 PS2 en español $ETIQUETA" --notes-file "$NOTAS"
+      - name: Publicar la ISO y el ELF monolítico con sus notas
+        run: |
+          gh release create "$ETIQUETA" "$ISO" "$ELF_MONOLITICO" SHA256SUMS --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" --title "Mario Kart 64 PS2 en español $ETIQUETA" \
+            --notes-file "docs/versiones/$ETIQUETA.md"
 
   limpiar-ramas:
     name: Borrar las ramas ya contenidas en main
@@ -159,6 +183,6 @@ jobs:
             if git merge-base --is-ancestor "origin/$rama" origin/main; then
               git push origin --delete "$rama"
             else
-              echo "se conserva $rama: tiene commits que no estan en main"
+              echo "se conserva $rama: tiene commits que no están en main"
             fi
           done
