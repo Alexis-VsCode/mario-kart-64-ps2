@@ -72,20 +72,7 @@ Las reglas del proyecto (Definition of Done, autoría, commits, ramas, revisión
 
 ## Ramas
 
-F8 se trabajó así ([plan.md §3.2](plan.md#32-f8)):
-
-```
-main (3f43c005)
- └─ feature/sincronizacion-upstream   integración de F8: fusión 9f4d0215, textos 748db117 y 36fc9e40
-     ├─ sinc/ci              CC-09                    → 1ac5c96f
-     ├─ sinc/graficos-g5     CC-11 G5                 → 368a5416
-     ├─ sinc/sistema         CC-08, CC-11 E3-E5       → bbb11eb6
-     ├─ sinc/pendientes      R-FUE-05, R-FUE-07, L2   → cf956b42
-     ├─ sinc/panel           L3, R-TEX-07             → 240358fd
-     ├─ sinc/graficos        G2, G4 y G5               no se integra (solo G5, en sinc/graficos-g5)
-     ├─ sinc/recorrido       CC-10                     no se integra (rechazado)
-     └─ sinc/manual, sinc/proceso, sinc/doc-traduccion documentación de F8 (CC-12)
-```
+F8 se trabajó en `feature/sincronizacion-upstream`, que nace de `main` (`3f43c005`), con una subrama por bloque integrada con `git merge --no-ff`. El esquema de las subramas, de dónde sale cada una y su merge están en [plan.md §3.2](plan.md#32-f8).
 
 Las ramas de F0 a F7 (`docs/readme-y-especificacion`, `idioma/infra`, `idioma/fuente`, `idioma/texturas`, `idioma/cadenas`, `idioma/port` y `feature/idioma-espanol`) ya están en `main`; su esquema está en [plan.md §3.1](plan.md#31-f0-a-f7-histórico).
 
