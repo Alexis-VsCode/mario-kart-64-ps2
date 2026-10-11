@@ -9,7 +9,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Aprobación:**
   - la dan INTEGRACIÓN y REVISIÓN;
   - si el cambio toca una decisión cerrada de la especificación o el plan aprobado, también el responsable del proyecto.
-- **Evidencia:** un cambio de maquetación se justifica con medidas y con una captura antes/después (PCSX2 y, si afecta a los bordes, TV).
+- **Evidencia:** un cambio de maquetación se justifica con medidas y con la prueba del PC que las comprueba. Desde CC-12 no se piden capturas; hasta entonces se pedía una captura antes/después (PCSX2 y, si afectaba a los bordes, TV).
 - **Al aplicarlo:**
   - se anota el commit;
   - se actualizan `prueba_textos_lugares.inc.c` o `prueba_textos_esperados.inc.c` si corresponde;
@@ -49,7 +49,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - La escala vertical sigue en 0,8.
 - **Archivos y líneas:** `codigo/menus/elementos_menu/dibujar_menus.inc.c:313-321`.
 - **Alternativas descartadas:** abreviar a «MEJOR VTA», porque contradice el glosario.
-- **Evidencia requerida:** captura antes/después de la selección de pista en contrarreloj. La medida la comprueba `prueba_textos.c` con el límite de la caja en `prueba_textos_lugares.inc.c`; la captura queda para el recorrido de F6.
+- **Evidencia requerida:** captura antes/después de la selección de pista en contrarreloj. La medida la comprueba `prueba_textos.c` con el límite de la caja en `prueba_textos_lugares.inc.c`; la captura se retiró con F6 (CC-12).
 - **Aprobación:** no quedó registrada aparte; el cambio se integró con su rama en `feature/idioma-espanol`.
 - **Commit:** `b061832` (escala horizontal de la caja de la mejor vuelta de 0,8 a 0,6, «MEJOR VUELTA» llegaba a x = 319 con la caja en 297).
 
@@ -111,7 +111,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - abreviar siempre (VTA., TPO.), porque contradice la decisión cerrada del HUD;
   - una familia de glifos del HUD más estrecha, porque rompe la coherencia visual con el resto del HUD.
 - **Evidencia requerida:** prueba de no solapamiento en `prueba_texturas_es.py` sobre todas las llamadas, hoja del HUD y capturas en carrera con 1, 2 y 4 jugadores, incluida la pantalla de tiempos de vuelta.
-- **Lo aplicado:** las tres texturas pasan a 64 de ancho y se dibujan alineadas por la derecha donde terminaban las de 32 (`PALABRA_HUD_X`), así el borde que da a los dígitos no se mueve. La prueba de no solapamiento está en `prueba_hud_es.py`, de 1 a 4 jugadores. Con 3 y 4 jugadores VUELTA no cabe y se abrevia: ver CC-07. Las capturas en carrera quedan para el recorrido de F6.
+- **Lo aplicado:** las tres texturas pasan a 64 de ancho y se dibujan alineadas por la derecha donde terminaban las de 32 (`PALABRA_HUD_X`), así el borde que da a los dígitos no se mueve. La prueba de no solapamiento está en `prueba_hud_es.py`, de 1 a 4 jugadores. Con 3 y 4 jugadores VUELTA no cabe y se abrevia: ver CC-07. Las capturas en carrera se retiraron con F6 (CC-12).
 - **Aprobación:** no quedó registrada aparte; el cambio se integró con su rama en `feature/idioma-espanol`.
 - **Commit:** `7e0d345`.
 
@@ -184,13 +184,13 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Cambio:** la textura chica de VUELTA (`vuelta_hud`, manifiesto `VUELTA|VTA.`) lleva «VTA.» en las filas 8 a 15, y el código la usa con 3 y 4 jugadores.
 - **Archivos:** `recursos/es/inc/recursos/comunes/texturas/`, `codigo/carrera/objetos_y_efectos/hud_pantalla_dividida.inc.c` y `ventana_item_y_minimapa.inc.c`.
 - **Alternativas descartadas:** abreviar también con 1 y 2 jugadores.
-- **Evidencia:** `prueba_hud_es.py` (ninguna palabra pisa dígitos ni la parte de otro jugador, de 1 a 4 jugadores). Las capturas con 3 y 4 jugadores quedan para el recorrido de F6.
+- **Evidencia:** `prueba_hud_es.py` (ninguna palabra pisa dígitos ni la parte de otro jugador, de 1 a 4 jugadores). Las capturas con 3 y 4 jugadores se retiraron con F6 (CC-12).
 - **Aprobación:** no quedó registrada aparte; se registra aquí porque el cambio ya está integrado.
 - **Commit:** `7e0d345`.
 
 ### CC-08: sincronización con el repositorio original hasta `ae93f71`
 
-- **Estado:** aprobado (responsable del proyecto, al aprobar el plan F8 el 2026-10-11). INTEGRACIÓN y REVISIÓN lo confirman al revisar la rama.
+- **Estado:** aplicado
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-FUE-01, R-PORT-02, R-PORT-04, R-INF-05, R-GOB-01, R-GOB-05
 - **Motivo:** `anthoo582/mario-kart-64-ps2` agregó `c2ed147` y `ae93f71` sobre la base común `0e7b7d5`. Traen el multitap, tiempos límite en el IOP, el CD y la Memory Card, el arranque desde OPL sin reiniciar el IOP, la caché de texturas por columnas, el tramado por primitiva, 60 FPS más estables y la orden `captura` de los guiones. `git merge-tree` da 9 archivos de código en conflicto (12 trozos) y 95 de `build/` y `compilaciones/`.
@@ -211,12 +211,21 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - `git diff M^1 M -- build compilaciones` y el de los 3 archivos de glifos, vacíos;
   - `make test` verde después de la traducción;
   - CI de PS2 verde con `-lmtap`.
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
-- **Commit:** —
+- **Lo aplicado:**
+  - `git diff 9f4d0215^1 9f4d0215 -- build compilaciones` y el de `textos_y_tablas.inc.c`, `animaciones_personajes.inc.c` y `elementos_menu.h` salen vacíos.
+  - La lista negra de `prueba_textos_port.py` se amplió primero (`748db117`, rojo) y los textos se tradujeron después (`36fc9e40`, verde).
+  - Dos pruebas nuevas protegen lo que la fusión podía perder sin error de compilación: `prueba_arranque.py` (`inicializar_depuracion()` antes del reinicio del IOP, `664d9013`) y `prueba_tablas_glifos.py` (`lut_textura_glifo` se define una vez, fuera de todo `#if` y sin los alias del original, `e600bd6e`).
+  - El comando de R-GOB-01 sobre `origin/main..feature/sincronizacion-upstream` devuelve los dos commits del original que trae la fusión, `c2ed147` y `ae93f71`. Son historia del repositorio original y no se reescriben.
+  - CI de PS2 con `-lmtap`: la ejecución de F8 anotada en [trazabilidad.md](trazabilidad.md#evidencia-común).
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11);
+  - REVISIÓN: lingüística de `feature/sincronizacion-upstream` aprobada con observaciones; `664d9013` y `e600bd6e` se revisaron con `sinc/sistema` y `sinc/pendientes` ([acta de F8](revisiones/2026-10-11-sincronizacion.md));
+  - INTEGRACIÓN: fusión e integración en `feature/sincronizacion-upstream` (2026-10-11).
+- **Commit:** `9f4d0215` (fusión), `748db117` (prueba), `36fc9e40` (textos), `409a72b9` (README), `664d9013` (merge `bbb11eb6`) y `e600bd6e` (merge `cf956b42`).
 
 ### CC-09: publicación con tipo `build`, Release de GitHub y limpieza de ramas por CI
 
-- **Estado:** aprobado (responsable del proyecto, 2026-10-11)
+- **Estado:** aplicado en la CI; la evidencia llega con la publicación
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-GOB-01, R-INF-05
 - **Motivo:**
@@ -238,8 +247,17 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - el commit de publicación con el tipo nuevo;
   - la Release con un SHA-256 igual al de la ISO versionada;
   - `git ls-remote --heads origin` con solo `main` al final.
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
-- **Commit:** —
+- **Lo aplicado:**
+  - el workflow tiene seis jobs: `pruebas-pc`, `compilar-ps2` (ahora también con `make DEV=1`), `mismo-binario`, `publicar`, `release` y `limpiar-ramas`;
+  - `BUILD_ID ?= 2026-10-11` en el `Makefile`;
+  - las entradas a pedido aceptan `si` y `sí` (`b69f1548`, de la revisión lingüística);
+  - `release` no depende de `publicar`: se lanza en una segunda ejecución, sobre `main`, después de fusionar el commit de publicación, para que suba la ISO nueva (hallazgo Baja del [acta de F8](revisiones/2026-10-11-sincronizacion.md));
+  - commit de publicación: en [trazabilidad.md](trazabilidad.md#evidencia-común); Release y SHA-256 de la ISO: en las [notas de la v1.0.0](../versiones/v1.0.0.md); ramas remotas: se comprueban después de la fusión a `main`, con `limpiar-ramas`.
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11);
+  - REVISIÓN: técnica y lingüística de `sinc/ci` aprobadas con observaciones;
+  - INTEGRACIÓN: integrado con el merge `1ac5c96f`.
+- **Commit:** `24ed39a0` (CI), `6251a4a6` (`BUILD_ID`), `b69f1548` (tildes de las entradas) y el merge `1ac5c96f`. Las notas `docs/versiones/v1.0.0.md` llegan con la documentación de F8.
 
 ### CC-10: recorrido de PCSX2 con capturas automáticas
 
@@ -256,12 +274,12 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Evidencia requerida:**
   - `prueba_guiones.py` y `prueba_hoja_capturas.py` en verde, cada una con una mutación demostrada;
   - el recorrido real lo corre el usuario en PCSX2.
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
-- **Commit:** —
+- **Aprobación:** responsable del proyecto: aprobado el 2026-10-11 y rechazado el mismo día (`b4b37c13`). REVISIÓN técnica y lingüística de `sinc/recorrido`: aprobadas con observaciones. INTEGRACIÓN: no se integra.
+- **Commit:** ninguno integrado. La rama `sinc/recorrido` (`bb920d50`…`93cae6c0`) queda fuera de `feature/sincronizacion-upstream`; su revisión consta en el [acta de F8](revisiones/2026-10-11-sincronizacion.md).
 
 ### CC-11: correcciones con evidencia después de la sincronización
 
-- **Estado:** aprobado (responsable del proyecto, 2026-10-11)
+- **Estado:** aplicado, con las dos diferencias que se registran debajo (G5 y L3)
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-FUE-07, R-PORT-01, R-PORT-02, R-INF-05
 - **Motivo:** revisión de solo lectura del árbol combinado, en tres frentes: gráficos, audio y estabilidad, y legibilidad del español. Solo entran las correcciones con un caso concreto y una corrección mínima. Lo que no tiene caso visible o no se puede verificar queda documentado.
@@ -284,12 +302,33 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - **Audio, multitap, reinicio del IOP, 60 FPS, física y atlas:** sin defecto.
 - **Alternativas descartadas:** apagar el tramado en todos los triángulos 2D, porque cambia el degradado de las letras.
 - **Evidencia requerida:** la de la tabla. Cada corrección va en su commit `fix`, con la prueba en rojo o la evidencia en el mensaje.
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
-- **Commit:** —
+- **Lo aplicado:**
+
+  | Id | Commits | Verificación real |
+  |---|---|---|
+  | E3 | `176651ed` | `prueba_cronometro_fases.c`: rojo con `GRUPOS_MAX` 4 (5 fallos) y mutación a 5 (3 fallos) |
+  | E4 | `a86960cf` | Evidencia de código en el mensaje. Peor caso de unos 24 s, por debajo de los 30 s del perro guardián |
+  | E5 | `61a88a74` | Evidencia de código en el mensaje |
+  | G5 | `ce98830c` | **Sin prueba en el PC.** La evidencia de código va en el mensaje del commit (alfa de vértice 0x40, PRIM 0xC0 y LOD 0xFF: antes -64 daba 32, ahora 0) |
+  | L2 | `9adc3192` | Evidencia de código en el mensaje y registro DEV «menu: reserva de matrices agotada»; la tabla de glifos y el tope quedan cubiertos por `prueba_tablas_glifos.py` (`697f3af6`) |
+  | L3 | `4612a508` (prueba), `ac4fcdae` (cambio), `4e4cc6f8` (tildes de la prueba) | `prueba_ancho_panel.py`, no `prueba_fuente_5x7.c`: `texto_pantalla.h` incluye `tamtypes.h` del SDK y no compila en el PC |
+
+- **Diferencia en G5.** La tabla pedía `prueba_combinador`, pero `combinar_color` está en `combinador_y_recorte.inc.c`, que solo compila con el SDK, y el arnés compila solo `combinador_color.c`. Para probarlo hay que mover el promedio a `combinador_color.c`/`.h`, fuera de los archivos del bloque. INTEGRACIÓN integró solo G5, en la rama `sinc/graficos-g5`, con la evidencia del mensaje de `ce98830c`; la prueba queda como deuda ([deuda.md](deuda.md)). Como cambia la verificación aprobada, falta la confirmación del responsable del proyecto.
+- **Diferencia en L3.** `MEDIDOR_VRAM_BYTES` queda en 128 KB y no en los 112 KB de la tabla. Motivo, del mensaje de `ac4fcdae`:
+  - el GS guarda CT32 en páginas de 64 × 32 píxeles (8 KB); con TBW 4, la textura de 256 × 108 ocupa 16 páginas (las filas 96..107 caen en la cuarta fila de páginas);
+  - con 112 KB (14 páginas), las páginas 14 y 15 del panel serían las 0 y 1 del atlas, que empieza justo detrás (`gs_vram_inicio_texturas`);
+  - 128 KB son las 16 páginas enteras.
+
+  El mensaje del commit cuantifica el solape con cifras que la revisión corrigió: la subida del panel pisaría las filas 0..11 del atlas en x 0..127 (no las 0..15), y el atlas taparía desde x 128 la línea 11 del panel y las dos últimas filas de letra de la línea 10 (filas 96 y 97). La conclusión no cambia. Solo afecta a las compilaciones con panel (`MEDIDOR=1`).
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11); G2 y G4 retirados de la tabla el mismo día (`b4b37c13`);
+  - REVISIÓN: `sinc/pendientes` y `sinc/panel`, aprobadas con observaciones después de las correcciones; `sinc/sistema`, con cambios requeridos por los trailers de cuatro mensajes, que se reescribieron antes de integrar; `sinc/graficos`, con cambios requeridos por G5 (ver el [acta de F8](revisiones/2026-10-11-sincronizacion.md));
+  - INTEGRACIÓN: merges `368a5416` (G5), `bbb11eb6` (E3, E4 y E5), `cf956b42` (L2) y `240358fd` (L3). Pendiente: la confirmación del responsable para G5.
+- **Commit:** los de «Lo aplicado».
 
 ### CC-12: verificación sin pasos manuales y manual del proyecto
 
-- **Estado:** aprobado (responsable del proyecto, 2026-10-11)
+- **Estado:** aplicado en la documentación de F8
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-FUE-07, R-TXT-07, R-MC-03, R-TEX-05, R-PORT-02, R-PORT-03, R-GOB-04, R-GOB-08
 - **Motivo:**
@@ -319,5 +358,5 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - ningún documento pide pasos manuales al usuario;
   - los créditos están en el README;
   - `docs/versiones/v1.0.0.md` existe antes de lanzar el job `release`.
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
-- **Commit:** —
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). REVISIÓN e INTEGRACIÓN: con la revisión de las ramas de documentación de F8.
+- **Commit:** `b4b37c13` (CC-10 rechazado y G2 y G4 retirados) y `d5f95cc5` (este registro). La aplicación va en las ramas de documentación de F8: `sinc/manual`, `sinc/proceso` y `sinc/doc-traduccion`.

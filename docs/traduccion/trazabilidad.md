@@ -1,17 +1,18 @@
 # Trazabilidad
 
-Relaciona cada requisito de la [especificación](especificacion.md) con su prueba, sus commits y su evidencia. Estado final, a 2026-09-29, sobre `feature/idioma-espanol` en `dda9a5f`, con las cinco ramas de trabajo ya fusionadas.
+Relaciona cada requisito de la [especificación](especificacion.md) con su prueba, sus commits y su evidencia. Estado a 2026-10-11, sobre `feature/sincronizacion-upstream` en `d5f95cc5`: la localización de F0 a F7 (cerrada en `dda9a5f` y ya en `main`, `3f43c005`) más la sincronización con el original de F8.
 
 ## Cómo se completa
 
-- **Commits:** hashes cortos, todos integrados en `feature/idioma-espanol`. Si prueba y cambio van en commits separados, se anotan los dos (rojo → verde).
+- **Commits:** hashes cortos, integrados en `feature/idioma-espanol` (F0 a F7) o en `feature/sincronizacion-upstream` (F8). Si prueba y cambio van en commits separados, se anotan los dos (rojo → verde).
 - **Rojo:** cómo se demostró que la prueba falla sin el cambio:
   - **comprobado:** la prueba del commit, ejecutada sobre el árbol del commit padre, falla (se indica cuántos fallos);
   - **módulo nuevo:** la prueba cubre un archivo que no existía, así que sin el cambio no puede pasar;
   - **no aplica:** refactor, cuya prueba es de equivalencia (R-GOB-02).
-- **Mutación restaurada (R-GOB-03):** está registrada en los mensajes de `4bf57f3`, `d28f950` y `da631b0` (este último para `23055c5` y `29541a4`). Para el resto de commits no quedó registrada en el repositorio.
+- **Mutación restaurada (R-GOB-03):** en F1–F7 está registrada en los mensajes de `4bf57f3`, `d28f950` y `da631b0` (este último para `23055c5` y `29541a4`); para el resto de commits de entonces no quedó registrada. En F8, cada commit con prueba la registra en su mensaje, y REVISIÓN la reprodujo ([acta](revisiones/2026-10-11-sincronizacion.md)).
 - **Estados:** `hecho` (integrado y con su prueba en verde), `parcial` (hecho en parte; se indica qué falta), `pendiente` (sin hacer).
-- **Requisito cerrado:** cuando está `hecho`, tiene la evidencia y REVISIÓN lo aprueba. La aprobación de REVISIÓN no quedó registrada en el repositorio (R-GOB-04), así que la tabla indica el estado de implementación y prueba.
+- **Requisito cerrado:** cuando está `hecho`, tiene la evidencia y REVISIÓN lo aprueba. La aprobación de REVISIÓN de F1–F7 no quedó registrada en el repositorio; la de F8 está en el [acta](revisiones/2026-10-11-sincronizacion.md). La tabla indica el estado de implementación y prueba.
+- **Criterios de F6:** desde [CC-12](cambios.md), lo que dependía del recorrido en PCSX2 o de una captura en TV se acepta con lo que comprueban las pruebas del PC y la CI. Lo que eso deja sin ver es la deuda D-06 de [deuda.md](deuda.md).
 - **Cambios de especificación:** se anotan en [cambios.md](cambios.md) y se enlazan aquí.
 
 ## Evidencia común
@@ -33,6 +34,12 @@ Relaciona cada requisito de la [especificación](especificacion.md) con su prueb
   | [36518116212](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/36518116212) | `c461c5b` | `feature/idioma-espanol` | Final: las cinco ramas integradas. `pruebas-pc`, `compilar-ps2` (release, `DEBUG=1`, `make test`, ISO) y `publicar` (release, `DEBUG=1`, `DEV=1`, `make test`, ISO y commit `dda9a5f`) en verde; `mismo-binario` omitido (sin `base`) |
 
 - **Gobernanza** (comprobado el 2026-09-29 sobre `origin/main..dda9a5f`): el comando de R-GOB-01 devuelve los 4 commits `chore` registrados en [CC-06](cambios.md); solo `dda9a5f`, el de publicación, toca `build/` y `compilaciones/` (R-GOB-05); ningún archivo de `codigo/`, `incluir/` o `herramientas/` lleva identificadores de requisito (R-GOB-07).
+- **F8** (comprobado el 2026-10-11 sobre `origin/main..feature/sincronizacion-upstream`, en `d5f95cc5`):
+  - el comando de R-GOB-01 devuelve solo `c2ed147` y `ae93f71`, los commits del original que trae la fusión ([CC-08](cambios.md));
+  - `git log --name-only … -- build compilaciones` sale vacío: `build/` y `compilaciones/` esperan al commit de publicación (R-GOB-05);
+  - `git log --format='%(trailers)'` sale vacío en todos los commits; el grep de R-GOB-07 sale vacío;
+  - `make test` terminó con 0 fallos en el worktree de revisión de cada rama integrada ([acta](revisiones/2026-10-11-sincronizacion.md));
+  - CI de F8 (`pruebas-pc`, `compilar-ps2` con `make DEV=1` y `publicar`): ejecución <<PUBLICACION>>, commit de publicación <<PUBLICACION>>.
 
 ## Commits de F1–F3
 
@@ -90,53 +97,94 @@ Por bloque; el detalle de cada commit está en su mensaje.
 | feature | `3d482a8`, `6a050d1`, `d3663fd`, `b043668`, `2ae3d3a` | Integración de infra, fuente, texturas, cadenas y port con `--no-ff` | `make test` y CI | No aplica |
 | feature | `0ff568e`, `466e73f`, `c461c5b`, `dda9a5f` | Tilde de un aviso de texturas, guion de recorrido, job `publicar` y commit de publicación | `prueba_textos_port.py`; CI 36518116212 | No aplica |
 
+## Commits de F8
+
+Los commits de `feature/sincronizacion-upstream` sobre `main`, por orden. Las subramas salen de `36fc9e40`; su revisión está en el [acta](revisiones/2026-10-11-sincronizacion.md).
+
+| Commit | Rama | Tipo | Qué hace | Requisito o CC | Prueba | Rojo y mutación |
+|---|---|---|---|---|---|---|
+| `df07cfa9`, `55cbf083`, `73bb9a8f`, `132d4bf5` | feature | docs | Registro de CC-08 a CC-11 antes del código | CC-08…CC-11 | — | No aplica |
+| `9f4d0215` | feature | merge | Fusión del original hasta `ae93f71` con `merge.directoryRenames=false` | CC-08 | `git diff 9f4d0215^1 9f4d0215 -- build compilaciones` y de los 3 archivos de glifos, vacíos | En rojo solo en `prueba_textos_port.py`, como prevé CC-08 |
+| `748db117` | feature | test | Palabras de los textos nuevos del original en la lista negra | CC-08, R-PORT-04 | `prueba_textos_port.py` | Comprobado: de 7 a 16 fallos con la fusión |
+| `36fc9e40` | feature | fix | Textos nuevos del original en español; grupos `GRUPO_CARGA_CEREMONIA` y `GRUPO_CARGA_CREDITOS` | CC-08, R-PORT-02, R-PORT-04 | `prueba_textos_port.py` | 16 → 0 fallos; mutación «contesto» en `memory_card.c:78`: 1 fallo |
+| `409a72b9` | feature | docs | README con multitap, OPL sin reinicio del IOP y 60 FPS del original | CC-08 | — | No aplica |
+| `b4b37c13` | feature | docs | CC-10 rechazado; G2 y G4 quedan como propuesta | CC-10, CC-11 | — | No aplica |
+| `24ed39a0` | ci | ci | `make DEV=1` en `compilar-ps2`, publicación con tipo `build`, jobs `release` y `limpiar-ramas` | CC-09, R-INF-05, R-GOB-01 | `yaml.safe_load`, `bash -n` y simulación de `limpiar-ramas` en la revisión | No aplica (configuración de la CI) |
+| `6251a4a6` | ci | build | `BUILD_ID` 2026-10-11 | CC-09 | — | No aplica |
+| `b69f1548` | ci | ci | Tildes en las entradas a pedido y `sí` con tilde | CC-09 | Revisión lingüística | No aplica |
+| `1ac5c96f` | feature | merge | Integra `sinc/ci` | — | — | No aplica |
+| `ce98830c` | graficos-g5 | fix | G5: el alfa negativo con `G_AC_DITHER` se limita a 0 | CC-11 (G5) | Evidencia de código en el mensaje; sin prueba en el PC ([deuda.md](deuda.md), D-01) | No demostrado |
+| `368a5416` | feature | merge | Integra `sinc/graficos-g5` | — | — | No aplica |
+| `664d9013` | sistema | test | `inicializar_depuracion()` antes del reinicio del IOP | CC-08, R-PORT-02 | `prueba_arranque.py` | El código ya cumplía: 5 mutaciones de `arranque_ps2.c` en FALLO |
+| `176651ed` | sistema | fix | `GRUPOS_MAX` de 4 a 6 | CC-11 (E3), R-PORT-02 | `prueba_cronometro_fases.c` | Comprobado: 5 fallos con 4; mutación a 5: 3 fallos |
+| `a86960cf` | sistema | fix | Lectura de la ROM por debajo del perro guardián | CC-11 (E4), R-PORT-01 | Evidencia de código en el mensaje | No aplica (sin arnés de PC) |
+| `61a88a74` | sistema | fix | Memory Card que no contesta | CC-11 (E5), R-PORT-01 | Evidencia de código en el mensaje | No aplica (sin arnés de PC) |
+| `372f10ed` | sistema | test | Tildes en las salidas de las dos pruebas | — | `prueba_arranque.py`, `prueba_cronometro_fases.c` | Mutaciones con la salida nueva en FALLO |
+| `bbb11eb6` | feature | merge | Integra `sinc/sistema` | — | — | No aplica |
+| `e600bd6e` | pendientes | test | `lut_textura_glifo` se define una vez, fuera de todo `#if` y sin los alias del original (G1) | CC-08, R-FUE-01 | `prueba_tablas_glifos.py` | El código ya cumplía: mutaciones en FALLO (bloque del original: 11 fallos) |
+| `697f3af6` | pendientes | test | El tope de `funcion_80095BD0` es el tamaño de `efecto_mtx` | R-FUE-07 | `prueba_tablas_glifos.py` (`probar_tope_reserva`) | El código ya cumplía: mutación 0x2F7, 1 fallo |
+| `9adc3192` | pendientes | fix | Sin matriz libre, la letra no lleva tilde; registro DEV | CC-11 (L2), R-FUE-07 | Evidencia de código en el mensaje | No aplica (sin arnés de PC) |
+| `a5e97ddf` | pendientes | test | Detector del primer byte que la fuente no dibuja | R-FUE-05 | `prueba_glifos.c` (`probar_primer_byte_invalido`) | Comprobado: no enlaza; con un sustituto, 11 fallos |
+| `f38d6de6` | pendientes | feat | Registro DEV de las cadenas del menú que la fuente no dibuja | R-FUE-05 | `prueba_glifos.c` | Mutaciones: sin C2/C3, 4 fallos; avance de 1, 2; sin guarda del NUL, ASan |
+| `94cdfea5` | pendientes | fix | El registro DEV también en `imprimir_texto0` e `imprimir_texto2` | R-FUE-05 | `prueba_tablas_glifos.py` (`probar_registro_texto_invalido`) | Comprobado: 2 fallos; mutación: 1 |
+| `27199b8f` | pendientes | test | Tildes en los mensajes nuevos de las pruebas de glifos | — | `prueba_glifos.c`, `prueba_tablas_glifos.py` | Mutaciones con la salida nueva en FALLO |
+| `cf956b42` | feature | merge | Integra `sinc/pendientes` | — | — | No aplica |
+| `4612a508` | panel | test | Una fila libre entre las líneas del panel 5x7 | CC-11 (L3), R-PORT-02 | `prueba_ancho_panel.py` | Comprobado: 1 fallo |
+| `ac4fcdae` | panel | fix | `TEXTO_ALTO_LINEA` 9, textura de 108 filas y 128 KB de VRAM | CC-11 (L3), R-PORT-02 | `prueba_ancho_panel.py` | Mutaciones: alto de línea, VRAM de 112 KB y textura de 104, en FALLO |
+| `5d901a47` | panel | test | Ningún `texto_es` del manifiesto nombra botones de la N64 | R-TEX-07 | `prueba_texturas_es.py` (paso 5) | El manifiesto ya cumplía: 4 mutaciones en FALLO |
+| `4e4cc6f8` | panel | fix | Tildes en los mensajes de la prueba del panel | — | `prueba_ancho_panel.py` | Mutaciones con la salida nueva en FALLO |
+| `240358fd` | feature | merge | Integra `sinc/panel` | — | — | No aplica |
+| `d5f95cc5` | feature | docs | CC-12: verificación sin pasos manuales y manual del proyecto | CC-12 | — | No aplica |
+
+No se integraron `sinc/graficos` (salvo G5) ni `sinc/recorrido` (CC-10 rechazado).
+
 ## Requisitos
 
 | Requisito | Prueba | Commits | Estado | Evidencia |
 |---|---|---|---|---|
-| R-FUE-01 Tabla de glifos completa | `prueba_tablas_glifos.py`; `prueba_glifos.c` (`probar_compatibilidad`) | `4e35120`, `1c9545d`, `5718601` | hecho | CI n.º 7 y n.º 8; rojo comprobado |
+| R-FUE-01 Tabla de glifos completa | `prueba_tablas_glifos.py`; `prueba_glifos.c` (`probar_compatibilidad`) | `4e35120`, `1c9545d`, `5718601`; F8: `e600bd6e` | hecho | CI n.º 7 y n.º 8; rojo comprobado. Desde `e600bd6e`, la tabla no puede volver a la forma del original (CC-08) |
 | R-FUE-02 Compatibilidad N64 | `prueba_glifos.c` (`probar_compatibilidad`) | `d87d14f` | hecho | CI n.º 6 |
 | R-FUE-03 JIS X 0212 de 3 bytes | `prueba_convertir_eucjp.py`; `prueba_glifos.c` (`probar_espanol`); `prueba_caracteres_es.c` | `727c7ed`, `9e6bec7`, `641fe27` | hecho | CI n.º 8; rojo comprobado en `641fe27` |
 | R-FUE-04 `leer_glifo` única regla de avance | huella de R-FUE-02; `git grep` en la revisión | `d87d14f` | hecho | `git grep -n 'indice_glifo >= 0x30' -- codigo/menus/` vacío en `dda9a5f` |
-| R-FUE-05 Robustez ante -2 | `prueba_glifos.c` (`probar_secuencias_rotas`) | `641fe27` | parcial: falta el registro DEV | CI n.º 8. El registro DEV de `C2`/`C3` no está en el código |
+| R-FUE-05 Robustez ante -2 | `prueba_glifos.c` (`probar_secuencias_rotas`, `probar_primer_byte_invalido`); `prueba_tablas_glifos.py` (`probar_registro_texto_invalido`) | `641fe27`; F8: `a5e97ddf`, `f38d6de6`, `94cdfea5` | hecho | Registro DEV en las tres impresoras; rojo y mutaciones en los mensajes de F8 |
 | R-FUE-06 Anchos | `prueba_glifos.c` (`probar_anchos_espanol`); `prueba_tablas_glifos.py` | `5718601`, `641fe27` | hecho | CI n.º 8 |
-| R-FUE-07 Diacrítico con la matriz de la letra y tope del pool | `prueba_tablas_glifos.py` (`probar_partes_de_signo`); CI; revisión técnica; recorrido F6 | `dcc0914`, `5718601` | parcial: falta el recorrido F6 | CI n.º 7 y 36518116212 |
+| R-FUE-07 Diacrítico con la matriz de la letra y tope del pool | `prueba_tablas_glifos.py` (`probar_partes_de_signo`, `probar_tope_reserva`); CI | `dcc0914`, `5718601`; F8: `697f3af6`, `9adc3192` | hecho (CC-12: sin recorrido F6) | CI n.º 7 y 36518116212. L2 ([CC-11](cambios.md)) con evidencia de código en `9adc3192` |
 | R-FUE-08 Arte reproducible | `prueba_glifos_es.py` | `9abb8d7`, `5718601` | hecho | CI n.º 7 |
 | R-TXT-01 Español según el glosario | `prueba_textos.c` (lista negra) | B1–B7 (ver «Commits de F4») | hecho | `TABLAS_PENDIENTES` = 0; rojo en `da631b0` |
 | R-TXT-02 Número y orden de entradas | `prueba_textos.c` (`prueba_textos_tablas.inc.c`) | `ae9dc3c` y B1–B7 | hecho | `make test` en `dda9a5f` |
 | R-TXT-03 Glifo para todo carácter | `prueba_textos.c` | `ae9dc3c` y B1–B7 | hecho | `make test` en `dda9a5f` |
-| R-TXT-04 Ancho por tinta y zona segura | `prueba_textos.c` (`prueba_textos_lugares.inc.c`, `prueba_textos_tinta.py`) | `330e2d9`, `5b21e3e`, `b061832`, `23055c5` | hecho; falta la captura en TV (F6) | Mutación de `23055c5` en `da631b0`; [CC-01](cambios.md) |
+| R-TXT-04 Ancho por tinta y zona segura | `prueba_textos.c` (`prueba_textos_lugares.inc.c`, `prueba_textos_tinta.py`) | `330e2d9`, `5b21e3e`, `b061832`, `23055c5` | hecho (CC-12: sin captura en TV, D-06) | Mutación de `23055c5` en `da631b0`; [CC-01](cambios.md) |
 | R-TXT-05 Interlineado | `prueba_textos.c` (`probar_interlineado`) | `ae9dc3c` | hecho | [CC-02](cambios.md) |
 | R-TXT-06 Textos esperados byte a byte | `prueba_textos.c` (`prueba_textos_esperados.inc.c`) | B1–B7 | hecho | Rojo en `da631b0` |
-| R-TXT-07 Ordinales «1.º» | `prueba_textos.c`; `prueba_hud_es.py`; captura F6 | `f8bf7b5`, `d28f950`, `a4676b3` | parcial: falta la captura F6 | Rojo de `f8bf7b5` en `da631b0`; rojo y mutación de `d28f950` en su mensaje |
+| R-TXT-07 Ordinales «1.º» | `prueba_textos.c`; `prueba_texturas_es.py`; `prueba_hud_es.py` | `f8bf7b5`, `d28f950`, `a4676b3` | hecho (CC-12: sin captura F6) | Rojo de `f8bf7b5` en `da631b0`; rojo y mutación de `d28f950` en su mensaje |
 | R-TXT-08 Botones y puertos de PS2 en cadenas | `prueba_textos.c` | `88e159b` | hecho | «CRUZ*VER DATOS  CUADRADO*SALIR» en `textos_menu.inc.c` |
 | R-MC-01 MEMORY CARD, sin Controller Pak | `prueba_textos.c` | `88e159b` | hecho | Rojo en `da631b0`: 331 fallos |
 | R-MC-02 Ranura 1/2 | `prueba_textos.c` | `88e159b` | hecho | Esperados de `dato_800E78*` |
-| R-MC-03 Opción copiar honesta | `prueba_textos.c`; `git diff` de `tablas_menus.inc.c`; captura F6 | `88e159b` | parcial: falta la captura F6 | Esperados «COPIAR FANTASMAS DESDE / OTRA MEMORY CARD NO / ESTÁ DISPONIBLE EN PS2» |
+| R-MC-03 Opción copiar honesta | `prueba_textos.c`; `git diff` de `tablas_menus.inc.c` | `88e159b` | hecho (CC-12: sin captura F6) | Esperados «COPIAR FANTASMAS DESDE / OTRA MEMORY CARD NO / ESTÁ DISPONIBLE EN PS2» |
 | R-TEX-01 Despacho por firma | `prueba_textura_menu.c`; `prueba_tkmk00.py` | `9f9beac`, `2ff6bf0` | hecho | CI n.º 9 |
-| R-TEX-02 Manifiesto completo | `prueba_texturas_es.py` | `4345598`, `37633d3`, `31eaf62` | parcial: ninguna prueba exige fila o exclusión para las carpetas fuera de TKMK00 | 97 filas en `recursos/es/texturas.tsv` y 3 en `lakitu.tsv` |
-| R-TEX-03 Tamaños desde el manifiesto; PULSA START crudo | `prueba_cableado_es.py`; `prueba_cartel_es.py` | `37633d3`, `78b7177`, `c86be95` | hecho; el crecimiento de la ROM se midió a mano | `rom.bin` + 6 144 B en `dda9a5f` |
+| R-TEX-02 Manifiesto completo | `prueba_texturas_es.py` | `4345598`, `37633d3`, `31eaf62` | parcial: ninguna prueba exige fila o exclusión para las carpetas fuera de TKMK00 ([deuda.md](deuda.md), D-05) | 97 filas en `recursos/es/texturas.tsv` y 3 en `lakitu.tsv` |
+| R-TEX-03 Tamaños desde el manifiesto; PULSA START crudo | `prueba_cableado_es.py`; `prueba_cartel_es.py` | `37633d3`, `78b7177`, `c86be95` | hecho; el crecimiento de la ROM se midió a mano ([deuda.md](deuda.md), D-03) | `rom.bin` + 6 144 B en `dda9a5f` |
 | R-TEX-04 PNG fuente y reproducibilidad | `prueba_png_simple.py`; `prueba_formatos_textura.py`; `prueba_texturas_es.py`; `prueba_composicion_es.py` | `1ee6041`, `a7e918e`, `4345598`, `03e5967` y el arte | hecho | `make test` en `dda9a5f` |
-| R-TEX-05 HUD sin solapamiento | `prueba_hud_es.py`; hoja del HUD; capturas F6 | `7e0d345`, `a4676b3` | parcial: faltan las capturas F6 | [CC-03](cambios.md), [CC-07](cambios.md) |
+| R-TEX-05 HUD sin solapamiento | `prueba_hud_es.py`; hoja del HUD | `7e0d345`, `a4676b3` | hecho (CC-12: sin capturas F6) | [CC-03](cambios.md), [CC-07](cambios.md) |
 | R-TEX-06 Lakitu: 16 cuadros y paleta | `prueba_lakitu_es.py`; tira de 16 cuadros | `74cbaf6`, `44cc3fb` | hecho | Textos de reserva de `lakitu.tsv` |
-| R-TEX-07 Botones de PS2 | `prueba_composicion_es.py` (PNG = texto del manifiesto) | `788a957` | hecho; sin comprobación automática del nombre del botón | `SELECT|OPCIONES` y `R1|DATOS` en el manifiesto |
-| R-TEX-08 Superposición sin mezcla | `prueba_invertir_texturas.py`; `prueba_hud_es.py` | `fdd6a54`, `7e0d345`, `a4676b3` | hecho; la prueba revisa las reglas del sello, no un build incremental real | CI n.º 9; rojo comprobado en `fdd6a54` |
+| R-TEX-07 Botones de PS2 | `prueba_texturas_es.py` (paso 5); `prueba_composicion_es.py` (PNG = texto del manifiesto) | `788a957`; F8: `5d901a47` | hecho | `SELECT|OPCIONES` y `R1|DATOS` en el manifiesto; 4 mutaciones en FALLO en `5d901a47` |
+| R-TEX-08 Superposición sin mezcla | `prueba_invertir_texturas.py`; `prueba_hud_es.py` | `fdd6a54`, `7e0d345`, `a4676b3` | hecho; la prueba revisa las reglas del sello, no un build incremental real ([deuda.md](deuda.md), D-04) | CI n.º 9; rojo comprobado en `fdd6a54` |
 | R-PORT-01 Fuente 5x7 | `prueba_fuente_5x7.c` | `3db4b80`, `82858b4` | hecho | `make test` en `dda9a5f` |
-| R-PORT-02 Panel, audio y fases en español | `prueba_fuente_5x7.c`; `prueba_textos_port.py`; `prueba_ancho_panel.py`; capturas F6 | `0af8ebe`, `ead3e9d`, `ac10246`, `1bc10ba`, `7653639` | parcial: faltan las capturas F6 | CUADRO, RESERVA, VÉRT y MÚSICA en el código |
-| R-PORT-03 Pantalla de fallo | `prueba_caracteres_es.c` (`probar_quitar_diacriticos`); `prueba_textos_port.py`; captura | `9e6bec7`, `0c05c15`, `ba66cf9` | parcial: sin paso G-FALLO (se translitera siempre) y sin captura | «PARADA DE DIAGNÓSTICO» y EJEC/LISTO/ESPERA en `depuracion.c` |
-| R-PORT-04 Marcas del registro | `prueba_textos_port.py`; revisión lingüística | `9d2b711`, `91b2a89`, `823a0c8` y los formatos de `registrar()` | hecho | [CC-05](cambios.md) |
+| R-PORT-02 Panel, audio y fases en español | `prueba_fuente_5x7.c`; `prueba_textos_port.py`; `prueba_ancho_panel.py` | `0af8ebe`, `ead3e9d`, `ac10246`, `1bc10ba`, `7653639`; F8: `36fc9e40`, `4612a508`, `ac4fcdae` | hecho (CC-12: sin capturas F6) | CUADRO, RESERVA, VÉRT y MÚSICA en el código; fila libre entre líneas del panel (L3, [CC-11](cambios.md)) |
+| R-PORT-03 Pantalla de fallo | `prueba_caracteres_es.c` (`probar_quitar_diacriticos`); `prueba_textos_port.py` | `9e6bec7`, `0c05c15`, `ba66cf9` | parcial: sin paso G-FALLO, se translitera siempre ([deuda.md](deuda.md), D-07). La captura se retiró (CC-12) | «PARADA DE DIAGNÓSTICO» y EJEC/LISTO/ESPERA en `depuracion.c` |
+| R-PORT-04 Marcas del registro | `prueba_textos_port.py`; revisión lingüística | `9d2b711`, `91b2a89`, `823a0c8` y los formatos de `registrar()`; F8: `748db117`, `36fc9e40` | hecho | [CC-05](cambios.md); los textos nuevos del original, en español ([CC-08](cambios.md)) |
 | R-PORT-05 Fuente de depuración N64 | `prueba_textos.c`; `prueba_cadena_depuracion.c` | `9e6bec7`, `40ed241`, `37cf760`, `ab920e9`, `26a0bbc`, `32c2a6f` | hecho | Rojo de `ab920e9` en `da631b0`; mutación de `29541a4` en `da631b0` |
 | R-INF-01 Objetivos del PC sin SDK | job `pruebas-pc` | `f8f9a39`, `37633d3`, `a0da3a1` | hecho | `env -u PS2SDK make es` y `make hoja-es` con 0 en `dda9a5f` |
 | R-INF-02 Conversor EUC-JP | `prueba_convertir_eucjp.py` | `727c7ed`, `476dd52` | hecho | CI n.º 1 |
 | R-INF-03 Metadatos convertidos | `prueba_metadatos_eucjp.py` | `ecbfd5c` | hecho | CI n.º 1; rojo comprobado |
 | R-INF-04 `-fsigned-char` y dependencias de `test` | `make -n test`; huella de R-FUE-02 | `ecbfd5c`, `8fdea7c` | hecho | `make -n test`: `-fsigned-char` en los 8 `gcc` de prueba |
-| R-INF-05 CI | ejecuciones de la CI | `7387d01`, `6dd12e7`, `a3d0bae`, `c461c5b` | hecho; el paso G-FALLO no se añadió | CI 36518116212 |
+| R-INF-05 CI | ejecuciones de la CI | `7387d01`, `6dd12e7`, `a3d0bae`, `c461c5b`; F8: `24ed39a0`, `6251a4a6`, `b69f1548` | hecho; el paso G-FALLO no se añadió | CI 36518116212; CI de F8 en [Evidencia común](#evidencia-común) ([CC-09](cambios.md)) |
 | R-INF-06 Tope de líneas | `comprobar_lineas.py` en `make test` | `f1f3d3d` | hecho | 0 archivos por encima del tope en `dda9a5f` |
-| R-GOB-01 Formato de commits | comando de R-GOB-01 | todas | parcial: 4 commits `chore` | [CC-06](cambios.md) |
+| R-GOB-01 Formato de commits | comando de R-GOB-01 | todas | parcial: 4 commits `chore` en F1–F7 | [CC-06](cambios.md). En F8 el comando solo devuelve `c2ed147` y `ae93f71`, del original ([CC-08](cambios.md)); la publicación pasa a tipo `build` ([CC-09](cambios.md)) |
 | R-GOB-02 Refactor separado | `comparar_preprocesado.py`; job `mismo-binario`; caracterización | `418ea18`, `1c9545d`, `d87d14f`, `15136d3`, `3db4b80`, `9d2b711`, `40ed241`, `26a0bbc`, `4da5ab9`, `47a7371` | parcial: falta la prueba registrada de `15136d3` | F2: ver «Commits de F1–F3» y CI n.º 5. `9d2b711`, `40ed241` y `26a0bbc`: `comparar_preprocesado.py` da `igual` (en su mensaje). `3db4b80`: caracterización con la huella de la fuente ASCII. `4da5ab9` y `47a7371`: verificación en `6794945` ([CC-06](cambios.md)) |
-| R-GOB-03 Rojo demostrado y mutación restaurada | salidas en el PR; `git diff --quiet` | todas | parcial: rojo registrado en F1–F3 (5 commits) y en `da631b0` (8 bloques de CADENAS); mutaciones solo en `4bf57f3`, `d28f950` y `da631b0`; `dcc0914` sin rojo | Tablas de commits de este documento |
-| R-GOB-04 Revisión por rol distinto | registro de revisión | — | pendiente: sin registro en el repositorio | — |
-| R-GOB-05 Árbol limpio | `git status --short`; `git log -- build compilaciones` | todas | hecho | Solo `dda9a5f` toca `build/` y `compilaciones/` |
-| R-GOB-06 Stage por ruta | `git diff --stat` en la revisión | — | pendiente: sin registro de revisión | — |
-| R-GOB-07 Sin identificadores en el código | `grep` de identificadores de requisito | todas | hecho | Salida vacía en `dda9a5f` |
-| R-GOB-08 Documentación sincronizada | revisión del PR | — | hecho | Esta sincronización final de README y `docs/traduccion/` |
+| R-GOB-03 Rojo demostrado y mutación restaurada | salidas en el PR; `git diff --quiet` | todas | parcial: rojo registrado en F1–F3 (5 commits) y en `da631b0` (8 bloques de CADENAS); mutaciones solo en `4bf57f3`, `d28f950` y `da631b0`. En F8, rojo y mutación en cada commit con prueba; E4, E5, G5 y L2 sin arnés de PC, con evidencia de código | Tablas de commits de este documento; [acta](revisiones/2026-10-11-sincronizacion.md) |
+| R-GOB-04 Revisión por rol distinto | registro de revisión | — | parcial: F1–F7 sin registro; F8 con acta, integrada con el hallazgo Media de G5 abierto a la espera del responsable | [Acta de F8](revisiones/2026-10-11-sincronizacion.md) |
+| R-GOB-05 Árbol limpio | `git status --short`; `git log -- build compilaciones` | todas | hecho | Solo `dda9a5f` toca `build/` y `compilaciones/`; en F8 ningún commit los toca antes de la publicación |
+| R-GOB-06 Stage por ruta | `git diff --stat` en la revisión | — | parcial: F1–F7 sin registro; en F8, REVISIÓN comprobó con el diff de tres puntos que cada rama solo toca sus archivos | [Acta de F8](revisiones/2026-10-11-sincronizacion.md) |
+| R-GOB-07 Sin identificadores en el código | `grep` de identificadores de requisito | todas | hecho | Salida vacía en `dda9a5f` y en `d5f95cc5` |
+| R-GOB-08 Documentación sincronizada | revisión del PR | — | parcial: falta integrar `sinc/manual`, `sinc/proceso` y `sinc/doc-traduccion`; pasa a hecho en el commit de cierre | Sincronización de F7; en F8, la documentación de [CC-12](cambios.md) |
