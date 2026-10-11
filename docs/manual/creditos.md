@@ -41,6 +41,15 @@ Alexis Barrera (GitHub: [Alexis-VsCode](https://github.com/Alexis-VsCode)) manti
 
 **Sincronización con el original** hasta `ae93f71`: fusión `9f4d0215` y textos nuevos del original en español (`748db117` y `36fc9e40`). Después de la sincronización, las correcciones de [CC-11](../traduccion/cambios.md): E3 `176651ed`, E4 `a86960cf`, E5 `61a88a74`, G5 `ce98830c`, L2 `9adc3192` y L3 `ac4fcdae`.
 
+**Versión 1.1.0** ([CC-13 a CC-17](../traduccion/cambios.md)):
+
+- la Memory Card ya no pisa la partida más nueva al insertar o cambiar la tarjeta (CC-13: `2e578b4b`, `b989feca`, `e4937a28`, `41441ae5`, `3e62e63e`, `abe7c205` y `8c69e253`);
+- la zona muerta del stick baja de 24 a 8 y la cruceta conserva su reposo (CC-14: `1fc4c437`, `4a48ff6a`, `dcbe656e`, `ddbdc023`, `34ab306d` y `2b37f61f`);
+- la región de la consola se lee de `rom0:ROMVER` (CC-15: `807d2c45`, `3b11daa5` y `ac1a1090`);
+- la Release publica también el ELF monolítico, y la publicación ya no oculta fallos (CC-16: `4bdd41a8`);
+- el alfa con tramado pasa a una función pura con prueba (CC-17: `ff313bc5` y `d41996f7`);
+- deuda saldada: D-09 (`bb8d41bd`), D-10 (`3e2067a4`), D-14 (`1d8f5670`) y D-15 (`c641d19b`), y el registro del ritmo de física (`7e9edfaa`).
+
 ## Herramientas de terceros
 
 - [ps2dev](https://github.com/ps2dev/ps2dev): toolchain de PS2, ps2sdk y gsKit.

@@ -6,18 +6,18 @@ Es el port a PS2 de anthoo582, con la localización completa al español, la sin
 
 ## Estado
 
-Versión 1.0.0, del 2026-10-11. El avance y lo pendiente de la fase en curso están en [docs/traduccion/README.md](docs/traduccion/README.md).
+Versión 1.1.0, del 2026-10-11. Qué cambia respecto a la 1.0.0: [CHANGELOG.md](CHANGELOG.md#110---2026-10-11). El avance y lo pendiente de la fase en curso están en [docs/traduccion/README.md](docs/traduccion/README.md).
 
 **Verificado en este repositorio, con pruebas y CI:**
 
-- `make test` en el PC, sin el SDK de PS2: 28 pruebas y el comprobador del tope de líneas, 0 fallos. Comprueban, entre otras cosas, cada texto en español byte a byte y por tinta contra la zona segura del televisor, la tabla de glifos, las texturas en español y la compatibilidad de la fuente con la N64 ([detalle](docs/manual/tecnico.md#pruebas)).
-- CI en verde: pruebas en el PC y compilación para PS2 de las variantes release, `DEBUG=1` y `DEV=1` con la ISO. Ejecución de la versión 1.0.0: [38123501282](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38123501282).
+- `make test` en el PC, sin el SDK de PS2: 31 pruebas y el comprobador del tope de líneas, 0 fallos. Comprueban, entre otras cosas, cada texto en español byte a byte y por tinta contra la zona segura del televisor, la tabla de glifos, las texturas en español, la compatibilidad de la fuente con la N64, la conversión del stick, la región leída de la BIOS y la copia de la Memory Card que se pisa al guardar ([detalle](docs/manual/tecnico.md#pruebas)).
+- CI en verde: pruebas en el PC y compilación para PS2 de las variantes release, `DEBUG=1` y `DEV=1` con la ISO. Ejecución de la versión 1.1.0: <<PUBLICACION>>.
 
 **Según el port original:** probado en **PCSX2** (con BIOS) y en **Play!**.
 
 **Sin verificar:**
 
-- en una **PS2 real**;
+- en una **PS2 real**, incluidos el tacto del stick, la lectura de la región de la consola y el cambio de Memory Card con el juego en marcha;
 - con **OPL** y **uLaunchELF** en hardware;
 - con un **multitap real**;
 - la **imagen en pantalla** de la versión en español: no hay revisión visual registrada.
@@ -35,24 +35,26 @@ El detalle por áreas está en [docs/manual/creditos.md](docs/manual/creditos.md
 
 ## Descarga
 
-- **Última versión:** [Releases](https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/latest), con la ISO, `SHA256SUMS` y las [notas de la versión](docs/versiones/v1.0.0.md).
+- **Última versión:** [Releases](https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/latest), con la ISO, el ELF monolítico, `SHA256SUMS` y las [notas de la versión](docs/versiones/v1.1.0.md).
 - **ISO directa:** [`SLUS_999.99.SuperMarioKart64.iso`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/latest/download/SLUS_999.99.SuperMarioKart64.iso).
+- **ELF monolítico, para uLaunchELF desde USB:** [`SLUS_999.99.monolitico.elf`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/latest/download/SLUS_999.99.monolitico.elf). Lleva la ROM dentro: no necesita `SMK64ROM.BIN`.
 - **Alternativa:** la ISO versionada en `main`, [`compilaciones/SLUS_999.99.SuperMarioKart64.iso`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/raw/main/compilaciones/SLUS_999.99.SuperMarioKart64.iso).
 
 | Archivo | Tamaño | SHA-256 |
 |---|---|---|
-| `SLUS_999.99.SuperMarioKart64.iso` | 13 379 584 bytes (unos 12,8 MiB) | `e7c4513fbb04f80282ef7f7dcf7c94b8e357632c08a599102db2536cdd6b562f` |
+| `SLUS_999.99.SuperMarioKart64.iso` | <<PUBLICACION>> | <<PUBLICACION>> |
+| `SLUS_999.99.monolitico.elf` | <<PUBLICACION>> | <<PUBLICACION>> |
 
-Cómo comprobarla y ejecutarla en PCSX2, Play!, OPL o uLaunchELF: [manual de usuario](docs/manual/usuario.md).
+Cómo comprobar los archivos y ejecutarlos en PCSX2, Play!, OPL o uLaunchELF: [manual de usuario](docs/manual/usuario.md).
 
 ## Características
 
 - Las 20 pistas (16 de carrera y 4 de batalla), los 8 personajes y los modos Gran Premio, Contrarreloj, VS y Batalla, de 1 a 4 jugadores con multitap.
 - Textos, nombres de pista oficiales, texturas con texto, HUD y carteles de Lakitu en español, con 11 glifos nuevos en la fuente del menú.
-- Gráficos: un intérprete de listas de dibujo F3DEX, con el combinador de color y la TMEM de la N64, que produce paquetes para el GS. Video NTSC entrelazado a 640×448.
+- Gráficos: un intérprete de listas de dibujo F3DEX, con el combinador de color y la TMEM de la N64, que produce paquetes para el GS. Video NTSC entrelazado a 640×448 y 60 Hz, también en consolas PAL, que necesitan una TV que acepte 60 Hz ([detalle](docs/manual/usuario.md#consolas-pal-y-ntsc)).
 - Audio original: las muestras de la ROM se mezclan con la misma aritmética que la N64 (microcódigo de audio reescrito en C) y salen a 48 kHz por `audsrv`.
 - Modo 60 FPS durante la carrera, activo por defecto y conmutable con R3; la lógica del juego sigue a 30 Hz.
-- Partidas guardadas en la Memory Card de la ranura 1, en dos copias alternas con CRC32.
+- Partidas guardadas en la Memory Card de la ranura 1, en dos copias alternas con CRC32. Una tarjeta insertada o cambiada con el juego en marcha se lee antes de guardar, para no pisar su partida más nueva.
 - Arranque desde OPL sin reiniciar el IOP.
 - Pantalla de fallo con el estado de cada hilo y el registro reciente.
 
@@ -80,7 +82,7 @@ git checkout -- build compilaciones && git clean -fdq -- build compilaciones
 | [Créditos](docs/manual/creditos.md) | Autoría por áreas |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Definition of Done, reglas, ramas, commits y revisión |
 | [CHANGELOG.md](CHANGELOG.md) | Cambios por versión |
-| [Notas de la versión 1.0.0](docs/versiones/v1.0.0.md) | Cuerpo de la Release |
+| [Notas de la versión 1.1.0](docs/versiones/v1.1.0.md) | Cuerpo de la Release de la versión actual; las de la 1.0.0 están en [v1.0.0.md](docs/versiones/v1.0.0.md) |
 | [docs/traduccion/](docs/traduccion/README.md) | Localización: estado, especificación, plan, glosario, trazabilidad, cambios, actas de revisión y deuda técnica |
 
 ## Aviso legal
