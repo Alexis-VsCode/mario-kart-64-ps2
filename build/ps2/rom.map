@@ -1491,20 +1491,20 @@ Linker script and memory map
                 0x00008130                        __romseg_common_textures_start = __romPos
 
 .common_textures
-                0x0d000000    0x12950 load address 0x00008130
+                0x0d000000    0x12940 load address 0x00008130
  build/ps2/recursos/comunes/datos_comunes.mio0.o(.data)
- .data          0x0d000000    0x1294d build/ps2/recursos/comunes/datos_comunes.mio0.o
-                0x0d012950                        . = ALIGN (0x10)
- *fill*         0x0d01294d        0x3 
-                0x0d012950                        _common_texturesSegmentEnd = (ADDR (.common_textures) + SIZEOF (.common_textures))
-                0x00012950                        _common_texturesSegmentSize = SIZEOF (.common_textures)
-                0x0001aa80                        __romseg_common_textures_end = (__romPos + SIZEOF (.common_textures))
+ .data          0x0d000000    0x1293f build/ps2/recursos/comunes/datos_comunes.mio0.o
+                0x0d012940                        . = ALIGN (0x10)
+ *fill*         0x0d01293f        0x1 
+                0x0d012940                        _common_texturesSegmentEnd = (ADDR (.common_textures) + SIZEOF (.common_textures))
+                0x00012940                        _common_texturesSegmentSize = SIZEOF (.common_textures)
+                0x0001aa70                        __romseg_common_textures_end = (__romPos + SIZEOF (.common_textures))
                 0x00ac6560                        __romPos = (__romPos + SIZEOF (.common_textures))
                 0x00ac6560                        __romPos = ALIGN (__romPos, 0x10)
                 0x06000000                        _startupLogoSegmentStart = ADDR (.startupLogo)
-                0x0001aa80                        __romseg_startupLogo_start = __romPos
+                0x0001aa70                        __romseg_startupLogo_start = __romPos
 
-.startupLogo    0x06000000     0x2d40 load address 0x0001aa80
+.startupLogo    0x06000000     0x2d40 load address 0x0001aa70
  build/ps2/recursos/logo_inicio/logo_inicio.mio0.o(.data)
  .data          0x06000000     0x2d40 build/ps2/recursos/logo_inicio/logo_inicio.mio0.o
                 0x06000000                logo_inicio
@@ -1512,24 +1512,24 @@ Linker script and memory map
                 0x06002d40                        . = ALIGN (0x10)
                 0x06002d40                        _startupLogoSegmentEnd = (ADDR (.startupLogo) + SIZEOF (.startupLogo))
                 0x00002d40                        _startupLogoSegmentSize = SIZEOF (.startupLogo)
-                0x0001d7c0                        __romseg_startupLogo_end = (__romPos + SIZEOF (.startupLogo))
+                0x0001d7b0                        __romseg_startupLogo_end = (__romPos + SIZEOF (.startupLogo))
                 0x00ac6560                        __romPos = (__romPos + SIZEOF (.startupLogo))
                 0x00ac6560                        __romPos = ALIGN (__romPos, 0x10)
                 0x00000000                        _audio_banksSegmentStart = ADDR (.audio_banks)
-                0x0001d7c0                        __romseg_audio_banks_start = __romPos
+                0x0001d7b0                        __romseg_audio_banks_start = __romPos
 
-.audio_banks    0x00000000    0x13840 load address 0x0001d7c0
+.audio_banks    0x00000000    0x13840 load address 0x0001d7b0
  build/ps2/sonido/bancos_instrumentos.o(.data)
  .data          0x00000000    0x13840 build/ps2/sonido/bancos_instrumentos.o
                 0x00013840                        _audio_banksSegmentEnd = (ADDR (.audio_banks) + SIZEOF (.audio_banks))
                 0x00013840                        _audio_banksSegmentSize = SIZEOF (.audio_banks)
-                0x00031000                        __romseg_audio_banks_end = (__romPos + SIZEOF (.audio_banks))
+                0x00030ff0                        __romseg_audio_banks_end = (__romPos + SIZEOF (.audio_banks))
                 0x00ac6560                        __romPos = (__romPos + SIZEOF (.audio_banks))
                 0x00ac6560                        __romPos = ALIGN (__romPos, 0x10)
                 0x0025fd00                        _sequencesSegmentStart = ADDR (.sequences)
-                0x00031000                        __romseg_sequences_start = __romPos
+                0x00030ff0                        __romseg_sequences_start = __romPos
 
-.sequences      0x0025fd00    0x23180 load address 0x00031000
+.sequences      0x0025fd00    0x23180 load address 0x00030ff0
  build/ps2/codigo/datos/secuencias_musica.o(.data)
  .data          0x0025fd00    0x23170 build/ps2/codigo/datos/secuencias_musica.o
                 0x0025fd00                musica_secuencia_tabla_cabecera
@@ -1599,20 +1599,20 @@ Linker script and memory map
  *fill*         0x00282e70       0x10 
                 0x00282e80                        _sequencesSegmentEnd = (ADDR (.sequences) + SIZEOF (.sequences))
                 0x00023180                        _sequencesSegmentSize = SIZEOF (.sequences)
-                0x00054180                        __romseg_sequences_end = (__romPos + SIZEOF (.sequences))
+                0x00054170                        __romseg_sequences_end = (__romPos + SIZEOF (.sequences))
                 0x00ac6560                        __romPos = (__romPos + SIZEOF (.sequences))
                 0x00ac6560                        __romPos = ALIGN (__romPos, 0x10)
                 0x00282e80                        _instrument_setsSegmentStart = ADDR (.instrument_sets)
-                0x00054180                        __romseg_instrument_sets_start = __romPos
+                0x00054170                        __romseg_instrument_sets_start = __romPos
 
 .instrument_sets
-                0x00282e80       0x80 load address 0x00054180
+                0x00282e80       0x80 load address 0x00054170
  build/ps2/codigo/datos/conjuntos_instrumentos.o(.data)
  .data          0x00282e80       0x80 build/ps2/codigo/datos/conjuntos_instrumentos.o
                 0x00282e80                conjuntos_instrumento
                 0x00282f00                        _instrument_setsSegmentEnd = (ADDR (.instrument_sets) + SIZEOF (.instrument_sets))
                 0x00000080                        _instrument_setsSegmentSize = SIZEOF (.instrument_sets)
-                0x00054200                        __romseg_instrument_sets_end = (__romPos + SIZEOF (.instrument_sets))
+                0x000541f0                        __romseg_instrument_sets_end = (__romPos + SIZEOF (.instrument_sets))
                 0x00ac6560                        __romPos = (__romPos + SIZEOF (.instrument_sets))
                 0x00ac6560                        __romPos = ALIGN (__romPos, 0x10)
                 0x00ac6560                        __romPos = ALIGN ((__romPos + 0x1000), 0x10000)
