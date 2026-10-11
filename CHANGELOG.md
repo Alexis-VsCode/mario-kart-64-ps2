@@ -8,6 +8,48 @@ El detalle de cada cambio está en el commit que se cita y en [docs/traduccion/]
 
 Nada todavía.
 
+## [1.2.0] - 2026-10-11
+
+Versión con el menú de configuración y trucos, las opciones de imagen, la verificación en un emulador dentro de la CI y el cierre de la deuda técnica, con los cambios de especificación CC-18 a CC-30 de [cambios.md](docs/traduccion/cambios.md). Notas de la Release: [docs/versiones/v1.2.0.md](docs/versiones/v1.2.0.md). Commit de publicación: <<PUBLICACION>>.
+
+### Añadido
+
+- Archivo de opciones del port, `SMK64CFG.DAT`, en la Memory Card, leído y guardado en el hilo de guardado (`93cb4d04`, `8c022b34`; CC-18).
+- Menú **CONFIGURACIÓN Y TRUCOS** en OPCIONES, con ANTIPARPADEO, POSICIÓN X/Y, FORMATO, DESBLOQUEAR TODO, OBJETO, 200CC, RIVALES SIN VENTAJA y VOLVER (`7c5439e4`, `146b23af`; CC-19).
+- Opciones de imagen en 480i: antiparpadeo, desactivado por defecto, y posición de la imagen (`fa835b62`, `9173dde8`; CC-20).
+- FORMATO NORMAL, CON BANDAS o PANORÁMICO; CON BANDAS por defecto si la PS2 está configurada en 16:9. PANORÁMICO ensancha el aspecto de cada vista, de la ceremonia y el cono de visibilidad de los objetos (`92c1f1f3`, `fd4286e3`, `c52e2f8d`, `761d735d`; CC-21).
+- Trucos (CC-22 a CC-25):
+  - DESBLOQUEAR TODO, que se aplica al reconstruir cada pantalla de menú (`be355571`, `91c7254e`);
+  - OBJETO: un objeto fijo; en batalla, uno no válido deja la ruleta normal (`5a19ff97`);
+  - 200CC: solo en Gran Premio y VS a 150cc, y puntúa como 150cc (`c80fe61e`);
+  - RIVALES SIN VENTAJA (`f46bc633`).
+  - Los récords se guardan aunque haya trucos activos, con una advertencia en el menú.
+- Job «Guion en el emulador (Play!)» en la CI: arranca dos veces el ELF de `DEV=1` en Play! 0.72 sin BIOS, revisa el registro (región PAL con un ROMVER sintético y `vídeo: PMODE 8046`) y compara las capturas del título, del menú y de la carrera con sus referencias y entre sí (`2c3a8b29`, `98a042b7`, `570a0a12`, `979fcf14`; CC-26). Ejecución en verde: [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616).
+- Pasos nuevos en el job `compilar-ps2`: tope de crecimiento de la ROM (`a27fd80f`, D-03), compilación incremental real (`04adf1f6`, D-04) e inspección de la fuente de libdebug (`68bc6dce`, D-07).
+- Pruebas nuevas en `make test` (`3cf36394`): opciones del port, menú de configuración, registros de vídeo, vista panorámica, los cuatro trucos, el arnés de `memory_card.c` con libmc simulada (`36796171`, D-16), las herramientas del emulador y de la CI, y la reserva de matrices.
+
+### Cambiado
+
+- Las 1229 texturas del manifiesto `recursos/es/texturas.tsv` quedan clasificadas, con filas de archivo y de carpeta y exclusiones con motivo (`22fbc484`, `9032ab75`, `4216877e`, `431c3186`; CC-29, D-05).
+- La pantalla de fallo escribe con tildes mediante `scr_putchar` y `a_cp437` (`8e311363`, `ab75b9aa`; D-07).
+- La elección entre la cruceta y el stick pasa a la función pura `cruceta_manda_stick` (`bd70c399`, `3d67d29d`; D-18).
+- Texturas reconstruidas (CC-28): el «º» de los puestos (`2175d03b`), VUELTA (`d7b3feb9`), los botones y las copas (`9d9ac85e`) y el título de la Jungla DK (`bace922a`).
+- Texturas traducidas (CC-29): BIENVENIDOS (`cb32c871`), YA (`3505ff26`), los emblemas 1J a 4J (`caf7756f`) y PASO A NIVEL (`625105f4`). No queda ninguna textura pendiente (D-24).
+
+### Corregido
+
+- **Memory Card:** la cabecera B y las demás órdenes a libmc no se envían tras vencer una lectura (`2c83c0f8`, D-21); el registro da la generación que se escribe (`c69d9ef4`, D-20); las opciones quedan escritas antes de subir su versión (`3bbac652`).
+- **Reserva `efecto_mtx`:** los menús, los globos, las partículas, el kart y los fuegos artificiales no escriben fuera de ella con la reserva llena (`93231a07`, `64805e8c`, `a989c0f5`, `d2ce4c18`; D-08).
+- Las bandas no desbordan MAGH (`d5ee5381`); 200CC no escribe un empuje sin efecto (`a6397211`); RIVALES SIN VENTAJA respeta al rival designado (`4c0323bf`).
+- D-19: la prueba de la región separa la guarda de largo (`0c962092`). D-22: erratas y «1 fallo» en singular (`9a92bc41`).
+
+### Conocido
+
+- **D-23 sigue abierta:** con la reserva `efecto_mtx` llena, una partícula puede dibujarse con la matriz anterior ([deuda.md](docs/traduccion/deuda.md)).
+- **Sin hardware real ni TV:** el tacto del stick, el multitap, el cambio de Memory Card en caliente y el rendimiento en PANORÁMICO. El antiparpadeo, las bandas y la posición solo se comprueban por los valores de los registros, porque las capturas leen la VRAM antes del PCRTC.
+- ROMVER solo se verificó por la ruta con reinicio del IOP y con un ROMVER sintético.
+- En PANORÁMICO, los objetos y la pista pueden aparecer tarde en los bordes, y el marcador sale estirado.
+
 ## [1.1.0] - 2026-10-11
 
 Versión de mantenimiento de la fase F9, con los cambios de especificación CC-13 a CC-17 de [cambios.md](docs/traduccion/cambios.md) y parte de la [deuda técnica](docs/traduccion/deuda.md) de la 1.0.0. `BUILD_ID` sigue en `2026-10-11`, la fecha de la versión. Notas de la Release: [docs/versiones/v1.1.0.md](docs/versiones/v1.1.0.md).
