@@ -61,3 +61,7 @@ emblema_1j_jugador	emblemas	28,9,25,20	P	30	fijo=1 alinear=izquierda@33
 emblema_2j_jugador	emblemas	33,9,23,20	P	33	fijo=1 alinear=izquierda@36
 emblema_3j_jugador	emblemas	31,9,25,20	P	33	fijo=1 alinear=izquierda@36
 emblema_4j_jugador	emblemas	32,9,24,20	P	33	fijo=1 alinear=izquierda@36
+activo_senial_cruce_arriba_izquierda	senial_cruce	0,12,32,40	RAILROAD|CROSSING	0	girar=40,-40@32,32.25 brazo=3.5,22 escala=0.5 espacio=4,3 hueco=12,0
+activo_senial_cruce_arriba_derecha	senial_cruce	0,12,32,40	RAILROAD|CROSSING	0	girar=40,-40@0,32.25 brazo=3.5,22 escala=0.5 espacio=4,3 hueco=12,0
+inactivo_senial_cruce_arriba_izquierda	senial_cruce	0,12,32,40	RAILROAD|CROSSING	0	girar=40,-40@32,32.25 brazo=3.5,22 escala=0.5 espacio=4,3 hueco=12,0
+inactivo_senial_cruce_arriba_derecha	senial_cruce	0,12,32,40	RAILROAD|CROSSING	0	girar=40,-40@0,32.25 brazo=3.5,22 escala=0.5 espacio=4,3 hueco=12,0

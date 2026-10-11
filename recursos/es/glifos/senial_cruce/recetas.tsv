@@ -1,0 +1,13 @@
+caracter	receta
+# PASO A NIVEL de la cruz de San Andres: el juego no trae la fuente de RAILROAD CROSSING
+# (letras de unos 4x5 ya filtradas). Se dibujan al doble, 8x10 con trazo de 2,
+# y el compositor las reduce con escala=0.5
+P	parte("p", 0)
+A	parte("a", 0)
+S	parte("s", 0)
+O	parte("o", 0)
+N	parte("n", 0)
+I	parte("i", 0)
+V	parte("v", 0)
+E	parte("e", 0)
+L	parte("l", 0)

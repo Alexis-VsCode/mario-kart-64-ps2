@@ -93,12 +93,41 @@ def probar_g_y_c():
                   % (textura, alto(c), alto(g)))
 
 
+def probar_cruce(manifiesto, comps):
+    """Las senales de cruce de Kalimari Desert dicen PASO / A NIVEL en diagonal, en cada
+    mitad de arriba por encima y por debajo del centro de la cruz, y la activa y la
+    inactiva llevan las letras en los mismos pixeles."""
+    for lado in ("izquierda", "derecha"):
+        tinta_por = {}
+        for estado in ("activo", "inactivo"):
+            id_ = "%s_senial_cruce_arriba_%s" % (estado, lado)
+            comprobar(manifiesto.get(id_, {}).get("texto_es") == "PASO|A NIVEL", "%s: se espera PASO|A NIVEL" % id_)
+            if id_ not in comps or id_ not in manifiesto:
+                comprobar(False, "%s: falta en %s" % (id_, ce.COMPOSICION))
+                continue
+            try:
+                borrado = ce.componer(id_, comps[id_]["texto_en"], comps[id_], en_ingles=True)
+                nuevo = ce.png_compuesto(id_, manifiesto[id_], comps[id_]).a_rgba()
+            except (ce.ErrorComposicion, OSError, KeyError, ValueError) as e:
+                comprobar(False, "%s: %s" % (id_, e))
+                continue
+            tinta_por[estado] = {k for k in range(len(nuevo)) if nuevo[k] != borrado[k]}
+            ancho = ce.Textura.cargar(id_).ancho
+            filas = [k // ancho for k in tinta_por[estado]]
+            comprobar(any(y < 30 for y in filas) and any(y > 34 for y in filas),
+                      "%s: las letras no van en diagonal por los dos lados del centro" % id_)
+        if len(tinta_por) == 2:
+            comprobar(tinta_por["activo"] == tinta_por["inactivo"],
+                      "senial_cruce_arriba_%s: la activa y la inactiva no tienen las mismas letras" % lado)
+
+
 def main():
     manifiesto = {f["id"]: f for f in texturas_es.leer_manifiesto(texturas_es.MANIFIESTO)}
     comps = ce.leer_composicion()
     comprobar(len(comps) >= 4, "se esperaban texturas en %s" % ce.COMPOSICION)
     probar_familias()
     probar_g_y_c()
+    probar_cruce(manifiesto, comps)
     for id_, comp in sorted(comps.items()):
         comprobar(id_ in manifiesto and comp["familia"] in os.listdir(ce.GLIFOS), "%s: fila invalida" % id_)
         if id_ in manifiesto:

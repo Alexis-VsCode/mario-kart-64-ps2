@@ -3271,11 +3271,11 @@ Gfx d_circuito_kalimari_desert_cactus3_dl[] = {
 };
 
 u8 d_circuito_kalimari_desert_inactivo_cartel_cruce_arriba_izquierda[] = {
-#include "recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_arriba_izquierda.inc.c"
+#include "recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_arriba_izquierda.rgba16.inc.c"
 };
 
 u8 d_circuito_kalimari_desert_inactivo_cartel_cruce_arriba_derecha[] = {
-#include "recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_arriba_derecha.inc.c"
+#include "recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_arriba_derecha.rgba16.inc.c"
 };
 
 u8 d_circuito_kalimari_desert_inactivo_cartel_cruce_abajo_izquierda[] = {
@@ -3287,11 +3287,11 @@ u8 d_circuito_kalimari_desert_inactivo_cartel_cruce_abajo_derecha[] = {
 };
 
 u8 d_circuito_kalimari_desert_activo_cartel_cruce_arriba_izquierda[] = {
-#include "recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_arriba_izquierda.inc.c"
+#include "recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_arriba_izquierda.rgba16.inc.c"
 };
 
 u8 d_circuito_kalimari_desert_activo_cartel_cruce_arriba_derecha[] = {
-#include "recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_arriba_derecha.inc.c"
+#include "recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_arriba_derecha.rgba16.inc.c"
 };
 
 u8 d_circuito_kalimari_desert_activo_cartel_cruce_abajo_izquierda[] = {
