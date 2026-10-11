@@ -65,10 +65,10 @@ def leer_filas(ruta):
     return filas
 
 
-def leer_carpetas(ruta):
-    """Filas de carpeta: lista de {ruta, motivo}."""
+def leer_carpetas(ruta, filas=None):
+    """Filas de carpeta: lista de {ruta, motivo}; filas evita releer el archivo."""
     carpetas = []
-    for numero, fila in leer_filas(ruta):
+    for numero, fila in filas if filas is not None else leer_filas(ruta):
         if not fila["id"].startswith(PREFIJO_CARPETA):
             continue
         carpeta = fila["id"][len(PREFIJO_CARPETA):].rstrip("/")
@@ -80,9 +80,10 @@ def leer_carpetas(ruta):
 
 def leer_manifiesto(ruta):
     """Lista de filas de textura (dict por columna); las de carpeta se validan y se omiten."""
-    leer_carpetas(ruta)
+    todas = leer_filas(ruta)
+    leer_carpetas(ruta, todas)
     filas = []
-    for numero, fila in leer_filas(ruta):
+    for numero, fila in todas:
         if fila["id"].startswith(PREFIJO_CARPETA):
             continue
         if fila["formato"] not in ft.FORMATOS or fila["alfa"] not in ALFAS or fila["retocado"] not in ("si", "no"):
