@@ -213,3 +213,30 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - CI de PS2 verde con `-lmtap`.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
 - **Commit:** —
+
+### CC-09: publicación con tipo `build`, Release de GitHub y limpieza de ramas por CI
+
+- **Estado:** aprobado (responsable del proyecto, 2026-10-11)
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-GOB-01, R-INF-05
+- **Motivo:**
+  - El job `publicar` commitea con `chore(build)`, un tipo que R-GOB-01 no admite (4 commits ya registrados en CC-06).
+  - El modo DEV no se compila en la CI: los guiones de prueba y los registros DEV solo se descubrían rotos en la publicación.
+  - El usuario pide una Release con la ISO y que queden solo las ramas necesarias.
+  - Desde la sesión de trabajo, la API de GitHub no permite crear Releases ni borrar ramas (403).
+- **Cambio:**
+  - El commit de publicación pasa a `build(compilaciones): binarios e ISO en español`, con el commit de origen y la ejecución en el cuerpo.
+  - `compilar-ps2` compila también `make DEV=1`.
+  - **Job a pedido `release`** (entrada `release=<etiqueta>`): sobre la referencia lanzada, publica la ISO de `compilaciones/` y un `SHA256SUMS` con las notas de `docs/versiones/<etiqueta>.md`, con `GITHUB_TOKEN`.
+  - **Job a pedido `limpiar_ramas`** (entrada `limpiar_ramas=si`): borra las ramas remotas que ya están contenidas en `main` (`git merge-base --is-ancestor`). No toca `main` ni ninguna rama con commits propios.
+  - `BUILD_ID` pasa a la fecha de la versión.
+- **Archivos:** `.github/workflows/compilacion.yml`, `Makefile` (línea de `BUILD_ID`) y `docs/versiones/v1.0.0.md`.
+- **Alternativas descartadas:**
+  - Crear la Release con la API desde la sesión: 403.
+  - Reescribir los 4 commits `chore` ya integrados: la historia es pública.
+- **Evidencia requerida:**
+  - el commit de publicación con el tipo nuevo;
+  - la Release con un SHA-256 igual al de la ISO versionada;
+  - `git ls-remote --heads origin` con solo `main` al final.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
+- **Commit:** —
