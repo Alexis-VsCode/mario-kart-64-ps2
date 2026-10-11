@@ -12,11 +12,16 @@
   --sombra:0 2px 0 rgba(0,0,0,.12);
 }
 @media (prefers-color-scheme:dark){
-  :root{
+  :root:not([data-theme=light]){
     --fondo:#101018;--superficie:#1a1a26;--texto:#ecebf2;--suave:#a9a8bd;
     --borde:#2f2f44;--acento:#ff4d5e;--acento2:#6f9bff;--oro:#ffcb3d;
     --sombra:0 2px 0 rgba(0,0,0,.5);
   }
+}
+:root[data-theme=dark]{
+  --fondo:#101018;--superficie:#1a1a26;--texto:#ecebf2;--suave:#a9a8bd;
+  --borde:#2f2f44;--acento:#ff4d5e;--acento2:#6f9bff;--oro:#ffcb3d;
+  --sombra:0 2px 0 rgba(0,0,0,.5);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
