@@ -103,7 +103,7 @@ El resto de objetivos y variables de `make` están en el [manual técnico](../ma
 
 Comprobado el 2026-10-11 sobre `feature/sincronizacion-upstream` en `d5f95cc5`.
 
-- **Especificación → trazabilidad.** `especificacion.md` define 46 requisitos (`R-FUE` 8, `R-TXT` 8, `R-MC` 3, `R-TEX` 8, `R-PORT` 5, `R-INF` 6, `R-GOB` 8). Los 46 tienen fila en [trazabilidad.md](trazabilidad.md) y la lista coincide. Estado: 39 hechos (6 aceptados por CC-12 sin captura y 3 con una salvedad registrada en [deuda.md](deuda.md)) y 7 parciales (R-TEX-02, R-PORT-03, R-GOB-01, R-GOB-02, R-GOB-03, R-GOB-04 y R-GOB-06). Comprobación:
+- **Especificación → trazabilidad.** `especificacion.md` define 46 requisitos (`R-FUE` 8, `R-TXT` 8, `R-MC` 3, `R-TEX` 8, `R-PORT` 5, `R-INF` 6, `R-GOB` 8). Los 46 tienen fila en [trazabilidad.md](trazabilidad.md) y la lista coincide. Estado: 38 hechos (6 aceptados por CC-12 sin captura y 3 con una salvedad registrada en [deuda.md](deuda.md)) y 8 parciales (R-TEX-02, R-PORT-03, R-GOB-01, R-GOB-02, R-GOB-03, R-GOB-04, R-GOB-06 y R-GOB-08). Comprobación:
 
   ```sh
   diff <(grep -oE '^\*\*R-[A-Z]+-[0-9]+' especificacion.md | tr -d '*' | sort) \

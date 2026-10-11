@@ -187,4 +187,4 @@ No se integraron `sinc/graficos` (salvo G5) ni `sinc/recorrido` (CC-10 rechazado
 | R-GOB-05 Árbol limpio | `git status --short`; `git log -- build compilaciones` | todas | hecho | Solo `dda9a5f` toca `build/` y `compilaciones/`; en F8 ningún commit los toca antes de la publicación |
 | R-GOB-06 Stage por ruta | `git diff --stat` en la revisión | — | parcial: F1–F7 sin registro; en F8, REVISIÓN comprobó con el diff de tres puntos que cada rama solo toca sus archivos | [Acta de F8](revisiones/2026-10-11-sincronizacion.md) |
 | R-GOB-07 Sin identificadores en el código | `grep` de identificadores de requisito | todas | hecho | Salida vacía en `dda9a5f` y en `d5f95cc5` |
-| R-GOB-08 Documentación sincronizada | revisión del PR | — | hecho | Sincronización de F7; en F8, la documentación de [CC-12](cambios.md) |
+| R-GOB-08 Documentación sincronizada | revisión del PR | — | parcial: falta integrar `sinc/manual`, `sinc/proceso` y `sinc/doc-traduccion`; pasa a hecho en el commit de cierre | Sincronización de F7; en F8, la documentación de [CC-12](cambios.md) |
