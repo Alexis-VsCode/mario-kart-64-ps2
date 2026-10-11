@@ -54,6 +54,7 @@ Alexis Barrera (GitHub: [Alexis-VsCode](https://github.com/Alexis-VsCode)) manti
 
 - [ps2dev](https://github.com/ps2dev/ps2dev): toolchain de PS2, ps2sdk y gsKit.
 - PCSX2 y Play!: emuladores en los que el autor del port lo probó.
+- [Play!](https://purei.org/) 0.72: emulador del job `emulador` de la CI, que arranca el ELF de `DEV=1` sin BIOS, con un guion, y compara sus capturas con las referencias (CC-26).
 - OPL y uLaunchELF: cargadores para PS2.
 
 ## Licencia y marcas
