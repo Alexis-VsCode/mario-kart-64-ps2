@@ -102,10 +102,17 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq xvfb mesa-vulkan-drivers libvulkan1 libegl1 libopengl0 libgl1 \
             libglx-mesa0 libasound2t64 libfontconfig1 libx11-xcb1 libxkbcommon-x11-0 libxcb-cursor0
+      # La AppImage se guarda en la caché por su SHA-256: un corte de purei.org no tumba el job
+      - name: Caché de Play!
+        uses: actions/cache@v4
+        with:
+          path: play/Play.AppImage
+          key: play-${{ env.PLAY_SHA256 }}
       - name: Play! con versión y SHA-256 fijados
         run: |
           mkdir -p play
-          curl -sSfL -o play/Play.AppImage "$PLAY_URL"
+          test -f play/Play.AppImage || curl -sSfL --retry 5 --retry-all-errors --connect-timeout 30 \
+            -o play/Play.AppImage "$PLAY_URL"
           echo "$PLAY_SHA256  play/Play.AppImage" | sha256sum -c -
           chmod +x play/Play.AppImage
           cd play && ./Play.AppImage --appimage-extract > /dev/null
