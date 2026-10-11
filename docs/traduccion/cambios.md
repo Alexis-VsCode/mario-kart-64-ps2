@@ -360,3 +360,27 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - `docs/versiones/v1.0.0.md` existe antes de lanzar el job `release`.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-11). REVISIÓN e INTEGRACIÓN: con la revisión de las ramas de documentación de F8.
 - **Commit:** `b4b37c13` (CC-10 rechazado y G2 y G4 retirados) y `d5f95cc5` (este registro). La aplicación va en las ramas de documentación de F8: `sinc/manual`, `sinc/proceso` y `sinc/doc-traduccion`.
+
+### CC-13: Memory Card sin pérdida de partidas al cambiar la tarjeta
+
+- **Estado:** aprobado (responsable del proyecto, 2026-10-11, plan F9)
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-MC-01, R-MC-02
+- **Motivo:**
+  - Si se arranca sin tarjeta o se cambia en caliente, `guardar_ahora` escribe en `ranura_siguiente` con la generación de la sesión sin leer la tarjeta. Pisa la copia más nueva y en el siguiente arranque se carga la vieja (`memory_card.c:241-243` y `:302-323`).
+  - Hay tres defectos más:
+    - la espera de la partida al arrancar cuenta 5000 vueltas y no tiempo, contra un perro guardián de 6 s (`:281-283`);
+    - el segundo borrado espera aunque la tarjeta no conteste (D-12);
+    - `mcGetInfo` puede escribir `type`/`free`/`format` en una pila ya liberada si contesta tarde (D-13).
+- **Cambio:**
+  - **Tarjeta nueva:** cuando `mcGetInfo` devuelve -1, se leen las dos cabeceras antes de escribir. Se pisa la copia más vieja y la generación pasa a ser la mayor de la tarjeta más uno. Lo decide una función pura en `incluir/sistema/eleccion_guardado.h`, probada en el PC. No se toca `guardado_ps2.generacion`: el hilo de juego la usa para espaciar los guardados.
+  - **Espera al arrancar:** se mide con `ciclos_ps2()`, no en vueltas del bucle.
+  - **Segundo borrado** (D-12): solo con `mc_ok`.
+  - **Variables de `mcGetInfo`** (D-13): `type`, `free` y `format` pasan a `static`.
+  - **D-11, decisión escrita:** se mantiene. Si solo vence `mcClose`, la tarjeta queda desactivada y descartar la lectura es coherente: la partida de la sesión sigue en la memoria.
+- **Alternativas descartadas:** no escribir nunca en una tarjeta distinta de la del arranque, porque perdería el guardado al insertar una tarjeta vacía.
+- **Evidencia requerida:**
+  - `prueba_eleccion_guardado.c` (rojo y mutaciones);
+  - para el resto, evidencia de código y compilación en la CI.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
+- **Commit:** —
