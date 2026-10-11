@@ -46,6 +46,9 @@ jobs:
         run: make clean
       - name: make (release)
         run: . herramientas/entorno.sh && make -j"$(nproc)"
+      # R-TEX-03 (D-03): la ROM crece menos de 256 KiB sobre la de main
+      - name: Tope de crecimiento de la ROM
+        run: python3 herramientas/ci/tope_rom.py build/ps2/rom.bin
       - name: make DEBUG=1
         run: . herramientas/entorno.sh && make DEBUG=1 -j"$(nproc)"
       # Los guiones de prueba y los registros DEV solo compilan con DEV=1
