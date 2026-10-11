@@ -37,4 +37,11 @@ static inline int eje_en_reposo(u8 crudo)
     return v > -ZONA_REPOSO_CRUCETA && v < ZONA_REPOSO_CRUCETA;
 }
 
+/* Si la cruceta hace de stick: siempre sin modo analógico (el mando no da ejes) y, con él,
+   solo mientras los dos ejes del stick izquierdo están en reposo. */
+static inline int cruceta_manda_stick(int analogico, u8 crudo_h, u8 crudo_v)
+{
+    return !analogico || (eje_en_reposo(crudo_h) && eje_en_reposo(crudo_v));
+}
+
 #endif
