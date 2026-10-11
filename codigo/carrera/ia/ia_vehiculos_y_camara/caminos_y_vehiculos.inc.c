@@ -1,5 +1,8 @@
 // Caminos y vehiculos
 
+#include "carrera/cilindrada_200cc.h"
+#include "sistema/opciones_port.h"
+
 s32 actualizar_seleccion_camino_jugador(s32 jugador_id, s32 indice_camino) {
     f32 pos_x;
     f32 pos_y;
@@ -429,6 +432,9 @@ void actualizar_jugador(s32 id_jugador) {
                     } else {
                         anterior_cpu_objetivo_rapidez[id_jugador] = obtener_circuito_cpu_normal_objetivo_rapidez(seleccion_cc);
                     }
+                    anterior_cpu_objetivo_rapidez[id_jugador] = cilindrada_200cc_objetivo(
+                        anterior_cpu_objetivo_rapidez[id_jugador],
+                        cilindrada_200cc_aplica(opciones_port.truco_200cc, seleccion_modo, seleccion_cc));
                     comprobar_distancia_cruce_ai(id_jugador);
                     cpu_pista_posicion_factor(id_jugador);
                     determinar_ideal_cpu_posicion_desplazamiento(id_jugador, actual_mas_cercano_camino_punto);
@@ -630,6 +636,10 @@ void actualizar_jugador(s32 id_jugador) {
                 if ((dato_801630E8[id_jugador] == 2) || (dato_801630E8[id_jugador] == -2) || (dato_801630E8[id_jugador] == 3)) {
                     cpu_objetivo_rapidez[id_jugador] = 3.3333333f;
                 }
+                // Truco 200CC: la CPU sigue a los humanos con su rapidez maxima escalada
+                cpu_objetivo_rapidez[id_jugador] = cilindrada_200cc_objetivo(
+                    cpu_objetivo_rapidez[id_jugador],
+                    cilindrada_200cc_aplica(opciones_port.truco_200cc, seleccion_modo, seleccion_cc));
                 actual_cpu_objetivo_rapidez = cpu_objetivo_rapidez[id_jugador];
                 jugador->efectos &= ~EFECTO_RAPIDO_CPU;
                 anterior_cpu_objetivo_rapidez[id_jugador] = actual_cpu_objetivo_rapidez;

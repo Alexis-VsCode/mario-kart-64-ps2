@@ -1,5 +1,8 @@
 // Aparecer jugadores
 
+#include "carrera/cilindrada_200cc.h"
+#include "sistema/opciones_port.h"
+
 f32 dato_80165210[8];
 f32 dato_80165230[8];
 SIN_USO f32 dato_80165250[8];
@@ -79,6 +82,12 @@ void aparecer_jugador(Jugador* jugador, s8 indice_jugador, f32 renglon_inicial, 
             jugador->desconocido_210 = dato_800E2568[BATALLA_CC][jugador->id_personaje];
             jugador->arriba_rapidez = tabla_rapidez_arriba[BATALLA_CC][jugador->id_personaje];
             break;
+    }
+    // Truco 200CC: humanos y CPU; se lee al aparecer, así que un cambio en
+    // mitad de la carrera vale para la siguiente
+    if (cilindrada_200cc_aplica(opciones_port.truco_200cc, seleccion_modo, seleccion_cc)) {
+        jugador->arriba_rapidez = cilindrada_200cc_rapidez(jugador->arriba_rapidez, true);
+        jugador->desconocido_210 = cilindrada_200cc_empuje(jugador->arriba_rapidez);
     }
 
     jugador->pos[0] = renglon_inicial;
