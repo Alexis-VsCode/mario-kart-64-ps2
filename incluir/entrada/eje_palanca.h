@@ -7,7 +7,7 @@
 /* Solo absorbe el ruido del stick en reposo: el juego aplica después su propia zona
    muerta de 12 sobre el valor convertido, y la suma de las dos fija dónde empieza el giro. */
 #define ZONA_MUERTA_PALANCA 8
-#define MAX_PALANCA_N64  80 /* recorrido tipico de un stick de N64 en MK64 */
+#define MAX_PALANCA_N64  80 /* recorrido típico de un stick de N64 en MK64 */
 
 static inline s8 convertir_eje(u8 crudo)
 {
@@ -23,6 +23,18 @@ static inline s8 convertir_eje(u8 crudo)
         v = MAX_PALANCA_N64;
     }
     return (s8) (v * sign);
+}
+
+/* Mientras el stick izquierdo está en reposo, la cruceta hace de stick. El reposo tiene su
+   propio umbral, más ancho que la zona muerta, para que la deriva de un stick gastado no
+   anule la cruceta. */
+#define ZONA_REPOSO_CRUCETA 24
+
+static inline int eje_en_reposo(u8 crudo)
+{
+    int v = (int) crudo - CENTRO_PALANCA;
+
+    return v > -ZONA_REPOSO_CRUCETA && v < ZONA_REPOSO_CRUCETA;
 }
 
 #endif

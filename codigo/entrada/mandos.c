@@ -61,7 +61,10 @@ static void convertir(const struct padButtonStatus *in, int analogico, OSContPad
         if (in->rjoy_v > CENTRO_PALANCA + 64) n |= D_CBUTTONS;
     }
 
-    if (sx == 0 && sy == 0) {
+    if (!analogico || (eje_en_reposo(in->ljoy_h) && eje_en_reposo(in->ljoy_v))) {
+        if (b & (PAD_LEFT | PAD_RIGHT | PAD_UP | PAD_DOWN)) {
+            sx = sy = 0;
+        }
         if (b & PAD_LEFT)  sx = -MAX_PALANCA_N64;
         if (b & PAD_RIGHT) sx = MAX_PALANCA_N64;
         if (b & PAD_UP)    sy = MAX_PALANCA_N64;
