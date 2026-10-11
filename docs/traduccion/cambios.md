@@ -702,3 +702,30 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Evidencia requerida:** cada cierre con su prueba en rojo y la mutación restaurada, o con la ejecución de la CI. `deuda.md` queda sin filas, o solo con límites declarados.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
 - **Commit:** —
+
+### CC-28: reconstrucción de texturas del HUD y de los menús
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-TEX-04, R-TEX-05
+- **Motivo:** la auditoría de las 58 texturas en español encontró estos defectos (todas se generan con `compositor_es.py`):
+  - **Puestos 1.º…8.º:** el «º» parece un signo de grados. Es un anillo hueco a media altura y no está inclinado como las cifras.
+  - **VUELTA:** toca la última columna sin contorno, así que la A se ve cortada.
+  - **Botones de menú y de modo a dos líneas, y nombres de copa:** usan la letra pequeña sin contorno sobre una placa, distinta del estilo del juego.
+  - **Título de la Jungla DK:** más apretado que el resto de los títulos.
+- **Cambio:**
+  - **Puestos:** el «º» pasa a ser volado, relleno e inclinado, a la altura de la cifra.
+  - **VUELTA:** margen de contorno en el borde derecho.
+  - **Letra pequeña:** contorno oscuro de 1 px y separación entre las líneas, de forma igual en todos los botones de dos líneas.
+  - **Título de la Jungla DK:** el título se ajusta sin juntar letras.
+  - Todo se regenera con el compositor; nada se retoca a mano.
+- **Alternativas descartadas:**
+  - un texto más natural en Lakitu, porque pide una fuente nueva;
+  - acortar nombres sin necesidad.
+- **Evidencia requerida:**
+  - una prueba nueva del contorno en el borde de las texturas del HUD (en rojo con VUELTA);
+  - `prueba_composicion_es.py` igual al compositor;
+  - las pruebas de textura en verde;
+  - la hoja de contacto, revisada por un revisor distinto del autor.
+- **Aprobación:** responsable del proyecto: aprobado (pidió reconstruir y mejorar las texturas, 2026-10-11).
+- **Commit:** —
