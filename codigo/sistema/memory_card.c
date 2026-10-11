@@ -396,7 +396,7 @@ static void cargar_opciones(void)
     int intr, aplicadas;
 
     if (!mc_ok) {
-        return;
+        return; /* leer_archivo_mc ya lo rechaza; se sale antes para no registrar «sin opciones» sin haber leído */
     }
     if (leer_archivo_mc(ARCHIVO_OPCIONES, buf, sizeof(buf)) != TAM_OPCIONES_PORT ||
         !opciones_deserializar(buf, &leidas, pantalla_osd_169)) {
@@ -491,6 +491,8 @@ static void guardar_hilo(void *parametro)
         } while (generar != guardado_ps2.generacion);
         while (PollSema(sema_guardado) >= 0) {
         }
+        /* Un pedido de opciones que falla se descarta sin reintento: el siguiente cambio en el
+           menú vuelve a pedirlo. Con mc_ok a 0 queda pendiente, pero libmc ya no admite órdenes. */
         if (opciones_pedidas && mc_ok) {
             opciones_pedidas = 0;
             r = guardar_opciones();
