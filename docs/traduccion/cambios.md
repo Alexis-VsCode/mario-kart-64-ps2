@@ -373,7 +373,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
     - el segundo borrado espera aunque la tarjeta no conteste (D-12);
     - `mcGetInfo` puede escribir `type`/`free`/`format` en una pila ya liberada si contesta tarde (D-13).
 - **Cambio:**
-  - **Tarjeta nueva:** cuando `mcGetInfo` devuelve -1, se leen las dos cabeceras antes de escribir. Se pisa la copia más vieja y la generación pasa a ser la mayor de la tarjeta más uno. Lo decide una función pura en `incluir/sistema/eleccion_guardado.h`, probada en el PC. No se toca `guardado_ps2.generacion`: el hilo de juego la usa para espaciar los guardados.
+  - **Tarjeta nueva:** cuando `mcGetInfo` devuelve -1, se leen las dos cabeceras antes de escribir. Se pisa la copia más vieja y la generación pasa a ser la mayor de la tarjeta más uno. Lo decide una función pura en `incluir/sistema/eleccion_guardado.h`, probada en el PC. No se toca `guardado_ps2.generacion`: el hilo de guardado la usa para espaciar los guardados.
   - **Espera al arrancar:** se mide con `ciclos_ps2()`, no en vueltas del bucle.
   - **Segundo borrado** (D-12): solo con `mc_ok`.
   - **Variables de `mcGetInfo`** (D-13): `type`, `free` y `format` pasan a `static`.
@@ -392,9 +392,10 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Requisitos afectados:** ninguno de la traducción; cambia el control del port (`codigo/entrada/mandos.c`).
 - **Motivo:** el port descarta 24 de 127 unidades del stick y estira el resto a ±80 (`mandos.c:31-48`). El juego aplica después su propia zona muerta de 12 (`mandos_carrera.inc.c:76-95`). Juntas, el kart empieza a girar con 41 de 127 (un 32 % del recorrido); en la N64 era alrededor del 15 %.
 - **Cambio:**
-  - `ZONA_MUERTA_PALANCA` pasa a 8 y el giro empieza con unos 27 de 127 (21 %).
+  - `ZONA_MUERTA_PALANCA` pasa a 8 y el giro empieza con 28 de 127 (22 %).
   - El juego conserva su zona muerta, que absorbe la deriva de un stick gastado.
   - `convertir_eje` pasa a una función pura en `incluir/entrada/eje_palanca.h`, probada en el PC.
+  - La cruceta hace de stick mientras el izquierdo está en reposo. El reposo usa su propio umbral, `ZONA_REPOSO_CRUCETA` (24, el de antes), para que una deriva de 10 a 23 unidades no la anule (hallazgo de la revisión, `eje_en_reposo`).
 - **Alternativas descartadas:**
   - quitar la zona muerta del port, porque dejaría solo la del juego frente a la deriva de los mandos de PS2;
   - hacerla configurable, por sobreingeniería.
@@ -447,7 +448,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Requisitos afectados:** ninguno de la traducción; amplía el bloque de gráficos de CC-11 (G5).
 - **Motivo:** G5 (`ce98830c`) se integró con evidencia de código, porque el cálculo está en `combinador_y_recorte.inc.c`, que solo compila con el SDK.
 - **Cambio:**
-  - Commit `refactor`, sin cambio de conducta: el alfa con tramado pasa a la función pura `combinador_alfa_tramado()` de `combinador_color.c/.h`, y la usan las dos ramas de `combinar_color`.
+  - Commit `refactor`, sin cambio de conducta: el alfa con tramado pasa a la función pura `combinador_alfa_tramado()`, `static inline` en `combinador_color.h`, y la usan las dos ramas de `combinar_color`.
   - Commit `test`: casos en `prueba_combinador.c`.
 - **Evidencia requerida:** -64 da 0, 64 da 32 y 128 da 128, con rojo por mutación (quitar el límite) y restauración.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
