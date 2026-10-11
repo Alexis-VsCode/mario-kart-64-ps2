@@ -31,7 +31,7 @@ Soy Alexis Barrera ([Alexis-VsCode](https://github.com/Alexis-VsCode)), desarrol
 
 Mi trabajo en este repositorio:
 
-- **Localización completa al español:** textos, nombres de pista, glifos nuevos en la fuente, texturas reconstruidas y traducidas, y un manifiesto con las 1229 texturas clasificadas.
+- **Localización completa al español:** textos, nombres de pista, glifos nuevos en la fuente, texturas reconstruidas y traducidas, y un manifiesto que clasifica todas las texturas, con filas de archivo y de carpeta.
 - **Mejoras del port:** Memory Card sin pérdida de partidas, stick más fino, lectura de la región, menú CONFIGURACIÓN Y TRUCOS, opciones de imagen y trucos.
 - **Verificación:** las pruebas del PC, la CI y el arranque automático en Play!.
 - **Proceso:** cada cambio parte de un cambio de especificación aprobado, una prueba en rojo y una revisión con acta.

@@ -30,7 +30,7 @@ Versión con el menú de configuración y trucos, las opciones de imagen, la ver
 
 ### Cambiado
 
-- Las 1229 texturas del manifiesto `recursos/es/texturas.tsv` quedan clasificadas, con filas de archivo y de carpeta y exclusiones con motivo (`22fbc484`, `9032ab75`, `4216877e`, `431c3186`; CC-29, D-05).
+- Todas las texturas quedan clasificadas en el manifiesto `recursos/es/texturas.tsv`, con filas de archivo y de carpeta y exclusiones con motivo (`22fbc484`, `9032ab75`, `4216877e`, `431c3186`; CC-29, D-05).
 - La pantalla de fallo escribe con tildes mediante `scr_putchar` y `a_cp437` (`8e311363`, `ab75b9aa`; D-07).
 - La elección entre la cruceta y el stick pasa a la función pura `cruceta_manda_stick` (`bd70c399`, `3d67d29d`; D-18).
 - Texturas reconstruidas (CC-28): el «º» de los puestos (`2175d03b`), VUELTA (`d7b3feb9`), los botones y las copas (`9d9ac85e`) y el título de la Jungla DK (`bace922a`).
