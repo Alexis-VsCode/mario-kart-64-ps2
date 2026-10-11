@@ -42,7 +42,7 @@ Si un documento contradice el código, se corrige el documento. Si el código co
 - **Subramas:** `<tema>/<parte>`, creadas desde la rama de integración, una por autor y por parte. `<tema>` es un prefijo corto y común a todas las subramas (en F8: `sinc/ci`, `sinc/sistema`, `sinc/panel`…). Cada una trabaja en su propio worktree (`git worktree add`) y solo toca sus archivos.
 - Nombres en minúsculas, con guiones y sin tildes.
 - Si una subrama necesita lo nuevo de su rama de integración, lo trae con un merge, no con un rebase.
-- Solo INTEGRACIÓN integra, con `git merge --no-ff`, y solo después de la [revisión](#revisión).
+- Solo integra el rol de integración ([plan.md §2](docs/traduccion/plan.md#2-roles)), con `git merge --no-ff`, y solo después de la [revisión](#revisión).
 - Las ramas ya contenidas en `main` se borran con el job `limpiar-ramas` ([manual técnico](docs/manual/tecnico.md#ci-y-publicación)).
 
 Al crear una rama se comprueba de dónde nace; `merge-base` no sirve como prueba:
