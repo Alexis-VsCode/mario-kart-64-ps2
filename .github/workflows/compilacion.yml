@@ -83,7 +83,7 @@ jobs:
         run: . herramientas/entorno.sh && sh herramientas/comparar_binario.sh "${{ inputs.base }}" DEBUG=1
 
   publicar:
-    name: Commit de publicacion (build/ y compilaciones/)
+    name: Commit de publicación (build/ y compilaciones/)
     if: github.event_name == 'workflow_dispatch' && (inputs.publicar == 'si' || inputs.publicar == 'sí')
     runs-on: ubuntu-latest
     container: ps2dev/ps2dev@sha256:7327334ab94e273b1723761fcd4a3591a31b78bbc28e4c281ad0fa42b3c8264d
@@ -95,7 +95,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}
-      # Con make 4.3 se borran los intermedios de la ROM y quedarian como borrados
+      # Con make 4.3 se borran los intermedios de la ROM y quedarían como borrados
       - name: make 4.4 o posterior
         run: make --version | head -1 && make --version | head -1 | awk '{split($3,v,"."); exit !(v[1]>4 || (v[1]==4 && v[2]>=4))}'
       - name: Compilar todas las variantes versionadas
@@ -108,7 +108,7 @@ jobs:
           make DEV=1 -j"$(nproc)"
           make test
           make iso
-      - name: Commit de publicacion
+      - name: Commit de publicación
         run: |
           git config user.name "Alexis Barrera"
           git config user.email "mochobarrera12@gmail.com"
@@ -159,6 +159,6 @@ jobs:
             if git merge-base --is-ancestor "origin/$rama" origin/main; then
               git push origin --delete "$rama"
             else
-              echo "se conserva $rama: tiene commits que no estan en main"
+              echo "se conserva $rama: tiene commits que no están en main"
             fi
           done
