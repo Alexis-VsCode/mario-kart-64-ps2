@@ -41,6 +41,10 @@ int main(void) {
     // etiquetas; VERDE_TEXTO es semitransparente y apenas se leía
     comprobar("color de los valores", CONFIG_COLOR_VALOR, AMARILLO_TEXTO);
 
+    // Los valores se alinean a la derecha a mano para dibujarse en el modo opaco de las etiquetas
+    comprobar("columna de NORMAL", config_columna_valor(0x11C, 40, 0.75f), 254);
+    comprobar("columna vacía", config_columna_valor(0x11C, 0, 0.75f), 0x11C);
+
     // Los valores con nombre dan la vuelta en los dos sentidos
     comprobar("NO +1", config_ciclar_valor(0, 1, 2), 1);
     comprobar("SÍ +1", config_ciclar_valor(1, 1, 2), 0);
