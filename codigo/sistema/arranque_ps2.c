@@ -25,16 +25,21 @@ extern void funcion_principal(void);
 
 #ifdef SMK64_BOOT_STOP
 #include <depuracion/depuracion_juego.h>
+#include <ee_debug.h>
 static void detener_arranque(int etapa)
 {
     if (etapa == SMK64_BOOT_STOP) {
-        char texto[64], ascii[64];
+        char texto[64], cp437[64];
+        int i;
 
-        /* scr_printf solo tiene ASCII */
-        snprintf(texto, sizeof(texto), "\n  SMK64 PS2: parada de diagnóstico en la etapa %d\n", etapa);
-        quitar_diacriticos(ascii, sizeof(ascii), texto);
+        /* Carácter a carácter: scr_printf pasa los bytes con signo y no llega a
+           las letras con tilde de la fuente CP437; segundo renglón, celdas de 7x8 */
+        snprintf(texto, sizeof(texto), "  SMK64 PS2: parada de diagnóstico en la etapa %d", etapa);
+        a_cp437(cp437, sizeof(cp437), texto);
         init_scr();
-        scr_printf("%s", ascii);
+        for (i = 0; cp437[i] != 0; i++) {
+            scr_putchar(i * 7, 8, 0xFFFFFF /* blanco */, (unsigned char) cp437[i]);
+        }
         for (;;) {
             SleepThread();
         }

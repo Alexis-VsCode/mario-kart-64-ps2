@@ -665,7 +665,7 @@ int main(int argc, char** argv) {
     // Las tablas sin traducir son fallos esperados; su numero solo puede bajar
     COMPROBACION(pendientes == TABLAS_PENDIENTES, "hay %d tablas pendientes y TABLAS_PENDIENTES dice %d", pendientes,
                  TABLAS_PENDIENTES);
-    printf("%d comprobaciones, %d fallos, %d fallos esperados (tablas sin traducir)\n", s_comprobaciones, s_fallos,
-           pendientes);
+    printf("%d comprobaciones, %d %s, %d %s (tablas sin traducir)\n", s_comprobaciones, s_fallos,
+           s_fallos == 1 ? "fallo" : "fallos", pendientes, pendientes == 1 ? "fallo esperado" : "fallos esperados");
     return s_fallos != 0;
 }

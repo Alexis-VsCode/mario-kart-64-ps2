@@ -41,6 +41,12 @@ int caracter_es_marca(int car);
 // 'o'/'a' y cada byte >= 0x80 que no es del espanol pasa a '?'.
 void quitar_diacriticos(char* destino, int tam, const char* origen);
 
+// Como quitar_diacriticos, pero para la fuente de libdebug (scr_putchar),
+// que trae la tabla CP437: los caracteres que tienen glifo en ella pasan a
+// su codigo y el resto (A, I, O y U con tilde) a la letra sin tilde. Los
+// codigos >= 0x80 se pasan a scr_putchar como unsigned char.
+void a_cp437(char* destino, int tam, const char* origen);
+
 // Lector con la forma de leer_glifo (glifos.inc.c): indice del glifo que
 // empieza en car (-1 espacio, -2 invalido) y, en *bytes, lo que ocupa
 typedef int (*LectorGlifo)(char* car, int* bytes);

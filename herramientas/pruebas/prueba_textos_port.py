@@ -63,8 +63,10 @@ SIN_IDENTIFICADORES = ("fase", "punto de control")
 # numero que va detras queda en la misma columna
 MISMO_ANCHO = ("fuente de depuracion",)
 
-# scr_printf solo tiene ASCII: en estos archivos, la funcion que lo llama
-# pasa antes el texto por quitar_diacriticos
+# scr_printf pasa cada byte como char con signo y solo dibuja bien el ASCII:
+# en estos archivos, la funcion que lo llama pasa antes el texto por
+# quitar_diacriticos. scr_putchar recibe el codigo CP437 de la fuente de
+# libdebug: la funcion que lo llama pasa antes el texto por a_cp437
 PANTALLA_ASCII = ("codigo/depuracion/depuracion.c", "codigo/sistema/arranque_ps2.c")
 
 MARCAS_REGISTRO = "incluir/depuracion/marcas_registro.h"
@@ -366,6 +368,9 @@ def revisar_pantalla_ascii():
                 if nivel == 0 and "scr_printf" in nombres:
                     comprobar("quitar_diacriticos" in nombres,
                               "%s:%d: scr_printf sin quitar_diacriticos antes" % (ruta, linea_funcion))
+                if nivel == 0 and "scr_putchar" in nombres:
+                    comprobar("a_cp437" in nombres,
+                              "%s:%d: scr_putchar sin a_cp437 antes" % (ruta, linea_funcion))
             elif tipo == "id" and nivel > 0:
                 nombres.add(valor)
 

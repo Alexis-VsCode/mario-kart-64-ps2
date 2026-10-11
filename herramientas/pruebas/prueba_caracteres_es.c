@@ -87,10 +87,29 @@ static void probar_quitar_diacriticos(void) {
     COMPROBACION(strcmp(salida, "a?b ???") == 0, "bytes que no son del espanol: '%s'", salida);
 }
 
+static void probar_cp437(void) {
+    char salida[64];
+    // Las minúsculas, la Ñ, la É, la Ü, los signos de apertura y los ordinales tienen glifo
+    a_cp437(salida, sizeof(salida), "\xc3\xa1\xc3\xa9\xc3\xad\xc3\xb3\xc3\xba\xc3\xb1\xc3\xbc");
+    COMPROBACION(strcmp(salida, "\xa0\x82\xa1\xa2\xa3\xa4\x81") == 0, "minusculas UTF-8 en CP437");
+    a_cp437(salida, sizeof(salida), "\xc3\x91\xc3\x89\xc3\x9c\xc2\xa1\xc2\xbf\xc2\xba\xc2\xaa");
+    COMPROBACION(strcmp(salida, "\xa5\x90\x9a\xad\xa8\xa7\xa6") == 0, "mayusculas y signos UTF-8 en CP437");
+    a_cp437(salida, sizeof(salida), "\x8f\xa2\xc2" "CAMPE\x8f\xaa\xd1N! 1.\x8f\xa2\xeb ma\x8f\xab\xd0" "ana");
+    COMPROBACION(strcmp(salida, "\xad" "CAMPEON! 1.\xa7 ma\xa4" "ana") == 0, "EUC-JP: '%s'", salida);
+    // Sin glifo en CP437: Á Í Ó Ú pierden la tilde, como en quitar_diacriticos
+    a_cp437(salida, sizeof(salida), "\xc3\x81\xc3\x8d\xc3\x93\xc3\x9a");
+    COMPROBACION(strcmp(salida, "AIOU") == 0, "mayusculas sin glifo: '%s'", salida);
+    a_cp437(salida, sizeof(salida), "a\xc3" "b \xe2\x82\xac");
+    COMPROBACION(strcmp(salida, "a?b ???") == 0, "bytes que no son del espanol: '%s'", salida);
+    a_cp437(salida, 5, "ABCD\xc3\xa9" "FG");
+    COMPROBACION(strcmp(salida, "ABCD") == 0, "corte por tamanio: '%s'", salida);
+}
+
 int main(void) {
     probar_lectura();
     probar_no_espanol();
     probar_quitar_diacriticos();
-    printf("%d comprobaciones, %d fallos\n", s_comprobaciones, s_fallos);
+    probar_cp437();
+    printf("%d comprobaciones, %d %s\n", s_comprobaciones, s_fallos, s_fallos == 1 ? "fallo" : "fallos");
     return s_fallos != 0;
 }

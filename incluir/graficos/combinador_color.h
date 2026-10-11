@@ -32,7 +32,7 @@ void combinador_combinar(const Combinador *cc, const ColoresCombinador *col, con
 int combinador_texel_afecta_rgb(const Combinador *cc, const ColoresCombinador *col);
 
 /* Alfa efectivo con G_AC_DITHER, en escala 0..128: cubre en promedio alfa^2.
-   El RDP limita el alfa a [0, 1] antes de la prueba, asi que un negativo da 0. */
+   El RDP limita el alfa a [0, 1] antes de la prueba, así que un negativo da 0. */
 static inline float combinador_alfa_tramado(float a)
 {
     return a > 0.0f ? a * a * (1.0f / 128.0f) : 0.0f;

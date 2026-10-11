@@ -86,6 +86,6 @@ int main(void) {
         COMPROBACION(n > 0 && strncmp(lineas[0], cabecera, strlen(cabecera)) == 0, "'%s': el informe dice '%s'",
                      nombres_grupo[g], n > 0 ? lineas[0] : "");
     }
-    printf("%d comprobaciones, %d fallos\n", s_comprobaciones, s_fallos);
+    printf("%d comprobaciones, %d %s\n", s_comprobaciones, s_fallos, s_fallos == 1 ? "fallo" : "fallos");
     return s_fallos != 0;
 }

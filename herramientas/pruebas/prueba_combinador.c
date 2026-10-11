@@ -110,6 +110,6 @@ int main(void)
         COMPROBACION(cerca(combinador_alfa_tramado(128.0f), 128), "tramado(128)=%f", combinador_alfa_tramado(128.0f));
     }
 
-    printf("%d comprobaciones, %d fallos\n", s_checks, s_fails);
+    printf("%d comprobaciones, %d %s\n", s_checks, s_fails, s_fails == 1 ? "fallo" : "fallos");
     return s_fails != 0;
 }

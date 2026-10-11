@@ -18,6 +18,7 @@
 
 #define RENGLONES_PANTALLA 27
 #define COLS_PANTALLA 79
+#define COLOR_TEXTO_PANTALLA 0xFFFFFF /* blanco, el de scr_printf */
 
 static char registro[LINEAS_REGISTRO][ANCHO_REGISTRO];
 static int siguiente_registro;
@@ -315,14 +316,17 @@ static int linea_hilo(int id, char *salida, int size)
 static void linea_pantalla(int *renglon, const char *text)
 {
     char buf[COLS_PANTALLA + 1];
+    int i;
 
     if (*renglon >= RENGLONES_PANTALLA) {
         return;
     }
-    /* scr_printf solo tiene ASCII */
-    quitar_diacriticos(buf, sizeof(buf), text);
-    scr_setXY(0, *renglon);
-    scr_printf("%s", buf);
+    /* Carácter a carácter: scr_printf pasa los bytes con signo y no llega a
+       las letras con tilde de la fuente CP437; celdas de 7x8 como scr_printf */
+    a_cp437(buf, sizeof(buf), text);
+    for (i = 0; buf[i] != 0; i++) {
+        scr_putchar(i * 7, *renglon * 8, COLOR_TEXTO_PANTALLA, (unsigned char) buf[i]);
+    }
     (*renglon)++;
 }
 

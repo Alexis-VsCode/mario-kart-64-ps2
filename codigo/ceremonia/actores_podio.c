@@ -187,6 +187,12 @@ Mat4 dato_80287500;
 void funcion_80280A28(Vec3f parametro0, Vec3s parametro1, f32 parametro2) {
     Mat4 mtx;
 
+#ifdef AVOID_UB
+    // Sin matriz libre en la reserva no se carga ninguna; renderizar_fuegos_artificiales ya se salta
+    if (cantidad_efecto_matriz >= MTX_EFECTO_POOL_TAMANIO) {
+        return;
+    }
+#endif
     trasladar_rotacion_mtxf(mtx, parametro0, parametro1);
     mtx[0][0] = dato_80287500[0][0] * parametro2;
     mtx[0][1] = dato_80287500[1][0] * parametro2;
@@ -209,6 +215,12 @@ void renderizar_fuegos_artificiales(Vec3f parametro0, f32 parametro1, s32 rgb, s
     s16 verde;
     s16 azul;
 
+#ifdef AVOID_UB
+    // Sin matriz libre en la reserva la chispa no se dibuja
+    if (cantidad_efecto_matriz >= MTX_EFECTO_POOL_TAMANIO) {
+        return;
+    }
+#endif
     sp4_c[0] = parametro0[0];
     sp4_c[1] = parametro0[1];
     sp4_c[2] = parametro0[2];

@@ -57,6 +57,12 @@ void renderizar_globo_batalla(Jugador* jugador, s8 indice_jugador, s16 indice_gl
     sp12_c[2] = dato_8018D7D0[indice_jugador][indice_globo] -
                (rotacion_globo_jugador[indice_jugador][indice_globo] * coss(temporal_t1)) -
                ((dato_8018D890[indice_jugador][indice_globo] * 8) * senos(temporal_t1));
+#ifdef AVOID_UB
+    // Sin matriz libre en la reserva el globo no se dibuja
+    if (cantidad_efecto_matriz >= MTX_EFECTO_POOL_TAMANIO) {
+        return;
+    }
+#endif
     trasladar_rotacion_mtxf(sp140, sp134, sp12_c);
     escala2_mtxf(sp140, variable_f20);
     convertir_a_matriz_punto_fijo(&gfx_pool->efecto_mtx[cantidad_efecto_matriz], sp140);
@@ -176,6 +182,12 @@ void renderizar_globo(Vec3f parametro0, f32 parametro1, s16 parametro2, s16 para
     sp_f4[0] = 0;
     sp_f4[1] = camara1->rot[1];
     sp_f4[2] = parametro2;
+#ifdef AVOID_UB
+    // Sin matriz libre en la reserva el globo no se dibuja
+    if (cantidad_efecto_matriz >= MTX_EFECTO_POOL_TAMANIO) {
+        return;
+    }
+#endif
     trasladar_rotacion_mtxf(sp108, sp_fc, sp_f4);
     escala2_mtxf(sp108, parametro1);
     convertir_a_matriz_punto_fijo(&gfx_pool->efecto_mtx[cantidad_efecto_matriz], sp108);

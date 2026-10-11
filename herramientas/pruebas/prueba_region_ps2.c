@@ -17,7 +17,7 @@ static const char *nombre_region(RegionPs2 region) {
     }
 }
 
-// texto se pasa sin el 0 final, como sale de read()
+// texto se pasa sin el 0 final, como sale de fread()
 static void comprobar(const char *texto, RegionPs2 esperada) {
     RegionPs2 obtenida = region_de_romver(texto, (int) strlen(texto));
 
@@ -54,7 +54,14 @@ int main(void) {
         s_fallos++;
         printf("FALLO texto NULL: se esperaba región desconocida\n");
     }
+    // Un ROMVER válido del que solo se leyeron 13 bytes: la guarda de largo
+    // tiene que bastar sola, aunque el byte 14 del búfer sea una cifra
+    s_comprobaciones++;
+    if (region_de_romver("0160EC20010704", 13) != REGION_DESCONOCIDA) {
+        s_fallos++;
+        printf("FALLO largo 13: se esperaba región desconocida\n");
+    }
 
-    printf("%d comprobaciones, %d fallos\n", s_comprobaciones, s_fallos);
+    printf("%d comprobaciones, %d %s\n", s_comprobaciones, s_fallos, s_fallos == 1 ? "fallo" : "fallos");
     return s_fallos != 0;
 }

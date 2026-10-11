@@ -300,6 +300,7 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(
 	$(V)$(PYTHON) herramientas/pruebas/prueba_glifos_es.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_tablas_glifos.py codigo/menus/elementos_menu/lista_glifos.inc.c
 	$(V)$(PYTHON) herramientas/pruebas/prueba_png_simple.py
+	$(V)$(PYTHON) herramientas/pruebas/prueba_reserva_matrices.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_formatos_textura.py $(MIO0TOOL)
 	$(V)$(PYTHON) herramientas/pruebas/prueba_tkmk00.py $(TKMK00TOOL)
 	$(V)$(PYTHON) herramientas/pruebas/prueba_invertir_texturas.py
