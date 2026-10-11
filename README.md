@@ -43,7 +43,7 @@ El detalle por áreas está en [docs/manual/creditos.md](docs/manual/creditos.md
 | Archivo | Tamaño | SHA-256 |
 |---|---|---|
 | `SLUS_999.99.SuperMarioKart64.iso` | <<PUBLICACION>> | <<PUBLICACION>> |
-| `SLUS_999.99.monolitico.elf` | <<PUBLICACION>> | <<PUBLICACION>> |
+| `SLUS_999.99.monolitico.elf` | En la lista de archivos de la Release | Su línea de `SHA256SUMS` en la Release |
 
 Cómo comprobar los archivos y ejecutarlos en PCSX2, Play!, OPL o uLaunchELF: [manual de usuario](docs/manual/usuario.md).
 
@@ -51,7 +51,7 @@ Cómo comprobar los archivos y ejecutarlos en PCSX2, Play!, OPL o uLaunchELF: [m
 
 - Las 20 pistas (16 de carrera y 4 de batalla), los 8 personajes y los modos Gran Premio, Contrarreloj, VS y Batalla, de 1 a 4 jugadores con multitap.
 - Textos, nombres de pista oficiales, texturas con texto, HUD y carteles de Lakitu en español, con 11 glifos nuevos en la fuente del menú.
-- Gráficos: un intérprete de listas de dibujo F3DEX, con el combinador de color y la TMEM de la N64, que produce paquetes para el GS. Video NTSC entrelazado a 640×448 y 60 Hz, también en consolas PAL, que necesitan una TV que acepte 60 Hz ([detalle](docs/manual/usuario.md#consolas-pal-y-ntsc)).
+- Gráficos: un intérprete de listas de dibujo F3DEX, con el combinador de color y la TMEM de la N64, que produce paquetes para el GS. Vídeo NTSC entrelazado a 640×448 y 60 Hz, también en consolas PAL, que necesitan una TV que acepte 60 Hz ([detalle](docs/manual/usuario.md#consolas-pal-y-ntsc)).
 - Audio original: las muestras de la ROM se mezclan con la misma aritmética que la N64 (microcódigo de audio reescrito en C) y salen a 48 kHz por `audsrv`.
 - Modo 60 FPS durante la carrera, activo por defecto y conmutable con R3; la lógica del juego sigue a 30 Hz.
 - Partidas guardadas en la Memory Card de la ranura 1, en dos copias alternas con CRC32. Una tarjeta insertada o cambiada con el juego en marcha se lee antes de guardar, para no pisar su partida más nueva.
