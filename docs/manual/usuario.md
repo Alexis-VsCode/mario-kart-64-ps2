@@ -100,7 +100,7 @@ Si arrancas sin tarjeta y la insertas después, o cambias la tarjeta con el jueg
 
 ## Consolas PAL y NTSC
 
-La imagen sale siempre en NTSC a 60 Hz, también en una consola PAL (europea) (`codigo/graficos/sintetizador_gs.c`). El juego avanza al ritmo del retrazo vertical, así que a 60 Hz va a la velocidad del original. Con una consola PAL hace falta una TV que acepte una señal NTSC de 60 Hz; una TV que solo acepte 50 Hz no mostrará bien la imagen. El port no cambia el modo de vídeo según la consola: un modo PAL a 50 Hz haría el juego un 17 % más lento ([CC-15](../traduccion/cambios.md)).
+La imagen sale siempre en NTSC a 60 Hz, también en una consola PAL, la europea (`codigo/graficos/sintetizador_gs.c`). El juego avanza al ritmo del retrazo vertical, así que a 60 Hz va a la velocidad del original. Con una consola PAL hace falta una TV que acepte una señal NTSC de 60 Hz; una TV que solo acepte 50 Hz no mostrará bien la imagen. El port no cambia el modo de vídeo según la consola: un modo PAL a 50 Hz haría el juego un 17 % más lento ([CC-15](../traduccion/cambios.md)).
 
 Al arrancar, el juego lee la región de la consola en la BIOS (`rom0:ROMVER`). Con `DEBUG=1` o `DEV=1`, el registro muestra una de estas líneas:
 

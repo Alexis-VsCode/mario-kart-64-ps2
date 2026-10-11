@@ -48,7 +48,7 @@ Alexis Barrera (GitHub: [Alexis-VsCode](https://github.com/Alexis-VsCode)) manti
 - la región de la consola se lee de `rom0:ROMVER` (CC-15: `807d2c45`, `3b11daa5` y `ac1a1090`);
 - la Release publica también el ELF monolítico, y la publicación ya no oculta fallos (CC-16: `4bdd41a8`);
 - el alfa con tramado pasa a una función pura con prueba (CC-17: `ff313bc5` y `d41996f7`);
-- deuda saldada: D-09 (`bb8d41bd`), D-10 (`3e2067a4`), D-14 (`1d8f5670`) y D-15 (`c641d19b`), y el registro del ritmo de física (`7e9edfaa`).
+- deuda saldada: D-09 (`bb8d41bd`, `b780d986`), D-10 (`3e2067a4`), D-14 (`1d8f5670`) y D-15 (`c641d19b`), y el registro del ritmo de física (`7e9edfaa`).
 
 ## Herramientas de terceros
 
