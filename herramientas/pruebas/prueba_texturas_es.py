@@ -7,7 +7,9 @@ El manifiesto lista las 63 texturas TKMK00 con el alfa que usa el juego y
 el motivo de las que no se traducen. Exportar e importar cada una da
 exactamente los bytes originales decodificados (SHA-1 de
 referencias_tkmk00.txt); comprobar rechaza PNG que no sirven y la hoja de
-contacto marca solo lo que cambio. Ningun texto_es nombra los botones de
+contacto marca solo lo que cambio. Las ci8 se exportan como PNG indexado
+con la paleta (tlut) de recursos/es/paletas.tsv, vuelven a los mismos
+indices y a la misma .inc.c, y se rechazan con otra paleta o sin indexar. Ningun texto_es nombra los botones de
 la N64, la N64 ni el Controller Pak: van los botones de la PS2. Cada textura de
 las carpetas y .incbin de R-TEX-02 tiene una fila, una fila de carpeta
 (carpeta:<ruta>, solo carpetas) o una fila de archivo (archivo:<ruta>,
@@ -66,7 +68,7 @@ PENDIENTES = []
 # (especificacion §2, CC-29). Son deuda (D-24). TEXTURAS_PENDIENTES solo
 # puede bajar: al traducir una, se quita su "pendiente:" y se baja aqui.
 PREFIJO_PENDIENTE = "pendiente:"
-TEXTURAS_PENDIENTES = 15
+TEXTURAS_PENDIENTES = 11
 
 fallos = 0
 comprobaciones = 0
@@ -220,6 +222,49 @@ def probar_hoja(tmp):
     comprobar(rojos == {(x, y) for x in range(9, 12) for y in range(6, 9)}, "mascara: %d pixeles rojos" % len(rojos))
 
 
+# Emblemas 1J a 4J (CC-29): ci8 de .inc.c con la tlut compartida
+EMBLEMAS_CI8 = ["emblema_%dj_jugador" % n for n in range(1, 5)]
+
+
+def probar_ci8(filas, tmp):
+    """Paso 4b: ci8 con su paleta, en importar, comprobar e inc."""
+    por_id = {f["id"]: f for f in filas}
+    for id_ in EMBLEMAS_CI8:
+        fila = por_id.get(id_)
+        comprobar(fila is not None and fila["formato"] == "ci8" and fila["origen"].endswith(".inc.c"),
+                  "%s: falta su fila ci8 en el manifiesto" % id_)
+        png = os.path.join(tmp, "%s.ci8.png" % id_)
+        if fila is None or not os.path.exists(png):
+            comprobar(False, "%s: no se exporto" % id_)
+            continue
+        imagen = png_simple.leer(png)
+        try:
+            paleta = texturas_es.paleta_de(fila)
+        except (AttributeError, texturas_es.ErrorManifiesto) as e:
+            comprobar(False, "%s: sin paleta: %s" % (id_, e))
+            continue
+        comprobar(imagen.tipo == "indexado" and [tuple(c) for c in imagen.paleta] == [tuple(c) for c in paleta],
+                  "%s: el PNG exportado no es indexado con la paleta de su tlut" % id_)
+        salida = os.path.join(tmp, id_ + ".inc.c")
+        codigo, _, errores = ejecutar("inc", "--manifiesto", MANIFIESTO, png, salida)
+        comprobar(codigo == 0 and open(salida).read() == open(os.path.join(RAIZ, fila["origen"])).read(),
+                  "%s: inc no reproduce la .inc.c original: %s" % (id_, errores.strip()))
+    if "emblema_1j_jugador" not in por_id or not os.path.exists(os.path.join(tmp, "emblema_1j_jugador.ci8.png")):
+        return
+    malo = os.path.join(tmp, "malo_ci8")
+    os.makedirs(malo, exist_ok=True)
+    img = png_simple.leer(os.path.join(tmp, "emblema_1j_jugador.ci8.png"))
+    otra = [tuple(c) for c in img.paleta]
+    otra[5] = (8, 8, 8, 255)
+    ruta = os.path.join(malo, "emblema_1j_jugador.ci8.png")
+    png_simple.escribir(ruta, png_simple.Imagen(img.ancho, img.alto, "indexado", img.pixeles, otra))
+    comprobar(rechaza(None, ruta), "ci8 con una paleta que no es su tlut")
+    codigo, _, _ = ejecutar("importar", ruta, os.path.join(malo, "e.bin"))
+    comprobar(codigo != 0 and not os.path.exists(os.path.join(malo, "e.bin")), "importar acepta otra paleta en ci8")
+    png_simple.escribir(ruta, png_simple.Imagen(img.ancho, img.alto, "rgba", bytes(c for p in img.a_rgba() for c in p)))
+    comprobar(rechaza(None, ruta), "ci8 en un PNG sin indexar")
+
+
 def nombres_n64(texto_es):
     """Botones y nombres de la N64 que aparecen en texto_es ('|' separa lineas)."""
     texto = " ".join(texto_es.upper().split("|"))
@@ -320,6 +365,7 @@ def main():
         probar_ida_y_vuelta(filas, refs, herramienta, tmp)
         probar_rechazos(herramienta, tmp)
         probar_hoja(tmp)
+        probar_ci8(filas, tmp)
     probar_botones(filas)
     probar_carpetas(filas)
     print("%d comprobaciones, %d fallos" % (comprobaciones, fallos))
