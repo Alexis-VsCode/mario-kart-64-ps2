@@ -286,3 +286,38 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Evidencia requerida:** la de la tabla. Cada corrección va en su commit `fix`, con la prueba en rojo o la evidencia en el mensaje.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
 - **Commit:** —
+
+### CC-12: verificación sin pasos manuales y manual del proyecto
+
+- **Estado:** aprobado (responsable del proyecto, 2026-10-11)
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-FUE-07, R-TXT-07, R-MC-03, R-TEX-05, R-PORT-02, R-PORT-03, R-GOB-04, R-GOB-08
+- **Motivo:**
+  - El responsable del proyecto decide que nadie corre recorridos ni manda capturas: la versión se publica para la comunidad con lo que verifican las pruebas del PC y la CI.
+  - Los documentos repartían el uso, la parte técnica y el proceso entre el README y `docs/traduccion/`. No había créditos ni autoría, ni notas de versión, ni acta de revisión, ni una única Definition of Done.
+- **Cambio:**
+  - **Se retira F6** (recorrido en PCSX2 y captura en TV). Los requisitos que dependían de él se aceptan con lo que comprueban `make test` y la CI.
+  - **«Sin verificación visual registrada»** se declara como limitación en el manual de usuario y en las notas de versión, en lugar de darlo por cubierto.
+  - **Documentación en dos niveles:** el README es la portada y resume y enlaza. `docs/manual/` tiene el manual de usuario, el técnico y los créditos.
+  - **Créditos y autoría:**
+    - el port a PS2 es de anthoo582;
+    - la base es la descompilación de Mario Kart 64;
+    - la localización al español, la sincronización con el original y las mejoras de este repositorio son de Alexis Barrera.
+  - **Proceso:**
+    - `CONTRIBUTING.md` es la única fuente de la Definition of Done, las reglas que no se negocian, la lectura previa y el orden de autoridad (código y pruebas medidos, después la especificación aprobada, después los documentos);
+    - `CHANGELOG.md` registra los cambios por versión y `docs/versiones/v1.0.0.md` es el cuerpo de la Release;
+    - `docs/traduccion/revisiones/` guarda el acta de revisión de cada PR;
+    - `docs/traduccion/deuda.md` separa la deuda técnica de lo pendiente del plan.
+- **Archivos:** `README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `docs/manual/`, `docs/versiones/`, `docs/traduccion/` (README, plan, especificacion, trazabilidad, revisiones/ y deuda).
+- **Alternativas descartadas:**
+  - una cabecera repetida en cada documento;
+  - un comprobador automático de la documentación;
+  - una línea base de avisos de la compilación de PS2;
+  - proteger `main` (el job `publicar` hace push a la rama donde corre);
+  - contar commits por autor en los créditos (el primer commit del port original trae el port entero).
+- **Evidencia requerida:**
+  - ningún documento pide pasos manuales al usuario;
+  - los créditos están en el README;
+  - `docs/versiones/v1.0.0.md` existe antes de lanzar el job `release`.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
+- **Commit:** —
