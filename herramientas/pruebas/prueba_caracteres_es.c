@@ -91,6 +91,6 @@ int main(void) {
     probar_lectura();
     probar_no_espanol();
     probar_quitar_diacriticos();
-    printf("%d comprobaciones, %d fallos\n", s_comprobaciones, s_fallos);
+    printf("%d comprobaciones, %d %s\n", s_comprobaciones, s_fallos, s_fallos == 1 ? "fallo" : "fallos");
     return s_fallos != 0;
 }

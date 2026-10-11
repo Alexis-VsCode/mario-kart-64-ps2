@@ -70,6 +70,6 @@ int main(void) {
                  "a %d del centro el stick ya no está en reposo", ZONA_REPOSO_CRUCETA);
     COMPROBACION(!eje_en_reposo(255) && !eje_en_reposo(0), "los extremos cuentan como reposo");
 
-    printf("prueba_eje_palanca: %d comprobaciones, %d fallos\n", s_comprobaciones, s_fallos);
+    printf("prueba_eje_palanca: %d comprobaciones, %d %s\n", s_comprobaciones, s_fallos, s_fallos == 1 ? "fallo" : "fallos");
     return s_fallos != 0;
 }

@@ -206,6 +206,6 @@ int main(int argc, char **argv)
     COMPROBACION(texturas == 63, "se esperaban 63 texturas TKMK00, hay %d", texturas);
     probar_firma_desconocida();
 
-    printf("%d comprobaciones, %d fallos\n", s_checks, s_fails);
+    printf("%d comprobaciones, %d %s\n", s_checks, s_fails, s_fails == 1 ? "fallo" : "fallos");
     return s_fails != 0;
 }

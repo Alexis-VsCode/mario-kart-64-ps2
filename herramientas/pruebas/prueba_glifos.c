@@ -172,6 +172,6 @@ int main(void) {
     probar_secuencias_rotas();
     probar_primer_byte_invalido();
     probar_anchos_espanol();
-    printf("%d comprobaciones, %d fallos\n", s_comprobaciones, s_fallos);
+    printf("%d comprobaciones, %d %s\n", s_comprobaciones, s_fallos, s_fallos == 1 ? "fallo" : "fallos");
     return s_fallos != 0;
 }

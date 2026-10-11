@@ -58,6 +58,6 @@ int main(void)
     COMPROBACION(desplazamiento_generacion(3, 51) == 48, "sesión 3 y mínima 51: desplazamiento %u, se esperaba 48",
                  (unsigned) desplazamiento_generacion(3, 51));
 
-    printf("%d comprobaciones, %d fallos\n", s_comprobaciones, s_fallos);
+    printf("%d comprobaciones, %d %s\n", s_comprobaciones, s_fallos, s_fallos == 1 ? "fallo" : "fallos");
     return s_fallos != 0;
 }
