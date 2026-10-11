@@ -1,5 +1,7 @@
 // Cielo y viewport
 
+#include "graficos/vista_panoramica.h"
+
 Vp dato_802B8880[] = {
     { { { 640, 480, 511, 0 }, { 640, 480, 511, 0 } } },
 };
@@ -514,16 +516,16 @@ void fijar_perspectiva_y_proporcion_aspecto(void) {
     }
     switch (seleccion_modo_pantalla) {
         case MODO_PANTALLA_1P:
-            aspecto_pantalla = 1.33333334f;
+            aspecto_pantalla = aspecto_panoramico(1.33333334f, opciones_port.formato);
             return;
         case PANTALLA_MODO_2J_PANTALLA_DIVIDIDA_VERTICAL:
-            aspecto_pantalla = 0.66666667f;
+            aspecto_pantalla = aspecto_panoramico(0.66666667f, opciones_port.formato);
             return;
         case PANTALLA_MODO_2J_PANTALLA_DIVIDIDA_HORIZONTAL:
-            aspecto_pantalla = 2.66666667f;
+            aspecto_pantalla = aspecto_panoramico(2.66666667f, opciones_port.formato);
             return;
         case PANTALLA_DIVIDIDA_MODO_3J_4J_PANTALLA:
-            aspecto_pantalla = 1.33333334f;
+            aspecto_pantalla = aspecto_panoramico(1.33333334f, opciones_port.formato);
             return;
     }
 }
