@@ -1,5 +1,7 @@
 # Manual técnico
 
+Cómo está hecho el port, cómo se compila, se prueba y se publica, y cómo se traen las actualizaciones del repositorio original. Para jugar, ver el [manual de usuario](usuario.md). El proceso de trabajo (Definition of Done, ramas, commits y revisión) está en [CONTRIBUTING.md](../../CONTRIBUTING.md).
+
 ## Arquitectura
 
 ```
@@ -40,7 +42,7 @@
 | EEPROM y Controller Pak | Imagen guardada en la Memory Card | `codigo/sistema/guardado_ps2.c`, `codigo/sistema/memory_card.c` |
 | Mandos | `libpad` | `codigo/entrada/mandos.c` |
 
-### La ROM
+## La ROM
 
 El código se enlaza en un ELF del EE (`compilacion/ps2.ld`). La «ROM» se construye por separado:
 
@@ -91,8 +93,10 @@ build/ps2/rom.elf -> build/ps2/rom.bin
 | `recursos/es/` | PNG y manifiestos de las texturas en español, y letras de cada familia para componerlas |
 | `herramientas/` | Entorno, ISO, ROM, texturas (también las del español), audio, icono, caminos del tren y del barco, empaquetador de listas y conversión a EUC-JP |
 | `herramientas/pruebas/` | Pruebas de `make test` |
-| `herramientas/guiones/` | Guion de recorrido para `make DEV=1` (`recorrido_textos.txt`) |
-| `docs/traduccion/` | Localización al español: especificación, plan, glosario, trazabilidad y registro de cambios |
+| `herramientas/guiones/` | Guion de ejemplo para `make DEV=1` (`recorrido_textos.txt`) |
+| `docs/manual/` | Este manual, el de usuario y los créditos |
+| `docs/traduccion/` | Localización al español: especificación, plan, glosario, trazabilidad, registro de cambios y actas de revisión |
+| `.github/workflows/compilacion.yml` | CI y publicación (ver [CI y publicación](#ci-y-publicación)) |
 | `build/` | Salida de la compilación (versionada) |
 | `compilaciones/` | ISO y contenido del disco (versionados) |
 
@@ -186,7 +190,7 @@ make -j"$(nproc)" && make iso
 chown -R "$PROPIETARIO" build compilaciones
 ```
 
-- Fija la imagen por su digest (`ps2dev/ps2dev@sha256:…`) para que la compilación no cambie cuando se publique una imagen nueva.
+- Fija la imagen por su digest (`ps2dev/ps2dev@sha256:…`) para que la compilación no cambie cuando se publique una imagen nueva. La CI usa el digest que figura en [CI y publicación](#ci-y-publicación).
 - `SOURCE_DATE_EPOCH` lleva la fecha del último commit, porque la imagen no tiene `git`. Sin ella, la ISO toma la fecha 0 (1970).
 - El contenedor se ejecuta como root. El `chown` final devuelve los archivos a tu usuario.
 
@@ -229,7 +233,7 @@ make iso
 | `ROM_STREAM=0/1` | ROM dentro del ELF (0) o en `SMK64ROM.BIN` (1). Por defecto vale 0 con `DEV=1` o `MONOLITICO=1` y 1 en el resto |
 | `V=1` | Muestra los comandos completos |
 | `OPT` | Optimización del código del juego (por defecto `-O2`) |
-| `BUILD_ID` | Identificador que aparece en la pantalla de fallo (por defecto `2026-09-25`) |
+| `BUILD_ID` | Identificador que aparece en la pantalla de fallo (por defecto `2026-10-11`, la fecha de la versión 1.0.0; `DEBUG=1` y `DEV=1` le añaden `-debug` y `-dev`) |
 | `EXTRA_DEFINES` | Defines adicionales, por ejemplo `-DSMK64_PROF` (perfilador por muestreo), `-DSMK64_DEV_FRAMEDUMP` (volcados de pantalla, con `DEV=1`), `-DFILTRADO_TEXTURAS=0` (texturas sin suavizado, vecino más cercano) o `-DSMK64_DIAG_CC` (con `DEV=1`, registra los colores que el GS no reproduce igual que el RDP) |
 
 `DEBUG`, `DEV`, `MONOLITICO` y `DEBUG_AUDIO` compilan en su propia carpeta. Si cambian otras opciones (`OPT`, `ROM_STREAM`, `MEDIDOR`, `BUILD_ID` o `EXTRA_DEFINES`), se recompila todo el código de esa carpeta. Los datos de la ROM y los fuentes preparados (`build/ps2/be/`, `build/ps2/jp/` y las texturas en español de `build/ps2/es/`) están en `build/ps2/` y son comunes a todas las variantes.
@@ -255,7 +259,7 @@ El repositorio incluye una compilación hecha:
 - `build/`: las variantes normal, `DEBUG=1` y `DEV=1`, los datos de la ROM (con las texturas en español), los ejecutables de las pruebas y las herramientas `mio0` y `empaquetador_listas`.
 - `compilaciones/`: la ISO normal y el contenido del disco.
 
-No incluye el ELF monolítico ni la herramienta `tkmk00`, que `make test` compila al vuelo. La compilación versionada, en español, es la del commit `dda9a5f` («chore(build): binarios e ISO en espanol»).
+No incluye el ELF monolítico ni la herramienta `tkmk00`, que `make test` compila al vuelo. La compilación versionada es la del último commit de publicación, `build(compilaciones): binarios e ISO en español`; la de la versión 1.0.0 es <<PUBLICACION>>.
 
 `make`, `make iso`, `make test` y `make clean` modifican o borran esos archivos. **No se commitean durante el trabajo.** Después de compilar y probar, restáuralos:
 
@@ -274,14 +278,7 @@ make test && make iso
 git add build compilaciones
 ```
 
-La CI puede hacer ese commit: el job `publicar` de `.github/workflows/compilacion.yml` se lanza a mano (`workflow_dispatch`) con la entrada `publicar=si`. Compila desde cero, en la imagen de ps2dev fijada por digest, las variantes normal, `DEBUG=1` y `DEV=1`, corre `make test`, crea la ISO, exige GNU make 4.4 o posterior y commitea `build/ps2` y `compilaciones` en la misma rama. Así se generó `dda9a5f`.
-
-`build/` está versionado y `make test` escribe ahí sus copias y sus binarios.
-Después de las pruebas, para no subirlos por error:
-
-```bash
-git clean -fdq -- build && git checkout -- build
-```
+La CI hace ese commit con el job `publicar` (ver [CI y publicación](#ci-y-publicación)).
 
 ## Pruebas
 
@@ -292,17 +289,22 @@ git clean -fdq -- build && git checkout -- build
 
 `make test` no necesita el SDK de PS2 ni el entorno cargado. Las pruebas en C se compilan con el `gcc` del PC y `-fsigned-char` (el `char` del R5900 lleva signo); las demás son scripts de Python. Cualquier comprobación que no se cumple hace fallar `make test` con código de salida distinto de 0. Deja sus copias y ejecutables en `build/`, que está versionado: por eso la limpieza del final.
 
-Son 26 pruebas (8 en C y 18 en Python) más el comprobador del tope de líneas, todas en `herramientas/pruebas/`:
+El objetivo `test` del `Makefile` corre 28 pruebas de `herramientas/pruebas/` (9 en C y 19 en Python) y después el comprobador del tope de líneas, `herramientas/comprobar_lineas.py`. Cada prueba termina con una línea `N comprobaciones, M fallos`, salvo `prueba_caminos_vehiculos`, que informa por camino:
 
 | Área | Pruebas | Qué comprueban |
 |---|---|---|
 | Juego y port | `prueba_combinador.c`, `prueba_caminos_vehiculos.c` | Combinador de color en seis casos; tabla precalculada de caminos del tren y del barco contra el algoritmo original, en modo normal y espejo |
 | Codificación | `prueba_convertir_eucjp.py`, `prueba_metadatos_eucjp.py`, `prueba_caracteres_es.c` | Conversión a EUC-JP (errores con `ruta:línea:columna`), metadatos de pista convertidos, lectura de Á É Í Ó Ú Ñ Ü ¡ ¿ º ª en EUC-JP y UTF-8 y `quitar_diacriticos` |
-| Fuente del menú | `prueba_glifos.c`, `prueba_tablas_glifos.py`, `prueba_glifos_es.py` | Compatibilidad con la N64 (huella de índices y avances), tabla de 247 glifos, anchos y arte reproducible de los 11 glifos nuevos |
+| Pantallas del port | `prueba_fuente_5x7.c`, `prueba_textos_port.py`, `prueba_ancho_panel.py`, `prueba_cadena_depuracion.c` | Fuente del panel con tildes; textos del panel, del registro y de la pantalla de fallo, con la lista negra ampliada a los textos nuevos del original; ancho de las líneas del panel y la fila libre entre líneas; fuente de depuración N64 |
+| Arranque y cronómetro | `prueba_arranque.py`, `prueba_cronometro_fases.c` | `inicializar_depuracion()` va en `main()` antes del reinicio del IOP y el cronómetro se abre antes del primer paso; el cronómetro de fases admite los 6 grupos |
+| Fuente del menú | `prueba_glifos.c`, `prueba_glifos_es.py`, `prueba_tablas_glifos.py` | Compatibilidad con la N64 (huella de índices y avances) y detector del primer byte que la fuente no dibuja; anchos y arte reproducible de los 11 glifos nuevos; tabla de 247 glifos definida una sola vez, tope de la reserva de matrices y registro DEV en las tres impresoras de cadenas |
 | Textos | `prueba_textos.c` (con sus tablas `prueba_textos_*.inc.c` y `prueba_textos_tinta.py`) | Todas las tablas en español: glosario y lista negra, número de entradas, glifo para cada carácter, textos esperados byte a byte, zona segura medida por tinta, interlineado y signos de apertura |
-| Pantallas del port | `prueba_fuente_5x7.c`, `prueba_textos_port.py`, `prueba_ancho_panel.py`, `prueba_cadena_depuracion.c` | Fuente del panel con tildes, textos del panel, del registro y de la pantalla de fallo, ancho de las líneas del panel y fuente de depuración N64 |
-| Texturas | `prueba_png_simple.py`, `prueba_formatos_textura.py`, `prueba_tkmk00.py`, `prueba_textura_menu.c`, `prueba_invertir_texturas.py`, `prueba_texturas_es.py`, `prueba_cableado_es.py`, `prueba_composicion_es.py`, `prueba_hud_es.py`, `prueba_lakitu_es.py`, `prueba_titulos_es.py`, `prueba_cartel_es.py`, `prueba_hojas_es.py` | Herramientas de PNG y formatos, despacho TKMK00/MIO0, manifiesto, cableado en la ROM y tamaños, composición del arte, HUD sin solapes de 1 a 4 jugadores, 16 cuadros y paleta de Lakitu, títulos de pista, cartel de la granja y hojas de contacto |
+| Texturas | `prueba_png_simple.py`, `prueba_formatos_textura.py`, `prueba_tkmk00.py`, `prueba_invertir_texturas.py`, `prueba_texturas_es.py`, `prueba_cableado_es.py`, `prueba_composicion_es.py`, `prueba_hud_es.py`, `prueba_lakitu_es.py`, `prueba_titulos_es.py`, `prueba_cartel_es.py`, `prueba_hojas_es.py`, `prueba_textura_menu.c` | Herramientas de PNG y formatos, despacho TKMK00/MIO0, manifiesto (sin botones de la N64 en los textos), cableado en la ROM y tamaños, composición del arte, HUD sin solapes de 1 a 4 jugadores, 16 cuadros y paleta de Lakitu, títulos de pista, cartel de la granja y hojas de contacto |
 | Calidad | `herramientas/comprobar_lineas.py` | Ningún archivo de código pasa de 1000 líneas |
+
+Medido el 2026-10-11 en `d5f95cc5` (base de la documentación de F8) con `make test`: código de salida 0, las 28 pruebas con 0 fallos (`prueba_textos`: 225 242 comprobaciones y 0 tablas pendientes) y 0 archivos por encima del tope de líneas.
+
+**Qué no se comprueba.** Ninguna prueba mira la imagen en pantalla: los textos se comprueban byte a byte y por tinta, y las texturas por sus datos, pero no hay capturas registradas de la versión en español ([CC-12](../traduccion/cambios.md)). Los guiones de `DEV=1` (ver [Guiones de prueba](#guiones-de-prueba-dev1)) escriben en `host:` y necesitan un emulador: son opcionales y no forman parte de `make test`. Las correcciones de CC-11 que solo compilan con el SDK de PS2 (E4, E5, G5 y L2) llevan su evidencia en el mensaje del commit.
 
 ## Depuración
 
@@ -312,7 +314,8 @@ Son 26 pruebas (8 en C y 18 en Python) más el comprobador del tope de líneas, 
 - **`make DEV=1`**: además del registro por `printf`, activa:
   - el registro en `host:smk64_log.txt` (cuando se llena el búfer, se vuelca a `host:smk64_log_NN.txt`);
   - los guiones de prueba;
-  - con `EXTRA_DEFINES=-DSMK64_DEV_FRAMEDUMP`, volcados de pantalla `host:frameNNNNN.tga` en cuadros fijos.
+  - con `EXTRA_DEFINES=-DSMK64_DEV_FRAMEDUMP`, volcados de pantalla `host:frameNNNNN.tga` en cuadros fijos;
+  - avisos en el registro, una vez cada uno, de lo que en pantalla falla en silencio: una cadena del menú con un byte que la fuente no dibuja (`texto del menú con un byte inválido`, en las tres impresoras de `imprimir_texto.inc.c`) y la reserva de matrices del texto agotada (`menu: reserva de matrices agotada`).
 
   No incluye el panel salvo con `MEDIDOR=1`.
 - **Todas las compilaciones** muestran la pantalla de fallo ante una excepción del EE, un error fatal o un cuelgue. Se considera cuelgue pasar 6 s sin cuadros, o 30 s durante una fase de carga o mientras se espera la ROM del disco. La pantalla muestra:
@@ -326,6 +329,8 @@ Son 26 pruebas (8 en C y 18 en Python) más el comprobador del tope de líneas, 
 Muestra FPS (actual, mínimo, máximo y promedio), milisegundos por cuadro, reparto de CPU, esperas del GS y del DMA, triángulos, subidas de texturas, memoria libre, cortes de audio, porcentaje de la ROM ya cargado y los tiempos de arranque y de carga de pista.
 
 Aparece completo al arrancar. Cada vez que se presiona L3 + R3 pasa a una línea, después a oculto y vuelve a completo. Con `DEBUG_AUDIO=1`, entre oculto y completo aparece la página de audio.
+
+Las líneas del panel dejan una fila libre entre ellas para que las tildes no toquen la línea de arriba (`TEXTO_ALTO_LINEA` en `incluir/depuracion/texto_pantalla.h`). Por eso el panel reserva 128 KB de VRAM (`MEDIDOR_VRAM_BYTES` en `incluir/depuracion/medidor_rendimiento.h`).
 
 ### Guiones de prueba (`DEV=1`)
 
@@ -347,7 +352,12 @@ Si existe `host:smk64_input.txt`, el guion sustituye a los mandos, el juego ve 4
 | `intermedio si\|no` | Activa o desactiva los 60 FPS |
 | `objeto N [J]` | Da el objeto N (1 a 15) al jugador J |
 | `nota TEXTO` | Escribe una nota en el resultado |
-| `captura NOMBRE` | Escribe `host:captura.req` para una herramienta externa que el repositorio no incluye. Si nadie la atiende en 900 cuadros, registra un aviso y sigue |
+| `muestra VAR` | Escribe el valor de la variable en el resultado |
+| `siguiente_estado N` | Pasa el juego al estado N, como el atajo de depuración del original |
+| `disparador BITS [J]` | Pone esos bits de disparador en el jugador J (1 a 8; por defecto, el del mando actual) |
+| `memoria` | Escribe el montón libre, la reserva del juego, el audio y la caché de texturas |
+| `captura NOMBRE` | Guarda la pantalla en `host:NOMBRE.tga`. Si no se ha guardado en 900 cuadros, registra un aviso y sigue |
+| `graba PREFIJO C N`, `graba no` | Guarda N capturas `host:PREFIJO_NNN.tga`, una cada C cuadros, sin parar el guion / las corta |
 | `camaras`, `volcado` | Vuelca las cámaras al registro / pide un volcado de la lista de dibujo |
 | `audio NOMBRE S`, `tareas_audio NOMBRE N` | Graba S segundos de audio / vuelca N tareas de audio en `host:` |
 | `perfil inicio`, `perfil fin NOMBRE` | Perfilado por muestreo (requiere `EXTRA_DEFINES=-DSMK64_PROF`) |
@@ -356,7 +366,9 @@ Si existe `host:smk64_input.txt`, el guion sustituye a los mandos, el juego ve 4
 
 - **Botones:** `A B Z R L START CU CD CL CR ARRIBA ABAJO IZQ DER NADA`, combinables con `+` (por ejemplo, `A+R`).
 - **Comparadores:** `== != < <= > >=`.
-- **Variables:** `estado menu pista modo carrera pausa vuelta puesto jugadores copa cc demo frame submenu seleccion menupausa resultados columna subcolumna menufinal`.
+- **Variables:** `estado menu pista modo carrera pausa vuelta puesto jugadores copa cc demo frame submenu seleccion menupausa resultados columna subcolumna menufinal efectos disparadores rapidez`.
+
+Las órdenes `captura` y `graba` vienen del original. Una captura pedida mientras otra sigue pendiente puede perderse, y el `.tga` puede salir con el alfa del último vértice del cuadro. Ningún flujo del proyecto las usa, y queda como propuesta para el original (G2 en [CC-11](../traduccion/cambios.md)).
 
 Ejemplo:
 
@@ -370,7 +382,108 @@ comprueba pausa == 0
 fin
 ```
 
-## Solución de problemas
+## CI y publicación
+
+El workflow `compilacion` (`.github/workflows/compilacion.yml`) corre en cada push y pull request, y también a pedido (`workflow_dispatch`). Los jobs de compilación usan la imagen `ps2dev/ps2dev@sha256:7327334ab94e273b1723761fcd4a3591a31b78bbc28e4c281ad0fa42b3c8264d`, fijada por digest.
+
+| Job | Cuándo corre | Qué hace |
+|---|---|---|
+| `pruebas-pc` | Siempre | `make test` en `ubuntu-latest`, sin el SDK |
+| `compilar-ps2` | Siempre | `make clean`; `make` (release), `make DEBUG=1` y `make DEV=1`; `make test`; `make iso`. Guarda como artefacto `smk64-ps2` el ELF release, `SMK64ROM.BIN`, el mapa, el ELF de `DEBUG=1` y la ISO |
+| `mismo-binario` | A pedido, con `base` no vacía | `herramientas/comparar_binario.sh <base>` para release y para `DEBUG=1`: compila la base y el árbol actual desde cero y compara el ELF sin símbolos y `SMK64ROM.BIN`. Un refactor tiene que dar los mismos bytes |
+| `publicar` | A pedido, con `publicar` = `si` o `sí` | Exige GNU make 4.4 o posterior; `make clean`, las variantes release, `DEBUG=1` y `DEV=1`, `make test` y `make iso`. Commitea `build/ps2` y `compilaciones` con el mensaje `build(compilaciones): binarios e ISO en español`, con el commit de origen y la ejecución en el cuerpo, y hace push a la misma rama |
+| `release` | A pedido, con `release` = etiqueta | Exige `compilaciones/SLUS_999.99.SuperMarioKart64.iso` y `docs/versiones/<etiqueta>.md`. Crea la Release `<etiqueta>` sobre el commit lanzado, con el título «Mario Kart 64 PS2 en español <etiqueta>», la ISO versionada y `SHA256SUMS`, y esas notas como cuerpo |
+| `limpiar-ramas` | A pedido, con `limpiar_ramas` = `si` o `sí` | Borra cada rama remota cuya punta ya está en `main` (`git merge-base --is-ancestor`). Conserva `main` y las ramas con commits propios |
+
+Entradas a pedido (Actions → `compilacion` → Run workflow, o `POST /repos/{dueño}/{repo}/actions/workflows/compilacion.yml/dispatches` con `ref` e `inputs`):
+
+| Entrada | Por defecto | Uso |
+|---|---|---|
+| `base` | vacía | Referencia para comparar el binario; vacía, no se compara |
+| `publicar` | `no` | `sí` regenera `build/` y `compilaciones/` y los commitea en la rama |
+| `release` | vacía | Etiqueta de la Release, por ejemplo `v1.0.0`; vacía, no se publica |
+| `limpiar_ramas` | `no` | `sí` borra las ramas remotas que ya están contenidas en `main` |
+
+Una versión se publica en este orden, cada paso con el anterior terminado en verde:
+
+1. **`publicar`**, lanzado sobre la rama de integración: deja en ella el commit de publicación con los binarios y la ISO regenerados desde cero.
+2. **Merge a `main`** de la rama de integración, con la revisión aprobada (ver [CONTRIBUTING.md](../../CONTRIBUTING.md)).
+3. **`release`**, lanzado sobre `main` con la etiqueta de la versión: publica la ISO que quedó versionada en `compilaciones/`. Las notas (`docs/versiones/<etiqueta>.md`) tienen que estar ya en `main`.
+4. **`limpiar-ramas`**, lanzado sobre `main`: solo borra lo que ya está fusionado.
+
+El SHA-256 de `SHA256SUMS` tiene que coincidir con el de la ISO versionada (`sha256sum compilaciones/SLUS_999.99.SuperMarioKart64.iso`). Para la versión 1.0.0: ejecución de CI <<PUBLICACION>>, commit de publicación <<PUBLICACION>>.
+
+## Traer actualizaciones del repositorio original
+
+El repositorio original es [anthoo582/mario-kart-64-ps2](https://github.com/anthoo582/mario-kart-64-ps2). Así se sincronizó en F8 hasta `ae93f71` ([CC-08](../traduccion/cambios.md)):
+
+1. **Traer y medir.**
+
+   ```bash
+   git remote add upstream https://github.com/anthoo582/mario-kart-64-ps2.git
+   git fetch upstream
+   git log --oneline origin/main..upstream/main               # commits nuevos del original
+   git merge-tree --write-tree --name-only origin/main upstream/main
+   ```
+
+   `git merge-tree` (git 2.38 o posterior) lista los archivos en conflicto sin tocar el árbol. En F8 dio 9 archivos de código (12 trozos) y 95 de `build/` y `compilaciones/`.
+2. **Registrar un CC antes de fusionar** en [cambios.md](../traduccion/cambios.md), con cómo se resuelve cada conflicto y la evidencia que se pedirá, y esperar su aprobación.
+3. **Abrir la rama** `feature/sincronizacion-<tema>` desde `main` (en F8, `feature/sincronizacion-upstream`). Las correcciones posteriores van en subramas `sinc/<tema>` que se fusionan en ella.
+4. **Fusionar sin seguir renombres de carpetas:**
+
+   ```bash
+   git -c merge.directoryRenames=false merge --no-ff upstream/main
+   ```
+
+   Sin esa opción, git toma `build/ps2/debug/`, que el original dejó de versionar, por renombrada a `build/ps2/dev/` y mueve allí archivos de este repositorio.
+5. **Resolver como fusión pura**, sin traducir ni corregir nada en el commit de fusión:
+   - `build/` y `compilaciones/` quedan como en `main` hasta el commit de publicación;
+   - la tabla de glifos (`codigo/menus/elementos_menu/textos_y_tablas.inc.c`, `animaciones_personajes.inc.c` e `incluir/menus/elementos_menu.h`) queda como en `main`: tiene las 236 entradas del original en el mismo orden más las 11 del español;
+   - en los archivos del port se toma el código del original y se conservan los textos en español;
+   - `README.md` queda como en `main`; lo nuevo del original se documenta en un commit `docs` aparte.
+6. **Comprobar la fusión** `M`: estos diffs tienen que salir vacíos.
+
+   ```bash
+   git diff M^1 M -- build compilaciones
+   git diff M^1 M -- codigo/menus/elementos_menu/textos_y_tablas.inc.c \
+       codigo/menus/elementos_menu/animaciones_personajes.inc.c incluir/menus/elementos_menu.h
+   ```
+
+7. **Traducir los textos nuevos del original** en commits propios: primero se amplía la lista negra de `prueba_textos_port.py` (rojo) y después se traducen (verde). En F8: fusión `9f4d0215`, rojo `748db117`, verde `36fc9e40`. La fusión queda en rojo solo en esa prueba y nunca se sube sola.
+8. **Cerrar** con `make test` en verde y la CI en verde, incluida la compilación para PS2.
+
+Para leer un archivo de otra rama sin fusionarla: `git show origin/<rama>:<ruta>`. Lo que se quiera proponer al original (por ejemplo G2 y G4 de [CC-11](../traduccion/cambios.md)) se documenta con el caso concreto y no se aplica aquí.
+
+## Archivos sensibles
+
+Cambiar cualquiera de estos archivos o ajustes exige un CC aprobado en [cambios.md](../traduccion/cambios.md).
+
+| Archivo o ajuste | Por qué está así |
+|---|---|
+| Digest de `ps2dev/ps2dev` en `.github/workflows/compilacion.yml` (3 apariciones: `compilar-ps2`, `mismo-binario` y `publicar`) | Fija el compilador para que el binario sea reproducible. Las tres tienen que cambiar juntas, y el cambio se comprueba con `mismo-binario` |
+| `herramientas/entorno.sh` | Lo cargan todas las compilaciones, locales y de la CI. Define `PS2DEV`, `PS2SDK`, `GSKIT` y el `PATH` del toolchain |
+| `Makefile`: objetivo `test` | Define qué corre `make test` y en qué orden. Una prueba que sale de la lista deja de comprobarse sin aviso |
+| `Makefile`: `BUILD_ID`, `JP_SRC` y `JP_PARTES` | `BUILD_ID` identifica la compilación en la pantalla de fallo. `JP_SRC` y `JP_PARTES` deciden qué fuentes pasan a EUC-JP |
+| `build/` y `compilaciones/` | Están versionados. Solo cambian en el commit de publicación, que hace el job `publicar` |
+| Tabla de glifos: `lista_glifos.inc.c`, `textos_y_tablas.inc.c` y `animaciones_personajes.inc.c` (en `codigo/menus/elementos_menu/`) | Los índices de los 236 glifos originales tienen que coincidir con los de la N64 (`prueba_glifos.c`); los 11 del español van detrás |
+| `recursos/es/texturas.tsv` | Manifiesto de las texturas en español: qué se traduce, qué se excluye y con qué texto |
+| `merge.directoryRenames=false` al fusionar el original | Sin él, git mueve archivos de `build/ps2/debug/` a `build/ps2/dev/` |
+
+## Errores a evitar
+
+| Error | Por qué | Cómo se detecta |
+|---|---|---|
+| Fiarse de una copia vieja de `build/ps2/jp/` | `build/` está versionado y un checkout puede dejar la copia convertida más nueva que su fuente. Por eso `make test` vuelve a convertir en cada pasada lo que lee `prueba_textos` | `make test` falla en `prueba_textos` con textos que no coinciden |
+| Buscar texto con `grep` en `build/ps2/jp/` | Esos archivos están en EUC-JP: un `grep` con tildes en UTF-8 no encuentra nada | Buscar en el fuente, que está en UTF-8 |
+| Commitear `build/` o `compilaciones/` en un commit de trabajo | Mezcla binarios con cambios de código | `git status --short` antes de cada commit; restaurar con `git checkout -- build compilaciones` |
+| Fusionar el original sin `merge.directoryRenames=false` | Mueve archivos versionados a otra carpeta | `git diff M^1 M -- build compilaciones` no sale vacío |
+| Traducir o corregir dentro del commit de fusión | Mezcla la fusión con un cambio funcional y no se puede revisar ni revertir por separado | El commit de fusión toca más archivos de los que tenían conflicto |
+| Un refactor sin comparar el resultado | Puede cambiar el binario sin que ninguna prueba lo note | `python3 herramientas/comparar_preprocesado.py` en el PC o el job `mismo-binario` en la CI |
+| Usar el tipo `chore` en un commit | Las reglas de commits no lo admiten | Revisar el asunto antes de commitear (ver [CONTRIBUTING.md](../../CONTRIBUTING.md)) |
+| Hacer cherry-pick sin comprobar de qué depende el commit | El commit puede necesitar otros que no están en la rama | `git diff --stat` del commit y compilar y correr `make test` después |
+| Dar por verificado lo que solo se vería en pantalla | Ninguna prueba mira la imagen ([CC-12](../traduccion/cambios.md)) | Declararlo como limitación, como hace el [manual de usuario](usuario.md#limitaciones-conocidas) |
+
+## Solución de problemas de compilación
 
 | Síntoma | Causa y solución |
 |---|---|
