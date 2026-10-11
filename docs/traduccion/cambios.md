@@ -187,3 +187,29 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Evidencia:** `prueba_hud_es.py` (ninguna palabra pisa dígitos ni la parte de otro jugador, de 1 a 4 jugadores). Las capturas con 3 y 4 jugadores quedan para el recorrido de F6.
 - **Aprobación:** no quedó registrada aparte; se registra aquí porque el cambio ya está integrado.
 - **Commit:** `7e0d345`.
+
+### CC-08: sincronización con el repositorio original hasta `ae93f71`
+
+- **Estado:** aprobado (responsable del proyecto, al aprobar el plan F8 el 2026-10-11). INTEGRACIÓN y REVISIÓN lo confirman al revisar la rama.
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-FUE-01, R-PORT-02, R-PORT-04, R-INF-05, R-GOB-01, R-GOB-05
+- **Motivo:** `anthoo582/mario-kart-64-ps2` agregó `c2ed147` y `ae93f71` sobre la base común `0e7b7d5`. Traen el multitap, tiempos límite en el IOP, el CD y la Memory Card, el arranque desde OPL sin reiniciar el IOP, la caché de texturas por columnas, el tramado por primitiva, 60 FPS más estables y la orden `captura` de los guiones. `git merge-tree` da 9 archivos de código en conflicto (12 trozos) y 95 de `build/` y `compilaciones/`.
+- **Cambio:**
+  - **Fusión:** `git -c merge.directoryRenames=false merge --no-ff`. Sin esa opción, git trata `build/ps2/debug/`, que el original dejó de versionar, como renombrada a `build/ps2/dev/` y mueve allí archivos nuestros.
+  - **Tabla de glifos:** `textos_y_tablas.inc.c`, `animaciones_personajes.inc.c` y `elementos_menu.h` quedan enteros como en `main`. El original arregló el mismo fallo con 236 entradas bajo `AVOID_UB` y alias `dato_800E7FF0` y siguientes. La tabla de `main` tiene esas 236 en el mismo orden más las 11 del español. Mezclar los dos lados deja un `#else` sin cerrar o hace que Á…ª lean fuera de la tabla.
+  - **Archivos del port** (`mandos.c`, `listas_dibujo.inc.c`, `tarea_graficos.inc.c`, `arranque_ps2.c`, `memory_card.c`): el código del original con los textos en español. En `arranque_ps2.c` se conserva `inicializar_depuracion()` antes del reinicio del IOP; la llamada vieja ya se borra sin conflicto y la nueva solo está dentro del trozo en conflicto.
+  - **`README.md`:** queda el de `main`. Lo nuevo del original (multitap, OPL, `FILTRADO_TEXTURAS`, `SMK64_DIAG_CC`, 60 FPS) se integra en un commit de documentación aparte.
+  - **`build/` y `compilaciones/`:** quedan como en `main` hasta el commit de publicación, que los regenera desde cero.
+  - **Textos nuevos del original** fuera de los conflictos: van en español con tildes en commits propios después de la fusión. Primero se amplía la lista negra de `prueba_textos_port.py` (rojo) y después se traducen (verde). Los grupos del cronómetro nuevos pasan a `GRUPO_CARGA_CEREMONIA` y `GRUPO_CARGA_CREDITOS` en `marcas_registro.h`.
+  - El commit de fusión queda en rojo solo en `prueba_textos_port.py` y nunca se sube solo.
+- **Archivos:** los 9 en conflicto, más `marcas_registro.h`, `hilos_video_y_audio.inc.c`, `guiones_prueba.c` y `prueba_textos_port.py`.
+- **Alternativas descartadas:**
+  - Rebase de los 115 commits: reescribe la historia publicada de `main`.
+  - Tomar la tabla de 236 del original: pierde los 11 glifos del español.
+  - Traducir los textos nuevos dentro del commit de fusión: mezcla la fusión con un cambio funcional.
+- **Evidencia requerida:**
+  - `git diff M^1 M -- build compilaciones` y el de los 3 archivos de glifos, vacíos;
+  - `make test` verde después de la traducción;
+  - CI de PS2 verde con `-lmtap`.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
+- **Commit:** —
