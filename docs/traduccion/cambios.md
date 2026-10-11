@@ -867,7 +867,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 
 ### CC-31: capturas de referencia al día y comparación estricta
 
-- **Estado:** aprobado
+- **Estado:** aplicado
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-INF-07
 - **Motivo:**
@@ -883,5 +883,16 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - una prueba en rojo con un bloque de 32×16 cambiado (0,18 %) frente a la tolerancia vieja;
   - el job del emulador en verde con la tolerancia nueva;
   - la revisión visual de las referencias.
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
-- **Commit:** —
+- **Lo aplicado:**
+  - `1bac15d9` (prueba): un bloque de 32×16 cambiado en 640×448 (0,18 %) debe fallar con la tolerancia por defecto; en rojo con 0,02. `632050ac` baja la tolerancia por defecto de `comparar_capturas.py` a 0,001 (0,1 %).
+  - `a7ab8019`: `guion_ci.txt` captura también `configuracion`, el menú CONFIGURACIÓN Y TRUCOS. Dos ejecuciones dan un 0,0000 % de diferencia entre sí.
+  - `3a022b42`: referencias regeneradas con Play! 0.72 y el ELF de DEV actual, revisadas a ojo; `f4b86834` pone al día `docs/img/` con la figura del menú de configuración.
+  - `17901393`: entrada `regenerar_referencias` del workflow. Con `sí`, el job `emulador` escribe las capturas de la primera ejecución como referencias, comprueba la segunda contra ellas, copia `menu`, `carrera` y `configuracion` a `docs/img/` y commitea en la rama. Las referencias se revisan a ojo antes de integrar. Regeneradas así en las ejecuciones [38179540046](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38179540046) (`6933dd08`) y [38180265814](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38180265814) (`863cbc45`).
+  - Mirar las capturas con la comparación estricta encontró dos defectos visibles del juego:
+    - los valores de CONFIGURACIÓN Y TRUCOS se dibujaban tenues: primero en verde semitransparente (`a5464408` los pasa a `CONFIG_COLOR_VALOR`, amarillo) y después en el modo de texto alineado a la derecha, que también es tenue (`39bb214b` en rojo, `42a13caf` los dibuja en el modo opaco de las etiquetas con `config_columna_valor()`);
+    - el ordinal de los puestos se leía «8º.»: `9ec3b950` (prueba en `prueba_hud_es.py`) y `33979fbf` ponen el punto en la base antes de la «º» volada, «8.º».
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11);
+  - REVISIÓN: técnica de `v121/capturas` y de `v121/ordinal`, aprobadas con observaciones después de corregir los hallazgos ([acta de la 1.2.1](revisiones/2026-10-11-version-1.2.1.md));
+  - INTEGRACIÓN: merge `73aff9e2` (`v121/ordinal`) en `feature/capturas-1.2.1` (2026-10-11).
+- **Commit:** `8d94ba8d` (registro), `1bac15d9`, `632050ac`, `a7ab8019`, `3a022b42`, `f4b86834`, `a5464408`, `9ec3b950`, `33979fbf`, `17901393`, `6933dd08`, `39bb214b`, `42a13caf`, `863cbc45` y el merge `73aff9e2`.

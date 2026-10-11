@@ -6,6 +6,7 @@ Este documento dice cómo se cumplió la [especificación](especificacion.md) y 
 - **F8** (sincronización con el original, 2026-10-11) está cerrada: se integró en `feature/sincronizacion-upstream`, se publicó en `900c9be3` y está en `main` (`af3bfa05`), la versión 1.0.0.
 - **F9** (versión 1.1.0, 2026-10-11) está cerrada: se integró en `feature/version-1.1.0`, se publicó en `45bbe10a` y está en `main`.
 - **F10** (versión 1.2.0, 2026-10-11) está integrada en `feature/version-1.2.0` (`fd6a4bb7`). Lo que queda por hacer está en [README.md § Pendiente](README.md#pendiente).
+- **F11** (versión 1.2.1, 2026-10-11, [CC-31](cambios.md)) está en `feature/capturas-1.2.1` (`863cbc45`) y se publicará como `v1.2.1`.
 
 ## 1. Principios
 
@@ -145,7 +146,19 @@ main (fc17498f)
          └─ v120/doc-traduccion             docs/traduccion y acta de F10
 ```
 
-### 3.5 Verificación al crear una rama
+### 3.5 F11
+
+`feature/capturas-1.2.1` nace de `main` con el registro de CC-31 (`8d94ba8d`). De ahí salen `v121/capturas` (comparación estricta, captura nueva, regeneración en la CI y valores del menú de configuración) y `v121/ordinal` (punto del ordinal). El detalle está en [F11](#f11-versión-121).
+
+```
+main
+ └─ feature/capturas-1.2.1                integración de F11
+     └─ (8d94ba8d)                         registro de CC-31
+         ├─ v121/capturas                   tolerancia, captura, referencias, valores   → 1bac15d9…863cbc45
+         └─ v121/ordinal                    8.º en lugar de 8º.                          → 73aff9e2
+```
+
+### 3.6 Verificación al crear una rama
 
 Para una rama nueva se ejecuta todo esto y se adjunta la salida al PR. `merge-base` no sirve como prueba.
 
@@ -171,6 +184,7 @@ git log --format='%ae' origin/main..<rama> | sort -u
 | F8 | INTEGRACIÓN, autores por rama y REVISIÓN ×2 | Sincronización con el original hasta `ae93f71` (CC-08), CI con Release y limpieza de ramas (CC-09), correcciones con evidencia (CC-11), pendientes técnicos de F3 y F4 y documentación (CC-12) | `feature/sincronizacion-upstream` y `sinc/*` | [Definition of Done](../../CONTRIBUTING.md) y [acta de revisión](revisiones/2026-10-11-sincronizacion.md) sin hallazgos Alta o Media abiertos, salvo el de G5 | Cerrada: publicación `900c9be3` y fusión a `main` (`af3bfa05`), versión 1.0.0. El hallazgo de G5 se resolvió en F9 (CC-17) |
 | F9 | INTEGRACIÓN, autores por rama y REVISIÓN ×2 | Versión 1.1.0: Memory Card (CC-13), zona muerta del stick (CC-14), región de la consola (CC-15), publicación comprobada y ELF monolítico (CC-16), prueba del alfa con tramado (CC-17) y deudas D-01, D-02 y D-09 a D-15 | `feature/version-1.1.0` y `v110/*` | [Definition of Done](../../CONTRIBUTING.md) y [acta de revisión](revisiones/2026-10-11-version-1.1.0.md) sin hallazgos Alta o Media abiertos | Cerrada: publicada en `45bbe10a` y en `main` |
 | F10 | INTEGRACIÓN, autores por rama y REVISIÓN ×2 | Versión 1.2.0: opciones del port (CC-18), menú CONFIGURACIÓN Y TRUCOS (CC-19), imagen (CC-20, CC-21), trucos (CC-22 a CC-25), emulador en la CI (CC-26), deuda técnica (CC-27), texturas (CC-28, CC-29) y portafolio (CC-30) | `feature/version-1.2.0` y `v120/*` | [Definition of Done](../../CONTRIBUTING.md) y [acta de revisión](revisiones/2026-10-11-version-1.2.0.md) sin hallazgos Alta o Media abiertos | Integrada en `fd6a4bb7`, CI [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616). Publicada en `9ab41422` y cerrada con la Release `v1.2.0`, la fusión a `main` y la limpieza de ramas ([README.md § Pendiente](README.md#pendiente)) |
+| F11 | INTEGRACIÓN, autores por rama y REVISIÓN | Versión 1.2.1: comparación estricta de capturas, captura del menú de configuración y regeneración de las referencias en la CI (CC-31), con los dos defectos visibles que encontró | `feature/capturas-1.2.1` y `v121/*` | [Definition of Done](../../CONTRIBUTING.md) y [acta de revisión](revisiones/2026-10-11-version-1.2.1.md) sin hallazgos Alta o Media abiertos | En `feature/capturas-1.2.1` (`863cbc45`), referencias regeneradas en [38179540046](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38179540046) y [38180265814](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38180265814). Se publicará como `v1.2.1` |
 
 ### F1: infraestructura (hecha en `idioma/infra`, ya fusionada)
 
@@ -333,6 +347,21 @@ El responsable del proyecto aprobó el plan de F10 el 2026-10-11, con la maqueta
 | `v120/tx-emblemas` | 1J a 4J (D-24) | `bc4516de`, `caf7756f` | `56401560` |
 | `v120/tx-cruce` | PASO A NIVEL (D-24) | `f7866dd3`, `625105f4` | `fd6a4bb7` |
 
+### F11: versión 1.2.1
+
+El responsable del proyecto aprobó CC-31 el 2026-10-11 y se registró antes de tocar el código (`8d94ba8d`). Después, en `feature/capturas-1.2.1`:
+
+1. **Comparación estricta:** la prueba del bloque de 32×16 en rojo (`1bac15d9`) y la tolerancia de 0,001 (`632050ac`).
+2. **Captura nueva** del menú CONFIGURACIÓN Y TRUCOS (`a7ab8019`) y referencias revisadas a ojo (`3a022b42`, `f4b86834`).
+3. **Defectos visibles** que la revisión de las capturas encontró: los valores tenues del menú de configuración (`a5464408`, `39bb214b`, `42a13caf`) y el ordinal «8º.» (`v121/ordinal`, `73aff9e2`).
+4. **Regeneración en la CI** con `regenerar_referencias=sí` (`17901393`), usada en las ejecuciones [38179540046](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38179540046) (`6933dd08`) y [38180265814](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38180265814) (`863cbc45`).
+5. **Documentación** en `v121/docs`.
+
+| Rama | Contenido | Commits | Integración |
+|---|---|---|---|
+| `v121/capturas` | Tolerancia, captura `configuracion`, referencias, regeneración en la CI y valores del menú de configuración (CC-31) | `1bac15d9`, `632050ac`, `a7ab8019`, `3a022b42`, `f4b86834`, `a5464408`, `17901393`, `6933dd08`, `39bb214b`, `42a13caf`, `863cbc45` | En `feature/capturas-1.2.1` |
+| `v121/ordinal` | Punto del ordinal antes de la «º» volada (CC-31) | `9ec3b950`, `33979fbf` | `73aff9e2` |
+
 ## 5. Ciclo por bloque
 
 1. **Rojo (PRUEBAS).** La prueba nueva falla, y su salida se adjunta al PR.
@@ -412,7 +441,7 @@ Hay una razón para borrar `build/ps2/jp` antes de probar: al restaurar `build/`
   - nombres de botón de PS2;
   - naturalidad dentro del espacio disponible.
 - **Regla general:** el autor nunca revisa su propio bloque.
-- **Registro:** desde F8, la revisión de cada integración queda en un acta en [revisiones/](revisiones/), con el formato de [CONTRIBUTING.md](../../CONTRIBUTING.md). La de F8 es [2026-10-11-sincronizacion.md](revisiones/2026-10-11-sincronizacion.md); la de F9, [2026-10-11-version-1.1.0.md](revisiones/2026-10-11-version-1.1.0.md), y la de F10, [2026-10-11-version-1.2.0.md](revisiones/2026-10-11-version-1.2.0.md).
+- **Registro:** desde F8, la revisión de cada integración queda en un acta en [revisiones/](revisiones/), con el formato de [CONTRIBUTING.md](../../CONTRIBUTING.md). La de F8 es [2026-10-11-sincronizacion.md](revisiones/2026-10-11-sincronizacion.md); la de F9, [2026-10-11-version-1.1.0.md](revisiones/2026-10-11-version-1.1.0.md), la de F10, [2026-10-11-version-1.2.0.md](revisiones/2026-10-11-version-1.2.0.md), y la de F11, [2026-10-11-version-1.2.1.md](revisiones/2026-10-11-version-1.2.1.md).
 
 ## 8. Definición de terminado
 
@@ -436,7 +465,7 @@ git status --short         # vacío
 
 1. `pruebas-pc`: `make test` sin SDK.
 2. `compilar-ps2`: `make clean`, `make`, el tope de crecimiento de la ROM y el build incremental (desde F10), `make DEBUG=1`, `make DEV=1` (desde F8), `make test`, la inspección de la fuente de libdebug (desde F10) y `make iso` en el contenedor `ps2dev/ps2dev`.
-3. `emulador` (desde F10, CC-26): arranca dos veces el ELF de DEV en Play! 0.72 sin BIOS, revisa el registro y compara las capturas de título, menú y carrera con `herramientas/emulador/referencias/` y entre sí.
+3. `emulador` (desde F10, CC-26): arranca dos veces el ELF de DEV en Play! 0.72 sin BIOS, revisa el registro y compara las capturas de título, menú, configuración (desde F11) y carrera con `herramientas/emulador/referencias/` y entre sí, con una tolerancia del 0,1 % desde F11 (CC-31). Con `regenerar_referencias=sí`, escribe y commitea las referencias nuevas, que se revisan a ojo antes de integrar.
 4. `mismo-binario`, a mano con una `base`.
 5. `publicar`, a mano con `publicar=si` o `sí`: commit de publicación `build(compilaciones): binarios e ISO en español`. Así se generó `dda9a5f` en F7 (entonces con tipo `chore`). Desde F9 solo omite el commit si no hay nada preparado (`git diff --cached --quiet`); cualquier otro fallo detiene el job (CC-16).
 6. `release`, a mano con `release=<etiqueta>`, en el contenedor `ps2dev/ps2dev`: comprueba que el SHA-256 de la ISO versionada está en `docs/versiones/<etiqueta>.md`, compila `make MONOLITICO=1` y publica la ISO, `SLUS_999.99.monolitico.elf` y un `SHA256SUMS` con las dos líneas, con esas notas (CC-16). Se lanza en otra ejecución, sobre `main`, después de fusionar el commit de publicación; el orden completo está en el [manual técnico](../manual/tecnico.md#ci-y-publicación).

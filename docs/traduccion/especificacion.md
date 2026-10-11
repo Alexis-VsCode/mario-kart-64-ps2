@@ -4,6 +4,7 @@
 - **Sincronizada con** `feature/sincronizacion-upstream` en `d5f95cc5` (2026-10-11): la localización de F0 a F7, ya en `main` (`3f43c005`), más la sincronización con el original hasta `ae93f71` y las ramas de F8 (`sinc/ci`, `sinc/graficos-g5`, `sinc/sistema`, `sinc/pendientes` y `sinc/panel`). Desde CC-12, los criterios que dependían del recorrido de F6 se aceptan con lo que comprueban las pruebas del PC y la CI.
 - **Al día con** `feature/version-1.1.0` en `a29bd920` (F9, versión 1.1.0): de los requisitos que declaran [CC-13 a CC-17](cambios.md), cambia el texto de R-PORT-02 (CC-15) y R-INF-05 (CC-16); el de R-MC-01 y R-MC-02 (CC-13) no cambia y su evidencia nueva está en [trazabilidad.md](trazabilidad.md). R-GOB-01 anota un hallazgo de la integración (`b780d986`), no un cambio de un CC; el resto, en el registro de cambios.
 - **Al día con** `feature/version-1.2.0` en `fd6a4bb7` (F10, versión 1.2.0): [CC-18 a CC-29](cambios.md) añaden R-FUE-09, R-MC-04, R-INF-07, R-VID-01 a R-VID-05 y R-TRU-01 a R-TRU-04, y cambian R-TEX-02, R-TEX-03, R-TEX-08, R-PORT-03 y R-INF-05. Lo que no se puede comprobar sin hardware está en [§9](#9-límites-declarados).
+- **Al día con** `feature/capturas-1.2.1` en `863cbc45` (F11, versión 1.2.1): [CC-31](cambios.md) cambia R-INF-07 (tolerancia del 0,1 %, captura del menú de configuración y regeneración de las referencias en la CI) y R-INF-05 (entrada `regenerar_referencias`).
 
 ## 1. Objetivo
 
@@ -678,13 +679,13 @@ El `Makefile` declara `OBJETIVOS_PC := test clean herramientas es hoja-es` (`f8f
 
 **R-INF-05. Hay CI.**
 
-`.github/workflows/compilacion.yml` (hecho en `7387d01`, `6dd12e7`, `a3d0bae` y `c461c5b`; en F8, `24ed39a0` y `b69f1548`, [CC-09](cambios.md); en F9, `c641d19b` y `4bdd41a8`, [CC-16](cambios.md); en F10, `a27fd80f`, `04adf1f6`, `68bc6dce`, `2c3a8b29` y `979fcf14`, [CC-26](cambios.md) y [CC-27](cambios.md)) se lanza en cada push y pull request, y a mano con cuatro entradas (`base`, `publicar`, `release` y `limpiar_ramas`). Las entradas de sí o no aceptan `si` y `sí`. Tiene siete jobs:
+`.github/workflows/compilacion.yml` (hecho en `7387d01`, `6dd12e7`, `a3d0bae` y `c461c5b`; en F8, `24ed39a0` y `b69f1548`, [CC-09](cambios.md); en F9, `c641d19b` y `4bdd41a8`, [CC-16](cambios.md); en F10, `a27fd80f`, `04adf1f6`, `68bc6dce`, `2c3a8b29` y `979fcf14`, [CC-26](cambios.md) y [CC-27](cambios.md); en F11, `17901393`, [CC-31](cambios.md)) se lanza en cada push y pull request, y a mano con cinco entradas (`base`, `publicar`, `release`, `limpiar_ramas` y `regenerar_referencias`). Las entradas de sí o no aceptan `si` y `sí`. Tiene siete jobs:
 
 | Job | Nombre | Qué hace |
 |---|---|---|
 | `pruebas-pc` | Pruebas en el PC | `make test` en `ubuntu-latest`, sin SDK |
 | `compilar-ps2` | Compilar para PS2 | En el contenedor `ps2dev/ps2dev` fijado por digest: `make clean`; `make` (release); tope de crecimiento de la ROM (R-TEX-03); build incremental sin una sustitución (R-TEX-08); `make DEBUG=1`; `make DEV=1`; `make test`; inspección de la fuente de libdebug (R-PORT-03) y `make iso`. Guarda como artefactos el ELF de release, de `DEBUG=1` y de `DEV=1`, `SMK64ROM.BIN`, `smk64.map` y la ISO |
-| `emulador` | Guion en el emulador (Play!) | Después de `compilar-ps2`. Arranca dos veces el ELF de DEV en Play! 0.72 sin BIOS y comprueba el registro, la región y las capturas (R-INF-07) |
+| `emulador` | Guion en el emulador (Play!) | Después de `compilar-ps2`. Arranca dos veces el ELF de DEV en Play! 0.72 sin BIOS y comprueba el registro, la región y las capturas (R-INF-07). Con `regenerar_referencias=sí`, escribe y commitea las referencias nuevas |
 | `mismo-binario` | Comparar el binario con la base | Solo a mano, con la entrada `base`. Corre `herramientas/comparar_binario.sh` contra la base, en release y con `DEBUG=1` |
 | `publicar` | Commit de publicación | Solo a mano, con `publicar=si`. En el mismo contenedor y con GNU make 4.4 o posterior: `make clean`, `make`, `make DEBUG=1`, `make DEV=1`, `make test` y `make iso`, y commitea `build/ps2` y `compilaciones` en la rama con el asunto `build(compilaciones): binarios e ISO en español` y, en el cuerpo, el commit de origen y la ejecución (commit de publicación, R-GOB-05). Solo omite el commit si `git diff --cached --quiet`; cualquier otro fallo detiene el job |
 | `release` | Release con la ISO y el ELF monolítico | Solo a mano, con `release=<etiqueta>`, en el mismo contenedor que `compilar-ps2`. Falla si falta la ISO versionada de `compilaciones/`, si faltan las notas de `docs/versiones/<etiqueta>.md` o si el SHA-256 de la ISO no está en ellas. Compila `make clean` y `make MONOLITICO=1` y publica una Release de GitHub sobre el commit lanzado con la ISO, `SLUS_999.99.monolitico.elf` y un `SHA256SUMS` con las dos líneas, y esas notas. El ELF monolítico no se versiona. Se lanza en otra ejecución, sobre `main`, después de fusionar el commit de publicación |
@@ -706,13 +707,14 @@ El `Makefile` declara `OBJETIVOS_PC := test clean herramientas es hoja-es` (`f8f
 
 **R-INF-07. La CI arranca el juego en un emulador.**
 
-- El job `emulador` ([CC-26](cambios.md), hecho en `2c3a8b29`, `570a0a12`, `98a042b7` y `979fcf14`) baja Play! 0.72 con su SHA-256 fijado y lo corre bajo Xvfb con Vulkan por software. Arranca dos veces el ELF de DEV sin BIOS, con el guion `herramientas/emulador/guion_ci.txt` por `host:` y un ROMVER sintético europeo.
+- El job `emulador` ([CC-26](cambios.md), hecho en `2c3a8b29`, `570a0a12`, `98a042b7` y `979fcf14`; en F11, [CC-31](cambios.md), `632050ac`, `a7ab8019` y `17901393`) baja Play! 0.72 con su SHA-256 fijado y lo corre bajo Xvfb con Vulkan por software. Arranca dos veces el ELF de DEV sin BIOS, con el guion `herramientas/emulador/guion_ci.txt` por `host:` y un ROMVER sintético europeo.
 - `herramientas/emulador/comprobar_registro.py` exige en cada registro el bucle principal sin pánico ni cuelgue, la línea de región PAL, «vídeo: PMODE 8046» y el fin del guion con 0 fallos y sin capturas perdidas.
-- `herramientas/emulador/comparar_capturas.py` compara las capturas de título, menú y carrera con `herramientas/emulador/referencias/` y las de las dos ejecuciones entre sí, con tolerancia, y rechaza una captura uniforme.
+- `herramientas/emulador/comparar_capturas.py` compara las capturas de título, menú, configuración (el menú CONFIGURACIÓN Y TRUCOS) y carrera con `herramientas/emulador/referencias/` y las de las dos ejecuciones entre sí, y rechaza una captura uniforme. La tolerancia por defecto es del 0,1 % de píxeles distintos (0,001): un bloque de 32×16 cambiado en 640×448 (0,18 %) falla. Dos ejecuciones dan un 0,0000 % de diferencia.
+- Con la entrada `regenerar_referencias=sí`, el job escribe las capturas de la primera ejecución como referencias, comprueba la segunda contra ellas, copia `menu`, `carrera` y `configuracion` a `docs/img/` y commitea en la rama. Las referencias nuevas se revisan a ojo antes de integrar.
 - El job dura menos de 30 minutos.
 - Las capturas leen la VRAM antes del PCRTC: el antiparpadeo, las bandas y la posición se comprueban por los valores de registro (R-VID-01 a R-VID-03), no por la imagen ([§9](#9-límites-declarados)).
 - **Aceptación:** el job termina en verde.
-- **Prueba:** `prueba_comprobar_registro.py` y `prueba_comparar_capturas.py` en `make test`, y la ejecución [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616).
+- **Prueba:** `prueba_comprobar_registro.py` y `prueba_comparar_capturas.py` en `make test` (en F11, con el bloque de 32×16, `1bac15d9`), la ejecución [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616) y, en F11, las regeneraciones [38179540046](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38179540046) y [38180265814](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38180265814).
 
 ### 5.7 R-GOB: gobernanza
 
