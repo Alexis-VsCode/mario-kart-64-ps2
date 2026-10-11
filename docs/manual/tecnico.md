@@ -275,10 +275,10 @@ Solo se regeneran en un commit de publicación, dedicado y sin otros cambios. Ha
 make clean
 make -j"$(nproc)" && make DEBUG=1 -j"$(nproc)" && make DEV=1 -j"$(nproc)"
 make test && make iso
-git add build compilaciones
+git add -A build/ps2 compilaciones
 ```
 
-La CI hace ese commit con el job `publicar` (ver [CI y publicación](#ci-y-publicación)).
+El bloque reproduce lo que hace la CI: el commit de publicación lo hace el job `publicar` (ver [CI y publicación](#ci-y-publicación)).
 
 ## Pruebas
 
