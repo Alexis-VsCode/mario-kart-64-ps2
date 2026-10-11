@@ -17,7 +17,12 @@
 #define TROZOS_MAX    256
 #define ADELANTE_LECTURA    2   /* trozos por lectura de fondo (128 KB) */
 #define PRIORIDAD_CARGADOR 60
-#define MS_LECTURA_CD 10000       /* 128 KB: holgado incluso para OPL por USB 1.1 */
+#define MS_LECTURA_CD  5000       /* 128 KB: holgado incluso para OPL por USB 1.1 */
+#define MS_CANCELAR_CD 1000       /* espera a que la unidad pare tras sceCdBreak */
+#define INTENTOS_LECTURA_CD 4
+/* Un trozo que no se lee se da por perdido en INTENTOS_LECTURA_CD * (MS_LECTURA_CD + MS_CANCELAR_CD),
+   unos 24 s: por debajo de los 30 s del perro guardian mientras el juego espera datos del disco
+   (SEGUNDOS_CARGA_PERRO_GUARDIAN en depuracion.c). Asi sale el error de lectura y no un cuelgue. */
 
 extern u8 __rom_head_end[];
 
@@ -46,7 +51,7 @@ static int esperar_cd(int ms_max)
     for (ms = 0; sceCdSync(1); ms++) {
         if (ms >= ms_max) {
             sceCdBreak();
-            for (ms = 0; sceCdSync(1) && ms < ms_max; ms++) {
+            for (ms = 0; sceCdSync(1) && ms < MS_CANCELAR_CD; ms++) {
                 DelayThread(1000);
             }
             return 0;
@@ -69,7 +74,7 @@ static int leer_trozos(u32 primer, u32 cantidad)
         mode.spindlctrl = SCECdSpinNom;
         mode.datapattern = SCECdSecS2048;
         mode.pad = 0;
-        for (intentos = 0; intentos < 8; intentos++) {
+        for (intentos = 0; intentos < INTENTOS_LECTURA_CD; intentos++) {
             if (sceCdRead(s_lsn + primer * SECTORS_TROZO, cantidad * SECTORS_TROZO, dst, &mode)) {
                 if (esperar_cd(MS_LECTURA_CD) && sceCdGetError() == SCECdErNO) {
                     return 1;
