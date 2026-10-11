@@ -3,7 +3,7 @@
 
 #include <juego/definiciones.h>
 
-// Truco 200CC (CC-24): modificador de 150cc, no una cilindrada nueva; un valor
+// Truco 200CC: modificador de 150cc, no una cilindrada nueva; un valor
 // 4 chocaría con BATALLA_CC y leería fuera de las tablas de la CPU.
 // seleccion_cc sigue en CC_150, así que puntúa y se muestra como 150cc.
 

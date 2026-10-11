@@ -4,8 +4,8 @@
 #include "sistema/opciones_port.h"
 
 // Valores de PMODE, DISPFB2 y DISPLAY del PCRTC según las opciones de imagen
-// (CC-20, CC-21). Función pura: el GS la llama en el retrazo y la prueba del PC
-// la comprueba campo a campo.
+// (formato, centrado y vista panorámica). Función pura: el GS la llama en el
+// retrazo y la prueba del PC la comprueba campo a campo.
 
 // DISPLAY tal como lo deja gsKit_init_screen: dx en VCK, dw en VCK y dh en
 // líneas, sin restar 1

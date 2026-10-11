@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Falla si build/ps2/rom.bin crece 256 KiB o más sobre la base (R-TEX-03).
+"""Falla si build/ps2/rom.bin crece 256 KiB o más sobre la base medida.
 
 Uso: tope_rom.py <rom.bin> [--base BYTES]
 

@@ -11,7 +11,7 @@ contacto marca solo lo que cambio. Las ci8 se exportan como PNG indexado
 con la paleta (tlut) de recursos/es/paletas.tsv, vuelven a los mismos
 indices y a la misma .inc.c, y se rechazan con otra paleta o sin indexar. Ningun texto_es nombra los botones de
 la N64, la N64 ni el Controller Pak: van los botones de la PS2. Cada textura de
-las carpetas y .incbin de R-TEX-02 tiene una fila, una fila de carpeta
+las carpetas y .incbin que deben ir en español tiene una fila, una fila de carpeta
 (carpeta:<ruta>, solo carpetas) o una fila de archivo (archivo:<ruta>,
 solo archivos) con motivo.
 """
@@ -54,20 +54,20 @@ CONTROLLER_PAK_TEXTO = re.compile(r"\bCONTROLLER\s+PAK\b")
 # Frases donde la A es la preposicion, no el boton (la cruz de Kalimari Desert)
 FRASES_CON_A = re.compile(r"\bPASO\s+A\s+NIVEL\b")
 
-# Lo que R-TEX-02 manda cubrir, ademas de los .incbin de codigo/datos/*.s
+# Carpetas cuyas texturas con texto deben ir en español, ademas de los .incbin de codigo/datos/*.s
 CARPETAS_R_TEX_02 = ["recursos/comunes/texturas"] + ["recursos/texturas/" + c for c in (
     "sin_comprimir", "generales", "efectos", "lakitu", "pistas", "objetos", "karts", "seleccion_personaje")]
 ARCHIVOS_R_TEX_02 = ["recursos/texturas/fuente_pantalla_fallo.ia1.inc.c"]
 INCBIN = re.compile(r'\.incbin\s+"(recursos/texturas/[^"]+)"')
 
 # Carpetas con texto visible que no es logotipo ni cartel comercial: ni se
-# excluyen ni tienen aun una fila por textura. Tras CC-29 no queda ninguna;
+# excluyen ni tienen aun una fila por textura. Hoy no queda ninguna;
 # una entrada nueva aqui tiene que quitarse al cubrirla.
 PENDIENTES = []
 
 # Texturas con texto general visible que aun no se traducen: su motivo_no
 # empieza por "pendiente:" y no cuenta como motivo para conservarlas
-# (especificacion §2, CC-29). Son deuda (D-24). TEXTURAS_PENDIENTES solo
+# (especificacion §2). Son deuda pendiente. TEXTURAS_PENDIENTES solo
 # puede bajar: al traducir una, se quita su "pendiente:" y se baja aqui.
 PREFIJO_PENDIENTE = "pendiente:"
 TEXTURAS_PENDIENTES = 0
@@ -224,7 +224,7 @@ def probar_hoja(tmp):
     comprobar(rojos == {(x, y) for x in range(9, 12) for y in range(6, 9)}, "mascara: %d pixeles rojos" % len(rojos))
 
 
-# Emblemas 1J a 4J (CC-29): ci8 de .inc.c con la tlut compartida
+# Emblemas 1J a 4J: ci8 de .inc.c con la tlut compartida
 EMBLEMAS_CI8 = ["emblema_%dj_jugador" % n for n in range(1, 5)]
 
 
@@ -289,7 +289,7 @@ def probar_botones(filas):
 
 
 def texturas_r_tex_02():
-    """Rutas (relativas a la raiz) de las texturas que R-TEX-02 manda cubrir."""
+    """Rutas (relativas a la raiz) de las texturas que deben ir en español."""
     rutas = set(ARCHIVOS_R_TEX_02)
     for carpeta in CARPETAS_R_TEX_02:
         for dir_, _, archivos in os.walk(os.path.join(RAIZ, carpeta)):
@@ -316,7 +316,7 @@ def sin_cubrir(rutas, filas, carpetas):
 
 
 def probar_carpetas(filas):
-    """Paso 6: filas de carpeta y cobertura de R-TEX-02."""
+    """Paso 6: filas de carpeta y cobertura de las texturas que deben ir en español."""
     cabecera = "\t".join(texturas_es.COLUMNAS)
     textura = "\t".join(["ok", "recursos/texturas/menus/tkmk00/ok.rgba16.tkmk00", "rgba16", "64x18", "", "opaco", "",
                          "", "no", "x"])

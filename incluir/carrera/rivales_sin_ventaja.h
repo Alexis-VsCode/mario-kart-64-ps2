@@ -1,7 +1,7 @@
 #ifndef CARRERA_RIVALES_SIN_VENTAJA_H
 #define CARRERA_RIVALES_SIN_VENTAJA_H
 
-// Truco RIVALES SIN VENTAJA (CC-25): la CPU del Gran Premio pierde el impulso
+// Truco RIVALES SIN VENTAJA: la CPU del Gran Premio pierde el impulso
 // que recibe al ir por detrás del jugador. Las órdenes de velocidad de cada
 // pista (RAPIDO, MAX, LENTO) no cambian.
 

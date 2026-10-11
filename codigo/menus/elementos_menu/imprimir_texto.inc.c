@@ -491,7 +491,7 @@ void preparar_menus(void) {
         borrar_texturas_menu();
         funcion_8009A344();
         borrar_menus();
-        // DESBLOQUEAR TODO solo cambia entre pantallas (CC-22)
+        // DESBLOQUEAR TODO solo cambia entre pantallas
         truco_desbloquear_aplicar();
         funcion_8009B938();
         funcion_80092258();

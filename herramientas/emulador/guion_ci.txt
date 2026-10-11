@@ -1,4 +1,4 @@
-# Guion del job 'emulador' de la CI (CC-26). Se copia como host:smk64_input.txt
+# Guion del job 'emulador' de la CI. Se copia como host:smk64_input.txt
 # y se arranca build/ps2/dev/SLUS_999.99 en Play!. Cada 'captura' deja
 # host:<nombre>.tga, que comparar_capturas.py compara con referencias/<nombre>.png.
 # Las capturas van a un cuadro fijo del juego para que dos ejecuciones coincidan.

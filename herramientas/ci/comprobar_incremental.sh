@@ -1,5 +1,5 @@
 #!/bin/sh
-# R-TEX-08 (D-04): al quitar una sustitución del HUD, el siguiente build
+# Al quitar una sustitución del HUD, el siguiente build
 # incremental vuelve a la textura original, y al reponerla vuelve el mismo ELF.
 #
 # Uso (tras un make de release, con el entorno del SDK cargado):
