@@ -319,7 +319,7 @@ static int releer_tarjeta_nueva(u32 generacion_sesion)
 {
     u32 gen_a = 0, gen_b = 0;
     int valida_a = leer_cabecera(ARCHIVO_A_GUARDADO, &gen_a);
-    int valida_b = leer_cabecera(ARCHIVO_B_GUARDADO, &gen_b);
+    int valida_b = mc_ok && leer_cabecera(ARCHIVO_B_GUARDADO, &gen_b); /* tras vencer, libmc no admite otra orden */
     EleccionGuardado e;
 
     if (!mc_ok) {
