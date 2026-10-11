@@ -363,7 +363,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 
 ### CC-13: Memory Card sin pérdida de partidas al cambiar la tarjeta
 
-- **Estado:** aprobado (responsable del proyecto, 2026-10-11, plan F9)
+- **Estado:** aplicado
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-MC-01, R-MC-02
 - **Motivo:**
@@ -382,12 +382,19 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Evidencia requerida:**
   - `prueba_eleccion_guardado.c` (rojo y mutaciones);
   - para el resto, evidencia de código y compilación en la CI.
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
-- **Commit:** —
+- **Lo aplicado:**
+  - `prueba_eleccion_guardado.c`: rojo sin la cabecera (no compila) y, con cuerpos vacíos, 14 fallos de 20; mutaciones de la comparación (6 fallos) y del +1 de la generación mínima (10 fallos), restauradas.
+  - El resto de `memory_card.c` solo compila con el SDK: evidencia de código en los mensajes y `gcc -fsyntax-only` con cabeceras simuladas; lo que queda sin arnés de PC está en [deuda.md](deuda.md) (D-16).
+  - Hallazgo Media de la revisión: `releer_tarjeta_nueva` lee la cabecera B solo si la tarjeta sigue contestando (`8c69e253`).
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11);
+  - REVISIÓN: técnica de `v110/memoria`, aprobada con observaciones y aprobada en la 2.ª pasada; lingüística, aprobada con observaciones ([acta de F9](revisiones/2026-10-11-version-1.1.0.md#2-v110memoria-memory-card-cc-13));
+  - INTEGRACIÓN: merge `4465f614` (2026-10-11).
+- **Commit:** `2e578b4b` (prueba), `b989feca` (función pura), `e4937a28` (tarjeta nueva), `41441ae5` (espera con el reloj), `3e62e63e` (D-12), `abe7c205` (D-13), `8c69e253` (cabecera B) y el merge `4465f614`. Texto del registro ajustado a la revisión en `f09697ca`.
 
 ### CC-14: zona muerta del stick de 24 a 8
 
-- **Estado:** aprobado (responsable del proyecto, 2026-10-11, plan F9)
+- **Estado:** aplicado
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** ninguno de la traducción; cambia el control del port (`codigo/entrada/mandos.c`).
 - **Motivo:** el port descarta 24 de 127 unidades del stick y estira el resto a ±80 (`mandos.c:31-48`). El juego aplica después su propia zona muerta de 12 (`mandos_carrera.inc.c:76-95`). Juntas, el kart empieza a girar con 41 de 127 (un 32 % del recorrido); en la N64 era alrededor del 15 %.
@@ -402,12 +409,19 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Evidencia requerida:**
   - `prueba_eje_palanca.c`: el giro empieza a ≤ 28, centro 0, extremos ±80, simetría y monotonía, con rojo y mutaciones;
   - el tacto en una consola real no se verifica (D-06).
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
-- **Commit:** —
+- **Lo aplicado:**
+  - `prueba_eje_palanca.c`: rojo con la zona muerta en 24 («el giro empieza a 41 del centro, se esperaba como mucho 28»); mutaciones de la zona muerta y del divisor (127 → 128), restauradas.
+  - Reposo de la cruceta: rojo «'ZONA_REPOSO_CRUCETA' undeclared» (`ddbdc023`); mutación con `ZONA_MUERTA_PALANCA` en `eje_en_reposo`, 16 fallos (`34ab306d`); umbral de 24 a 26 (`2b37f61f`). Verde: «prueba_eje_palanca: 417 comprobaciones, 0 fallos» en `make test` sobre `a29bd920` (el mensaje de `2b37f61f` dice 415: con el umbral en 26 el bucle de reposo suma dos comprobaciones).
+  - La condición de `convertir()` en `mandos.c:64` solo compila con el SDK: revisada a mano y sin prueba ([deuda.md](deuda.md), D-18).
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11);
+  - REVISIÓN: técnica de `v110/entrada`, aprobada con observaciones en las dos pasadas; el efecto sobre la cruceta se resolvió con su propio umbral y el arreglo se revisó aparte, aprobado con observaciones; lingüística, aprobada con observaciones ([acta de F9](revisiones/2026-10-11-version-1.1.0.md#5-v110entrada-zona-muerta-del-stick-y-reposo-de-la-cruceta-cc-14));
+  - INTEGRACIÓN: merge `4563d816` (2026-10-11).
+- **Commit:** `1fc4c437` (refactor), `4a48ff6a` (prueba), `dcbe656e` (zona muerta), `ddbdc023`, `34ab306d` y `2b37f61f` (reposo de la cruceta) y el merge `4563d816`. Registro ajustado en `f09697ca` y `6519d73e`.
 
 ### CC-15: región PAL/NTSC detectada y documentada
 
-- **Estado:** aprobado (responsable del proyecto, 2026-10-11, plan F9)
+- **Estado:** aplicado
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-PORT-02
 - **Motivo:**
@@ -421,12 +435,20 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - un modo PAL a 50 Hz, con el juego un 17 % más lento y cortes de audio;
   - la salida 480p, que cambia la imagen y no se puede verificar.
 - **Evidencia requerida:** `prueba_region_ps2.c` con los valores de ROMVER y uno inválido, con rojo y mutación.
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
-- **Commit:** —
+- **Lo aplicado:**
+  - `region_de_romver()` es `static inline` en `incluir/sistema/region_ps2.h`; solo la «E» da PAL.
+  - `registrar_region_consola()` (`arranque_ps2.c`) lee `rom0:ROMVER` justo después del reinicio o la preparación del IOP y registra «consola PAL: la imagen sale en NTSC a 60 Hz; hace falta una TV que acepte 60 Hz», «consola NTSC» o «región de la consola desconocida».
+  - `prueba_region_ps2.c`: rojo sin la cabecera (no compila) y mutación de la «A» a PAL, 1 fallo de 16, restaurada.
+  - La lectura en consola real, por las dos rutas del IOP, no se ha verificado ([deuda.md](deuda.md), D-17). La explicación para el jugador va en el manual de usuario, con la documentación de F9.
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11);
+  - REVISIÓN: técnica de `v110/region`, aprobada con observaciones en las dos pasadas; lingüística, aprobada con observaciones ([acta de F9](revisiones/2026-10-11-version-1.1.0.md#3-v110region-región-de-la-consola-cc-15));
+  - INTEGRACIÓN: merge `d105a89b` (2026-10-11); la prueba entra en `make test` con `a29bd920`.
+- **Commit:** `807d2c45` (prueba), `3b11daa5` (función pura), `ac1a1090` (registro al arrancar) y el merge `d105a89b`.
 
 ### CC-16: publicación comprobada y ELF monolítico en la Release
 
-- **Estado:** aprobado (responsable del proyecto, 2026-10-11, plan F9). Amplía CC-09.
+- **Estado:** aplicado en la CI; la evidencia llega con la Release `v1.1.0`. Amplía CC-09.
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-INF-05
 - **Motivo:**
@@ -438,12 +460,20 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - **`release`:** corre en el contenedor de ps2dev y falla si el SHA-256 de la ISO no está en las notas. Compila `make MONOLITICO=1` en la referencia publicada y adjunta ese ELF con su suma. El ELF no se versiona en `compilaciones/`.
 - **Alternativas descartadas:** versionar el ELF monolítico en el repositorio, que agrega un archivo grande en cada versión.
 - **Evidencia requerida:** la Release `v1.1.0` con la ISO, el ELF monolítico y `SHA256SUMS`, todo comprobado.
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
-- **Commit:** —
+- **Lo aplicado:**
+  - `publicar` omite el commit solo si `git diff --cached --quiet`; cualquier otro fallo detiene el job.
+  - `release` corre en el mismo contenedor de ps2dev que `compilar-ps2`, falla si el SHA-256 de la ISO no está en `docs/versiones/<etiqueta>.md`, compila `make clean` y `make MONOLITICO=1` y publica la ISO, `SLUS_999.99.monolitico.elf` y un `SHA256SUMS` con las dos líneas.
+  - Comprobado en el PC con los bloques `run:` del workflow: `publicar` sale con 1 ante un commit que falla (antes, con 0); `release` sale con 1 con unas notas sin la suma. `make MONOLITICO=1` y `gh release create` solo se ejecutan en la CI.
+  - Release `v1.1.0`: <<PUBLICACION>>
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11);
+  - REVISIÓN: técnica de `v110/ci-textos`, aprobada con observaciones en las dos pasadas; lingüística, con cambios requeridos, resuelto en `b780d986` ([acta de F9](revisiones/2026-10-11-version-1.1.0.md#4-v110ci-textos-publicación-y-deudas-chicas-cc-16));
+  - INTEGRACIÓN: merge `12579275` (2026-10-11).
+- **Commit:** `c641d19b` (tildes del workflow), `4bdd41a8` (publicación comprobada y ELF monolítico) y el merge `12579275`.
 
 ### CC-17: prueba del alfa con tramado en el combinador
 
-- **Estado:** aprobado (responsable del proyecto, 2026-10-11, plan F9). Salda D-01 y D-02.
+- **Estado:** aplicado. Salda D-01 y D-02.
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** ninguno de la traducción; amplía el bloque de gráficos de CC-11 (G5).
 - **Motivo:** G5 (`ce98830c`) se integró con evidencia de código, porque el cálculo está en `combinador_y_recorte.inc.c`, que solo compila con el SDK.
@@ -451,5 +481,11 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - Commit `refactor`, sin cambio de conducta: el alfa con tramado pasa a la función pura `combinador_alfa_tramado()`, `static inline` en `combinador_color.h`, y la usan las dos ramas de `combinar_color`.
   - Commit `test`: casos en `prueba_combinador.c`.
 - **Evidencia requerida:** -64 da 0, 64 da 32 y 128 da 128, con rojo por mutación (quitar el límite) y restauración.
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
-- **Commit:** —
+- **Lo aplicado:**
+  - `refactor`: arnés de equivalencia fuera del repositorio entre la expresión anterior y `combinador_alfa_tramado()`, de -300 a 300 en pasos de 2^-10: 0 diferencias en 614 401 valores. `combinador_color.c` no cambia.
+  - `test`: 4 casos nuevos en `prueba_combinador.c` (-64 → 0, 0 → 0, 64 → 32 y 128 → 128); 22 comprobaciones, 0 fallos. Mutación sin el límite a 0: «tramado(-64)=32.000000», 1 fallo, restaurada.
+- **Aprobación:**
+  - responsable del proyecto: aprobado (2026-10-11);
+  - REVISIÓN: técnica y lingüística de `v110/graficos`, aprobadas con observaciones ([acta de F9](revisiones/2026-10-11-version-1.1.0.md#1-v110graficos-alfa-con-tramado-cc-17));
+  - INTEGRACIÓN: merge `9289608a` (2026-10-11).
+- **Commit:** `ff313bc5` (refactor), `d41996f7` (prueba) y el merge `9289608a`.
