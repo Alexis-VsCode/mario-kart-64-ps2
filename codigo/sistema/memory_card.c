@@ -89,11 +89,18 @@ static int resultado_llamar_mc(void)
 /* *nueva queda en 1 si libmc contesta -1: la tarjeta no es la de la orden anterior */
 static int listo_tarjeta_mc(int *nueva)
 {
-    int type = 0, free = 0, format = 0; /* libmc solo los rellena si la orden termina */
+    /* libmc los escribe cuando termina la orden, aunque ya haya vencido la espera y se
+       haya salido de aquí: no pueden estar en la pila. Tras un vencimiento mc_ok queda
+       en 0 y ya no se tocan, así que no hay otra escritura que choque con la tardía. */
+    static int type, free, format;
     int r;
 
     *nueva = 0;
-    if (!mc_ok || mcGetInfo(PUERTO_MC, RANURA_MC, &type, &free, &format) != 0) {
+    if (!mc_ok) {
+        return 0;
+    }
+    type = free = format = 0; /* libmc solo los rellena si la orden termina */
+    if (mcGetInfo(PUERTO_MC, RANURA_MC, &type, &free, &format) != 0) {
         return 0;
     }
     /* 0: la misma tarjeta; -1: otra ya formateada */
