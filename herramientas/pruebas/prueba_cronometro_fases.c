@@ -41,10 +41,32 @@ static const char *const nombres_paso[GRUPOS_PRUEBA] = {
     "paso 1", "paso 2", "paso 3", "paso 4", "paso 5", "paso 6",
 };
 
+// Cuenta los «#define GRUPO_» de la cabecera; -1 si no se puede leer
+static int contar_grupos_cabecera(const char *ruta) {
+    char linea[256];
+    int n = 0;
+    FILE *f = fopen(ruta, "r");
+
+    if (f == NULL) {
+        return -1;
+    }
+    while (fgets(linea, sizeof(linea), f) != NULL) {
+        n += strncmp(linea, "#define GRUPO_", strlen("#define GRUPO_")) == 0;
+    }
+    fclose(f);
+    return n;
+}
+
 int main(void) {
     char lineas[PASOS_MAX + 1][96];
     char cabecera[64];
     int g, p;
+    int grupos_cabecera = contar_grupos_cabecera("incluir/depuracion/marcas_registro.h");
+
+    // Cada grupo de marcas_registro.h tiene su hueco y queda al menos uno libre
+    COMPROBACION(grupos_cabecera > 0, "marcas_registro.h: no se leen sus grupos (%d)", grupos_cabecera);
+    COMPROBACION(GRUPOS_MAX > grupos_cabecera, "GRUPOS_MAX es %d y marcas_registro.h define %d grupos", GRUPOS_MAX,
+                 grupos_cabecera);
 
     // Paso 1: el grupo g se mide una vez y anota g + 1 pasos
     for (g = 0; g < GRUPOS_PRUEBA; g++) {
