@@ -10,6 +10,8 @@
 #include "juego/datos_guardado.h"
 #include "carrera/repeticiones.h"
 #include "carrera/objetos_y_efectos.h"
+#include "juego/trucos.h"
+#include "sistema/opciones_port.h"
 
 /* * macros ** */
 #define CODIGO_EMPRESA_PFS(c0, c1) ((u16) (((c0) << 8) | ((c1))))
@@ -392,8 +394,29 @@ bool es_completo_modo_cc(s32 modo_cc) {
     return false;
 }
 
+// Tabla de tablas_menus.inc.c: última fila de cilindrada por columna sin EXTRA
+extern const s8 juego_modo_jugador_columna_predeterminado[][3];
+
+int truco_desbloquear_aplicado;
+
+void truco_desbloquear_aplicar(void) {
+    s32 i;
+    s32 j;
+
+    truco_desbloquear_aplicado = opciones_port.truco_desbloquear;
+    if (tiene_modo_extra_desbloqueado()) {
+        return;
+    }
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 3; j++) {
+            juego_modo_sub_menu_columna[i][j] =
+                truco_recortar_cursor(juego_modo_sub_menu_columna[i][j], juego_modo_jugador_columna_predeterminado[i][j]);
+        }
+    }
+}
+
 s32 tiene_modo_extra_desbloqueado(void) {
-    return es_completo_modo_cc(CC_150);
+    return truco_extra_desbloqueado(datos_guardado.main.info_guardado.gran_premio_puntos[CC_150], truco_desbloquear_aplicado);
 }
 
 s32 tiene_modo_extra_completado(void) {

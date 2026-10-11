@@ -15,6 +15,7 @@
 #include "menus/elementos_menu.h"
 #include "carrera/objetos_y_efectos.h"
 #include "graficos/texturas_kart.h"
+#include "juego/trucos.h"
 
 extern s32 mio0encode(s32 entrada, s32, s32);
 extern s32 funcion_80040174(void*, s32, s32);
@@ -108,7 +109,7 @@ void fijar_fantasma_personal(void) {
     switch (id_circuito_actual) {
         case CIRCUITO_MARIO_RACEWAY:
             tiempo_mejor = funcion_800B4E24(0) & 0xfffff;
-            if (tiempo_mejor <= DESBLOQUEAR_FANTASMA_MARIO) {
+            if (fantasma_staff_disponible(tiempo_mejor, DESBLOQUEAR_FANTASMA_MARIO, truco_desbloquear_aplicado)) {
                 b_circuito_fantasma_desactivado = 0;
                 b_sin_uso_circuito_fantasma_desactivado = 0;
             } else {
@@ -120,7 +121,7 @@ void fijar_fantasma_personal(void) {
             break;
         case CIRCUITO_ROYAL_RACEWAY:
             tiempo_mejor = funcion_800B4E24(0) & 0xfffff;
-            if (tiempo_mejor <= ROYAL_DESBLOQUEAR_FANTASMA) {
+            if (fantasma_staff_disponible(tiempo_mejor, ROYAL_DESBLOQUEAR_FANTASMA, truco_desbloquear_aplicado)) {
                 b_circuito_fantasma_desactivado = 0;
                 b_sin_uso_circuito_fantasma_desactivado = 0;
             } else {
@@ -132,7 +133,7 @@ void fijar_fantasma_personal(void) {
             break;
         case CIRCUITO_LUIGI_RACEWAY:
             tiempo_mejor = funcion_800B4E24(0) & 0xfffff;
-            if (tiempo_mejor <= DESBLOQUEAR_FANTASMA_LUIGI) {
+            if (fantasma_staff_disponible(tiempo_mejor, DESBLOQUEAR_FANTASMA_LUIGI, truco_desbloquear_aplicado)) {
                 b_circuito_fantasma_desactivado = 0;
                 b_sin_uso_circuito_fantasma_desactivado = 0;
             } else {
