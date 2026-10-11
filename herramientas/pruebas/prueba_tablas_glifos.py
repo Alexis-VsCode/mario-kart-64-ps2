@@ -14,6 +14,10 @@ definicion para AVOID_UB los glifos del espanol leen fuera de la tabla.
 
 Las letras se dibujan con matrices de la reserva efecto_mtx: bajo AVOID_UB,
 funcion_80095BD0 deja de cargar matrices al llegar al tamanio de la reserva.
+
+Toda impresora de imprimir_texto.inc.c que lee glifos con leer_glifo pasa antes
+la cadena a registrar_texto_invalido en la compilacion DEV: las tres se paran en
+el primer glifo invalido sin avisar.
 """
 import glob
 import os
@@ -25,6 +29,9 @@ TABLAS = os.path.join(RAIZ, "codigo", "menus", "elementos_menu", "textos_y_tabla
 CABECERA_MENU = os.path.join(RAIZ, "incluir", "menus", "elementos_menu.h")
 CARGAR_TEXTURAS = os.path.join(RAIZ, "codigo", "menus", "elementos_menu", "cargar_texturas_menu.inc.c")
 BUCLE_PRINCIPAL = os.path.join(RAIZ, "incluir", "sistema", "bucle_principal.h")
+IMPRIMIR_TEXTO = os.path.join(RAIZ, "codigo", "menus", "elementos_menu", "imprimir_texto.inc.c")
+REGISTRO_DEV = (r"#if defined\(TARGET_PS2\) && defined\(SMK64_DEV\)\n[^#]*"
+                r"\bregistrar_texto_invalido\(text, leer_glifo\);[^#]*#endif")
 TAMANIO_RESERVA = "MTX_EFECTO_POOL_TAMANIO"
 ALTO_DIACRITICO = 8
 
@@ -166,6 +173,20 @@ def probar_tope_reserva():
               % (", ".join(reserva) or "ninguna declaracion", TAMANIO_RESERVA))
 
 
+def probar_registro_texto_invalido():
+    """Cada funcion de imprimir_texto.inc.c que llama a leer_glifo registra antes la cadena en DEV."""
+    texto = open(IMPRIMIR_TEXTO, encoding="utf-8").read()
+    impresoras = 0
+    for nombre, cuerpo in re.findall(r"^void (\w+)\(.*?\{\n(.*?)^}", texto, re.S | re.M):
+        primera = cuerpo.find("leer_glifo(")
+        if primera < 0:
+            continue
+        impresoras += 1
+        comprobar(re.search(REGISTRO_DEV, cuerpo[:primera]) is not None,
+                  "%s: no pasa la cadena a registrar_texto_invalido antes de leer_glifo" % nombre)
+    comprobar(impresoras == 3, "imprimir_texto.inc.c: %d funciones leen glifos, se esperaban 3" % impresoras)
+
+
 def main():
     if len(sys.argv) != 2:
         sys.exit(__doc__)
@@ -186,6 +207,7 @@ def main():
     probar_definicion_unica()
     probar_sin_tablas_partidas()
     probar_tope_reserva()
+    probar_registro_texto_invalido()
     print("%d comprobaciones, %d fallos" % (comprobaciones, fallos))
     sys.exit(1 if fallos else 0)
 
