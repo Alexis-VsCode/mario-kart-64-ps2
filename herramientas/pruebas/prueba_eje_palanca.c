@@ -1,0 +1,64 @@
+// Conversión del eje del stick de la PS2 al recorrido de la N64 (eje_palanca.h) en el PC
+#include <stdio.h>
+
+#include <PR/ultratypes.h>
+#include "entrada/eje_palanca.h"
+
+// Zona muerta que el juego aplica después sobre el valor convertido
+// (obtener_limitado_palanca_x_con_zona_muerta, mandos_carrera.inc.c)
+#define ZONA_MUERTA_JUEGO 12
+// Distancia máxima al centro a la que el kart tiene que empezar a girar
+#define DISTANCIA_GIRO_MAX 28
+
+static int s_fallos, s_comprobaciones;
+
+#define COMPROBACION(cond, ...)                                                                                        \
+    do {                                                                                                               \
+        s_comprobaciones++;                                                                                            \
+        if (!(cond)) {                                                                                                 \
+            s_fallos++;                                                                                                \
+            printf("FALLO %s:%d: ", __FILE__, __LINE__);                                                               \
+            printf(__VA_ARGS__);                                                                                       \
+            printf("\n");                                                                                              \
+        }                                                                                                              \
+    } while (0)
+
+int main(void) {
+    int crudo, d, giro = -1;
+
+    // Centro, ruido pequeño alrededor del centro y extremos
+    COMPROBACION(convertir_eje(128) == 0, "centro 128 da %d, se esperaba 0", convertir_eje(128));
+    for (d = 1; d <= 2; d++) {
+        COMPROBACION(convertir_eje((u8) (128 + d)) == 0 && convertir_eje((u8) (128 - d)) == 0,
+                     "ruido de %d alrededor del centro da %d y %d, se esperaba 0", d, convertir_eje((u8) (128 + d)),
+                     convertir_eje((u8) (128 - d)));
+    }
+    COMPROBACION(convertir_eje(255) == 80, "255 da %d, se esperaba 80", convertir_eje(255));
+    COMPROBACION(convertir_eje(0) == -80, "0 da %d, se esperaba -80", convertir_eje(0));
+
+    // Simetría: a la misma distancia del centro, el mismo valor con el signo cambiado
+    for (d = 0; d <= 127; d++) {
+        int arriba = convertir_eje((u8) (128 + d));
+        int abajo = convertir_eje((u8) (128 - d));
+
+        COMPROBACION(arriba == -abajo, "distancia %d: %d y %d no son simétricos", d, arriba, abajo);
+    }
+
+    // Monotonía: la salida nunca baja cuando el valor crudo sube
+    for (crudo = 1; crudo <= 255; crudo++) {
+        COMPROBACION(convertir_eje((u8) crudo) >= convertir_eje((u8) (crudo - 1)), "%d da %d, menos que %d con %d",
+                     crudo, convertir_eje((u8) crudo), convertir_eje((u8) (crudo - 1)), crudo - 1);
+    }
+
+    // El giro empieza cerca del centro: primer valor crudo que supera la zona muerta del juego
+    for (crudo = 128; crudo <= 255 && giro < 0; crudo++) {
+        if (convertir_eje((u8) crudo) > ZONA_MUERTA_JUEGO) {
+            giro = crudo - 128;
+        }
+    }
+    COMPROBACION(giro >= 0 && giro <= DISTANCIA_GIRO_MAX,
+                 "el giro empieza a %d del centro, se esperaba como mucho %d", giro, DISTANCIA_GIRO_MAX);
+
+    printf("prueba_eje_palanca: %d comprobaciones, %d fallos\n", s_comprobaciones, s_fallos);
+    return s_fallos != 0;
+}
