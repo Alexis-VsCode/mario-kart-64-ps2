@@ -19,8 +19,8 @@ batalla_modo	recursos/texturas/menus/tkmk00/batalla_modo.rgba16.tkmk00	rgba16	64
 borrar_datos_registro_confirmacion	recursos/texturas/generales/borrar_datos_registro_confirmacion.ia16.mio0	ia16	180x32		formato			no	no se muestra
 borrar_texto	recursos/texturas/generales/borrar_texto.ia16.mio0	ia16	28x10		formato			no	no se muestra
 cartel_azul_64	recursos/texturas/generales/cartel_azul_64.rgba16.mio0	rgba16	64x32		formato			no	64 del logotipo de N64
-cartel_bienvenida_0	recursos/texturas/generales/cartel_bienvenida_0.rgba16.mio0	rgba16	64x32		formato			no	pendiente: WELCOME; la fuente goteante no tiene B, I, N, V, D ni S
-cartel_bienvenida_1	recursos/texturas/generales/cartel_bienvenida_1.rgba16.mio0	rgba16	64x32		formato			no	pendiente: WELCOME; la fuente goteante no tiene B, I, N, V, D ni S
+cartel_bienvenida_0	recursos/texturas/generales/cartel_bienvenida_0.rgba16.mio0	rgba16	64x32		formato	recursos/es/mio0/generales/cartel_bienvenida_0.rgba16.png	BIENVE	no	
+cartel_bienvenida_1	recursos/texturas/generales/cartel_bienvenida_1.rgba16.mio0	rgba16	64x32		formato	recursos/es/mio0/generales/cartel_bienvenida_1.rgba16.png	NIDOS	no	
 cartel_disparo_caparazon_0	recursos/texturas/generales/cartel_disparo_caparazon_0.rgba16.mio0	rgba16	64x32		formato			no	cartel comercial Shell Shot!
 cartel_disparo_caparazon_1	recursos/texturas/generales/cartel_disparo_caparazon_1.rgba16.mio0	rgba16	64x32		formato			no	cartel comercial Shell Shot!
 cartel_go_mario	recursos/texturas/pistas/mario_raceway/derecha_cartel.inc.c	rgba16	32x64		formato			no	pendiente: GO; la fuente del cartel no tiene la Y ni la A de YA

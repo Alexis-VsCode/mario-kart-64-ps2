@@ -419,6 +419,7 @@ $(BUILD)/codigo/datos/texturas_tkmk00.o: $(ES_MIO0)
 $(BUILD)/codigo/datos/texturas_seleccion.o: $(ES_CRUDO)
 $(BUILD)/codigo/datos/otras_texturas.o: $(ES_LAKITU) $(ES_MIO0)
 $(BUILD)/recursos/pistas/moo_moo_farm/desplazamientos.o: $(ES_TAMANIOS)
+$(BUILD)/recursos/pistas/banshee_boardwalk/desplazamientos.o: $(ES_TAMANIOS)
 $(BUILD)/codigo/datos/texturas.o: $(ES_TAMANIOS)
 $(BUILD)/recursos/comunes/datos_comunes.data.o: $(ES_SELLO)
 

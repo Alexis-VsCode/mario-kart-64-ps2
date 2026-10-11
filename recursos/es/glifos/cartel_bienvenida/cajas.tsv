@@ -1,0 +1,11 @@
+caracter	textura	x_izq	x_der
+# cartel_bienvenida_0: WELC (la C sigue en la otra mitad)
+W	cartel_bienvenida_0	6	29
+E	cartel_bienvenida_0	29	43
+L	cartel_bienvenida_0	43	56
+C	cartel_bienvenida_0	56	63
+# cartel_bienvenida_1: COME (antes, el final de la C partida)
+C	cartel_bienvenida_1	0	8
+O	cartel_bienvenida_1	8	23
+M	cartel_bienvenida_1	23	41
+E	cartel_bienvenida_1	41	56

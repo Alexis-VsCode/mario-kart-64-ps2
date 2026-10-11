@@ -66,7 +66,7 @@ PENDIENTES = []
 # (especificacion §2, CC-29). Son deuda (D-24). TEXTURAS_PENDIENTES solo
 # puede bajar: al traducir una, se quita su "pendiente:" y se baja aqui.
 PREFIJO_PENDIENTE = "pendiente:"
-TEXTURAS_PENDIENTES = 15
+TEXTURAS_PENDIENTES = 13
 
 fallos = 0
 comprobaciones = 0

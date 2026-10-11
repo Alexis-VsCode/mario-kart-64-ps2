@@ -1,0 +1,9 @@
+caracter	receta
+# Letras que no estan en WELCOME, dibujadas con el trazo que gotea: arriba
+# gruesas, abajo palos de 2 o 3 columnas y gotas bajo la base (filas 3 a 28)
+B	parte("b", 3)
+I	parte("i", 3)
+N	parte("n", 3)
+V	parte("v", 3)
+D	parte("d", 3)
+S	parte("s", 3)
