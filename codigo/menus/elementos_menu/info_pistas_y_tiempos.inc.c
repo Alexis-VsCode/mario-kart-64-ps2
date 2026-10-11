@@ -206,7 +206,7 @@ void funcion_800A1FB0(MenuItem* parametro0) {
                     sp_e0.row = 0x58 + (0x10 * i);
                 }
                 if (i != CONFIG_FILA_VOLVER) {
-                    fijar_color_texto(VERDE_TEXTO);
+                    fijar_color_texto(CONFIG_COLOR_VALOR);
                     imprimir_derecha_texto1(0x0000011C, 0x58 + (0x10 * i), texto_valor_configuracion(i, numero_config), 0,
                                             0.75f, 0.75f);
                 }
