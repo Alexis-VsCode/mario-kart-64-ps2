@@ -215,16 +215,17 @@ void regular_cpu_rapidez(s32 id_jugador, f32 objetivo_rapidez, Jugador* jugador)
                     if (rapidez < objetivo_rapidez) {
                         if ((modo_demo == 1) && (id_circuito_actual != CEREMONIA_PREMIO_CIRCUITO)) {
                             alternativo_acelerar_jugador(jugador);
+                        } else if (dato_80163330[id_jugador] == 1) {
+                            funcion_80007D04(id_jugador, jugador);
                         } else if (opciones_port.truco_rivales) {
-                            // Truco RIVALES SIN VENTAJA: solo hasta el objetivo de la tabla
+                            // Truco RIVALES SIN VENTAJA: solo hasta el objetivo de la tabla; el rival
+                            // designado de la pista sigue sus ordenes
                             jugador->efectos &= ~EFECTO_RAPIDO_CPU;
                             if (cpu_acelera_sin_ventaja(rapidez, objetivo_rapidez)) {
                                 alternativo_acelerar_jugador(jugador);
                             } else {
                                 alternativo_desacelerar_jugador(jugador, 1.0f);
                             }
-                        } else if (dato_80163330[id_jugador] == 1) {
-                            funcion_80007D04(id_jugador, jugador);
                         } else if (funcion_800088D8(id_jugador, cantidad_vuelta_por_id_jugador[id_jugador],
                                                  gp_actual_carrera_puesto_por_duplicar_id_jugador[id_jugador]) == true) {
                             jugador->efectos |= EFECTO_RAPIDO_CPU;
