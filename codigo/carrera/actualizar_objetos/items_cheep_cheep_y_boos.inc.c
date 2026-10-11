@@ -1,5 +1,7 @@
 // Items cheep cheep y boos
 
+#include "carrera/truco_objeto.h"
+
 void funcion_8007AA44(s32 id_jugador) {
     s32 indice_objeto;
 
@@ -134,6 +136,9 @@ s16 funcion_8007AFB0(s32 indice_objeto, s32 parametro1) {
     s16 item_aleatorio;
 
     item_aleatorio = generar_humano_item_aleatorio(cantidad_vuelta_por_id_jugador[parametro1], gp_actual_carrera_puesto_por_id_jugador[parametro1]);
+    // Truco OBJETO: tras el sorteo, para que el generador avance igual; la
+    // caja-globo de sobrescribir_item sigue mandando
+    item_aleatorio = truco_objeto_resolver(item_aleatorio, opciones_port.truco_objeto, seleccion_modo);
 
     if (h_ud_jugador[parametro1].sobrescribir_item != 0) {
         item_aleatorio = (s16) h_ud_jugador[parametro1].sobrescribir_item;
