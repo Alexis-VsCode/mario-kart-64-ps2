@@ -395,7 +395,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - `ZONA_MUERTA_PALANCA` pasa a 8 y el giro empieza con 28 de 127 (22 %).
   - El juego conserva su zona muerta, que absorbe la deriva de un stick gastado.
   - `convertir_eje` pasa a una función pura en `incluir/entrada/eje_palanca.h`, probada en el PC.
-  - La cruceta hace de stick mientras el izquierdo está en reposo. El reposo usa su propio umbral, `ZONA_REPOSO_CRUCETA` (24, el de antes), para que una deriva de 10 a 23 unidades no la anule (hallazgo de la revisión, `eje_en_reposo`).
+  - La cruceta hace de stick mientras el izquierdo está en reposo. El reposo usa su propio umbral, `ZONA_REPOSO_CRUCETA` (26: hasta 25 del centro, donde antes la salida del stick era 0), para que una deriva de 10 a 25 unidades no la anule (hallazgo de la revisión, `eje_en_reposo`).
 - **Alternativas descartadas:**
   - quitar la zona muerta del port, porque dejaría solo la del juego frente a la deriva de los mandos de PS2;
   - hacerla configurable, por sobreingeniería.
