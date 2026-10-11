@@ -11,7 +11,7 @@ Los nombres de carpetas, funciones, variables y comentarios del código ya está
 
 ## Estado de F8 (2026-10-11)
 
-La localización (F0 a F7) está cerrada y en `main` (`3f43c005`). F8, la sincronización con el repositorio original, está integrada en `feature/sincronizacion-upstream` hasta `d5f95cc5`. La versión que sale de ella es la 1.0.0, con `BUILD_ID` 2026-10-11.
+La localización (F0 a F7) está cerrada y en `main` (`3f43c005`). F8, la sincronización con el repositorio original, está integrada y publicada en `feature/sincronizacion-upstream`: commit de publicación `900c9be`, ejecución [38123501282](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38123501282). La versión que sale de ella es la 1.0.0, con `BUILD_ID` 2026-10-11.
 
 Hecho en F8:
 
@@ -26,22 +26,21 @@ Hecho en F8:
 |---|---|---|
 | F0–F5, F7 | Documentación, infraestructura, fuente, cadenas, texturas, pantallas del port, revisión e integración de la localización | Cerradas (histórico), en `main` (`3f43c005`). Detalle en [plan.md §4](plan.md#4-fases) |
 | F6 | Recorrido en PCSX2 y captura en TV | Retirada por CC-12 |
-| F8 | Sincronización con el original, CI, correcciones y documentación | Integrada en `feature/sincronizacion-upstream`. Falta lo de [Pendiente](#pendiente) |
+| F8 | Sincronización con el original, CI, correcciones y documentación | Integrada y publicada. Falta lo de [Pendiente](#pendiente) |
 
 El detalle por requisito y por commit está en [trazabilidad.md](trazabilidad.md); la deuda técnica, en [deuda.md](deuda.md).
 
 ## Pendiente
 
-1. **Integrar la documentación de F8** (`sinc/manual`, `sinc/proceso` y esta rama) en `feature/sincronizacion-upstream`, con su revisión.
-2. **Confirmación de G5.** CC-11 pedía `prueba_combinador` y G5 se integró con evidencia de código: falta que el responsable del proyecto lo confirme ([CC-11](cambios.md), [deuda.md](deuda.md) D-01).
-3. **Publicación:** job `publicar` sobre `feature/sincronizacion-upstream`, que regenera `build/` y `compilaciones/` desde cero. La ejecución de la CI y el commit de publicación se anotan en [trazabilidad.md](trazabilidad.md#evidencia-común).
-4. **Fusión a `main`** de `feature/sincronizacion-upstream`.
-5. **Release v1.0.0:** job `release` sobre `main`, después de fusionar el commit de publicación, con la ISO versionada y las notas de [docs/versiones/v1.0.0.md](../versiones/v1.0.0.md). El tamaño y el SHA-256 de la ISO están en esas notas.
-6. **Limpieza de ramas:** job `limpiar-ramas` sobre `main`. Al final, `git ls-remote --heads origin` lista solo `main` ([CC-09](cambios.md)). Se comprueba después de la fusión a `main`.
+1. **Fusión a `main`** de `feature/sincronizacion-upstream` (fast-forward, con el PR #3 como registro).
+2. **Release v1.0.0:** job `release` sobre `main`, con la ISO versionada y las notas de [docs/versiones/v1.0.0.md](../versiones/v1.0.0.md).
+3. **Limpieza de ramas:** job `limpiar-ramas` sobre `main`. Al final, `git ls-remote --heads origin` lista solo `main` ([CC-09](cambios.md)).
+
+G5 queda integrado con evidencia de código en lugar de `prueba_combinador`: está registrado como deuda ([deuda.md](deuda.md), D-01).
 
 ## Próximo paso
 
-Revisar e integrar las tres ramas de documentación de F8 y, con la Definition of Done de [CONTRIBUTING.md](../../CONTRIBUTING.md) cumplida, lanzar `publicar` sobre `feature/sincronizacion-upstream`. El orden completo de la publicación (publicar, fusión a `main`, `release` y `limpiar-ramas`) está en el [manual técnico](../manual/tecnico.md).
+Fusionar a `main` y lanzar `release` y después `limpiar-ramas`, en ese orden (ver el [manual técnico](../manual/tecnico.md)). La documentación de F8 (`sinc/manual`, `sinc/proceso` y `sinc/doc-traduccion`) ya está integrada y revisada, y el commit de publicación `900c9be` tiene la ISO de la versión 1.0.0.
 
 ## Punto de partida (verificado en `main`, `0e7b7d5`)
 

@@ -11,7 +11,7 @@ Versión 1.0.0, del 2026-10-11. El avance y lo pendiente de la fase en curso est
 **Verificado en este repositorio, con pruebas y CI:**
 
 - `make test` en el PC, sin el SDK de PS2: 28 pruebas y el comprobador del tope de líneas, 0 fallos. Comprueban, entre otras cosas, cada texto en español byte a byte y por tinta contra la zona segura del televisor, la tabla de glifos, las texturas en español y la compatibilidad de la fuente con la N64 ([detalle](docs/manual/tecnico.md#pruebas)).
-- CI en verde: pruebas en el PC y compilación para PS2 de las variantes release, `DEBUG=1` y `DEV=1` con la ISO. Ejecución de la versión 1.0.0: <<PUBLICACION>>.
+- CI en verde: pruebas en el PC y compilación para PS2 de las variantes release, `DEBUG=1` y `DEV=1` con la ISO. Ejecución de la versión 1.0.0: [38123501282](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38123501282).
 
 **Según el port original:** probado en **PCSX2** (con BIOS) y en **Play!**.
 
@@ -41,7 +41,7 @@ El detalle por áreas está en [docs/manual/creditos.md](docs/manual/creditos.md
 
 | Archivo | Tamaño | SHA-256 |
 |---|---|---|
-| `SLUS_999.99.SuperMarioKart64.iso` | <<PUBLICACION>> | <<PUBLICACION>> |
+| `SLUS_999.99.SuperMarioKart64.iso` | 13 379 584 bytes (unos 12,8 MiB) | `e7c4513fbb04f80282ef7f7dcf7c94b8e357632c08a599102db2536cdd6b562f` |
 
 Cómo comprobarla y ejecutarla en PCSX2, Play!, OPL o uLaunchELF: [manual de usuario](docs/manual/usuario.md).
 

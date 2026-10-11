@@ -39,7 +39,7 @@ Relaciona cada requisito de la [especificación](especificacion.md) con su prueb
   - `git log --name-only … -- build compilaciones` sale vacío: `build/` y `compilaciones/` esperan al commit de publicación (R-GOB-05);
   - `git log --format='%(trailers)'` sale vacío en todos los commits; el grep de R-GOB-07 sale vacío;
   - `make test` terminó con 0 fallos en el worktree de revisión de cada rama integrada ([acta](revisiones/2026-10-11-sincronizacion.md));
-  - CI de F8 (`pruebas-pc`, `compilar-ps2` con `make DEV=1` y `publicar`): ejecución <<PUBLICACION>>, commit de publicación <<PUBLICACION>>.
+  - CI de F8 (`pruebas-pc`, `compilar-ps2` con `make DEV=1` y `publicar`): ejecución [38123501282](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38123501282), commit de publicación `900c9be`.
 
 ## Commits de F1–F3
 

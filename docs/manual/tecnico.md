@@ -259,7 +259,7 @@ El repositorio incluye una compilación hecha:
 - `build/`: las variantes normal, `DEBUG=1` y `DEV=1`, los datos de la ROM (con las texturas en español), los ejecutables de las pruebas y las herramientas `mio0` y `empaquetador_listas`.
 - `compilaciones/`: la ISO normal y el contenido del disco.
 
-No incluye el ELF monolítico ni la herramienta `tkmk00`, que `make test` compila al vuelo. La compilación versionada es la del último commit de publicación, `build(compilaciones): binarios e ISO en español`; la de la versión 1.0.0 es <<PUBLICACION>>.
+No incluye el ELF monolítico ni la herramienta `tkmk00`, que `make test` compila al vuelo. La compilación versionada es la del último commit de publicación, `build(compilaciones): binarios e ISO en español`; la de la versión 1.0.0 es `900c9be`.
 
 `make`, `make iso`, `make test` y `make clean` modifican o borran esos archivos. **No se commitean durante el trabajo.** Después de compilar y probar, restáuralos:
 
@@ -411,7 +411,7 @@ Una versión se publica en este orden, cada paso con el anterior terminado en ve
 3. **`release`**, lanzado sobre `main` con la etiqueta de la versión: publica la ISO que quedó versionada en `compilaciones/`. Las notas (`docs/versiones/<etiqueta>.md`) tienen que estar ya en `main`.
 4. **`limpiar-ramas`**, lanzado sobre `main`: solo borra lo que ya está fusionado.
 
-El SHA-256 de `SHA256SUMS` tiene que coincidir con el de la ISO versionada (`sha256sum compilaciones/SLUS_999.99.SuperMarioKart64.iso`). Para la versión 1.0.0: ejecución de CI <<PUBLICACION>>, commit de publicación <<PUBLICACION>>.
+El SHA-256 de `SHA256SUMS` tiene que coincidir con el de la ISO versionada (`sha256sum compilaciones/SLUS_999.99.SuperMarioKart64.iso`). Para la versión 1.0.0: ejecución de CI [38123501282](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38123501282), commit de publicación `900c9be`.
 
 ## Traer actualizaciones del repositorio original
 
