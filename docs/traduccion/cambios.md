@@ -439,3 +439,16 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Evidencia requerida:** la Release `v1.1.0` con la ISO, el ELF monolítico y `SHA256SUMS`, todo comprobado.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
 - **Commit:** —
+
+### CC-17: prueba del alfa con tramado en el combinador
+
+- **Estado:** aprobado (responsable del proyecto, 2026-10-11, plan F9). Salda D-01 y D-02.
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** ninguno de la traducción; amplía el bloque de gráficos de CC-11 (G5).
+- **Motivo:** G5 (`ce98830c`) se integró con evidencia de código, porque el cálculo está en `combinador_y_recorte.inc.c`, que solo compila con el SDK.
+- **Cambio:**
+  - Commit `refactor`, sin cambio de conducta: el alfa con tramado pasa a la función pura `combinador_alfa_tramado()` de `combinador_color.c/.h`, y la usan las dos ramas de `combinar_color`.
+  - Commit `test`: casos en `prueba_combinador.c`.
+- **Evidencia requerida:** -64 da 0, 64 da 32 y 128 da 128, con rojo por mutación (quitar el límite) y restauración.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
+- **Commit:** —
