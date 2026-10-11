@@ -1,10 +1,10 @@
 # Trazabilidad
 
-Relaciona cada requisito de la [especificación](especificacion.md) con su prueba, sus commits y su evidencia. Estado a 2026-10-11, sobre `feature/version-1.2.0` en `fd6a4bb7`: la localización de F0 a F7 (cerrada en `dda9a5f`), la sincronización con el original de F8 (cerrada en `main`, `af3bfa05`), la versión 1.1.0 de F9 (publicada en `45bbe10a`) y la versión 1.2.0 de F10; la versión 1.2.1 de F11, en `feature/capturas-1.2.1` (`863cbc45`).
+Relaciona cada requisito de la [especificación](especificacion.md) con su prueba, sus commits y su evidencia. Estado a 2026-10-11: la localización de F0 a F7 (cerrada en `dda9a5f`), la sincronización con el original de F8 (cerrada en `main`, `af3bfa05`), la versión 1.1.0 de F9 (publicada en `45bbe10a`), la versión 1.2.0 de F10 (en `feature/version-1.2.0`, `fd6a4bb7`) y la versión 1.2.1 de F11 (en `feature/capturas-1.2.1`, `863cbc45`).
 
 ## Cómo se completa
 
-- **Commits:** hashes cortos, integrados en `feature/idioma-espanol` (F0 a F7), en `feature/sincronizacion-upstream` (F8), en `feature/version-1.1.0` (F9) en `feature/version-1.2.0` (F10) o en `feature/capturas-1.2.1` (F11). Si prueba y cambio van en commits separados, se anotan los dos (rojo → verde).
+- **Commits:** hashes cortos, integrados en `feature/idioma-espanol` (F0 a F7), en `feature/sincronizacion-upstream` (F8), en `feature/version-1.1.0` (F9), en `feature/version-1.2.0` (F10) o en `feature/capturas-1.2.1` (F11). Si prueba y cambio van en commits separados, se anotan los dos (rojo → verde).
 - **Rojo:** cómo se demostró que la prueba falla sin el cambio:
   - **comprobado:** la prueba del commit, ejecutada sobre el árbol del commit padre, falla (se indica cuántos fallos);
   - **módulo nuevo:** la prueba cubre un archivo que no existía, así que sin el cambio no puede pasar;
@@ -359,11 +359,11 @@ Los commits de `feature/capturas-1.2.1` sobre `main`, en orden. `v121/capturas` 
 |---|---|---|---|---|---|---|
 | `8d94ba8d` | feature | docs | CC-31, capturas de referencia al día y comparación estricta | CC-31 | — | No aplica |
 | `1bac15d9` | capturas | test | Un bloque de 32×16 cambiado debe fallar con la tolerancia por defecto | CC-31, R-INF-07 | `prueba_comparar_capturas.py` | Falla con la tolerancia de 0,02 |
-| `632050ac` | capturas | fix | Tolerancia por defecto de 0,001 en la comparación de capturas | CC-31, R-INF-07 | `prueba_comparar_capturas.py` | Volver a 0,02: falla |
+| `632050ac` | capturas | fix | Tolerancia por defecto de 0,001 en la comparación de capturas | CC-31, R-INF-07 | `prueba_comparar_capturas.py` | Rojo con 0,02 en `1bac15d9`; la revisión repitió la mutación |
 | `a7ab8019` | capturas | feat | Captura del menú CONFIGURACIÓN Y TRUCOS en el guion de la CI | CC-31, R-INF-07 | Ejecución de la CI | No aplica |
 | `3a022b42` | capturas | test | Referencias regeneradas con Play! 0.72 y el ELF de DEV actual | CC-31, R-INF-07 | Ejecución de la CI y revisión a ojo | No aplica |
 | `f4b86834` | capturas | docs | Capturas al día y figura del menú de configuración en la página | CC-31 | — | No aplica |
-| `a5464408` | capturas | fix | Valores de CONFIGURACIÓN Y TRUCOS en amarillo opaco | CC-31, CC-19 | `prueba_menu_configuracion.c` | Con `VERDE_TEXTO`: falla |
+| `a5464408` | capturas | fix | Valores de CONFIGURACIÓN Y TRUCOS en amarillo opaco | CC-31, CC-19 | `prueba_menu_configuracion.c` | La prueba fija `CONFIG_COLOR_VALOR` a `AMARILLO_TEXTO` |
 | `9ec3b950` | ordinal | test | Exige el punto del ordinal antes de la o volada | CC-31, R-TEX-04 | `prueba_hud_es.py` | Falla con «8º.» |
 | `33979fbf` | ordinal | fix | Punto del ordinal antes de la o volada (8.º) | CC-31, R-TEX-04 | `prueba_hud_es.py` | — |
 | `73aff9e2` | feature | merge | Integra `v121/ordinal` | — | — | No aplica |
