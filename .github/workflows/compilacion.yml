@@ -116,8 +116,8 @@ jobs:
         run: sh herramientas/emulador/ejecutar_play.sh "$PLAY" "$ELF" emu/2 herramientas/emulador/guion_ci.txt 900
       - name: Registro, región (ROMVER sintético europeo) y guion
         run: |
-          python3 herramientas/emulador/comprobar_registro.py "emu/1/Play Data Files/vfs/host" PAL
-          python3 herramientas/emulador/comprobar_registro.py "emu/2/Play Data Files/vfs/host" PAL
+          python3 herramientas/emulador/comprobar_registro.py "emu/1/Play Data Files/vfs/host" PAL --exige "vídeo: PMODE 8046"
+          python3 herramientas/emulador/comprobar_registro.py "emu/2/Play Data Files/vfs/host" PAL --exige "vídeo: PMODE 8046"
       - name: Capturas frente a las referencias y entre las dos ejecuciones
         run: |
           python3 herramientas/emulador/comparar_capturas.py "emu/1/Play Data Files/vfs/host" herramientas/emulador/referencias
