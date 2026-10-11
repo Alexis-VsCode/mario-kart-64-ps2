@@ -960,11 +960,11 @@ glabel textura_67FE0C
 
 .balign 4, 0x00
 glabel textura_cartel_bienvenida_0
-.incbin "recursos/texturas/generales/cartel_bienvenida_0.rgba16.mio0"
+.incbin "es/mio0/generales/cartel_bienvenida_0.rgba16.mio0"
 
 .balign 4, 0x00
 glabel textura_cartel_bienvenida_1
-.incbin "recursos/texturas/generales/cartel_bienvenida_1.rgba16.mio0"
+.incbin "es/mio0/generales/cartel_bienvenida_1.rgba16.mio0"
 
 .balign 4, 0x00
 glabel textura_cartel_atras_de_madera_0

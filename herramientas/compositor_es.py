@@ -6,8 +6,9 @@
 
 Cada familia (recursos/es/glifos/<familia>/) tiene:
   familia.tsv  parametros: fondo (negro, transparente, fila: el color saturado mas
-               frecuente de cada fila, para placas con degradado, o madera: el oscuro
-               mas frecuente, para letras claras sobre tablas), filas (y0,y1 de la linea),
+               frecuente de cada fila, para placas con degradado, madera: el oscuro
+               mas frecuente, para letras claras sobre tablas, o tinta: letras oscuras
+               o rojas sobre tablas claras, que se borran con la veta de su misma fila), filas (y0,y1 de la linea),
                ventana (columnas a cada lado donde buscar el corte), umbral (luminancia
                que separa contorno de relleno), muestras (pixeles minimos de una fila
                para tomar su color de referencia; si no, se usa la fila mas cercana),
@@ -163,6 +164,8 @@ class Familia:
             return p[3] and sum((a - b) ** 2 for a, b in zip(p[:3], color_fila(textura, y)[:3])) < 900
         if self.fondo == "madera":
             return p[3] and not pintura(p)
+        if self.fondo == "tinta":
+            return not tinta(p)
         return p[3] == 0
 
     def clase(self, p):
@@ -535,6 +538,22 @@ def pintura(p):
     return p[3] and mx >= 150 and (mx - min(p[:3])) / float(mx) < 0.12
 
 
+def tinta(p):
+    """Letra oscura sobre madera clara: casi negra o roja (la veta es parda)."""
+    return bool(p[3]) and (max(p[:3]) <= 0x31 or p[1] < 0.62 * p[0])
+
+
+def veta_cercana(textura, x, y):
+    """La tabla opaca sin letra mas cercana en la misma fila (a la izquierda si empatan)."""
+    for d in range(1, textura.ancho):
+        for vx in (x - d, x + d):
+            if 0 <= vx < textura.ancho:
+                p = textura.pixel(vx, y)
+                if p[3] and not tinta(p):
+                    return p
+    return color_fila(textura, y, "madera")
+
+
 def color_fila(textura, y, fondo="fila"):
     """Color de fondo de una fila: el mas frecuente entre los saturados (fila) o entre los
     oscuros (madera: letras claras pintadas sobre tablas)."""
@@ -604,6 +623,10 @@ def componer(id_, texto, comp, destino=None, en_ingles=False):
                 # se borran solo las letras: la veta de las tablas queda
                 if pintura(salida[y * ancho + x]):
                     salida[y * ancho + x] = color_fila(destino, y, "madera")
+            elif familia.fondo == "tinta":
+                # la veta corre a lo ancho: cada letra se tapa con la tabla mas cercana de su fila
+                if tinta(salida[y * ancho + x]):
+                    salida[y * ancho + x] = veta_cercana(destino, x, y)
             else:
                 salida[y * ancho + x] = color_fila(destino, y) if familia.fondo == "fila" else vacio
     puntos = [(x0 + x, y + dy) for x0, dy, g, _ in colocados for (x, y) in g.pixeles]

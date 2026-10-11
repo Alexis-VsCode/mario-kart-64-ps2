@@ -2,6 +2,8 @@
 #include <PR/gbi.h>
 #include "juego/desplazamientos_pista.h"
 #include "recursos/pistas/banshee_boardwalk/datos_pista.h"
+// Tamanio comprimido del cartel en espanol (BIENVE / NIDOS): lo genera el build
+#include "es/tamanios_es.h"
 #include <PR/gbi.h>
 
 extern u8 textura_6447C4[];
@@ -43,8 +45,8 @@ const textura_circuito banshee_boardwalk_texturas[] = {
     { textura_66D698, 0x0370, 0x0800, 0x0 },
     { textura_66E608, 0x05E8, 0x0800, 0x0 },
     { textura_67B388, 0x03D2, 0x0800, 0x0 },
-    { textura_cartel_bienvenida_0, 0x0A2E, 0x1000, 0x0 },
-    { textura_cartel_bienvenida_1, 0x0A0A, 0x1000, 0x0 },
+    { textura_cartel_bienvenida_0, TAMANIO_ES_CARTEL_BIENVENIDA_0, 0x1000, 0x0 },
+    { textura_cartel_bienvenida_1, TAMANIO_ES_CARTEL_BIENVENIDA_1, 0x1000, 0x0 },
     { textura_cartel_atras_de_madera_0, 0x06EF, 0x1000, 0x0 },
     { textura_cartel_atras_de_madera_1, 0x06D1, 0x1000, 0x0 },
     { textura_cartel_flecha_rojo_madera, 0x04E1, 0x1000, 0x0 },
