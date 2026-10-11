@@ -269,9 +269,15 @@ SIN_USO void funcion_80093C90(void) {
 
 void funcion_80093C98(s32 parametro0) {
     gSPViewport(display_list_cabeza++, VIRTUAL_A_FISICO(dato_802B8880));
-    guOrtho(&gfx_pool->efecto_mtx[cantidad_efecto_matriz], 0.0f, 319.0f, 239.0f, 0.0f, -100.0f, 100.0f, 1.0f);
-    gSPMatrix(display_list_cabeza++, VIRTUAL_A_FISICO(&gfx_pool->efecto_mtx[cantidad_efecto_matriz++]),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+#ifdef AVOID_UB
+    // Sin matriz libre en la reserva se queda la proyección que ya estaba cargada
+    if (cantidad_efecto_matriz < MTX_EFECTO_POOL_TAMANIO)
+#endif
+    {
+        guOrtho(&gfx_pool->efecto_mtx[cantidad_efecto_matriz], 0.0f, 319.0f, 239.0f, 0.0f, -100.0f, 100.0f, 1.0f);
+        gSPMatrix(display_list_cabeza++, VIRTUAL_A_FISICO(&gfx_pool->efecto_mtx[cantidad_efecto_matriz++]),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+    }
     gSPDisplayList(display_list_cabeza++, dato_02007F18);
     gDPSetScissor(display_list_cabeza++, G_SC_NON_INTERLACE, 0, 0, ANCHO_PANTALLA, ALTURA_PANTALLA);
     manejar_especial_menus();
@@ -320,9 +326,15 @@ void funcion_80093E60(void) {
 
 void funcion_80093F10(void) {
     gSPViewport(display_list_cabeza++, VIRTUAL_A_FISICO(dato_802B8880));
-    guOrtho(&gfx_pool->efecto_mtx[cantidad_efecto_matriz], 0.0f, 319.0f, 239.0f, 0.0f, -100.0f, 100.0f, 1.0f);
-    gSPMatrix(display_list_cabeza++, VIRTUAL_A_FISICO(&gfx_pool->efecto_mtx[cantidad_efecto_matriz++]),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+#ifdef AVOID_UB
+    // Sin matriz libre en la reserva se queda la proyección que ya estaba cargada
+    if (cantidad_efecto_matriz < MTX_EFECTO_POOL_TAMANIO)
+#endif
+    {
+        guOrtho(&gfx_pool->efecto_mtx[cantidad_efecto_matriz], 0.0f, 319.0f, 239.0f, 0.0f, -100.0f, 100.0f, 1.0f);
+        gSPMatrix(display_list_cabeza++, VIRTUAL_A_FISICO(&gfx_pool->efecto_mtx[cantidad_efecto_matriz++]),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+    }
     gSPDisplayList(display_list_cabeza++, dato_02007F18);
     gDPSetScissor(display_list_cabeza++, G_SC_NON_INTERLACE, 0, 0, 320, 240);
     funcion_80092290(4, dato_8018E850, dato_8018E858);
@@ -341,9 +353,15 @@ void funcion_80093F10(void) {
 void funcion_800940EC(s32 parametro0) {
     gSPViewport(display_list_cabeza++, VIRTUAL_A_FISICO(dato_802B8880));
     gDPSetScissor(display_list_cabeza++, G_SC_NON_INTERLACE, 0, 0, ANCHO_PANTALLA, ALTURA_PANTALLA);
-    guOrtho(&gfx_pool->efecto_mtx[cantidad_efecto_matriz], 0.0f, 319.0f, 239.0f, 0.0f, -100.0f, 100.0f, 1.0f);
-    gSPMatrix(display_list_cabeza++, VIRTUAL_A_FISICO(&gfx_pool->efecto_mtx[cantidad_efecto_matriz++]),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+#ifdef AVOID_UB
+    // Sin matriz libre en la reserva se queda la proyección que ya estaba cargada
+    if (cantidad_efecto_matriz < MTX_EFECTO_POOL_TAMANIO)
+#endif
+    {
+        guOrtho(&gfx_pool->efecto_mtx[cantidad_efecto_matriz], 0.0f, 319.0f, 239.0f, 0.0f, -100.0f, 100.0f, 1.0f);
+        gSPMatrix(display_list_cabeza++, VIRTUAL_A_FISICO(&gfx_pool->efecto_mtx[cantidad_efecto_matriz++]),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+    }
     gSPDisplayList(display_list_cabeza++, dato_02007F18);
     funcion_80092290(4, dato_8018E850, dato_8018E858);
     funcion_80092290(5, (s32*) &dato_8018E850[1], (s32*) &dato_8018E858[1]);

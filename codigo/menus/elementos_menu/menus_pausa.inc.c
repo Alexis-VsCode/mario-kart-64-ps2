@@ -253,9 +253,15 @@ void funcion_800A54EC(void) {
     sp48 = buscar_items_menu(PAUSA_ITEM_MENU);
     if (por_que) {}
     gSPViewport(display_list_cabeza++, VIRTUAL_A_FISICO(dato_802B8880));
-    guOrtho(&gfx_pool->efecto_mtx[cantidad_efecto_matriz], 0.0f, 319.0f, 239.0f, 0.0f, -100.0f, 100.0f, 1.0f);
-    gSPMatrix(display_list_cabeza++, VIRTUAL_A_FISICO(&gfx_pool->efecto_mtx[cantidad_efecto_matriz++]),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+#ifdef AVOID_UB
+    // Sin matriz libre en la reserva se queda la proyección que ya estaba cargada
+    if (cantidad_efecto_matriz < MTX_EFECTO_POOL_TAMANIO)
+#endif
+    {
+        guOrtho(&gfx_pool->efecto_mtx[cantidad_efecto_matriz], 0.0f, 319.0f, 239.0f, 0.0f, -100.0f, 100.0f, 1.0f);
+        gSPMatrix(display_list_cabeza++, VIRTUAL_A_FISICO(&gfx_pool->efecto_mtx[cantidad_efecto_matriz++]),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+    }
     switch (por_que) { /* irregular */
         default:
             break;
@@ -550,6 +556,12 @@ void funcion_800A66A8(MenuItem* parametro0, desconocido_d_800E70A0* parametro1) 
     static float x2, y2, z2;
     static float x1, y1, z1;
 
+#ifdef AVOID_UB
+    // Usa dos matrices de la reserva (mtx y mtx + 1); sin ellas el adorno no se dibuja
+    if (cantidad_efecto_matriz + 1 >= MTX_EFECTO_POOL_TAMANIO) {
+        return;
+    }
+#endif
     mtx = &gfx_pool->efecto_mtx[cantidad_efecto_matriz];
     if (parametro0->paramf > 1.5) {
         parametro0->paramf *= 0.95;
