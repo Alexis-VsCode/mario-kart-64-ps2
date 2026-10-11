@@ -10,7 +10,7 @@ Nada todavía.
 
 ## [1.2.1] - 2026-10-11
 
-Versión de mantenimiento con el cambio de especificación CC-31 de [cambios.md](docs/traduccion/cambios.md): capturas de referencia al día y comparación estricta, y los dos defectos visibles que encontró. Notas de la Release: [docs/versiones/v1.2.1.md](docs/versiones/v1.2.1.md). Publicación: <<PUBLICACION>>.
+Versión de mantenimiento con el cambio de especificación CC-31 de [cambios.md](docs/traduccion/cambios.md): capturas de referencia al día y comparación estricta, y los dos defectos visibles que encontró. Notas de la Release: [docs/versiones/v1.2.1.md](docs/versiones/v1.2.1.md). Commit de publicación: `d3c27566`; ISO de 13 387 776 bytes, SHA-256 `3b4321ce86050f1a3bceb5a381ca354cecca1853a784069e56111a232df5eceb`.
 
 ### Añadido
 
