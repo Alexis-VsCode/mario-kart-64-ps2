@@ -10,7 +10,7 @@ referencias_tkmk00.txt); comprobar rechaza PNG que no sirven y la hoja de
 contacto marca solo lo que cambio. Ningun texto_es nombra los botones de
 la N64, la N64 ni el Controller Pak: van los botones de la PS2. Cada textura de
 las carpetas y .incbin de R-TEX-02 tiene una fila o una fila de carpeta
-(carpeta:<ruta>) con motivo.
+(carpeta:<ruta>, una carpeta o un archivo suelto) con motivo.
 """
 import contextlib
 import hashlib
@@ -55,21 +55,10 @@ CARPETAS_R_TEX_02 = ["recursos/comunes/texturas"] + ["recursos/texturas/" + c fo
 ARCHIVOS_R_TEX_02 = ["recursos/texturas/fuente_pantalla_fallo.ia1.inc.c"]
 INCBIN = re.compile(r'\.incbin\s+"(recursos/texturas/[^"]+)"')
 
-# Carpetas con texto visible que no es logotipo ni cartel comercial (por
-# ejemplo el cartel de bienvenida en ingles de generales/): ni se excluyen
-# ni tienen aun una fila por textura. Quitar la entrada al cubrirlas.
-PENDIENTES = [
-    "recursos/comunes/texturas",  # HUD y objetos; 16 con fila, el resto sin revisar
-    "recursos/texturas/generales",  # carteles de pista (bienvenida, Nintendo, Luigi's...)
-    "recursos/texturas/sin_comprimir",  # 2 mitades de MOO MOO FARM y PULSA START con fila
-    "recursos/texturas/pistas/dks_jungle_parkway",  # cartel del barco
-    "recursos/texturas/pistas/kalimari_desert",  # 64 de la locomotora y senales de cruce
-    "recursos/texturas/pistas/luigi_raceway",  # carteles
-    "recursos/texturas/pistas/mario_raceway",  # carteles
-    "recursos/texturas/pistas/moo_moo_farm",  # cartel MOO MOO FARM
-    "recursos/texturas/pistas/wario_stadium",  # carteles
-    "recursos/texturas/fuente_pantalla_fallo.ia1.inc.c",  # fuente: un archivo, no una carpeta
-]
+# Carpetas con texto visible que no es logotipo ni cartel comercial: ni se
+# excluyen ni tienen aun una fila por textura. Tras CC-29 no queda ninguna;
+# una entrada nueva aqui tiene que quitarse al cubrirla.
+PENDIENTES = []
 
 fallos = 0
 comprobaciones = 0
@@ -266,7 +255,7 @@ def sin_cubrir(rutas, filas, carpetas):
     con_fila = {f["origen"] for f in filas}
     cubiertas = [c["ruta"] for c in carpetas]
     cubiertas += ["recursos/texturas/lakitu/" + f["carpeta"] for f in lakitu_es.leer_manifiesto()]
-    return [r for r in rutas if r not in con_fila and not any(dentro(r, c) for c in cubiertas)]
+    return [r for r in rutas if r not in con_fila and not any(r == c or dentro(r, c) for c in cubiertas)]
 
 
 def probar_carpetas(filas):
@@ -292,7 +281,7 @@ def probar_carpetas(filas):
             comprobar(ok, "fila de carpeta %r: se esperaba %s" % (lineas[-1], "aceptarla" if valida else "rechazarla"))
     carpetas = texturas_es.leer_carpetas(MANIFIESTO)
     for c in carpetas:
-        comprobar(os.path.isdir(os.path.join(RAIZ, c["ruta"])), "carpeta:%s no existe" % c["ruta"])
+        comprobar(os.path.exists(os.path.join(RAIZ, c["ruta"])), "carpeta:%s no existe" % c["ruta"])
     faltan = sin_cubrir(texturas_r_tex_02(), filas, carpetas)
     fuera = [r for r in faltan if not any(r == p or dentro(r, p) for p in PENDIENTES)]
     comprobar(not fuera, "%d texturas sin fila ni carpeta excluida, p. ej. %s" % (len(fuera), ", ".join(fuera[:5])))
