@@ -11,7 +11,7 @@ Los nombres de carpetas, funciones, variables y comentarios del código ya está
 
 ## Estado de F9 (2026-10-11)
 
-La localización (F0 a F7) y la sincronización con el original (F8) están cerradas y en `main` (`af3bfa05`): la versión 1.0.0, publicada en `900c9be`. F9, la versión 1.1.0, está integrada en `feature/version-1.1.0` (`a29bd920`), que nace de `af3bfa05`. `BUILD_ID` sigue en 2026-10-11, la fecha de la versión.
+La localización (F0 a F7) y la sincronización con el original (F8) están cerradas y en `main` (`af3bfa05`): la versión 1.0.0, publicada en `900c9be3`. F9, la versión 1.1.0, está integrada en `feature/version-1.1.0` (`a29bd920`), que nace de `af3bfa05`. `BUILD_ID` sigue en 2026-10-11, la fecha de la versión.
 
 Hecho en F9:
 
@@ -96,7 +96,7 @@ El resto de objetivos y variables de `make` están en el [manual técnico](../ma
 
 Comprobado el 2026-10-11 sobre `feature/version-1.1.0` en `a29bd920`.
 
-- **Especificación → trazabilidad.** Los 46 requisitos siguen teniendo fila en [trazabilidad.md](trazabilidad.md) y la lista coincide con el comando de la [verificación de F8](#verificación-de-f8). Estado: 39 hechos y 7 parciales (R-TEX-02, R-PORT-03, R-GOB-01, R-GOB-02, R-GOB-03, R-GOB-04 y R-GOB-06). R-GOB-08 pasa a hecho con el cierre de F8; R-GOB-01 suma `b780d986`, de tipo `style`.
+- **Especificación → trazabilidad.** Los 46 requisitos siguen teniendo fila en [trazabilidad.md](trazabilidad.md) y la lista coincide con el comando de la [verificación de F8](#verificación-de-f8). Estado: 38 hechos y 8 parciales (R-TEX-02, R-PORT-03, R-GOB-01, R-GOB-02, R-GOB-03, R-GOB-04, R-GOB-06 y R-GOB-08). R-GOB-08 sigue parcial hasta integrar `v110/doc-manual` y `v110/doc-traduccion`, como en F8; R-GOB-01 suma `b780d986`, de tipo `style`.
 - **Pruebas.** `env -u PS2SDK make test` termina con 0: 31 pruebas y el tope de líneas, 0 fallos.
 - **Gobernanza.** Sobre `origin/main..feature/version-1.1.0`: 38 commits, todos de Alexis Barrera; el comando de R-GOB-01 solo devuelve `b780d986`; ningún commit toca `build/` ni `compilaciones/`; no hay trailers; el grep de R-GOB-07 sale vacío.
 - **CI de F9:** ejecución, commit de publicación y sumas en [trazabilidad.md](trazabilidad.md#evidencia-común).
@@ -115,4 +115,4 @@ Comprobado el 2026-10-11 sobre `feature/sincronizacion-upstream` en `d5f95cc5`.
 - **Pruebas.** `make test` terminó con 0 fallos en el worktree de revisión de cada rama integrada ([acta](revisiones/2026-10-11-sincronizacion.md)).
 - **Gobernanza.** Sobre `origin/main..feature/sincronizacion-upstream`: el comando de R-GOB-01 solo devuelve `c2ed147` y `ae93f71`, del original; ningún commit toca `build/` ni `compilaciones/`; no hay trailers; el grep de R-GOB-07 sale vacío.
 - **CI de F8:** ejecución y commit de publicación en [trazabilidad.md](trazabilidad.md#evidencia-común).
-- **Definition of Done:** la de [CONTRIBUTING.md](../../CONTRIBUTING.md), que se cerró con la publicación (`900c9be`) y la fusión a `main` (`af3bfa05`).
+- **Definition of Done:** la de [CONTRIBUTING.md](../../CONTRIBUTING.md), que se cerró con la publicación (`900c9be3`) y la fusión a `main` (`af3bfa05`).

@@ -2,7 +2,7 @@
 
 - **Estado:** implementada e integrada. Lo que queda por hacer está en [README.md § Pendiente](README.md#pendiente) y la deuda técnica, en [deuda.md](deuda.md).
 - **Sincronizada con** `feature/sincronizacion-upstream` en `d5f95cc5` (2026-10-11): la localización de F0 a F7, ya en `main` (`3f43c005`), más la sincronización con el original hasta `ae93f71` y las ramas de F8 (`sinc/ci`, `sinc/graficos-g5`, `sinc/sistema`, `sinc/pendientes` y `sinc/panel`). Desde CC-12, los criterios que dependían del recorrido de F6 se aceptan con lo que comprueban las pruebas del PC y la CI.
-- **Al día con** `feature/version-1.1.0` en `a29bd920` (F9, versión 1.1.0): los cambios de [CC-13 a CC-17](cambios.md) que tocan requisitos están en R-PORT-02, R-INF-05 y R-GOB-01; el resto, en el registro de cambios y en [trazabilidad.md](trazabilidad.md).
+- **Al día con** `feature/version-1.1.0` en `a29bd920` (F9, versión 1.1.0): de los requisitos que declaran [CC-13 a CC-17](cambios.md), cambia el texto de R-PORT-02 (CC-15) y R-INF-05 (CC-16); el de R-MC-01 y R-MC-02 (CC-13) no cambia y su evidencia nueva está en [trazabilidad.md](trazabilidad.md). R-GOB-01 anota un hallazgo de la integración (`b780d986`), no un cambio de un CC; el resto, en el registro de cambios.
 
 ## 1. Objetivo
 
@@ -738,7 +738,7 @@ Un commit `refactor(...)` no cambia el comportamiento, y un commit funcional no 
 
 - Al cerrar cada bloque y cada fase, `git status --short` sale vacío.
 - Los archivos de `build/` y `compilaciones/` que tocan las pruebas se restauran.
-- `build/` y `compilaciones/` solo cambian en el commit de publicación de cada versión (`dda9a5f` en F7; el de F8 lo hace el job `publicar`).
+- `build/` y `compilaciones/` solo cambian en el commit de publicación de cada versión (`dda9a5f` en F7 y `900c9be3` en F8, hecho por el job `publicar`).
 - **Aceptación:** `git status --short` vacío, y ningún commit salvo el de publicación toca `build/` ni `compilaciones/`.
 - **Prueba:** `git log --name-only origin/main..HEAD -- build compilaciones`. En `dda9a5f` solo listaba ese commit, el de publicación. En `feature/sincronizacion-upstream` (`d5f95cc5`) sale vacío: la fusión deja `build/` y `compilaciones/` como en `main` ([CC-08](cambios.md)). En `feature/version-1.1.0` (`a29bd920`) también sale vacío.
 
