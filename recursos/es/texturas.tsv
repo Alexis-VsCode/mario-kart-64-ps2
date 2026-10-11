@@ -3,10 +3,10 @@ id	origen	formato	tamanio	tamanio_es	alfa	png	texto_es	retocado	motivo_no
 150cc	recursos/texturas/menus/tkmk00/150cc.rgba16.tkmk00	rgba16	64x18		clave_00BE			no	unidad
 50cc	recursos/texturas/menus/tkmk00/50cc.rgba16.tkmk00	rgba16	64x18		clave_00BE			no	unidad
 abandonar_texto	recursos/texturas/generales/abandonar_texto.ia16.mio0	ia16	24x10		formato			no	no se muestra
-activo_senial_cruce_abajo_derecha	recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_abajo_derecha.inc.c	rgba16	32x64		formato			no	pendiente: RAILROAD CROSSING en diagonal y diminuto; el compositor no escribe en diagonal
-activo_senial_cruce_abajo_izquierda	recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_abajo_izquierda.inc.c	rgba16	32x64		formato			no	pendiente: RAILROAD CROSSING en diagonal y diminuto; el compositor no escribe en diagonal
-activo_senial_cruce_arriba_derecha	recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_arriba_derecha.inc.c	rgba16	32x64		formato			no	pendiente: RAILROAD CROSSING en diagonal y diminuto; el compositor no escribe en diagonal
-activo_senial_cruce_arriba_izquierda	recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_arriba_izquierda.inc.c	rgba16	32x64		formato			no	pendiente: RAILROAD CROSSING en diagonal y diminuto; el compositor no escribe en diagonal
+activo_senial_cruce_abajo_derecha	recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_abajo_derecha.inc.c	rgba16	32x64		formato			no	sin texto: mitad de abajo de la señal (luces y caja); las letras van en la de arriba
+activo_senial_cruce_abajo_izquierda	recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_abajo_izquierda.inc.c	rgba16	32x64		formato			no	sin texto: mitad de abajo de la señal (luces y caja); las letras van en la de arriba
+activo_senial_cruce_arriba_derecha	recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_arriba_derecha.rgba16.inc.c	rgba16	32x64		formato	recursos/es/inc/recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_arriba_derecha.rgba16.png	PASO|A NIVEL	no	
+activo_senial_cruce_arriba_izquierda	recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_arriba_izquierda.rgba16.inc.c	rgba16	32x64		formato	recursos/es/inc/recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_arriba_izquierda.rgba16.png	PASO|A NIVEL	no	
 atardecer_fondo	recursos/texturas/menus/tkmk00/atardecer_fondo.rgba16.tkmk00	rgba16	320x240		opaco			no	sin texto
 azul_amarillo_numero_1	recursos/texturas/generales/azul_amarillo_numero_1.rgba16.mio0	rgba16	32x32		formato			no	solo la cifra
 azul_amarillo_numero_2	recursos/texturas/generales/azul_amarillo_numero_2.rgba16.mio0	rgba16	32x32		formato			no	solo la cifra
@@ -72,10 +72,10 @@ hud_5to	recursos/comunes/texturas/hud_5to.i4.inc.c	i4	128x64		formato	recursos/e
 hud_6to	recursos/comunes/texturas/hud_6to.i4.inc.c	i4	128x64		formato	recursos/es/inc/recursos/comunes/texturas/hud_6to.i4.png	6.º	no	
 hud_7mo	recursos/comunes/texturas/hud_7mo.i4.inc.c	i4	128x64		formato	recursos/es/inc/recursos/comunes/texturas/hud_7mo.i4.png	7.º	no	
 hud_8vo	recursos/comunes/texturas/hud_8vo.i4.inc.c	i4	128x64		formato	recursos/es/inc/recursos/comunes/texturas/hud_8vo.i4.png	8.º	no	
-inactivo_senial_cruce_abajo_derecha	recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_abajo_derecha.inc.c	rgba16	32x64		formato			no	pendiente: RAILROAD CROSSING en diagonal y diminuto; el compositor no escribe en diagonal
-inactivo_senial_cruce_abajo_izquierda	recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_abajo_izquierda.inc.c	rgba16	32x64		formato			no	pendiente: RAILROAD CROSSING en diagonal y diminuto; el compositor no escribe en diagonal
-inactivo_senial_cruce_arriba_derecha	recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_arriba_derecha.inc.c	rgba16	32x64		formato			no	pendiente: RAILROAD CROSSING en diagonal y diminuto; el compositor no escribe en diagonal
-inactivo_senial_cruce_arriba_izquierda	recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_arriba_izquierda.inc.c	rgba16	32x64		formato			no	pendiente: RAILROAD CROSSING en diagonal y diminuto; el compositor no escribe en diagonal
+inactivo_senial_cruce_abajo_derecha	recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_abajo_derecha.inc.c	rgba16	32x64		formato			no	sin texto: mitad de abajo de la señal (luces y caja); las letras van en la de arriba
+inactivo_senial_cruce_abajo_izquierda	recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_abajo_izquierda.inc.c	rgba16	32x64		formato			no	sin texto: mitad de abajo de la señal (luces y caja); las letras van en la de arriba
+inactivo_senial_cruce_arriba_derecha	recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_arriba_derecha.rgba16.inc.c	rgba16	32x64		formato	recursos/es/inc/recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_arriba_derecha.rgba16.png	PASO|A NIVEL	no	
+inactivo_senial_cruce_arriba_izquierda	recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_arriba_izquierda.rgba16.inc.c	rgba16	32x64		formato	recursos/es/inc/recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_arriba_izquierda.rgba16.png	PASO|A NIVEL	no	
 juego_menu_1j	recursos/texturas/menus/tkmk00/juego_menu_1j.rgba16.tkmk00	rgba16	64x54		clave_00BE	recursos/es/mio0/menus/juego_menu_1j.rgba16.png	1 JUG.	no	
 juego_menu_2j	recursos/texturas/menus/tkmk00/juego_menu_2j.rgba16.tkmk00	rgba16	64x54		clave_00BE	recursos/es/mio0/menus/juego_menu_2j.rgba16.png	2 JUG.	no	
 juego_menu_3j	recursos/texturas/menus/tkmk00/juego_menu_3j.rgba16.tkmk00	rgba16	64x54		clave_00BE	recursos/es/mio0/menus/juego_menu_3j.rgba16.png	3 JUG.	no	

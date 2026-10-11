@@ -44,6 +44,13 @@ reescribe, texto en ingles y columna de su primer corte (autoprueba) y opciones:
   color_lineas=si  cada linea toma el degradado de las filas del original, no el de abajo
   sangrado=si   los transparentes junto a las letras toman su color (texturas sin clave)
   fijo=N        los N primeros caracteres del espanol ya estan en la textura (fuera del area)
+  girar=G,...@X,Y  cada linea va girada G grados (positivo: baja a la derecha) con su centro
+                en (X, Y), sobre un brazo de tablero claro (letreros en diagonal, ver
+                componer_girado); X, Y pueden caer fuera de la textura (la otra mitad)
+  brazo=M,L     medio ancho y medio largo del brazo de cada linea: lo que se borra
+  escala=F      con girar, pixeles de la textura por cada pixel de las partes dibujadas
+  hueco=N,...   con girar, columnas (de las partes) que se dejan libres en el centro de cada
+                linea, donde la cruza el otro brazo
 El texto en espanol sale de la columna texto_es del manifiesto ('|' separa lineas).
 
 Cada pixel pegado se recolorea por fila: si viene de la misma textura y la misma fila
@@ -53,6 +60,7 @@ primero contornos y despues rellenos, para que una letra no tape el relleno de l
 """
 import argparse
 import ast
+import math
 import os
 import sys
 
@@ -590,6 +598,8 @@ def componer(id_, texto, comp, destino=None, en_ingles=False):
     familia = Familia(comp["familia"])
     destino = destino or Textura.cargar(id_)
     opc = opciones(comp["opciones"])
+    if "girar" in opc:
+        return componer_girado(familia, destino, texto, comp, en_ingles)
     caja = area_de(comp, en_ingles)
     cx, cy, cw, ch = caja
     if not en_ingles:
@@ -630,6 +640,86 @@ def componer(id_, texto, comp, destino=None, en_ingles=False):
     return salida
 
 
+def brazos(opc, lineas):
+    """[(coseno, seno, centro x, centro y, medio ancho, medio largo)] de cada linea girada."""
+    angulos, _, centro = opc["girar"].partition("@")
+    angulos = [float(a) for a in angulos.split(",")]
+    cx, cy = (float(v) for v in centro.split(","))
+    medio, largo = (float(v) for v in opc["brazo"].split(","))
+    if len(angulos) != lineas:
+        raise ErrorComposicion("girar: %d angulos para %d lineas" % (len(angulos), lineas))
+    return [(math.cos(math.radians(a)), math.sin(math.radians(a)), cx, cy, medio, largo) for a in angulos]
+
+
+def en_brazo(b, x, y):
+    """(u, v) de un punto en el sistema del brazo (u a lo largo, v hacia abajo de las letras)
+    o None si queda fuera."""
+    co, si, cx, cy, medio, largo = b
+    u = (x - cx) * co + (y - cy) * si
+    v = -(x - cx) * si + (y - cy) * co
+    return (u, v) if abs(u) <= largo and abs(v) <= medio else None
+
+
+def componer_girado(familia, destino, texto, comp, en_ingles=False):
+    """Letreros en diagonal (cruz de San Andres): cada linea es un brazo. Se borran las
+    letras del brazo con el color del tablero (el mas frecuente del brazo) y cada pixel
+    toma la mezcla del tablero con la tinta (el pixel mas oscuro del brazo) en la
+    proporcion de sus 4x4 muestras que caen en una letra; asi las letras salen con los
+    grises del filtrado del original. Las letras son partes dibujadas de la familia, en
+    fila (espacio=N columnas entre ellas por linea) y centradas en el centro del brazo.
+    hueco=N separa en N columnas las dos letras mas cercanas al centro. En ingles no hay
+    glifos que recomponer: solo se borra."""
+    opc = opciones(comp["opciones"])
+    lineas = texto.split("|")
+    bs = brazos(opc, len(lineas))
+    ancho, alto = destino.ancho, destino.alto
+    salida = list(destino.pixeles)
+    dentro = [(x, y) for y in range(alto) for x in range(ancho) if destino.pixel(x, y)[3]
+              and any(en_brazo(b, x + 0.5, y + 0.5) for b in bs)]
+    if not dentro:
+        raise ErrorComposicion("%s: los brazos no tocan la textura" % destino.id)
+    colores = [destino.pixel(x, y) for x, y in dentro]
+    tablero = max(sorted(set(colores)), key=colores.count)
+    tinta = min(sorted(set(colores)), key=lum)
+    for x, y in dentro:
+        salida[y * ancho + x] = tablero
+    if en_ingles:
+        return salida
+    escala = float(opc.get("escala", "1"))
+    espacios = [int(v) for v in opc.get("espacio", "0").split(",")]
+    huecos = [int(v) for v in opc.get("hueco", "0").split(",")]
+    letras = []
+    for n, (linea, b) in enumerate(zip(lineas, bs)):
+        espacio = espacios[min(n, len(espacios) - 1)]
+        glifos = [Glifo({}, 3 * int(round(1 / escala))) if c == " " else familia.glifo(c, destino.id) for c in linea]
+        xs = [sum(g.avance + espacio for g in glifos[:i]) for i in range(len(glifos) + 1)]
+        # hueco en el cruce con el otro brazo, entre las dos letras mas cercanas al centro
+        mitad = min(range(1, len(glifos)), key=lambda i: abs(2 * xs[i] - xs[-1]), default=0)
+        hueco = huecos[min(n, len(huecos) - 1)]
+        puntos = {(x + px + (hueco if i >= mitad else 0), py) for i, (x, g) in enumerate(zip(xs, glifos))
+                  for (px, py), p in g.pixeles.items() if p[1] != "x"}
+        if not puntos:
+            continue
+        izq, der = min(p[0] for p in puntos), max(p[0] for p in puntos) + 1
+        arr, aba = min(p[1] for p in puntos), max(p[1] for p in puntos) + 1
+        if (der - izq) * escala > 2 * b[5] or (aba - arr) * escala > 2 * b[4]:
+            raise ErrorComposicion("%s: %r no cabe en su brazo" % (destino.id, linea))
+        letras.append((b, puntos, (izq + der) / 2.0, (arr + aba) / 2.0))
+    for x, y in dentro:
+        cubiertas = 0
+        for i in range(16):
+            sx, sy = x + (i % 4 + 0.5) / 4, y + (i // 4 + 0.5) / 4
+            for b, puntos, mu, mv in letras:
+                uv = en_brazo(b, sx, sy)
+                if uv and (math.floor(uv[0] / escala + mu), math.floor(uv[1] / escala + mv)) in puntos:
+                    cubiertas += 1
+                    break
+        if cubiertas:
+            f = cubiertas / 16.0
+            salida[y * ancho + x] = tuple(cuantizar(t + (k - t) * f) for t, k in zip(tablero[:3], tinta[:3])) + (255,)
+    return salida
+
+
 def recolorear(familia, p, clase, fuente, fy, destino, ty):
     if fuente == destino and fy == ty:
         return p
@@ -663,6 +753,11 @@ def autoprueba(id_, comp):
     destino = Textura.cargar(id_)
     salida = componer(id_, comp["texto_en"], comp, destino, en_ingles=True)
     cx, cy, cw, ch = (int(v) for v in comp["caja"].split(","))
+    if "girar" in opciones(comp["opciones"]):
+        # sin glifos en ingles: borrar los brazos solo puede aclarar (quitar letras)
+        return sum(salida[y * destino.ancho + x] == destino.pixel(x, y)
+                   or lum(destino.pixel(x, y)) < lum(salida[y * destino.ancho + x])
+                   for y in range(cy, cy + ch) for x in range(cx, cx + cw)) / float(cw * ch)
     iguales = sum(salida[y * destino.ancho + x] == destino.pixel(x, y)
                   or salida[y * destino.ancho + x][3] == destino.pixel(x, y)[3] == 0
                   for y in range(cy, cy + ch) for x in range(cx, cx + cw))
