@@ -277,6 +277,37 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(
 	$(V)$(CC_PRUEBAS) -std=gnu99 -Wall -Wextra -O1 -Iincluir \
 	    -o $(PRUEBAS)/prueba_region_ps2 herramientas/pruebas/prueba_region_ps2.c
 	$(V)$(PRUEBAS)/prueba_region_ps2
+	$(V)$(CC_PRUEBAS) -fsigned-char -std=gnu99 -Wall -Wextra -O1 -Iincluir -Iincluir/libultra -Icodigo \
+	    -o $(PRUEBAS)/prueba_opciones_port herramientas/pruebas/prueba_opciones_port.c
+	$(V)$(PRUEBAS)/prueba_opciones_port
+	$(V)$(CC_PRUEBAS) -fsigned-char -std=gnu99 -Wall -Wextra -O1 -Iincluir -Iincluir/libultra -Icodigo -Iherramientas/pruebas/sdk_simulado \
+	    -o $(PRUEBAS)/prueba_memory_card herramientas/pruebas/prueba_memory_card.c
+	$(V)$(PRUEBAS)/prueba_memory_card
+	$(V)$(CC_PRUEBAS) -fsigned-char -std=gnu99 -Wall -Wextra -O1 -Iincluir -Iincluir/libultra -Icodigo \
+	    -o $(PRUEBAS)/prueba_registros_video herramientas/pruebas/prueba_registros_video.c
+	$(V)$(PRUEBAS)/prueba_registros_video
+	$(V)$(CC_PRUEBAS) -fsigned-char -std=gnu99 -Wall -Wextra -O1 -Iincluir -Iincluir/libultra -Icodigo \
+	    -o $(PRUEBAS)/prueba_vista_panoramica herramientas/pruebas/prueba_vista_panoramica.c -lm
+	$(V)$(PRUEBAS)/prueba_vista_panoramica
+	$(V)$(CC_PRUEBAS) -fsigned-char -std=gnu99 -Wall -Wextra -O1 -Iincluir -Iincluir/libultra -Icodigo \
+	    -o $(PRUEBAS)/prueba_menu_configuracion herramientas/pruebas/prueba_menu_configuracion.c
+	$(V)$(PRUEBAS)/prueba_menu_configuracion
+	$(V)$(CC_PRUEBAS) -fsigned-char -std=gnu99 -Wall -Wextra -O1 -Iincluir -Iincluir/libultra -Icodigo \
+	    -o $(PRUEBAS)/prueba_trucos herramientas/pruebas/prueba_trucos.c
+	$(V)$(PRUEBAS)/prueba_trucos
+	$(V)$(CC_PRUEBAS) -fsigned-char -std=gnu99 -Wall -Wextra -O1 -Iincluir -Iincluir/libultra -Icodigo \
+	    -o $(PRUEBAS)/prueba_truco_objeto herramientas/pruebas/prueba_truco_objeto.c
+	$(V)$(PRUEBAS)/prueba_truco_objeto
+	$(V)$(CC_PRUEBAS) -fsigned-char -std=gnu99 -Wall -Wextra -O1 -Iincluir -Iincluir/libultra -Icodigo \
+	    -o $(PRUEBAS)/prueba_cilindrada_200cc herramientas/pruebas/prueba_cilindrada_200cc.c -lm
+	$(V)$(PRUEBAS)/prueba_cilindrada_200cc
+	$(V)$(CC_PRUEBAS) -fsigned-char -std=gnu99 -Wall -Wextra -O1 -Iincluir -Iincluir/libultra -Icodigo \
+	    -o $(PRUEBAS)/prueba_rivales_sin_ventaja herramientas/pruebas/prueba_rivales_sin_ventaja.c
+	$(V)$(PRUEBAS)/prueba_rivales_sin_ventaja
+	$(V)$(PYTHON) herramientas/pruebas/prueba_comparar_capturas.py
+	$(V)$(PYTHON) herramientas/pruebas/prueba_comprobar_registro.py
+	$(V)$(PYTHON) herramientas/pruebas/prueba_tope_rom.py
+	$(V)$(PYTHON) herramientas/pruebas/prueba_fuente_libdebug.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_ancho_panel.py
 	@# La tabla de la fuente de depuracion comparte archivo con datos que apuntan a texturas del
 	@# juego: --gc-sections deja solo lo que la prueba usa
