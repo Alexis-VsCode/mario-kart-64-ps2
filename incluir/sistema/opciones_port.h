@@ -47,6 +47,8 @@ void pedir_guardado_opciones(void); // encola la escritura en el hilo de guardad
 
 static inline void opciones_cambiadas(void)
 {
+    // Los campos tienen que estar escritos antes de que el retrazo vea la versión nueva
+    __asm__ volatile("" ::: "memory");
     version_opciones_port++;
 }
 
