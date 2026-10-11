@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""main() de arranque_ps2.c pone en marcha la depuracion antes de tocar el IOP.
+"""main() de arranque_ps2.c pone en marcha la depuración antes de tocar el IOP.
 
-inicializar_depuracion() arranca el perro guardian y la pantalla de fallo.
+inicializar_depuracion() arranca el perro guardián y la pantalla de fallo.
 Si el reinicio del IOP (reiniciar_iop, o preparar_iop_sin_reinicio bajo
-OPL) se cuelga antes, queda en pantalla la ultima imagen del cargador. La
+OPL) se cuelga antes, queda en pantalla la última imagen del cargador. La
 llamada va en main() una sola vez y antes de ese bloque; quitarla o
-moverla no da ningun error de compilacion.
+moverla no da ningún error de compilación.
 
-El cronometro se abre en main() con empezar_tiempos_ps2(GRUPO_ARRANQUE)
+El cronómetro se abre en main() con empezar_tiempos_ps2(GRUPO_ARRANQUE)
 antes del primer paso: sin grupo abierto, marcar_tiempos_ps2 no anota nada.
 """
 import os
@@ -61,7 +61,7 @@ def cuerpo_de(lista, nombre):
 
 
 def llamadas(cuerpo, nombre):
-    """(posicion, linea) de cada llamada a 'nombre'."""
+    """(posición, línea) de cada llamada a 'nombre'."""
     return [(i, cuerpo[i][2]) for i in range(len(cuerpo) - 1)
             if cuerpo[i][:2] == ("id", nombre) and cuerpo[i + 1][:2] == ("sig", "(")]
 
@@ -69,7 +69,7 @@ def llamadas(cuerpo, nombre):
 def main():
     with open(os.path.join(RAIZ, ARRANQUE), encoding="utf-8") as f:
         cuerpo = cuerpo_de(list(fichas(f.read())), "main")
-    comprobar(cuerpo, "%s: no se encontro main()" % ARRANQUE)
+    comprobar(cuerpo, "%s: no se encontró main()" % ARRANQUE)
 
     depuracion = llamadas(cuerpo, "inicializar_depuracion")
     comprobar(len(depuracion) == 1, "%s: inicializar_depuracion() aparece %d veces en main(); va una"
@@ -78,17 +78,17 @@ def main():
     comprobar(reinicio, "%s: main() no llama a %s" % (ARRANQUE, " ni a ".join(REINICIO_IOP)))
     if depuracion and reinicio:
         comprobar(depuracion[0][0] < reinicio[0][0],
-                  "%s:%d: inicializar_depuracion() va antes del reinicio del IOP (linea %d)"
+                  "%s:%d: inicializar_depuracion() va antes del reinicio del IOP (línea %d)"
                   % (ARRANQUE, depuracion[0][1], reinicio[0][1]))
 
     grupo = [p for p in llamadas(cuerpo, "empezar_tiempos_ps2")
              if [f[:2] for f in cuerpo[p[0] + 2:p[0] + 4]] == [("id", "GRUPO_ARRANQUE"), ("sig", ")")]]
-    comprobar(grupo, "%s: main() no abre el cronometro con empezar_tiempos_ps2(GRUPO_ARRANQUE)" % ARRANQUE)
+    comprobar(grupo, "%s: main() no abre el cronómetro con empezar_tiempos_ps2(GRUPO_ARRANQUE)" % ARRANQUE)
     pasos = llamadas(cuerpo, "marcar_tiempos_ps2")
-    comprobar(pasos, "%s: main() no marca ningun paso del cronometro" % ARRANQUE)
+    comprobar(pasos, "%s: main() no marca ningún paso del cronómetro" % ARRANQUE)
     if grupo and pasos:
         comprobar(grupo[0][0] < pasos[0][0],
-                  "%s:%d: empezar_tiempos_ps2(GRUPO_ARRANQUE) va antes del primer paso (linea %d)"
+                  "%s:%d: empezar_tiempos_ps2(GRUPO_ARRANQUE) va antes del primer paso (línea %d)"
                   % (ARRANQUE, grupo[0][1], pasos[0][1]))
     print("%d comprobaciones, %d fallos" % (comprobaciones, fallos))
     sys.exit(1 if fallos else 0)

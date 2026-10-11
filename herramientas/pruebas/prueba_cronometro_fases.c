@@ -1,4 +1,4 @@
-// Grupos del cronometro de fases (cronometro_fases.c) en el PC
+// Grupos del cronómetro de fases (cronometro_fases.c) en el PC
 #include <stdio.h>
 #include <string.h>
 
@@ -60,7 +60,7 @@ int main(void) {
         int n = informe_tiempos_ps2(nombres_grupo[g], lineas, PASOS_MAX + 1);
 
         snprintf(cabecera, sizeof(cabecera), "%s (1): ", nombres_grupo[g]);
-        COMPROBACION(n == g + 2, "'%s': %d lineas en el informe, se esperaban %d", nombres_grupo[g], n, g + 2);
+        COMPROBACION(n == g + 2, "'%s': %d líneas en el informe, se esperaban %d", nombres_grupo[g], n, g + 2);
         COMPROBACION(n > 0 && strncmp(lineas[0], cabecera, strlen(cabecera)) == 0, "'%s': el informe dice '%s'",
                      nombres_grupo[g], n > 0 ? lineas[0] : "");
     }
