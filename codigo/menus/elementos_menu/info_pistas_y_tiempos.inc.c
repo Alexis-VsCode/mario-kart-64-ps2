@@ -207,8 +207,10 @@ void funcion_800A1FB0(MenuItem* parametro0) {
                 }
                 if (i != CONFIG_FILA_VOLVER) {
                     fijar_color_texto(CONFIG_COLOR_VALOR);
-                    imprimir_derecha_texto1(0x0000011C, 0x58 + (0x10 * i), texto_valor_configuracion(i, numero_config), 0,
-                                            0.75f, 0.75f);
+                    imprimir_modo_texto_1(config_columna_valor(0x0000011C,
+                                                               obtener_ancho_cadena(texto_valor_configuracion(i, numero_config)),
+                                                               0.75f),
+                                          0x58 + (0x10 * i), texto_valor_configuracion(i, numero_config), 0, 0.75f, 0.75f);
                 }
             }
             break;

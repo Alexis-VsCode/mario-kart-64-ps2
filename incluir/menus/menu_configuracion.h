@@ -24,6 +24,14 @@ enum FilaConfiguracion {
 // como las etiquetas. VERDE_TEXTO sale semitransparente y no se leía.
 #define CONFIG_COLOR_VALOR 3
 
+// Columna izquierda de un valor alineado a la derecha en «derecha». El modo de
+// texto alineado a la derecha del juego dibuja tenue; con esta columna el valor
+// se dibuja en el modo opaco de las etiquetas.
+static inline int config_columna_valor(int derecha, int ancho, float escala)
+{
+    return derecha - (int) (ancho * escala);
+}
+
 // Como OPCIONES: arriba y abajo se paran en la primera y la última fila
 static inline int config_mover_fila(int fila, int delta, int num_filas)
 {
