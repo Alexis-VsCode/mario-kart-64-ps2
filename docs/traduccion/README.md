@@ -11,7 +11,7 @@ Los nombres de carpetas, funciones, variables y comentarios del código ya está
 
 ## Estado de F10 (2026-10-11)
 
-La localización (F0 a F7), la sincronización con el original (F8, versión 1.0.0) y la versión 1.1.0 (F9, publicada en `45bbe10a`) están cerradas y en `main`. F10, la versión 1.2.0, está integrada en `feature/version-1.2.0` (`85010a1f`), con el PR en borrador [#5](https://github.com/Alexis-VsCode/mario-kart-64-ps2/pull/5). `BUILD_ID` sigue en 2026-10-11, la fecha de la versión.
+La localización (F0 a F7), la sincronización con el original (F8, versión 1.0.0) y la versión 1.1.0 (F9, publicada en `45bbe10a`) están cerradas y en `main`. F10, la versión 1.2.0, está integrada en `feature/version-1.2.0` (`fd6a4bb7`), con el PR en borrador [#5](https://github.com/Alexis-VsCode/mario-kart-64-ps2/pull/5). `BUILD_ID` sigue en 2026-10-11, la fecha de la versión.
 
 Hecho en F10:
 
@@ -34,7 +34,7 @@ Lo que no se puede comprobar sin hardware real ni TV está en los [límites decl
 | F6 | Recorrido en PCSX2 y captura en TV | Retirada por CC-12 |
 | F8 | Sincronización con el original, CI, correcciones y documentación | Cerrada: versión 1.0.0, en `main` (`af3bfa05`). [Acta](revisiones/2026-10-11-sincronizacion.md) |
 | F9 | Versión 1.1.0: CC-13 a CC-17 y deudas chicas | Cerrada: publicada en `45bbe10a`, en `main`. [Acta](revisiones/2026-10-11-version-1.1.0.md) |
-| F10 | Versión 1.2.0: CC-18 a CC-30, deuda técnica, menú de configuración y trucos, emulador en la CI | Integrada en `85010a1f`. Falta lo de [Pendiente](#pendiente). [Acta](revisiones/2026-10-11-version-1.2.0.md) |
+| F10 | Versión 1.2.0: CC-18 a CC-30, deuda técnica, menú de configuración y trucos, emulador en la CI | Integrada en `fd6a4bb7`. Falta lo de [Pendiente](#pendiente). [Acta](revisiones/2026-10-11-version-1.2.0.md) |
 
 El detalle por requisito y por commit está en [trazabilidad.md](trazabilidad.md); la deuda técnica, en [deuda.md](deuda.md).
 
@@ -99,7 +99,7 @@ El resto de objetivos y variables de `make` están en el [manual técnico](../ma
 
 ## Verificación de F10
 
-Comprobado el 2026-10-11 sobre `feature/version-1.2.0` en `85010a1f`.
+Comprobado el 2026-10-11 sobre `feature/version-1.2.0` en `fd6a4bb7`.
 
 - **Especificación → trazabilidad.** `especificacion.md` define 58 requisitos (`R-FUE` 9, `R-TXT` 8, `R-MC` 4, `R-TEX` 8, `R-PORT` 5, `R-INF` 7, `R-GOB` 8, `R-VID` 5, `R-TRU` 4). Los 58 tienen fila en [trazabilidad.md](trazabilidad.md) y la lista coincide con el comando de la [verificación de F8](#verificación-de-f8). Estado: 51 hechos y 7 parciales (R-GOB-01, R-GOB-02, R-GOB-03, R-GOB-04, R-GOB-06, R-GOB-07 y R-GOB-08). R-TEX-02 y R-PORT-03 pasan a hechos; R-GOB-07 pasa a parcial por D-25, y R-GOB-08 sigue parcial hasta integrar la documentación, como en F8 y F9.
 - **Pruebas.** `PS2SDK= make test` termina con 0: las 44 pruebas que imprimen su resumen dan 0 fallos y el tope de líneas, 0 archivos por encima.

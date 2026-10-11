@@ -29,7 +29,7 @@ Es un proyecto sin fines de lucro, educativo, de preservación y de apoyo a la c
 2. **TDD con mutaciones.** Cada prueba se ve en rojo antes del cambio y se demuestra que detecta una mutación del código: por ejemplo, `176651ed` registra el rojo de `prueba_cronometro_fases.c` con `GRUPOS_MAX` 4 y la mutación a 5.
 3. **Autor distinto del revisor.** Cada fase se revisa por separado y deja un acta en [revisiones](traduccion/revisiones/). Lo que la revisión encuentra y no se arregla en el momento pasa a la [deuda](traduccion/deuda.md) con un identificador.
 4. **Ramas en paralelo.** La 1.2.0 se desarrolló en 14 ramas `v120/*` (contrato, memoria, imagen, menú, trucos, deudas, manifiesto, texturas, ci-emulador, texturas-pistas y cuatro de texturas traducidas), cada una con un alcance cerrado.
-5. **Integración con `merge --no-ff`.** Cada rama entra con su propio commit de merge, de `226a3ce3` (contrato) a `85010a1f` (tx-cruce), y la historia conserva qué cambió en cada bloque.
+5. **Integración con `merge --no-ff`.** Cada rama entra con su propio commit de merge, de `226a3ce3` (contrato) a `fd6a4bb7` (tx-cruce), y la historia conserva qué cambió en cada bloque.
 
 ## Observabilidad
 

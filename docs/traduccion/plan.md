@@ -5,7 +5,7 @@ Este documento dice cómo se cumplió la [especificación](especificacion.md) y 
 - **F0 a F7** (localización, hasta 2026-09-29) están cerradas y se conservan como histórico: sus ramas se fusionaron en `feature/idioma-espanol`, que se fusionó a `main` (`3f43c005`). F6 se retiró por [CC-12](cambios.md).
 - **F8** (sincronización con el original, 2026-10-11) está cerrada: se integró en `feature/sincronizacion-upstream`, se publicó en `900c9be3` y está en `main` (`af3bfa05`), la versión 1.0.0.
 - **F9** (versión 1.1.0, 2026-10-11) está cerrada: se integró en `feature/version-1.1.0`, se publicó en `45bbe10a` y está en `main`.
-- **F10** (versión 1.2.0, 2026-10-11) está integrada en `feature/version-1.2.0` (`85010a1f`). Lo que queda por hacer está en [README.md § Pendiente](README.md#pendiente).
+- **F10** (versión 1.2.0, 2026-10-11) está integrada en `feature/version-1.2.0` (`fd6a4bb7`). Lo que queda por hacer está en [README.md § Pendiente](README.md#pendiente).
 
 ## 1. Principios
 
@@ -138,10 +138,10 @@ main (fc17498f)
      │   └─ v120/texturas-pistas            CC-29, clasificación              → 616213c8
      │       └─ (df9aea49)
      │           ├─ v120/tx-bienvenida      BIENVENIDOS                       → 3017fe10
-     │           ├─ v120/tx-ya              YA                                → 19c6095a
-     │           ├─ v120/tx-emblemas        1J a 4J                           → 843906d1
-     │           └─ v120/tx-cruce           PASO A NIVEL                      → 85010a1f
-     └─ (85010a1f)
+     │           ├─ v120/tx-ya              YA                                → a087fc2a
+     │           ├─ v120/tx-emblemas        1J a 4J                           → 56401560
+     │           └─ v120/tx-cruce           PASO A NIVEL                      → fd6a4bb7
+     └─ (fd6a4bb7)
          └─ v120/doc-traduccion             docs/traduccion y acta de F10
 ```
 
@@ -170,7 +170,7 @@ git log --format='%ae' origin/main..<rama> | sort -u
 | F7 | INTEGRACIÓN | Integración, regeneración de `build/` y `compilaciones/`, sección «Idioma» del README y requisitos del README sin `iconv` obligatorio | `feature/idioma-espanol` | Definición de terminado de entonces (§8) | Cerrada (histórico): merges, `dda9a5f` (job `publicar`, CI 36518116212) y fusión a `main` (`3f43c005`) |
 | F8 | INTEGRACIÓN, autores por rama y REVISIÓN ×2 | Sincronización con el original hasta `ae93f71` (CC-08), CI con Release y limpieza de ramas (CC-09), correcciones con evidencia (CC-11), pendientes técnicos de F3 y F4 y documentación (CC-12) | `feature/sincronizacion-upstream` y `sinc/*` | [Definition of Done](../../CONTRIBUTING.md) y [acta de revisión](revisiones/2026-10-11-sincronizacion.md) sin hallazgos Alta o Media abiertos, salvo el de G5 | Cerrada: publicación `900c9be3` y fusión a `main` (`af3bfa05`), versión 1.0.0. El hallazgo de G5 se resolvió en F9 (CC-17) |
 | F9 | INTEGRACIÓN, autores por rama y REVISIÓN ×2 | Versión 1.1.0: Memory Card (CC-13), zona muerta del stick (CC-14), región de la consola (CC-15), publicación comprobada y ELF monolítico (CC-16), prueba del alfa con tramado (CC-17) y deudas D-01, D-02 y D-09 a D-15 | `feature/version-1.1.0` y `v110/*` | [Definition of Done](../../CONTRIBUTING.md) y [acta de revisión](revisiones/2026-10-11-version-1.1.0.md) sin hallazgos Alta o Media abiertos | Cerrada: publicada en `45bbe10a` y en `main` |
-| F10 | INTEGRACIÓN, autores por rama y REVISIÓN ×2 | Versión 1.2.0: opciones del port (CC-18), menú CONFIGURACIÓN Y TRUCOS (CC-19), imagen (CC-20, CC-21), trucos (CC-22 a CC-25), emulador en la CI (CC-26), deuda técnica (CC-27), texturas (CC-28, CC-29) y portafolio (CC-30) | `feature/version-1.2.0` y `v120/*` | [Definition of Done](../../CONTRIBUTING.md) y [acta de revisión](revisiones/2026-10-11-version-1.2.0.md) sin hallazgos Alta o Media abiertos | Integrada en `85010a1f`, CI [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616). Falta la documentación, la publicación (<<PUBLICACION>>), la fusión a `main`, la Release `v1.2.0` y la limpieza de ramas ([README.md § Pendiente](README.md#pendiente)) |
+| F10 | INTEGRACIÓN, autores por rama y REVISIÓN ×2 | Versión 1.2.0: opciones del port (CC-18), menú CONFIGURACIÓN Y TRUCOS (CC-19), imagen (CC-20, CC-21), trucos (CC-22 a CC-25), emulador en la CI (CC-26), deuda técnica (CC-27), texturas (CC-28, CC-29) y portafolio (CC-30) | `feature/version-1.2.0` y `v120/*` | [Definition of Done](../../CONTRIBUTING.md) y [acta de revisión](revisiones/2026-10-11-version-1.2.0.md) sin hallazgos Alta o Media abiertos | Integrada en `fd6a4bb7`, CI [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616). Falta la documentación, la publicación (<<PUBLICACION>>), la fusión a `main`, la Release `v1.2.0` y la limpieza de ramas ([README.md § Pendiente](README.md#pendiente)) |
 
 ### F1: infraestructura (hecha en `idioma/infra`, ya fusionada)
 
@@ -314,7 +314,7 @@ El responsable del proyecto aprobó el plan de F10 el 2026-10-11, con la maqueta
 3. **Integración** con `--no-ff`, en el orden de la tabla. Los hallazgos que pedían tocar zonas compartidas se resolvieron en INTEGRACIÓN: `91c7254e` (DESBLOQUEAR TODO al reconstruir el menú), `3bbac652` (opciones escritas antes de subir su versión), `3cf36394` (pruebas nuevas en `make test`) y `979fcf14` (el emulador exige «vídeo: PMODE 8046»).
 4. **Texturas sin revisar** (CC-29): clasificación en `v120/texturas-pistas` y traducción de las 15 pendientes en cuatro ramas paralelas.
 5. **CI** en verde: [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616), con el job del emulador.
-6. **Documentación** en `v120/doc-traduccion` y las demás ramas de documentación, que salen de `85010a1f`.
+6. **Documentación** en `v120/doc-traduccion` y las demás ramas de documentación, que salen de `fd6a4bb7`.
 
 | Rama | Contenido | Commits | Integración |
 |---|---|---|---|
@@ -329,9 +329,9 @@ El responsable del proyecto aprobó el plan de F10 el 2026-10-11, con la maqueta
 | `v120/ci-emulador` | Job del emulador, tope de la ROM, build incremental y fuente de libdebug (CC-26; D-03, D-04, D-07) | `7491fd24`, `98a042b7`, `a7bae5d4`, `570a0a12`, `99fa9b5c`, `a27fd80f`, `2c3a8b29`, `04adf1f6`, `f48b7a41`, `68bc6dce` | `10f290a3` |
 | `v120/texturas-pistas` | Clasificación de las texturas sin revisar (CC-29) | `a6fa679e`, `4216877e`, `431c3186`, `df9aea49` | `616213c8` |
 | `v120/tx-bienvenida` | BIENVENIDOS (D-24) | `fe010d2a`, `cb32c871` | `3017fe10` |
-| `v120/tx-ya` | YA (D-24) | `bb31482f`, `3505ff26` | `19c6095a` |
-| `v120/tx-emblemas` | 1J a 4J (D-24) | `bc4516de`, `caf7756f` | `843906d1` |
-| `v120/tx-cruce` | PASO A NIVEL (D-24) | `f7866dd3`, `625105f4` | `85010a1f` |
+| `v120/tx-ya` | YA (D-24) | `bb31482f`, `3505ff26` | `a087fc2a` |
+| `v120/tx-emblemas` | 1J a 4J (D-24) | `bc4516de`, `caf7756f` | `56401560` |
+| `v120/tx-cruce` | PASO A NIVEL (D-24) | `f7866dd3`, `625105f4` | `fd6a4bb7` |
 
 ## 5. Ciclo por bloque
 

@@ -1,6 +1,6 @@
 # Trazabilidad
 
-Relaciona cada requisito de la [especificación](especificacion.md) con su prueba, sus commits y su evidencia. Estado a 2026-10-11, sobre `feature/version-1.2.0` en `85010a1f`: la localización de F0 a F7 (cerrada en `dda9a5f`), la sincronización con el original de F8 (cerrada en `main`, `af3bfa05`), la versión 1.1.0 de F9 (publicada en `45bbe10a`) y la versión 1.2.0 de F10.
+Relaciona cada requisito de la [especificación](especificacion.md) con su prueba, sus commits y su evidencia. Estado a 2026-10-11, sobre `feature/version-1.2.0` en `fd6a4bb7`: la localización de F0 a F7 (cerrada en `dda9a5f`), la sincronización con el original de F8 (cerrada en `main`, `af3bfa05`), la versión 1.1.0 de F9 (publicada en `45bbe10a`) y la versión 1.2.0 de F10.
 
 ## Cómo se completa
 
@@ -47,7 +47,7 @@ Relaciona cada requisito de la [especificación](especificacion.md) con su prueb
   - los 38 commits son de Alexis Barrera;
   - CI, publicación y Release `v1.1.0` de F9 (commit de publicación, ejecución, tamaño y SHA-256 de la ISO y del ELF monolítico): commit de publicación `45bbe10a`, ejecución [38149880694](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38149880694), ISO de 13 381 632 bytes (unos 12,8 MiB) con SHA-256 `e2f3abfea88cc7e61f16b2254934697ace926de77d74428647c07c9e1985afea`; el ELF monolítico, con su suma en el `SHA256SUMS` de la Release `v1.1.0`
 
-- **F10** (comprobado el 2026-10-11 sobre `main..feature/version-1.2.0`, en `85010a1f`):
+- **F10** (comprobado el 2026-10-11 sobre `main..feature/version-1.2.0`, en `fd6a4bb7`):
   - `PS2SDK= make test` termina con 0: las 44 pruebas que imprimen su resumen dan 0 fallos y el tope de líneas, 0 archivos por encima;
   - 113 commits (99 más 14 merges), todos de Alexis Barrera; el comando de R-GOB-01 sale vacío;
   - `git log --name-only … -- build compilaciones` sale vacío y `git log --format='%(trailers)'` también;
@@ -320,13 +320,13 @@ Los commits de `feature/version-1.2.0` sobre `main`, por orden de integración. 
 | `3017fe10` | feature | merge | Integra `v120/tx-bienvenida` | — | — | No aplica |
 | `bb31482f` | tx-ya | test | Bajar a 14 las texturas pendientes por el cartel YA de Mario Raceway | CC-29, R-TEX-02 (D-24) | `prueba_texturas_es.py` | `TEXTURAS_PENDIENTES` a 15: falla dentro de `make test` |
 | `3505ff26` | tx-ya | feat | Traducir a YA el cartel GO de Mario Raceway con la Y y la A dibujadas en su fuente | CC-29 (D-24) | `prueba_texturas_es.py` | — |
-| `19c6095a` | feature | merge | Integra `v120/tx-ya` | — | — | No aplica |
+| `a087fc2a` | feature | merge | Integra `v120/tx-ya` | — | — | No aplica |
 | `bc4516de` | tx-emblemas | test | Exigir ci8 con su paleta y bajar las pendientes a 11 por los emblemas 1J a 4J (CC-29) | CC-29, R-TEX-02 (D-24) | `prueba_texturas_es.py` | — |
 | `caf7756f` | tx-emblemas | feat | Traducir los emblemas 1P a 4P a 1J a 4J con ci8 y su paleta (CC-29) | CC-29 (D-24) | `prueba_texturas_es.py` | PNG de 1J sobre el de 2J: falla |
-| `843906d1` | feature | merge | Integra `v120/tx-emblemas` | — | — | No aplica |
+| `56401560` | feature | merge | Integra `v120/tx-emblemas` | — | — | No aplica |
 | `f7866dd3` | tx-cruce | test | Exigir PASO / A NIVEL en diagonal en las señales de cruce y bajar a 7 las texturas pendientes | CC-29, R-TEX-02 (D-24) | `prueba_texturas_es.py` | — |
 | `625105f4` | tx-cruce | feat | Traducir a PASO / A NIVEL la cruz de San Andrés de Kalimari Desert | CC-29 (D-24) | `prueba_texturas_es.py` | — |
-| `85010a1f` | feature | merge | Integra `v120/tx-cruce` | — | — | No aplica |
+| `fd6a4bb7` | feature | merge | Integra `v120/tx-cruce` | — | — | No aplica |
 
 `91c7254e`, `3bbac652`, `3cf36394` y `979fcf14` son de INTEGRACIÓN: resuelven hallazgos de la revisión que pedían tocar zonas compartidas ([acta de F10 §12](revisiones/2026-10-11-version-1.2.0.md#12-integración)).
 
@@ -348,8 +348,8 @@ Los commits de `feature/version-1.2.0` sobre `main`, por orden de integración. 
 | D-21 | `289e9c78`, `2c83c0f8`, `1727504e` | Ninguna orden a libmc después de una vencida |
 | D-22 | `00b25b9d`, `b38d42c4`, `9a92bc41` | «así que», «más de lo pedido», «como sale de fread()» y «1 fallo» en singular |
 | D-24 | `bb31482f`, `3505ff26`, `fe010d2a`, `cb32c871`, `bc4516de`, `caf7756f`, `f7866dd3`, `625105f4` | YA, BIENVENIDOS, 1J a 4J y PASO A NIVEL; `TEXTURAS_PENDIENTES` en 0 |
-| D-23 | `128c6e87`, `483cc7de` | `funcion_800652D4` devuelve si cargó la matriz y sus 30 llamadores se saltan el dibujo si no; `prueba_reserva_matrices.py` lo exige |
-| D-25 | `259a000d`, `667b37bf` | `prueba_textos_port.py` vigila que código, cabeceras y herramientas no citen identificadores de requisito ni de deuda; se limpiaron 24 líneas |
+| D-23 | `076e7cc2`, `041eb862` | `funcion_800652D4` devuelve si cargó la matriz y sus 30 llamadores se saltan el dibujo si no; `prueba_reserva_matrices.py` lo exige |
+| D-25 | `e1a3d746`, `ecc00c42` | `prueba_textos_port.py` vigila que código, cabeceras y herramientas no citen identificadores de requisito ni de deuda; se limpiaron 24 líneas |
 
 ## Requisitos
 
@@ -409,7 +409,7 @@ Los commits de `feature/version-1.2.0` sobre `main`, por orden de integración. 
 | R-GOB-02 Refactor separado | `comparar_preprocesado.py`; job `mismo-binario`; caracterización | `418ea18`, `1c9545d`, `d87d14f`, `15136d3`, `3db4b80`, `9d2b711`, `40ed241`, `26a0bbc`, `4da5ab9`, `47a7371` | parcial: falta la prueba registrada de `15136d3` | F2: ver «Commits de F1–F3» y CI n.º 5. `9d2b711`, `40ed241` y `26a0bbc`: `comparar_preprocesado.py` da `igual` (en su mensaje). `3db4b80`: caracterización con la huella de la fuente ASCII. `4da5ab9` y `47a7371`: verificación en `6794945` ([CC-06](cambios.md)) |
 | R-GOB-03 Rojo demostrado y mutación restaurada | salidas en el PR; `git diff --quiet` | todas | parcial: rojo registrado en F1–F3 (5 commits) y en `da631b0` (8 bloques de CADENAS); mutaciones solo en `4bf57f3`, `d28f950` y `da631b0`. En F8 y F9, rojo y mutación en cada commit con prueba; E4, E5 y L2 (F8) y la parte de libmc de CC-13, el registro de la región, D-14 y la condición de la cruceta (F9) sin arnés de PC, con evidencia de código. G5 tiene prueba desde F9 (`d41996f7`) | Tablas de commits de este documento; actas de [F8](revisiones/2026-10-11-sincronizacion.md) y [F9](revisiones/2026-10-11-version-1.1.0.md) |
 | R-GOB-04 Revisión por rol distinto | registro de revisión | — | parcial: F1–F7 sin registro. F8, cerrada en `main` (`af3bfa05`) con su acta; su hallazgo Media de G5 se resolvió en F9 con la prueba de CC-17. F9 con acta, sin hallazgos Alta abiertos; los dos Media que piden texto en el manual de usuario (60 Hz en una consola PAL y `sha256sum -c --ignore-missing`) se cierran al integrar `v110/doc-manual`. F10 con [acta](revisiones/2026-10-11-version-1.2.0.md), sin hallazgos Alta ni Media abiertos | Actas de [F8](revisiones/2026-10-11-sincronizacion.md) y [F9](revisiones/2026-10-11-version-1.1.0.md) |
-| R-GOB-05 Árbol limpio | `git status --short`; `git log -- build compilaciones` | todas | hecho | Solo los commits de publicación tocan `build/` y `compilaciones/`: `dda9a5f` en F7 y `900c9be3` en F8. En F9 (`a29bd920`), `git log --name-only origin/main..HEAD -- build compilaciones` sale vacío. En F10 (`85010a1f`) sale vacío; la publicación es <<PUBLICACION>> |
+| R-GOB-05 Árbol limpio | `git status --short`; `git log -- build compilaciones` | todas | hecho | Solo los commits de publicación tocan `build/` y `compilaciones/`: `dda9a5f` en F7 y `900c9be3` en F8. En F9 (`a29bd920`), `git log --name-only origin/main..HEAD -- build compilaciones` sale vacío. En F10 (`fd6a4bb7`) sale vacío; la publicación es <<PUBLICACION>> |
 | R-GOB-06 Stage por ruta | `git diff --stat` en la revisión | — | parcial: F1–F7 sin registro; en F8 y F9, REVISIÓN comprobó con el diff de tres puntos que cada rama solo toca sus archivos | Actas de [F8](revisiones/2026-10-11-sincronizacion.md) y [F9](revisiones/2026-10-11-version-1.1.0.md) |
-| R-GOB-07 Sin identificadores en el código | `grep` de identificadores de requisito | todas | parcial: en F10 quedan 8 líneas en 4 archivos de `herramientas/` ([deuda.md](deuda.md), D-25) | Salida vacía en `dda9a5f`, `d5f95cc5` y `a29bd920`. En `85010a1f`: `herramientas/ci/comprobar_incremental.sh`, `herramientas/ci/tope_rom.py`, `herramientas/pruebas/prueba_tope_rom.py` y `herramientas/pruebas/prueba_texturas_es.py` |
+| R-GOB-07 Sin identificadores en el código | `grep` de identificadores de requisito | todas | parcial: en F10 quedan 8 líneas en 4 archivos de `herramientas/` ([deuda.md](deuda.md), D-25) | Salida vacía en `dda9a5f`, `d5f95cc5` y `a29bd920`. En `fd6a4bb7`: `herramientas/ci/comprobar_incremental.sh`, `herramientas/ci/tope_rom.py`, `herramientas/pruebas/prueba_tope_rom.py` y `herramientas/pruebas/prueba_texturas_es.py` |
 | R-GOB-08 Documentación sincronizada | revisión del PR | — | parcial: en F8, `sinc/manual`, `sinc/proceso` y `sinc/doc-traduccion` se integraron y están en `main` (`af3bfa05`). En F9 falta integrar `v110/doc-manual` y `v110/doc-traduccion` en `feature/version-1.1.0`; pasa a hecho con esa integración, antes de publicar, como en F8. En F10 pasa a hecho cuando se integren las ramas de documentación (`v120/doc-traduccion` y las demás), antes de publicar | Sincronización de F7; en F8, la documentación de [CC-12](cambios.md); en F9, CC-13 a CC-17 con commit y aprobación, el [acta](revisiones/2026-10-11-version-1.1.0.md) y [deuda.md](deuda.md); en F10, CC-18 a CC-29 con commit y aprobación, CC-30, el [acta](revisiones/2026-10-11-version-1.2.0.md) y los [límites declarados](especificacion.md#9-límites-declarados) |

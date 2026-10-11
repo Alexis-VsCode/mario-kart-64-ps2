@@ -3,7 +3,7 @@
 - **Estado:** implementada e integrada. Lo que queda por hacer está en [README.md § Pendiente](README.md#pendiente) y la deuda técnica, en [deuda.md](deuda.md).
 - **Sincronizada con** `feature/sincronizacion-upstream` en `d5f95cc5` (2026-10-11): la localización de F0 a F7, ya en `main` (`3f43c005`), más la sincronización con el original hasta `ae93f71` y las ramas de F8 (`sinc/ci`, `sinc/graficos-g5`, `sinc/sistema`, `sinc/pendientes` y `sinc/panel`). Desde CC-12, los criterios que dependían del recorrido de F6 se aceptan con lo que comprueban las pruebas del PC y la CI.
 - **Al día con** `feature/version-1.1.0` en `a29bd920` (F9, versión 1.1.0): de los requisitos que declaran [CC-13 a CC-17](cambios.md), cambia el texto de R-PORT-02 (CC-15) y R-INF-05 (CC-16); el de R-MC-01 y R-MC-02 (CC-13) no cambia y su evidencia nueva está en [trazabilidad.md](trazabilidad.md). R-GOB-01 anota un hallazgo de la integración (`b780d986`), no un cambio de un CC; el resto, en el registro de cambios.
-- **Al día con** `feature/version-1.2.0` en `85010a1f` (F10, versión 1.2.0): [CC-18 a CC-29](cambios.md) añaden R-FUE-09, R-MC-04, R-INF-07, R-VID-01 a R-VID-05 y R-TRU-01 a R-TRU-04, y cambian R-TEX-02, R-TEX-03, R-TEX-08, R-PORT-03 y R-INF-05. Lo que no se puede comprobar sin hardware está en [§9](#9-límites-declarados).
+- **Al día con** `feature/version-1.2.0` en `fd6a4bb7` (F10, versión 1.2.0): [CC-18 a CC-29](cambios.md) añaden R-FUE-09, R-MC-04, R-INF-07, R-VID-01 a R-VID-05 y R-TRU-01 a R-TRU-04, y cambian R-TEX-02, R-TEX-03, R-TEX-08, R-PORT-03 y R-INF-05. Lo que no se puede comprobar sin hardware está en [§9](#9-límites-declarados).
 
 ## 1. Objetivo
 
@@ -794,7 +794,7 @@ Los comentarios explican un contrato o una invariante. Las funciones de varios p
   grep -rnE --exclude-dir=__pycache__ 'R-(FUE|TXT|MC|TEX|PORT|INF|GOB|VID|TRU)-[0-9]' codigo incluir herramientas
   ```
 
-- **Prueba:** `prueba_textos_port.py` (desde `259a000d`) recorre `codigo/`, `incluir/` y `herramientas/` y falla si encuentra un identificador de requisito, `CC-N` o `D-NN`. Antes se comprobaba a mano con el comando; en `85010a1f` encontraba 8 líneas, ya limpias en `667b37bf`.
+- **Prueba:** `prueba_textos_port.py` (desde `e1a3d746`) recorre `codigo/`, `incluir/` y `herramientas/` y falla si encuentra un identificador de requisito, `CC-N` o `D-NN`. Antes se comprobaba a mano con el comando; en `fd6a4bb7` encontraba 8 líneas, ya limpias en `ecc00c42`.
 
 **R-GOB-08. La documentación se actualiza en la misma iteración.**
 

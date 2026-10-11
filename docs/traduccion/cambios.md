@@ -845,8 +845,8 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Aprobación:**
   - responsable del proyecto: aprobado (2026-10-11);
   - REVISIÓN: técnica de `v120/texturas-pistas`, con cambios requeridos, resuelto en `431c3186` y `df9aea49`; las cuatro ramas de texturas traducidas, aprobadas con observaciones después de repetir las mutaciones ([acta de F10](revisiones/2026-10-11-version-1.2.0.md#10-v120texturas-pistas-clasificación-de-las-texturas-sin-revisar-cc-29) y [§11](revisiones/2026-10-11-version-1.2.0.md#11-texturas-traducidas-v120tx-bienvenida-v120tx-ya-v120tx-emblemas-y-v120tx-cruce-cc-29));
-  - INTEGRACIÓN: merges `616213c8`, `3017fe10`, `19c6095a`, `843906d1` y `85010a1f` (2026-10-11).
-- **Commit:** `0f15c448` (registro), `a6fa679e`, `4216877e`, `431c3186`, `df9aea49`, `bb31482f`, `3505ff26`, `fe010d2a`, `cb32c871`, `bc4516de`, `caf7756f`, `f7866dd3`, `625105f4` y los merges `616213c8`, `3017fe10`, `19c6095a`, `843906d1` y `85010a1f`.
+  - INTEGRACIÓN: merges `616213c8`, `3017fe10`, `a087fc2a`, `56401560` y `fd6a4bb7` (2026-10-11).
+- **Commit:** `0f15c448` (registro), `a6fa679e`, `4216877e`, `431c3186`, `df9aea49`, `bb31482f`, `3505ff26`, `fe010d2a`, `cb32c871`, `bc4516de`, `caf7756f`, `f7866dd3`, `625105f4` y los merges `616213c8`, `3017fe10`, `a087fc2a`, `56401560` y `fd6a4bb7`.
 
 ### CC-30: portafolio: aviso legal reforzado, autoría, caso de estudio, página web y licencia MIT de los aportes
 

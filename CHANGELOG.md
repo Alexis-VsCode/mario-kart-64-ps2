@@ -42,8 +42,8 @@ Versión con el menú de configuración y trucos, las opciones de imagen, la ver
 - **Reserva `efecto_mtx`:** los menús, los globos, las partículas, el kart y los fuegos artificiales no escriben fuera de ella con la reserva llena (`93231a07`, `64805e8c`, `a989c0f5`, `d2ce4c18`; D-08).
 - Las bandas no desbordan MAGH (`d5ee5381`); 200CC no escribe un empuje sin efecto (`a6397211`); RIVALES SIN VENTAJA respeta al rival designado (`4c0323bf`).
 - D-19: la prueba de la región separa la guarda de largo (`0c962092`). D-22: erratas y «1 fallo» en singular (`9a92bc41`).
-- D-23: con la reserva de matrices llena, la partícula se deja de dibujar en lugar de salir con la matriz anterior (`483cc7de`).
-- D-25: el código y las herramientas ya no citan identificadores de requisito, y `prueba_textos_port.py` lo vigila (`259a000d`, `667b37bf`).
+- D-23: con la reserva de matrices llena, la partícula se deja de dibujar en lugar de salir con la matriz anterior (`041eb862`).
+- D-25: el código y las herramientas ya no citan identificadores de requisito, y `prueba_textos_port.py` lo vigila (`e1a3d746`, `ecc00c42`).
 
 ### Conocido
 
