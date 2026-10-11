@@ -11,7 +11,7 @@ Versión 1.1.0, del 2026-10-11. Qué cambia respecto a la 1.0.0: [CHANGELOG.md](
 **Verificado en este repositorio, con pruebas y CI:**
 
 - `make test` en el PC, sin el SDK de PS2: 31 pruebas y el comprobador del tope de líneas, 0 fallos. Comprueban, entre otras cosas, cada texto en español byte a byte y por tinta contra la zona segura del televisor, la tabla de glifos, las texturas en español, la compatibilidad de la fuente con la N64, la conversión del stick, la región leída de la BIOS y la copia de la Memory Card que se pisa al guardar ([detalle](docs/manual/tecnico.md#pruebas)).
-- CI en verde: pruebas en el PC y compilación para PS2 de las variantes release, `DEBUG=1` y `DEV=1` con la ISO. Ejecución de la versión 1.1.0: <<PUBLICACION>>.
+- CI en verde: pruebas en el PC y compilación para PS2 de las variantes release, `DEBUG=1` y `DEV=1` con la ISO. Ejecución de la versión 1.1.0: [38149880694](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38149880694).
 
 **Según el port original:** probado en **PCSX2** (con BIOS) y en **Play!**.
 
@@ -42,7 +42,7 @@ El detalle por áreas está en [docs/manual/creditos.md](docs/manual/creditos.md
 
 | Archivo | Tamaño | SHA-256 |
 |---|---|---|
-| `SLUS_999.99.SuperMarioKart64.iso` | <<PUBLICACION>> | <<PUBLICACION>> |
+| `SLUS_999.99.SuperMarioKart64.iso` | 13 381 632 bytes (unos 12,8 MiB) | `e2f3abfea88cc7e61f16b2254934697ace926de77d74428647c07c9e1985afea` |
 | `SLUS_999.99.monolitico.elf` | En la lista de archivos de la Release | Su línea de `SHA256SUMS` en la Release |
 
 Cómo comprobar los archivos y ejecutarlos en PCSX2, Play!, OPL o uLaunchELF: [manual de usuario](docs/manual/usuario.md).

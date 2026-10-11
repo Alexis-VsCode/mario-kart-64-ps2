@@ -45,7 +45,7 @@ Relaciona cada requisito de la [especificación](especificacion.md) con su prueb
   - el comando de R-GOB-01 devuelve solo `b780d986`, de tipo `style` ([acta de F9 §7](revisiones/2026-10-11-version-1.1.0.md#7-integración));
   - `git log --name-only … -- build compilaciones` sale vacío, `git log --format='%(trailers)'` también, y el grep de R-GOB-07 sale vacío;
   - los 38 commits son de Alexis Barrera;
-  - CI, publicación y Release `v1.1.0` de F9 (commit de publicación, ejecución, tamaño y SHA-256 de la ISO y del ELF monolítico): <<PUBLICACION>>
+  - CI, publicación y Release `v1.1.0` de F9 (commit de publicación, ejecución, tamaño y SHA-256 de la ISO y del ELF monolítico): commit de publicación `45bbe10a`, ejecución [38149880694](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38149880694), ISO de 13 381 632 bytes (unos 12,8 MiB) con SHA-256 `e2f3abfea88cc7e61f16b2254934697ace926de77d74428647c07c9e1985afea`; el ELF monolítico, con su suma en el `SHA256SUMS` de la Release `v1.1.0`
 
 ## Commits de F1–F3
 

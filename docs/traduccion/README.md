@@ -31,21 +31,21 @@ Sin verificar en consola real: el tacto del stick, la lectura de ROMVER por las 
 | F0–F5, F7 | Documentación, infraestructura, fuente, cadenas, texturas, pantallas del port, revisión e integración de la localización | Cerradas (histórico), en `main`. Detalle en [plan.md §4](plan.md#4-fases) |
 | F6 | Recorrido en PCSX2 y captura en TV | Retirada por CC-12 |
 | F8 | Sincronización con el original, CI, correcciones y documentación | Cerrada: versión 1.0.0, en `main` (`af3bfa05`). [Acta](revisiones/2026-10-11-sincronizacion.md) |
-| F9 | Versión 1.1.0: CC-13 a CC-17 y deudas chicas | Integrada en `feature/version-1.1.0`. Falta lo de [Pendiente](#pendiente) |
+| F9 | Versión 1.1.0: CC-13 a CC-17 y deudas chicas | Integrada y publicada (`45bbe10a`). Falta lo de [Pendiente](#pendiente) |
 
 El detalle por requisito y por commit está en [trazabilidad.md](trazabilidad.md); la deuda técnica, en [deuda.md](deuda.md).
 
 ## Pendiente
 
-1. **Documentación de F9:** integrar `v110/doc-manual` (manual de usuario con el aviso de los 60 Hz y `sha256sum -c --ignore-missing`, notas de la versión y `CHANGELOG.md`) y `v110/doc-traduccion` en `feature/version-1.1.0`.
-2. **Publicación:** job `publicar` sobre `feature/version-1.1.0`. El commit de publicación, la ejecución y las sumas quedan en [trazabilidad.md](trazabilidad.md#evidencia-común).
-3. **Fusión a `main`** de `feature/version-1.1.0`.
-4. **Release v1.1.0:** job `release` sobre `main`, con la ISO versionada, el ELF monolítico y las notas de `docs/versiones/v1.1.0.md`, que tienen que llevar el SHA-256 de la ISO o el job falla ([CC-16](cambios.md)).
-5. **Limpieza de ramas:** job `limpiar-ramas` sobre `main`. Al final, `git ls-remote --heads origin` lista solo `main` ([CC-09](cambios.md)).
+1. **Fusión a `main`** de `feature/version-1.1.0` (fast-forward, con el PR #4 como registro).
+2. **Release v1.1.0:** job `release` sobre `main`, con la ISO versionada, el ELF monolítico y las notas de [docs/versiones/v1.1.0.md](../versiones/v1.1.0.md), que llevan el SHA-256 de la ISO ([CC-16](cambios.md)).
+3. **Limpieza de ramas:** job `limpiar-ramas` sobre `main`. Al final, `git ls-remote --heads origin` lista solo `main` ([CC-09](cambios.md)).
+
+La documentación de F9 ya está integrada y la publicación está hecha: commit `45bbe10a`, con los datos en [trazabilidad.md](trazabilidad.md#evidencia-común).
 
 ## Próximo paso
 
-Integrar la documentación de F9 y lanzar `publicar`; después, fusionar a `main` y lanzar `release` y `limpiar-ramas`, en ese orden (ver el [manual técnico](../manual/tecnico.md)). El código de F9 ya está integrado y revisado, y `make test` termina con 0 en `a29bd920`.
+Fusionar a `main` y lanzar `release` y después `limpiar-ramas`, en ese orden (ver el [manual técnico](../manual/tecnico.md)). El código y la documentación de F9 están integrados y revisados, y la publicación `45bbe10a` tiene la ISO de la versión 1.1.0.
 
 ## Punto de partida (verificado en `main`, `0e7b7d5`)
 
