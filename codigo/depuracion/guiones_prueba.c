@@ -846,7 +846,7 @@ static void ejecutar_paso(OSContPad *relleno)
                     graba_quedan = st->count;
                     graba_indice = 0;
                 }
-                probar_registro("graba %s cada %d frames, %d capturas", st->text, (int) st->value, (int) st->count);
+                probar_registro("graba %s cada %d cuadros, %d capturas", st->text, (int) st->value, (int) st->count);
                 break;
             case OP_DISPARADOR: {
                 int quien = st->count > 0 ? st->count - 1 : s_relleno;
@@ -859,7 +859,7 @@ static void ejecutar_paso(OSContPad *relleno)
                 EstadisticasMemoria m;
 
                 consultar_memoria(&m);
-                probar_registro("memoria: monton libre %u KB, pool del juego libre %u KB, audio %u/%u KB, texturas %u (%u/%u KB)",
+                probar_registro("memoria: montón libre %u KB, reserva del juego libre %u KB, audio %u/%u KB, texturas %u (%u/%u KB)",
                                 (unsigned) (m.monton_libre / 1024), (unsigned) (m.pool_juego_libre / 1024),
                                 (unsigned) (m.audio_usado / 1024), (unsigned) (m.audio_total / 1024),
                                 (unsigned) m.texturas_entradas, (unsigned) (m.texturas_bytes / 1024),

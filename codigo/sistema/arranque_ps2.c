@@ -55,13 +55,13 @@ static void reiniciar_iop(void)
     SifInitRpc(0);
     for (ms = 0; !SifIopReset("", 0); ms++) {
         if (ms >= MS_REINICIO_IOP) {
-            detener_por_error("el IOP no acepto el reinicio");
+            detener_por_error("el IOP no aceptó el reinicio");
         }
         DelayThread(1000);
     }
     for (ms = 0; !SifIopSync(); ms++) {
         if (ms >= MS_REINICIO_IOP) {
-            detener_por_error("el IOP no termino de reiniciarse");
+            detener_por_error("el IOP no terminó de reiniciarse");
         }
         DelayThread(1000);
     }
@@ -109,7 +109,7 @@ int cargar_modulo_iop(const char *camino)
     int id = SifLoadStartModule(camino, 0, NULL, &resultado);
 
     if (id < 0 || (resultado & 3) == MODULO_NO_RESIDENTE) {
-        registrar("IOP: %s no quedo cargado (id %d, resultado %d)", camino, id, resultado);
+        registrar("IOP: %s no quedó cargado (id %d, resultado %d)", camino, id, resultado);
         return 0;
     }
     return 1;
@@ -121,7 +121,7 @@ int ejecutar_modulo_iop(const char *nombre, void *irx, u32 tamanio)
     int id = SifExecModuleBuffer(irx, tamanio, 0, NULL, &resultado);
 
     if (id < 0 || (resultado & 3) == MODULO_NO_RESIDENTE) {
-        registrar("IOP: %s no quedo cargado (id %d, resultado %d)", nombre, id, resultado);
+        registrar("IOP: %s no quedó cargado (id %d, resultado %d)", nombre, id, resultado);
         return 0;
     }
     return 1;

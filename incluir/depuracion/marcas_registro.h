@@ -10,7 +10,9 @@
 
 /* Grupos del cronometro de fases: se abren con empezar_tiempos_ps2 y el
    panel los consulta por nombre */
-#define GRUPO_ARRANQUE    "arranque"
-#define GRUPO_CARGA_PISTA "carga de pista"
+#define GRUPO_ARRANQUE        "arranque"
+#define GRUPO_CARGA_PISTA     "carga de pista"
+#define GRUPO_CARGA_CEREMONIA "carga de ceremonia"
+#define GRUPO_CARGA_CREDITOS  "carga de créditos"
 
 #endif

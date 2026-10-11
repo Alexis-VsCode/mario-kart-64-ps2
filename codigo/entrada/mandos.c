@@ -108,7 +108,7 @@ static void abrir_conectores(void)
                 if (padPortOpen(puerto, ranura, buffer_relleno[puerto][ranura])) {
                     estado_conector[puerto][ranura] = ESTABLE_ESPERA_PUERTO;
                 } else {
-                    registrar("padPortOpen(%d, %d) fallo", puerto, ranura);
+                    registrar("padPortOpen(%d, %d) falló", puerto, ranura);
                 }
             } else if (ranura >= ranuras && abierto) {
                 padPortClose(puerto, ranura);

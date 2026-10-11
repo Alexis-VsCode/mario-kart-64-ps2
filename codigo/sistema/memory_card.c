@@ -75,7 +75,7 @@ static int resultado_llamar_mc(void)
         if (ms >= MS_ESPERA_ORDEN_MC) {
             /* libmc atiende una orden a la vez: si esta no vuelve, las siguientes tampoco. */
             mc_ok = 0;
-            registrar("memcard: la tarjeta no contesto en %d ms; se deja de usar", ms);
+            registrar("memory card: la tarjeta no contestó en %d ms; se deja de usar", ms);
             return -1;
         }
         DelayThread(1000);
