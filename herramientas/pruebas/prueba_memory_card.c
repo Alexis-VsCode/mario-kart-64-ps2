@@ -15,6 +15,7 @@ static u32 ciclos_ps2(void) {
 }
 
 #include "sistema/memory_card.c"
+#include "sistema/opciones_port.h"
 
 // Lo que memory_card.c toma del resto del port
 ImagenGuardadoPs2 guardado_ps2;
@@ -80,8 +81,9 @@ static int en_registro(const char *texto) {
 }
 
 // Estado de arranque: tarjeta vacía, libmc iniciada y el hilo creado sin correr
-static void empezar(void) {
+static void empezar_con_tele(int tele) {
     sim_reiniciar();
+    sim_tipo_tele = tele;
     n_registro = 0;
     partida_modificada = 0;
     memset(&guardado_ps2, 0, sizeof(guardado_ps2));
@@ -91,6 +93,10 @@ static void empezar(void) {
     desplazamiento_gen = 0;
     archivos_legacy = 0;
     inicializar_memory_card();
+}
+
+static void empezar(void) {
+    empezar_con_tele(TV_SCREEN_43);
 }
 
 static void poner_partida(const char *nombre, u32 generacion) {
@@ -291,6 +297,137 @@ static void prueba_hilo(void) {
     comprobar(sim_n_traza == 1 && sim_ordenes_ocupado == 0, "hilo sin tarjeta", "se pidieron más órdenes");
 }
 
+// Opciones del port en SMK64CFG.DAT (CC-18): se leen en el hilo tras la
+// partida y se escriben en él cuando el menú lo pide
+static int opciones_iguales(const OpcionesPort *a, const OpcionesPort *b) {
+    return memcmp(a, b, sizeof(*a)) == 0;
+}
+
+static OpcionesPort opciones_prueba(void) {
+    OpcionesPort o;
+
+    opciones_por_defecto(&o, 0);
+    o.desplaz_x = -5;
+    o.desplaz_y = 3;
+    o.formato = FORMATO_PANORAMICO;
+    o.truco_objeto = 8;
+    o.truco_200cc = 1;
+    return o;
+}
+
+static void poner_opciones(const OpcionesPort *o, int byte_danado) {
+    unsigned char buf[TAM_OPCIONES_PORT];
+
+    opciones_serializar(o, buf);
+    if (byte_danado >= 0) {
+        buf[byte_danado] ^= 0x40;
+    }
+    sim_poner_archivo(ARCHIVO_OPCIONES, buf, sizeof(buf));
+}
+
+static void prueba_opciones_carga(void) {
+    OpcionesPort esperadas, defecto;
+    u32 version;
+
+    empezar_con_tele(TV_SCREEN_169);
+    sim_correr_hilo();
+    opciones_por_defecto(&defecto, 1);
+    comprobar(pantalla_osd_169 == 1, "opciones sin archivo 16:9", "no se leyó la tele de la BIOS");
+    comprobar(opciones_iguales(&opciones_port, &defecto), "opciones sin archivo 16:9", "no son las de por defecto");
+    comprobar(opciones_port.formato == FORMATO_CON_BANDAS, "opciones sin archivo 16:9", "el formato no es con bandas");
+
+    empezar_con_tele(TV_SCREEN_FULL);
+    sim_correr_hilo();
+    opciones_por_defecto(&defecto, 0);
+    comprobar(pantalla_osd_169 == 0, "opciones sin archivo FULL", "FULL no es 16:9");
+    comprobar(opciones_iguales(&opciones_port, &defecto), "opciones sin archivo FULL", "no son las de por defecto");
+
+    empezar_con_tele(TV_SCREEN_43);
+    esperadas = opciones_prueba();
+    poner_opciones(&esperadas, -1);
+    poner_partida(ARCHIVO_A_GUARDADO, 5);
+    version = version_opciones_port;
+    sim_correr_hilo();
+    comprobar(opciones_iguales(&opciones_port, &esperadas), "opciones válidas", "no se cargaron");
+    comprobar(version_opciones_port != version, "opciones válidas", "el GS no se entera del cambio");
+    comprobar(guardado_ps2.generacion == 5, "opciones válidas", "la partida no se cargó");
+
+    empezar_con_tele(TV_SCREEN_169);
+    poner_opciones(&esperadas, 9);
+    sim_correr_hilo();
+    opciones_por_defecto(&defecto, 1);
+    comprobar(opciones_iguales(&opciones_port, &defecto), "opciones dañadas", "no se quedaron las de por defecto");
+}
+
+static void cambiar_opciones(void) {
+    opciones_port = opciones_prueba();
+    pedir_guardado_opciones();
+}
+
+static void prueba_opciones_guardado(void) {
+    unsigned char buf[TAM_OPCIONES_PORT];
+    OpcionesPort leidas, esperadas = opciones_prueba();
+    SimArchivo *a;
+
+    // Tarjeta vacía: se crea la carpeta con el icono y solo se escribe el archivo de opciones
+    empezar_con_tele(TV_SCREEN_43);
+    sim_al_esperar = cambiar_opciones;
+    sim_correr_hilo();
+    a = sim_buscar(ARCHIVO_OPCIONES);
+    comprobar(a != NULL && a->largo == TAM_OPCIONES_PORT, "guardar opciones", "no hay 32 bytes en la tarjeta");
+    if (a != NULL) {
+        memcpy(buf, a->datos, sizeof(buf));
+        comprobar(opciones_deserializar(buf, &leidas, 0) && opciones_iguales(&leidas, &esperadas), "guardar opciones",
+                  "lo escrito no da las opciones");
+        comprobar((buf[28] | (buf[29] << 8) | (buf[30] << 16) | ((u32) buf[31] << 24)) == crc32(buf, 28),
+                  "guardar opciones", "el CRC no es el de los 28 primeros bytes");
+    }
+    comprobar(sim_buscar(ARCHIVO_ICONO_SYS) != NULL, "guardar opciones", "la carpeta nueva no tiene icono");
+    comprobar(sim_buscar(ARCHIVO_A_GUARDADO) == NULL && sim_buscar(ARCHIVO_B_GUARDADO) == NULL, "guardar opciones",
+              "se escribió una partida");
+
+    // Sin cambios respecto a lo leído no se escribe
+    empezar_con_tele(TV_SCREEN_43);
+    poner_opciones(&esperadas, -1);
+    sim_al_esperar = cambiar_opciones;
+    sim_correr_hilo();
+    comprobar(!sim_en_traza("mcWrite " ARCHIVO_OPCIONES), "opciones sin cambios", "se reescribió el archivo");
+
+    // Si la tarjeta no contesta a la escritura, libmc se desactiva y no se pide nada más
+    empezar_con_tele(TV_SCREEN_43);
+    sim_carpeta = 1;
+    sim_colgar("mcWrite " ARCHIVO_OPCIONES, 1);
+    sim_al_esperar = cambiar_opciones;
+    sim_correr_hilo();
+    comprobar(mc_ok == 0 && sim_ordenes_ocupado == 0, "opciones colgadas", "se siguió pidiendo órdenes");
+}
+
+// Si el guardado de opciones ve primero la tarjeta nueva, el de la partida
+// tiene que releer sus cabeceras igualmente
+static void guardar_partida_tras_opciones(void) {
+    guardado_ps2.generacion = 2;
+    pedir_guardar_partida();
+}
+
+static void cambiar_tarjeta_y_opciones(void) {
+    poner_partida(ARCHIVO_A_GUARDADO, 50);
+    poner_partida(ARCHIVO_B_GUARDADO, 49);
+    sim_programar_info(-1);
+    cambiar_opciones();
+    sim_al_esperar = guardar_partida_tras_opciones;
+}
+
+static void prueba_opciones_tarjeta_nueva(void) {
+    empezar_con_tele(TV_SCREEN_43);
+    sim_carpeta = 1;
+    sim_al_esperar = cambiar_tarjeta_y_opciones;
+    sim_correr_hilo();
+    comprobar(sim_buscar(ARCHIVO_OPCIONES) != NULL, "opciones y otra tarjeta", "no se escribieron las opciones");
+    comprobar(generacion_en_tarjeta(ARCHIVO_B_GUARDADO) == 51, "opciones y otra tarjeta",
+              "la partida no se escribió sobre la copia vieja con la 51");
+    comprobar(generacion_en_tarjeta(ARCHIVO_A_GUARDADO) == 50, "opciones y otra tarjeta", "se pisó la copia más nueva");
+}
+
 int main(void) {
     prueba_carga();
     prueba_tarjeta_nueva();
@@ -299,6 +436,9 @@ int main(void) {
     prueba_espera_arranque();
     prueba_borrado_legacy();
     prueba_hilo();
+    prueba_opciones_carga();
+    prueba_opciones_guardado();
+    prueba_opciones_tarjeta_nueva();
 
     printf("%d comprobaciones, %d %s\n", s_comprobaciones, s_fallos, s_fallos == 1 ? "fallo" : "fallos");
     return s_fallos != 0;
