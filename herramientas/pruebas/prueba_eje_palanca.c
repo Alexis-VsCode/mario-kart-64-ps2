@@ -70,6 +70,20 @@ int main(void) {
                  "a %d del centro el stick ya no está en reposo", ZONA_REPOSO_CRUCETA);
     COMPROBACION(!eje_en_reposo(255) && !eje_en_reposo(0), "los extremos cuentan como reposo");
 
+    // Quién manda: sin modo analógico siempre la cruceta; con él, solo si los dos ejes del
+    // stick izquierdo están en reposo, deriva incluida
+    COMPROBACION(cruceta_manda_stick(0, 128, 128) && cruceta_manda_stick(0, 255, 0),
+                 "sin modo analógico la cruceta no manda");
+    COMPROBACION(cruceta_manda_stick(1, 128, 128), "con el stick en el centro la cruceta no manda");
+    for (d = 10; d <= 25; d++) {
+        COMPROBACION(cruceta_manda_stick(1, (u8) (128 + d), (u8) (128 - d)) &&
+                         cruceta_manda_stick(1, (u8) (128 - d), (u8) (128 + d)),
+                     "con una deriva de %d la cruceta no manda", d);
+    }
+    COMPROBACION(!cruceta_manda_stick(1, 128 + ZONA_REPOSO_CRUCETA, 128), "con el eje x fuera de reposo manda la cruceta");
+    COMPROBACION(!cruceta_manda_stick(1, 128, 128 - ZONA_REPOSO_CRUCETA), "con el eje y fuera de reposo manda la cruceta");
+    COMPROBACION(!cruceta_manda_stick(1, 255, 0), "con el stick al fondo manda la cruceta");
+
     printf("prueba_eje_palanca: %d comprobaciones, %d %s\n", s_comprobaciones, s_fallos, s_fallos == 1 ? "fallo" : "fallos");
     return s_fallos != 0;
 }
