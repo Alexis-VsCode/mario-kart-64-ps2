@@ -55,8 +55,8 @@ Calculadas del repositorio en la rama `feature/version-1.2.0`:
 | Ramas integradas en la 1.2.0 | 14 |
 | Filas del manifiesto de texturas | 223, de ellas 66 con texto en español |
 | Texturas clasificadas | unas 1200 (CC-29) |
-| Versiones publicadas | v1.0.0 (`af3bfa05`), v1.1.0 (`fc17498f`) y v1.2.0 (<<PUBLICACION>>) |
-| ISO de la 1.2.0 | <<PUBLICACION>> |
+| Versiones publicadas | v1.0.0 (`af3bfa05`), v1.1.0 (`fc17498f`) y v1.2.0 (`9ab41422`) |
+| ISO de la 1.2.0 | 13 387 776 bytes, SHA-256 `186d45b2feaa66078820005eb43370701a17ea45bdd15ad9e3eb420c8ffb0f21` |
 
 ## Resultados
 

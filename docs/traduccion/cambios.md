@@ -810,7 +810,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - `3b5e4aef` (prueba): el borde de las palabras del HUD solo lleva contorno, en rojo con VUELTA; `d7b3feb9` lo corrige.
   - `2175d03b` («º» de los puestos), `9d9ac85e` (letra pequeña con contorno y sin placa) y `bace922a` (título de la Jungla DK), todo regenerado con `compositor_es.py`. En la revisión, `prueba_composicion_es.py` da 856 comprobaciones y 0 fallos.
   - Mutación de la revisión: con el PNG anterior de VUELTA, `prueba_hud_es.py` falla.
-  - Los binarios de `build/ps2/es` se regeneran en el commit de publicación (<<PUBLICACION>>), como fija R-GOB-05.
+  - Los binarios de `build/ps2/es` se regeneran en el commit de publicación (`9ab41422`), como fija R-GOB-05.
 - **Aprobación:**
   - responsable del proyecto: aprobado (2026-10-11);
   - REVISIÓN: técnica de `v120/texturas`, aprobada con observaciones, con la hoja de contacto revisada por un revisor distinto del autor ([acta de F10](revisiones/2026-10-11-version-1.2.0.md#8-v120texturas-reconstrucción-del-hud-y-de-los-menús-cc-28));

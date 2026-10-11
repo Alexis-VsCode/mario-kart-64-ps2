@@ -41,7 +41,7 @@ El detalle por requisito y por commit está en [trazabilidad.md](trazabilidad.md
 ## Pendiente
 
 1. **Documentación de F10:** integrar `v120/doc-traduccion` y las demás ramas de documentación, entre ellas las de CC-30.
-2. **Publicación:** job `publicar` sobre `feature/version-1.2.0`; commit, tamaño y SHA-256 de la ISO: <<PUBLICACION>>.
+2. **Publicación:** job `publicar` sobre `feature/version-1.2.0`; commit `9ab41422`, ejecución [38167051526](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38167051526), ISO de 13 387 776 bytes, SHA-256 `186d45b2feaa66078820005eb43370701a17ea45bdd15ad9e3eb420c8ffb0f21`.
 3. **Fusión a `main`** de `feature/version-1.2.0`, con el PR #5 como registro.
 4. **Release v1.2.0:** job `release` sobre `main`, con la ISO versionada, el ELF monolítico y las notas de la versión, que llevan el SHA-256 de la ISO ([CC-16](cambios.md)).
 5. **Limpieza de ramas:** job `limpiar-ramas` sobre `main` ([CC-09](cambios.md)).
@@ -104,7 +104,7 @@ Comprobado el 2026-10-11 sobre `feature/version-1.2.0` en `fd6a4bb7`.
 - **Especificación → trazabilidad.** `especificacion.md` define 58 requisitos (`R-FUE` 9, `R-TXT` 8, `R-MC` 4, `R-TEX` 8, `R-PORT` 5, `R-INF` 7, `R-GOB` 8, `R-VID` 5, `R-TRU` 4). Los 58 tienen fila en [trazabilidad.md](trazabilidad.md) y la lista coincide con el comando de la [verificación de F8](#verificación-de-f8). Estado: 51 hechos y 7 parciales (R-GOB-01, R-GOB-02, R-GOB-03, R-GOB-04, R-GOB-06, R-GOB-07 y R-GOB-08). R-TEX-02 y R-PORT-03 pasan a hechos; R-GOB-07 pasa a parcial por D-25, y R-GOB-08 sigue parcial hasta integrar la documentación, como en F8 y F9.
 - **Pruebas.** `PS2SDK= make test` termina con 0: las 44 pruebas que imprimen su resumen dan 0 fallos y el tope de líneas, 0 archivos por encima.
 - **Gobernanza.** Sobre `main..feature/version-1.2.0`: 113 commits (99 más 14 merges), todos de Alexis Barrera; el comando de R-GOB-01 sale vacío; ningún commit toca `build/` ni `compilaciones/`; no hay trailers; el grep de R-GOB-07 encuentra 8 líneas en 4 archivos de `herramientas/` (D-25).
-- **CI de F10:** [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616), en verde. La publicación: <<PUBLICACION>>.
+- **CI de F10:** [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616), en verde. La publicación: [38167051526](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38167051526), commit `9ab41422`.
 
 ## Verificación de F9
 

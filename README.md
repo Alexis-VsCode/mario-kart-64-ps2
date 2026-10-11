@@ -64,7 +64,7 @@ Como en el repositorio original, se publican la ISO y el ELF.
 
 | Archivo | Tamaño | SHA-256 |
 |---|---|---|
-| `SLUS_999.99.SuperMarioKart64.iso` | <<PUBLICACION>> | `<<PUBLICACION>>` |
+| `SLUS_999.99.SuperMarioKart64.iso` | 13 387 776 bytes | `186d45b2feaa66078820005eb43370701a17ea45bdd15ad9e3eb420c8ffb0f21` |
 | `SLUS_999.99.monolitico.elf` | En la lista de archivos de la Release | Su línea de `SHA256SUMS` en la Release |
 
 Cómo comprobar los archivos y ejecutarlos en PCSX2, Play!, OPL o uLaunchELF: [manual de usuario](docs/manual/usuario.md).

@@ -10,7 +10,7 @@ Nada todavía.
 
 ## [1.2.0] - 2026-10-11
 
-Versión con el menú de configuración y trucos, las opciones de imagen, la verificación en un emulador dentro de la CI y el cierre de la deuda técnica, con los cambios de especificación CC-18 a CC-30 de [cambios.md](docs/traduccion/cambios.md). Notas de la Release: [docs/versiones/v1.2.0.md](docs/versiones/v1.2.0.md). Commit de publicación: <<PUBLICACION>>.
+Versión con el menú de configuración y trucos, las opciones de imagen, la verificación en un emulador dentro de la CI y el cierre de la deuda técnica, con los cambios de especificación CC-18 a CC-30 de [cambios.md](docs/traduccion/cambios.md). Notas de la Release: [docs/versiones/v1.2.0.md](docs/versiones/v1.2.0.md). Commit de publicación: `9ab41422`; ISO de 13 387 776 bytes, SHA-256 `186d45b2feaa66078820005eb43370701a17ea45bdd15ad9e3eb420c8ffb0f21`.
 
 ### Añadido
 
