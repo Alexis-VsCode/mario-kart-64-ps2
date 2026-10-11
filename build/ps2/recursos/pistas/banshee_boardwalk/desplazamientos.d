@@ -18,7 +18,7 @@ build/ps2/recursos/pistas/banshee_boardwalk/desplazamientos.o: \
  incluir/libultra/PR/libaudio.h incluir/libultra/PR/abi.h \
  incluir/libultra/PR/libultra.h incluir/juego/tipos_actores.h \
  incluir/juego/macros.h incluir/juego/camino.h incluir/juego/pista.h \
- incluir/juego/camino.h
+ incluir/juego/camino.h build/ps2/es/tamanios_es.h
 incluir/libultra/PR/ultratypes.h:
 incluir/libultra/PR/gbi.h:
 incluir/juego/desplazamientos_pista.h:
@@ -55,3 +55,4 @@ incluir/juego/macros.h:
 incluir/juego/camino.h:
 incluir/juego/pista.h:
 incluir/juego/camino.h:
+build/ps2/es/tamanios_es.h:

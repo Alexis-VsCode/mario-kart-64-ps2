@@ -16,7 +16,9 @@ build/ps2/codigo/ceremonia/camara_ceremonia.o: \
  incluir/libultra/PR/abi.h incluir/libultra/PR/libultra.h \
  incluir/juego/macros.h incluir/juego/pista.h incluir/juego/camino.h \
  incluir/ceremonia/camara_ceremonia.h incluir/carrera/camara.h \
- incluir/sistema/matematicas.h incluir/ceremonia/ceremonia_y_creditos.h \
+ incluir/graficos/vista_panoramica.h incluir/sistema/opciones_port.h \
+ incluir/sistema/crc32.h incluir/sistema/matematicas.h \
+ incluir/ceremonia/ceremonia_y_creditos.h \
  incluir/sistema/bucle_principal.h
 incluir/libultra/ultra64.h:
 incluir/libultra/PR/ultratypes.h:
@@ -52,6 +54,9 @@ incluir/juego/pista.h:
 incluir/juego/camino.h:
 incluir/ceremonia/camara_ceremonia.h:
 incluir/carrera/camara.h:
+incluir/graficos/vista_panoramica.h:
+incluir/sistema/opciones_port.h:
+incluir/sistema/crc32.h:
 incluir/sistema/matematicas.h:
 incluir/ceremonia/ceremonia_y_creditos.h:
 incluir/sistema/bucle_principal.h:

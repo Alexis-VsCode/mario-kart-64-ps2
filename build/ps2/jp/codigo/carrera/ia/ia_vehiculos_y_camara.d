@@ -60,7 +60,10 @@ build/ps2/jp/codigo/carrera/ia/ia_vehiculos_y_camara.o: \
  incluir/sistema/matematicas_2.h \
  build/ps2/jp/codigo/carrera/ia/ia_vehiculos_y_camara/posiciones_carrera.inc.c \
  codigo/carrera/ia/control_velocidad_cpu.inc.c \
+ incluir/carrera/rivales_sin_ventaja.h incluir/sistema/opciones_port.h \
+ incluir/sistema/crc32.h \
  build/ps2/jp/codigo/carrera/ia/ia_vehiculos_y_camara/caminos_y_vehiculos.inc.c \
+ incluir/carrera/cilindrada_200cc.h \
  codigo/carrera/ia/utilidades_camino.inc.c \
  codigo/carrera/ia/kart_bomba.inc.c \
  codigo/carrera/ia/utilidades_actores.inc.c \
@@ -171,7 +174,11 @@ incluir/datos/metadatos_caminos.h:
 incluir/sistema/matematicas_2.h:
 build/ps2/jp/codigo/carrera/ia/ia_vehiculos_y_camara/posiciones_carrera.inc.c:
 codigo/carrera/ia/control_velocidad_cpu.inc.c:
+incluir/carrera/rivales_sin_ventaja.h:
+incluir/sistema/opciones_port.h:
+incluir/sistema/crc32.h:
 build/ps2/jp/codigo/carrera/ia/ia_vehiculos_y_camara/caminos_y_vehiculos.inc.c:
+incluir/carrera/cilindrada_200cc.h:
 codigo/carrera/ia/utilidades_camino.inc.c:
 codigo/carrera/ia/kart_bomba.inc.c:
 codigo/carrera/ia/utilidades_actores.inc.c:

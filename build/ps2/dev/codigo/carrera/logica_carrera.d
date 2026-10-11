@@ -34,6 +34,8 @@ build/ps2/dev/codigo/carrera/logica_carrera.o: \
  incluir/sistema/matematicas_2.h incluir/carrera/efectos.h \
  incluir/menus/menus.h incluir/juego/ids_musica.h \
  codigo/carrera/logica_carrera/estado_carrera.inc.c \
+ incluir/graficos/vista_panoramica.h incluir/sistema/opciones_port.h \
+ incluir/sistema/crc32.h \
  codigo/carrera/logica_carrera/fin_carrera_y_demo.inc.c
 incluir/libultra/ultra64.h:
 incluir/libultra/PR/ultratypes.h:
@@ -101,4 +103,7 @@ incluir/carrera/efectos.h:
 incluir/menus/menus.h:
 incluir/juego/ids_musica.h:
 codigo/carrera/logica_carrera/estado_carrera.inc.c:
+incluir/graficos/vista_panoramica.h:
+incluir/sistema/opciones_port.h:
+incluir/sistema/crc32.h:
 codigo/carrera/logica_carrera/fin_carrera_y_demo.inc.c:

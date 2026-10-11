@@ -43,6 +43,8 @@ build/ps2/dev/codigo/carrera/aparicion_jugadores.o: \
  incluir/datos/texturas/fuente_es.h incluir/carrera/efectos.h \
  incluir/juego/decodificacion.h \
  codigo/carrera/aparicion_jugadores/aparecer_jugadores.inc.c \
+ incluir/carrera/cilindrada_200cc.h incluir/sistema/opciones_port.h \
+ incluir/sistema/crc32.h \
  codigo/carrera/aparicion_jugadores/camaras_iniciales.inc.c
 incluir/juego/definiciones.h:
 incluir/juego/mk64.h:
@@ -121,4 +123,7 @@ incluir/datos/texturas/fuente_es.h:
 incluir/carrera/efectos.h:
 incluir/juego/decodificacion.h:
 codigo/carrera/aparicion_jugadores/aparecer_jugadores.inc.c:
+incluir/carrera/cilindrada_200cc.h:
+incluir/sistema/opciones_port.h:
+incluir/sistema/crc32.h:
 codigo/carrera/aparicion_jugadores/camaras_iniciales.inc.c:

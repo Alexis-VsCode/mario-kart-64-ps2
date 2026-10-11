@@ -1,5 +1,7 @@
 // Info pistas y tiempos
 
+#include "menus/menu_configuracion.h"
+
 void renderizar_menu_item_datos_circuito_info(MenuItem* parametro0) {
     s16 id_circuito;
     s32 grabar_tipo;
@@ -118,6 +120,32 @@ void funcion_800A1F30(SIN_USO MenuItem* unused) {
     }
 }
 
+// Texto del valor de una fila de CONFIGURACIè™—N Y TRUCOS; las posiciones se
+// escriben en numero, que tiene sitio para "-32"
+static char* texto_valor_configuracion(s32 fila, char numero[4]) {
+    switch (fila) {
+        case CONFIG_FILA_ANTIPARPADEO:
+            return configuracion_si_no[opciones_port.antiparpadeo];
+        case CONFIG_FILA_POSICION_X:
+            config_texto_numero(opciones_port.desplaz_x, numero);
+            return numero;
+        case CONFIG_FILA_POSICION_Y:
+            config_texto_numero(opciones_port.desplaz_y, numero);
+            return numero;
+        case CONFIG_FILA_FORMATO:
+            return configuracion_formatos[opciones_port.formato];
+        case CONFIG_FILA_DESBLOQUEAR:
+            return configuracion_si_no[opciones_port.truco_desbloquear];
+        case CONFIG_FILA_OBJETO:
+            return configuracion_objetos[opciones_port.truco_objeto];
+        case CONFIG_FILA_200CC:
+            return configuracion_si_no[opciones_port.truco_200cc];
+        case CONFIG_FILA_RIVALES:
+        default:
+            return configuracion_si_no[opciones_port.truco_rivales];
+    }
+}
+
 void funcion_800A1FB0(MenuItem* parametro0) {
     desconocido_d_800E70A0 sp_e0;
     s32 variable_s1;
@@ -128,6 +156,7 @@ void funcion_800A1FB0(MenuItem* parametro0) {
     s32 variable_s4;
     s32 j;
     char sp_b8[3];
+    char numero_config[4];
     SIN_USO s32 relleno3[2];
     s32 i;
     char sp_a8[3];
@@ -141,16 +170,47 @@ void funcion_800A1FB0(MenuItem* parametro0) {
         case SUB_MENU_OPCION_SONIDO_MODO:
         case SUB_MENU_OPCION_COPIA_CONTROLLER_PAK:
         case SUB_MENU_OPCION_BORRAR_TODOS_DATOS:
-            for (i = 0; i < CANTIDAD_ARREGLO(menu_opcion_texto); i++) {
+        case SUB_MENU_OPCION_CONFIGURACION:
+            // Paso 0x1C en vez de 0x23: la quinta fila, que es del port, queda
+            // en y=0xC5, dentro de la zona segura
+            for (i = 0; i <= SUB_MENU_OPCION_MAX - SUB_MENU_OPCION_MIN; i++) {
                 fijar_rainbow_color_texto_si_seleccionado(seleccion_menu_sub - SUB_MENU_OPCION_MIN, i, 3);
-                imprimir_modo_texto_1(0x00000032, 0x55 + (0x23 * i), menu_opcion_texto[i], 0, 0.9f, 1.0f);
+                imprimir_modo_texto_1(0x00000032, 0x55 + (0x1C * i),
+                                      (i < CANTIDAD_ARREGLO(menu_opcion_texto)) ? menu_opcion_texto[i]
+                                                                                : menu_opcion_texto_port[0],
+                                      0, 0.9f, 1.0f);
                 if (i == (seleccion_menu_sub - SUB_MENU_OPCION_MIN)) {
                     sp_e0.column = 0x0032;
-                    sp_e0.row = 0x55 + (0x23 * i);
+                    sp_e0.row = 0x55 + (0x1C * i);
                 }
             }
             fijar_color_texto(VERDE_TEXTO);
-            imprimir_modo_centro_texto1_1(0x000000E4, 0x55 + 0x23, sonido_nombres_modo[sonido_modo], 0, 1.0f, 1.0f);
+            imprimir_modo_centro_texto1_1(0x000000E4, 0x55 + 0x1C, sonido_nombres_modo[sonido_modo], 0, 1.0f, 1.0f);
+            break;
+        case SUB_MENU_CONFIG_ANTIPARPADEO:
+        case SUB_MENU_CONFIG_POSICION_X:
+        case SUB_MENU_CONFIG_POSICION_Y:
+        case SUB_MENU_CONFIG_FORMATO:
+        case SUB_MENU_CONFIG_DESBLOQUEAR:
+        case SUB_MENU_CONFIG_OBJETO:
+        case SUB_MENU_CONFIG_200CC:
+        case SUB_MENU_CONFIG_RIVALES:
+        case SUB_MENU_CONFIG_VOLVER:
+            fijar_color_texto(AMARILLO_TEXTO);
+            imprimir_modo_centro_texto1_1(0x000000A0, 0x48, menu_opcion_texto_port[0], 0, 0.9f, 1.0f);
+            for (i = 0; i < CONFIG_FILAS; i++) {
+                fijar_rainbow_color_texto_si_seleccionado(seleccion_menu_sub - SUB_MENU_CONFIG_MIN, i, 3);
+                imprimir_modo_texto_1(0x00000020, 0x58 + (0x10 * i), configuracion_filas[i], 0, 0.75f, 0.75f);
+                if (i == (seleccion_menu_sub - SUB_MENU_CONFIG_MIN)) {
+                    sp_e0.column = 0x0020;
+                    sp_e0.row = 0x58 + (0x10 * i);
+                }
+                if (i != CONFIG_FILA_VOLVER) {
+                    fijar_color_texto(VERDE_TEXTO);
+                    imprimir_derecha_texto1(0x0000011C, 0x58 + (0x10 * i), texto_valor_configuracion(i, numero_config), 0,
+                                            0.75f, 0.75f);
+                }
+            }
             break;
         case SUB_MENU_BORRAR_ABANDONAR:
         case SUB_MENU_BORRAR_BORRAR:

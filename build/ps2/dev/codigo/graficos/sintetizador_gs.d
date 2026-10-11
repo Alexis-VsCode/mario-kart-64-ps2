@@ -34,7 +34,9 @@ build/ps2/dev/codigo/graficos/sintetizador_gs.o: \
  incluir/juego/estructuras_comunes.h incluir/libultra/PR/os_ai.h \
  incluir/libultra/PR/libaudio.h incluir/libultra/PR/abi.h \
  incluir/libultra/PR/libultra.h incluir/graficos/sintetizador_gs.h \
- incluir/sistema/sistema_ps2.h incluir/graficos/pantallas_gigantes.h \
+ incluir/graficos/registros_video.h incluir/sistema/opciones_port.h \
+ incluir/sistema/crc32.h incluir/sistema/sistema_ps2.h \
+ incluir/graficos/pantallas_gigantes.h \
  incluir/graficos/memoria_texturas.h incluir/sistema/perfilado.h \
  incluir/depuracion/marcas_registro.h
 /usr/local/ps2dev/gsKit/include/dmaKit.h:
@@ -86,6 +88,9 @@ incluir/libultra/PR/libaudio.h:
 incluir/libultra/PR/abi.h:
 incluir/libultra/PR/libultra.h:
 incluir/graficos/sintetizador_gs.h:
+incluir/graficos/registros_video.h:
+incluir/sistema/opciones_port.h:
+incluir/sistema/crc32.h:
 incluir/sistema/sistema_ps2.h:
 incluir/graficos/pantallas_gigantes.h:
 incluir/graficos/memoria_texturas.h:

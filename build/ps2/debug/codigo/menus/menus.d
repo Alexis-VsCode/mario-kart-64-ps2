@@ -30,7 +30,8 @@ build/ps2/debug/codigo/menus/menus.o: codigo/menus/menus.c \
  incluir/carrera/repeticiones.h incluir/juego/datos_guardado.h \
  incluir/juego/sonidos.h incluir/carrera/aparicion_jugadores.h \
  incluir/juego/ids_musica.h codigo/menus/menus/tablas_menus.inc.c \
- codigo/menus/menus/menus_principales.inc.c \
+ incluir/menus/menu_configuracion.h incluir/sistema/opciones_port.h \
+ incluir/sistema/crc32.h codigo/menus/menus/menus_principales.inc.c \
  codigo/menus/menus/estados_menu.inc.c
 incluir/libultra/ultra64.h:
 incluir/libultra/PR/ultratypes.h:
@@ -93,5 +94,8 @@ incluir/juego/sonidos.h:
 incluir/carrera/aparicion_jugadores.h:
 incluir/juego/ids_musica.h:
 codigo/menus/menus/tablas_menus.inc.c:
+incluir/menus/menu_configuracion.h:
+incluir/sistema/opciones_port.h:
+incluir/sistema/crc32.h:
 codigo/menus/menus/menus_principales.inc.c:
 codigo/menus/menus/estados_menu.inc.c:

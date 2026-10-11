@@ -26,6 +26,8 @@ build/ps2/debug/codigo/carrera/utilidades_objetos.o: \
  incluir/juego/definiciones.h \
  codigo/carrera/utilidades_objetos/distancias_y_angulos.inc.c \
  codigo/carrera/utilidades_objetos/posicion_y_origen.inc.c \
+ incluir/graficos/vista_panoramica.h incluir/sistema/opciones_port.h \
+ incluir/sistema/crc32.h \
  codigo/carrera/utilidades_objetos/desplazamiento_nuevo.inc.c
 incluir/libultra/ultra64.h:
 incluir/libultra/PR/ultratypes.h:
@@ -78,4 +80,7 @@ incluir/carrera/objetos_y_efectos.h:
 incluir/juego/definiciones.h:
 codigo/carrera/utilidades_objetos/distancias_y_angulos.inc.c:
 codigo/carrera/utilidades_objetos/posicion_y_origen.inc.c:
+incluir/graficos/vista_panoramica.h:
+incluir/sistema/opciones_port.h:
+incluir/sistema/crc32.h:
 codigo/carrera/utilidades_objetos/desplazamiento_nuevo.inc.c:

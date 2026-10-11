@@ -30,7 +30,8 @@ build/ps2/codigo/graficos/cielo_y_pantalla_dividida.o: \
  incluir/sistema/matematicas.h incluir/menus/menus.h \
  incluir/libultra/PR/os.h incluir/juego/definiciones.h \
  codigo/graficos/cielo_y_pantalla_dividida/cielo_y_viewport.inc.c \
- recursos/pistas/metadatos/colores_cielo.inc.c \
+ incluir/graficos/vista_panoramica.h incluir/sistema/opciones_port.h \
+ incluir/sistema/crc32.h recursos/pistas/metadatos/colores_cielo.inc.c \
  recursos/pistas/metadatos/colores_cielo_2.inc.c \
  codigo/graficos/cielo_y_pantalla_dividida/pantallas_jugadores.inc.c
 incluir/libultra/ultra64.h:
@@ -92,6 +93,9 @@ incluir/menus/menus.h:
 incluir/libultra/PR/os.h:
 incluir/juego/definiciones.h:
 codigo/graficos/cielo_y_pantalla_dividida/cielo_y_viewport.inc.c:
+incluir/graficos/vista_panoramica.h:
+incluir/sistema/opciones_port.h:
+incluir/sistema/crc32.h:
 recursos/pistas/metadatos/colores_cielo.inc.c:
 recursos/pistas/metadatos/colores_cielo_2.inc.c:
 codigo/graficos/cielo_y_pantalla_dividida/pantallas_jugadores.inc.c:

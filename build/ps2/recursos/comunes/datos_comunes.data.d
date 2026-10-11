@@ -56,10 +56,10 @@ build/ps2/recursos/comunes/datos_comunes.data.o: \
  recursos/comunes/texturas/tercer_lugar.i4.inc.c \
  recursos/comunes/texturas/cuarto_lugar.i4.inc.c \
  build/ps2/be/recursos/comunes/texturas/tlut_emblema_jugador.tlut.inc.c \
- recursos/comunes/texturas/emblema_1j_jugador.ci8.inc.c \
- recursos/comunes/texturas/emblema_2j_jugador.ci8.inc.c \
- recursos/comunes/texturas/emblema_3j_jugador.ci8.inc.c \
- recursos/comunes/texturas/emblema_4j_jugador.ci8.inc.c \
+ build/ps2/es/recursos/comunes/texturas/emblema_1j_jugador.ci8.inc.c \
+ build/ps2/es/recursos/comunes/texturas/emblema_2j_jugador.ci8.inc.c \
+ build/ps2/es/recursos/comunes/texturas/emblema_3j_jugador.ci8.inc.c \
+ build/ps2/es/recursos/comunes/texturas/emblema_4j_jugador.ci8.inc.c \
  build/ps2/be/recursos/comunes/texturas/tlut_hud_tipo_c_puesto_fuente.tlut.inc.c \
  recursos/comunes/texturas/hud_tipo_c_puesto_fuente_1.ci8.inc.c \
  recursos/comunes/texturas/hud_tipo_c_puesto_fuente_2.ci8.inc.c \
@@ -251,10 +251,10 @@ recursos/comunes/texturas/segundo_lugar.i4.inc.c:
 recursos/comunes/texturas/tercer_lugar.i4.inc.c:
 recursos/comunes/texturas/cuarto_lugar.i4.inc.c:
 build/ps2/be/recursos/comunes/texturas/tlut_emblema_jugador.tlut.inc.c:
-recursos/comunes/texturas/emblema_1j_jugador.ci8.inc.c:
-recursos/comunes/texturas/emblema_2j_jugador.ci8.inc.c:
-recursos/comunes/texturas/emblema_3j_jugador.ci8.inc.c:
-recursos/comunes/texturas/emblema_4j_jugador.ci8.inc.c:
+build/ps2/es/recursos/comunes/texturas/emblema_1j_jugador.ci8.inc.c:
+build/ps2/es/recursos/comunes/texturas/emblema_2j_jugador.ci8.inc.c:
+build/ps2/es/recursos/comunes/texturas/emblema_3j_jugador.ci8.inc.c:
+build/ps2/es/recursos/comunes/texturas/emblema_4j_jugador.ci8.inc.c:
 build/ps2/be/recursos/comunes/texturas/tlut_hud_tipo_c_puesto_fuente.tlut.inc.c:
 recursos/comunes/texturas/hud_tipo_c_puesto_fuente_1.ci8.inc.c:
 recursos/comunes/texturas/hud_tipo_c_puesto_fuente_2.ci8.inc.c:

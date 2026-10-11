@@ -21,7 +21,9 @@ build/ps2/codigo/sistema/guardado.o: codigo/sistema/guardado.c \
  incluir/datos/texturas/fuente_es.h incluir/sistema/bucle_principal.h \
  incluir/menus/menus.h incluir/juego/datos_guardado.h \
  incluir/carrera/repeticiones.h incluir/carrera/objetos_y_efectos.h \
- incluir/juego/objetos.h incluir/juego/curvas.h incluir/carrera/camara.h
+ incluir/juego/objetos.h incluir/juego/curvas.h incluir/carrera/camara.h \
+ incluir/juego/trucos.h incluir/sistema/opciones_port.h \
+ incluir/sistema/crc32.h
 incluir/libultra/ultra64.h:
 incluir/libultra/PR/ultratypes.h:
 incluir/libultra/PR/os_exception.h:
@@ -68,3 +70,6 @@ incluir/carrera/objetos_y_efectos.h:
 incluir/juego/objetos.h:
 incluir/juego/curvas.h:
 incluir/carrera/camara.h:
+incluir/juego/trucos.h:
+incluir/sistema/opciones_port.h:
+incluir/sistema/crc32.h:

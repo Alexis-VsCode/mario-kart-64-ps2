@@ -66,6 +66,8 @@ build/ps2/codigo/carrera/actualizar_objetos.o: \
  codigo/carrera/actualizar_objetos/llamas_humo_y_hojas.inc.c \
  codigo/carrera/actualizar_objetos/nubes_estrellas_y_lakitu.inc.c \
  codigo/carrera/actualizar_objetos/items_cheep_cheep_y_boos.inc.c \
+ incluir/carrera/truco_objeto.h incluir/sistema/opciones_port.h \
+ incluir/sistema/crc32.h \
  codigo/carrera/actualizar_objetos/murcielagos_y_basura.inc.c \
  codigo/carrera/actualizar_objetos/thwomps.inc.c \
  codigo/carrera/actualizar_objetos/topos_gaviotas_y_cangrejos.inc.c \
@@ -174,6 +176,9 @@ codigo/carrera/actualizar_objetos/humo_tren_y_barco.inc.c:
 codigo/carrera/actualizar_objetos/llamas_humo_y_hojas.inc.c:
 codigo/carrera/actualizar_objetos/nubes_estrellas_y_lakitu.inc.c:
 codigo/carrera/actualizar_objetos/items_cheep_cheep_y_boos.inc.c:
+incluir/carrera/truco_objeto.h:
+incluir/sistema/opciones_port.h:
+incluir/sistema/crc32.h:
 codigo/carrera/actualizar_objetos/murcielagos_y_basura.inc.c:
 codigo/carrera/actualizar_objetos/thwomps.inc.c:
 codigo/carrera/actualizar_objetos/topos_gaviotas_y_cangrejos.inc.c:

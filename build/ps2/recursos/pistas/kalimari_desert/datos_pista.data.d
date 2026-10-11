@@ -19,12 +19,12 @@ build/ps2/recursos/pistas/kalimari_desert/datos_pista.data.o: \
  incluir/juego/mk64.h incluir/juego/configuracion.h \
  recursos/pistas/kalimari_desert/listas_dibujo.inc.h \
  recursos/texturas/pistas/kalimari_desert/tlut_importar_cactus.inc.c \
- recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_arriba_izquierda.inc.c \
- recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_arriba_derecha.inc.c \
+ build/ps2/es/recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_arriba_izquierda.rgba16.inc.c \
+ build/ps2/es/recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_arriba_derecha.rgba16.inc.c \
  recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_abajo_izquierda.inc.c \
  recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_abajo_derecha.inc.c \
- recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_arriba_izquierda.inc.c \
- recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_arriba_derecha.inc.c \
+ build/ps2/es/recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_arriba_izquierda.rgba16.inc.c \
+ build/ps2/es/recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_arriba_derecha.rgba16.inc.c \
  recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_abajo_izquierda.inc.c \
  recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_abajo_derecha.inc.c \
  recursos/texturas/pistas/kalimari_desert/locomotora_64.inc.c \
@@ -78,12 +78,12 @@ incluir/juego/mk64.h:
 incluir/juego/configuracion.h:
 recursos/pistas/kalimari_desert/listas_dibujo.inc.h:
 recursos/texturas/pistas/kalimari_desert/tlut_importar_cactus.inc.c:
-recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_arriba_izquierda.inc.c:
-recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_arriba_derecha.inc.c:
+build/ps2/es/recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_arriba_izquierda.rgba16.inc.c:
+build/ps2/es/recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_arriba_derecha.rgba16.inc.c:
 recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_abajo_izquierda.inc.c:
 recursos/texturas/pistas/kalimari_desert/inactivo_senial_cruce_abajo_derecha.inc.c:
-recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_arriba_izquierda.inc.c:
-recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_arriba_derecha.inc.c:
+build/ps2/es/recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_arriba_izquierda.rgba16.inc.c:
+build/ps2/es/recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_arriba_derecha.rgba16.inc.c:
 recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_abajo_izquierda.inc.c:
 recursos/texturas/pistas/kalimari_desert/activo_senial_cruce_abajo_derecha.inc.c:
 recursos/texturas/pistas/kalimari_desert/locomotora_64.inc.c:

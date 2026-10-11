@@ -21,7 +21,7 @@ build/ps2/recursos/pistas/mario_raceway/datos_pista.data.o: \
  recursos/pistas/mario_raceway/texturas.linkonly.h \
  recursos/texturas/pistas/mario_raceway/tlut_mario_raceway_planta_piranha.inc.c \
  recursos/texturas/pistas/mario_raceway/izquierda_cartel.inc.c \
- recursos/texturas/pistas/mario_raceway/derecha_cartel.inc.c
+ build/ps2/es/recursos/texturas/pistas/mario_raceway/cartel_mario.rgba16.inc.c
 incluir/libultra/ultra64.h:
 incluir/libultra/PR/ultratypes.h:
 incluir/libultra/PR/os_exception.h:
@@ -62,4 +62,4 @@ recursos/pistas/mario_raceway/listas_dibujo.inc.h:
 recursos/pistas/mario_raceway/texturas.linkonly.h:
 recursos/texturas/pistas/mario_raceway/tlut_mario_raceway_planta_piranha.inc.c:
 recursos/texturas/pistas/mario_raceway/izquierda_cartel.inc.c:
-recursos/texturas/pistas/mario_raceway/derecha_cartel.inc.c:
+build/ps2/es/recursos/texturas/pistas/mario_raceway/cartel_mario.rgba16.inc.c:

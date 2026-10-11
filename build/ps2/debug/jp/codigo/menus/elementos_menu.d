@@ -41,7 +41,7 @@ build/ps2/debug/jp/codigo/menus/elementos_menu.o: \
  incluir/recursos/logo_inicio.h incluir/memoria/buffers.h \
  incluir/carrera/logica_carrera.h incluir/ceremonia/dibujar_podio.h \
  incluir/carrera/aparicion_jugadores.h incluir/graficos/dibujar_jugador.h \
- incluir/juego/decodificacion.h \
+ incluir/juego/decodificacion.h incluir/juego/trucos.h \
  build/ps2/jp/codigo/menus/elementos_menu/textos_y_tablas.inc.c \
  build/ps2/jp/codigo/menus/elementos_menu/lista_glifos.inc.c \
  build/ps2/jp/codigo/menus/elementos_menu/textos_menu.inc.c \
@@ -60,6 +60,8 @@ build/ps2/debug/jp/codigo/menus/elementos_menu.o: \
  build/ps2/jp/codigo/menus/elementos_menu/agregar_items_menu.inc.c \
  build/ps2/jp/codigo/menus/elementos_menu/dibujar_menus.inc.c \
  build/ps2/jp/codigo/menus/elementos_menu/info_pistas_y_tiempos.inc.c \
+ incluir/menus/menu_configuracion.h incluir/sistema/opciones_port.h \
+ incluir/sistema/crc32.h \
  build/ps2/jp/codigo/menus/elementos_menu/menus_pausa.inc.c \
  build/ps2/jp/codigo/menus/elementos_menu/manejar_menus.inc.c \
  build/ps2/jp/codigo/menus/elementos_menu/cursor_y_personajes.inc.c \
@@ -145,6 +147,7 @@ incluir/ceremonia/dibujar_podio.h:
 incluir/carrera/aparicion_jugadores.h:
 incluir/graficos/dibujar_jugador.h:
 incluir/juego/decodificacion.h:
+incluir/juego/trucos.h:
 build/ps2/jp/codigo/menus/elementos_menu/textos_y_tablas.inc.c:
 build/ps2/jp/codigo/menus/elementos_menu/lista_glifos.inc.c:
 build/ps2/jp/codigo/menus/elementos_menu/textos_menu.inc.c:
@@ -163,6 +166,9 @@ build/ps2/jp/codigo/menus/elementos_menu/letras_y_fundidos.inc.c:
 build/ps2/jp/codigo/menus/elementos_menu/agregar_items_menu.inc.c:
 build/ps2/jp/codigo/menus/elementos_menu/dibujar_menus.inc.c:
 build/ps2/jp/codigo/menus/elementos_menu/info_pistas_y_tiempos.inc.c:
+incluir/menus/menu_configuracion.h:
+incluir/sistema/opciones_port.h:
+incluir/sistema/crc32.h:
 build/ps2/jp/codigo/menus/elementos_menu/menus_pausa.inc.c:
 build/ps2/jp/codigo/menus/elementos_menu/manejar_menus.inc.c:
 build/ps2/jp/codigo/menus/elementos_menu/cursor_y_personajes.inc.c:

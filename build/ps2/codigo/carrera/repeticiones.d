@@ -34,7 +34,7 @@ build/ps2/codigo/carrera/repeticiones.o: codigo/carrera/repeticiones.c \
  incluir/graficos/texturas_kart/yoshi.h \
  incluir/graficos/texturas_kart/bowser.h \
  incluir/graficos/texturas_kart/wario.h \
- incluir/graficos/texturas_kart/dk.h
+ incluir/graficos/texturas_kart/dk.h incluir/juego/trucos.h
 incluir/libultra/ultra64.h:
 incluir/libultra/PR/ultratypes.h:
 incluir/libultra/PR/os_exception.h:
@@ -99,3 +99,4 @@ incluir/graficos/texturas_kart/yoshi.h:
 incluir/graficos/texturas_kart/bowser.h:
 incluir/graficos/texturas_kart/wario.h:
 incluir/graficos/texturas_kart/dk.h:
+incluir/juego/trucos.h:

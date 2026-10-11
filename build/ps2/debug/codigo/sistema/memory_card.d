@@ -14,6 +14,10 @@ build/ps2/debug/codigo/sistema/memory_card.o: \
  /usr/local/ps2dev/ps2sdk/common/include/sifcmd-common.h \
  /usr/local/ps2dev/ps2sdk/ee/include/loadfile.h \
  /usr/local/ps2dev/ps2sdk/common/include/loadfile-common.h \
+ /usr/local/ps2dev/ps2sdk/ee/include/osd_config.h \
+ /usr/local/ps2dev/ps2sdk/ee/include/rom0_info.h \
+ /usr/local/ps2dev/ps2sdk/ee/include/libcdvd.h \
+ /usr/local/ps2dev/ps2sdk/common/include/libcdvd-common.h \
  incluir/libultra/ultra64.h incluir/libultra/PR/ultratypes.h \
  incluir/libultra/PR/os_exception.h incluir/libultra/PR/os_misc.h \
  incluir/libultra/PR/os_rdp.h incluir/libultra/PR/os_thread.h \
@@ -30,7 +34,8 @@ build/ps2/debug/codigo/sistema/memory_card.o: \
  incluir/libultra/PR/libaudio.h incluir/libultra/PR/abi.h \
  incluir/libultra/PR/libultra.h incluir/sistema/sistema_ps2.h \
  incluir/entrada/multitap.h incluir/sistema/guardado_ps2.h \
- incluir/sistema/cronometro_fases.h incluir/sistema/eleccion_guardado.h
+ incluir/sistema/cronometro_fases.h incluir/sistema/eleccion_guardado.h \
+ incluir/sistema/crc32.h incluir/sistema/opciones_port.h
 /usr/local/ps2dev/ps2sdk/ee/include/delaythread.h:
 /usr/local/ps2dev/ps2sdk/common/include/tamtypes.h:
 /usr/local/ps2dev/ps2sdk/ee/include/timer.h:
@@ -45,6 +50,10 @@ build/ps2/debug/codigo/sistema/memory_card.o: \
 /usr/local/ps2dev/ps2sdk/common/include/sifcmd-common.h:
 /usr/local/ps2dev/ps2sdk/ee/include/loadfile.h:
 /usr/local/ps2dev/ps2sdk/common/include/loadfile-common.h:
+/usr/local/ps2dev/ps2sdk/ee/include/osd_config.h:
+/usr/local/ps2dev/ps2sdk/ee/include/rom0_info.h:
+/usr/local/ps2dev/ps2sdk/ee/include/libcdvd.h:
+/usr/local/ps2dev/ps2sdk/common/include/libcdvd-common.h:
 incluir/libultra/ultra64.h:
 incluir/libultra/PR/ultratypes.h:
 incluir/libultra/PR/os_exception.h:
@@ -79,3 +88,5 @@ incluir/entrada/multitap.h:
 incluir/sistema/guardado_ps2.h:
 incluir/sistema/cronometro_fases.h:
 incluir/sistema/eleccion_guardado.h:
+incluir/sistema/crc32.h:
+incluir/sistema/opciones_port.h:

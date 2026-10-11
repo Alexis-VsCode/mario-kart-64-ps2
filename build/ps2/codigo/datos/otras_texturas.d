@@ -292,8 +292,8 @@ build/ps2/codigo/datos/otras_texturas.o: \
  recursos/texturas/generales/motor_vapor_rueda.rgba16.mio0 \
  recursos/texturas/generales/cartel_atras_de_madera_1.rgba16.mio0 \
  recursos/texturas/generales/cartel_atras_de_madera_0.rgba16.mio0 \
- recursos/texturas/generales/cartel_bienvenida_1.rgba16.mio0 \
- recursos/texturas/generales/cartel_bienvenida_0.rgba16.mio0 \
+ build/ps2/es/mio0/generales/cartel_bienvenida_1.rgba16.mio0 \
+ build/ps2/es/mio0/generales/cartel_bienvenida_0.rgba16.mio0 \
  recursos/texturas/generales/67FE0C.rgba16.mio0 \
  recursos/texturas/generales/cartel_wario_cara.rgba16.mio0 \
  recursos/texturas/generales/67F450.rgba16.mio0 \
