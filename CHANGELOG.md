@@ -8,6 +8,26 @@ El detalle de cada cambio está en el commit que se cita y en [docs/traduccion/]
 
 Nada todavía.
 
+## [1.2.1] - 2026-10-11
+
+Versión de mantenimiento con el cambio de especificación CC-31 de [cambios.md](docs/traduccion/cambios.md): capturas de referencia al día y comparación estricta, y los dos defectos visibles que encontró. Notas de la Release: [docs/versiones/v1.2.1.md](docs/versiones/v1.2.1.md). Publicación: <<PUBLICACION>>.
+
+### Añadido
+
+- El guion de la CI captura también el menú CONFIGURACIÓN Y TRUCOS (`configuracion`), con navegación determinista: dos ejecuciones dan un 0,0000 % de diferencia (`a7ab8019`).
+- Entrada `regenerar_referencias` del workflow: con `sí`, el job del emulador escribe las capturas de la primera ejecución como referencias, comprueba la segunda contra ellas, copia `menu`, `carrera` y `configuracion` a `docs/img/` y commitea; las referencias se revisan a ojo antes de integrar (`17901393`). Usada en [38179540046](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38179540046) (`6933dd08`) y [38180265814](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38180265814) (`863cbc45`).
+- Figura del menú de configuración en la página del proyecto (`f4b86834`).
+
+### Cambiado
+
+- La tolerancia por defecto de `comparar_capturas.py` baja de 0,02 a 0,001 (0,1 % de los píxeles); una prueba exige detectar un bloque de 32×16 cambiado, el 0,18 % (`1bac15d9`, `632050ac`).
+- Referencias del emulador regeneradas con Play! 0.72 y el ELF de DEV actual (`3a022b42`, `6933dd08`, `863cbc45`).
+
+### Corregido
+
+- Los valores de CONFIGURACIÓN Y TRUCOS se dibujaban tenues: primero en verde semitransparente y después en el modo de texto alineado a la derecha. Ahora salen en amarillo (`CONFIG_COLOR_VALOR`) en el modo opaco de las etiquetas, con la columna calculada por `config_columna_valor()` (`a5464408`, `39bb214b`, `42a13caf`).
+- El ordinal de los puestos se leía «8º.»: ahora es «8.º», con el punto en la línea de base antes de la «º» volada; `prueba_hud_es.py` lo exige (`9ec3b950`, `33979fbf`).
+
 ## [1.2.0] - 2026-10-11
 
 Versión con el menú de configuración y trucos, las opciones de imagen, la verificación en un emulador dentro de la CI y el cierre de la deuda técnica, con los cambios de especificación CC-18 a CC-30 de [cambios.md](docs/traduccion/cambios.md). Notas de la Release: [docs/versiones/v1.2.0.md](docs/versiones/v1.2.0.md). Commit de publicación: `9ab41422`; ISO de 13 387 776 bytes, SHA-256 `186d45b2feaa66078820005eb43370701a17ea45bdd15ad9e3eb420c8ffb0f21`.

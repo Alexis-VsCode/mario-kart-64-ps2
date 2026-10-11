@@ -6,7 +6,7 @@ Es el port a PS2 de anthoo582, con la localización completa al español, la sin
 
 ## Estado
 
-Versión 1.2.0, del 2026-10-11. Qué cambia respecto a la 1.1.0: [CHANGELOG.md](CHANGELOG.md#120---2026-10-11). El avance y lo pendiente están en [docs/traduccion/README.md](docs/traduccion/README.md).
+Versión 1.2.1, del 2026-10-11. Qué cambia respecto a la 1.2.0: [CHANGELOG.md](CHANGELOG.md#121---2026-10-11). El avance y lo pendiente están en [docs/traduccion/README.md](docs/traduccion/README.md).
 
 **Verificado en este repositorio, con pruebas y CI:**
 
@@ -57,7 +57,7 @@ El detalle por áreas está en [docs/manual/creditos.md](docs/manual/creditos.md
 
 Como en el repositorio original, se publican la ISO y el ELF.
 
-- **Última versión:** [Releases](https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/latest), con la ISO, el ELF monolítico, `SHA256SUMS` y las [notas de la versión](docs/versiones/v1.2.0.md).
+- **Última versión:** [Releases](https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/latest), con la ISO, el ELF monolítico, `SHA256SUMS` y las [notas de la versión](docs/versiones/v1.2.1.md).
 - **ISO directa:** [`SLUS_999.99.SuperMarioKart64.iso`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/latest/download/SLUS_999.99.SuperMarioKart64.iso).
 - **ELF monolítico, para uLaunchELF desde USB:** [`SLUS_999.99.monolitico.elf`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/latest/download/SLUS_999.99.monolitico.elf). Lleva la ROM dentro: no necesita `SMK64ROM.BIN`.
 - **Alternativa:** la ISO versionada en `main`, [`compilaciones/SLUS_999.99.SuperMarioKart64.iso`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/raw/main/compilaciones/SLUS_999.99.SuperMarioKart64.iso).
@@ -110,7 +110,7 @@ git checkout -- build compilaciones && git clean -fdq -- build compilaciones
 | [LICENSE](LICENSE) | Licencia MIT de los aportes del fork y lo que excluye |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Definition of Done, reglas, ramas, commits y revisión |
 | [CHANGELOG.md](CHANGELOG.md) | Cambios por versión |
-| [Notas de la versión 1.2.0](docs/versiones/v1.2.0.md) | Cuerpo de la Release de la versión actual; las anteriores: [v1.1.0.md](docs/versiones/v1.1.0.md) y [v1.0.0.md](docs/versiones/v1.0.0.md) |
+| [Notas de la versión 1.2.1](docs/versiones/v1.2.1.md) | Cuerpo de la Release de la versión actual; las anteriores: [v1.2.0.md](docs/versiones/v1.2.0.md), [v1.1.0.md](docs/versiones/v1.1.0.md) y [v1.0.0.md](docs/versiones/v1.0.0.md) |
 | [docs/traduccion/](docs/traduccion/README.md) | Localización: estado, especificación, plan, glosario, trazabilidad, cambios, actas de revisión y deuda técnica |
 
 ## Aviso legal

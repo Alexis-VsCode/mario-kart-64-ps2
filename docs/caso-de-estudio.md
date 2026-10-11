@@ -55,7 +55,7 @@ Calculadas del repositorio en la rama `feature/version-1.2.0`:
 | Ramas integradas en la 1.2.0 | 14 |
 | Filas del manifiesto de texturas | 223, de ellas 66 con texto en español |
 | Texturas clasificadas | unas 1200 (CC-29) |
-| Versiones publicadas | v1.0.0 (`af3bfa05`), v1.1.0 (`fc17498f`) y v1.2.0 (`9ab41422`) |
+| Versiones publicadas | v1.0.0 (`af3bfa05`), v1.1.0 (`fc17498f`), v1.2.0 (`9ab41422`) y v1.2.1 (<<PUBLICACION>>) |
 | ISO de la 1.2.0 | 13 387 776 bytes, SHA-256 `186d45b2feaa66078820005eb43370701a17ea45bdd15ad9e3eb420c8ffb0f21` |
 
 ## Resultados
@@ -64,6 +64,7 @@ Calculadas del repositorio en la rama `feature/version-1.2.0`:
 - Menú CONFIGURACIÓN Y TRUCOS: ANTIPARPADEO, POSICIÓN X/Y, FORMATO NORMAL/CON BANDAS/PANORÁMICO, DESBLOQUEAR TODO, OBJETO, 200CC y RIVALES SIN VENTAJA.
 - Deuda técnica en cero en la 1.2.0: todas las entradas de [deuda.md](traduccion/deuda.md) están saldadas o pasaron a límites declarados (lo que solo se ve en hardware real).
 - CI en verde con el juego arrancado de verdad en un emulador.
+- En la 1.2.1, bajar la tolerancia de las capturas del 2 % al 0,1 % encontró dos defectos visuales reales que la comparación laxa dejaba pasar: los valores tenues del menú CONFIGURACIÓN Y TRUCOS y el ordinal «8º.» de los puestos, ya corregidos.
 
 ### Límites declarados
 

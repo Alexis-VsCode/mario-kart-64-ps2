@@ -9,6 +9,18 @@ Esta carpeta documenta el trabajo con el que todo lo que ve el jugador en el por
 
 Los nombres de carpetas, funciones, variables y comentarios del código ya están en español. Aquí solo se trata el texto que sale en pantalla.
 
+## Estado de F11 (2026-10-11)
+
+F11, la versión 1.2.1 ([CC-31](cambios.md)), está en `feature/capturas-1.2.1` (`863cbc45`), que nace de `main` tras el registro de CC-31 (`8d94ba8d`). Se publicará como `v1.2.1`.
+
+Hecho en F11:
+
+- **Comparación estricta de capturas:** la tolerancia por defecto de `comparar_capturas.py` baja de 0,02 a 0,001 (0,1 %); una prueba exige detectar un bloque de 32×16 cambiado (0,18 %).
+- **Captura nueva:** el guion de la CI captura también `configuracion`, el menú CONFIGURACIÓN Y TRUCOS. Dos ejecuciones dan un 0,0000 % de diferencia.
+- **Referencias regeneradas en la CI:** la entrada `regenerar_referencias=sí` del workflow escribe las capturas de la primera ejecución como referencias, comprueba la segunda contra ellas, copia `menu`, `carrera` y `configuracion` a `docs/img/` y commitea. Ejecuciones [38179540046](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38179540046) y [38180265814](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38180265814); las referencias se revisaron a ojo.
+- **Defectos visibles corregidos** al mirar las capturas: los valores de CONFIGURACIÓN Y TRUCOS se dibujaban tenues y ahora salen en amarillo opaco, como las etiquetas; el ordinal de los puestos se leía «8º.» y ahora «8.º».
+- **Revisión** de `v121/capturas` y `v121/ordinal` en el [acta de la 1.2.1](revisiones/2026-10-11-version-1.2.1.md).
+
 ## Estado de F10 (2026-10-11)
 
 La localización (F0 a F7), la sincronización con el original (F8, versión 1.0.0) y la versión 1.1.0 (F9, publicada en `45bbe10a`) están cerradas y en `main`. F10, la versión 1.2.0, está integrada en `feature/version-1.2.0` (`fd6a4bb7`), con el PR en borrador [#5](https://github.com/Alexis-VsCode/mario-kart-64-ps2/pull/5). `BUILD_ID` sigue en 2026-10-11, la fecha de la versión.
@@ -35,6 +47,7 @@ Lo que no se puede comprobar sin hardware real ni TV está en los [límites decl
 | F8 | Sincronización con el original, CI, correcciones y documentación | Cerrada: versión 1.0.0, en `main` (`af3bfa05`). [Acta](revisiones/2026-10-11-sincronizacion.md) |
 | F9 | Versión 1.1.0: CC-13 a CC-17 y deudas chicas | Cerrada: publicada en `45bbe10a`, en `main`. [Acta](revisiones/2026-10-11-version-1.1.0.md) |
 | F10 | Versión 1.2.0: CC-18 a CC-30, deuda técnica, menú de configuración y trucos, emulador en la CI | Integrada en `fd6a4bb7`. Falta lo de [Pendiente](#pendiente). [Acta](revisiones/2026-10-11-version-1.2.0.md) |
+| F11 | Versión 1.2.1: CC-31, comparación estricta de capturas, captura del menú de configuración, referencias regeneradas en la CI y dos defectos visibles | En `feature/capturas-1.2.1` (`863cbc45`); se publicará como `v1.2.1`. [Acta](revisiones/2026-10-11-version-1.2.1.md) |
 
 El detalle por requisito y por commit está en [trazabilidad.md](trazabilidad.md); la deuda técnica, en [deuda.md](deuda.md).
 
@@ -63,11 +76,11 @@ Integrar la documentación de F10 y lanzar `publicar`, y después fusionar a `ma
 | Documento | Contenido |
 |---|---|
 | [especificacion.md](especificacion.md) | Qué hay que cumplir: alcance, exclusiones, requisitos numerados con criterio de aceptación y prueba, decisiones cerradas y riesgos |
-| [plan.md](plan.md) | Cómo se hizo: fases F0–F10 con su estado, roles y archivos, ramas, puertas de calidad, ciclo por bloque y verificación |
+| [plan.md](plan.md) | Cómo se hizo: fases F0–F11 con su estado, roles y archivos, ramas, puertas de calidad, ciclo por bloque y verificación |
 | [glosario.md](glosario.md) | Términos aprobados y su fuente |
-| [trazabilidad.md](trazabilidad.md) | Relación entre requisito, prueba, commits y evidencia, con el estado de cada requisito y los commits de F8, F9 y F10 |
-| [cambios.md](cambios.md) | Registro de cambios de la especificación (CC-01 a CC-30): límites, escalas, términos, decisiones y diferencias con el plan aprobado |
-| [revisiones/](revisiones/) | Actas de revisión: la de F8, [2026-10-11-sincronizacion.md](revisiones/2026-10-11-sincronizacion.md), con las propuestas para el repositorio original, la de F9, [2026-10-11-version-1.1.0.md](revisiones/2026-10-11-version-1.1.0.md), y la de F10, [2026-10-11-version-1.2.0.md](revisiones/2026-10-11-version-1.2.0.md) |
+| [trazabilidad.md](trazabilidad.md) | Relación entre requisito, prueba, commits y evidencia, con el estado de cada requisito y los commits de F8, F9, F10 y F11 |
+| [cambios.md](cambios.md) | Registro de cambios de la especificación (CC-01 a CC-31): límites, escalas, términos, decisiones y diferencias con el plan aprobado |
+| [revisiones/](revisiones/) | Actas de revisión: la de F8, [2026-10-11-sincronizacion.md](revisiones/2026-10-11-sincronizacion.md), con las propuestas para el repositorio original, la de F9, [2026-10-11-version-1.1.0.md](revisiones/2026-10-11-version-1.1.0.md), la de F10, [2026-10-11-version-1.2.0.md](revisiones/2026-10-11-version-1.2.0.md), y la de F11, [2026-10-11-version-1.2.1.md](revisiones/2026-10-11-version-1.2.1.md) |
 | [deuda.md](deuda.md) | Deuda técnica: lo que se sabe que falta, por qué no se hizo y dónde se haría. Lo que no se puede comprobar sin hardware está en los [límites declarados](especificacion.md#9-límites-declarados) |
 
 ## Cómo se trabaja
@@ -78,6 +91,8 @@ Las reglas del proyecto (Definition of Done, autoría, commits, ramas, revisión
 2. **Trazabilidad.** Los identificadores de requisito aparecen en los commits y en esta carpeta, nunca en el código ([trazabilidad.md](trazabilidad.md)).
 
 ## Ramas
+
+F11 se trabaja en `feature/capturas-1.2.1`, con `v121/capturas` y `v121/ordinal`, que salen del registro de CC-31 (`8d94ba8d`); `v121/ordinal` se integra en `73aff9e2`. El esquema está en [plan.md §3.5](plan.md#35-f11).
 
 F10 se trabaja en `feature/version-1.2.0`, que nace de `main` (`fc17498f`), con una rama `v120/*` por frente integrada con `git merge --no-ff`. El esquema de las ramas, de dónde sale cada una y su merge están en [plan.md §3.4](plan.md#34-f10).
 

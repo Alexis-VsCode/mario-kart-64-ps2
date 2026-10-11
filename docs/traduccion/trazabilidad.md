@@ -1,10 +1,10 @@
 # Trazabilidad
 
-Relaciona cada requisito de la [especificación](especificacion.md) con su prueba, sus commits y su evidencia. Estado a 2026-10-11, sobre `feature/version-1.2.0` en `fd6a4bb7`: la localización de F0 a F7 (cerrada en `dda9a5f`), la sincronización con el original de F8 (cerrada en `main`, `af3bfa05`), la versión 1.1.0 de F9 (publicada en `45bbe10a`) y la versión 1.2.0 de F10.
+Relaciona cada requisito de la [especificación](especificacion.md) con su prueba, sus commits y su evidencia. Estado a 2026-10-11, sobre `feature/version-1.2.0` en `fd6a4bb7`: la localización de F0 a F7 (cerrada en `dda9a5f`), la sincronización con el original de F8 (cerrada en `main`, `af3bfa05`), la versión 1.1.0 de F9 (publicada en `45bbe10a`) y la versión 1.2.0 de F10; la versión 1.2.1 de F11, en `feature/capturas-1.2.1` (`863cbc45`).
 
 ## Cómo se completa
 
-- **Commits:** hashes cortos, integrados en `feature/idioma-espanol` (F0 a F7), en `feature/sincronizacion-upstream` (F8), en `feature/version-1.1.0` (F9) o en `feature/version-1.2.0` (F10). Si prueba y cambio van en commits separados, se anotan los dos (rojo → verde).
+- **Commits:** hashes cortos, integrados en `feature/idioma-espanol` (F0 a F7), en `feature/sincronizacion-upstream` (F8), en `feature/version-1.1.0` (F9) en `feature/version-1.2.0` (F10) o en `feature/capturas-1.2.1` (F11). Si prueba y cambio van en commits separados, se anotan los dos (rojo → verde).
 - **Rojo:** cómo se demostró que la prueba falla sin el cambio:
   - **comprobado:** la prueba del commit, ejecutada sobre el árbol del commit padre, falla (se indica cuántos fallos);
   - **módulo nuevo:** la prueba cubre un archivo que no existía, así que sin el cambio no puede pasar;
@@ -351,6 +351,28 @@ Los commits de `feature/version-1.2.0` sobre `main`, por orden de integración. 
 | D-23 | `076e7cc2`, `041eb862` | `funcion_800652D4` devuelve si cargó la matriz y sus 30 llamadores se saltan el dibujo si no; `prueba_reserva_matrices.py` lo exige |
 | D-25 | `e1a3d746`, `ecc00c42` | `prueba_textos_port.py` vigila que código, cabeceras y herramientas no citen identificadores de requisito ni de deuda; se limpiaron 24 líneas |
 
+## Commits de F11
+
+Los commits de `feature/capturas-1.2.1` sobre `main`, en orden. `v121/capturas` y `v121/ordinal` salen de `8d94ba8d` (registro de CC-31); `v121/ordinal` se integra con un merge `--no-ff`. Su revisión está en el [acta de la 1.2.1](revisiones/2026-10-11-version-1.2.1.md).
+
+| Commit | Rama | Tipo | Qué hace | Requisito o CC | Prueba | Rojo y mutación |
+|---|---|---|---|---|---|---|
+| `8d94ba8d` | feature | docs | CC-31, capturas de referencia al día y comparación estricta | CC-31 | — | No aplica |
+| `1bac15d9` | capturas | test | Un bloque de 32×16 cambiado debe fallar con la tolerancia por defecto | CC-31, R-INF-07 | `prueba_comparar_capturas.py` | Falla con la tolerancia de 0,02 |
+| `632050ac` | capturas | fix | Tolerancia por defecto de 0,001 en la comparación de capturas | CC-31, R-INF-07 | `prueba_comparar_capturas.py` | Volver a 0,02: falla |
+| `a7ab8019` | capturas | feat | Captura del menú CONFIGURACIÓN Y TRUCOS en el guion de la CI | CC-31, R-INF-07 | Ejecución de la CI | No aplica |
+| `3a022b42` | capturas | test | Referencias regeneradas con Play! 0.72 y el ELF de DEV actual | CC-31, R-INF-07 | Ejecución de la CI y revisión a ojo | No aplica |
+| `f4b86834` | capturas | docs | Capturas al día y figura del menú de configuración en la página | CC-31 | — | No aplica |
+| `a5464408` | capturas | fix | Valores de CONFIGURACIÓN Y TRUCOS en amarillo opaco | CC-31, CC-19 | `prueba_menu_configuracion.c` | Con `VERDE_TEXTO`: falla |
+| `9ec3b950` | ordinal | test | Exige el punto del ordinal antes de la o volada | CC-31, R-TEX-04 | `prueba_hud_es.py` | Falla con «8º.» |
+| `33979fbf` | ordinal | fix | Punto del ordinal antes de la o volada (8.º) | CC-31, R-TEX-04 | `prueba_hud_es.py` | — |
+| `73aff9e2` | feature | merge | Integra `v121/ordinal` | — | — | No aplica |
+| `17901393` | capturas | ci | Opción para regenerar las referencias en la propia CI | CC-31, R-INF-05, R-INF-07 | Ejecución de la CI | No aplica |
+| `6933dd08` | capturas | test | Referencias regeneradas en la CI ([38179540046](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38179540046)) | CC-31, R-INF-07 | Segunda ejecución contra ellas | No aplica |
+| `39bb214b` | capturas | test | Los valores de CONFIGURACIÓN Y TRUCOS se alinean a la derecha a mano | CC-31, CC-19 | `prueba_menu_configuracion.c` | No compila sin `config_columna_valor` |
+| `42a13caf` | capturas | fix | Valores de CONFIGURACIÓN Y TRUCOS en el modo opaco de las etiquetas | CC-31, CC-19 | `prueba_menu_configuracion.c` | Suma en lugar de resta: 1 fallo |
+| `863cbc45` | capturas | test | Referencias regeneradas en la CI ([38180265814](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38180265814)) | CC-31, R-INF-07 | Segunda ejecución contra ellas | No aplica |
+
 ## Requisitos
 
 | Requisito | Prueba | Commits | Estado | Evidencia |
@@ -395,7 +417,7 @@ Los commits de `feature/version-1.2.0` sobre `main`, por orden de integración. 
 | R-INF-04 `-fsigned-char` y dependencias de `test` | `make -n test`; huella de R-FUE-02 | `ecbfd5c`, `8fdea7c` | hecho | `make -n test`: `-fsigned-char` en los 8 `gcc` de prueba |
 | R-INF-05 CI | ejecuciones de la CI | `7387d01`, `6dd12e7`, `a3d0bae`, `c461c5b`; F8: `24ed39a0`, `6251a4a6`, `b69f1548`; F9: `c641d19b`, `4bdd41a8`; F10: `a27fd80f`, `04adf1f6`, `68bc6dce`, `2c3a8b29`, `979fcf14` | hecho | CI 36518116212; F10: [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616); F8 y F9 en [Evidencia común](#evidencia-común) ([CC-09](cambios.md), [CC-16](cambios.md), [CC-26](cambios.md)) |
 | R-INF-06 Tope de líneas | `comprobar_lineas.py` en `make test` | `f1f3d3d` | hecho | 0 archivos por encima del tope en `dda9a5f` |
-| R-INF-07 Emulador en la CI | `prueba_comprobar_registro.py`; `prueba_comparar_capturas.py`; job `emulador` | `7491fd24`, `98a042b7`, `a7bae5d4`, `570a0a12`, `2c3a8b29`, `979fcf14` | hecho | [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616): dos arranques en Play! 0.72, región PAL, «vídeo: PMODE 8046» y capturas dentro de la tolerancia ([CC-26](cambios.md)) |
+| R-INF-07 Emulador en la CI | `prueba_comprobar_registro.py`; `prueba_comparar_capturas.py`; job `emulador` | `7491fd24`, `98a042b7`, `a7bae5d4`, `570a0a12`, `2c3a8b29`, `979fcf14`; F11: `1bac15d9`, `632050ac`, `a7ab8019`, `3a022b42`, `17901393`, `6933dd08`, `863cbc45` | hecho | [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616): dos arranques en Play! 0.72, región PAL, «vídeo: PMODE 8046» y capturas dentro de la tolerancia ([CC-26](cambios.md)). F11: tolerancia del 0,1 %, captura `configuracion` y referencias regeneradas en [38179540046](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38179540046) y [38180265814](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38180265814) ([CC-31](cambios.md)) |
 | R-VID-01 Antiparpadeo opcional | `prueba_registros_video.c`; job `emulador` | `deeba019`, `fa835b62`, `9173dde8`, `979fcf14` | hecho; sin verificar en TV (límite declarado) | 0x8046 por defecto y 0x8027 con DBY ([CC-20](cambios.md)) |
 | R-VID-02 Posición con límites | `prueba_registros_video.c` | `deeba019`, `fa835b62`, `9173dde8` | hecho; sin verificar en TV (límite declarado) | DY par y límites ([CC-20](cambios.md)) |
 | R-VID-03 CON BANDAS | `prueba_registros_video.c` | `fa835b62`, `9173dde8`, `d8ebb3ac`, `d5ee5381` | hecho; sin verificar en TV (límite declarado) | Rojo de `d8ebb3ac`: 4 fallos de 66 ([CC-21](cambios.md)) |
