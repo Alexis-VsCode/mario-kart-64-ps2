@@ -54,3 +54,4 @@ titulo_dks_jungle_parkway	titulos_pista	1,2,138,14	D.K.'S JUNGLE PARKWAY	4	junta
 titulo_big_donut	titulos_pista	1,2,138,14	BIG DONUT	40	juntar=-1
 cartel_granja_izquierda	cartel_granja	4,3,60,26	MOO M	10	juntar=0 alinear=derecha@61
 cartel_granja_derecha	cartel_granja	0,3,57,26	OFARM	3	juntar=1 alinear=izquierda@2
+cartel_mario	cartel_mario	14,9,17,17	G	15	area=14,9,17,31 avance=Y:0 alinear=centro@22

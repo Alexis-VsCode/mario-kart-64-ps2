@@ -1,0 +1,6 @@
+caracter	receta
+# Letras de YA dibujadas con el trazo de la G y la O: palo de 3 columnas en azul
+# marino liso y el borde de las diagonales suavizado con el color de la fila.
+# La A va debajo de la Y (filas 27 a 38, donde estaba la O): avance=Y:0 en composicion.tsv
+Y	parte("y", 11)
+A	parte("a", 27)
