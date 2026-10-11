@@ -65,7 +65,8 @@ static u32 crc_imagen(const ImagenGuardadoPs2 *img)
     return crc32(empezar, sizeof(*img) - (u32) (empezar - (const u8 *) img));
 }
 
-/* Espera el resultado de la ultima llamada a libmc */
+/* Espera el resultado de la ultima llamada a libmc. Si no llega, deja mc_ok a 0 y devuelve -1,
+   que tambien es un resultado valido de libmc: quien llama mira mc_ok despues de cada espera. */
 static int resultado_llamar_mc(void)
 {
     int cmd, result = -1; /* mcSync devuelve -1 sin tocarlo si no habia llamada */
@@ -85,12 +86,13 @@ static int resultado_llamar_mc(void)
 
 static int listo_tarjeta_mc(void)
 {
-    int type, free, format;
+    int type = 0, free = 0, format = 0; /* libmc solo los rellena si la orden termina */
 
     if (!mc_ok || mcGetInfo(PUERTO_MC, RANURA_MC, &type, &free, &format) != 0) {
         return 0;
     }
-    return resultado_llamar_mc() >= -1 && type == sceMcTypePS2 && format;
+    /* 0: la misma tarjeta; -1: otra ya formateada */
+    return resultado_llamar_mc() >= -1 && mc_ok && type == sceMcTypePS2 && format;
 }
 
 static int escribir_archivo_mc(const char *path, const void *datos, int size)
@@ -106,9 +108,12 @@ static int escribir_archivo_mc(const char *path, const void *datos, int size)
     }
     mcWrite(fd, datos, size);
     n = resultado_llamar_mc();
+    if (!mc_ok) {
+        return -1;
+    }
     mcClose(fd);
     resultado_llamar_mc();
-    return n == size ? 0 : -1;
+    return mc_ok && n == size ? 0 : -1;
 }
 
 static int leer_archivo_mc(const char *path, void *datos, int size)
@@ -124,9 +129,12 @@ static int leer_archivo_mc(const char *path, void *datos, int size)
     }
     mcRead(fd, datos, size);
     n = resultado_llamar_mc();
+    if (!mc_ok) {
+        return -1;
+    }
     mcClose(fd);
     resultado_llamar_mc();
-    return n;
+    return mc_ok ? n : -1;
 }
 
 static void titulo_sjis(u8 *dst, const char *orig_, int cars_max)
@@ -368,9 +376,14 @@ static void guardar_hilo(void *parametro)
         if (estado_carga == CARGA_ABANDONED) {
             continue; /* no se sabe que hay en la tarjeta: no se pisa */
         }
+        if (!mc_ok) {
+            continue; /* libmc desactivada (ya consta en el registro): no hay reintento posible */
+        }
         r = guardar_ahora();
         if (r == 0) {
             registrar("memory card: partida guardada (generación %u)", (unsigned) generar);
+        } else if (!mc_ok) {
+            registrar("memory card: no se pudo guardar (%d); la tarjeta no contesta y no se reintentará", r);
         } else {
             registrar("memory card: no se pudo guardar (%d); se reintentará", r);
             marcar_partida_modificada_sin_aviso();
