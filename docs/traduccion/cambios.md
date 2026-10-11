@@ -384,3 +384,22 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - para el resto, evidencia de código y compilación en la CI.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
 - **Commit:** —
+
+### CC-14: zona muerta del stick de 24 a 8
+
+- **Estado:** aprobado (responsable del proyecto, 2026-10-11, plan F9)
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** ninguno de la traducción; cambia el control del port (`codigo/entrada/mandos.c`).
+- **Motivo:** el port descarta 24 de 127 unidades del stick y estira el resto a ±80 (`mandos.c:31-48`). El juego aplica después su propia zona muerta de 12 (`mandos_carrera.inc.c:76-95`). Juntas, el kart empieza a girar con 41 de 127 (un 32 % del recorrido); en la N64 era alrededor del 15 %.
+- **Cambio:**
+  - `ZONA_MUERTA_PALANCA` pasa a 8 y el giro empieza con unos 27 de 127 (21 %).
+  - El juego conserva su zona muerta, que absorbe la deriva de un stick gastado.
+  - `convertir_eje` pasa a una función pura en `incluir/entrada/eje_palanca.h`, probada en el PC.
+- **Alternativas descartadas:**
+  - quitar la zona muerta del port, porque dejaría solo la del juego frente a la deriva de los mandos de PS2;
+  - hacerla configurable, por sobreingeniería.
+- **Evidencia requerida:**
+  - `prueba_eje_palanca.c`: el giro empieza a ≤ 28, centro 0, extremos ±80, simetría y monotonía, con rojo y mutaciones;
+  - el tacto en una consola real no se verifica (D-06).
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
+- **Commit:** —
