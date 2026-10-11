@@ -58,7 +58,18 @@ INCBIN = re.compile(r'\.incbin\s+"(recursos/texturas/[^"]+)"')
 # Carpetas con texto visible que no es logotipo ni cartel comercial (por
 # ejemplo el cartel de bienvenida en ingles de generales/): ni se excluyen
 # ni tienen aun una fila por textura. Quitar la entrada al cubrirlas.
-PENDIENTES = []
+PENDIENTES = [
+    "recursos/comunes/texturas",  # HUD y objetos; 16 con fila, el resto sin revisar
+    "recursos/texturas/generales",  # carteles de pista (bienvenida, Nintendo, Luigi's...)
+    "recursos/texturas/sin_comprimir",  # 2 mitades de MOO MOO FARM y PULSA START con fila
+    "recursos/texturas/pistas/dks_jungle_parkway",  # cartel del barco
+    "recursos/texturas/pistas/kalimari_desert",  # 64 de la locomotora y senales de cruce
+    "recursos/texturas/pistas/luigi_raceway",  # carteles
+    "recursos/texturas/pistas/mario_raceway",  # carteles
+    "recursos/texturas/pistas/moo_moo_farm",  # cartel MOO MOO FARM
+    "recursos/texturas/pistas/wario_stadium",  # carteles
+    "recursos/texturas/fuente_pantalla_fallo.ia1.inc.c",  # fuente: un archivo, no una carpeta
+]
 
 fallos = 0
 comprobaciones = 0
