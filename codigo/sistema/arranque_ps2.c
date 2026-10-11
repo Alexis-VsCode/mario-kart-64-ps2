@@ -16,6 +16,7 @@
 #include "sistema/cronometro_fases.h"
 #include "depuracion/marcas_registro.h"
 #include "sistema/caracteres_es.h"
+#include "sistema/region_ps2.h"
 
 extern void funcion_principal(void);
 
@@ -103,6 +104,31 @@ static void preparar_iop_sin_reinicio(void)
     sbv_patch_disable_prefix_check();
 }
 
+/* rom0: solo se lee con el IOP listo. El GS sale siempre en NTSC a 60 Hz: en una consola PAL
+   el registro avisa de la TV que hace falta. Si la lectura falla, la región queda desconocida. */
+static void registrar_region_consola(void)
+{
+    char romver[LARGO_ROMVER] = { 0 };
+    FILE *archivo = fopen("rom0:ROMVER", "r");
+    int largo = 0;
+
+    if (archivo != NULL) {
+        largo = (int) fread(romver, 1, sizeof(romver), archivo);
+        fclose(archivo);
+    }
+    switch (region_de_romver(romver, largo)) {
+        case REGION_PAL:
+            registrar("consola PAL: la imagen sale en NTSC a 60 Hz; hace falta una TV que acepte 60 Hz");
+            break;
+        case REGION_NTSC:
+            registrar("consola NTSC");
+            break;
+        default:
+            registrar("región de la consola desconocida");
+            break;
+    }
+}
+
 int cargar_modulo_iop(const char *camino)
 {
     int resultado = MODULO_NO_RESIDENTE;
@@ -146,6 +172,7 @@ int main(int argc, char *argv[])
     SifInitRpc(0);
 #endif
     marcar_tiempos_ps2("reinicio del IOP");
+    registrar_region_consola();
     ChangeThreadPriority(GetThreadId(), PRIORIDAD_HILO_PRINCIPAL);
     ETAPA(1);
     ETAPA(2);
