@@ -15,13 +15,32 @@
 
 // --- Opciones y datos de las pistas --------------------------------------------
 
-LUGAR(L_OPCIONES, menu_opcion_texto, 0, 3, 4, IZQ, 0x32, 0.9f, 1.0f, 0, 0x23, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
+LUGAR(L_OPCIONES, menu_opcion_texto, 0, 3, 4, IZQ, 0x32, 0.9f, 1.0f, 0, 0x1C, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
       "S; info_pistas_y_tiempos.inc.c:146")
 LUGAR(L_OPCION_SONIDO, menu_opcion_texto, 1, 1, 1, IZQ, 0x32, 0.9f, 1.0f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
       "S; info_pistas_y_tiempos.inc.c:146")
 LUGAR(L_SONIDO_VALOR, sonido_nombres_modo, 0, 3, 1, CENTRO, 0xE4, 1.0f, 1.0f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
       "S; info_pistas_y_tiempos.inc.c:153")
 SIN_SOLAPE(L_OPCION_SONIDO, L_SONIDO_VALOR, 4, "G: el modo de sonido va en la fila de la opcion")
+LUGAR(L_OPCION_PORT, menu_opcion_texto_port, 0, 0, 1, IZQ, 0x32, 0.9f, 1.0f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
+      "S; quinta fila de OPCIONES, info_pistas_y_tiempos.inc.c:150")
+LUGAR(L_CONFIG_TITULO, menu_opcion_texto_port, 0, 0, 1, CENTRO, 0xA0, 0.9f, 1.0f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
+      "S; info_pistas_y_tiempos.inc.c:164")
+LUGAR(L_CONFIG_FILAS, configuracion_filas, 0, 8, 9, IZQ, 0x20, 0.75f, 0.75f, 0, 0x10, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
+      "S; info_pistas_y_tiempos.inc.c:167")
+LUGAR(L_CONFIG_SI_NO, configuracion_si_no, 0, 1, 1, DER, 0x124, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
+      "S; info_pistas_y_tiempos.inc.c:175")
+SIN_SOLAPE(L_CONFIG_FILAS, L_CONFIG_SI_NO, 4, "G: el SI o el NO va en la fila de cualquier interruptor")
+LUGAR(L_CONFIG_FILA_FORMATO, configuracion_filas, 3, 3, 1, IZQ, 0x20, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
+      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:167")
+LUGAR(L_CONFIG_FORMATOS, configuracion_formatos, 0, 2, 1, DER, 0x124, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
+      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:175")
+SIN_SOLAPE(L_CONFIG_FILA_FORMATO, L_CONFIG_FORMATOS, 4, "G: el formato va en la fila FORMATO")
+LUGAR(L_CONFIG_FILA_OBJETO, configuracion_filas, 5, 5, 1, IZQ, 0x20, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
+      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:167")
+LUGAR(L_CONFIG_OBJETOS, configuracion_objetos, 0, 15, 1, DER, 0x124, 0.75f, 0.75f, 0, 0, ZONA_SEGURA_IZQ,
+      ZONA_SEGURA_DER, "S; info_pistas_y_tiempos.inc.c:175")
+SIN_SOLAPE(L_CONFIG_FILA_OBJETO, L_CONFIG_OBJETOS, 4, "G: el objeto va en la fila OBJETO")
 LUGAR(L_BORRAR_TODO, dato_800E7878, 0, 2, 3, IZQ, 0x28, 1.0f, 1.0f, 0, 0x14, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
       "S; info_pistas_y_tiempos.inc.c:159")
 LUGAR(L_BORRAR_TODO_OPCION, dato_800E7840, 0, 1, 2, IZQ, 0x84, 1.0f, 1.0f, 0, 0x19, ZONA_SEGURA_IZQ, ZONA_SEGURA_DER,
