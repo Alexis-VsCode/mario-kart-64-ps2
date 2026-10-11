@@ -9,43 +9,39 @@ Esta carpeta documenta el trabajo con el que todo lo que ve el jugador en el por
 
 Los nombres de carpetas, funciones, variables y comentarios del código ya están en español. Aquí solo se trata el texto que sale en pantalla.
 
-## Estado (2026-09-29)
+## Estado de F8 (2026-10-11)
 
-La localización está hecha e integrada en `feature/idioma-espanol`. Cada fase se hizo en su rama, ya fusionada; las ramas de trabajo se borran tras la fusión a `main`.
+La localización (F0 a F7) está cerrada y en `main` (`3f43c005`). F8, la sincronización con el repositorio original, está integrada en `feature/sincronizacion-upstream` hasta `d5f95cc5`. La versión que sale de ella es la 1.0.0, con `BUILD_ID` 2026-10-11.
 
-| Fase | Contenido | Rama (ya fusionada) | Estado |
-|---|---|---|---|
-| F0 | Esta documentación y el README principal | `docs/readme-y-especificacion` | Hecha: `c86f72c`…`cbc10e8`. Es la base de `feature/idioma-espanol` |
-| F1 | `make test` sin SDK, conversor EUC-JP, metadatos convertidos, `-fsigned-char`, tope de líneas y CI | `idioma/infra` | Hecha: 9 commits, de `f8f9a39` a `476dd52`. Integrada en `3d482a8` |
-| F2 | Refactor de la fuente del menú sin cambio de comportamiento | `idioma/fuente` | Hecha: `418ea18`, `1c9545d` y `d87d14f`. Integrada en `6a050d1` |
-| F3 | Tabla de glifos completa, caracteres del español, glifos nuevos y tope del pool de matrices | `idioma/fuente` | Hecha: de `4e35120` a `641fe27`. Falta el registro DEV de R-FUE-05 |
-| F4 | Texturas (manifiesto, cableado y arte) | `idioma/texturas` | Hecha: de `1ee6041` a `44cc3fb`. Integrada en `d3663fd` |
-| F4 | Cadenas, créditos y nombres de pista | `idioma/cadenas` | Hecha: de `15136d3` a `a54c0d4`. Integrada en `b043668` |
-| F4 | Pantallas del port y registro | `idioma/port` | Hecha: de `3db4b80` a `ba66cf9`. Integrada en `2ae3d3a` |
-| F5 | Revisión técnica y lingüística | — | Sin registro en el repositorio (ver [Pendiente](#pendiente)) |
-| F6 | Recorrido en PCSX2 y captura en TV | — | Pendiente. El guion está hecho: `herramientas/guiones/recorrido_textos.txt` (`466e73f`) |
-| F7 | Integración y publicación | `feature/idioma-espanol` | Hecha: merges, `0ff568e`, job `publicar` (`c461c5b`) y compilación versionada `dda9a5f`, generada por la CI [36518116212](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/36518116212). Queda la fusión a `main` |
+Hecho en F8:
 
-El detalle por requisito y por commit está en [trazabilidad.md](trazabilidad.md).
+- **Sincronización** con `anthoo582/mario-kart-64-ps2` hasta `ae93f71` (fusión `9f4d0215`, [CC-08](cambios.md)): multitap, arranque desde OPL sin reiniciar el IOP, tiempos límite en el IOP, el CD y la Memory Card, 60 FPS más estables y caché de texturas por columnas. Los textos nuevos del original están en español (`748db117` y `36fc9e40`).
+- **CI** ([CC-09](cambios.md)): `compilar-ps2` compila también `make DEV=1`; el commit de publicación pasa a tipo `build`; jobs a pedido `release` y `limpiar-ramas`.
+- **Correcciones con evidencia** ([CC-11](cambios.md)): E3, E4, E5, G5, L2 y L3. G2 y G4 se retiraron y quedan como propuesta para el original. G5 se integró sin prueba en el PC y L3 usa 128 KB de VRAM en lugar de 112 KB; las dos diferencias están registradas en CC-11.
+- **Pendientes técnicos de F3 y F4:** registro DEV de R-FUE-05 en las tres impresoras, prueba del tope de R-FUE-07, prueba de los botones de R-TEX-07 y prueba de la tabla de glifos frente a la forma del original (G1).
+- **Revisión** técnica y lingüística de cada rama, registrada en el [acta de F8](revisiones/2026-10-11-sincronizacion.md).
+- **Decisiones del responsable del proyecto:** CC-10 (recorrido con capturas) rechazado y [CC-12](cambios.md): la versión se verifica con las pruebas del PC y la CI, sin pasos manuales; F6 queda retirada.
+
+| Fase | Contenido | Estado |
+|---|---|---|
+| F0–F5, F7 | Documentación, infraestructura, fuente, cadenas, texturas, pantallas del port, revisión e integración de la localización | Cerradas (histórico), en `main` (`3f43c005`). Detalle en [plan.md §4](plan.md#4-fases) |
+| F6 | Recorrido en PCSX2 y captura en TV | Retirada por CC-12 |
+| F8 | Sincronización con el original, CI, correcciones y documentación | Integrada en `feature/sincronizacion-upstream`. Falta lo de [Pendiente](#pendiente) |
+
+El detalle por requisito y por commit está en [trazabilidad.md](trazabilidad.md); la deuda técnica, en [deuda.md](deuda.md).
 
 ## Pendiente
 
-Lo que sigue sin hacer en `dda9a5f`, con su motivo:
+1. **Integrar la documentación de F8** (`sinc/manual`, `sinc/proceso` y esta rama) en `feature/sincronizacion-upstream`, con su revisión.
+2. **Confirmación de G5.** CC-11 pedía `prueba_combinador` y G5 se integró con evidencia de código: falta que el responsable del proyecto lo confirme ([CC-11](cambios.md), [deuda.md](deuda.md) D-01).
+3. **Publicación:** job `publicar` sobre `feature/sincronizacion-upstream`, que regenera `build/` y `compilaciones/` desde cero. Ejecución de la CI: <<PUBLICACION>>. Commit de publicación: <<PUBLICACION>>.
+4. **Fusión a `main`** de `feature/sincronizacion-upstream`.
+5. **Release v1.0.0:** job `release` sobre `main`, con la ISO versionada y las notas de `docs/versiones/v1.0.0.md`. Tamaño de la ISO: <<PUBLICACION>>. SHA-256: <<PUBLICACION>>.
+6. **Limpieza de ramas:** job `limpiar-ramas` sobre `main`. Al final, `git ls-remote --heads origin` lista solo `main` ([CC-09](cambios.md)). Resultado: <<PUBLICACION>>.
 
-1. **Recorrido en PCSX2 (F6).** Lo hace el usuario: `make DEV=1` (o el ELF versionado `build/ps2/dev/SLUS_999.99`), copiar `herramientas/guiones/recorrido_textos.txt` como `smk64_input.txt` en la carpeta `host:` y sacar a mano las capturas en cada `nota`. El guion no cubre datos y récords, contrarreloj, VS y batalla (VTA. con 3 y 4 jugadores), el cartel ¡REVÉS!, Memory Card, ceremonia ni créditos; tampoco el panel (`make DEBUG=1`), la página de audio (`make DEBUG=1 DEBUG_AUDIO=1`) ni la parada de diagnóstico. Pasos en [plan.md §9.4](plan.md#94-en-pcsx2). De él dependen R-FUE-07, R-TXT-07, R-MC-03, R-TEX-05, R-PORT-02 y R-PORT-03.
-2. **Captura en TV** o en hardware real, para el sobrebarrido ([plan.md §9.5](plan.md#95-en-tv)). El port no se ha probado en una PS2 real.
-3. **Registro DEV de R-FUE-05.** No está en el código: el único registro DEV de `imprimir_texto1` avisa de un índice fuera de la tabla, no de una secuencia inválida (-2) ni de un byte `C2`/`C3`.
-4. **Cobertura de pruebas que falta:**
-   - R-TEX-02: fuera de las 63 texturas TKMK00 y las 15 del Controller Pak, ninguna prueba exige que cada textura con texto tenga fila o exclusión de carpeta en el manifiesto;
-   - R-TEX-07: que las texturas nombren los botones de PS2 se revisó en el manifiesto, sin comprobación automática;
-   - R-TEX-03: el crecimiento de la ROM (6 144 B) se midió a mano;
-   - R-TEX-08: la prueba revisa las reglas del sello en el `Makefile`, no un build incremental real;
-   - R-FUE-07: el tope del pool de matrices (`dcc0914`) no tiene prueba en el PC ni rojo demostrado.
-5. **Puerta G-FALLO.** No se hizo: la pantalla de fallo translitera siempre (sin tildes); el registro las conserva.
-6. **Registro de la revisión (F5).** No hay en el repositorio registro de la revisión por un rol distinto del autor (R-GOB-04, R-GOB-06) ni de la aprobación de CC-01 a CC-07; las mutaciones restauradas solo están registradas en parte (R-GOB-03).
-7. **Confirmación del cierre** por el responsable del proyecto (punto 5 de la definición de terminado) y fusión a `main`.
+## Próximo paso
 
-Desviación registrada que no se corrige: cuatro commits de tipo `chore` (R-GOB-01, [CC-06](cambios.md)).
+Revisar e integrar las tres ramas de documentación de F8 y, con la Definition of Done de [CONTRIBUTING.md](../../CONTRIBUTING.md) cumplida, lanzar `publicar` sobre `feature/sincronizacion-upstream`. El orden completo de la publicación (publicar, fusión a `main`, `release` y `limpiar-ramas`) está en el [manual técnico](../manual/tecnico.md).
 
 ## Punto de partida (verificado en `main`, `0e7b7d5`)
 
@@ -60,82 +56,61 @@ Desviación registrada que no se corrige: cuatro commits de tipo `chore` (R-GOB-
 | Documento | Contenido |
 |---|---|
 | [especificacion.md](especificacion.md) | Qué hay que cumplir: alcance, exclusiones, requisitos numerados con criterio de aceptación y prueba, decisiones cerradas y riesgos |
-| [plan.md](plan.md) | Cómo se hizo: fases F0–F7 con su estado final, roles y archivos, ramas, puertas de calidad, ciclo por bloque, definición de terminado y verificación |
+| [plan.md](plan.md) | Cómo se hizo: fases F0–F8 con su estado, roles y archivos, ramas, puertas de calidad, ciclo por bloque y verificación |
 | [glosario.md](glosario.md) | Términos aprobados y su fuente |
-| [trazabilidad.md](trazabilidad.md) | Relación entre requisito, prueba, commits y evidencia, con el estado final de cada requisito |
-| [cambios.md](cambios.md) | Registro de cambios de la especificación: límites, escalas, interlineado, términos y diferencias con el plan aprobado |
+| [trazabilidad.md](trazabilidad.md) | Relación entre requisito, prueba, commits y evidencia, con el estado de cada requisito y los commits de F8 |
+| [cambios.md](cambios.md) | Registro de cambios de la especificación (CC-01 a CC-12): límites, escalas, términos, decisiones y diferencias con el plan aprobado |
+| [revisiones/](revisiones/) | Actas de revisión. La de F8 es [2026-10-11-sincronizacion.md](revisiones/2026-10-11-sincronizacion.md), con las propuestas para el repositorio original |
+| [deuda.md](deuda.md) | Deuda técnica: lo que se sabe que falta, por qué no se hizo y dónde se haría |
 
 ## Cómo se trabaja
 
+Las reglas del proyecto (Definition of Done, autoría, commits, ramas, revisión y acta) están en [CONTRIBUTING.md](../../CONTRIBUTING.md), y cómo compilar, probar y publicar, en el [manual técnico](../manual/tecnico.md). En esta carpeta se añaden dos cosas propias de la localización:
+
 1. **Primero la especificación.** Cada cambio del código responde a un requisito (`R-FUE`, `R-TXT`, `R-MC`, `R-TEX`, `R-PORT`, `R-INF`, `R-GOB`). Si cambia un requisito, un límite, una escala o un término, primero se registra en [cambios.md](cambios.md) y se aprueba. Después se toca el código.
-2. **Primero la prueba.**
-   - La prueba nueva falla antes del cambio (rojo). Va en un commit propio o en el mismo commit que el cambio. En los dos casos, la salida del rojo se adjunta al PR.
-   - El cambio la hace pasar (verde).
-   - Una mutación de la implementación la vuelve a poner en rojo y después se restaura.
-   - Se revisa y se integra.
-3. **Roles.** FUENTE, CADENAS, TEXTURAS, PORT, PRUEBAS, REVISIÓN e INTEGRACIÓN. Nadie revisa un bloque que escribió.
-4. **Ramas.** Una rama por cambio, que se borra después de integrarla. La historia de las ramas de la traducción está en el esquema de abajo y en [plan.md §3](plan.md#3-ramas).
-5. **Trazabilidad.** Los identificadores de requisito aparecen en los commits y en esta carpeta, nunca en el código.
+2. **Trazabilidad.** Los identificadores de requisito aparecen en los commits y en esta carpeta, nunca en el código ([trazabilidad.md](trazabilidad.md)).
 
 ## Ramas
 
-Así se trabajó; todas estas ramas ya están fusionadas.
+F8 se trabajó así ([plan.md §3.2](plan.md#32-f8)):
 
 ```
-origin/main (0e7b7d5)
- ├─ docs/readme-y-especificacion    F0: esta carpeta y el README principal
- │   └─ feature/idioma-espanol       integración
- └─ idioma/infra                     F1
-     ├─ idioma/fuente                F2 y F3
-     │   ├─ idioma/cadenas           F4 (CADENAS)
-     │   └─ idioma/port              F4 (PORT)
-     └─ idioma/texturas              F4 (TEXTURAS); incorpora el resto de infra con el merge 236962b
+main (3f43c005)
+ └─ feature/sincronizacion-upstream   integración de F8: fusión 9f4d0215, textos 748db117 y 36fc9e40
+     ├─ sinc/ci              CC-09                    → 1ac5c96f
+     ├─ sinc/graficos-g5     CC-11 G5                 → 368a5416
+     ├─ sinc/sistema         CC-08, CC-11 E3-E5       → bbb11eb6
+     ├─ sinc/pendientes      R-FUE-05, R-FUE-07, L2   → cf956b42
+     ├─ sinc/panel           L3, R-TEX-07             → 240358fd
+     ├─ sinc/graficos        G2, G4 y G5               no se integra (solo G5, en sinc/graficos-g5)
+     ├─ sinc/recorrido       CC-10                     no se integra (rechazado)
+     └─ sinc/manual, sinc/proceso, sinc/doc-traduccion documentación de F8 (CC-12)
 ```
 
-La integración se hizo en `feature/idioma-espanol`, con `git merge --no-ff`, en este orden: `idioma/infra` (`3d482a8`) → `idioma/fuente` (`6a050d1`) → `idioma/texturas` (`d3663fd`) → `idioma/cadenas` (`b043668`) → `idioma/port` (`2ae3d3a`).
+Las ramas de F0 a F7 (`docs/readme-y-especificacion`, `idioma/infra`, `idioma/fuente`, `idioma/texturas`, `idioma/cadenas`, `idioma/port` y `feature/idioma-espanol`) ya están en `main`; su esquema está en [plan.md §3.1](plan.md#31-f0-a-f7-histórico).
 
-## Comandos de referencia
+## Comandos propios de la localización
+
+El resto de objetivos y variables de `make` están en el [manual técnico](../manual/tecnico.md).
 
 | Comando | Uso |
 |---|---|
-| `. herramientas/entorno.sh` | Carga el entorno del SDK de PS2 |
-| `make` | Compila el ELF (`build/ps2/SLUS_999.99`) y `build/ps2/SMK64ROM.BIN` |
-| `make test` | Pruebas en el PC, sin el SDK. Después: `git clean -fdq -- build && git checkout -- build` |
-| `make herramientas` | Herramientas del PC: `mio0`, `empaquetador_listas` y `tkmk00`, sin el SDK |
 | `make es` / `make hoja-es` | Texturas en español en `build/ps2/es/` / hojas de contacto en `build/ps2/es/hojas/`, sin el SDK |
-| `make DEBUG=1` | Panel de rendimiento (L3 + R3) y registro |
-| `make DEBUG=1 DEBUG_AUDIO=1` | Página de audio en el panel |
-| `make DEV=1` | Guiones de prueba por `host:` (emuladores); el de recorrido es `herramientas/guiones/recorrido_textos.txt` |
-| `make iso` | ISO en `compilaciones/` |
 | `python3 herramientas/comparar_preprocesado.py <antes> <después> <fuente.c>…` | Comprueba en el PC, sin SDK, que un refactor no cambia lo que ve el compilador |
 | `sh herramientas/comparar_binario.sh <base> [DEBUG=1]` | Compara el ELF y la ROM con los de una base. Necesita el SDK (en la CI, job `mismo-binario`) |
-| `git status --short` | Tiene que salir vacío al cerrar cada bloque |
 
-## Reglas generales
+## Verificación de F8
 
-Se aplican las reglas de la sección «Contribuir» del [README principal](../../README.md):
+Comprobado el 2026-10-11 sobre `feature/sincronizacion-upstream` en `d5f95cc5`.
 
-- nombres en español y `snake_case`;
-- archivos de código de 1000 líneas como máximo;
-- `make clean && make` y `make test` antes de enviar un cambio.
-
-## Verificación de cierre
-
-Comprobado el 2026-09-29 sobre `feature/idioma-espanol` (código de `dda9a5f`).
-
-- **Especificación → trazabilidad.** `especificacion.md` define 46 requisitos (`R-FUE` 8, `R-TXT` 8, `R-MC` 3, `R-TEX` 8, `R-PORT` 5, `R-INF` 6, `R-GOB` 8). Los 46 tienen fila en [trazabilidad.md](trazabilidad.md), la lista coincide sin sobrantes ni faltantes y todos tienen prueba asignada. Estado: 33 hechos (5 con una salvedad anotada), 11 parciales y 2 pendientes (R-GOB-04 y R-GOB-06, por falta de registro de revisión). Comprobación:
+- **Especificación → trazabilidad.** `especificacion.md` define 46 requisitos (`R-FUE` 8, `R-TXT` 8, `R-MC` 3, `R-TEX` 8, `R-PORT` 5, `R-INF` 6, `R-GOB` 8). Los 46 tienen fila en [trazabilidad.md](trazabilidad.md) y la lista coincide. Estado: 39 hechos (6 aceptados por CC-12 sin captura y 3 con una salvedad registrada en [deuda.md](deuda.md)) y 7 parciales (R-TEX-02, R-PORT-03, R-GOB-01, R-GOB-02, R-GOB-03, R-GOB-04 y R-GOB-06). Comprobación:
 
   ```sh
   diff <(grep -oE '^\*\*R-[A-Z]+-[0-9]+' especificacion.md | tr -d '*' | sort) \
        <(grep -oE '^\| R-[A-Z]+-[0-9]+' trazabilidad.md | tr -d '| ' | sort)
   ```
 
-- **Pruebas.** `env -u PS2SDK make test` termina con 0: 26 pruebas (8 en C y 18 en Python) y el comprobador del tope de líneas, 0 fallos; `prueba_textos` informa 0 tablas pendientes. Con `PYTHON=python3.8`, las copias de `build/ps2/jp` y `build/ps2/es` y la tabla de caminos salen idénticas a las versionadas.
-- **CI.** La ejecución [36518116212](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/36518116212) del workflow `compilacion`, sobre `c461c5b`, terminó en verde: `pruebas-pc`; `compilar-ps2` (release, `DEBUG=1`, `make test` e ISO); y `publicar` (release, `DEBUG=1`, `DEV=1`, `make test` e ISO), que generó `dda9a5f`. `mismo-binario` no corrió porque no se pidió una base.
-- **Definición de terminado** (README principal):
-  1. Compila: `make clean && make` en la CI (jobs `compilar-ps2` y `publicar`). No se compiló para PS2 en esta máquina, que no tiene el SDK.
-  2. `make test` pasa, sin regresiones: sí, en el PC y en la CI.
-  3. Documentación sincronizada: README y `docs/traduccion/` describen el estado de `dda9a5f`.
-  4. Árbol limpio: `git status --short` vacío después de `git clean -fdq -- build && git checkout -- build`.
-  5. Confirmación del responsable del proyecto: pendiente.
-- **Pendientes del usuario:** el recorrido en PCSX2 con `herramientas/guiones/recorrido_textos.txt` y las pantallas que el guion no cubre, la captura en TV y la confirmación del cierre (puntos 1, 2 y 7 de [Pendiente](#pendiente)).
+- **Pruebas.** `make test` terminó con 0 fallos en el worktree de revisión de cada rama integrada ([acta](revisiones/2026-10-11-sincronizacion.md)).
+- **Gobernanza.** Sobre `origin/main..feature/sincronizacion-upstream`: el comando de R-GOB-01 solo devuelve `c2ed147` y `ae93f71`, del original; ningún commit toca `build/` ni `compilaciones/`; no hay trailers; el grep de R-GOB-07 sale vacío.
+- **CI de F8:** <<PUBLICACION>>.
+- **Definition of Done:** la de [CONTRIBUTING.md](../../CONTRIBUTING.md), que se cierra con la publicación y la fusión a `main` ([Pendiente](#pendiente)).
