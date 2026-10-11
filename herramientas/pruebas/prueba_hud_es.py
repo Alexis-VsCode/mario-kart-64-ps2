@@ -10,7 +10,9 @@ lleva debajo VTA., que es la que se usa con 3 y 4 jugadores. La prueba
 comprueba que el build superpone los .inc.c en espanol (y que al invertir
 los bytes se usan esos), que todo el codigo dibuja estas texturas con el
 ancho nuevo, y que con 1 a 4 jugadores ninguna palabra pisa digitos, la
-caja del item en 1 jugador ni se sale de su parte de la pantalla.
+caja del item en 1 jugador ni se sale de su parte de la pantalla. En
+los bordes de esas texturas solo puede haber contorno oscuro: una letra
+que llega al borde con relleno se ve cortada.
 """
 import os
 import re
@@ -33,6 +35,7 @@ FUENTES_C = ["codigo/graficos/dibujar_objetos/ventana_item_y_minimapa.inc.c",
 INICIO_HUD = "codigo/carrera/inicio_hud_y_objetos/objetos_pista_y_hud_jugadores.inc.c"
 HUD_ANIMADO = "codigo/carrera/objetos_y_efectos/hud_animado.inc.c"
 ORDINALES = ("hud_1ro", "hud_2do", "hud_3ro", "hud_4to", "hud_5to", "hud_6to", "hud_7mo", "hud_8vo")
+UMBRAL_CONTORNO = 60               # luminancia que separa contorno de relleno (hud_grande)
 CAJA_ITEM_1J = (140, 16, 180, 48)   # 40x32 centrada en (0xA0, -0x20 + 0x40)
 
 fallos = 0
@@ -71,6 +74,23 @@ def probar_ordinales(filas):
                   "%s: se espera %d.\u00ba en i4 128x64 desde recursos/es/inc/" % (id_, n))
     for id_ in ("primer_lugar", "segundo_lugar", "tercer_lugar", "cuarto_lugar"):
         comprobar(por_id.get(id_, {}).get("motivo_no") == "solo la cifra", "%s: solo tiene la cifra" % id_)
+
+
+def luminancia(p):
+    return 0.299 * p[0] + 0.587 * p[1] + 0.114 * p[2]
+
+
+def probar_bordes(filas):
+    """Paso 1c: en el borde de las palabras del HUD no hay relleno, solo contorno o nada."""
+    por_id = {f["id"]: f for f in filas}
+    for id_ in PALABRAS:
+        img = png_simple.leer(os.path.join(RAIZ, por_id[id_]["png"]))
+        px = img.a_rgba()
+        borde = [(x, y) for y in range(img.alto) for x in (0, img.ancho - 1)] + \
+                [(x, y) for x in range(img.ancho) for y in (0, img.alto - 1)]
+        sueltos = sorted({(x, y) for x, y in borde if px[y * img.ancho + x][3]
+                          and luminancia(px[y * img.ancho + x]) >= UMBRAL_CONTORNO})
+        comprobar(not sueltos, "%s: relleno sin contorno en el borde de la textura en %r" % (id_, sueltos[:4]))
 
 
 def probar_superposicion(filas, build):
@@ -234,6 +254,7 @@ def main():
     filas = texturas_es.leer_manifiesto(texturas_es.MANIFIESTO)
     probar_manifiesto(filas)
     probar_ordinales(filas)
+    probar_bordes(filas)
     probar_superposicion(filas, os.path.abspath(sys.argv[1]))
     probar_codigo()
     probar_geometria(filas)
