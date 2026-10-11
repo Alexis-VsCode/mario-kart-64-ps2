@@ -27,8 +27,8 @@ static inline s8 convertir_eje(u8 crudo)
 
 /* Mientras el stick izquierdo está en reposo, la cruceta hace de stick. El reposo tiene su
    propio umbral, más ancho que la zona muerta, para que la deriva de un stick gastado no
-   anule la cruceta. */
-#define ZONA_REPOSO_CRUCETA 24
+   anule la cruceta: hasta 25 del centro, donde convertir_eje daba 0 con la zona de 24. */
+#define ZONA_REPOSO_CRUCETA 26
 
 static inline int eje_en_reposo(u8 crudo)
 {
