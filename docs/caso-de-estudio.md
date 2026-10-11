@@ -62,7 +62,7 @@ Calculadas del repositorio en la rama `feature/version-1.2.0`:
 
 - Juego completo en español, con Ñ y tildes en el texto y en las texturas.
 - Menú CONFIGURACIÓN Y TRUCOS: ANTIPARPADEO, POSICIÓN X/Y, FORMATO NORMAL/CON BANDAS/PANORÁMICO, DESBLOQUEAR TODO, OBJETO, 200CC y RIVALES SIN VENTAJA.
-- Deuda técnica reducida en la 1.2.0; el estado de cada entrada está en [deuda.md](traduccion/deuda.md). Sigue abierta D-23 (partícula de derrape dibujada con la matriz anterior cuando la reserva está llena).
+- Deuda técnica en cero en la 1.2.0: todas las entradas de [deuda.md](traduccion/deuda.md) están saldadas o pasaron a límites declarados (lo que solo se ve en hardware real).
 - CI en verde con el juego arrancado de verdad en un emulador.
 
 ### Límites declarados

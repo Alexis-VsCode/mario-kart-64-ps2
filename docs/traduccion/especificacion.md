@@ -794,7 +794,7 @@ Los comentarios explican un contrato o una invariante. Las funciones de varios p
   grep -rnE --exclude-dir=__pycache__ 'R-(FUE|TXT|MC|TEX|PORT|INF|GOB|VID|TRU)-[0-9]' codigo incluir herramientas
   ```
 
-- **Prueba:** ese comando en la revisión. Sale vacío en `dda9a5f`, en `d5f95cc5` y en `a29bd920`; en `85010a1f` encuentra 8 líneas en 4 archivos de `herramientas/` ([deuda.md](deuda.md), D-25).
+- **Prueba:** `prueba_textos_port.py` (desde `259a000d`) recorre `codigo/`, `incluir/` y `herramientas/` y falla si encuentra un identificador de requisito, `CC-N` o `D-NN`. Antes se comprobaba a mano con el comando; en `85010a1f` encontraba 8 líneas, ya limpias en `667b37bf`.
 
 **R-GOB-08. La documentación se actualiza en la misma iteración.**
 

@@ -348,6 +348,8 @@ Los commits de `feature/version-1.2.0` sobre `main`, por orden de integración. 
 | D-21 | `289e9c78`, `2c83c0f8`, `1727504e` | Ninguna orden a libmc después de una vencida |
 | D-22 | `00b25b9d`, `b38d42c4`, `9a92bc41` | «así que», «más de lo pedido», «como sale de fread()» y «1 fallo» en singular |
 | D-24 | `bb31482f`, `3505ff26`, `fe010d2a`, `cb32c871`, `bc4516de`, `caf7756f`, `f7866dd3`, `625105f4` | YA, BIENVENIDOS, 1J a 4J y PASO A NIVEL; `TEXTURAS_PENDIENTES` en 0 |
+| D-23 | `128c6e87`, `483cc7de` | `funcion_800652D4` devuelve si cargó la matriz y sus 30 llamadores se saltan el dibujo si no; `prueba_reserva_matrices.py` lo exige |
+| D-25 | `259a000d`, `667b37bf` | `prueba_textos_port.py` vigila que código, cabeceras y herramientas no citen identificadores de requisito ni de deuda; se limpiaron 24 líneas |
 
 ## Requisitos
 
