@@ -224,6 +224,6 @@ Las últimas líneas del registro también aparecen en la pantalla de fallo, en 
 - **Sin fines de lucro.** Es un proyecto educativo, de preservación y de apoyo a la comunidad. No se vende, no se cobra por descargarlo y no lleva publicidad.
 - **Sin afiliación.** No está afiliado a Nintendo ni a Sony, ni respaldado por ellas. Mario Kart 64, sus personajes y sus marcas son de Nintendo; PlayStation 2 es una marca de Sony Interactive Entertainment.
 - **Qué se publica.** La ISO y el ELF se publican igual que en el repositorio original del port, [anthoo582/mario-kart-64-ps2](https://github.com/anthoo582/mario-kart-64-ps2). El trabajo se apoya en el port de anthoo582 y en el [proyecto de descompilación de Mario Kart 64](https://github.com/n64decomp/mk64); los créditos completos están en [creditos.md](creditos.md).
-- **Sin licencia propia.** Ni el repositorio original ni este fork declaran una licencia, y este repositorio no añade ninguna.
+- **Licencia.** El repositorio original no declara licencia. Este fork publica con licencia MIT solo sus propios aportes ([LICENSE](../../LICENSE)); el juego, sus recursos, la descompilación y el código del repositorio original quedan fuera.
 
 El aviso completo está en la [portada del repositorio](../../README.md#aviso-legal).
