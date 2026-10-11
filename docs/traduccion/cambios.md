@@ -258,3 +258,31 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - el recorrido real lo corre el usuario en PCSX2.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
 - **Commit:** —
+
+### CC-11: correcciones con evidencia después de la sincronización
+
+- **Estado:** aprobado (responsable del proyecto, 2026-10-11)
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-FUE-07, R-PORT-01, R-PORT-02, R-INF-05
+- **Motivo:** revisión de solo lectura del árbol combinado, en tres frentes: gráficos, audio y estabilidad, y legibilidad del español. Solo entran las correcciones con un caso concreto y una corrección mínima. Lo que no tiene caso visible o no se puede verificar queda documentado.
+- **Cambio:**
+
+  | Id | Corrección | Archivos | Verificación |
+  |---|---|---|---|
+  | E3 | `GRUPOS_MAX` de 4 a 6: con los grupos nuevos de ceremonia y créditos la tabla quedaba llena, y un quinto grupo pisaba el cuarto en silencio | `cronometro_fases.c` | prueba en el PC si el cronómetro compila sin el SDK; si no, evidencia de código |
+  | E4 | Lectura de la ROM: 4 intentos de 5 s más 1 s de cancelación (unos 24 s), por debajo de los 30 s del perro guardián, para que se vea «no se pudo leer SMK64ROM.BIN» y no «cuelgue» | `carga_rom.c` | evidencia de código |
+  | E5 | Memory Card: con el tiempo vencido, el -1 se tomaba por «tarjeta nueva formateada». Ahora `type`/`format` se inicializan, se exige `mc_ok` y se deja de reintentar con la tarjeta desactivada | `memory_card.c` | evidencia de código |
+  | G2 | Captura de los guiones: se lee el pedido una sola vez y se borra solo si no cambió; el volcado fija `RGBAQ` para que el alfa del `.tga` sea opaco | `tarea_graficos.inc.c`, `guiones_prueba.c`, `sintetizador_gs.c` | captura del recorrido |
+  | G4 | El tramado por primitiva solo se activa si el combinador lee SHADE o hay niebla. Las letras del menú y los puestos 1.º…8.º son triángulos de color plano y salían con una trama de 4×4 | `matrices_y_vertices.inc.c` | captura antes/después; si no mejora, no se integra |
+  | G5 | `G_AC_DITHER`: el alfa negativo se limita a 0 antes de elevarlo al cuadrado | `combinador_y_recorte.inc.c` | `prueba_combinador` |
+  | L2 | Si la reserva de matrices está agotada, la letra no se dibuja y su tilde tampoco (antes caía sobre la letra anterior). Registro DEV una vez cuando se agota | `letras_y_fundidos.inc.c`, `cargar_texturas_menu.inc.c` | evidencia de código y registro DEV |
+  | L3 | Panel 5x7: una fila libre entre líneas para que las tildes no toquen la línea de arriba (`TEXTO_ALTO_LINEA` 9, textura de 108 filas, 112 KB de VRAM) | `texto_pantalla.h`, `texto_pantalla.c`, `medidor_rendimiento.h` | `prueba_fuente_5x7.c` |
+
+- **No se tocan (documentado):**
+  - **G3:** la segunda pasada `m·TEXEL + PRIM` no desplaza el modo REGION_REPEAT. Hoy ningún dibujo lo usa, así que no hay caso visible.
+  - **Marcar el atlas una vez por pasada:** es una optimización sin medición.
+  - **Audio, multitap, reinicio del IOP, 60 FPS, física y atlas:** sin defecto.
+- **Alternativas descartadas:** apagar el tramado en todos los triángulos 2D, porque cambia el degradado de las letras.
+- **Evidencia requerida:** la de la tabla. Cada corrección va en su commit `fix`, con la prueba en rojo o la evidencia en el mensaje.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
+- **Commit:** —
