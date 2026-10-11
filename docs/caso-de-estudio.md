@@ -54,7 +54,7 @@ Calculadas del repositorio en la rama `feature/version-1.2.0`:
 | Commits del autor | 352 de 357 en la rama |
 | Ramas integradas en la 1.2.0 | 14 |
 | Filas del manifiesto de texturas | 223, de ellas 66 con texto en español |
-| Texturas clasificadas | 1229 (CC-29) |
+| Texturas clasificadas | unas 1200 (CC-29) |
 | Versiones publicadas | v1.0.0 (`af3bfa05`), v1.1.0 (`fc17498f`) y v1.2.0 (<<PUBLICACION>>) |
 | ISO de la 1.2.0 | <<PUBLICACION>> |
 
@@ -62,7 +62,7 @@ Calculadas del repositorio en la rama `feature/version-1.2.0`:
 
 - Juego completo en español, con Ñ y tildes en el texto y en las texturas.
 - Menú CONFIGURACIÓN Y TRUCOS: ANTIPARPADEO, POSICIÓN X/Y, FORMATO NORMAL/CON BANDAS/PANORÁMICO, DESBLOQUEAR TODO, OBJETO, 200CC y RIVALES SIN VENTAJA.
-- Deuda técnica D-03 a D-24 saldada, salvo D-23 (partícula de derrape dibujada con la matriz anterior cuando la reserva está llena).
+- Deuda técnica reducida en la 1.2.0; el estado de cada entrada está en [deuda.md](traduccion/deuda.md). Sigue abierta D-23 (partícula de derrape dibujada con la matriz anterior cuando la reserva está llena).
 - CI en verde con el juego arrancado de verdad en un emulador.
 
 ### Límites declarados
