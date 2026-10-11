@@ -120,7 +120,7 @@ jobs:
           fi
           git commit -m "build(compilaciones): binarios e ISO en español" \
             -m "Regenerados desde cero con la imagen de ps2dev: release, DEBUG, DEV, pruebas e ISO." \
-            -m "Fuentes: ${{ github.sha }}. Ejecución: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            -m "Compilado desde ${{ github.sha }} en la ejecución ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           git push origin HEAD:${{ github.ref_name }}
 
   release:
