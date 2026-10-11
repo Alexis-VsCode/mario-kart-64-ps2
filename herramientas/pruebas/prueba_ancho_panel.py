@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
-"""Las lineas del panel de rendimiento caben en TEXTO_COLUMNAS.
+"""Las lineas del panel de rendimiento caben en TEXTO_COLUMNAS y en la textura.
 
 Formatea cada linea de medidor_rendimiento.c con los valores mas anchos
 que puede mostrar y cuenta columnas como escribir_linea_5x7: una por
 caracter, lleve tilde o no. Lo que pasa de TEXTO_COLUMNAS se corta sin
 avisar. La linea MAX se prueba con cada paso del cronometro, y cada paso
 cabe tambien en su columna del informe del cronometro.
+
+En alto, escribir_linea_5x7 pinta FUENTE_5X7_FILAS filas por linea (el
+signo y la letra) y cada linea ocupa TEXTO_ALTO_LINEA: tiene que sobrar
+al menos una fila para que la tilde no toque la linea de arriba. Las
+MEDIDOR_LINEAS lineas caben en TEXTO_ALTO_TEXTURA, que cabe en el alto
+que lee el GS, y MEDIDOR_VRAM_BYTES cubre las paginas de la textura.
 """
 import os
 import re
@@ -17,6 +23,7 @@ from prueba_textos_port import RAIZ, fuentes_del_codigo, literales_de  # noqa: E
 PANEL = "codigo/depuracion/medidor_rendimiento.c"
 TEXTO = "incluir/depuracion/texto_pantalla.h"
 FUENTE = "incluir/depuracion/fuente_5x7.h"
+MEDIDOR = "incluir/depuracion/medidor_rendimiento.h"
 CRONOMETRO = "codigo/sistema/cronometro_fases.c"
 
 MS = "99.9"  # decimas() hasta 99.9 ms por cuadro
@@ -40,6 +47,9 @@ PEOR = {
     "VÉRT %s TRI %s TEX %s EST %s ENV %s": (MS3, MS3, MS3, MS3, MS3),
     "MIDIENDO...": (),
 }
+# Pagina de la VRAM del GS: 8 KB, 64x32 pixeles en CT32. Una textura CT32
+# ocupa filas de paginas enteras, TBW paginas por fila.
+PAGINA_BYTES, PAGINA_ANCHO, PAGINA_ALTO = 8192, 64, 32
 LLAMADA = re.compile(r'(?:snprintf\(linea,\s*sizeof\(linea\),|texto_escribir_linea\(&texto,\s*\d+,)\s*"([^"]*)"')
 
 fallos = 0
@@ -59,6 +69,11 @@ def definicion(ruta, nombre):
         return re.search(r"#define\s+%s\s+([^/\n]+)" % nombre, f.read()).group(1).strip()
 
 
+def valor(ruta, nombre, **macros):
+    """Valor entero de un #define aritmetico, con las macros dadas ya resueltas."""
+    return int(eval(definicion(ruta, nombre), {"__builtins__": {}}, macros))
+
+
 def columnas_panel():
     ancho = int(definicion(TEXTO, "TEXTO_ANCHO_TEXTURA"))
     return ancho // int(definicion(FUENTE, "FUENTE_5X7_AVANCE"))
@@ -76,7 +91,29 @@ def pasos_cronometro():
             yield paso
 
 
+def probar_alto():
+    """Paso entre lineas, alto de la textura y VRAM que reserva el panel."""
+    filas_celda = valor(FUENTE, "FUENTE_5X7_FILAS")
+    alto_linea = valor(TEXTO, "TEXTO_ALTO_LINEA", FUENTE_5X7_FILAS=filas_celda)
+    ancho = valor(TEXTO, "TEXTO_ANCHO_TEXTURA")
+    alto = valor(TEXTO, "TEXTO_ALTO_TEXTURA")
+    alto_gs = 1 << valor(TEXTO, "TEXTO_ALTO_GS_LOG2")
+    lineas = valor(PANEL, "MEDIDOR_LINEAS")
+    comprobar(alto_linea > filas_celda,
+              "%s: TEXTO_ALTO_LINEA %d no deja fila libre debajo de las %d filas de cada linea: "
+              "la tilde toca la linea de arriba" % (TEXTO, alto_linea, filas_celda))
+    comprobar(lineas * alto_linea <= alto <= alto_gs,
+              "%s: %d lineas de %d filas en una textura de %d filas que el GS lee con %d"
+              % (TEXTO, lineas, alto_linea, alto, alto_gs))
+    paginas = -(-ancho // PAGINA_ANCHO) * -(-alto // PAGINA_ALTO)
+    vram = valor(MEDIDOR, "MEDIDOR_VRAM_BYTES")
+    comprobar(vram >= paginas * PAGINA_BYTES,
+              "%s: MEDIDOR_VRAM_BYTES %d no cubre las %d paginas (%d bytes) de la textura de %dx%d"
+              % (MEDIDOR, vram, paginas, paginas * PAGINA_BYTES, ancho, alto))
+
+
 def main():
+    probar_alto()
     columnas = columnas_panel()
     with open(os.path.join(RAIZ, PANEL), encoding="utf-8") as f:
         formatos = LLAMADA.findall(f.read())
