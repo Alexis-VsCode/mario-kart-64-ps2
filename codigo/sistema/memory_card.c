@@ -13,6 +13,7 @@
 #include "sistema/guardado_ps2.h"
 #include "sistema/cronometro_fases.h"
 #include "sistema/eleccion_guardado.h"
+#include "sistema/crc32.h"
 
 #define PUERTO_MC 0
 #define RANURA_MC 0
@@ -44,21 +45,6 @@ static volatile int estado_carga = PENDIENTE_CARGA;
 #define MS_TIMEOUT_CARGA 5000
 #define MS_ESPERA_ORDEN_MC 5000
 extern void *_gp;
-
-static u32 crc32(const u8 *p, u32 n)
-{
-    u32 crc = 0xFFFFFFFFu;
-
-    while (n--) {
-        int k;
-
-        crc ^= *p++;
-        for (k = 0; k < 8; k++) {
-            crc = (crc >> 1) ^ (0xEDB88320u & -(crc & 1));
-        }
-    }
-    return ~crc;
-}
 
 static u32 crc_imagen(const ImagenGuardadoPs2 *img)
 {
