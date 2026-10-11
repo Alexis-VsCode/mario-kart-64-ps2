@@ -22,6 +22,10 @@ on:
         description: "sí: borra las ramas remotas que ya están contenidas en main"
         required: false
         default: "no"
+      regenerar_referencias:
+        description: "sí: el job del emulador escribe sus capturas como referencias y las commitea en la rama"
+        required: false
+        default: "no"
 
 jobs:
   pruebas-pc:
@@ -82,7 +86,10 @@ jobs:
     needs: compilar-ps2
     runs-on: ubuntu-24.04
     timeout-minutes: 40
+    permissions:
+      contents: write
     env:
+      REGENERAR: ${{ github.event_name == 'workflow_dispatch' && (inputs.regenerar_referencias == 'si' || inputs.regenerar_referencias == 'sí') }}
       PLAY_URL: "https://purei.org/downloads/play/stable/0.72/Play!-8de4a71f-x86_64.AppImage"
       PLAY_SHA256: 5523586c7d89f90e0e6eb9cbc70008d1d6ef3d38656fea809517d3f5fd3004d3
       PLAY: play/squashfs-root/usr/bin/Play
@@ -125,7 +132,22 @@ jobs:
         run: |
           python3 herramientas/emulador/comprobar_registro.py "emu/1/Play Data Files/vfs/host" PAL --exige "vídeo: PMODE 8046"
           python3 herramientas/emulador/comprobar_registro.py "emu/2/Play Data Files/vfs/host" PAL --exige "vídeo: PMODE 8046"
+      # Las referencias salen del mismo entorno que las compara; el commit se revisa a ojo antes de integrarlo
+      - name: Regenerar las referencias
+        if: env.REGENERAR == 'true'
+        run: |
+          python3 herramientas/emulador/comparar_capturas.py --generar "emu/1/Play Data Files/vfs/host" herramientas/emulador/referencias
+          python3 herramientas/emulador/comparar_capturas.py "emu/2/Play Data Files/vfs/host" herramientas/emulador/referencias
+          for n in menu carrera configuracion; do cp "herramientas/emulador/referencias/$n.png" docs/img/; done
+          git config user.name "Alexis Barrera"
+          git config user.email "mochobarrera12@gmail.com"
+          git add herramientas/emulador/referencias docs/img
+          if git diff --cached --quiet; then echo "las referencias no cambian"; exit 0; fi
+          git commit -m "test(emulador): referencias regeneradas en la CI con el ELF de DEV actual" \
+            -m "Generadas en la ejecución ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}; la segunda ejecución coincide con ellas."
+          git push origin HEAD:${{ github.ref_name }}
       - name: Capturas frente a las referencias y entre las dos ejecuciones
+        if: env.REGENERAR != 'true'
         run: |
           python3 herramientas/emulador/comparar_capturas.py "emu/1/Play Data Files/vfs/host" herramientas/emulador/referencias
           python3 herramientas/emulador/comparar_capturas.py "emu/2/Play Data Files/vfs/host" herramientas/emulador/referencias
