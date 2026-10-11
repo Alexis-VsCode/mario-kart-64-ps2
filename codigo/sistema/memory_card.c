@@ -320,9 +320,26 @@ static int releer_tarjeta_nueva(u32 generacion_sesion)
     return 0;
 }
 
+/* Crea la carpeta si falta, con su icono; -1 si no se pudo crear */
+static int preparar_carpeta(void)
+{
+    int r;
+
+    mcMkDir(PUERTO_MC, RANURA_MC, DIR_GUARDADO);
+    r = resultado_llamar_mc();
+    if (r == 0) { /* directorio nuevo: primera vez en esta tarjeta */
+        if (escribir_archivos_icono() != 0) {
+            registrar("memory card: no se pudo escribir el icono");
+        }
+    } else if (r != -4) {
+        return -1;
+    }
+    return 0;
+}
+
 static int guardar_ahora(void)
 {
-    int r, nueva;
+    int nueva;
 
     if (!listo_tarjeta_mc(&nueva)) {
         return -1;
@@ -336,13 +353,7 @@ static int guardar_ahora(void)
     copia_escritura.version = VERSION_GUARDADO_PS2;
     copia_escritura.checksum = crc_imagen(&copia_escritura);
 
-    mcMkDir(PUERTO_MC, RANURA_MC, DIR_GUARDADO);
-    r = resultado_llamar_mc();
-    if (r == 0) { /* directorio nuevo: primera vez en esta tarjeta */
-        if (escribir_archivos_icono() != 0) {
-            registrar("memory card: no se pudo escribir el icono");
-        }
-    } else if (r != -4) {
+    if (preparar_carpeta() != 0) {
         return -2;
     }
     /* La copia mas vieja; si la escritura se corta, queda la otra. */
