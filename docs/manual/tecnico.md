@@ -32,7 +32,7 @@ Cómo está hecho el port, cómo se compila, se prueba y se publica, y cómo se 
 | RSP gráfico (F3DEX) y RDP | Intérprete de listas de dibujo | `codigo/graficos/interprete_f3dex.c` y `interprete_f3dex/` |
 | Combinador de color | Evaluación del combinador; el alfa con tramado es la función pura `combinador_alfa_tramado()` | `codigo/graficos/combinador_color.c`, `incluir/graficos/combinador_color.h` |
 | TMEM | Carga y caché de texturas | `codigo/graficos/memoria_texturas.c` y `memoria_texturas/` |
-| Salida de video | Paquetes y framebuffers del GS | `codigo/graficos/sintetizador_gs.c` |
+| Salida de vídeo | Paquetes y framebuffers del GS; los registros del PCRTC (PMODE, DISPFB2, DISPLAY) salen de una función pura según las opciones | `codigo/graficos/sintetizador_gs.c`, `incluir/graficos/registros_video.h`, `incluir/graficos/vista_panoramica.h` |
 | RSP de audio | Microcódigo en C | `codigo/audio/microcodigo_audio.c` y `microcodigo_audio/` |
 | Salida de audio | `audsrv` (IRX embebidos en `codigo/datos/datos_embebidos.s`) | `codigo/audio/salida_audio.c` |
 | Tareas del RSP | Reparto entre gráficos y audio | `codigo/sistema/tareas_rsp.c` |
@@ -41,6 +41,7 @@ Cómo está hecho el port, cómo se compila, se prueba y se publica, y cómo se 
 | DMA del cartucho (PI) | Copia desde la ROM en RAM | `codigo/sistema/hardware.c`, `codigo/sistema/carga_rom.c` |
 | EEPROM y Controller Pak | Imagen guardada en la Memory Card; la copia que se pisa en una tarjeta nueva la elige una función pura | `codigo/sistema/guardado_ps2.c`, `codigo/sistema/memory_card.c`, `incluir/sistema/eleccion_guardado.h` |
 | Mandos | `libpad`; la conversión del eje del stick y el reposo de la cruceta son funciones puras | `codigo/entrada/mandos.c`, `incluir/entrada/eje_palanca.h` |
+| Sin equivalente: opciones del port | Ajustes de imagen y trucos en `SMK64CFG.DAT`, con su formato y saneado en funciones puras | `incluir/sistema/opciones_port.h`, `codigo/sistema/memory_card.c`, `incluir/menus/menu_configuracion.h` |
 | Sin equivalente: región de la consola | Lectura de `rom0:ROMVER` al arrancar, solo para el registro: el vídeo sale siempre en NTSC a 60 Hz | `codigo/sistema/arranque_ps2.c`, `incluir/sistema/region_ps2.h` |
 
 Las funciones puras de esas cabeceras son `static inline` y no dependen del SDK de PS2: el código del port las usa y `make test` las prueba en el PC (ver [Pruebas](#pruebas)). La lógica que las rodea, con libmc, libpad o la BIOS, solo compila con el SDK.
@@ -73,6 +74,51 @@ build/ps2/rom.elf -> build/ps2/rom.bin
   - los fuentes de `JP_SRC` y los de `JP_PARTES` (sus partes `.inc.c` y los metadatos de pista), que en el repositorio están en UTF-8, pasan a EUC-JP con `herramientas/convertir_eucjp.py` (`build/ps2/jp/`);
   - las texturas en español salen de los PNG de `recursos/es/` (`make es` → `build/ps2/es/`): las de menú se guardan en MIO0 y el cargador elige TKMK00 o MIO0 por la firma.
 
+## Vídeo
+
+El modo no cambia desde la 1.0.0: NTSC 480i a 60 Hz, 640×448, iniciado por gsKit. La 1.2.0 añade la presentación en el PCRTC y la vista panorámica ([CC-20](../traduccion/cambios.md) y CC-21). Ninguno de los dos cambia lo que dibuja el GS, salvo el campo de visión en PANORÁMICO.
+
+**Registros del PCRTC.** `calcular_registros_video()` (`incluir/graficos/registros_video.h`) es una función pura: recibe el `DISPLAY` que deja `gsKit_init_screen` (`BaseVideo`) y las opciones, y devuelve tres valores:
+
+| Registro | Por defecto | Con las opciones |
+|---|---|---|
+| `PMODE` (0x12000000) | `0x8046` (`PMODE_GSKIT`): solo el circuito 2, como gsKit | ANTIPARPADEO: `0x8027` (`PMODE_ANTIPARPADEO`), los dos circuitos con CRTMD=1, MMOD=1 y ALP=0x80, mezcla al 50 % |
+| `DISPFB2` (0x12000090) | Sin cambios | ANTIPARPADEO: suma DBY=1 (bit 43), el circuito 2 una línea más abajo |
+| `DISPLAY1` y `DISPLAY2` (0x12000080, 0x120000A0) | Los de gsKit | POSICIÓN X: `DX` + 8 VCK por paso (±32). POSICIÓN Y: `DY` + 2 líneas por paso (±16), siempre par. CON BANDAS: MAGH a 3/4 de los VCK por píxel, `DW` a 3/4 y `DX` centrado; el negro de fuera del área hace de bandas |
+
+Con los valores por defecto, los registros son los de la 1.1.0; `prueba_registros_video.c` lo fija. `sintetizador_gs.c` vuelve a calcular y escribe los registros en el retrazo cuando cambia `version_opciones_port`, y no los toca en pánico. Al arrancar registra la línea `vídeo: PMODE <pmode> área visible <display>`, que el job `emulador` exige (`vídeo: PMODE 8046`).
+
+**Vista panorámica.** `incluir/graficos/vista_panoramica.h`:
+
+- `aspecto_panoramico()` multiplica `aspecto_pantalla` por 4/3 en las asignaciones de la carrera, la vista dividida y la ceremonia (Hor+). No se aplica en `guPerspectiveF`, para que los menús no cambien.
+- `cono_visibilidad()` ensancha 4/3 el cono horizontal de `es_visible_objeto_en_camara`, con tope en una vuelta. El ensanche lineal cubre siempre el campo real, porque atan(4/3·tan a) ≤ 4/3·a entre 0 y 90 grados.
+- Límites declarados: los tramos de pista se eligen por cuadrante de cámara, y en los bordes algún objeto o tramo puede aparecer tarde; el marcador sale estirado.
+
+**Configuración de la PS2.** `memory_card.c` lee `configGetTvScreenType()` antes de cargar las opciones: solo `TV_SCREEN_169` cuenta como 16:9 (`pantalla_osd_169`), y entonces FORMATO vale CON BANDAS por defecto.
+
+## Opciones del port y trucos
+
+**`opciones_port`** (`incluir/sistema/opciones_port.h`, [CC-18](../traduccion/cambios.md)) guarda los 8 ajustes del menú CONFIGURACIÓN Y TRUCOS. El flujo:
+
+1. El menú escribe `opciones_port` y llama a `opciones_cambiadas()`, que sube `version_opciones_port` tras una barrera de compilador, para que el retrazo no vea la versión nueva antes que los campos.
+2. Al salir del menú, si algo cambió, `pedir_guardado_opciones()` encola la escritura en el hilo de guardado.
+3. El GS relee las opciones en el retrazo; los trucos las leen directamente.
+
+`SMK64CFG.DAT` mide 32 bytes, en little endian: `MKCF`, versión (u16, hoy 1), tamaño (u16), los 8 campos en el orden del struct, 12 bytes a 0 y el CRC32 de los bytes 0 a 27. `opciones_deserializar()` rechaza firma, versión, tamaño o CRC distintos (una versión mayor también: no se sabe qué significan sus campos) y deja los valores por defecto; `opciones_sanear()` lleva cada campo a su rango. El hilo de guardado no reescribe el archivo si no cambió.
+
+**Menú.** La navegación y el ciclo de valores son funciones puras de `incluir/menus/menu_configuracion.h` (`config_mover_fila`, `config_cambiar`); el dibujo está en `info_pistas_y_tiempos.inc.c` y la entrada en `tablas_menus.inc.c` ([CC-19](../traduccion/cambios.md)).
+
+**Trucos** (apagados por defecto; CC-22 a CC-25):
+
+| Truco | Función pura | Dónde actúa |
+|---|---|---|
+| DESBLOQUEAR TODO | `incluir/juego/trucos.h` | `tiene_modo_extra_desbloqueado` (`guardado.c`) y los fantasmas del staff (`repeticiones.c`). Nunca escribe el desbloqueo en la partida; se aplica al reconstruir cada pantalla de menú (`91c7254e`) y el cursor se recorta si EXTRA deja de existir |
+| OBJETO | `incluir/carrera/truco_objeto.h` | Tras la ruleta de `funcion_8007AFB0`, solo para humanos. El generador aleatorio avanza igual. En batalla solo valen los objetos de batalla; en contrarreloj o con un valor inválido sale el objeto normal |
+| 200CC | `incluir/carrera/cilindrada_200cc.h` | Modificador de 150cc, factor 35/32 en la rapidez máxima, el empuje al aparecer y el objetivo de la CPU. Solo Gran Premio y Versus; `seleccion_cc` sigue en 150cc, así que puntúa como 150cc |
+| RIVALES SIN VENTAJA | `incluir/carrera/rivales_sin_ventaja.h` | Quita el impulso de la CPU por detrás del jugador (`control_velocidad_cpu.inc.c`) y la velocidad fija de recuperación (`caminos_y_vehiculos.inc.c`); respeta al rival designado (`4c0323bf`). Solo en Gran Premio |
+
+Los récords, fantasmas y trofeos conseguidos con trucos se guardan sin marca; el manual de usuario lo advierte.
+
 ## Estructura
 
 | Carpeta | Contenido |
@@ -95,7 +141,9 @@ build/ps2/rom.elf -> build/ps2/rom.bin
 | `compilacion/` | Scripts del enlazador (`ps2.ld`, `segmento_datos.ld`) |
 | `recursos/es/` | PNG y manifiestos de las texturas en español, y letras de cada familia para componerlas |
 | `herramientas/` | Entorno, ISO, ROM, texturas (también las del español), audio, icono, caminos del tren y del barco, empaquetador de listas y conversión a EUC-JP |
-| `herramientas/pruebas/` | Pruebas de `make test` |
+| `herramientas/pruebas/` | Pruebas de `make test`; `sdk_simulado/` tiene las cabeceras y la libmc simulada del arnés de Memory Card |
+| `herramientas/ci/` | Pasos de la CI que necesitan el SDK: tope de la ROM, build incremental e inspección de la fuente de libdebug |
+| `herramientas/emulador/` | Job `emulador`: lanzador de Play!, guion, revisión del registro, comparación de capturas y referencias aprobadas |
 | `herramientas/guiones/` | Guion de ejemplo para `make DEV=1` (`recorrido_textos.txt`) |
 | `docs/manual/` | Este manual, el de usuario y los créditos |
 | `docs/traduccion/` | Localización al español: especificación, plan, glosario, trazabilidad, registro de cambios y actas de revisión |
@@ -292,7 +340,7 @@ git clean -fdq -- build && git checkout -- build
 
 `make test` no necesita el SDK de PS2 ni el entorno cargado. Las pruebas en C se compilan con el `gcc` del PC y `-fsigned-char` (el `char` del R5900 lleva signo); las demás son scripts de Python. Cualquier comprobación que no se cumple hace fallar `make test` con código de salida distinto de 0. Deja sus copias y ejecutables en `build/`, que está versionado: por eso la limpieza del final.
 
-El objetivo `test` del `Makefile` corre 31 pruebas de `herramientas/pruebas/` (12 en C y 19 en Python) y después el comprobador del tope de líneas, `herramientas/comprobar_lineas.py`. Cada prueba termina con una línea `N comprobaciones, M fallos`, salvo `prueba_caminos_vehiculos`, que informa por camino:
+El objetivo `test` del `Makefile` corre 46 pruebas de `herramientas/pruebas/` (21 en C y 25 en Python) y después el comprobador del tope de líneas, `herramientas/comprobar_lineas.py`. Cada prueba termina con una línea `N comprobaciones, M fallos`, salvo `prueba_caminos_vehiculos`, que informa por camino:
 
 | Área | Pruebas | Qué comprueban |
 |---|---|---|
@@ -300,15 +348,19 @@ El objetivo `test` del `Makefile` corre 31 pruebas de `herramientas/pruebas/` (1
 | Mandos, Memory Card y región | `prueba_eje_palanca.c`, `prueba_eleccion_guardado.c`, `prueba_region_ps2.c` | Conversión del eje del stick (centro, extremos ±80, simetría, monotonía y giro a 28 o menos del centro) y reposo de la cruceta por debajo de `ZONA_REPOSO_CRUCETA`; copia que se pisa y generación mínima al guardar en una tarjeta nueva; región PAL, NTSC o desconocida a partir de `rom0:ROMVER` |
 | Codificación | `prueba_convertir_eucjp.py`, `prueba_metadatos_eucjp.py`, `prueba_caracteres_es.c` | Conversión a EUC-JP (errores con `ruta:línea:columna`), metadatos de pista convertidos, lectura de Á É Í Ó Ú Ñ Ü ¡ ¿ º ª en EUC-JP y UTF-8 y `quitar_diacriticos` |
 | Pantallas del port | `prueba_fuente_5x7.c`, `prueba_textos_port.py`, `prueba_ancho_panel.py`, `prueba_cadena_depuracion.c` | Fuente del panel con tildes; textos del panel, del registro y de la pantalla de fallo, con la lista negra ampliada a los textos nuevos del original; ancho de las líneas del panel y la fila libre entre líneas; fuente de depuración N64 |
+| Vídeo | `prueba_registros_video.c`, `prueba_vista_panoramica.c` | PMODE, DBY y DISPLAY por defecto iguales a los de gsKit; antiparpadeo `0x8027` con DBY en el bit 43; DY siempre par; bandas con bases de MAGH 0 y 1 sin desbordar; aspecto ×4/3 solo en PANORÁMICO y cono de visibilidad con tope |
+| Opciones, menú y trucos | `prueba_opciones_port.c`, `prueba_menu_configuracion.c`, `prueba_trucos.c`, `prueba_truco_objeto.c`, `prueba_cilindrada_200cc.c`, `prueba_rivales_sin_ventaja.c` | Formato de `SMK64CFG.DAT` (firma, versión, tamaño, CRC32 y saneado), valores por defecto según 16:9; navegación y ciclo de valores del menú; DESBLOQUEAR TODO; OBJETO en GP, batalla, contrarreloj y con valores inválidos; fórmula de 200CC contra las tablas originales con el peor caso por debajo de 8,8 por paso; RIVALES SIN VENTAJA |
+| Memory Card (arnés) | `prueba_memory_card.c` | `memory_card.c` compilado en el PC con la libmc simulada de `sdk_simulado/`: carga, guardado, tarjeta nueva, tarjeta que deja de contestar (sin más órdenes en la sesión), espera al arrancar con un reloj simulado y archivo de opciones |
+| CI y emulador | `prueba_tope_rom.py`, `prueba_fuente_libdebug.py`, `prueba_comprobar_registro.py`, `prueba_comparar_capturas.py` | Los scripts de `herramientas/ci/` y `herramientas/emulador/` con datos sintéticos: tope de 256 KiB, glifos CP437 de libdebug, registro (región, pánico, guion) y capturas (tolerancia, tamaño, imagen uniforme) |
 | Arranque y cronómetro | `prueba_arranque.py`, `prueba_cronometro_fases.c` | `inicializar_depuracion()` va en `main()` antes del reinicio del IOP y el cronómetro se abre antes del primer paso; el cronómetro de fases admite los 6 grupos, y `GRUPOS_MAX` es mayor que el número de `GRUPO_` de `marcas_registro.h` |
-| Fuente del menú | `prueba_glifos.c`, `prueba_glifos_es.py`, `prueba_tablas_glifos.py` | Compatibilidad con la N64 (huella de índices y avances) y detector del primer byte que la fuente no dibuja; anchos y arte reproducible de los 11 glifos nuevos; tabla de 247 glifos definida una sola vez, tope de la reserva de matrices (la condición entera) y registro DEV en las tres impresoras de cadenas |
+| Fuente del menú | `prueba_glifos.c`, `prueba_glifos_es.py`, `prueba_tablas_glifos.py`, `prueba_reserva_matrices.py` | Compatibilidad con la N64 (huella de índices y avances) y detector del primer byte que la fuente no dibuja; anchos y arte reproducible de los 11 glifos nuevos; tabla de 247 glifos definida una sola vez, tope de la reserva de matrices (la condición entera) y registro DEV en las tres impresoras de cadenas; `prueba_reserva_matrices.py` exige el tope antes de cada escritura en `efecto_mtx` |
 | Textos | `prueba_textos.c` (con sus tablas `prueba_textos_*.inc.c` y `prueba_textos_tinta.py`) | Todas las tablas en español: glosario y lista negra, número de entradas, glifo para cada carácter, textos esperados byte a byte, zona segura medida por tinta, interlineado y signos de apertura |
-| Texturas | `prueba_png_simple.py`, `prueba_formatos_textura.py`, `prueba_tkmk00.py`, `prueba_invertir_texturas.py`, `prueba_texturas_es.py`, `prueba_cableado_es.py`, `prueba_composicion_es.py`, `prueba_hud_es.py`, `prueba_lakitu_es.py`, `prueba_titulos_es.py`, `prueba_cartel_es.py`, `prueba_hojas_es.py`, `prueba_textura_menu.c` | Herramientas de PNG y formatos, despacho TKMK00/MIO0, manifiesto (sin botones de la N64 en los textos), cableado en la ROM y tamaños, composición del arte, HUD sin solapes de 1 a 4 jugadores, 16 cuadros y paleta de Lakitu, títulos de pista, cartel de la granja y hojas de contacto |
+| Texturas | `prueba_png_simple.py`, `prueba_formatos_textura.py`, `prueba_tkmk00.py`, `prueba_invertir_texturas.py`, `prueba_texturas_es.py`, `prueba_cableado_es.py`, `prueba_composicion_es.py`, `prueba_hud_es.py`, `prueba_lakitu_es.py`, `prueba_titulos_es.py`, `prueba_cartel_es.py`, `prueba_hojas_es.py`, `prueba_textura_menu.c` | Herramientas de PNG y formatos, despacho TKMK00/MIO0, manifiesto (sin botones de la N64 en los textos), cableado en la ROM y tamaños, composición del arte, HUD sin solapes de 1 a 4 jugadores, 16 cuadros y paleta de Lakitu, títulos de pista, cartel de la granja y hojas de contacto. El manifiesto clasifica las 1229 texturas con filas de textura, de carpeta (`carpeta:`) y de archivo (`archivo:`), y `TEXTURAS_PENDIENTES` vale 0 |
 | Calidad | `herramientas/comprobar_lineas.py` | Ningún archivo de código pasa de 1000 líneas |
 
-Medido el 2026-10-11 en `a29bd920` (base de la documentación de la versión 1.1.0) con `make test`: código de salida 0, las 31 pruebas con 0 fallos (`prueba_textos`: 225 242 comprobaciones y 0 tablas pendientes; `prueba_eje_palanca`: 417; `prueba_eleccion_guardado`: 20; `prueba_region_ps2`: 16) y 0 archivos por encima del tope de líneas.
+Medido el 2026-10-11 en `85010a1f` (base de la documentación de la versión 1.2.0) con `PS2SDK= make test`: código de salida 0, las 46 pruebas con 0 fallos (`prueba_textos`: 237 426 comprobaciones y 0 tablas pendientes; `prueba_eje_palanca`: 438; `prueba_memory_card`: 83; `prueba_registros_video`: 66; `prueba_menu_configuracion`: 55; `prueba_opciones_port`: 38; `prueba_truco_objeto`: 29; `prueba_cilindrada_200cc`: 19; `prueba_region_ps2`: 17; `prueba_vista_panoramica`: 16; `prueba_trucos`: 13; `prueba_rivales_sin_ventaja`: 5) y 0 archivos por encima del tope de líneas.
 
-**Qué no se comprueba.** Ninguna prueba mira la imagen en pantalla: los textos se comprueban byte a byte y por tinta, y las texturas por sus datos, pero no hay capturas registradas de la versión en español ([CC-12](../traduccion/cambios.md)). Los guiones de `DEV=1` (ver [Guiones de prueba](#guiones-de-prueba-dev1)) escriben en `host:` y necesitan un emulador: son opcionales y no forman parte de `make test`. Las correcciones que solo compilan con el SDK de PS2 llevan su evidencia en el mensaje del commit: de CC-11, E4, E5 y L2 (G5 ya tiene prueba, por [CC-17](../traduccion/cambios.md)); de la versión 1.1.0, la lógica de `memory_card.c` con libmc ([CC-13](../traduccion/cambios.md)), `convertir()` en `mandos.c` (CC-14) y la lectura de `rom0:ROMVER` en `arranque_ps2.c` (CC-15). Lo que falta verificar en una consola está en [deuda.md](../traduccion/deuda.md).
+**Qué no se comprueba en `make test`.** Ninguna prueba del PC mira la imagen: eso lo hace el job `emulador` de la CI, con capturas del título, del menú y de la carrera en Play! (ver [CI y publicación](#ci-y-publicación)). Esas capturas leen la VRAM antes del PCRTC, así que el antiparpadeo, las bandas y la posición solo se comprueban por los valores de registro. Sin hardware real ni TV quedan sin verificar el tacto del stick, el multitap, el cambio de tarjeta en caliente, el rendimiento en PANORÁMICO y la lectura de `rom0:ROMVER` con una BIOS real o lanzado desde OPL sin reinicio del IOP (en la CI solo se lee un ROMVER sintético por la ruta con reinicio). La deuda D-03 a D-24 está saldada salvo D-23, la partícula que se dibuja con la matriz anterior cuando la reserva `efecto_mtx` está llena ([deuda.md](../traduccion/deuda.md)).
 
 ## Depuración
 
@@ -393,11 +445,33 @@ El workflow `compilacion` (`.github/workflows/compilacion.yml`) corre en cada pu
 | Job | Cuándo corre | Qué hace |
 |---|---|---|
 | `pruebas-pc` | Siempre | `make test` en `ubuntu-latest`, sin el SDK |
-| `compilar-ps2` | Siempre | `make clean`; `make` (release), `make DEBUG=1` y `make DEV=1`; `make test`; `make iso`. Guarda como artefacto `smk64-ps2` el ELF release, `SMK64ROM.BIN`, el mapa, el ELF de `DEBUG=1` y la ISO |
+| `compilar-ps2` | Siempre | `make clean`; `make` (release); tope de crecimiento de la ROM; build incremental sin una sustitución; `make DEBUG=1` y `make DEV=1`; `make test`; inspección de la fuente de libdebug; `make iso`. Guarda como artefacto `smk64-ps2` el ELF release, `SMK64ROM.BIN`, el mapa, los ELF de `DEBUG=1` y `DEV=1` y la ISO |
+| `emulador` | Siempre, tras `compilar-ps2` | Arranca dos veces el ELF de `DEV=1` en Play! sin BIOS, con un guion, y comprueba el registro y las capturas (ver [Job del emulador](#job-del-emulador)) |
 | `mismo-binario` | A pedido, con `base` no vacía | `herramientas/comparar_binario.sh <base>` para release y para `DEBUG=1`: compila la base y el árbol actual desde cero y compara el ELF sin símbolos y `SMK64ROM.BIN`. Un refactor tiene que dar los mismos bytes |
 | `publicar` | A pedido, con `publicar` = `si` o `sí` | Exige GNU make 4.4 o posterior; `make clean`, las variantes release, `DEBUG=1` y `DEV=1`, `make test` y `make iso`. Prepara `build/ps2` y `compilaciones`; si no hay nada preparado (`git diff --cached --quiet`), termina en verde sin commit. Si hay cambios, commitea con el mensaje `build(compilaciones): binarios e ISO en español`, con el commit de origen y la ejecución en el cuerpo, y hace push a la misma rama. Un fallo del commit o del push detiene el job en rojo |
 | `release` | A pedido, con `release` = etiqueta | Corre en el contenedor de ps2dev. Exige `compilaciones/SLUS_999.99.SuperMarioKart64.iso` y `docs/versiones/<etiqueta>.md`, y se detiene si el SHA-256 de la ISO no aparece en esas notas. Después, `make clean` y `make MONOLITICO=1`, que deja el ELF monolítico como `SLUS_999.99.monolitico.elf`. Escribe `SHA256SUMS` con dos líneas, la ISO y el ELF monolítico, y crea la Release `<etiqueta>` sobre el commit lanzado, con el título «Mario Kart 64 PS2 en español <etiqueta>», los tres archivos y esas notas como cuerpo |
 | `limpiar-ramas` | A pedido, con `limpiar_ramas` = `si` o `sí` | Borra cada rama remota cuya punta ya está en `main` (`git merge-base --is-ancestor`). Conserva `main` y las ramas con commits propios |
+
+Pasos de `compilar-ps2` que necesitan el SDK (`herramientas/ci/`):
+
+| Paso | Script | Qué exige |
+|---|---|---|
+| Tope de crecimiento de la ROM | `tope_rom.py` | `build/ps2/rom.bin` crece menos de 256 KiB sobre la base medida de `main` (R-TEX-03, D-03) |
+| Build incremental sin una sustitución | `comprobar_incremental.sh` | Al quitar un PNG del HUD y compilar sin `make clean`, desaparece su `.inc.c` de `build/ps2/es`, vuelve la textura original y cambia el ELF; al reponerlo vuelve el ELF del principio (R-TEX-08, D-04) |
+| Fuente de libdebug | `inspeccionar_fuente_libdebug.py` | Los glifos de `msx[]` en `libdebug.a` son los CP437 de las letras del español, para que la pantalla de fallo escriba con tildes con `scr_putchar` (D-07) |
+
+### Job del emulador
+
+`emulador` ([CC-26](../traduccion/cambios.md)) corre en `ubuntu-24.04` con un límite de 40 minutos:
+
+1. Descarga Play! 0.72 (AppImage) y comprueba su SHA-256, fijado en el workflow. Corre bajo Xvfb con Vulkan por software (lavapipe): con OpenGL, las capturas leen la RAM del GS vacía.
+2. `herramientas/emulador/ejecutar_play.sh` monta `host:`, `mc0:` y `rom0:` como carpetas, escribe un `rom0:ROMVER` sintético europeo (`0160EC20010704`), copia `guion_ci.txt` como `host:smk64_input.txt` y arranca el ELF con `--elf`. Se detiene al terminar el guion o a los 900 s.
+3. El guion pasa por el título, el menú principal y una carrera de Gran Premio, con una `captura` en cuadros fijos de cada pantalla.
+4. `comprobar_registro.py` exige que el registro llegue al bucle principal sin pánico ni cuelgue, la línea de región PAL, la línea `vídeo: PMODE 8046` y que el guion termine con `fin`, 0 fallos y ninguna captura perdida.
+5. `comparar_capturas.py` compara las capturas con `herramientas/emulador/referencias/` (`titulo`, `menu`, `carrera`) y las de la segunda ejecución con las de la primera, con tolerancia; falla si falta una captura, si cambia de tamaño o si es de un solo color.
+6. El job falla si dura 30 minutos o más, y guarda como artefacto `emulador` los registros y las capturas.
+
+Límites: las capturas leen la VRAM antes del PCRTC, así que no muestran el antiparpadeo, las bandas ni la posición; ROMVER solo se lee por la ruta con reinicio del IOP. Ejecución en verde de la 1.2.0: [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616).
 
 Entradas a pedido (Actions → `compilacion` → Run workflow, o `POST /repos/{dueño}/{repo}/actions/workflows/compilacion.yml/dispatches` con `ref` e `inputs`):
 
@@ -415,7 +489,7 @@ Una versión se publica en este orden, cada paso con el anterior terminado en ve
 3. **`release`**, lanzado sobre `main` con la etiqueta de la versión: publica la ISO que quedó versionada en `compilaciones/` y el ELF monolítico que compila en ese momento. Las notas (`docs/versiones/<etiqueta>.md`) tienen que estar ya en `main`, con el SHA-256 de la ISO versionada.
 4. **`limpiar-ramas`**, lanzado sobre `main`: solo borra lo que ya está fusionado.
 
-El job `release` comprueba que el SHA-256 de la ISO versionada (`sha256sum compilaciones/SLUS_999.99.SuperMarioKart64.iso`) esté en las notas. El ELF monolítico no se versiona: su suma se conoce cuando termina `release` y queda en el `SHA256SUMS` de la Release. Para la versión 1.0.0: ejecución de CI [38123501282](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38123501282), commit de publicación `900c9be`. Para la 1.1.0: ejecución [38149880694](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38149880694), commit de publicación `45bbe10a`.
+El job `release` comprueba que el SHA-256 de la ISO versionada (`sha256sum compilaciones/SLUS_999.99.SuperMarioKart64.iso`) esté en las notas. El ELF monolítico no se versiona: su suma se conoce cuando termina `release` y queda en el `SHA256SUMS` de la Release. Para la versión 1.0.0: ejecución de CI [38123501282](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38123501282), commit de publicación `900c9be`. Para la 1.1.0: ejecución [38149880694](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38149880694), commit de publicación `45bbe10a`. Para la 1.2.0: commit de publicación <<PUBLICACION>>.
 
 ## Traer actualizaciones del repositorio original
 
