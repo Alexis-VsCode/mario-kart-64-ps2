@@ -51,6 +51,8 @@ Al crear una rama se comprueba de dónde nace; `merge-base` no sirve como prueba
 git reflog show <rama> | tail -1              # «branch: Created from <origen>»
 git rev-list --count <origen>..<rama>         # 0: todavía sin commits propios
 git rev-list --count <rama>..<origen>         # 0: no le falta nada del origen
+git log --merges <origen>..<rama>             # vacío: sin merges inesperados
+git log --format='%ae' origin/main..<rama> | sort -u   # solo los autores esperados
 ```
 
 ## Commits
