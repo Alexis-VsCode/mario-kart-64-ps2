@@ -3405,7 +3405,7 @@ u8 d_circuito_mario_izquierda_cartel[] = {
 };
 
 u8 d_circuito_mario_derecha_cartel[] = {
-#include "recursos/texturas/pistas/mario_raceway/derecha_cartel.inc.c"
+#include "recursos/texturas/pistas/mario_raceway/cartel_mario.rgba16.inc.c"
 };
 
 Gfx d_circuito_mario_raceway_dl_9068[] = {

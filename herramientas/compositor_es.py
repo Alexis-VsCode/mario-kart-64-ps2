@@ -6,8 +6,9 @@
 
 Cada familia (recursos/es/glifos/<familia>/) tiene:
   familia.tsv  parametros: fondo (negro, transparente, fila: el color saturado mas
-               frecuente de cada fila, para placas con degradado, madera: el oscuro
-               mas frecuente, para letras claras sobre tablas, o tinta: letras oscuras
+               frecuente de cada fila, para placas con degradado; fila_clara: igual, pero solo
+               entre los claros, para letras oscuras sobre un degradado claro; madera: el oscuro
+               mas frecuente, para letras claras sobre tablas; o tinta: letras oscuras
                o rojas sobre tablas claras, que se borran con la veta de su misma fila), filas (y0,y1 de la linea),
                ventana (columnas a cada lado donde buscar el corte), umbral (luminancia
                que separa contorno de relleno), muestras (pixeles minimos de una fila
@@ -160,8 +161,8 @@ class Familia:
     def es_fondo(self, p, textura=None, y=None):
         if self.fondo == "negro":
             return p[3] == 255 and max(p[:3]) == 0
-        if self.fondo == "fila":
-            return p[3] and sum((a - b) ** 2 for a, b in zip(p[:3], color_fila(textura, y)[:3])) < 900
+        if self.fondo in ("fila", "fila_clara"):
+            return p[3] and sum((a - b) ** 2 for a, b in zip(p[:3], color_fila(textura, y, self.fondo)[:3])) < 900
         if self.fondo == "madera":
             return p[3] and not pintura(p)
         if self.fondo == "tinta":
@@ -563,7 +564,8 @@ def color_fila(textura, y, fondo="fila"):
         if fondo == "madera":
             saturados = [p for p in fila if p[3] and not pintura(p)]
         else:
-            saturados = [p for p in fila if p[3] and max(p[:3]) > 30 and (max(p[:3]) - min(p[:3])) / max(p[:3]) >= 0.6]
+            saturados = [p for p in fila if p[3] and max(p[:3]) > 30 and (max(p[:3]) - min(p[:3])) / max(p[:3]) >= 0.6
+                         and (fondo != "fila_clara" or lum(p) >= 100)]
         _COLOR_FILA[clave] = max(sorted(set(saturados)), key=saturados.count) if saturados else (0, 0, 0, 255)
     return _COLOR_FILA[clave]
 
@@ -628,7 +630,8 @@ def componer(id_, texto, comp, destino=None, en_ingles=False):
                 if tinta(salida[y * ancho + x]):
                     salida[y * ancho + x] = veta_cercana(destino, x, y)
             else:
-                salida[y * ancho + x] = color_fila(destino, y) if familia.fondo == "fila" else vacio
+                salida[y * ancho + x] = color_fila(destino, y, familia.fondo) if familia.fondo in ("fila", "fila_clara") \
+                    else vacio
     puntos = [(x0 + x, y + dy) for x0, dy, g, _ in colocados for (x, y) in g.pixeles]
     if puntos:
         xs, ys = [p[0] for p in puntos], [p[1] for p in puntos]

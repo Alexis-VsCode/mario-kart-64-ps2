@@ -23,7 +23,7 @@ cartel_bienvenida_0	recursos/texturas/generales/cartel_bienvenida_0.rgba16.mio0	
 cartel_bienvenida_1	recursos/texturas/generales/cartel_bienvenida_1.rgba16.mio0	rgba16	64x32		formato	recursos/es/mio0/generales/cartel_bienvenida_1.rgba16.png	NIDOS	no	
 cartel_disparo_caparazon_0	recursos/texturas/generales/cartel_disparo_caparazon_0.rgba16.mio0	rgba16	64x32		formato			no	cartel comercial Shell Shot!
 cartel_disparo_caparazon_1	recursos/texturas/generales/cartel_disparo_caparazon_1.rgba16.mio0	rgba16	64x32		formato			no	cartel comercial Shell Shot!
-cartel_go_mario	recursos/texturas/pistas/mario_raceway/derecha_cartel.inc.c	rgba16	32x64		formato			no	pendiente: GO; la fuente del cartel no tiene la Y ni la A de YA
+cartel_mario	recursos/texturas/pistas/mario_raceway/cartel_mario.rgba16.inc.c	rgba16	32x64		formato	recursos/es/inc/recursos/texturas/pistas/mario_raceway/cartel_mario.rgba16.png	YA	no	
 cartel_granja_derecha	recursos/texturas/pistas/moo_moo_farm/derecha_cartel.mio0	rgba16	64x32		formato	recursos/es/mio0/pistas/moo_moo_farm/cartel_granja_derecha.rgba16.png	MU-MU	no	
 cartel_granja_derecha_enlace	recursos/texturas/pistas/moo_moo_farm/derecha_cartel.inc.c	rgba16	64x32		formato			no	no se muestra: copia para enlazar, se dibuja el .mio0 traducido
 cartel_granja_izquierda	recursos/texturas/pistas/moo_moo_farm/izquierda_cartel.mio0	rgba16	64x32		formato	recursos/es/mio0/pistas/moo_moo_farm/cartel_granja_izquierda.rgba16.png	GRANJA	no	
