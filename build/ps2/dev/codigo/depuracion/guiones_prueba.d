@@ -26,7 +26,7 @@ build/ps2/dev/codigo/depuracion/guiones_prueba.o: \
  incluir/datos/texturas.h incluir/datos/texturas/segmento_2.h \
  incluir/datos/texturas/menus_y_personajes.h \
  incluir/datos/texturas/fuente_es.h incluir/sistema/bucle_principal.h \
- incluir/carrera/camara.h
+ incluir/carrera/camara.h incluir/depuracion/estadisticas_memoria.h
 /usr/local/ps2dev/ps2sdk/ee/include/kernel.h:
 /usr/local/ps2dev/ps2sdk/ee/include/sifdma.h:
 /usr/local/ps2dev/ps2sdk/common/include/tamtypes.h:
@@ -75,3 +75,4 @@ incluir/datos/texturas/menus_y_personajes.h:
 incluir/datos/texturas/fuente_es.h:
 incluir/sistema/bucle_principal.h:
 incluir/carrera/camara.h:
+incluir/depuracion/estadisticas_memoria.h:

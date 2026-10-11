@@ -89,6 +89,18 @@ Gfx* funcion_80095BD0(Gfx* display_list_cabeza_2, u8* parametro1, f32 parametro2
     goto func_80095BD0_etiqueta_2;
 func_80095BD0_etiqueta_1:
     rmon_printf("MAX effectcount(760) over!!!!(kawano)\n");
+#if defined(TARGET_PS2) && defined(SMK64_DEV)
+    {
+        static s32 reserva_agotada_registrada;
+
+        if (!reserva_agotada_registrada) {
+            void registrar(const char* fmt, ...);
+            reserva_agotada_registrada = 1;
+            registrar("menu: reserva de matrices agotada (%d); las letras que sobran no se dibujan",
+                      MTX_EFECTO_POOL_TAMANIO);
+        }
+    }
+#endif
     return display_list_cabeza_2;
 func_80095BD0_etiqueta_2:
     funcion_80095AE0((void*) sp28, parametro2, parametro3, parametro6, parametro7);
