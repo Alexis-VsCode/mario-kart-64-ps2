@@ -690,6 +690,12 @@ void funcion_800651F4(Jugador* jugador, SIN_USO s8 parametro1, SIN_USO s8 parame
 void funcion_800652D4(Vec3f parametro0, Vec3s parametro1, f32 escalar) {
     Mat4 sp20;
 
+#ifdef AVOID_UB
+    // Sin matriz libre en la reserva no se carga ninguna: la partícula sale con la anterior
+    if (cantidad_efecto_matriz >= MTX_EFECTO_POOL_TAMANIO) {
+        return;
+    }
+#endif
     trasladar_rotacion_mtxf(sp20, parametro0, parametro1);
     escala2_mtxf(sp20, escalar);
     convertir_a_matriz_punto_fijo(&gfx_pool->efecto_mtx[cantidad_efecto_matriz], sp20);
