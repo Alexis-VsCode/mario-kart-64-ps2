@@ -6,6 +6,8 @@
 #include <ultra64.h>
 
 #include "graficos/sintetizador_gs.h"
+#include "graficos/registros_video.h"
+#include "sistema/opciones_port.h"
 #include "sistema/sistema_ps2.h"
 #include "graficos/pantallas_gigantes.h"
 #include "sistema/perfilado.h"
@@ -58,6 +60,9 @@ static volatile int pendiente_volteo = -1;
 static s32 sema_volteo;
 static EstadoGs estado;            /* ultimo estado emitido */
 static int valido_estado;
+static BaseVideo base_video;      /* DISPLAY que deja gsKit, base de las opciones */
+static RegistrosVideo registros_video;
+static u32 version_video;          /* version_opciones_port ya aplicada */
 
 EstadisticasGs estadisticas_gs;
 
@@ -202,12 +207,22 @@ u32 gs_vram_en_pantalla(void)
     return s_gs->ScreenBuffer[buffer_pantalla];
 }
 
+/* DISPFB2 lleva DBY=1 con antiparpadeo: el circuito 2 lee una linea mas abajo */
 static void fijar_pantalla(int buffer)
 {
     u64 v = ((u64) (s_gs->ScreenBuffer[buffer] / 8192)) | ((u64) (GS_ANCHO / 64) << 9) | ((u64) s_gs->PSM << 15);
 
     *(volatile u64 *) 0x12000070 = v;
-    *(volatile u64 *) 0x12000090 = v;
+    *(volatile u64 *) 0x12000090 = v | registros_video.dispfb2_extra;
+}
+
+/* PMODE y DISPLAY1/2 segun opciones_port; DISPFB2 se actualiza en el siguiente fijar_pantalla */
+static void aplicar_opciones_video(void)
+{
+    calcular_registros_video(&base_video, &opciones_port, &registros_video);
+    *(volatile u64 *) 0x12000000 = registros_video.pmode;
+    *(volatile u64 *) 0x12000080 = registros_video.display;
+    *(volatile u64 *) 0x120000A0 = registros_video.display;
 }
 
 /* La VRAM conserva la ultima imagen del cargador (OPL, navegador) hasta el primer frame. */
@@ -263,6 +278,14 @@ void gs_inicializar(void)
     gsKit_init_screen(s_gs);
     gsKit_mode_switch(s_gs, GS_ONESHOT);
     gsKit_queue_exec(s_gs);
+    base_video.dx = s_gs->StartX + s_gs->StartXOffset;
+    base_video.dy = s_gs->StartY + s_gs->StartYOffset;
+    base_video.magh = s_gs->MagH;
+    base_video.magv = s_gs->MagV;
+    base_video.dw = s_gs->DW;
+    base_video.dh = s_gs->DH;
+    version_video = version_opciones_port;
+    aplicar_opciones_video();
 
     memset(&sema, 0, sizeof(sema));
     sema.init_count = 0;
@@ -277,6 +300,8 @@ void gs_inicializar(void)
 
     registrar("GS: fb %x/%x z %x texturas %x-%x", (unsigned) s_gs->ScreenBuffer[0], (unsigned) s_gs->ScreenBuffer[1],
             (unsigned) s_gs->ZBuffer, (unsigned) gs_vram_inicio_texturas(), (unsigned) gs_vram_fin_texturas());
+    registrar("video: PMODE %x DISPLAY %x%08x", (unsigned) registros_video.pmode,
+            (unsigned) (registros_video.display >> 32), (unsigned) registros_video.display);
 }
 
 #define COLA_PRESENTE 4
@@ -314,6 +339,11 @@ void gs_en_vblank(void)
         return; /* la pantalla de fallo es la que se ve: no cambiar DISPFB */
     }
     desde_volteo++;
+    if (version_video != version_opciones_port) {
+        version_video = version_opciones_port;
+        aplicar_opciones_video();
+        fijar_pantalla(buffer_pantalla);
+    }
     if (pendiente_volteo >= 0 && (*CSR & 2)) {
         *CSR = 2;
         estadisticas_gs.volteos++;
