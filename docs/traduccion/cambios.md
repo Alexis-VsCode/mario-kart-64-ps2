@@ -489,3 +489,216 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - REVISIÓN: técnica y lingüística de `v110/graficos`, aprobadas con observaciones ([acta de F9](revisiones/2026-10-11-version-1.1.0.md#1-v110graficos-alfa-con-tramado-cc-17));
   - INTEGRACIÓN: merge `9289608a` (2026-10-11).
 - **Commit:** `ff313bc5` (refactor), `d41996f7` (prueba) y el merge `9289608a`.
+
+### CC-18: archivo de opciones del port en la Memory Card
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-MC-04 (nuevo)
+- **Motivo:** los ajustes de imagen y los trucos de CC-19 a CC-25 tienen que sobrevivir al apagado sin tocar la partida guardada. La imagen de guardado (`guardado_ps2.h`) no tiene espacio libre y exige la versión exacta: cambiarla invalidaría las partidas existentes.
+- **Cambio:**
+  - Archivo aparte `SMK64CFG.DAT` en `/BASLUS-99999SMK64/`: 32 bytes con la magia `MKCF`, versión, tamaño, los campos, bytes reservados y CRC32.
+  - La lógica pura (valores por defecto, serializar, validar y sanear) va en una cabecera `static inline` con su prueba. El CRC32 se comparte con `memory_card.c`.
+  - Se lee y se escribe solo desde el hilo de guardado, porque libmc no admite varios hilos. Se escribe al salir del menú de CC-19 y solo si algo cambió.
+  - Si falta el archivo o está dañado, se usan los valores por defecto y el juego sigue.
+- **Alternativas descartadas:** ampliar la imagen de guardado, porque obliga a migrar las partidas.
+- **Evidencia requerida:** prueba del PC con ida y vuelta, magia, versión y CRC erróneos, valores fuera de rango, el CRC32 de «123456789» igual a 0xCBF43926 y mutaciones restauradas.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
+- **Commit:** —
+
+### CC-19: menú «CONFIGURACIÓN Y TRUCOS»
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-VID-05 (nuevo), R-TXT-04, R-TXT-05
+- **Motivo:** el jugador necesita cambiar los ajustes de imagen y los trucos sin combinaciones de botones ocultas. El responsable del proyecto eligió una entrada de menú con el mismo estilo que los menús del juego y aprobó la maqueta.
+- **Cambio:**
+  - Quinta entrada «CONFIGURACIÓN Y TRUCOS» al final de OPCIONES. Se añade al final para no cambiar la numeración que usan los guiones. El paso entre filas baja para que la quinta quede dentro de la zona segura.
+  - Subpantalla con 9 filas:
+    - ANTIPARPADEO, POSICIÓN X, POSICIÓN Y, FORMATO;
+    - DESBLOQUEAR TODO, OBJETO, 200CC, RIVALES SIN VENTAJA;
+    - VOLVER.
+  - Estilo del juego:
+    - fuente del texto del menú, caja negra translúcida y cursor giratorio;
+    - arcoíris en la fila elegida y el valor en verde;
+    - los sonidos de OPCIONES.
+  - Controles:
+    - arriba/abajo mueven la fila y se paran en los extremos;
+    - izquierda/derecha cambian el valor, y X lo avanza;
+    - Círculo o VOLVER salen.
+  - La fuente no tiene «:» ni «/», así que no se escribe «16:9».
+  - La navegación y el ciclo de valores van en una función pura con su prueba. Los textos nuevos entran en las pruebas de textos y de lugares.
+- **Alternativas descartadas:** combinaciones de botones con L3, porque son ocultas, y texturas nuevas, porque el estilo ya existe en el juego.
+- **Evidencia requerida:** pruebas de navegación y de textos (rojo, mutación, verde), compilación de PS2 en la CI y la pasada del emulador de CC-26 por el menú.
+- **Aprobación:** responsable del proyecto: aprobado, con la maqueta (2026-10-11).
+- **Commit:** —
+
+### CC-20: antiparpadeo y posición de la imagen en 480i
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-VID-01, R-VID-02 (nuevos), R-PORT-02
+- **Motivo:**
+  - En 480i las líneas finas (textos, marcador) tiemblan en una TV de tubo.
+  - Algunas TV cortan los bordes de la imagen.
+  - El port nunca escribe PMODE ni DISPLAY: se quedan los valores de gsKit.
+- **Cambio:**
+  - **Solo la presentación:** CC-15 y la decisión de no usar 480p se mantienen; el modo sigue siendo NTSC 480i a 60 Hz.
+  - **Antiparpadeo:**
+    - PMODE con los dos circuitos de lectura, CRTMD=1, MMOD=1 y ALP=0x80 (0x8027);
+    - DISPFB2 con DBY=1 (bit 43);
+    - mezcla al 50 % dos líneas vecinas.
+  - **Posición:** DX en VCK (MAGH+1 por píxel) y DY siempre par, en DISPLAY1 y DISPLAY2 por igual, con límites.
+  - Los registros se calculan con una función pura y se escriben en el retrazo cuando cambian las opciones; en pánico no se tocan.
+  - Con los valores por defecto (antiparpadeo NO, posición 0,0) los registros son los de la 1.1.0. La prueba lo fija.
+- **Alternativas descartadas:**
+  - antiparpadeo activado por defecto, porque ablanda la imagen en emuladores y TV modernas y no hay verificación en hardware;
+  - 480p, por la misma razón que en CC-15.
+- **Evidencia requerida:** prueba de los valores de registro (por defecto 0x8046 y el DISPLAY de gsKit; antiparpadeo 0x8027 y DBY en el bit 43; DY par) con mutaciones, y el registro del arranque en el emulador.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
+- **Commit:** —
+
+### CC-21: formato 4:3, con bandas o panorámico según la configuración de la PS2
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-VID-03, R-VID-04 (nuevos)
+- **Motivo:**
+  - Con la PS2 configurada en 16:9, la TV estira la imagen 4:3.
+  - El responsable del proyecto pidió dos modos: proporción correcta, que es el de fábrica en 16:9, y vista ancha opcional.
+- **Cambio:**
+  - **Configuración de la PS2:** se lee con `configGetTvScreenType()`. Solo `TV_SCREEN_169` es 16:9; `TV_SCREEN_FULL` sigue siendo 4:3.
+  - **FORMATO:** NORMAL, CON BANDAS o PANORÁMICO. Si no hay archivo de opciones, vale CON BANDAS con la PS2 en 16:9 y NORMAL en otro caso.
+  - **CON BANDAS:** se hace en el PCRTC, con MAGH=2, DW=1920 y DX desplazado. La imagen ocupa 3/4 del ancho y el fondo negro rellena los lados. El dibujo del juego no cambia ni pierde resolución.
+  - **PANORÁMICO (Hor+):**
+    - `aspecto_pantalla` ×4/3 en las asignaciones de la carrera, la vista dividida y la ceremonia, no en `guPerspectiveF`, para que los menús no cambien;
+    - el cono de `es_visible_objeto_en_camara` se ensancha en la misma proporción;
+    - el marcador sale estirado.
+- **Alternativas descartadas:**
+  - escalar las X en el intérprete F3DEX, que toca vértices, rectángulos y recorte;
+  - aplicar el aspecto dentro de `guPerspectiveF`, que también ensancha los menús.
+- **Riesgo:** los tramos de pista se eligen por cuadrante de cámara, así que puede faltar pista en los bordes en PANORÁMICO. Se comprueba con el emulador; si aparece, el valor PANORÁMICO se retira antes de publicar.
+- **Evidencia requerida:** pruebas puras del aspecto (1,333 → 1,778; 0,667 → 0,889; 2,667 → 3,556), del cono con tope y de los registros con bandas, con mutaciones, más las capturas del emulador.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
+- **Commit:** —
+
+### CC-22: truco DESBLOQUEAR TODO
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-TRU-01 (nuevo)
+- **Motivo:** el responsable del proyecto pidió los trucos de CC-22 a CC-25, apagados de fábrica.
+- **Cambio:**
+  - La consulta del modo EXTRA (`tiene_modo_extra_desbloqueado`, `guardado.c`) y la de los fantasmas del staff (`repeticiones.c`) aceptan el truco mediante funciones puras.
+  - Nunca se escribe el desbloqueo en la partida.
+  - El valor del truco se aplica al volver al título o al reconstruir el menú, no en caliente.
+  - El cursor se recorta si EXTRA deja de existir.
+- **Límite declarado:** los trofeos EXTRA ganados con el truco se guardan y quedan ocultos si se apaga.
+- **Evidencia requerida:** prueba pura con rojo y mutaciones (`&&` en lugar de `||`, `<` en lugar de `<=`).
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
+- **Commit:** —
+
+### CC-23: truco OBJETO
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-TRU-02 (nuevo)
+- **Motivo:** como CC-22.
+- **Cambio:**
+  - **Dónde:** en el sorteo de la caja para jugadores humanos (`funcion_8007AFB0`), después de la ruleta, el resultado se sustituye por el objeto elegido.
+  - **Qué no cambia:** el generador aleatorio avanza igual, y la CPU y el Boo no cambian.
+  - **Cuándo no se sustituye:** en batalla solo se usan los objetos válidos en batalla. En contrarreloj, en otros modos o con un valor inválido, sale el objeto normal.
+- **Evidencia requerida:** prueba pura con los casos de GP, batalla, contrarreloj e inválidos, y mutaciones.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
+- **Commit:** —
+
+### CC-24: truco 200CC
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-TRU-03 (nuevo)
+- **Motivo:** como CC-22.
+- **Cambio:**
+  - **Modificador de 150cc,** no una cilindrada nueva: un valor 4 chocaría con `BATALLA_CC` y leería fuera de las tablas de la CPU.
+  - **Factor ×35/32** en la rapidez máxima y en el empuje de humanos y CPU al aparecer, y en el objetivo de velocidad de la CPU.
+  - **Dónde aplica:** solo en Gran Premio y Versus a 150cc. No aplica en contrarreloj ni en batalla, porque los fantasmas se desincronizarían.
+- **Límites declarados:**
+  - puntúa en la casilla de 150cc;
+  - la pausa dice 150cc;
+  - un cambio en mitad de la carrera se aplica en la siguiente.
+- **Evidencia requerida:**
+  - prueba pura que valide la fórmula contra las tablas originales;
+  - peor caso de velocidad por paso por debajo de 8,8, con margen para las pendientes;
+  - la mutación 37/32 tiene que fallar.
+- **Riesgo:** curvas más difíciles y la CPU fuera de su camino. Se comprueba con el emulador.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
+- **Commit:** —
+
+### CC-25: truco RIVALES SIN VENTAJA
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-TRU-04 (nuevo)
+- **Motivo:** como CC-22.
+- **Cambio:**
+  - **El impulso que se anula:** en el control de velocidad de la CPU (`control_velocidad_cpu.inc.c`) desaparece el que la CPU recibe al ir por detrás del jugador. Con el truco, la CPU acelera solo hasta el objetivo de su tabla.
+  - **La velocidad fija sustituida:** la velocidad fija de recuperación de `caminos_y_vehiculos.inc.c` se reemplaza por ese mismo objetivo base.
+  - **Lo que no cambia:** las órdenes de velocidad de cada pista quedan intactas.
+- **Límite declarado:** solo tiene efecto en el Gran Premio.
+- **Evidencia requerida:** prueba pura con rojo y mutaciones.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
+- **Commit:** —
+
+### CC-26: verificación en un emulador dentro de la CI
+
+- **Estado:** aprobado. Matiza CC-12: sigue sin pedirse nada al usuario; la CI arranca el juego sola.
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-INF-05, R-INF-07 (nuevo)
+- **Motivo:** D-06 y D-17 no se podían saldar sin ver el juego arrancar. Play! arranca un ELF sin BIOS (`--elf`) y monta `host:`, `rom0:` y la Memory Card como carpetas.
+- **Cambio:**
+  - **Job `emulador`:**
+    - Play! con versión y SHA-256 fijados, bajo Xvfb y renderizado por software;
+    - arranca el ELF de DEV con un guion de `host:`;
+    - lo detiene al terminar el guion o al vencer el tiempo.
+  - **Qué comprueba:**
+    - el registro de arranque y la línea de región con un ROMVER sintético;
+    - los valores de los registros de vídeo;
+    - las capturas del menú y de la carrera comparadas con referencias aprobadas, con tolerancia.
+  - **Criterios para continuar** (todos):
+    - hay registro y no hay pánico;
+    - el guion termina sin fallos;
+    - las capturas no son uniformes;
+    - dos ejecuciones dan capturas dentro de la tolerancia;
+    - el job dura menos de 30 minutos.
+  - **Si algún criterio falla:** CC-26 pasa a rechazado con la URL de la ejecución. D-06 y D-17 pasan a límites declarados.
+- **Límite:** las capturas leen la VRAM antes del PCRTC, así que el antiparpadeo, las bandas y la posición se comprueban por los valores de registro.
+- **Evidencia requerida:** la ejecución del job en verde, o su rechazo documentado.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
+- **Commit:** —
+
+### CC-27: cierre de la deuda técnica
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-TEX-02, R-TEX-03, R-TEX-08, R-PORT-03, R-FUE-09 (nuevo), R-MC-01, R-MC-02
+- **Motivo:** el responsable del proyecto pidió no dejar deuda. Lo que no se puede saldar sin hardware pasa a límite declarado.
+- **Cambio:**
+
+  | Deuda | Cómo se cierra |
+  |---|---|
+  | D-03 | Tope de crecimiento de la ROM en la CI |
+  | D-04 | Compilación incremental real en la CI |
+  | D-05 | Filas de carpeta en el manifiesto de texturas |
+  | D-07 | Pantalla de fallo con tildes mediante `scr_putchar`, si la inspección de la fuente de libdebug lo confirma |
+  | D-08 | Tope de `efecto_mtx` en los seis sitios |
+  | D-16 | Arnés del PC con libmc simulada |
+  | D-18 | Función pura de la cruceta |
+  | D-19 | Caso de largo 13 |
+  | D-20 | El registro da la generación escrita |
+  | D-21 | La cabecera B se lee solo con `mc_ok` |
+  | D-22 | Erratas y «1 fallo» en singular |
+  | D-06 y D-17 | Mediante CC-26 |
+
+- **Evidencia requerida:** cada cierre con su prueba en rojo y la mutación restaurada, o con la ejecución de la CI. `deuda.md` queda sin filas, o solo con límites declarados.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11).
+- **Commit:** —
