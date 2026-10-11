@@ -403,3 +403,22 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - el tacto en una consola real no se verifica (D-06).
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
 - **Commit:** —
+
+### CC-15: región PAL/NTSC detectada y documentada
+
+- **Estado:** aprobado (responsable del proyecto, 2026-10-11, plan F9)
+- **Fecha:** 2026-10-11
+- **Requisitos afectados:** R-PORT-02
+- **Motivo:**
+  - El GS se fuerza a NTSC a 60 Hz también en consolas PAL (`sintetizador_gs.c:248`). Por eso el juego, que avanza una vez por retrazo, va a la velocidad correcta.
+  - Un jugador con una consola PAL no tiene cómo saber que necesita una TV que acepte 60 Hz.
+- **Cambio:**
+  - Una función pura en `incluir/sistema/region_ps2.h` interpreta la región de `rom0:ROMVER`.
+  - Al arrancar se registra la región. En una consola PAL avisa de que la imagen es NTSC a 60 Hz.
+  - El manual de usuario lo explica. El modo de vídeo no cambia.
+- **Alternativas descartadas:**
+  - un modo PAL a 50 Hz, con el juego un 17 % más lento y cortes de audio;
+  - la salida 480p, que cambia la imagen y no se puede verificar.
+- **Evidencia requerida:** `prueba_region_ps2.c` con los valores de ROMVER y uno inválido, con rojo y mutación.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-11). INTEGRACIÓN —. REVISIÓN —.
+- **Commit:** —
