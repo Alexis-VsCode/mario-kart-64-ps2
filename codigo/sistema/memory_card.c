@@ -283,10 +283,13 @@ int cargando_memcard_ps2(void)
 
 void esperar_cargado_memcard_ps2(void)
 {
-    int ms, intr;
+    u32 t0 = ciclos_ps2();
+    u32 ms = 0; /* tiempo real: DelayThread puede tardar más que lo pedido */
+    int intr;
 
-    for (ms = 0; estado_carga == PENDIENTE_CARGA && ms < MS_TIMEOUT_CARGA; ms++) {
+    while (estado_carga == PENDIENTE_CARGA && ms < MS_TIMEOUT_CARGA) {
         DelayThread(1000);
+        ms = (ciclos_ps2() - t0) / CICLOS_PS2_POR_MS;
     }
     intr = DI();
     if (estado_carga == PENDIENTE_CARGA) {
@@ -296,9 +299,9 @@ void esperar_cargado_memcard_ps2(void)
         EI();
     }
     if (estado_carga == CARGA_ABANDONED && ms > 0) {
-        registrar("memory card: la tarjeta no contestó en %d ms; se sigue sin la partida y sin guardar", ms);
+        registrar("memory card: la tarjeta no contestó en %u ms; se sigue sin la partida y sin guardar", (unsigned) ms);
     } else if (ms > 0) {
-        registrar("memory card: el juego esperó la lectura %d ms", ms);
+        registrar("memory card: el juego esperó la lectura %u ms", (unsigned) ms);
     }
 }
 
