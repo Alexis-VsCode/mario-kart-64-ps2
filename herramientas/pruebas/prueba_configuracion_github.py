@@ -63,6 +63,17 @@ except yaml.YAMLError:
     datos = None
 comprobar(isinstance(datos, dict), "config.yml no es YAML válido")
 
+comprobar(os.path.isfile(os.path.join(RAIZ, "docs/manual/README.md")),
+          "falta docs/manual/README.md, que enlazan config.yml y pregunta.yml")
+for p in ("config.yml", "pregunta.yml"):
+    comprobar("docs/manual/README.md" in (leer(".github/ISSUE_TEMPLATE/" + p) or ""),
+              p + " no enlaza el manual")
+texto = leer(".github/ISSUE_TEMPLATE/retirada.yml") or ""
+comprobar("en cuanto lo recibo" not in texto, "retirada.yml promete inmediatez")
+comprobar("lo antes que puedo" in texto, "retirada.yml no dice «lo antes que puedo»")
+comprobar("copia del juego original" in (leer(".github/ISSUE_TEMPLATE/pregunta.yml") or ""),
+          "pregunta.yml no avisa de que hace falta tu propia copia del juego original")
+
 texto = leer(".github/CODEOWNERS") or ""
 comprobar(re.search(r"^\*\s+@Alexis-VsCode\s*$", texto, re.MULTILINE) is not None,
           "CODEOWNERS no asigna * a @Alexis-VsCode")
