@@ -943,6 +943,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Alternativas descartadas:** estrechar también los menús y los fundidos.
 - **Evidencia requerida:** prueba pura con mutación y captura del emulador, revisada a ojo, con el marcador sin estirar.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-13). Si la revisión visual falla, se descarta sin publicar.
+- **Implementación:** hecha en la rama `v130/imagen` (función pura, detección por proyección ortográfica y estado de la carrera, DIMX por paquete). Pendiente de revisión visual en emulador (1 jugador y pantalla dividida en PANORÁMICO; NORMAL y CON BANDAS sin diferencias) y de regenerar las referencias de captura si cambian. No se publica ni se cierra hasta entonces; la especificación §9 y el manual de usuario siguen diciendo que el marcador sale estirado hasta que se apruebe.
 - **Commit:** —
 
 ### CC-35: matriz de tramado propia y medición del medio texel
@@ -958,4 +959,5 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - Guion DEV con un tablero de texels que mide el desplazamiento; si es correcto queda como prueba, y si no, se corrige la constante.
 - **Evidencia requerida:** prueba pura de `DIMX` con mutación y la medición del tablero en el emulador.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-13).
+- **Implementación:** parte B hecha en `v130/imagen` (matriz mágica del RDP restando 4). La matriz está tomada de memoria y debe confirmarse contra angrylion o Mupen; si no se confirma, se usa el cambio mínimo de fijar solo la celda 15 de gsKit. La parte C (medición del medio texel) sigue abierta. CC-35 no está cerrado.
 - **Commit:** —
