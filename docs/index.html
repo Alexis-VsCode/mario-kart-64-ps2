@@ -28,7 +28,7 @@ a{color:var(--acc)}
 a:focus-visible,.btn:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 .salto{position:absolute;left:16px;top:-60px;background:var(--acc);color:var(--sobre-acc);padding:8px 14px;font-family:system-ui,sans-serif;z-index:9}
 .salto:focus{top:8px}
-h1,h2,.meta,.btn,nav,th,.notas,footer,.toc,figcaption,.resumen strong{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+h1,h2,.meta,.btn,nav,th,footer,.toc,figcaption,.resumen strong{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 h1{font-size:clamp(1.7rem,6vw,2.35rem);line-height:1.15;margin:0 0 6px;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
 .linea{height:3px;width:72px;background:var(--marca);margin:10px 0 14px}
 .meta{font-size:.82rem;color:var(--soft);margin:0 0 22px}
@@ -53,10 +53,6 @@ th{font-size:.78rem;text-align:left;padding:7px 8px;border-bottom:1px solid var(
 td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
 tr:last-child td{border-bottom:0}
 code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.82em;overflow-wrap:anywhere}
-sup{font-family:system-ui,sans-serif}
-sup a{padding:0 2px}
-.notas{font-size:.84rem;color:var(--soft);border-top:1px solid var(--line);margin-top:30px;padding-top:10px}
-.notas p{margin:3px 0}
 footer{font-size:.8rem;color:var(--soft);margin-top:22px}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
@@ -67,21 +63,21 @@ footer{font-size:.8rem;color:var(--soft);margin-top:22px}
   <header>
     <h1>Mario Kart 64 para PlayStation 2, en español</h1>
     <div class="linea" aria-hidden="true"></div>
-    <p class="meta">Alexis Barrera · Desarrollador e ingeniero de observabilidad · Versión 1.2.1</p>
+    <p class="meta">Alexis Barrera · Desarrollador e ingeniero de observabilidad</p>
 
     <div class="resumen">
       <strong>Resumen</strong>
-      <p>Mario Kart 64 es el juego de mi infancia. Quise mejorarlo, traducirlo por completo y jugarlo en mi PlayStation 2, y la descompilación comunitaria lo hizo posible. Este trabajo aporta la traducción al español, con Ñ y tildes, del port a PS2, un menú de configuración, trucos opcionales y una verificación automática en un emulador. No tiene ánimo de lucro: no se cobra, no hay donaciones, publicidad ni patrocinio. Se publican la ISO y el ELF, como hace el repositorio original, para que la comunidad pueda probarlos. También es una pieza de mi portafolio.</p>
+      <p>Mario Kart 64 es el juego de mi infancia. Quise mejorarlo, traducirlo por completo y jugarlo en mi PlayStation 2, y la descompilación comunitaria lo hizo posible. Traduje al español, con Ñ y tildes, el port a PS2, y añadí un menú de configuración, trucos opcionales y una verificación automática en un emulador. No tiene ánimo de lucro: no cobro, no acepto donaciones y no hay publicidad ni patrocinio. Publico la ISO y el ELF, como hace el repositorio original, para que la comunidad pueda probarlos. También es una pieza de mi portafolio.</p>
       <p class="en" lang="en"><strong>Abstract.</strong> A complete Spanish translation of the community PlayStation 2 port of Mario Kart 64, with an options menu, optional cheats and automated emulator checks. A personal, non-profit project: nothing is sold and no money is accepted.
       The ISO and ELF are published for the community to try; you must own the original game.</p>
     </div>
     <nav aria-label="Acciones">
       <a class="btn p" href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/latest">Descargar ISO</a>
-      <a class="btn" href="https://github.com/Alexis-VsCode/mario-kart-64-ps2">Código en GitHub</a>
+      <a class="btn" href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/">Código en GitHub</a>
       <a class="btn" href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/docs/caso-de-estudio.md">Caso de estudio</a>
       <a class="btn" href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/docs/manual/usuario.md">Manual de usuario</a>
     </nav>
-    <p class="toc">Contenido: <a href="#capturas">1 Capturas</a> <a href="#incluye">2 Qué incluye</a> <a href="#jugar">3 Cómo jugar</a> <a href="#descarga">4 Descarga y verificación</a> <a href="#autoria">5 Autoría</a> <a href="#legal">6 Aviso legal</a></p>
+    <p class="toc">Contenido: <a href="#capturas">1 Capturas</a> <a href="#incluye">2 Qué incluye</a> <a href="#jugar">3 Cómo jugar</a> <a href="#descarga">4 Descarga y verificación</a> <a href="#comprobe">5 Qué comprobé y cómo</a> <a href="#patrones">6 Patrones y prácticas</a> <a href="#trayectoria">7 Mi trayectoria</a> <a href="#autoria">8 Autoría</a> <a href="#legal">9 Aviso legal</a></p>
   </header>
 
   <main id="contenido">
@@ -91,42 +87,69 @@ footer{font-size:.8rem;color:var(--soft);margin-top:22px}
       <figure><img src="img/carrera.png" width="640" height="448" alt="Carrera en curso con el marcador en español" loading="lazy"><figcaption>Figura 2. Carrera en curso.</figcaption></figure>
       <figure><img src="img/configuracion.png" width="640" height="448" alt="Menú Configuración y trucos con sus filas en español" loading="lazy"><figcaption>Figura 3. Configuración y trucos.</figcaption></figure>
     </div>
-    <p class="meta">Capturas tomadas por la integración continua en el emulador Play!.</p>
+    <p class="meta">Capturas que toma la integración continua en el emulador Play!.</p>
 
-    <h2 id="incluye"><b>2</b>Qué incluye<sup><a href="#n1" id="r1" aria-label="Nota 1">1</a></sup></h2>
+    <h2 id="incluye"><b>2</b>Qué incluye</h2>
     <div class="tabla"><table>
       <thead><tr><th scope="col">Área</th><th scope="col">Contenido</th></tr></thead>
       <tbody>
-        <tr><td>Idioma</td><td>Menús, mensajes, texturas y créditos en español, con Ñ, tildes, ¡ y ¿.</td></tr>
+        <tr><td>Idioma</td><td>Traduje menús, mensajes, texturas y créditos, con Ñ, tildes, ¡ y ¿.</td></tr>
         <tr><td>Imagen</td><td>Antiparpadeo, posición X/Y de la imagen y formato NORMAL, CON BANDAS o PANORÁMICO.</td></tr>
-        <tr><td>Trucos</td><td>Desbloquear todo, elegir objeto, 200cc en GP y VS, y rivales sin ventaja; apagados de fábrica.</td></tr>
+        <tr><td>Trucos</td><td>Desbloquear todo, elegir objeto, 200cc en GP y VS, y rivales sin ventaja; vienen apagados de fábrica.</td></tr>
         <tr><td>Calidad</td><td>Pruebas automáticas y arranque del juego en un emulador en cada cambio.</td></tr>
       </tbody>
     </table></div>
+    <p>El detalle de cada versión está en el <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/CHANGELOG.md">registro de cambios</a>.</p>
 
     <h2 id="jugar"><b>3</b>Cómo jugar</h2>
     <p>Descarga la ISO (o el ELF) y <code>SHA256SUMS</code>, comprueba el archivo con <code>sha256sum -c --ignore-missing SHA256SUMS</code> y ábrelo en PCSX2 o Play!, o cárgalo en una PlayStation 2 con OPL o uLaunchELF. Para guardar, usa una Memory Card formateada en la ranura 1. La imagen sale en NTSC a 60 Hz. Los detalles están en el <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/docs/manual/usuario.md">manual de usuario</a>.</p>
 
-    <h2 id="descarga"><b>4</b>Descarga y verificación<sup><a href="#n2" id="r2" aria-label="Nota 2">2</a></sup></h2>
+    <h2 id="descarga"><b>4</b>Descarga y verificación</h2>
     <div class="tabla"><table>
+      <caption class="meta">Release v1.2.1: los valores que comprobé con <code>sha256sum -c SHA256SUMS</code>.</caption>
       <thead><tr><th scope="col">Archivo</th><th scope="col">Tamaño</th><th scope="col">SHA-256</th></tr></thead>
       <tbody>
         <tr><td><code>SLUS_999.99.SuperMarioKart64.iso</code></td><td>13 387 776 bytes</td><td><code>3b4321ce86050f1a3bceb5a381ca354cecca1853a784069e56111a232df5eceb</code></td></tr>
         <tr><td><code>SLUS_999.99.monolitico.elf</code></td><td>12 988 552 bytes</td><td><code>8d79cd1ab153ebd9ea391dc2860f3700a87a542b7fc769091d8a74a262c4e5dd</code></td></tr>
       </tbody>
     </table></div>
-    <p>Ambos archivos están en la <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/latest">última Release</a>.</p>
+    <p>Ambos archivos están en la <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/latest">última Release</a>. La publiqué con el commit <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/d3c27566"><code>d3c27566</code></a> y la <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38181807319">ejecución 38181807319</a> de la CI; las notas están en <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/docs/versiones/v1.2.1.md">v1.2.1</a>.</p>
 
-    <h2 id="autoria"><b>5</b>Autoría</h2>
-    <p>Alexis Barrera: traducción, mejoras del port, menú, pruebas y verificación en la integración continua. El port a PS2 es de <a href="https://github.com/anthoo582/mario-kart-64-ps2">anthoo582</a>, sobre la descompilación comunitaria de Mario Kart 64. Es además una pieza de portafolio de un desarrollador e ingeniero de observabilidad.</p>
+    <h2 id="comprobe"><b>5</b>Qué comprobé y cómo</h2>
+    <div class="tabla"><table>
+      <thead><tr><th scope="col">Afirmación</th><th scope="col">Cómo lo comprobé</th><th scope="col">Evidencia</th></tr></thead>
+      <tbody>
+        <tr><td>Las pruebas pasan sin el SDK de PS2</td><td><code>PS2SDK= make test</code> en el PC: 44 programas, 0 fallos en la 1.2.0</td><td><a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616">ejecución 38159323616</a>, <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/docs/traduccion/trazabilidad.md">trazabilidad</a></td></tr>
+        <tr><td>El juego compila y arranca</td><td>Compilación release, <code>DEBUG</code> y <code>DEV</code>, tope de ROM y arranque en Play! 0.72 sin BIOS</td><td><a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616">ejecución 38159323616</a> y <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38181807319">ejecución 38181807319</a></td></tr>
+        <tr><td>Las capturas no se desvían</td><td>Comparo título, menú y carrera con tolerancia del 0,1 %; con ese margen aparecieron dos defectos que el 2 % dejaba pasar</td><td><a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/632050ac"><code>632050ac</code></a>, <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/docs/traduccion/revisiones/2026-10-11-version-1.2.1.md">acta de la 1.2.1</a></td></tr>
+        <tr><td>Cada prueba detecta fallos reales</td><td>La veo en rojo antes del cambio y la someto a una mutación</td><td><a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/176651ed"><code>176651ed</code></a></td></tr>
+        <tr><td>La publicación es íntegra</td><td>La Release solo sale si el SHA-256 de la ISO coincide con el de las notas</td><td><a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/d3c27566"><code>d3c27566</code></a></td></tr>
+        <tr><td>Tacto del mando, TV, multitap, OPL y uLaunchELF</td><td>Sin comprobar: necesitan hardware real; antiparpadeo, bandas y posición solo los comprobé por valores de registro</td><td><a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/docs/traduccion/especificacion.md">límites declarados</a></td></tr>
+      </tbody>
+    </table></div>
 
-    <h2 id="legal"><b>6</b>Aviso legal</h2>
-    <p>Proyecto personal sin ánimo de lucro, educativo y de preservación: no se cobra, no se aceptan donaciones y no hay publicidad ni patrocinio. Se publican la ISO y el ELF, como hace el repositorio original, para que la comunidad pueda probarlos. Para jugar debes tener el juego original. No hay afiliación con Nintendo ni con Sony ni cuenta con su aprobación. Mario Kart 64 y sus personajes son marcas de Nintendo; PlayStation 2 es una marca de Sony Interactive Entertainment. El proyecto se retira si el titular de los derechos lo pide. Los aportes propios tienen licencia MIT (<a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/LICENSE">LICENSE</a>); el juego, sus recursos y el código del repositorio original quedan fuera.</p>
+    <h2 id="patrones"><b>6</b>Patrones y prácticas que apliqué</h2>
+    <div class="tabla"><table>
+      <thead><tr><th scope="col">Patrón</th><th scope="col">Dónde se ve</th></tr></thead>
+      <tbody>
+        <tr><td>Especificación antes del código</td><td>Cada cambio empieza como un contrato de cambio en <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/docs/traduccion/cambios.md">cambios.md</a></td></tr>
+        <tr><td>Pruebas en rojo con mutación</td><td>El commit <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/176651ed"><code>176651ed</code></a> registra el rojo y la mutación de una prueba</td></tr>
+        <tr><td>Funciones puras en cabeceras <code>static inline</code></td><td>Las pruebas compilan en el PC la misma lógica que corre en la PS2</td></tr>
+        <tr><td>Autor distinto del revisor</td><td>Cada fase deja un acta en <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/docs/traduccion/revisiones/2026-10-11-version-1.2.0.md">revisiones</a></td></tr>
+        <tr><td>CI con emulador</td><td>El job «Guion en el emulador (Play!)» en la <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616">ejecución 38159323616</a></td></tr>
+        <tr><td>Publicación reproducible con SHA-256</td><td>La tabla de descarga y <code>SHA256SUMS</code></td></tr>
+        <tr><td>Trazabilidad CC, commit y prueba</td><td><a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/docs/traduccion/trazabilidad.md">trazabilidad.md</a></td></tr>
+      </tbody>
+    </table></div>
 
-    <div class="notas">
-      <p id="n1">1. Detalle en el <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/CHANGELOG.md">registro de cambios</a> del repositorio. <a href="#r1" aria-label="Volver a la nota 1">↩</a></p>
-      <p id="n2">2. Los valores son los de la Release v1.2.1; se comprueban con <code>sha256sum -c SHA256SUMS</code>. <a href="#r2" aria-label="Volver a la nota 2">↩</a></p>
-    </div>
+    <h2 id="trayectoria"><b>7</b>Mi trayectoria en este proyecto</h2>
+    <p>Trabajo como desarrollador e ingeniero de observabilidad, y traté este port como un sistema en producción: si no puedo medirlo, no lo doy por bueno. Por eso las compilaciones <code>DEBUG</code> y <code>DEV</code> escriben un registro de arranque con la región y el modo de vídeo, el juego tiene un medidor de rendimiento y una pantalla de fallo en lugar de una pantalla negra, y la CI lee ese registro y compara capturas con tolerancia en cada commit. El audio y el arranque los vigilo como vigilaría un servicio: con una señal que falla de forma visible. Lo que aprendí aquí vuelve a mi trabajo diario: escribir el contrato antes, ver cada prueba fallar y declarar los límites de lo que no pude verificar.</p>
+
+    <h2 id="autoria"><b>8</b>Autoría</h2>
+    <p>Alexis Barrera: traducción, mejoras del port, menú, pruebas y verificación en la integración continua. El port a PS2 es de <a href="https://github.com/anthoo582/mario-kart-64-ps2">anthoo582</a>, sobre la descompilación comunitaria de Mario Kart 64. Es además una pieza de mi portafolio como desarrollador e ingeniero de observabilidad.</p>
+
+    <h2 id="legal"><b>9</b>Aviso legal</h2>
+    <p>Es un proyecto personal sin ánimo de lucro, educativo y de preservación: no cobro, no acepto donaciones y no hay publicidad ni patrocinio. Publico la ISO y el ELF, como hace el repositorio original, para que la comunidad pueda probarlos. Para jugar debes tener el juego original. No tengo afiliación con Nintendo ni con Sony ni cuento con su aprobación. Mario Kart 64 y sus personajes son marcas de Nintendo; PlayStation 2 es una marca de Sony Interactive Entertainment. Retiro el proyecto si el titular de los derechos lo pide. Mis aportes tienen licencia MIT (<a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/LICENSE">LICENSE</a>); el juego, sus recursos y el código del repositorio original quedan fuera.</p>
   </main>
   <footer>Mario Kart 64 para PlayStation 2, en español · Alexis Barrera</footer>
 </div>
