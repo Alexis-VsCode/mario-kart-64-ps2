@@ -1,6 +1,6 @@
 # Registro de cambios de la especificación
 
-Aquí se registra todo cambio de requisito, límite, escala, paso de interlineado, término o texto de reserva, y toda diferencia entre lo ejecutado y el plan aprobado. El registro se hace **antes** de tocar el código. Las diferencias ya ejecutadas se registran en cuanto se detectan.
+Aquí registro todo cambio de requisito, límite, escala, paso de interlineado, término o texto de reserva, y toda diferencia entre lo ejecutado y el plan aprobado. El registro lo hago **antes** de tocar el código. Las diferencias ya ejecutadas las registro en cuanto las detecto.
 
 ## Reglas
 
@@ -9,11 +9,11 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Aprobación:**
   - la dan INTEGRACIÓN y REVISIÓN;
   - si el cambio toca una decisión cerrada de la especificación o el plan aprobado, también yo.
-- **Evidencia:** un cambio de maquetación se justifica con medidas y con la prueba del PC que las comprueba. Desde CC-12 no se piden capturas; hasta entonces se pedía una captura antes/después (PCSX2 y, si afectaba a los bordes, TV).
+- **Evidencia:** un cambio de maquetación lo justifico con medidas y con la prueba del PC que las comprueba. Desde CC-12 no pido capturas; hasta entonces pedía una captura antes/después (PCSX2 y, si afectaba a los bordes, TV).
 - **Al aplicarlo:**
-  - se anota el commit;
-  - se actualizan `prueba_textos_lugares.inc.c` o `prueba_textos_esperados.inc.c` si corresponde;
-  - se enlaza desde [trazabilidad.md](trazabilidad.md).
+  - anoto el commit;
+  - actualizo `prueba_textos_lugares.inc.c` o `prueba_textos_esperados.inc.c` si corresponde;
+  - lo enlazo desde [trazabilidad.md](trazabilidad.md).
 
 ## Plantilla
 
@@ -50,7 +50,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Archivos y líneas:** `codigo/menus/elementos_menu/dibujar_menus.inc.c:313-321`.
 - **Alternativas descartadas:** abreviar a «MEJOR VTA», porque contradice el glosario.
 - **Evidencia requerida:** captura antes/después de la selección de pista en contrarreloj. La medida la comprueba `prueba_textos.c` con el límite de la caja en `prueba_textos_lugares.inc.c`; la captura se retiró con F6 (CC-12).
-- **Aprobación:** no quedó registrada aparte; el cambio se integró con su rama en `feature/idioma-espanol`.
+- **Aprobación:** no quedó registrada aparte; el cambio entró con su rama en `feature/idioma-espanol`.
 - **Commit:** `b061832` (escala horizontal de la caja de la mejor vuelta de 0,8 a 0,6, «MEJOR VUELTA» llegaba a x = 319 con la caja en 297).
 
 ### CC-02: interlineado de los mensajes de varias líneas
@@ -74,15 +74,15 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 | `info_pistas_y_tiempos.inc.c:774` | 0xF (15) | 0,75 | 16 |
 | `dibujar_menus.inc.c:733` | 0xD (13) | 0,65 | 14 |
 
-- **Cambio propuesto.** En cada sitio se elige una de dos opciones, la que no saque el bloque de su cuadro:
+- **Cambio propuesto.** En cada sitio elijo una de dos opciones, la que no saque el bloque de su cuadro:
   - bajar la escala hasta `e ≤ p / 20,6`: con paso 13, e ≤ 0,63; con paso 15, e ≤ 0,72; con paso 20, e ≤ 0,97;
   - subir el paso hasta `ceil(20,6·e)`.
-- **Si no se puede:** queda la alternativa de redactar el texto sin mayúsculas acentuadas a partir de la segunda línea. Se registra como excepción, con su texto.
+- **Si no se puede:** queda la alternativa de redactar el texto sin mayúsculas acentuadas a partir de la segunda línea. La registro como excepción, con su texto.
 - **Archivos y líneas:** los de la tabla.
 - **Alternativas descartadas:** comprimir la mayúscula acentuada dentro de 16 filas. La letra quedaría más baja que las demás.
 - **Evidencia requerida:** capturas antes/después de cada pantalla afectada, comprobando que la última línea no se sale del cuadro. Por ejemplo, en `menus_pausa.inc.c:365` las líneas van en `y = 0x6E + p·i`: subir el paso a 0x11 (17, el mínimo con e = 0,8) mueve la séptima línea de y = 188 a y = 212.
 - **Lo aplicado:** no se cambió ningún paso ni ninguna escala vertical. `prueba_textos.c` (`probar_interlineado`) mide la regla con más precisión: con un paso menor que `ceil(20,6·e)`, una letra con signo en la segunda línea o siguientes no puede quedar bajo la tinta de la línea anterior. Con los textos traducidos, ningún lugar registrado en `prueba_textos_lugares.inc.c` incumple esa condición, así que no hizo falta mover líneas ni registrar excepciones.
-- **Aprobación:** no quedó registrada aparte; el cambio se integró con su rama en `feature/idioma-espanol`.
+- **Aprobación:** no quedó registrada aparte; el cambio entró con su rama en `feature/idioma-espanol`.
 - **Commit:** `ae9dc3c` (prueba) y los bloques de traducción que la mantienen en verde.
 
 ### CC-03: ampliación del HUD
@@ -102,7 +102,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - Las texturas `tiempo_hud`, `tiempo_vuelta_hud` y `vuelta_hud` pasan a ser más anchas. El ancho final se fija en el manifiesto.
   - Todas las llamadas que las dibujan con 32 px de ancho pasan a la variante del ancho nuevo.
   - Se ajustan los desplazamientos para que no haya solapamiento en 1, 2, 3 y 4 jugadores.
-  - Solo se abrevia en pantalla dividida si la palabra no cabe, y eso se registra como un CC aparte.
+  - Solo abrevio en pantalla dividida si la palabra no cabe, y eso lo registro como un CC aparte.
 - **Archivos y líneas:**
   - `codigo/graficos/dibujar_objetos/ventana_item_y_minimapa.inc.c:481-484, 532-533, 537-538, 542-551, 789-790, 793-794`;
   - `codigo/carrera/objetos_y_efectos/hud_pantalla_dividida.inc.c:48-51, 66, 103`;
@@ -111,8 +111,8 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - abreviar siempre (VTA., TPO.), porque contradice la decisión cerrada del HUD;
   - una familia de glifos del HUD más estrecha, porque rompe la coherencia visual con el resto del HUD.
 - **Evidencia requerida:** prueba de no solapamiento en `prueba_texturas_es.py` sobre todas las llamadas, hoja del HUD y capturas en carrera con 1, 2 y 4 jugadores, incluida la pantalla de tiempos de vuelta.
-- **Lo aplicado:** las tres texturas pasan a 64 de ancho y se dibujan alineadas por la derecha donde terminaban las de 32 (`PALABRA_HUD_X`), así el borde que da a los dígitos no se mueve. La prueba de no solapamiento está en `prueba_hud_es.py`, de 1 a 4 jugadores. Con 3 y 4 jugadores VUELTA no cabe y se abrevia: ver CC-07. Las capturas en carrera se retiraron con F6 (CC-12).
-- **Aprobación:** no quedó registrada aparte; el cambio se integró con su rama en `feature/idioma-espanol`.
+- **Lo aplicado:** las tres texturas pasan a 64 de ancho y las dibujo alineadas por la derecha donde terminaban las de 32 (`PALABRA_HUD_X`), así el borde que da a los dígitos queda fijo. La prueba de no solapamiento está en `prueba_hud_es.py`, de 1 a 4 jugadores. Con 3 y 4 jugadores VUELTA no cabe y la abrevio: ver CC-07. Las capturas en carrera las retiré con F6 (CC-12).
+- **Aprobación:** no quedó registrada aparte; el cambio entró con su rama en `feature/idioma-espanol`.
 - **Commit:** `7e0d345`.
 
 ### CC-04: `modo_mario_gp` sin traducir en el manifiesto
@@ -126,7 +126,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Alternativas descartadas:** abreviar a «G. PREMIO» sin registrar la medida.
 - **Evidencia requerida:** medida del texto compuesto y hoja antes/después.
 - **Lo aplicado:** «GRAN PREMIO» pasa la prueba de ajuste en dos líneas, «GRAN» / «PREMIO», con las letras diminutas del juego. La fila lleva `texto_es` y ya no tiene motivo. La medida la comprueba `prueba_composicion_es.py` y la hoja sale con `make hoja-es`.
-- **Aprobación:** no quedó registrada aparte; el cambio se integró con su rama en `feature/idioma-espanol`.
+- **Aprobación:** no quedó registrada aparte; el cambio entró con su rama en `feature/idioma-espanol`.
 - **Commit:** `788a957`.
 
 ### CC-05: valor de la marca de pánico del registro
@@ -134,13 +134,13 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Estado:** aplicado
 - **Fecha:** 2026-09-28
 - **Requisitos afectados:** R-PORT-04
-- **Motivo:** el registro vuelca al PC en el momento las líneas que contienen «PANIC» (`codigo/depuracion/depuracion.c:99`). PORT define `MARCA_PANICO` en español, así que la línea de pánico se escribe en español. Cambiar el valor de una marca es un cambio de especificación.
+- **Motivo:** el registro vuelca al PC en el momento las líneas que contienen «PANIC» (`codigo/depuracion/depuracion.c:99`). PORT define `MARCA_PANICO` en español, así que la línea de pánico sale en español. Cambiar el valor de una marca es un cambio de especificación.
 - **Cambio propuesto:** `MARCA_PANICO` vale «PANICO». Productor y consumidor usan la macro, así que el volcado no cambia de comportamiento.
 - **Archivos y líneas:** `incluir/depuracion/marcas_registro.h` (nuevo) y `codigo/depuracion/depuracion.c:99-100, 401`.
 - **Alternativas descartadas:** conservar «PANIC», porque deja una palabra en inglés en el registro.
 - **Evidencia requerida:** `prueba_textos_port.py` en verde y una línea de pánico en el registro de `make DEBUG=1`.
 - **Lo aplicado:** primero «PANICO» (`91b2a89`) y después «PÁNICO», con tilde como el resto de mayúsculas del port (`823a0c8`). `strstr` compara bytes, así que el consumidor encuentra la marca en UTF-8, y la pantalla de fallo la muestra sin tilde por `quitar_diacriticos`. `prueba_textos_port.py` pide «pánico» con tilde. La línea de pánico en el registro de `make DEBUG=1` no se ha capturado.
-- **Aprobación:** no quedó registrada aparte; el cambio se integró con su rama en `feature/idioma-espanol`.
+- **Aprobación:** no quedó registrada aparte; el cambio entró con su rama en `feature/idioma-espanol`.
 - **Commit:** `9d2b711` (macros), `91b2a89` y `823a0c8`.
 
 ### CC-06: diferencias entre lo ejecutado y el plan aprobado
@@ -152,7 +152,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 
 | Plan aprobado | Lo ejecutado | Commit |
 |---|---|---|
-| Las subramas nacen de `feature/idioma-espanol` | `idioma/infra` nace de `main`; `idioma/fuente` e `idioma/texturas`, de `idioma/infra`; `idioma/cadenas` e `idioma/port`, de `idioma/fuente`. Se integran en `feature/idioma-espanol` en el orden infra → fuente → texturas → cadenas → port | — |
+| Las subramas nacen de `feature/idioma-espanol` | `idioma/infra` nace de `main`; `idioma/fuente` e `idioma/texturas`, de `idioma/infra`; `idioma/cadenas` e `idioma/port`, de `idioma/fuente`. Las integro en `feature/idioma-espanol` en el orden infra → fuente → texturas → cadenas → port | — |
 | Solo `test`, `clean` y `es` sin SDK | `OBJETIVOS_PC := test clean herramientas es hoja-es` | `f8f9a39`, `37633d3`, `a0da3a1` |
 | El conversor lleva una lista blanca de caracteres sacada de la lista de glifos | Sin lista blanca: la prueba de textos valida los caracteres con el decodificador real. ’ y ” tienen glifo; … y “ no | `727c7ed` |
 | CI en `.github/workflows/ps2.yml` | CI en `.github/workflows/compilacion.yml`, con el job `mismo-binario` añadido | `7387d01`, `a3d0bae` |
@@ -161,16 +161,16 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 | F3 empieza por el tope del pool | Orden real: LUT, lista X-macro, caracteres, regla de avance, glifos, pool, glifos en la ROM y cadenas con tildes | `4e35120`…`641fe27` |
 | `ASSERT_ESTATICO(… == GLIFOS_TOTAL)` | El `ASSERT_ESTATICO` compara la cuenta de las dos tablas; `prueba_tablas_glifos.py` fija el total de 247 | `4e35120`, `1c9545d` |
 | Diacrítico con `case 26` de alto 8 en `cargar_texturas_menu.inc.c` | `imprimir_letra` dibuja la segunda parte con `dibujar_diacritico_glifo` y `vtx_glifo_diacritico` | `5718601` |
-| Glifos con vista previa PNG (`--vista-previa`) | Los glifos se escriben en `$(BUILD)/glifos_es/`, no se versionan, y `--ver` los muestra en texto | `9abb8d7` |
+| Glifos con vista previa PNG (`--vista-previa`) | Los glifos salen en `$(BUILD)/glifos_es/`, no los versiono, y `--ver` los muestra en texto | `9abb8d7` |
 | Todas las texturas traducidas en MIO0 con `TAMANIO_ES_*` | PULSA START es RGBA16 crudo de 159 × 16 y sigue así; los puestos y las palabras del HUD son `.inc.c` que se superponen desde `build/ps2/es` | `78b7177`, `7e0d345`, `a4676b3` |
-| Un commit por bloque de traducción | Par de commits (prueba y cambio) o uno solo con los dos. En los bloques de CADENAS que cambiaron prueba y texto en un solo commit, el rojo y las mutaciones se registraron después en el mensaje de `da631b0` | `da631b0` |
-| Formato `tipo(dominio): descripción` sin excepciones | Se aceptan también `ci: descripción` y los mensajes de merge `Merge branch '…'` | `7387d01`, `6dd12e7`, `a3d0bae`, `236962b` |
+| Un commit por bloque de traducción | Par de commits (prueba y cambio) o uno solo con los dos. En los bloques de CADENAS que cambiaron prueba y texto en un solo commit, el rojo y las mutaciones los registré después en el mensaje de `da631b0` | `da631b0` |
+| Formato `tipo(dominio): descripción` sin excepciones | Acepto también `ci: descripción` y los mensajes de merge `Merge branch '…'` | `7387d01`, `6dd12e7`, `a3d0bae`, `236962b` |
 | Quitar `iconv` de los requisitos del README | `iconv` ya no hace falta para compilar. Solo lo usa, si está instalado y tiene JIS X 0212, `prueba_convertir_eucjp.py` para comparar. Los requisitos del README ya no lo piden | `476dd52`; README en la sincronización final |
 | Refactor con preprocesado o binario idéntico | `4da5ab9` y `47a7371` sacan literales a variables: el binario cambia (punteros y símbolos nuevos), el texto dibujado no. La verificación, deshacer el refactor a mano y obtener el árbol del padre, está en el mensaje de `6794945` | `4da5ab9`, `47a7371`, `6794945` |
-| Solo los tipos `feat`, `fix`, `refactor`, `test`, `build`, `ci` y `docs` | Cuatro commits usan `chore`: `31eaf62`, `da631b0`, `6794945` y el de publicación `dda9a5f`. No se reescribió la historia ya integrada | `31eaf62`, `da631b0`, `6794945`, `dda9a5f` |
-| `feature/idioma-espanol` sale en un PR en borrador hacia `main` | `feature/idioma-espanol` nace de `docs/readme-y-especificacion` (`cbc10e8`) e integra las cinco ramas con `--no-ff` en el orden fijado; se fusiona a `main` y las ramas de trabajo se borran | `3d482a8`, `6a050d1`, `d3663fd`, `b043668`, `2ae3d3a` |
+| Solo los tipos `feat`, `fix`, `refactor`, `test`, `build`, `ci` y `docs` | Cuatro commits usan `chore`: `31eaf62`, `da631b0`, `6794945` y el de publicación `dda9a5f`. No reescribí la historia ya integrada | `31eaf62`, `da631b0`, `6794945`, `dda9a5f` |
+| `feature/idioma-espanol` sale en un PR en borrador hacia `main` | `feature/idioma-espanol` nace de `docs/readme-y-especificacion` (`cbc10e8`) e integra las cinco ramas con `--no-ff` en el orden fijado; la fusiono a `main` y borro las ramas de trabajo | `3d482a8`, `6a050d1`, `d3663fd`, `b043668`, `2ae3d3a` |
 
-- **Alternativas descartadas:** rehacer las ramas según el plan. Se descarta porque lo publicado tiene CI en verde y la topología real respeta las dependencias entre roles.
+- **Alternativas descartadas:** rehacer las ramas según el plan. La descarto porque lo publicado tiene CI en verde y la topología real respeta las dependencias entre roles.
 - **Evidencia requerida:** la de [trazabilidad.md](trazabilidad.md).
 - **Aprobación:** no quedó registrada aparte.
 - **Commit:** los de la tabla.
@@ -185,7 +185,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Archivos:** `recursos/es/inc/recursos/comunes/texturas/`, `codigo/carrera/objetos_y_efectos/hud_pantalla_dividida.inc.c` y `ventana_item_y_minimapa.inc.c`.
 - **Alternativas descartadas:** abreviar también con 1 y 2 jugadores.
 - **Evidencia:** `prueba_hud_es.py` (ninguna palabra pisa dígitos ni la parte de otro jugador, de 1 a 4 jugadores). Las capturas con 3 y 4 jugadores se retiraron con F6 (CC-12).
-- **Aprobación:** no quedó registrada aparte; se registra aquí porque el cambio ya está integrado.
+- **Aprobación:** no quedó registrada aparte; lo registro aquí porque el cambio ya está integrado.
 - **Commit:** `7e0d345`.
 
 ### CC-08: sincronización con el repositorio original hasta `ae93f71`
@@ -197,10 +197,10 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Cambio:**
   - **Fusión:** `git -c merge.directoryRenames=false merge --no-ff`. Sin esa opción, git trata `build/ps2/debug/`, que el original dejó de versionar, como renombrada a `build/ps2/dev/` y mueve allí archivos nuestros.
   - **Tabla de glifos:** `textos_y_tablas.inc.c`, `animaciones_personajes.inc.c` y `elementos_menu.h` quedan enteros como en `main`. El original arregló el mismo fallo con 236 entradas bajo `AVOID_UB` y alias `dato_800E7FF0` y siguientes. La tabla de `main` tiene esas 236 en el mismo orden más las 11 del español. Mezclar los dos lados deja un `#else` sin cerrar o hace que Á…ª lean fuera de la tabla.
-  - **Archivos del port** (`mandos.c`, `listas_dibujo.inc.c`, `tarea_graficos.inc.c`, `arranque_ps2.c`, `memory_card.c`): el código del original con los textos en español. En `arranque_ps2.c` se conserva `inicializar_depuracion()` antes del reinicio del IOP; la llamada vieja ya se borra sin conflicto y la nueva solo está dentro del trozo en conflicto.
-  - **`README.md`:** queda el de `main`. Lo nuevo del original (multitap, OPL, `FILTRADO_TEXTURAS`, `SMK64_DIAG_CC`, 60 FPS) se integra en un commit de documentación aparte.
+  - **Archivos del port** (`mandos.c`, `listas_dibujo.inc.c`, `tarea_graficos.inc.c`, `arranque_ps2.c`, `memory_card.c`): el código del original con los textos en español. En `arranque_ps2.c` conservo `inicializar_depuracion()` antes del reinicio del IOP; la llamada vieja desaparece sin conflicto y la nueva solo está dentro del trozo en conflicto.
+  - **`README.md`:** queda el de `main`. Lo nuevo del original (multitap, OPL, `FILTRADO_TEXTURAS`, `SMK64_DIAG_CC`, 60 FPS) lo integro en un commit de documentación aparte.
   - **`build/` y `compilaciones/`:** quedan como en `main` hasta el commit de publicación, que los regenera desde cero.
-  - **Textos nuevos del original** fuera de los conflictos: van en español con tildes en commits propios después de la fusión. Primero se amplía la lista negra de `prueba_textos_port.py` (rojo) y después se traducen (verde). Los grupos del cronómetro nuevos pasan a `GRUPO_CARGA_CEREMONIA` y `GRUPO_CARGA_CREDITOS` en `marcas_registro.h`.
+  - **Textos nuevos del original** fuera de los conflictos: van en español con tildes en commits propios después de la fusión. Primero amplío la lista negra de `prueba_textos_port.py` (rojo) y después los traduzco (verde). Los grupos del cronómetro nuevos pasan a `GRUPO_CARGA_CEREMONIA` y `GRUPO_CARGA_CREDITOS` en `marcas_registro.h`.
   - El commit de fusión queda en rojo solo en `prueba_textos_port.py` y nunca se sube solo.
 - **Archivos:** los 9 en conflicto, más `marcas_registro.h`, `hilos_video_y_audio.inc.c`, `guiones_prueba.c` y `prueba_textos_port.py`.
 - **Alternativas descartadas:**
@@ -213,13 +213,13 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - CI de PS2 verde con `-lmtap`.
 - **Lo aplicado:**
   - `git diff 9f4d0215^1 9f4d0215 -- build compilaciones` y el de `textos_y_tablas.inc.c`, `animaciones_personajes.inc.c` y `elementos_menu.h` salen vacíos.
-  - La lista negra de `prueba_textos_port.py` se amplió primero (`748db117`, rojo) y los textos se tradujeron después (`36fc9e40`, verde).
+  - La lista negra de `prueba_textos_port.py` la amplié primero (`748db117`, rojo) y los textos los traduje después (`36fc9e40`, verde).
   - Dos pruebas nuevas protegen lo que la fusión podía perder sin error de compilación: `prueba_arranque.py` (`inicializar_depuracion()` antes del reinicio del IOP, `664d9013`) y `prueba_tablas_glifos.py` (`lut_textura_glifo` se define una vez, fuera de todo `#if` y sin los alias del original, `e600bd6e`).
   - El comando de R-GOB-01 sobre `origin/main..feature/sincronizacion-upstream` devuelve los dos commits del original que trae la fusión, `c2ed147` y `ae93f71`. Son historia del repositorio original y no se reescriben.
   - CI de PS2 con `-lmtap`: la ejecución de F8 anotada en [trazabilidad.md](trazabilidad.md#evidencia-común).
 - **Aprobación:**
   - responsable del proyecto: aprobado (2026-10-11);
-  - REVISIÓN: lingüística de `feature/sincronizacion-upstream` aprobada con observaciones; `664d9013` y `e600bd6e` se revisaron con `sinc/sistema` y `sinc/pendientes` ([acta de F8](revisiones/2026-10-11-sincronizacion.md));
+  - REVISIÓN: lingüística de `feature/sincronizacion-upstream` aprobada con observaciones; la revisión independiente revisó `664d9013` y `e600bd6e` con `sinc/sistema` y `sinc/pendientes` ([acta de F8](revisiones/2026-10-11-sincronizacion.md));
   - INTEGRACIÓN: fusión e integración en `feature/sincronizacion-upstream` (2026-10-11).
 - **Commit:** `9f4d0215` (fusión), `748db117` (prueba), `36fc9e40` (textos), `409a72b9` (README), `664d9013` (merge `bbb11eb6`) y `e600bd6e` (merge `cf956b42`).
 
@@ -230,7 +230,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Requisitos afectados:** R-GOB-01, R-INF-05
 - **Motivo:**
   - El job `publicar` commitea con `chore(build)`, un tipo que R-GOB-01 no admite (4 commits ya registrados en CC-06).
-  - El modo DEV no se compila en la CI: los guiones de prueba y los registros DEV solo se descubrían rotos en la publicación.
+  - La CI no compila el modo DEV: los guiones de prueba y los registros DEV solo aparecían rotos en la publicación.
   - El usuario pide una Release con la ISO y que queden solo las ramas necesarias.
   - Desde la sesión de trabajo, la API de GitHub no permite crear Releases ni borrar ramas (403).
 - **Cambio:**
@@ -252,7 +252,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - `BUILD_ID ?= 2026-10-11` en el `Makefile`;
   - las entradas a pedido aceptan `si` y `sí` (`b69f1548`, de la revisión lingüística);
   - `release` no depende de `publicar`: se lanza en una segunda ejecución, sobre `main`, después de fusionar el commit de publicación, para que suba la ISO nueva (hallazgo Baja del [acta de F8](revisiones/2026-10-11-sincronizacion.md));
-  - commit de publicación: en [trazabilidad.md](trazabilidad.md#evidencia-común); Release y SHA-256 de la ISO: en las [notas de la v1.0.0](../versiones/v1.0.0.md); ramas remotas: se comprueban después de la fusión a `main`, con `limpiar-ramas`.
+  - commit de publicación: en [trazabilidad.md](trazabilidad.md#evidencia-común); Release y SHA-256 de la ISO: en las [notas de la v1.0.0](../versiones/v1.0.0.md); ramas remotas: las compruebo después de la fusión a `main`, con `limpiar-ramas`.
 - **Aprobación:**
   - responsable del proyecto: aprobado (2026-10-11);
   - REVISIÓN: técnica y lingüística de `sinc/ci` aprobadas con observaciones;
@@ -261,7 +261,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 
 ### CC-10: recorrido de PCSX2 con capturas automáticas
 
-- **Estado:** rechazado (responsable del proyecto, 2026-10-11). El proyecto no depende de capturas ni de pasos manuales de nadie: se verifica con las pruebas del PC y la CI. No se integra nada de este cambio y `herramientas/guiones/recorrido_textos.txt` queda como estaba.
+- **Estado:** rechazado (responsable del proyecto, 2026-10-11). El proyecto no depende de capturas ni de pasos manuales de nadie: lo verifico con las pruebas del PC y la CI. No integro nada de este cambio y `herramientas/guiones/recorrido_textos.txt` queda como estaba.
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-FUE-07, R-TXT-07, R-MC-03, R-TEX-05, R-PORT-02, R-PORT-03 (los que dependen del recorrido de F6)
 - **Motivo:** el recorrido de F6 se hacía a mano: `recorrido_textos.txt` paraba en cada `nota` para sacar la captura con F8. Además no cubría datos y récords, contrarreloj, VS, batalla, ¡REVÉS!, Memory Card, ceremonia ni créditos. Desde `ae93f71`, la orden `captura <nombre>` guarda `host:<nombre>.tga` en las compilaciones DEV.
@@ -274,12 +274,12 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Evidencia requerida:**
   - `prueba_guiones.py` y `prueba_hoja_capturas.py` en verde, cada una con una mutación demostrada;
   - el recorrido real lo corre el usuario en PCSX2.
-- **Aprobación:** responsable del proyecto: aprobado el 2026-10-11 y rechazado el mismo día (`b4b37c13`). REVISIÓN técnica y lingüística de `sinc/recorrido`: aprobadas con observaciones. INTEGRACIÓN: no se integra.
+- **Aprobación:** responsable del proyecto: aprobado el 2026-10-11 y rechazado el mismo día (`b4b37c13`). REVISIÓN técnica y lingüística de `sinc/recorrido`: aprobadas con observaciones. INTEGRACIÓN: no hay nada que integrar.
 - **Commit:** ninguno integrado. La rama `sinc/recorrido` (`bb920d50`…`93cae6c0`) queda fuera de `feature/sincronizacion-upstream`; su revisión consta en el [acta de F8](revisiones/2026-10-11-sincronizacion.md).
 
 ### CC-11: correcciones con evidencia después de la sincronización
 
-- **Estado:** aplicado, con las dos diferencias que se registran debajo (G5 y L3)
+- **Estado:** aplicado, con las dos diferencias que registro debajo (G5 y L3)
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-FUE-07, R-PORT-01, R-PORT-02, R-INF-05
 - **Motivo:** revisión de solo lectura del árbol combinado, en tres frentes: gráficos, audio y estabilidad, y legibilidad del español. Solo entran las correcciones con un caso concreto y una corrección mínima. Lo que no tiene caso visible o no se puede verificar queda documentado.
@@ -294,7 +294,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   | L2 | Si la reserva de matrices está agotada, la letra no se dibuja y su tilde tampoco (antes caía sobre la letra anterior). Registro DEV una vez cuando se agota | `letras_y_fundidos.inc.c`, `cargar_texturas_menu.inc.c` | evidencia de código y registro DEV |
   | L3 | Panel 5x7: una fila libre entre líneas para que las tildes no toquen la línea de arriba (`TEXTO_ALTO_LINEA` 9, textura de 108 filas, 112 KB de VRAM) | `texto_pantalla.h`, `texto_pantalla.c`, `medidor_rendimiento.h` | `prueba_fuente_5x7.c` |
 
-- **No se tocan (documentado):**
+- **Lo que no toco (documentado):**
   - **G2:** la captura de los guiones (`captura` y `graba`, solo DEV) puede perder un pedido y deja el alfa del `.tga` del último vértice. Ningún flujo del proyecto usa capturas (CC-10 rechazado), así que queda como propuesta para el repositorio original.
   - **G4:** el tramado por primitiva también alcanza a las letras del menú y a los puestos del HUD, que son triángulos y no rectángulos como dice el comentario del original. Corregirlo cambia la imagen y no hay forma de verificarlo sin capturas, así que queda como propuesta para el repositorio original.
   - **G3:** la segunda pasada `m·TEXEL + PRIM` no desplaza el modo REGION_REPEAT. Hoy ningún dibujo lo usa, así que no hay caso visible.
@@ -332,11 +332,11 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-FUE-07, R-TXT-07, R-MC-03, R-TEX-05, R-PORT-02, R-PORT-03, R-GOB-04, R-GOB-08
 - **Motivo:**
-  - Decido que nadie corre recorridos ni manda capturas: la versión se publica para la comunidad con lo que verifican las pruebas del PC y la CI.
+  - Decido que nadie corre recorridos ni manda capturas: publico la versión para la comunidad con lo que verifican las pruebas del PC y la CI.
   - Los documentos repartían el uso, la parte técnica y el proceso entre el README y `docs/traduccion/`. No había créditos ni autoría, ni notas de versión, ni acta de revisión, ni una única Definition of Done.
 - **Cambio:**
-  - **Se retira F6** (recorrido en PCSX2 y captura en TV). Los requisitos que dependían de él se aceptan con lo que comprueban `make test` y la CI.
-  - **«Sin verificación visual registrada»** se declara como limitación en el manual de usuario y en las notas de versión, en lugar de darlo por cubierto.
+  - **Retiro F6** (recorrido en PCSX2 y captura en TV). Los requisitos que dependían de él los acepto con lo que comprueban `make test` y la CI.
+  - **«Sin verificación visual registrada»** lo declaro como limitación en el manual de usuario y en las notas de versión, en lugar de darlo por cubierto.
   - **Documentación en dos niveles:** el README es la portada y resume y enlaza. `docs/manual/` tiene el manual de usuario, el técnico y los créditos.
   - **Créditos y autoría:**
     - el port a PS2 es de anthoo582;
@@ -373,11 +373,11 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
     - el segundo borrado espera aunque la tarjeta no conteste (D-12);
     - `mcGetInfo` puede escribir `type`/`free`/`format` en una pila ya liberada si contesta tarde (D-13).
 - **Cambio:**
-  - **Tarjeta nueva:** cuando `mcGetInfo` devuelve -1, se leen las dos cabeceras antes de escribir. Se pisa la copia más vieja y la generación pasa a ser la mayor de la tarjeta más uno. Lo decide una función pura en `incluir/sistema/eleccion_guardado.h`, probada en el PC. No se toca `guardado_ps2.generacion`: el hilo de guardado la usa para espaciar los guardados.
-  - **Espera al arrancar:** se mide con `ciclos_ps2()`, no en vueltas del bucle.
+  - **Tarjeta nueva:** cuando `mcGetInfo` devuelve -1, leo las dos cabeceras antes de escribir. Piso la copia más vieja y la generación pasa a ser la mayor de la tarjeta más uno. Lo decide una función pura en `incluir/sistema/eleccion_guardado.h`, probada en el PC. No toco `guardado_ps2.generacion`: el hilo de guardado la usa para espaciar los guardados.
+  - **Espera al arrancar:** la mido con `ciclos_ps2()`, no en vueltas del bucle.
   - **Segundo borrado** (D-12): solo con `mc_ok`.
   - **Variables de `mcGetInfo`** (D-13): `type`, `free` y `format` pasan a `static`.
-  - **D-11, decisión escrita:** se mantiene. Si solo vence `mcClose`, la tarjeta queda desactivada y descartar la lectura es coherente: la partida de la sesión sigue en la memoria.
+  - **D-11, decisión escrita:** la mantengo. Si solo vence `mcClose`, la tarjeta queda desactivada y descartar la lectura es coherente: la partida de la sesión sigue en la memoria.
 - **Alternativas descartadas:** no escribir nunca en una tarjeta distinta de la del arranque, porque perdería el guardado al insertar una tarjeta vacía.
 - **Evidencia requerida:**
   - `prueba_eleccion_guardado.c` (rojo y mutaciones);
@@ -408,14 +408,14 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - hacerla configurable, por sobreingeniería.
 - **Evidencia requerida:**
   - `prueba_eje_palanca.c`: el giro empieza a ≤ 28, centro 0, extremos ±80, simetría y monotonía, con rojo y mutaciones;
-  - el tacto en una consola real no se verifica (D-06).
+  - no verifico el tacto en una consola real (D-06).
 - **Lo aplicado:**
   - `prueba_eje_palanca.c`: rojo con la zona muerta en 24 («el giro empieza a 41 del centro, se esperaba como mucho 28»); mutaciones de la zona muerta y del divisor (127 → 128), restauradas.
   - Reposo de la cruceta: rojo «'ZONA_REPOSO_CRUCETA' undeclared» (`ddbdc023`); mutación con `ZONA_MUERTA_PALANCA` en `eje_en_reposo`, 16 fallos (`34ab306d`); umbral de 24 a 26 (`2b37f61f`). Verde: «prueba_eje_palanca: 417 comprobaciones, 0 fallos» en `make test` sobre `a29bd920` (el mensaje de `2b37f61f` dice 415: con el umbral en 26 el bucle de reposo suma dos comprobaciones).
   - La condición de `convertir()` en `mandos.c:64` solo compila con el SDK: revisada a mano y sin prueba ([deuda.md](deuda.md), D-18).
 - **Aprobación:**
   - responsable del proyecto: aprobado (2026-10-11);
-  - REVISIÓN: técnica de `v110/entrada`, aprobada con observaciones en las dos pasadas; el efecto sobre la cruceta se resolvió con su propio umbral y el arreglo se revisó aparte, aprobado con observaciones; lingüística, aprobada con observaciones ([acta de F9](revisiones/2026-10-11-version-1.1.0.md#5-v110entrada-zona-muerta-del-stick-y-reposo-de-la-cruceta-cc-14));
+  - REVISIÓN: técnica de `v110/entrada`, aprobada con observaciones en las dos pasadas; el efecto sobre la cruceta lo resolví con su propio umbral y la revisión independiente revisó el arreglo aparte, aprobado con observaciones; lingüística, aprobada con observaciones ([acta de F9](revisiones/2026-10-11-version-1.1.0.md#5-v110entrada-zona-muerta-del-stick-y-reposo-de-la-cruceta-cc-14));
   - INTEGRACIÓN: merge `4563d816` (2026-10-11).
 - **Commit:** `1fc4c437` (refactor), `4a48ff6a` (prueba), `dcbe656e` (zona muerta), `ddbdc023`, `34ab306d` y `2b37f61f` (reposo de la cruceta) y el merge `4563d816`. Registro ajustado en `f09697ca` y `6519d73e`.
 
@@ -429,7 +429,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - Un jugador con una consola PAL no tiene cómo saber que necesita una TV que acepte 60 Hz.
 - **Cambio:**
   - Una función pura en `incluir/sistema/region_ps2.h` interpreta la región de `rom0:ROMVER`.
-  - Al arrancar se registra la región. En una consola PAL avisa de que la imagen es NTSC a 60 Hz.
+  - Al arrancar el juego registra la región. En una consola PAL avisa de que la imagen es NTSC a 60 Hz.
   - El manual de usuario lo explica. El modo de vídeo no cambia.
 - **Alternativas descartadas:**
   - un modo PAL a 50 Hz, con el juego un 17 % más lento y cortes de audio;
@@ -457,13 +457,13 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - Para jugar desde USB con uLaunchELF hace falta el ELF de `make MONOLITICO=1`, y nadie lo publica.
 - **Cambio:**
   - **`publicar`:** solo omite el commit si `git diff --cached --quiet`.
-  - **`release`:** corre en el contenedor de ps2dev y falla si el SHA-256 de la ISO no está en las notas. Compila `make MONOLITICO=1` en la referencia publicada y adjunta ese ELF con su suma. El ELF no se versiona en `compilaciones/`.
+  - **`release`:** corre en el contenedor de ps2dev y falla si el SHA-256 de la ISO no está en las notas. Compila `make MONOLITICO=1` en la referencia publicada y adjunta ese ELF con su suma. No versiono el ELF en `compilaciones/`.
 - **Alternativas descartadas:** versionar el ELF monolítico en el repositorio, que agrega un archivo grande en cada versión.
 - **Evidencia requerida:** la Release `v1.1.0` con la ISO, el ELF monolítico y `SHA256SUMS`, todo comprobado.
 - **Lo aplicado:**
   - `publicar` omite el commit solo si `git diff --cached --quiet`; cualquier otro fallo detiene el job.
   - `release` corre en el mismo contenedor de ps2dev que `compilar-ps2`, falla si el SHA-256 de la ISO no está en `docs/versiones/<etiqueta>.md`, compila `make clean` y `make MONOLITICO=1` y publica la ISO, `SLUS_999.99.monolitico.elf` y un `SHA256SUMS` con las dos líneas.
-  - Comprobado en el PC con los bloques `run:` del workflow: `publicar` sale con 1 ante un commit que falla (antes, con 0); `release` sale con 1 con unas notas sin la suma. `make MONOLITICO=1` y `gh release create` solo se ejecutan en la CI.
+  - Comprobado en el PC con los bloques `run:` del workflow: `publicar` sale con 1 ante un commit que falla (antes, con 0); `release` sale con 1 con unas notas sin la suma. `make MONOLITICO=1` y `gh release create` solo corren en la CI.
   - Release `v1.1.0`: ejecución, tamaño y SHA-256 de la ISO y del ELF monolítico en [trazabilidad.md](trazabilidad.md#evidencia-común).
 - **Aprobación:**
   - responsable del proyecto: aprobado (2026-10-11);
@@ -476,7 +476,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Estado:** aplicado. Salda D-01 y D-02.
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** ninguno de la traducción; amplía el bloque de gráficos de CC-11 (G5).
-- **Motivo:** G5 (`ce98830c`) se integró con evidencia de código, porque el cálculo está en `combinador_y_recorte.inc.c`, que solo compila con el SDK.
+- **Motivo:** integré G5 (`ce98830c`) con evidencia de código, porque el cálculo está en `combinador_y_recorte.inc.c`, que solo compila con el SDK.
 - **Cambio:**
   - Commit `refactor`, sin cambio de conducta: el alfa con tramado pasa a la función pura `combinador_alfa_tramado()`, `static inline` en `combinador_color.h`, y la usan las dos ramas de `combinar_color`.
   - Commit `test`: casos en `prueba_combinador.c`.
@@ -499,7 +499,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Cambio:**
   - Archivo aparte `SMK64CFG.DAT` en `/BASLUS-99999SMK64/`: 32 bytes con la magia `MKCF`, versión, tamaño, los campos, bytes reservados y CRC32.
   - La lógica pura (valores por defecto, serializar, validar y sanear) va en una cabecera `static inline` con su prueba. El CRC32 se comparte con `memory_card.c`.
-  - Se lee y se escribe solo desde el hilo de guardado, porque libmc no admite varios hilos. Se escribe al salir del menú de CC-19 y solo si algo cambió.
+  - Solo el hilo de guardado lee y escribe, porque libmc no admite varios hilos. Escribe al salir del menú de CC-19 y solo si algo cambió.
   - Si falta el archivo o está dañado, se usan los valores por defecto y el juego sigue.
 - **Alternativas descartadas:** ampliar la imagen de guardado, porque obliga a migrar las partidas.
 - **Evidencia requerida:** prueba del PC con ida y vuelta, magia, versión y CRC erróneos, valores fuera de rango, el CRC32 de «123456789» igual a 0xCBF43926 y mutaciones restauradas.
@@ -511,7 +511,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - Sin Memory Card, las opciones duran hasta apagar la consola. El cambio de tarjeta en caliente no se ha probado en hardware ([especificación §9](especificacion.md#9-límites-declarados)).
 - **Aprobación:**
   - responsable del proyecto: aprobado (2026-10-11);
-  - REVISIÓN: el contrato se revisó con `v120/memoria`; técnica, aprobada con observaciones; lingüística, aprobada ([acta de F10](revisiones/2026-10-11-version-1.2.0.md#2-v120memoria-archivo-de-opciones-y-memory-card-cc-18-cc-27));
+  - REVISIÓN: la revisión independiente revisó el contrato con `v120/memoria`; técnica, aprobada con observaciones; lingüística, aprobada ([acta de F10](revisiones/2026-10-11-version-1.2.0.md#2-v120memoria-archivo-de-opciones-y-memory-card-cc-18-cc-27));
   - INTEGRACIÓN: merges `226a3ce3` (`v120/contrato`) y `48e951fc` (`v120/memoria`) (2026-10-11).
 - **Commit:** `d6bf7381`, `a760841b`, `93cb4d04`, `098af916`, `8c022b34`, `3bbac652` y los merges `226a3ce3` y `48e951fc`.
 
@@ -522,7 +522,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Requisitos afectados:** R-VID-05 (nuevo), R-TXT-04, R-TXT-05
 - **Motivo:** el jugador necesita cambiar los ajustes de imagen y los trucos sin combinaciones de botones ocultas. Elegí una entrada de menú con el mismo estilo que los menús del juego y aprobé la maqueta.
 - **Cambio:**
-  - Quinta entrada «CONFIGURACIÓN Y TRUCOS» al final de OPCIONES. Se añade al final para no cambiar la numeración que usan los guiones. El paso entre filas baja para que la quinta quede dentro de la zona segura.
+  - Quinta entrada «CONFIGURACIÓN Y TRUCOS» al final de OPCIONES. La añado al final para no cambiar la numeración que usan los guiones. El paso entre filas baja para que la quinta quede dentro de la zona segura.
   - Subpantalla con 9 filas:
     - ANTIPARPADEO, POSICIÓN X, POSICIÓN Y, FORMATO;
     - DESBLOQUEAR TODO, OBJETO, 200CC, RIVALES SIN VENTAJA;
@@ -536,7 +536,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
     - arriba/abajo mueven la fila y se paran en los extremos;
     - izquierda/derecha cambian el valor, y X lo avanza;
     - Círculo o VOLVER salen.
-  - La fuente no tiene «:» ni «/», así que no se escribe «16:9».
+  - La fuente no tiene «:» ni «/», así que no escribo «16:9».
   - La navegación y el ciclo de valores van en una función pura con su prueba. Los textos nuevos entran en las pruebas de textos y de lugares.
 - **Alternativas descartadas:** combinaciones de botones con L3, porque son ocultas, y texturas nuevas, porque el estilo ya existe en el juego.
 - **Evidencia requerida:** pruebas de navegación y de textos (rojo, mutación, verde), compilación de PS2 en la CI y la pasada del emulador de CC-26 por el menú.
@@ -561,13 +561,13 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - Algunas TV cortan los bordes de la imagen.
   - El port nunca escribe PMODE ni DISPLAY: se quedan los valores de gsKit.
 - **Cambio:**
-  - **Solo la presentación:** CC-15 y la decisión de no usar 480p se mantienen; el modo sigue siendo NTSC 480i a 60 Hz.
+  - **Solo la presentación:** mantengo CC-15 y la decisión de no usar 480p; el modo sigue siendo NTSC 480i a 60 Hz.
   - **Antiparpadeo:**
     - PMODE con los dos circuitos de lectura, CRTMD=1, MMOD=1 y ALP=0x80 (0x8027);
     - DISPFB2 con DBY=1 (bit 43);
     - mezcla al 50 % dos líneas vecinas.
   - **Posición:** DX en VCK (MAGH+1 por píxel) y DY siempre par, en DISPLAY1 y DISPLAY2 por igual, con límites.
-  - Los registros se calculan con una función pura y se escriben en el retrazo cuando cambian las opciones; en pánico no se tocan.
+  - Una función pura calcula los registros, que el juego escribe en el retrazo cuando cambian las opciones; en pánico no los toca.
   - Con los valores por defecto (antiparpadeo NO, posición 0,0) los registros son los de la 1.1.0. La prueba lo fija.
 - **Alternativas descartadas:**
   - antiparpadeo activado por defecto, porque ablanda la imagen en emuladores y TV modernas y no hay verificación en hardware;
@@ -595,7 +595,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Cambio:**
   - **Configuración de la PS2:** se lee con `configGetTvScreenType()`. Solo `TV_SCREEN_169` es 16:9; `TV_SCREEN_FULL` sigue siendo 4:3.
   - **FORMATO:** NORMAL, CON BANDAS o PANORÁMICO. Si no hay archivo de opciones, vale CON BANDAS con la PS2 en 16:9 y NORMAL en otro caso.
-  - **CON BANDAS:** se hace en el PCRTC, con MAGH=2, DW=1920 y DX desplazado. La imagen ocupa 3/4 del ancho y el fondo negro rellena los lados. El dibujo del juego no cambia ni pierde resolución.
+  - **CON BANDAS:** lo hago en el PCRTC, con MAGH=2, DW=1920 y DX desplazado. La imagen ocupa 3/4 del ancho y el fondo negro rellena los lados. El dibujo del juego no cambia ni pierde resolución.
   - **PANORÁMICO (Hor+):**
     - `aspecto_pantalla` ×4/3 en las asignaciones de la carrera, la vista dividida y la ceremonia, no en `guPerspectiveF`, para que los menús no cambien;
     - el cono de `es_visible_objeto_en_camara` se ensancha en la misma proporción;
@@ -603,13 +603,13 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Alternativas descartadas:**
   - escalar las X en el intérprete F3DEX, que toca vértices, rectángulos y recorte;
   - aplicar el aspecto dentro de `guPerspectiveF`, que también ensancha los menús.
-- **Riesgo:** los tramos de pista se eligen por cuadrante de cámara, así que puede faltar pista en los bordes en PANORÁMICO. Se comprueba con el emulador; si aparece, el valor PANORÁMICO se retira antes de publicar.
+- **Riesgo:** el juego elige los tramos de pista por cuadrante de cámara, así que puede faltar pista en los bordes en PANORÁMICO. Lo compruebo con el emulador; si aparece, retiro el valor PANORÁMICO antes de publicar.
 - **Evidencia requerida:** pruebas puras del aspecto (1,333 → 1,778; 0,667 → 0,889; 2,667 → 3,556), del cono con tope y de los registros con bandas, con mutaciones, más las capturas del emulador.
 - **Lo aplicado:**
   - CON BANDAS sale de `registros_video.h` (MAGH=2, DW=1920, DX centrado). La revisión encontró que con bases de MAGH 0 o 1 el cálculo pasaba por debajo de cero: rojo en `d8ebb3ac` (4 fallos de 66), arreglado en `d5ee5381`.
   - `064830d8` (prueba) y `92c1f1f3`: `incluir/graficos/vista_panoramica.h` con el aspecto (1,333 → 1,778; 0,667 → 0,889; 2,667 → 3,556) y el cono ensanchado 4/3 con tope. Rojo: no compilaba sin la cabecera.
   - `fd4286e3`, `c52e2f8d` y `761d735d` aplican el aspecto en la vista de cada pantalla, al cambiar de pantalla en la carrera y en la ceremonia.
-  - El valor PANORÁMICO se mantiene. En los bordes pueden aparecer tarde objetos o tramos de pista, el marcador sale estirado y el rendimiento no se ha medido en hardware ([especificación §9](especificacion.md#9-límites-declarados)).
+  - Mantengo el valor PANORÁMICO. En los bordes pueden aparecer tarde objetos o tramos de pista, el marcador sale estirado y el rendimiento no se ha medido en hardware ([especificación §9](especificacion.md#9-límites-declarados)).
 - **Aprobación:**
   - responsable del proyecto: aprobado (2026-10-11);
   - REVISIÓN: técnica de `v120/imagen`, aprobada con observaciones; lingüística, aprobada ([acta de F10](revisiones/2026-10-11-version-1.2.0.md#3-v120imagen-antiparpadeo-posición-y-formato-cc-20-cc-21));
@@ -624,7 +624,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Motivo:** pedí los trucos de CC-22 a CC-25, apagados de fábrica.
 - **Cambio:**
   - La consulta del modo EXTRA (`tiene_modo_extra_desbloqueado`, `guardado.c`) y la de los fantasmas del staff (`repeticiones.c`) aceptan el truco mediante funciones puras.
-  - Nunca se escribe el desbloqueo en la partida.
+  - Nunca escribo el desbloqueo en la partida.
   - El valor del truco se aplica al volver al título o al reconstruir el menú, no en caliente.
   - El cursor se recorta si EXTRA deja de existir.
 - **Límite declarado:** los trofeos EXTRA ganados con el truco se guardan y quedan ocultos si se apaga.
@@ -676,7 +676,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - prueba pura que valide la fórmula contra las tablas originales;
   - peor caso de velocidad por paso por debajo de 8,8, con margen para las pendientes;
   - la mutación 37/32 tiene que fallar.
-- **Riesgo:** curvas más difíciles y la CPU fuera de su camino. Se comprueba con el emulador.
+- **Riesgo:** curvas más difíciles y la CPU fuera de su camino. Lo compruebo con el emulador.
 - **Lo aplicado:**
   - `038c39c0` (prueba) y `c80fe61e`: `incluir/carrera/cilindrada_200cc.h`, con la fórmula del empuje contra las tablas originales, el factor 35/32, el peor caso por debajo de 8,8 y los modos en que aplica. Rojo: no compilaba sin la cabecera.
   - `a6397211` (revisión, Baja) quita la escritura del empuje que `aparecer_jugador()` pisaba después.
@@ -731,7 +731,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
     - dos ejecuciones dan capturas dentro de la tolerancia;
     - el job dura menos de 30 minutos.
   - **Si algún criterio falla:** CC-26 pasa a rechazado con la URL de la ejecución. D-06 y D-17 pasan a límites declarados.
-- **Límite:** las capturas leen la VRAM antes del PCRTC, así que el antiparpadeo, las bandas y la posición se comprueban por los valores de registro.
+- **Límite:** las capturas leen la VRAM antes del PCRTC, así que el antiparpadeo, las bandas y la posición los compruebo por los valores de registro.
 - **Evidencia requerida:** la ejecución del job en verde, o su rechazo documentado.
 - **Lo aplicado:**
   - `7491fd24` (prueba) y `98a042b7`: comparación de las capturas TGA con sus referencias y entre ejecuciones, con rechazo de la imagen uniforme.
@@ -828,11 +828,11 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
     - **sin texto:** fila de carpeta o de textura;
     - **logotipo o cartel comercial** (marcas, patrocinadores, nombres propios): se conserva por §2.2 y su fila lleva el motivo;
     - **no se muestra en el port:** fila con su evidencia;
-    - **texto general visible:** se traduce con el compositor.
+    - **texto general visible:** lo traduzco con el compositor.
   - Una textura suelta que las órdenes no leen (rgba32, ia1, ci8) se excluye con una fila de archivo, `archivo:<ruta>`, distinta de la fila de carpeta de D-05. `prueba_texturas_es.py` exige que `carpeta:` apunte a una carpeta y `archivo:` a un archivo (R-TEX-02).
   - Cada clasificación con texto la revisa un refutador.
   - Al terminar, `PENDIENTES` queda vacía.
-  - «pendiente:» no es un motivo para conservar texto. Las 15 texturas con texto general visible que aún no se pueden traducir (WELCOME, GO, RAILROAD CROSSING y 1P a 4P) llevan `motivo_no` «pendiente: …», cuentan en `TEXTURAS_PENDIENTES` de `prueba_texturas_es.py`, que solo puede bajar, y quedan como deuda ([D-24](deuda.md)). CC-29 no se cierra hasta que se traduzcan o un CC decida conservarlas. En F10 se tradujeron las 15.
+  - «pendiente:» no es un motivo para conservar texto. Las 15 texturas con texto general visible que aún no puedo traducir (WELCOME, GO, RAILROAD CROSSING y 1P a 4P) llevan `motivo_no` «pendiente: …», cuentan en `TEXTURAS_PENDIENTES` de `prueba_texturas_es.py`, que solo puede bajar, y quedan como deuda ([D-24](deuda.md)). CC-29 sigue abierto hasta que las traduzca o un CC decida conservarlas. En F10 traduje las 15.
 - **Evidencia requerida:**
   - `prueba_texturas_es.py` en verde con `PENDIENTES` vacía y `TEXTURAS_PENDIENTES` a 0;
   - las traducciones con su prueba y su hoja de contacto;
@@ -853,7 +853,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Estado:** aprobado
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** ninguno de la traducción; toca la documentación pública del proyecto (R-GOB-08).
-- **Motivo:** el proyecto se publica sin fines de lucro, con fines educativos, de preservación y de apoyo a la comunidad, y distribuye la ISO y el ELF como el repositorio original (`anthoo582/mario-kart-64-ps2`). Hace falta dejar claro quién hizo qué, con qué fin y en qué condiciones, con el crédito a anthoo582 y al proyecto de descompilación de mk64.
+- **Motivo:** publico el proyecto sin fines de lucro, con fines educativos, de preservación y de apoyo a la comunidad, y distribuyo la ISO y el ELF como el repositorio original (`anthoo582/mario-kart-64-ps2`). Hace falta dejar claro quién hizo qué, con qué fin y en qué condiciones, con el crédito a anthoo582 y al proyecto de descompilación de mk64.
 - **Cambio:**
   - **Aviso legal reforzado:** los derechos del juego son de Nintendo; el proyecto no tiene fines de lucro y no está afiliado a Nintendo.
   - **Autoría:** soy desarrollador e ingeniero de observabilidad, autor de la localización, la sincronización y las versiones 1.1.0 y 1.2.0, con los créditos al port y a la descompilación.
@@ -876,9 +876,9 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - Las dos ejecuciones de la CI dan un 0 % de diferencia entre sí.
 - **Cambio:**
   - La tolerancia por defecto pasa de 0,02 a 0,001.
-  - Las referencias se regeneran con el ELF de DEV actual y se revisan a ojo.
+  - Regenero las referencias con el ELF de DEV actual y las reviso a ojo.
   - El guion captura también el menú CONFIGURACIÓN Y TRUCOS, si la navegación es determinista.
-  - Las imágenes de la página del proyecto (`docs/img/`) se actualizan.
+  - Actualizo las imágenes de la página del proyecto (`docs/img/`).
 - **Evidencia requerida:**
   - una prueba en rojo con un bloque de 32×16 cambiado (0,18 %) frente a la tolerancia vieja;
   - el job del emulador en verde con la tolerancia nueva;
@@ -887,7 +887,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - `1bac15d9` (prueba): un bloque de 32×16 cambiado en 640×448 (0,18 %) debe fallar con la tolerancia por defecto; en rojo con 0,02. `632050ac` baja la tolerancia por defecto de `comparar_capturas.py` a 0,001 (0,1 %).
   - `a7ab8019`: `guion_ci.txt` captura también `configuracion`, el menú CONFIGURACIÓN Y TRUCOS. Dos ejecuciones dan un 0,0000 % de diferencia entre sí.
   - `3a022b42`: referencias regeneradas con Play! 0.72 y el ELF de DEV actual, revisadas a ojo; `f4b86834` pone al día `docs/img/` con la figura del menú de configuración.
-  - `17901393`: entrada `regenerar_referencias` del workflow. Con `sí`, el job `emulador` escribe las capturas de la primera ejecución como referencias, comprueba la segunda contra ellas, copia `menu`, `carrera` y `configuracion` a `docs/img/` y commitea en la rama. Las referencias se revisan a ojo antes de integrar. Regeneradas así en las ejecuciones [38179540046](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38179540046) (`6933dd08`) y [38180265814](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38180265814) (`863cbc45`).
+  - `17901393`: entrada `regenerar_referencias` del workflow. Con `sí`, el job `emulador` escribe las capturas de la primera ejecución como referencias, comprueba la segunda contra ellas, copia `menu`, `carrera` y `configuracion` a `docs/img/` y commitea en la rama. Reviso a ojo las referencias antes de integrar. Regeneradas así en las ejecuciones [38179540046](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38179540046) (`6933dd08`) y [38180265814](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38180265814) (`863cbc45`).
   - Mirar las capturas con la comparación estricta encontró dos defectos visibles del juego:
     - los valores de CONFIGURACIÓN Y TRUCOS se dibujaban tenues: primero en verde semitransparente (`a5464408` los pasa a `CONFIG_COLOR_VALOR`, amarillo) y después en el modo de texto alineado a la derecha, que también es tenue (`39bb214b` en rojo, `42a13caf` los dibuja en el modo opaco de las etiquetas con `config_columna_valor()`);
     - el ordinal de los puestos se leía «8º.»: `9ec3b950` (prueba en `prueba_hud_es.py`) y `33979fbf` ponen el punto en la base antes de la «º» volada, «8.º».
@@ -916,7 +916,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Aprobación:** responsable del proyecto: aprobado, con la paleta C (2026-10-13).
 - **Commit:** —
 
-### CC-33: el audio se comprueba en la CI y el tono con 200cc en el PC
+### CC-33: compruebo el audio en la CI y el tono con 200cc en el PC
 
 - **Estado:** aprobado
 - **Fecha:** 2026-10-13
@@ -924,7 +924,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Motivo:** el job del emulador no mira el audio: si `audsrv` dejara de iniciar, el job pasaría con el juego mudo. Además, nadie ha comprobado que el tono del motor siga en rango con el truco 200cc.
 - **Cambio:**
   - `comprobar_registro.py` exige `audio: audsrv listo` y rechaza los avisos de módulos del IOP, de `audsrv_init` y de `audsrv_set_format`.
-  - Prueba del PC del tono del motor con 150cc y 200cc; el código del juego solo se toca si da fuera de rango.
+  - Prueba del PC del tono del motor con 150cc y 200cc; solo toco el código del juego si da fuera de rango.
   - `SMK64_NO_IOP_RESET` documentado en el manual técnico.
 - **Evidencia requerida:** prueba en rojo con un registro sin la línea de audio; el job del emulador en verde con el registro real.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-13).
@@ -942,8 +942,8 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - La transformación es una función pura `static inline` con su prueba.
 - **Alternativas descartadas:** estrechar también los menús y los fundidos.
 - **Evidencia requerida:** prueba pura con mutación y captura del emulador, revisada a ojo, con el marcador sin estirar.
-- **Aprobación:** responsable del proyecto: aprobado (2026-10-13). Si la revisión visual falla, se descarta sin publicar.
-- **Implementación:** hecha en la rama `v130/imagen` (función pura, detección por proyección ortográfica y estado de la carrera, DIMX por paquete). Pendiente de revisión visual en emulador (1 jugador y pantalla dividida en PANORÁMICO; NORMAL y CON BANDAS sin diferencias) y de regenerar las referencias de captura si cambian. No se publica ni se cierra hasta entonces; la especificación §9 y el manual de usuario siguen diciendo que el marcador sale estirado hasta que se apruebe.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-13). Si la revisión visual falla, descarto el cambio sin publicar.
+- **Implementación:** hecha en la rama `v130/imagen` (función pura, detección por proyección ortográfica y estado de la carrera, DIMX por paquete). Pendiente de revisión visual en emulador (1 jugador y pantalla dividida en PANORÁMICO; NORMAL y CON BANDAS sin diferencias) y de regenerar las referencias de captura si cambian. No lo publico ni lo cierro hasta entonces; la especificación §9 y el manual de usuario siguen diciendo que el marcador sale estirado hasta que lo apruebe.
 - **Commit:** —
 
 ### CC-35: matriz de tramado propia y medición del medio texel
@@ -955,8 +955,8 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - La matriz de tramado se toma de los valores por defecto de gsKit, que según una lectura de su código pueden dejar una de las 16 celdas en 0 en lugar de −2. El repositorio nunca escribe `DIMX`.
   - El desplazamiento de medio texel del filtrado no tiene prueba.
 - **Cambio:**
-  - Se escribe `DIMX` propio en el arranque de cada paquete de dibujo, calculado por una función pura con su prueba. Antes se confirma con el gsKit real de la imagen fijada.
-  - Guion DEV con un tablero de texels que mide el desplazamiento; si es correcto queda como prueba, y si no, se corrige la constante.
+  - Escribo `DIMX` propio en el arranque de cada paquete de dibujo, calculado por una función pura con su prueba. Antes lo confirmo con el gsKit real de la imagen fijada.
+  - Guion DEV con un tablero de texels que mide el desplazamiento; si es correcto queda como prueba, y si no, corrijo la constante.
 - **Evidencia requerida:** prueba pura de `DIMX` con mutación y la medición del tablero en el emulador.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-13).
 - **Implementación:** parte B hecha: escribo `DIMX` con la matriz mágica del RDP restando 4. Comprobé la matriz en [`dither.c` de angrylion-rdp-plus (líneas 12 a 18)](https://raw.githubusercontent.com/ata4/angrylion-rdp-plus/master/src/core/n64video/rdp/dither.c) y el defecto de gsKit en [`gsInit.c` (líneas 473, 476 y 530)](https://raw.githubusercontent.com/ps2dev/gsKit/master/ee/gs/src/gsInit.c): copia 15 celdas sobre memoria puesta a cero, así que la celda 15 queda en 0. Lo que no pude comprobar con una fuente es el desplazamiento de −4 que paso del rango 0 a 7 del RDP al de −4 a 3 del GS; es una elección mía y queda para mirarla en las capturas. La parte C (medición del medio texel) sigue abierta. CC-35 no está cerrado.
@@ -974,7 +974,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - La revisión independiente se sigue nombrando como tal, porque la hizo otra parte.
   - La convención vive en `docs/manual/estilo.md` y la vigila `prueba_voz_docs.py`.
 - **Alternativas descartadas:** dejar los documentos de proceso en impersonal.
-- **Evidencia requerida:** prueba en rojo con la redacción actual, mutación que reintroduce «el autor» y verde después. No cambio hechos, cifras ni hashes.
+- **Evidencia requerida:** prueba en rojo con la redacción actual, mutación que reintroduce la tercera persona del autor y verde después. No cambio hechos, cifras ni hashes.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-13).
 - **Commit:** —
 
@@ -988,7 +988,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - Quito las notas al pie del README y de la página.
   - Cada dato lleva su enlace a un commit, a la CI o a un acta en la misma frase.
   - Añado las secciones «Qué comprobé y cómo», «Patrones y prácticas que apliqué» y «Mi trayectoria en este proyecto», sin nombrar empleador ni institución.
-- **Evidencia requerida:** la prueba de estructura exige esos encabezados y rechaza `[^n]`; la prueba de enlaces sigue en verde.
+- **Evidencia requerida:** la prueba de estructura exige esos encabezados y rechaza las notas al pie; la prueba de enlaces sigue en verde.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-13).
 - **Commit:** —
 
