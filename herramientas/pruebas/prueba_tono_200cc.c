@@ -15,12 +15,14 @@
 // sesgo agudo (el código del juego no se toca; el tono final se limita a 4.0 en
 // funcion_800C6108). La prueba protege que el 150cc original siga dentro de su
 // tabla y que el truco no pase de la cota aceptada (0.57, justo sobre lo medido).
-// Los casos por encima del margen de la tabla se informan como aviso; con el
-// argumento 'estricto' pasan a ser fallo.
+// Modo por defecto: estricto. El tono que sale de funcion_800C6108 con el truco
+// activo no puede pasar de desconocido_18 + 0,4. Con el argumento
+// 'aviso' los casos sobre el margen solo se informan.
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
 
+#include "audio/tono_200cc.h"
 #include "carrera/cilindrada_200cc.h"
 
 #define MARGEN_TABLA 0.4
@@ -61,7 +63,7 @@ static double tono(const GrupoTono *g, double rapidez) {
 }
 
 int main(int argc, char **argv) {
-    int estricto = argc > 1 && strcmp(argv[1], "estricto") == 0;
+    int estricto = !(argc > 1 && strcmp(argv[1], "aviso") == 0);
     int fuera = 0;
     char caso[128];
 
@@ -89,8 +91,20 @@ int main(int argc, char **argv) {
             }
         }
     }
-    if (estricto) {
-        comprobar("el tono con 200cc está dentro del margen de la tabla", fuera == 0);
+    // El tono que da funcion_800C6108: sin límite con 150cc, limitado con el truco
+    for (unsigned i = 0; i < sizeof(grupos) / sizeof(grupos[0]); i++) {
+        const GrupoTono *g = &grupos[i];
+        double bruto = tono(g, cilindrada_200cc_rapidez((float) rapidez_150[i], 1));
+        double con_truco = tono_200cc_limitar((float) bruto, (float) g->max_tono, 1);
+        double sin_truco = tono(g, rapidez_150[i]);
+
+        snprintf(caso, sizeof(caso), "%s: con 200cc el tono final %.3f no pasa de %.1f", g->personajes, con_truco,
+                 g->max_tono + MARGEN_TABLA);
+        comprobar(caso, !estricto || con_truco <= g->max_tono + MARGEN_TABLA + 1e-5);
+        snprintf(caso, sizeof(caso), "%s: con 150cc el resultado no cambia", g->personajes);
+        comprobar(caso, tono_200cc_limitar((float) sin_truco, (float) g->max_tono, 0) == (float) sin_truco);
+        snprintf(caso, sizeof(caso), "%s: con 200cc no baja un tono que ya cabía", g->personajes);
+        comprobar(caso, tono_200cc_limitar(1.0f, (float) g->max_tono, 1) == 1.0f);
     }
 
     printf("%d comprobaciones, %d %s (%d casos sobre el margen de la tabla)\n", s_comprobaciones, s_fallos,
