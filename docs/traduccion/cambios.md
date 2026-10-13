@@ -896,3 +896,66 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - REVISIÓN: técnica de `v121/capturas` y de `v121/ordinal`, aprobadas con observaciones después de corregir los hallazgos ([acta de la 1.2.1](revisiones/2026-10-11-version-1.2.1.md));
   - INTEGRACIÓN: merge `73aff9e2` (`v121/ordinal`) en `feature/capturas-1.2.1` (2026-10-11).
 - **Commit:** `8d94ba8d` (registro), `1bac15d9`, `632050ac`, `a7ab8019`, `3a022b42`, `f4b86834`, `a5464408`, `9ec3b950`, `33979fbf`, `17901393`, `6933dd08`, `39bb214b`, `42a13caf`, `863cbc45` y el merge `73aff9e2`.
+
+### CC-32: portada pública del proyecto: página, README y propósito sin lucro
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-13
+- **Requisitos afectados:** R-DOC-01 (nuevo)
+- **Motivo:**
+  - La página `docs/index.html` enlaza `caso-de-estudio.html` y `manual/usuario.html`, que son archivos `.md` sin cabecera YAML: Jekyll, el valor por defecto de GitHub Pages, no los convierte y darían 404.
+  - El README y la página no dicen con claridad que es un aporte sin ánimo de lucro, con motivación personal, publicado para la comunidad.
+- **Cambio:**
+  - Estilo de artículo técnico en página y README: resumen, secciones numeradas, tablas con reglas, figuras con pie y notas al pie. La página lleva además un resumen en inglés.
+  - Paleta C elegida por el responsable: azul tinta con una línea fina roja bajo el título; modo claro y oscuro.
+  - Enlaces del caso de estudio y del manual absolutos a GitHub.
+  - Propósito sin lucro, aviso legal y autoría con las mismas palabras en README, página y notas de versión.
+  - Prueba del PC que exige que todo enlace relativo de la página y del README apunte a un archivo que existe y que ningún enlace de la página termine en `.md` sin pasar por GitHub.
+- **Alternativas descartadas:** un workflow de despliegue de Pages (basta la rama `main` y la carpeta `/docs`) y un archivo `.nojekyll`.
+- **Evidencia requerida:** la prueba en rojo con los enlaces actuales, en verde tras el cambio, y una mutación que la rompe; la URL pública de Pages respondiendo.
+- **Aprobación:** responsable del proyecto: aprobado, con la paleta C (2026-10-13).
+- **Commit:** —
+
+### CC-33: el audio se comprueba en la CI y el tono con 200cc en el PC
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-13
+- **Requisitos afectados:** R-INF-07
+- **Motivo:** el job del emulador no mira el audio: si `audsrv` dejara de iniciar, el job pasaría con el juego mudo. Además, nadie ha comprobado que el tono del motor siga en rango con el truco 200cc.
+- **Cambio:**
+  - `comprobar_registro.py` exige `audio: audsrv listo` y rechaza los avisos de módulos del IOP, de `audsrv_init` y de `audsrv_set_format`.
+  - Prueba del PC del tono del motor con 150cc y 200cc; el código del juego solo se toca si da fuera de rango.
+  - `SMK64_NO_IOP_RESET` documentado en el manual técnico.
+- **Evidencia requerida:** prueba en rojo con un registro sin la línea de audio; el job del emulador en verde con el registro real.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-13).
+- **Commit:** —
+
+### CC-34: marcador de la carrera en PANORÁMICO sin estirar
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-13
+- **Requisitos afectados:** R-VID-04
+- **Motivo:** en el formato PANORÁMICO el 3D se amplía con Hor+ pero la TV estira el marcador. Es el defecto visible más grande que queda declarado (especificación §9).
+- **Cambio:**
+  - El HUD de la carrera se estrecha a 3/4 en X alrededor del centro de su cuadrante, solo con el formato PANORÁMICO.
+  - Los menús, los fundidos a pantalla completa y los demás formatos no cambian.
+  - La transformación es una función pura `static inline` con su prueba.
+- **Alternativas descartadas:** estrechar también los menús y los fundidos.
+- **Evidencia requerida:** prueba pura con mutación y captura del emulador, revisada a ojo, con el marcador sin estirar.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-13). Si la revisión visual falla, se descarta sin publicar.
+- **Commit:** —
+
+### CC-35: matriz de tramado propia y medición del medio texel
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-13
+- **Requisitos afectados:** R-VID-06 (nuevo)
+- **Motivo:**
+  - La matriz de tramado se toma de los valores por defecto de gsKit, que según una lectura de su código pueden dejar una de las 16 celdas en 0 en lugar de −2. El repositorio nunca escribe `DIMX`.
+  - El desplazamiento de medio texel del filtrado no tiene prueba.
+- **Cambio:**
+  - Se escribe `DIMX` propio en el arranque de cada paquete de dibujo, calculado por una función pura con su prueba. Antes se confirma con el gsKit real de la imagen fijada.
+  - Guion DEV con un tablero de texels que mide el desplazamiento; si es correcto queda como prueba, y si no, se corrige la constante.
+- **Evidencia requerida:** prueba pura de `DIMX` con mutación y la medición del tablero en el emulador.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-13).
+- **Commit:** —
