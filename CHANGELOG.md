@@ -6,13 +6,33 @@ Cito el commit de cada cambio; el detalle está en [docs/traduccion/](docs/tradu
 
 ## [Sin publicar]
 
+Nada todavía.
+
+## [1.3.0] - 2026-10-13
+
+Versión con el marcador de la carrera sin estirar en PANORÁMICO, el tramado propio, el tono a 200cc dentro del margen original, el audio comprobado en la CI y la documentación con mi voz, con los cambios de especificación CC-33 a CC-39 de [cambios.md](docs/traduccion/cambios.md). Notas de la Release: [docs/versiones/v1.3.0.md](docs/versiones/v1.3.0.md). Commit de publicación: `48a9f06e`; ISO de 13 387 776 bytes, SHA-256 `ad270604ba8c1eea4589289795bf78daf1ce10072c15ebb60641d65be50ed0d7`.
+
 ### Añadido
 
-- Una prueba de integración del registro del emulador exige el audio listo y rechaza los avisos de audsrv e IOP (`e3855654`).
+- Un tercer paso del emulador en la CI captura la carrera en PANORÁMICO (`guion_panoramico.txt`) y la compara con `referencias_panoramico/carrera.png` (`d1cb04e5`, `b312851d`).
+- Funciones puras `hud_panoramico_estrechar` y de `DIMX`, con sus pruebas y mutaciones (`069d442c`, `19ddd274`, `a2beae22`, `cb73c00d`, `bdebd18b`).
+- El comprobador del registro exige el audio listo y rechaza los avisos de audsrv e IOP (`e3855654`, `325d2b44`); prueba del tono del motor con 150cc y 200cc (`dfe4beb1`).
+- Pruebas de la voz de la documentación, de su estructura y de la configuración de GitHub (`5a70b60e`, `0b3e51ef`, `80fe70bc`).
+- Plantillas de incidencias y de PR, `SECURITY.md`, `CODEOWNERS` e imagen de vista previa social (`21164575`).
+- Un job de la CI reescribe las notas de las Releases ya publicadas con las de `docs/versiones/` (`598477f3`).
 
 ### Cambiado
 
-- El comprobador del registro exige el audio listo y rechaza los avisos de audsrv e IOP (`325d2b44`).
+- El marcador de la carrera se estrecha a 3/4 en PANORÁMICO (`bdebd18b`).
+- Escribo `DIMX` propio en cada paquete de dibujo (`bdebd18b`).
+- El tono del motor con el truco de 200cc queda dentro del margen de la tabla original (`7b907507`).
+- README, página, manuales, actas y registros de proceso, en primera persona y sin notas al pie (`7325fc90`, `64a63cf0`, `9aee1bfb`, `63da4eec`).
+
+### Conocido
+
+- En PANORÁMICO, los objetos y la pista pueden aparecer tarde en los bordes.
+- No mido el medio texel del filtrado (CC-35, parte C): queda como límite declarado.
+- La pantalla dividida en PANORÁMICO no tiene captura en la CI.
 
 ## [1.2.1] - 2026-10-11
 
