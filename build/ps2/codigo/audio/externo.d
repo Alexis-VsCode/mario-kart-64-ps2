@@ -29,8 +29,9 @@ build/ps2/codigo/audio/externo.o: codigo/audio/externo.c \
  incluir/datos/texturas/fuente_es.h incluir/sistema/bucle_principal.h \
  incluir/juego/ids_musica.h codigo/audio/externo/sesion_audio.inc.c \
  codigo/audio/externo/efectos_sonido.inc.c \
- codigo/audio/externo/sonidos_jugadores.inc.c \
- codigo/audio/externo/secuencias_musica.inc.c
+ codigo/audio/externo/sonidos_jugadores.inc.c incluir/audio/tono_200cc.h \
+ incluir/carrera/cilindrada_200cc.h incluir/sistema/opciones_port.h \
+ incluir/sistema/crc32.h codigo/audio/externo/secuencias_musica.inc.c
 incluir/libultra/ultra64.h:
 incluir/libultra/PR/ultratypes.h:
 incluir/libultra/PR/os_exception.h:
@@ -92,4 +93,8 @@ incluir/juego/ids_musica.h:
 codigo/audio/externo/sesion_audio.inc.c:
 codigo/audio/externo/efectos_sonido.inc.c:
 codigo/audio/externo/sonidos_jugadores.inc.c:
+incluir/audio/tono_200cc.h:
+incluir/carrera/cilindrada_200cc.h:
+incluir/sistema/opciones_port.h:
+incluir/sistema/crc32.h:
 codigo/audio/externo/secuencias_musica.inc.c:

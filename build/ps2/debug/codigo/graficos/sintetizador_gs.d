@@ -35,8 +35,8 @@ build/ps2/debug/codigo/graficos/sintetizador_gs.o: \
  incluir/libultra/PR/libaudio.h incluir/libultra/PR/abi.h \
  incluir/libultra/PR/libultra.h incluir/graficos/sintetizador_gs.h \
  incluir/graficos/registros_video.h incluir/sistema/opciones_port.h \
- incluir/sistema/crc32.h incluir/sistema/sistema_ps2.h \
- incluir/graficos/pantallas_gigantes.h \
+ incluir/sistema/crc32.h incluir/graficos/matriz_tramado.h \
+ incluir/sistema/sistema_ps2.h incluir/graficos/pantallas_gigantes.h \
  incluir/graficos/memoria_texturas.h incluir/sistema/perfilado.h \
  incluir/depuracion/marcas_registro.h \
  incluir/depuracion/medidor_rendimiento.h
@@ -92,6 +92,7 @@ incluir/graficos/sintetizador_gs.h:
 incluir/graficos/registros_video.h:
 incluir/sistema/opciones_port.h:
 incluir/sistema/crc32.h:
+incluir/graficos/matriz_tramado.h:
 incluir/sistema/sistema_ps2.h:
 incluir/graficos/pantallas_gigantes.h:
 incluir/graficos/memoria_texturas.h:

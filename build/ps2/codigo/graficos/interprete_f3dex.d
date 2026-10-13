@@ -38,6 +38,8 @@ build/ps2/codigo/graficos/interprete_f3dex.o: \
  incluir/sistema/bucle_principal.h incluir/depuracion/guiones_prueba.h \
  codigo/graficos/interprete_f3dex/matrices_y_vertices.inc.c \
  codigo/graficos/interprete_f3dex/combinador_y_recorte.inc.c \
+ incluir/graficos/hud_panoramico.h incluir/sistema/opciones_port.h \
+ incluir/sistema/crc32.h \
  codigo/graficos/interprete_f3dex/cache_matrices_y_ordenes.inc.c \
  codigo/graficos/interprete_f3dex/listas_dibujo.inc.c \
  codigo/graficos/interprete_f3dex/tarea_graficos.inc.c \
@@ -100,6 +102,9 @@ incluir/sistema/bucle_principal.h:
 incluir/depuracion/guiones_prueba.h:
 codigo/graficos/interprete_f3dex/matrices_y_vertices.inc.c:
 codigo/graficos/interprete_f3dex/combinador_y_recorte.inc.c:
+incluir/graficos/hud_panoramico.h:
+incluir/sistema/opciones_port.h:
+incluir/sistema/crc32.h:
 codigo/graficos/interprete_f3dex/cache_matrices_y_ordenes.inc.c:
 codigo/graficos/interprete_f3dex/listas_dibujo.inc.c:
 codigo/graficos/interprete_f3dex/tarea_graficos.inc.c:
