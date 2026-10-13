@@ -66,6 +66,8 @@ PATRONES = [
 FALSOS_POSITIVOS = []
 SECCIONES_FIRMA = re.compile(r"cr[eé]ditos|licencia|aviso legal|firma|autor[ií]a", re.I)
 ARCHIVOS_FIRMA = {"docs/manual/creditos.md"}
+# estilo.md cita las formas prohibidas para explicarlas; solo se le exigen las notas al pie.
+ARCHIVOS_EXENTOS = {"docs/manual/estilo.md"}
 
 
 def prosa(texto):
@@ -108,7 +110,7 @@ def archivos(alcance):
 
 
 def revisar_texto(ruta, texto, comprobar):
-    for n, linea, encabezado in prosa(texto):
+    for n, linea, encabezado in ([] if ruta in ARCHIVOS_EXENTOS else prosa(texto)):
         if any(f in linea.lower() for f in FALSOS_POSITIVOS):
             continue
         firma = (ruta in ARCHIVOS_FIRMA or SECCIONES_FIRMA.search(encabezado)

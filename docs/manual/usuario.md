@@ -18,7 +18,7 @@ La imagen es NTSC 480i: entrelazada a 640×448 y a 60 Hz (`codigo/graficos/sinte
 
 ## Descarga y comprobación
 
-Los enlaces de descarga están en la [Descarga del README](../../README.md#descarga). La Release publica tres archivos:
+Los enlaces de descarga están en la [Descarga del README](../../README.md#2-qué-incluye-y-descarga-verificable). La Release publica tres archivos:
 
 - la ISO, `SLUS_999.99.SuperMarioKart64.iso`, para PCSX2, Play! y OPL;
 - el ELF monolítico, `SLUS_999.99.monolitico.elf`, para uLaunchELF desde USB;
