@@ -10,7 +10,7 @@ Nada todavía.
 
 ## [1.3.0] - 2026-10-13
 
-Versión con el marcador de la carrera sin estirar en PANORÁMICO, el tramado propio, el tono a 200cc dentro del margen original, el audio comprobado en la CI y la documentación con mi voz, con los cambios de especificación CC-33 a CC-39 de [cambios.md](docs/traduccion/cambios.md). Notas de la Release: [docs/versiones/v1.3.0.md](docs/versiones/v1.3.0.md). Commit de publicación: `48a9f06e`; ISO de 13 387 776 bytes, SHA-256 `ad270604ba8c1eea4589289795bf78daf1ce10072c15ebb60641d65be50ed0d7`.
+Versión con el marcador de la carrera sin estirar en PANORÁMICO, el tramado propio, el tono a 200cc dentro del margen original, el audio comprobado en la CI y la documentación con mi voz, con los cambios de especificación CC-33 a CC-39 de [cambios.md](docs/traduccion/cambios.md). Notas de la Release: [docs/versiones/v1.3.0.md](docs/versiones/v1.3.0.md). Commit de publicación: `48a9f06e`; ISO de 13 387 776 bytes, SHA-256 `ad270604ba8c1eea4589289795bf78daf1ce10072c15ebb60641d65be50ed0d7`; ELF monolítico de 12 989 320 bytes, SHA-256 `9d7c364f479fcfa4863659ae0a6b3f1ca936c209493ae3d6ca35ec908d81b4b2`.
 
 ### Añadido
 

@@ -185,7 +185,7 @@ Cómo comprobé la localización está en el [manual técnico](tecnico.md#prueba
 
 ## Limitaciones conocidas
 
-Al 2026-10-11, versión 1.2.1:
+Al 2026-10-13, versión 1.3.0:
 
 - **Sin probar en PS2 real ni en una TV.** Tampoco con OPL ni uLaunchELF en hardware, ni con un multitap real. Según el autor del port original, lo probó en PCSX2 (con BIOS) y en Play!. Desde la 1.2.0, la CI arranca el juego en Play! en cada cambio y compara capturas del título, del menú, del menú de configuración y de la carrera con referencias aprobadas.
 - **Verificado solo por los valores de los registros de vídeo:** el antiparpadeo, las bandas y la posición. Las capturas del emulador leen la memoria de vídeo antes de la salida a la TV, así que no los muestran. Falta comprobar en una TV cómo se ven.

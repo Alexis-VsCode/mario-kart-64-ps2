@@ -106,22 +106,23 @@ footer{font-size:.8rem;color:var(--soft);margin-top:22px}
 
     <h2 id="descarga"><b>4</b>Descarga y verificación</h2>
     <div class="tabla"><table>
-      <caption class="meta">Release v1.2.1: los valores que comprobé con <code>sha256sum -c SHA256SUMS</code>.</caption>
+      <caption class="meta">Release v1.3.0: los valores que comprobé con <code>sha256sum -c SHA256SUMS</code>.</caption>
       <thead><tr><th scope="col">Archivo</th><th scope="col">Tamaño</th><th scope="col">SHA-256</th></tr></thead>
       <tbody>
-        <tr><td><code>SLUS_999.99.SuperMarioKart64.iso</code></td><td>13 387 776 bytes</td><td><code>3b4321ce86050f1a3bceb5a381ca354cecca1853a784069e56111a232df5eceb</code></td></tr>
-        <tr><td><code>SLUS_999.99.monolitico.elf</code></td><td>12 988 552 bytes</td><td><code>8d79cd1ab153ebd9ea391dc2860f3700a87a542b7fc769091d8a74a262c4e5dd</code></td></tr>
+        <tr><td><code>SLUS_999.99.SuperMarioKart64.iso</code></td><td>13 387 776 bytes</td><td><code>ad270604ba8c1eea4589289795bf78daf1ce10072c15ebb60641d65be50ed0d7</code></td></tr>
+        <tr><td><code>SLUS_999.99.monolitico.elf</code></td><td>12 989 320 bytes</td><td><code>9d7c364f479fcfa4863659ae0a6b3f1ca936c209493ae3d6ca35ec908d81b4b2</code></td></tr>
       </tbody>
     </table></div>
-    <p>Ambos archivos están en la <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/latest">última Release</a>. La publiqué con el commit <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/d3c27566"><code>d3c27566</code></a> y la <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38181807319">ejecución 38181807319</a> de la CI; las notas están en <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/docs/versiones/v1.2.1.md">v1.2.1</a>.</p>
+    <p>Ambos archivos están en la <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/latest">última Release</a>. La publiqué con el commit <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/48a9f06e"><code>48a9f06e</code></a> y la <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38470671813">ejecución 38470671813</a> de la CI; las notas están en <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/docs/versiones/v1.3.0.md">v1.3.0</a>.</p>
 
     <h2 id="comprobe"><b>5</b>Qué comprobé y cómo</h2>
     <div class="tabla"><table>
       <thead><tr><th scope="col">Afirmación</th><th scope="col">Cómo lo comprobé</th><th scope="col">Evidencia</th></tr></thead>
       <tbody>
         <tr><td>Las pruebas pasan sin el SDK de PS2</td><td><code>PS2SDK= make test</code> en el PC: 44 pruebas con resumen, 0 fallos en la 1.2.0</td><td><a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616">ejecución 38159323616</a>, <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/docs/traduccion/trazabilidad.md">trazabilidad</a></td></tr>
-        <tr><td>El juego compila y arranca</td><td>Compilación release, <code>DEBUG</code> y <code>DEV</code>, tope de ROM y arranque en Play! 0.72 sin BIOS</td><td><a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616">ejecución 38159323616</a> y <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38181807319">ejecución 38181807319</a></td></tr>
+        <tr><td>El juego compila y arranca</td><td>Compilación release, <code>DEBUG</code> y <code>DEV</code>, tope de ROM y arranque en Play! 0.72 sin BIOS</td><td><a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616">ejecución 38159323616</a> y <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38470671813">ejecución 38470671813</a></td></tr>
         <tr><td>Las capturas no se desvían</td><td>Comparo título, menú y carrera con tolerancia del 0,1 %; con ese margen aparecieron dos defectos que el 2 % dejaba pasar</td><td><a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/632050ac"><code>632050ac</code></a>, <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/docs/traduccion/revisiones/2026-10-11-version-1.2.1.md">acta de la 1.2.1</a></td></tr>
+        <tr><td>El marcador de la carrera no se estira en PANORÁMICO</td><td>Función pura con prueba y mutación, y una tercera ejecución del emulador que captura la carrera en PANORÁMICO; la revisé a ojo</td><td><a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/bdebd18b"><code>bdebd18b</code></a>, <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/b312851d"><code>b312851d</code></a></td></tr>
         <tr><td>Cada prueba detecta fallos reales</td><td>La veo en rojo antes del cambio y la someto a una mutación</td><td><a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/176651ed"><code>176651ed</code></a></td></tr>
         <tr><td>La publicación es íntegra</td><td>La Release solo sale si el SHA-256 de la ISO coincide con el de las notas</td><td><a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/d3c27566"><code>d3c27566</code></a></td></tr>
         <tr><td>Tacto del mando, TV, multitap, OPL y uLaunchELF</td><td>Sin comprobar: necesitan hardware real; antiparpadeo, bandas y posición solo los comprobé por valores de registro</td><td><a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/docs/traduccion/especificacion.md">límites declarados</a></td></tr>

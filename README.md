@@ -1,6 +1,6 @@
 # Mario Kart 64 para PlayStation 2, en español
 
-Alexis Barrera ([Alexis-VsCode](https://github.com/Alexis-VsCode)) · fork del port a PS2 de [anthoo582](https://github.com/anthoo582/mario-kart-64-ps2) · versión 1.2.1, 2026-10-11
+Alexis Barrera ([Alexis-VsCode](https://github.com/Alexis-VsCode)) · fork del port a PS2 de [anthoo582](https://github.com/anthoo582/mario-kart-64-ps2) · versión 1.3.0, 2026-10-13
 
 [![Compilación y pruebas](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/workflows/compilacion.yml/badge.svg)](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/workflows/compilacion.yml)
 
@@ -51,17 +51,17 @@ El repositorio trae el juego descompilado, una capa de compatibilidad que sustit
 
 Como en el repositorio original, publico la ISO y el ELF.
 
-- **Versión 1.2.1:** [Releases](https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/tag/v1.2.1), con la ISO, el ELF monolítico, `SHA256SUMS` y las [notas de la versión](docs/versiones/v1.2.1.md).
-- **ISO directa:** [`SLUS_999.99.SuperMarioKart64.iso`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/download/v1.2.1/SLUS_999.99.SuperMarioKart64.iso).
-- **ELF monolítico, para uLaunchELF desde USB:** [`SLUS_999.99.monolitico.elf`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/download/v1.2.1/SLUS_999.99.monolitico.elf). Lleva la ROM dentro: no necesita `SMK64ROM.BIN`.
+- **Versión 1.3.0:** [Releases](https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/tag/v1.3.0), con la ISO, el ELF monolítico, `SHA256SUMS` y las [notas de la versión](docs/versiones/v1.3.0.md).
+- **ISO directa:** [`SLUS_999.99.SuperMarioKart64.iso`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/download/v1.3.0/SLUS_999.99.SuperMarioKart64.iso).
+- **ELF monolítico, para uLaunchELF desde USB:** [`SLUS_999.99.monolitico.elf`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/download/v1.3.0/SLUS_999.99.monolitico.elf). Lleva la ROM dentro: no necesita `SMK64ROM.BIN`.
 - **Alternativa:** la ISO versionada en `main`, [`compilaciones/SLUS_999.99.SuperMarioKart64.iso`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/raw/main/compilaciones/SLUS_999.99.SuperMarioKart64.iso).
 
 | Archivo | Tamaño | SHA-256 |
 |---|---|---|
-| `SLUS_999.99.SuperMarioKart64.iso` | 13 387 776 bytes | `3b4321ce86050f1a3bceb5a381ca354cecca1853a784069e56111a232df5eceb` |
-| `SLUS_999.99.monolitico.elf` | En la lista de archivos de la Release | Su línea de `SHA256SUMS` en la Release |
+| `SLUS_999.99.SuperMarioKart64.iso` | 13 387 776 bytes | `ad270604ba8c1eea4589289795bf78daf1ce10072c15ebb60641d65be50ed0d7` |
+| `SLUS_999.99.monolitico.elf` | 12 989 320 bytes | `9d7c364f479fcfa4863659ae0a6b3f1ca936c209493ae3d6ca35ec908d81b4b2` |
 
-*Tabla 1. Archivos de la versión 1.2.1, publicados con el commit [`d3c27566`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/d3c27566) y la ejecución de la CI [38181807319](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38181807319).*
+*Tabla 1. Archivos de la versión 1.3.0, publicados con el commit [`48a9f06e`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/48a9f06e) y la ejecución de la CI [38470671813](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38470671813).*
 
 Con el archivo y `SHA256SUMS` en la misma carpeta:
 
@@ -114,7 +114,7 @@ git checkout -- build compilaciones && git clean -fdq -- build compilaciones
 
 ## 4. Qué comprobé y cómo
 
-Cada afirmación lleva el método con el que la comprobé y el enlace a la evidencia. El estado es el de la versión 1.2.1, del 2026-10-11; el avance y lo pendiente están en [docs/traduccion/README.md](docs/traduccion/README.md).
+Cada afirmación lleva el método con el que la comprobé y el enlace a la evidencia. El estado es el de la versión 1.3.0, del 2026-10-13; el avance y lo pendiente están en [docs/traduccion/README.md](docs/traduccion/README.md).
 
 | Afirmación | Método | Evidencia |
 |---|---|---|
@@ -122,6 +122,7 @@ Cada afirmación lleva el método con el que la comprobé y el enlace a la evide
 | Compila para PS2 (release, `DEBUG=1`, `DEV=1`), respeta el tope de la ROM y compila de forma incremental | CI de GitHub, en el job `compilar-ps2` | Ejecuciones [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616) (1.2.0) y [38181807319](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38181807319) (publicación de la 1.2.1) |
 | El juego arranca, detecta la región PAL con un ROMVER sintético, escribe `vídeo: PMODE 8046` y muestra el título, el menú, la configuración y la carrera | Job «Guion en el emulador (Play!)», con Play! 0.72 sin BIOS y un margen del 0,1 % ([CC-26](docs/traduccion/cambios.md), [CC-31](docs/traduccion/cambios.md)) | Commit [`2c3a8b29`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/2c3a8b29), capturas de [referencia](herramientas/emulador/referencias/) y la ejecución [38181807319](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38181807319) |
 | La comparación de capturas detecta un bloque de 32×16 cambiado | Prueba en rojo, mutación y restauración, con tolerancia por defecto de 0,001 | Commits [`1bac15d9`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/1bac15d9) y [`632050ac`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/632050ac); [acta de la 1.2.1](docs/traduccion/revisiones/2026-10-11-version-1.2.1.md) |
+| El marcador de la carrera no se estira en PANORÁMICO | Función pura con prueba y mutación, y una tercera ejecución del emulador que captura la carrera en PANORÁMICO; la revisé a ojo ([CC-34](docs/traduccion/cambios.md)) | Commits [`bdebd18b`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/bdebd18b) y [`b312851d`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/b312851d) |
 | Ninguna partida más nueva se pisa al cambiar la tarjeta | Arnés del PC para `memory_card.c` con libmc simulada | Commits [`b989feca`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/b989feca) y [`36796171`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/36796171); [acta de la 1.1.0](docs/traduccion/revisiones/2026-10-11-version-1.1.0.md) |
 | Cada fase la revisó una parte distinta de la que escribió el cambio | Acta de revisión por versión, con hallazgos y su estado | [Actas](docs/traduccion/revisiones/) y [deuda técnica](docs/traduccion/deuda.md) |
 
@@ -159,7 +160,7 @@ El port original declara pruebas en **PCSX2** (con BIOS) y en **Play!**. Las lim
 Soy desarrollador e ingeniero de observabilidad, y este proyecto me dejó aplicar mi oficio a un código ajeno que no estaba pensado para leerse. Lo que hago en mi trabajo, ver qué hace un sistema por lo que escribe y por lo que mide, lo llevé al juego:
 
 - **Registros del juego.** Trabajo con el registro que trae el port y lo amplié: el registro dice qué generación de la Memory Card escribe el juego ([`c69d9ef4`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/c69d9ef4)) y la pantalla de fallo usa los glifos CP437 con tildes ([`8e311363`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/8e311363)). Cómo leerlo: [manual técnico](docs/manual/tecnico.md#depuración).
-- **Arranque y audio en la CI.** El job del emulador lee el registro del arranque y comprueba la región y el vídeo. Después de la 1.2.1 hice que el comprobador exija también el audio listo y rechace los avisos de audsrv e IOP ([`e3855654`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/e3855654), [`325d2b44`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/325d2b44)).
+- **Arranque y audio en la CI.** El job del emulador lee el registro del arranque y comprueba la región y el vídeo. En la 1.3.0 hice que el comprobador exija también el audio listo y rechace los avisos de audsrv e IOP ([`e3855654`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/e3855654), [`325d2b44`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/325d2b44)).
 - **Medidor de rendimiento.** Con `DEBUG=1`, L3 y R3 abren el panel del port con los FPS, los milisegundos por cuadro, el reparto de CPU y los cortes de audio. Lo traduje con tildes. Medir con él el rendimiento en PANORÁMICO en una consola real sigue entre mis límites declarados ([panel de rendimiento](docs/manual/tecnico.md#panel-de-rendimiento-l3--r3)).
 - **Capturas comparadas con tolerancia.** Comparo las capturas del emulador con referencias y entre sí. Bajé la tolerancia de 0,02 a 0,001 ([`632050ac`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/632050ac)) y la comparación más estricta encontró dos defectos visibles: los valores tenues del menú de configuración y el ordinal «8º.» ([notas de la 1.2.1](docs/versiones/v1.2.1.md)).
 
@@ -200,6 +201,6 @@ Publico mis aportes a este fork bajo la licencia MIT, a nombre de Alexis Barrera
 | [LICENSE](LICENSE) | Licencia MIT de los aportes del fork y lo que excluye |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Definition of Done, reglas, ramas, commits y revisión |
 | [CHANGELOG.md](CHANGELOG.md) | Cambios por versión |
-| [Notas de la versión 1.2.1](docs/versiones/v1.2.1.md) | Cuerpo de la Release actual; las anteriores: [v1.2.0.md](docs/versiones/v1.2.0.md), [v1.1.0.md](docs/versiones/v1.1.0.md) y [v1.0.0.md](docs/versiones/v1.0.0.md) |
+| [Notas de la versión 1.3.0](docs/versiones/v1.3.0.md) | Cuerpo de la Release actual; las anteriores: [v1.2.1.md](docs/versiones/v1.2.1.md), [v1.2.0.md](docs/versiones/v1.2.0.md), [v1.1.0.md](docs/versiones/v1.1.0.md) y [v1.0.0.md](docs/versiones/v1.0.0.md) |
 | [Caso de estudio](docs/caso-de-estudio.md) | Motivación, retos, decisiones y proceso |
 | [docs/traduccion/](docs/traduccion/README.md) | Localización: estado, especificación, plan, glosario, trazabilidad, cambios, actas de revisión y deuda técnica |

@@ -1,6 +1,6 @@
 # Caso de estudio: Mario Kart 64 para PlayStation 2 en español
 
-Soy Alexis Barrera, desarrollador e ingeniero de observabilidad ([Alexis-VsCode](https://github.com/Alexis-VsCode)), y este es el caso de estudio de mi proyecto. Versión de referencia: 1.2.0 (rama `feature/version-1.2.0`, [PR #5](https://github.com/Alexis-VsCode/mario-kart-64-ps2/pull/5)).
+Soy Alexis Barrera, desarrollador e ingeniero de observabilidad ([Alexis-VsCode](https://github.com/Alexis-VsCode)), y este es el caso de estudio de mi proyecto. Versión de referencia: 1.3.0 ([notas de la versión](versiones/v1.3.0.md)).
 
 ## Motivación
 
@@ -55,7 +55,7 @@ Calculé estas cifras del repositorio en la rama `feature/version-1.2.0`:
 | Ramas integradas en la 1.2.0 | 14 |
 | Filas del manifiesto de texturas | 223, de ellas 66 con texto en español |
 | Texturas clasificadas | unas 1200 (CC-29) |
-| Versiones publicadas | v1.0.0 (`af3bfa05`), v1.1.0 (`fc17498f`), v1.2.0 (`9ab41422`) y v1.2.1 (`d3c27566`) |
+| Versiones publicadas | v1.0.0 (`af3bfa05`), v1.1.0 (`fc17498f`), v1.2.0 (`9ab41422`), v1.2.1 (`d3c27566`) y v1.3.0 (`48a9f06e`) |
 | ISO de la 1.2.0 | 13 387 776 bytes, SHA-256 `186d45b2feaa66078820005eb43370701a17ea45bdd15ad9e3eb420c8ffb0f21` |
 
 ## Resultados
@@ -97,7 +97,7 @@ Calculé estas cifras del repositorio en la rama `feature/version-1.2.0`:
 | Funciones puras en cabeceras `static inline` | Las pruebas compilan en el PC la lógica de la PS2 |
 | Revisión separada de la escritura | [revisiones](traduccion/revisiones/) |
 | CI con emulador | [ejecución 38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616) |
-| Publicación reproducible con SHA-256 | [notas de la v1.2.1](versiones/v1.2.1.md) |
+| Publicación reproducible con SHA-256 | [notas de la v1.3.0](versiones/v1.3.0.md) |
 | Trazabilidad CC, commit y prueba | [trazabilidad.md](traduccion/trazabilidad.md) |
 
 ## Mi trayectoria en este proyecto

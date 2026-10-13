@@ -7,7 +7,7 @@ título (Markdown) que exista. En docs/index.html ningún enlace relativo
 puede terminar en .md (las páginas de GitHub sin Jekyll no lo convierten)
 ni en un .html que no exista; los enlaces absolutos deben ser https y, si son de blob/main de este
 repositorio, apuntar a un archivo local (y a una ancla que exista). Tamaño y
-SHA-256 del ELF de la página deben constar en v1.2.1.md y en el CHANGELOG.
+SHA-256 del ELF de la página deben constar en v1.3.0.md y en el CHANGELOG.
 """
 import os
 import re
@@ -75,15 +75,15 @@ def revisar_absoluto(origen, e):
 
 
 def revisar_elf():
-    """Tamaño y SHA-256 del ELF de la página coinciden con docs/versiones/v1.2.1.md y el CHANGELOG."""
+    """Tamaño y SHA-256 del ELF de la página coinciden con docs/versiones/v1.3.0.md y el CHANGELOG."""
     pagina = leer("docs/index.html")
-    nota = leer("docs/versiones/v1.2.1.md")
+    nota = leer("docs/versiones/v1.3.0.md")
     m = re.search(r"monolitico\.elf</code></td><td>([\d ]+) bytes</td><td><code>([0-9a-f]{64})</code>", pagina)
     comprobar(m is not None, "la página no tiene la fila del ELF")
     if m:
         tam = m.group(1)
-        comprobar(tam + " bytes" in nota, "v1.2.1.md no dice el tamaño del ELF (%s bytes)" % tam)
-        comprobar(m.group(2) in nota, "v1.2.1.md no lleva el SHA-256 del ELF")
+        comprobar(tam + " bytes" in nota, "v1.3.0.md no dice el tamaño del ELF (%s bytes)" % tam)
+        comprobar(m.group(2) in nota, "v1.3.0.md no lleva el SHA-256 del ELF")
         comprobar(m.group(2) in leer("CHANGELOG.md"), "el CHANGELOG no lleva el SHA-256 del ELF")
 
 
