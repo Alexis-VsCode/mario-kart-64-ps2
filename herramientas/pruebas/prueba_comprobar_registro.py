@@ -25,7 +25,9 @@ def comprobar(cond, mensaje):
         print("FALLO " + mensaje)
 
 
+AUDIO = "[     2] audio: audsrv listo, anillo 16384 bytes\n"
 REGISTRO = ("[     0] consola PAL: la imagen sale en NTSC a 60 Hz; hace falta una TV que acepte 60 Hz\n"
+            + AUDIO +
             "[     1] entrando en el bucle principal del juego\n")
 GUION = ("[     0 f     0] guion cargado: 3 órdenes\n"
          "[   667 f   301] captura titulo\n"
@@ -85,6 +87,21 @@ def main():
         comprobar(errores("perdida", dict(bueno, **{"smk64_test.txt": GUION.replace(
             "captura titulo\n", "captura titulo\n[ 900 f 400] aviso: nadie hizo la captura titulo\n")})) != [],
             "captura perdida falla")
+
+        # Audio: la línea de audsrv es obligatoria y los avisos del IOP o de audsrv la invalidan
+        sin_audio = REGISTRO.replace(AUDIO, "")
+        comprobar(errores("sin_audio", dict(bueno, **{"smk64_log.txt": sin_audio})) != [],
+                  "sin la línea de audio falla")
+        comprobar(errores("audio_partido", dict(partido, **{"smk64_log_00.txt": REGISTRO})) == [],
+                  "la línea de audio en una parte del registro pasa")
+        for nombre, aviso in (("init", "audsrv_init falló: sin IOP"),
+                              ("formato", "audsrv_set_format falló: formato"),
+                              ("libsd", "IOP: libsd.irx no quedó cargado (id -1, resultado 1)"),
+                              ("audsrv", "IOP: audsrv.irx no quedó cargado (id -1, resultado 1)")):
+            comprobar(errores("aviso_" + nombre, dict(bueno, **{"smk64_log.txt": REGISTRO + "[ 3] " + aviso + "\n"})) != [],
+                      "el aviso '%s' falla aunque haya línea de audio" % aviso)
+        comprobar(errores("otro_irx", dict(bueno, **{"smk64_log.txt": REGISTRO + "[ 3] IOP: otro.irx no quedó cargado (id -1, resultado 1)\n"})) == [],
+                  "el aviso de un módulo que no es de audio no se confunde")
 
     print("%d comprobaciones, %d %s" % (comprobaciones, fallos, "fallo" if fallos == 1 else "fallos"))
     sys.exit(1 if fallos else 0)
