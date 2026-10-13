@@ -92,7 +92,7 @@ Con los valores por defecto, los registros son los de la 1.1.0; `prueba_registro
 
 - `aspecto_panoramico()` multiplica `aspecto_pantalla` por 4/3 en las asignaciones de la carrera, la vista dividida y la ceremonia (Hor+). No se aplica en `guPerspectiveF`, para que los menús no cambien.
 - `cono_visibilidad()` ensancha 4/3 el cono horizontal de `es_visible_objeto_en_camara`, con tope en una vuelta. El ensanche lineal cubre siempre el campo real, porque atan(4/3·tan a) ≤ 4/3·a entre 0 y 90 grados.
-- Límites declarados: el juego elige los tramos de pista por cuadrante de cámara, y en los bordes algún objeto o tramo puede aparecer tarde; el marcador sale estirado.
+- Límites declarados: el juego elige los tramos de pista por cuadrante de cámara, y en los bordes algún objeto o tramo puede aparecer tarde. El marcador de la carrera se estrecha a 3/4 alrededor del centro de su cuadrante ([CC-34](../traduccion/cambios.md)) para que la TV no lo estire; lo veo en la captura `carrera_panoramico` de la CI.
 
 **Configuración de la PS2.** `memory_card.c` lee `configGetTvScreenType()` antes de cargar las opciones: solo `TV_SCREEN_169` cuenta como 16:9 (`pantalla_osd_169`), y entonces FORMATO vale CON BANDAS por defecto.
 

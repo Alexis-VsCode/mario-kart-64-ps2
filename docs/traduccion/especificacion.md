@@ -832,7 +832,7 @@ Si un bloque cambia una estructura o un contrato, el mismo PR actualiza la espec
 
 - `aspecto_pantalla` se multiplica por 4/3 en la carrera, la pantalla dividida y la ceremonia, no en `guPerspectiveF` (hecho en `92c1f1f3`, `fd4286e3`, `c52e2f8d` y `761d735d`).
 - El cono de visibilidad de los objetos se ensancha 4/3 con tope.
-- El marcador sale estirado y en los bordes pueden aparecer tarde objetos o tramos de pista ([§9](#9-límites-declarados)).
+- En los bordes pueden aparecer tarde objetos o tramos de pista ([§9](#9-límites-declarados)); el marcador de la carrera se estrecha a 3/4 ([CC-34](cambios.md)).
 - **Aceptación:** 1,333 → 1,778; 0,667 → 0,889; 2,667 → 3,556, solo en PANORÁMICO; el cono con tope en 0xFFFF.
 - **Prueba:** `prueba_vista_panoramica.c` (hecho en `064830d8`).
 
@@ -931,4 +931,4 @@ Lo que la versión 1.2.0 no puede comprobar sin hardware real ni TV. Sustituye a
 | El rendimiento en PANORÁMICO | Nada; el emulador no mide el rendimiento de una consola | R-VID-04 |
 | La lectura de `rom0:ROMVER` en consola real y bajo OPL sin reiniciar el IOP | La ruta con reinicio del IOP, en el emulador con un ROMVER sintético, y `prueba_region_ps2.c` | R-PORT-02 |
 | En PANORÁMICO, objetos o tramos de pista que aparecen tarde en los bordes, porque el juego elige los tramos por cuadrante de cámara | Las capturas de carrera de la CI, con el formato por defecto | R-VID-04 |
-| En PANORÁMICO, el marcador sale estirado | Nada; se advierte en el manual de usuario | R-VID-04 |
+| En PANORÁMICO, el marcador sale estirado: resuelto en la 1.3.0 con CC-34 (el marcador de la carrera se estrecha a 3/4; la CI captura la carrera en PANORÁMICO) | Ya no es un límite | R-VID-04 |

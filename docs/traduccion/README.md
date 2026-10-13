@@ -38,7 +38,7 @@ Hecho en F10:
 - **Revisión** técnica y lingüística de cada rama, registrada en el [acta de F10](revisiones/2026-10-11-version-1.2.0.md).
 - **Portafolio** ([CC-30](cambios.md), aprobado): aviso legal reforzado, autoría, caso de estudio, página web y licencia MIT de los aportes.
 
-Lo que no se puede comprobar sin hardware real ni TV está en los [límites declarados](especificacion.md#9-límites-declarados): el tacto; el antiparpadeo, las bandas y la posición, comprobados solo por valores de registro; el multitap; el cambio de tarjeta en caliente; el rendimiento en PANORÁMICO, y la lectura de ROMVER fuera de la ruta con reinicio del IOP. En PANORÁMICO, los objetos o la pista pueden aparecer tarde en los bordes, y el marcador sale estirado.
+Lo que no se puede comprobar sin hardware real ni TV está en los [límites declarados](especificacion.md#9-límites-declarados): el tacto; el antiparpadeo, las bandas y la posición, comprobados solo por valores de registro; el multitap; el cambio de tarjeta en caliente; el rendimiento en PANORÁMICO, y la lectura de ROMVER fuera de la ruta con reinicio del IOP. En PANORÁMICO, los objetos o la pista pueden aparecer tarde en los bordes.
 
 | Fase | Contenido | Estado |
 |---|---|---|

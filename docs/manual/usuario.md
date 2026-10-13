@@ -106,7 +106,7 @@ El juego lee en la configuración de la PS2 si la TV es 16:9 (`TV_SCREEN_169`; l
 |---|---|---|
 | NORMAL | 4:3 | La imagen ocupa toda la pantalla, como siempre |
 | CON BANDAS | 16:9 | La imagen conserva la proporción 4:3, centrada, con bandas negras a los lados. El dibujo del juego no cambia |
-| PANORÁMICO | 16:9 | La carrera, la pantalla dividida y la ceremonia muestran más campo a los lados (Hor+). Los menús no cambian. El marcador sale estirado, y en los bordes algún objeto o tramo de pista puede aparecer tarde |
+| PANORÁMICO | 16:9 | La carrera, la pantalla dividida y la ceremonia muestran más campo a los lados (Hor+). Los menús no cambian. El marcador de la carrera se estrecha para que la TV no lo estire, y en los bordes algún objeto o tramo de pista puede aparecer tarde |
 
 Una TV 16:9 estira a lo ancho cualquier imagen 4:3: con NORMAL en esa TV, los personajes se ven anchos.
 
@@ -195,7 +195,7 @@ Al 2026-10-11, versión 1.2.1:
   - el cambio de Memory Card con el juego en marcha;
   - el rendimiento en PANORÁMICO, que dibuja más objetos por cuadro;
   - la lectura de la región en `rom0:ROMVER`: solo lo comprobé en Play! por la ruta con reinicio del IOP y con un ROMVER sintético; lanzado desde OPL sin reinicio, o con una BIOS real, no. Si falla, el registro dice «región de la consola desconocida» y el juego sigue igual.
-- **PANORÁMICO:** el marcador sale estirado, y en los bordes algún objeto o tramo de pista puede aparecer tarde.
+- **PANORÁMICO:** en los bordes algún objeto o tramo de pista puede aparecer tarde.
 - **Los trucos no marcan los récords** (ver [Advertencias de los trucos](#advertencias-de-los-trucos)).
 - **Copiar fantasmas no está disponible:** en PS2 no hay otra tarjeta desde la que copiar, y el menú lo avisa.
 - **La pantalla del Controller Pak:** el port no la abre y no traduje sus texturas.

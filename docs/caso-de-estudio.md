@@ -70,7 +70,7 @@ Calculé estas cifras del repositorio en la rama `feature/version-1.2.0`:
 
 - Sin hardware real ni TV: el tacto del mando, el antiparpadeo, las bandas y la posición los comprobé por valores de registro, porque las capturas leen la VRAM antes del PCRTC. Tampoco probé el multitap, el cambio de tarjeta en caliente ni el rendimiento en PANORÁMICO.
 - Solo comprobé ROMVER por la ruta con reinicio del IOP y con un ROMVER sintético.
-- En PANORÁMICO, los objetos y la pista pueden aparecer tarde en los bordes, y el marcador sale estirado.
+- En PANORÁMICO, los objetos y la pista pueden aparecer tarde en los bordes.
 
 ## Lecciones
 

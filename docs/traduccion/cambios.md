@@ -932,7 +932,7 @@ Aquí registro todo cambio de requisito, límite, escala, paso de interlineado, 
 
 ### CC-34: marcador de la carrera en PANORÁMICO sin estirar
 
-- **Estado:** aprobado
+- **Estado:** aplicado
 - **Fecha:** 2026-10-13
 - **Requisitos afectados:** R-VID-04
 - **Motivo:** en el formato PANORÁMICO el 3D se amplía con Hor+ pero la TV estira el marcador. Es el defecto visible más grande que queda declarado (especificación §9).
@@ -943,12 +943,12 @@ Aquí registro todo cambio de requisito, límite, escala, paso de interlineado, 
 - **Alternativas descartadas:** estrechar también los menús y los fundidos.
 - **Evidencia requerida:** prueba pura con mutación y captura del emulador, revisada a ojo, con el marcador sin estirar.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-13). Si la revisión visual falla, descarto el cambio sin publicar.
-- **Implementación:** hecha en la rama `v130/imagen` (función pura, detección por proyección ortográfica y estado de la carrera, DIMX por paquete). Pendiente de revisión visual en emulador (1 jugador y pantalla dividida en PANORÁMICO; NORMAL y CON BANDAS sin diferencias) y de regenerar las referencias de captura si cambian. No lo publico ni lo cierro hasta entonces; la especificación §9 y el manual de usuario siguen diciendo que el marcador sale estirado hasta que lo apruebe.
-- **Commit:** —
+- **Implementación:** la función pura `hud_panoramico_estrechar` estrecha a 3/4 el marcador de la carrera. Se activa solo con formato PANORÁMICO, estado CARRERA y la proyección ortográfica del marcador; los menús, los fundidos a pantalla completa y los demás formatos no cambian. Revisé a ojo la captura `carrera_panoramico` de la CI (una tercera ejecución del emulador con `guion_panoramico.txt`): el panel de puestos, el tiempo, la vuelta, el mapa y el ordinal se acercan al centro y no quedan anchos. La carrera en NORMAL no cambia a ojo. Queda sin medir la pantalla dividida en PANORÁMICO, porque la CI solo captura una carrera de un jugador.
+- **Commit:** `069d442c`, `19ddd274`, `a2beae22`, `cb73c00d`, `bdebd18b`; referencia de la CI en `b312851d`.
 
 ### CC-35: matriz de tramado propia y medición del medio texel
 
-- **Estado:** aprobado
+- **Estado:** aplicado, con la parte C como límite declarado
 - **Fecha:** 2026-10-13
 - **Requisitos afectados:** R-VID-06 (nuevo)
 - **Motivo:**
@@ -959,12 +959,12 @@ Aquí registro todo cambio de requisito, límite, escala, paso de interlineado, 
   - Guion DEV con un tablero de texels que mide el desplazamiento; si es correcto queda como prueba, y si no, corrijo la constante.
 - **Evidencia requerida:** prueba pura de `DIMX` con mutación y la medición del tablero en el emulador.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-13).
-- **Implementación:** parte B hecha: escribo `DIMX` con la matriz mágica del RDP restando 4. Comprobé la matriz en [`dither.c` de angrylion-rdp-plus (líneas 12 a 18)](https://raw.githubusercontent.com/ata4/angrylion-rdp-plus/master/src/core/n64video/rdp/dither.c) y el defecto de gsKit en [`gsInit.c` (líneas 473, 476 y 530)](https://raw.githubusercontent.com/ps2dev/gsKit/master/ee/gs/src/gsInit.c): copia 15 celdas sobre memoria puesta a cero, así que la celda 15 queda en 0. Lo que no pude comprobar con una fuente es el desplazamiento de −4 que paso del rango 0 a 7 del RDP al de −4 a 3 del GS; es una elección mía y queda para mirarla en las capturas. La parte C (medición del medio texel) sigue abierta. CC-35 no está cerrado.
-- **Commit:** —
+- **Implementación:** partes A y B hechas: escribo `DIMX` con la matriz mágica del RDP restando 4 (matriz comprobada en [`dither.c` de angrylion-rdp-plus (líneas 12 a 18)](https://raw.githubusercontent.com/ata4/angrylion-rdp-plus/master/src/core/n64video/rdp/dither.c); defecto de gsKit comprobado en [`gsInit.c` (líneas 473, 476 y 530)](https://raw.githubusercontent.com/ps2dev/gsKit/master/ee/gs/src/gsInit.c): copia 15 celdas sobre memoria puesta a cero y la celda 15 queda en 0). El desplazamiento de −4 que paso del rango 0 a 7 del RDP al de −4 a 3 del GS es una elección mía y no tiene fuente. La carrera de la CI cambia un 0,16 % de los píxeles (ruido de tramado) y a ojo no veo diferencia. La parte C (medición del medio texel) no la hago: queda como límite declarado.
+- **Commit:** `069d442c`, `19ddd274`, `bdebd18b`, `95f0d6c4`.
 
 ### CC-36: la documentación habla con mi voz
 
-- **Estado:** aprobado
+- **Estado:** aplicado
 - **Fecha:** 2026-10-13
 - **Requisitos afectados:** R-DOC-05 (nuevo)
 - **Motivo:** la documentación mezclaba primera, tercera persona e impersonales. Quiero presentar el proyecto yo mismo, hablándote de tú.
@@ -976,11 +976,11 @@ Aquí registro todo cambio de requisito, límite, escala, paso de interlineado, 
 - **Alternativas descartadas:** dejar los documentos de proceso en impersonal.
 - **Evidencia requerida:** prueba en rojo con la redacción actual, mutación que reintroduce la tercera persona del autor y verde después. No cambio hechos, cifras ni hashes.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-13).
-- **Commit:** —
+- **Commit:** `5a70b60e`, `64a63cf0`, `9aee1bfb`, `63da4eec`, `0af69992`.
 
 ### CC-37: referencias en el texto y estructura de informe
 
-- **Estado:** aprobado
+- **Estado:** aplicado
 - **Fecha:** 2026-10-13
 - **Requisitos afectados:** R-DOC-06 (nuevo)
 - **Motivo:** las notas al pie parecen un anexo y no cuentan mi trabajo.
@@ -990,11 +990,11 @@ Aquí registro todo cambio de requisito, límite, escala, paso de interlineado, 
   - Añado las secciones «Qué comprobé y cómo», «Patrones y prácticas que apliqué» y «Mi trayectoria en este proyecto», sin nombrar empleador ni institución.
 - **Evidencia requerida:** la prueba de estructura exige esos encabezados y rechaza las notas al pie; la prueba de enlaces sigue en verde.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-13).
-- **Commit:** —
+- **Commit:** `0b3e51ef`, `3f9b85a4`, `5a70b60e`.
 
 ### CC-38: configuración de GitHub
 
-- **Estado:** aprobado
+- **Estado:** aplicado
 - **Fecha:** 2026-10-13
 - **Requisitos afectados:** R-DOC-07 (nuevo)
 - **Motivo:** el repositorio no tiene plantillas, política de seguridad, responsables ni vista previa social.
@@ -1005,7 +1005,7 @@ Aquí registro todo cambio de requisito, límite, escala, paso de interlineado, 
 
 ### CC-39: tono del motor a 200cc dentro del margen original
 
-- **Estado:** aprobado
+- **Estado:** aplicado
 - **Fecha:** 2026-10-13
 - **Requisitos afectados:** R-AUD-03 (nuevo)
 - **Motivo:** con el truco de 200cc el tono sube de 0,42 a 0,56 por encima de `desconocido_18`, más que el margen de 0,4 de la tabla original en 4 de 5 grupos de personajes.
@@ -1013,4 +1013,4 @@ Aquí registro todo cambio de requisito, límite, escala, paso de interlineado, 
 - **Evidencia requerida:** `prueba_tono_200cc` en modo estricto, en rojo antes y en verde después, con mutación 37/32.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-13). Cambia el juego: entra en la versión 1.3.0.
 - **Implementación:** hecha: `incluir/audio/tono_200cc.h` limita el tono y `funcion_800C6108` lo aplica solo si `cilindrada_200cc_aplica` es cierto. La prueba estricta falló antes (4 casos sobre el margen), pasa ahora con 26 comprobaciones y con la mutación 37/32 vuelve a fallar.
-- **Commit:** —
+- **Commit:** `dd83db12`, `7b907507`.
