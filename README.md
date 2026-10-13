@@ -27,6 +27,7 @@ Mario Kart 64 es el juego de mi infancia. Quise mejorarlo, traducirlo por comple
 - **Para la comunidad.** Publico la ISO y el ELF, como hace el repositorio original, para que cualquiera pueda probarlos.
 - **Con el juego original.** Para jugar debes poseer una copia original de Mario Kart 64.
 - **Sin afiliación.** No tengo relación con Nintendo ni con Sony. Si el titular de los derechos me pide retirar el proyecto, lo retiro.
+- **Mejoras del port.** Bajé la zona muerta del stick de 24 a 8 ([`dcbe656e`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/dcbe656e)), la región de la consola sale de `rom0:ROMVER` ([`3b11daa5`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/3b11daa5)) y las opciones se guardan en `SMK64CFG.DAT` ([`8c022b34`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/8c022b34)).
 - **Pieza de portafolio.** También es una muestra de mi trabajo como desarrollador e ingeniero de observabilidad: cómo especifico, pruebo, mido y documento un cambio en un código que nadie diseñó para leerse. El [caso de estudio](docs/caso-de-estudio.md) lo cuenta, y [CC-30](docs/traduccion/cambios.md) y [CC-32](docs/traduccion/cambios.md) registran las decisiones de portafolio y de propósito sin lucro.
 
 ## 2. Qué incluye y descarga verificable
@@ -50,9 +51,9 @@ El repositorio trae el juego descompilado, una capa de compatibilidad que sustit
 
 Como en el repositorio original, publico la ISO y el ELF.
 
-- **Última versión:** [Releases](https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/latest), con la ISO, el ELF monolítico, `SHA256SUMS` y las [notas de la versión](docs/versiones/v1.2.1.md).
-- **ISO directa:** [`SLUS_999.99.SuperMarioKart64.iso`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/latest/download/SLUS_999.99.SuperMarioKart64.iso).
-- **ELF monolítico, para uLaunchELF desde USB:** [`SLUS_999.99.monolitico.elf`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/latest/download/SLUS_999.99.monolitico.elf). Lleva la ROM dentro: no necesita `SMK64ROM.BIN`.
+- **Versión 1.2.1:** [Releases](https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/tag/v1.2.1), con la ISO, el ELF monolítico, `SHA256SUMS` y las [notas de la versión](docs/versiones/v1.2.1.md).
+- **ISO directa:** [`SLUS_999.99.SuperMarioKart64.iso`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/download/v1.2.1/SLUS_999.99.SuperMarioKart64.iso).
+- **ELF monolítico, para uLaunchELF desde USB:** [`SLUS_999.99.monolitico.elf`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/download/v1.2.1/SLUS_999.99.monolitico.elf). Lleva la ROM dentro: no necesita `SMK64ROM.BIN`.
 - **Alternativa:** la ISO versionada en `main`, [`compilaciones/SLUS_999.99.SuperMarioKart64.iso`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/raw/main/compilaciones/SLUS_999.99.SuperMarioKart64.iso).
 
 | Archivo | Tamaño | SHA-256 |
@@ -157,7 +158,7 @@ El port original declara pruebas en **PCSX2** (con BIOS) y en **Play!**. Las lim
 
 Soy desarrollador e ingeniero de observabilidad, y este proyecto me dejó aplicar mi oficio a un código ajeno que no estaba pensado para leerse. Lo que hago en mi trabajo, ver qué hace un sistema por lo que escribe y por lo que mide, lo llevé al juego:
 
-- **Registros del juego.** Trabajo con el registro que trae el port y lo amplié: el registro dice qué generación de la Memory Card escribe el juego ([`c69d9ef4`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/c69d9ef4)) y la pantalla de fallo escribe con tildes ([`8e311363`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/8e311363)). Cómo leerlo: [manual técnico](docs/manual/tecnico.md#depuración).
+- **Registros del juego.** Trabajo con el registro que trae el port y lo amplié: el registro dice qué generación de la Memory Card escribe el juego ([`c69d9ef4`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/c69d9ef4)) y la pantalla de fallo usa los glifos CP437 con tildes ([`8e311363`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/8e311363)). Cómo leerlo: [manual técnico](docs/manual/tecnico.md#depuración).
 - **Arranque y audio en la CI.** El job del emulador lee el registro del arranque y comprueba la región y el vídeo. Después de la 1.2.1 hice que el comprobador exija también el audio listo y rechace los avisos de audsrv e IOP ([`e3855654`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/e3855654), [`325d2b44`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/325d2b44)).
 - **Medidor de rendimiento.** Con `DEBUG=1`, L3 y R3 abren el panel del port con los FPS, los milisegundos por cuadro, el reparto de CPU y los cortes de audio. Lo traduje con tildes. Medir con él el rendimiento en PANORÁMICO en una consola real sigue entre mis límites declarados ([panel de rendimiento](docs/manual/tecnico.md#panel-de-rendimiento-l3--r3)).
 - **Capturas comparadas con tolerancia.** Comparo las capturas del emulador con referencias y entre sí. Bajé la tolerancia de 0,02 a 0,001 ([`632050ac`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/632050ac)) y la comparación más estricta encontró dos defectos visibles: los valores tenues del menú de configuración y el ordinal «8º.» ([notas de la 1.2.1](docs/versiones/v1.2.1.md)).
