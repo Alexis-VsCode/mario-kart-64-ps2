@@ -78,7 +78,7 @@ Versión de mantenimiento de la fase F9, con los cambios de especificación CC-1
 
 ### Añadido
 
-- La Release publica también el ELF monolítico, `SLUS_999.99.monolitico.elf`, para jugar desde USB con uLaunchELF sin compilar y sin `SMK64ROM.BIN`. `SHA256SUMS` lleva una línea por la ISO y otra por el ELF (`4bdd41a8`, CC-16).
+- La Release publica también el ELF monolítico, `SLUS_999.99.monolitico.elf`, para jugar desde USB con uLaunchELF sin compilar y sin `SMK64ROM.BIN`. Pesa 12 988 552 bytes y su SHA-256 es `8d79cd1ab153ebd9ea391dc2860f3700a87a542b7fc769091d8a74a262c4e5dd`. `SHA256SUMS` lleva una línea por la ISO y otra por el ELF (`4bdd41a8`, CC-16).
 - Al arrancar, el juego lee la región de la consola en `rom0:ROMVER`. En una consola PAL, el registro avisa de que la imagen es NTSC a 60 Hz y de que hace falta una TV que lo acepte. El modo de vídeo no cambia (`807d2c45`, `3b11daa5`, `ac1a1090`; CC-15).
 - Pruebas nuevas en `make test`, que pasa a 31 pruebas (`a29bd920`):
   - `prueba_eleccion_guardado.c`: la copia que se pisa y la generación mínima al guardar en una tarjeta nueva (`2e578b4b`);
