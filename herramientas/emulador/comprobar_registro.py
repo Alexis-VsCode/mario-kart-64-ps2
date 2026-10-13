@@ -6,8 +6,8 @@ Uso: comprobar_registro.py <carpeta host> <PAL|NTSC|desconocida> [--exige TEXTO 
 Pasa si el registro (smk64_log_NN.txt seguidos de smk64_log.txt) llegó al
 bucle principal sin pánico ni cuelgue, tiene la línea de región que da el
 ROMVER sintético, la línea 'audio: audsrv listo' (sin avisos de libsd,
-audsrv_init ni audsrv_set_format), y smk64_test.txt acaba el guion con su orden 'fin', 0
-fallos y ninguna captura perdida. --exige añade líneas que tienen que estar
+audsrv_init ni audsrv_set_format), y smk64_test.txt acaba el guion con su
+orden 'fin', 0 fallos y ninguna captura perdida. --exige añade líneas que tienen que estar
 en el registro (por ejemplo, los valores de los registros de vídeo).
 """
 import argparse
