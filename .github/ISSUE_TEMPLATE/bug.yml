@@ -1,0 +1,46 @@
+name: Error
+description: Algo falla en el juego, en la traducción o en la compilación.
+labels: ["error"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Reviso las incidencias cuando puedo; es un proyecto personal y sin ánimo de lucro. Cuantos más datos me des, más fácil me resulta reproducirlo.
+  - type: input
+    id: version
+    attributes:
+      label: Versión
+      description: La de la ISO o el ELF que usas, por ejemplo 1.2.1.
+    validations:
+      required: true
+  - type: dropdown
+    id: plataforma
+    attributes:
+      label: Dónde lo ejecutas
+      options:
+        - PlayStation 2 real
+        - PCSX2
+        - Otro
+    validations:
+      required: true
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: Qué pasa
+      description: Describe lo que esperabas y lo que ocurre. Si es un texto mal traducido, indica la pantalla.
+    validations:
+      required: true
+  - type: textarea
+    id: pasos
+    attributes:
+      label: Cómo reproducirlo
+      placeholder: |
+        1. Abro el menú de configuración
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Capturas o registros
+      description: Arrastra aquí imágenes o pega la salida de la consola.

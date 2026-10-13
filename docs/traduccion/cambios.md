@@ -997,9 +997,9 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Requisitos afectados:** R-DOC-07 (nuevo)
 - **Motivo:** el repositorio no tiene plantillas, política de seguridad, responsables ni vista previa social.
 - **Cambio:** plantillas de incidencias y de PR, `SECURITY.md`, `CODEOWNERS` y `docs/img/social.png` (1280×640). La descripción, el sitio web y los temas se fijan por la API o, si el proxy la rechaza, en Settings.
-- **Evidencia requerida:** prueba que valida que los archivos existen y que sus enlaces responden.
+- **Evidencia requerida:** prueba sin red que valida que los archivos existen, que `SECURITY.md` y `config.yml` llevan la URL de avisos y que la ruta `docs/manual/README.md`, que enlazan `config.yml` y `pregunta.yml`, existe. No pruebo que los enlaces respondan: lo comprobaré a mano tras fusionar.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-13).
-- **Commit:** —
+- **Commit:** `21164575`, `47b24155`, `23c9d65b`
 
 ### CC-39: tono del motor a 200cc dentro del margen original
 

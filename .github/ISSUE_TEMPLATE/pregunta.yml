@@ -1,0 +1,15 @@
+name: Pregunta
+description: Dudas sobre cómo instalar, compilar o usar el proyecto.
+labels: ["pregunta"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Reviso las incidencias cuando puedo; es un proyecto personal y sin ánimo de lucro. Mira antes el [manual](https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/docs/manual/README.md), porque quizá ya lo explico allí. Recuerda que necesitas tu propia copia del juego original.
+  - type: textarea
+    id: pregunta
+    attributes:
+      label: Tu pregunta
+      description: Cuéntame qué intentas hacer y dónde te atascas.
+    validations:
+      required: true

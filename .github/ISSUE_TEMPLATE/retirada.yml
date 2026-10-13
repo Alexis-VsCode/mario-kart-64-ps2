@@ -1,0 +1,27 @@
+name: Retirada por titular de derechos
+description: Solo para titulares de derechos que quieran que retire contenido.
+labels: ["retirada"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Este proyecto es educativo y sin ánimo de lucro. Si eres titular de derechos y me pides que lo retire, lo retiro. Indícame qué contenido te afecta y cómo acreditas la titularidad; actúo lo antes que puedo.
+  - type: input
+    id: titular
+    attributes:
+      label: Titular de los derechos
+    validations:
+      required: true
+  - type: textarea
+    id: contenido
+    attributes:
+      label: Contenido afectado
+      description: Rutas de archivos o enlaces de este repositorio.
+    validations:
+      required: true
+  - type: textarea
+    id: titularidad
+    attributes:
+      label: Cómo acreditas la titularidad
+    validations:
+      required: true
