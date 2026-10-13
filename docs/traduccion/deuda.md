@@ -6,7 +6,7 @@ Las entradas saldadas están en [trazabilidad.md](trazabilidad.md): las de F9 (D
 
 Lo que no se puede comprobar sin hardware real ni TV no es deuda: son los [límites declarados de la especificación (§9)](especificacion.md#9-límites-declarados). Ahí pasaron D-06 (sin verificación visual en una TV ni en una PS2) y D-17 (ROMVER en consola real y bajo OPL), en lo que la CI no puede ver ([CC-26](cambios.md)).
 
-Saldar una entrada sigue el proceso normal: si cambia un requisito o un contrato, primero un CC en [cambios.md](cambios.md); después la prueba en rojo, el cambio y la revisión. Al saldarla, la fila se borra aquí y el commit se anota en [trazabilidad.md](trazabilidad.md).
+Saldar una entrada sigue el proceso normal: si cambia un requisito o un contrato, primero un CC en [cambios.md](cambios.md); después la prueba en rojo, el cambio y la revisión. Al saldarla, borro la fila de aquí y anoto el commit en [trazabilidad.md](trazabilidad.md).
 
 ## Abierta
 

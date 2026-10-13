@@ -1,7 +1,7 @@
 # Especificación: Mario Kart 64 PS2 en español
 
 - **Estado:** implementada e integrada. Lo que queda por hacer está en [README.md § Pendiente](README.md#pendiente) y la deuda técnica, en [deuda.md](deuda.md).
-- **Sincronizada con** `feature/sincronizacion-upstream` en `d5f95cc5` (2026-10-11): la localización de F0 a F7, ya en `main` (`3f43c005`), más la sincronización con el original hasta `ae93f71` y las ramas de F8 (`sinc/ci`, `sinc/graficos-g5`, `sinc/sistema`, `sinc/pendientes` y `sinc/panel`). Desde CC-12, los criterios que dependían del recorrido de F6 se aceptan con lo que comprueban las pruebas del PC y la CI.
+- **Sincronizada con** `feature/sincronizacion-upstream` en `d5f95cc5` (2026-10-11): la localización de F0 a F7, ya en `main` (`3f43c005`), más la sincronización con el original hasta `ae93f71` y las ramas de F8 (`sinc/ci`, `sinc/graficos-g5`, `sinc/sistema`, `sinc/pendientes` y `sinc/panel`). Desde CC-12, los criterios que dependían del recorrido de F6 los acepto con lo que comprueban las pruebas del PC y la CI.
 - **Al día con** `feature/version-1.1.0` en `a29bd920` (F9, versión 1.1.0): de los requisitos que declaran [CC-13 a CC-17](cambios.md), cambia el texto de R-PORT-02 (CC-15) y R-INF-05 (CC-16); el de R-MC-01 y R-MC-02 (CC-13) no cambia y su evidencia nueva está en [trazabilidad.md](trazabilidad.md). R-GOB-01 anota un hallazgo de la integración (`b780d986`), no un cambio de un CC; el resto, en el registro de cambios.
 - **Al día con** `feature/version-1.2.0` en `fd6a4bb7` (F10, versión 1.2.0): [CC-18 a CC-29](cambios.md) añaden R-FUE-09, R-MC-04, R-INF-07, R-VID-01 a R-VID-05 y R-TRU-01 a R-TRU-04, y cambian R-TEX-02, R-TEX-03, R-TEX-08, R-PORT-03 y R-INF-05. Lo que no se puede comprobar sin hardware está en [§9](#9-límites-declarados).
 - **Al día con** `feature/capturas-1.2.1` en `863cbc45` (F11, versión 1.2.1): [CC-31](cambios.md) cambia R-INF-07 (tolerancia del 0,1 %, captura del menú de configuración y regeneración de las referencias en la CI) y R-INF-05 (entrada `regenerar_referencias`).
@@ -29,7 +29,7 @@ Además, cada texto:
 |---|---|---|
 | Fuente del menú | 11 caracteres nuevos (Á É Í Ó Ú Ñ Ü ¡ ¿ º ª), tabla de glifos completa y codificación | `codigo/menus/elementos_menu/`, `codigo/sistema/caracteres_es.c` |
 | Cadenas | Unas 200 cadenas de menú y mensajes, los literales en línea `"results"`, `"round"` y `"driver's points"`, y los créditos | `textos_y_tablas.inc.c:264-647`, `info_pistas_y_tiempos.inc.c:421-504`, `codigo/ceremonia/creditos.c:70-81` |
-| Créditos | `texto_creditos` tiene 126 entradas: se traducen las 63 en inglés y las 63 en japonés no cambian | `codigo/ceremonia/creditos.c` |
+| Créditos | `texto_creditos` tiene 126 entradas: traduzco las 63 en inglés y las 63 en japonés no cambian | `codigo/ceremonia/creditos.c` |
 | Nombres de pista | Las 20 pistas | `recursos/pistas/metadatos/nombres_circuito.inc.c` |
 | Texturas | Unas 55 texturas con texto: 13 de menú, 4 de número de jugadores, 4 copas, 20 títulos de pista, 2 carteles de MOO MOO FARM, 3 del HUD, 8 puestos y PULSA START. Además, los 48 cuadros de Lakitu (3 animaciones de 16) | `recursos/texturas/`, `recursos/comunes/texturas/` |
 | Pantallas del port | Fuente 5x7 del panel, página de audio, pantalla de fallo, registro, nombres de fase y fuente de depuración N64 | `codigo/depuracion/`, `codigo/sistema/`, `codigo/graficos/sintetizador_gs.c` |
@@ -47,14 +47,14 @@ Además, cada texto:
 - **Texto que se conserva tal cual.** Nombres de personaje (`nombre_*`), `copyright_1996`, `50cc`, `100cc`, `150cc`, `extra`, `modo_vs`, `tiempo_total_hud` (TOTAL), logotipos y carteles comerciales, onomatopeyas y `velocimetro` (km/h). Cada uno aparece en el manifiesto de texturas con su motivo (R-TEX-02).
 - **Título de la partida en el navegador de la PS2.** «SMK64 PS2» / «Partida» (`memory_card.c:189`): `titulo_sjis` solo admite ASCII.
 - **Nombres de nota del Controller Pak.** Son datos que se comparan con `memcmp` (`codigo/sistema/guardado_ps2.c:145`), no texto.
-- **Contenido inalcanzable.** Queda documentado aquí. Sus cadenas se traducen porque cuesta poco; sus texturas no.
+- **Contenido inalcanzable.** Queda documentado aquí. Traduzco sus cadenas porque cuesta poco; sus texturas no.
 
 | Contenido | Por qué no se ve en el port | Tratamiento |
 |---|---|---|
 | Gestor del Controller Pak (START al arrancar) | `funcion_80091D74` sale con 0 porque `status` queda a 0 (`animaciones_personajes.inc.c:379`; `memset` en `codigo/entrada/mandos.c:272`) | Cadenas sí. Texturas ia16 (`codigo/datos/texturas_fuentes.s:56-127`) y fuentes diminutas, no |
 | Menú de depuración N64 | `MODO_DEPURACION_ACTIVACION` vale 0 porque el build no define `GCC` ni `DEBUG` (`incluir/juego/definiciones.h:7-11`, `Makefile:53-54`) | Cadenas en ASCII (bloque B7) |
-| `menu_con_item`, `menu_sin_item` | El menú principal no los agrega (`preparar_menus`, caso `MENU_PRINCIPAL`, `imprimir_texto.inc.c:542-561`) | No se traducen |
-| `mando_sin_texto` | El bit del jugador 1 se activa siempre que su conector está abierto con `padPortOpen` (`mandos.c:108`, `:274-276`) | Se traduce, pero no se ve |
+| `menu_con_item`, `menu_sin_item` | El menú principal no los agrega (`preparar_menus`, caso `MENU_PRINCIPAL`, `imprimir_texto.inc.c:542-561`) | No los traduzco |
+| `mando_sin_texto` | El bit del jugador 1 se activa siempre que su conector está abierto con `padPortOpen` (`mandos.c:108`, `:274-276`) | La traduzco, pero no se ve |
 
 ## 3. Convenciones
 
@@ -68,7 +68,7 @@ Además, cada texto:
   - glifos: `codigo/menus/elementos_menu/lista_glifos.inc.c` (hecho en `1c9545d` y `5718601`);
   - tablas de texto, lugares de dibujo, lista negra y textos esperados: `herramientas/pruebas/prueba_textos_tablas.inc.c`, `prueba_textos_lugares.inc.c`, `prueba_textos_lista_negra.inc.c` y `prueba_textos_esperados.inc.c` (nuevos; hechos desde `ae9dc3c`);
   - texturas: `recursos/es/texturas.tsv` (hecho en `4345598`) y, para Lakitu, `recursos/es/lakitu/lakitu.tsv` (hecho en `74cbaf6`).
-- **Cambios de requisito, límite, escala, paso o término:** se registran en [cambios.md](cambios.md) antes de tocar el código.
+- **Cambios de requisito, límite, escala, paso o término:** los registro en [cambios.md](cambios.md) antes de tocar el código.
 
 ## 4. Términos base
 
@@ -125,7 +125,7 @@ Para toda entrada de dos bytes cuyo primer byte no sea 0x8F, el índice y el ava
 
 **R-FUE-03. Los 11 caracteres nuevos usan JIS X 0212 de 3 bytes.**
 
-Las cadenas se escriben en UTF-8 legible (por ejemplo, «CAMPEÓN») y la compilación las pasa a EUC-JP. Cada carácter da su glifo propio y avanza 3 bytes. La minúscula da el mismo glifo que la mayúscula.
+Escribo las cadenas en UTF-8 legible (por ejemplo, «CAMPEÓN») y la compilación las pasa a EUC-JP. Cada carácter da su glifo propio y avanza 3 bytes. La minúscula da el mismo glifo que la mayúscula.
 
 | Carácter | EUC-JP | Carácter | EUC-JP |
 |---|---|---|---|
@@ -157,7 +157,7 @@ Una secuencia `8F` incompleta o desconocida devuelve -2 y avanza 1 byte. Nunca p
 - **Registro DEV** (hecho en F8: `a5e97ddf` prueba en rojo, `f38d6de6` y `94cdfea5`):
   - `int primer_byte_invalido(char* cadena, LectorGlifo leer)` (`caracteres_es.c`, puro) devuelve la posición del primer glifo que `leer` da por -2, que empieza por `C2`/`C3` (UTF-8 sin convertir) o que ocuparía el NUL final; -1 si no hay ninguno. Recibe el lector para que la regla de avance siga solo en `leer_glifo` (R-FUE-04);
   - en la compilación DEV, las tres impresoras de cadenas del menú (`imprimir_texto0`, `imprimir_texto1` e `imprimir_texto2`) pasan cada cadena a `registrar_texto_invalido` (`depuracion.c`) antes de leerla;
-  - se registra una vez por puntero de cadena: «texto del menú con un byte inválido (%02x) en la posición %d: "%s"». La tabla de punteros avisados tiene 16 entradas; cuando se llena, deja de registrar.
+  - deja un registro una vez por puntero de cadena: «texto del menú con un byte inválido (%02x) en la posición %d: "%s"». La tabla de punteros avisados tiene 16 entradas; cuando se llena, deja de registrar.
 - **Aceptación del registro:** `primer_byte_invalido` da -1 en las cadenas buenas y la posición correcta en las malas, sin leer más allá del NUL; y las tres impresoras llaman a `registrar_texto_invalido` antes de `leer_glifo`.
 - **Prueba:** `prueba_glifos.c`, casos `probar_secuencias_rotas` (hecho en `641fe27`) y `probar_primer_byte_invalido` (también con `-fsanitize=address,undefined`), y `prueba_tablas_glifos.py`, caso `probar_registro_texto_invalido`. La prueba de textos (R-TXT-03) cubre además las tablas del menú en el PC.
 - **Nota:** `imprimir_texto1` mide la cadena antes de dibujar y sale sin dibujar nada si encuentra un -2 (`imprimir_texto.inc.c:73-74`). Por eso R-TXT-03 exige que ninguna cadena dé -2.
@@ -195,7 +195,7 @@ Una secuencia `8F` incompleta o desconocida devuelve -2 y avanza 1 byte. Nunca p
   - bajo `AVOID_UB`, `funcion_80095BD0` no escribe `efecto_mtx[i]` con i ≥ `MTX_EFECTO_POOL_TAMANIO`;
   - `dibujar_diacritico_glifo` no contiene `gSPMatrix` ni modifica `cantidad_efecto_matriz`, así que dibujar «CAMPEÓN» consume las mismas matrices que «CAMPEON»;
   - las partes de alto 8 solo aparecen como segunda parte, de 26 de ancho, de los glifos del español.
-- **Prueba:** `prueba_tablas_glifos.py`, casos `probar_partes_de_signo` y `probar_tope_reserva` (hecho en `697f3af6`: el único tope de la rama `AVOID_UB` es `MTX_EFECTO_POOL_TAMANIO` y `efecto_mtx` se declara con ese tamaño), y compilación de PS2 en la CI. L2 no tiene arnés de PC: su evidencia de código está en el mensaje de `9adc3192`. El recorrido de F6 que preveía este requisito se retiró (CC-12).
+- **Prueba:** `prueba_tablas_glifos.py`, casos `probar_partes_de_signo` y `probar_tope_reserva` (hecho en `697f3af6`: el único tope de la rama `AVOID_UB` es `MTX_EFECTO_POOL_TAMANIO` y declaro `efecto_mtx` con ese tamaño), y compilación de PS2 en la CI. L2 no tiene arnés de PC: su evidencia de código está en el mensaje de `9adc3192`. El recorrido de F6 que preveía este requisito se retiró (CC-12).
 
 **R-FUE-08. El arte de los glifos es reproducible.**
 
@@ -302,7 +302,7 @@ Los dos bordes quedan dentro de x ∈ [16, 296] y dentro del límite propio del 
 - **S:** zona segura del televisor, [16, 296];
 - **G:** geometría del código (caja, vecino o salto de línea);
 - **I:** máximo del inglés en ese lugar, solo donde la posición depende de otro elemento que no se puede acotar mejor;
-- **C:** captura aprobada en [cambios.md](cambios.md). Histórico: ningún lugar lo usa y, desde CC-12, no se aprueban capturas.
+- **C:** captura aprobada en [cambios.md](cambios.md). Histórico: ningún lugar lo usa y, desde CC-12, no apruebo capturas.
 
 `tinta_izq` y `tinta_der` salen de los `.i4` de la fuente, los originales y los del español (`prueba_textos_tinta.py`).
 
@@ -328,9 +328,9 @@ En todo bucle que dibuja varias líneas con paso `p` y escala `e`, si alguna lí
 - **Aceptación:** cero diferencias.
 - **Prueba:** `prueba_textos.c`.
 
-**R-TXT-07. Los ordinales se escriben «1.º».**
+**R-TXT-07. Escribo los ordinales «1.º».**
 
-Todo ordinal visible se escribe con número, punto y º: «1.º» … «8.º». No quedan ST/ND/RD/TH ni un espacio entre el número y el ordinal. El femenino «2.ª» estaba previsto para Lakitu, pero no cabe en el cartel y se usa «VUELTA 2» (R-TEX-06).
+Escribo todo ordinal visible con número, punto y º: «1.º» … «8.º». No quedan ST/ND/RD/TH ni un espacio entre el número y el ordinal. El femenino «2.ª» estaba previsto para Lakitu, pero no cabe en el cartel y se usa «VUELTA 2» (R-TEX-06).
 
 Afecta a:
 
@@ -355,7 +355,7 @@ Toda cadena que nombra un botón o un puerto de la N64 usa el botón de PS2 de l
 
 **R-MC-01. Se habla de la Memory Card, no del Controller Pak.**
 
-Ninguna cadena visible menciona «N64», «CONTROLLER PAK» ni «CONTROLLER 1/2». Se escribe «MEMORY CARD». Tampoco se mencionan las páginas de la N64 («PLEASE FREE 121 PAGES», `textos_y_tablas.inc.c:525`).
+Ninguna cadena visible menciona «N64», «CONTROLLER PAK» ni «CONTROLLER 1/2». Escribo «MEMORY CARD». Tampoco se mencionan las páginas de la N64 («PLEASE FREE 121 PAGES», `textos_y_tablas.inc.c:525`).
 
 - **Aceptación:** la lista negra incluye N64, CONTROLLER, PAK y PAGES, y ninguna tabla `ES` los contiene.
 - **Prueba:** `prueba_textos.c` (lista negra y esperados).
@@ -413,13 +413,13 @@ Todo mensaje que en el original nombra «CONTROLLER 1» nombra «RANURA 1», y t
 `recursos/es/texturas.tsv` (hecho en `4345598`) tiene las columnas `id`, `origen`, `formato`, `tamanio`, `tamanio_es`, `alfa`, `png`, `texto_es`, `retocado` y `motivo_no`. En `dda9a5f` tiene 97 filas:
 
 - las 63 texturas TKMK00 de `recursos/texturas/menus/tkmk00/`: 41 para traducir (con `modo_mario_gp`, ver [CC-04](cambios.md)) y 22 con motivo;
-- 16 de `recursos/comunes/texturas/`: 11 del HUD para traducir (`tiempo_hud`, `tiempo_vuelta_hud`, `vuelta_hud` y los 8 puestos) y 5 con motivo (4 «solo la cifra» y 1 «se escribe igual»);
+- 16 de `recursos/comunes/texturas/`: 11 del HUD para traducir (`tiempo_hud`, `tiempo_vuelta_hud`, `vuelta_hud` y los 8 puestos) y 5 con motivo (4 «solo la cifra» y 1 que no cambia);
 - 15 ia16 de la pantalla del Controller Pak (`recursos/texturas/generales/`), con motivo «no se muestra» (`31eaf62`);
 - las 2 mitades del cartel de MOO MOO FARM y PULSA START (`recursos/texturas/sin_comprimir/`), para traducir.
 
 En total, 55 para traducir y 42 con motivo. Los 3 carteles de Lakitu tienen su propio manifiesto, `recursos/es/lakitu/lakitu.tsv`.
 
-En F10 el manifiesto pasa a clasificar 1229 texturas, con filas de textura, de carpeta y de archivo ([CC-27](cambios.md) y [CC-29](cambios.md)). Las 15 con texto general visible que quedaron como pendientes se tradujeron: YA (`cartel_go_mario`), BIENVENIDOS (`cartel_bienvenida_0` y `_1`), 1J a 4J (`emblema_Nj_jugador`, en ci8 con su paleta) y PASO A NIVEL (las 8 `*_senial_cruce_*`).
+En F10 el manifiesto pasa a clasificar 1229 texturas, con filas de textura, de carpeta y de archivo ([CC-27](cambios.md) y [CC-29](cambios.md)). Las 15 con texto general visible que quedaron como pendientes las traduje: YA (`cartel_go_mario`), BIENVENIDOS (`cartel_bienvenida_0` y `_1`), 1J a 4J (`emblema_Nj_jugador`, en ci8 con su paleta) y PASO A NIVEL (las 8 `*_senial_cruce_*`).
 
 Tiene que cubrir también:
 
@@ -428,7 +428,7 @@ Tiene que cubrir también:
 - `recursos/texturas/fuente_pantalla_fallo.ia1.inc.c`;
 - los `.incbin` de `codigo/datos/*.s`.
 
-Cada textura tiene una fila, o su carpeta entera tiene una fila de exclusión con motivo. Hay dos filas de exclusión, con `motivo_no` y el resto de columnas vacío: `carpeta:<ruta>` excluye una carpeta y sus subcarpetas, y la ruta tiene que ser una carpeta; `archivo:<ruta>` excluye un solo archivo que las órdenes no leen (rgba32, ia1, ci8), y la ruta tiene que ser un archivo ([CC-29](cambios.md)). `objetos/cartel_meta` se revisa textura a textura, porque lleva el logotipo. PULSA START se registra como RGBA16 crudo (R-TEX-03).
+Cada textura tiene una fila, o su carpeta entera tiene una fila de exclusión con motivo. Hay dos filas de exclusión, con `motivo_no` y el resto de columnas vacío: `carpeta:<ruta>` excluye una carpeta y sus subcarpetas, y la ruta tiene que ser una carpeta; `archivo:<ruta>` excluye un solo archivo que las órdenes no leen (rgba32, ia1, ci8), y la ruta tiene que ser un archivo ([CC-29](cambios.md)). `objetos/cartel_meta` lo reviso textura a textura, porque lleva el logotipo. Registro PULSA START como RGBA16 crudo (R-TEX-03).
 
 - **Aceptación:**
   - ninguna textura queda sin fila ni sin exclusión de carpeta o de archivo;
@@ -491,16 +491,16 @@ Cada textura tiene una fila, o su carpeta entera tiene una fila de exclusión co
   | 793-794 | `comun_textura_hud_vuelta_tiempo` en `temporizador_x − 0x13`, con `dibujar_textura_32x_hud_2d_16` |
 
   En pantalla dividida, los dígitos de vuelta van en `vuelta_x + 0xC` (`codigo/carrera/objetos_y_efectos/hud_pantalla_dividida.inc.c:51`).
-- Solo se abrevia en pantalla dividida si la palabra no cabe, y se registra en [cambios.md](cambios.md). Así pasó con 3 y 4 jugadores: VUELTA se escribe «VTA.» ([CC-07](cambios.md)).
+- Solo se abrevia en pantalla dividida si la palabra no cabe, y lo registro en [cambios.md](cambios.md). Así pasó con 3 y 4 jugadores: escribo VUELTA como «VTA.» ([CC-07](cambios.md)).
 - `hud_1ro`…`hud_8vo` pasan a «1.º»…«8.º».
-- Implementación (`7e0d345`): las texturas miden 64 de ancho y se dibujan alineadas por la derecha donde terminaban las de 32, así el borde que da a los dígitos no se mueve.
+- Implementación (`7e0d345`): las texturas miden 64 de ancho y se dibujan alineadas por la derecha donde terminaban las de 32, así el borde que da a los dígitos queda en su sitio.
 - **Aceptación:** la prueba de no solapamiento pasa para 1, 2, 3 y 4 jugadores en todas las llamadas de la tabla.
 - **Prueba:** `prueba_hud_es.py` (hecho en `7e0d345`) y hoja de contacto del HUD (`make hoja-es`). Las capturas de F6 se retiraron (CC-12).
 
 **R-TEX-06. Lakitu mantiene sus 16 cuadros y su paleta.**
 
 - `vuelta_final` pasa a «¡ÚLTIMA!», `segunda_vuelta` a «VUELTA 2» y `marcha_atras` a «¡REVÉS!». Los textos principales, «2.ª VUELTA» y «¡AL REVÉS!», no caben en la placa con letras de 8 filas o más; se usan los de reserva que indica `recursos/es/lakitu/lakitu.tsv` (`74cbaf6`).
-- Cada animación sigue con 16 cuadros contiguos, porque solo se pasa el primero (`nubes_estrellas_y_lakitu.inc.c:675`).
+- Cada animación sigue con 16 cuadros contiguos, porque solo paso el primero (`nubes_estrellas_y_lakitu.inc.c:675`).
 - Los cuadros se cuantizan a la paleta existente: las `tlut_lakitu_*` no cambian.
 - **Aceptación:**
   - fuera de la máscara del cartel, cada cuadro es idéntico al original;
@@ -586,7 +586,7 @@ Las pruebas de este apartado son `herramientas/pruebas/prueba_fuente_5x7.c` y `h
 
 - **Panel** (`codigo/depuracion/medidor_rendimiento.c:263-339`): FRAME pasa a CUADRO, POOL a RESERVA y VTX a VÉRT.
 - **Interlineado del panel** (CC-11, L3; hecho en `ac4fcdae`): cada línea ocupa `TEXTO_ALTO_LINEA` = `FUENTE_5X7_FILAS` + 1 = 9 filas (signo, 7 de letra y 1 libre), para que las tildes no toquen la línea de arriba. Las 12 líneas ocupan 108 filas, dentro de las 128 que lee el GS, y la reserva de VRAM del panel (`MEDIDOR_VRAM_BYTES`) es de 128 KB: las 16 páginas CT32 de la textura ([CC-11](cambios.md)).
-- **Página de audio** (`codigo/depuracion/monitor_audio.c:128-135`): MUSICA pasa a MÚSICA, y «SEQ» (`:134`) se traduce.
+- **Página de audio** (`codigo/depuracion/monitor_audio.c:128-135`): MUSICA pasa a MÚSICA, y traduzco «SEQ» (`:134`).
 - **Nombres de fase:**
   - `codigo/sistema/arranque_ps2.c:148-173`;
   - `codigo/sistema/bucle_principal/hilos_video_y_audio.inc.c`;
@@ -617,7 +617,7 @@ Las pruebas de este apartado son `herramientas/pruebas/prueba_fuente_5x7.c` y `h
 - `incluir/depuracion/marcas_registro.h` (nuevo, hecho en `9d2b711`) define `MARCA_PANICO` («PÁNICO», [CC-05](cambios.md)), `MARCA_CUELGUE` y `MARCA_GIF`.
 - El consumidor (`strstr` en `depuracion.c:101-102`) y todos los productores usan la misma macro:
   - `registrar` en `depuracion.c:249` (cuelgue), `:431` (pánico) y `:511` (cuelgue);
-  - `estado_gif`, que se arma con `snprintf` en `depuracion.c:282` y se registra en `:418` y `:513`;
+  - `estado_gif`, que armo con `snprintf` en `depuracion.c:282` y registro en `:418` y `:513`;
   - `detener_por_gif_trabado(MARCA_GIF " DMA sin terminar…")` en `codigo/graficos/sintetizador_gs.c:122`, que llega al registro por `depuracion.c:417`.
 - Cambiar el valor de una marca es un cambio de especificación ([CC-05](cambios.md)).
 - Los unos 103 formatos de `registrar()` llevan las tildes correctas: «no se guardará», «no se encontró», «debería».
@@ -688,7 +688,7 @@ El `Makefile` declara `OBJETIVOS_PC := test clean herramientas es hoja-es` (`f8f
 | `emulador` | Guion en el emulador (Play!) | Después de `compilar-ps2`. Arranca dos veces el ELF de DEV en Play! 0.72 sin BIOS y comprueba el registro, la región y las capturas (R-INF-07). Con `regenerar_referencias=sí`, escribe y commitea las referencias nuevas |
 | `mismo-binario` | Comparar el binario con la base | Solo a mano, con la entrada `base`. Corre `herramientas/comparar_binario.sh` contra la base, en release y con `DEBUG=1` |
 | `publicar` | Commit de publicación | Solo a mano, con `publicar=si`. En el mismo contenedor y con GNU make 4.4 o posterior: `make clean`, `make`, `make DEBUG=1`, `make DEV=1`, `make test` y `make iso`, y commitea `build/ps2` y `compilaciones` en la rama con el asunto `build(compilaciones): binarios e ISO en español` y, en el cuerpo, el commit de origen y la ejecución (commit de publicación, R-GOB-05). Solo omite el commit si `git diff --cached --quiet`; cualquier otro fallo detiene el job |
-| `release` | Release con la ISO y el ELF monolítico | Solo a mano, con `release=<etiqueta>`, en el mismo contenedor que `compilar-ps2`. Falla si falta la ISO versionada de `compilaciones/`, si faltan las notas de `docs/versiones/<etiqueta>.md` o si el SHA-256 de la ISO no está en ellas. Compila `make clean` y `make MONOLITICO=1` y publica una Release de GitHub sobre el commit lanzado con la ISO, `SLUS_999.99.monolitico.elf` y un `SHA256SUMS` con las dos líneas, y esas notas. El ELF monolítico no se versiona. Se lanza en otra ejecución, sobre `main`, después de fusionar el commit de publicación |
+| `release` | Release con la ISO y el ELF monolítico | Solo a mano, con `release=<etiqueta>`, en el mismo contenedor que `compilar-ps2`. Falla si falta la ISO versionada de `compilaciones/`, si faltan las notas de `docs/versiones/<etiqueta>.md` o si el SHA-256 de la ISO no está en ellas. Compila `make clean` y `make MONOLITICO=1` y publica una Release de GitHub sobre el commit lanzado con la ISO, `SLUS_999.99.monolitico.elf` y un `SHA256SUMS` con las dos líneas, y esas notas. No versiono el ELF monolítico. Lánzala en otra ejecución, sobre `main`, después de fusionar el commit de publicación |
 | `limpiar-ramas` | — | Solo a mano, con `limpiar_ramas=si`. Borra las ramas remotas cuya punta ya está en `main` (`git merge-base --is-ancestor`); conserva `main` y toda rama con commits propios |
 
 `BUILD_ID` vale por defecto la fecha de la versión, `2026-10-11` (`Makefile:52`, `6251a4a6`).
@@ -698,7 +698,7 @@ El `Makefile` declara `OBJETIVOS_PC := test clean herramientas es hoja-es` (`f8f
 
 **R-INF-06. Ningún archivo de código pasa el tope de líneas.**
 
-- `herramientas/comprobar_lineas.py` (hecho en `f1f3d3d`) se ejecuta dentro de `make test`.
+- `herramientas/comprobar_lineas.py` (hecho en `f1f3d3d`) corre dentro de `make test`.
 - Ningún `.c`, `.h`, `.py` o `.sh` de `codigo/`, `incluir/` o `herramientas/` pasa de 1000 líneas.
 - Excepciones: `incluir/libultra/*` y `codigo/memoria/tablas_trigonometricas.c`.
 - Los `.s` de datos que ya superan el tope no crecen: `codigo/datos/karts/kart_*.s` (5915 líneas), `otras_texturas.s` (2139) y `texturas_fuentes.s` (1753). Lo nuevo va en archivos propios, como `codigo/datos/texturas_fuentes_es.s` (hecho en `5718601`).
@@ -710,9 +710,9 @@ El `Makefile` declara `OBJETIVOS_PC := test clean herramientas es hoja-es` (`f8f
 - El job `emulador` ([CC-26](cambios.md), hecho en `2c3a8b29`, `570a0a12`, `98a042b7` y `979fcf14`; en F11, [CC-31](cambios.md), `632050ac`, `a7ab8019` y `17901393`) baja Play! 0.72 con su SHA-256 fijado y lo corre bajo Xvfb con Vulkan por software. Arranca dos veces el ELF de DEV sin BIOS, con el guion `herramientas/emulador/guion_ci.txt` por `host:` y un ROMVER sintético europeo.
 - `herramientas/emulador/comprobar_registro.py` exige en cada registro el bucle principal sin pánico ni cuelgue, la línea de región PAL, «vídeo: PMODE 8046» y el fin del guion con 0 fallos y sin capturas perdidas.
 - `herramientas/emulador/comparar_capturas.py` compara las capturas de título, menú, configuración (el menú CONFIGURACIÓN Y TRUCOS) y carrera con `herramientas/emulador/referencias/` y las de las dos ejecuciones entre sí, y rechaza una captura uniforme. La tolerancia por defecto es del 0,1 % de píxeles distintos (0,001): un bloque de 32×16 cambiado en 640×448 (0,18 %) falla. Dos ejecuciones dan un 0,0000 % de diferencia.
-- Con la entrada `regenerar_referencias=sí`, el job escribe las capturas de la primera ejecución como referencias, comprueba la segunda contra ellas, copia `menu`, `carrera` y `configuracion` a `docs/img/` y commitea en la rama. Las referencias nuevas se revisan a ojo antes de integrar.
+- Con la entrada `regenerar_referencias=sí`, el job escribe las capturas de la primera ejecución como referencias, comprueba la segunda contra ellas, copia `menu`, `carrera` y `configuracion` a `docs/img/` y commitea en la rama. Reviso a ojo las referencias nuevas antes de integrar.
 - El job dura menos de 30 minutos.
-- Las capturas leen la VRAM antes del PCRTC: el antiparpadeo, las bandas y la posición se comprueban por los valores de registro (R-VID-01 a R-VID-03), no por la imagen ([§9](#9-límites-declarados)).
+- Las capturas leen la VRAM antes del PCRTC: el antiparpadeo, las bandas y la posición los compruebo por los valores de registro (R-VID-01 a R-VID-03), no por la imagen ([§9](#9-límites-declarados)).
 - **Aceptación:** el job termina en verde.
 - **Prueba:** `prueba_comprobar_registro.py` y `prueba_comparar_capturas.py` en `make test` (en F11, con el bloque de 32×16, `1bac15d9`), la ejecución [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616) y, en F11, las regeneraciones [38179540046](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38179540046) y [38180265814](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38180265814).
 
@@ -722,7 +722,7 @@ El `Makefile` declara `OBJETIVOS_PC := test clean herramientas es hoja-es` (`f8f
 
 - Cada commit hace una sola cosa.
 - El asunto sigue `tipo(dominio): descripción` en español. Los tipos son `feat`, `fix`, `refactor`, `test`, `build`, `ci` y `docs`.
-- También se aceptan:
+- También acepto:
   - `ci: descripción`, sin dominio, para los cambios de la CI;
   - los mensajes de merge por defecto, `Merge branch '…' into …`.
 - Cada bloque de traducción (B1…B7) es un par de commits, prueba y cambio, o un solo commit con los dos. En los dos casos, el rojo se demuestra (R-GOB-03).
@@ -749,13 +749,13 @@ Un commit `refactor(...)` no cambia el comportamiento, y un commit funcional no 
 - **Aceptación:** cada commit `refactor` de la rama tiene una de las tres pruebas registrada en [trazabilidad.md](trazabilidad.md).
 - **Prueba:** revisión del PR.
 
-**R-GOB-03. El rojo se demuestra y la mutación se restaura.**
+**R-GOB-03. Demuestro el rojo y restauro la mutación.**
 
 - Antes del verde, la prueba nueva falla:
   - si prueba y cambio van en commits separados, el commit de la prueba está en rojo;
-  - si van en el mismo commit, la prueba de ese commit se ejecuta sobre el árbol del commit padre y falla.
+  - si van en el mismo commit, ejecuto la prueba de ese commit sobre el árbol del commit padre y falla.
 - La salida del rojo se adjunta al PR.
-- Después del verde, una mutación manual de la implementación vuelve a poner la prueba en rojo, y la mutación se restaura.
+- Después del verde, una mutación manual de la implementación vuelve a poner la prueba en rojo, y restauro la mutación.
 - Cuando la prueba cubre un módulo nuevo, el rojo es la ausencia del módulo; basta con registrarlo.
 - **Aceptación:** `git diff --quiet -- <ruta>` termina con 0 después de restaurar.
 - **Prueba:** evidencia en el PR con las salidas de rojo, verde, mutación y restauración.
@@ -768,18 +768,18 @@ Un commit `refactor(...)` no cambia el comportamiento, y un commit funcional no 
   - `Archivo: ruta:línea`
   - `Riesgo`
   - `Recomendación`
-- **Aceptación:** no se integra con hallazgos Alta o Media abiertos.
+- **Aceptación:** no integro con hallazgos Alta o Media abiertos.
 - **Prueba:** registro de la revisión. Desde F8, un acta por integración en [revisiones/](revisiones/); la de F8 es [2026-10-11-sincronizacion.md](revisiones/2026-10-11-sincronizacion.md).
 
 **R-GOB-05. El árbol queda limpio.**
 
 - Al cerrar cada bloque y cada fase, `git status --short` sale vacío.
-- Los archivos de `build/` y `compilaciones/` que tocan las pruebas se restauran.
+- Restauro los archivos de `build/` y `compilaciones/` que tocan las pruebas.
 - `build/` y `compilaciones/` solo cambian en el commit de publicación de cada versión (`dda9a5f` en F7 y `900c9be3` en F8, hecho por el job `publicar`).
 - **Aceptación:** `git status --short` vacío, y ningún commit salvo el de publicación toca `build/` ni `compilaciones/`.
 - **Prueba:** `git log --name-only origin/main..HEAD -- build compilaciones`. En `dda9a5f` solo listaba ese commit, el de publicación. En `feature/sincronizacion-upstream` (`d5f95cc5`) sale vacío: la fusión deja `build/` y `compilaciones/` como en `main` ([CC-08](cambios.md)). En `feature/version-1.1.0` (`a29bd920`) también sale vacío.
 
-**R-GOB-06. El stage se hace por ruta explícita.**
+**R-GOB-06. Hago el stage por ruta explícita.**
 
 Se usa `git add -- <ruta>…`. Nunca `git add -A`, `git add .` ni `git commit -a`.
 
@@ -798,7 +798,7 @@ Los comentarios explican un contrato o una invariante. Las funciones de varios p
 
 - **Prueba:** `prueba_textos_port.py` (desde `e1a3d746`) recorre `codigo/`, `incluir/` y `herramientas/` y falla si encuentra un identificador de requisito, `CC-N` o `D-NN`. Antes se comprobaba a mano con el comando; en `fd6a4bb7` encontraba 8 líneas, ya limpias en `ecc00c42`.
 
-**R-GOB-08. La documentación se actualiza en la misma iteración.**
+**R-GOB-08. Actualizo la documentación en la misma iteración.**
 
 Si un bloque cambia una estructura o un contrato, el mismo PR actualiza la especificación, la trazabilidad, los cambios y, si corresponde, el README.
 
@@ -811,20 +811,20 @@ Si un bloque cambia una estructura o un contrato, el mismo PR actualiza la espec
 
 - Con ANTIPARPADEO en SÍ: PMODE 0x8027 (los dos circuitos de lectura, CRTMD=1, MMOD=1, ALP=0x80) y DISPFB2 con DBY=1 en el bit 43 ([CC-20](cambios.md)).
 - Con NO, el valor por defecto, PMODE es 0x8046 y los registros son los de la versión 1.1.0.
-- Los registros se calculan con una función pura (`incluir/graficos/registros_video.h`, nuevo) y se escriben en el retrazo cuando cambian las opciones.
+- Calculo los registros con una función pura (`incluir/graficos/registros_video.h`, nuevo) y los escribo en el retrazo cuando cambian las opciones.
 - **Aceptación:** los valores de los dos casos; la CI exige «vídeo: PMODE 8046» en el registro del arranque.
 - **Prueba:** `prueba_registros_video.c` (hecho en `deeba019` y `fa835b62`) y el job `emulador` (R-INF-07).
 
 **R-VID-02. La posición de la imagen se ajusta con límites.**
 
-- POSICIÓN X va de -32 a +32 y POSICIÓN Y de -16 a +16. DX se mueve en VCK (MAGH+1 por píxel) y DY siempre en pasos pares, igual en DISPLAY1 y DISPLAY2.
+- POSICIÓN X va de -32 a +32 y POSICIÓN Y de -16 a +16. DX avanza en VCK (MAGH+1 por píxel) y DY siempre en pasos pares, igual en DISPLAY1 y DISPLAY2.
 - **Aceptación:** con posición 0,0 el DISPLAY es el de gsKit; DY siempre par; los extremos no salen de los límites del registro.
 - **Prueba:** `prueba_registros_video.c`.
 
 **R-VID-03. El formato CON BANDAS conserva la proporción en una TV 16:9.**
 
 - FORMATO vale NORMAL, CON BANDAS o PANORÁMICO ([CC-21](cambios.md)). Sin archivo de opciones, vale CON BANDAS si la PS2 está configurada en 16:9 (`configGetTvScreenType()` da `TV_SCREEN_169`) y NORMAL en otro caso.
-- CON BANDAS se hace en el PCRTC: MAGH y DW a 3/4 y DX centrado; el dibujo del juego no cambia. Con bases de MAGH 0 o 1 el cálculo no pasa por debajo de cero (hecho en `d5ee5381`).
+- CON BANDAS lo hago en el PCRTC: MAGH y DW a 3/4 y DX centrado; el dibujo del juego no cambia. Con bases de MAGH 0 o 1 el cálculo no pasa por debajo de cero (hecho en `d5ee5381`).
 - **Aceptación:** MAGH=2 y DW=1920 centrado con la base actual; MAGV, DW y DH intactos con bases de MAGH 0 y 1.
 - **Prueba:** `prueba_registros_video.c` (con el caso de `d8ebb3ac`).
 
@@ -886,14 +886,14 @@ Los cuatro trucos están apagados de fábrica. Los récords y las copas se guard
 | HUD | Palabras completas (TIEMPO, VUELTA). Se amplían las texturas y se ajustan los desplazamientos. Solo se abrevia en pantalla dividida si no cabe |
 | Binarios | `build/` y `compilaciones/` siguen versionados. Solo se regeneran en un commit final de publicación; nunca se agregan durante el trabajo |
 | Variante | Español neutro con tuteo y terminología de Nintendo España. Botones de PS2 (CRUZ, CUADRADO, SELECT, R1) según `codigo/entrada/mandos.c:58-64` |
-| Memory Card | Se escribe «MEMORY CARD» y «RANURA n», el término oficial de Sony. La opción «copiar fantasmas», que en el port siempre falla, pasa a un mensaje honesto: no disponible en PS2 |
-| Contenido inalcanzable | Gestor del Controller Pak y menú de depuración N64: sus cadenas se traducen (cuesta poco) y sus texturas no. Queda documentado en §2.2 |
+| Memory Card | Escribo «MEMORY CARD» y «RANURA n», el término oficial de Sony. La opción «copiar fantasmas», que en el port siempre falla, pasa a un mensaje honesto: no disponible en PS2 |
+| Contenido inalcanzable | Gestor del Controller Pak y menú de depuración N64: traduzco sus cadenas (cuesta poco) y sus texturas no. Queda documentado en §2.2 |
 
 Las diferencias entre lo ejecutado y el plan aprobado están registradas en [CC-06](cambios.md).
 
 ## 7. Diferencias aceptadas
 
-- **Transición de disolución.** El decodificador TKMK00 pone a cero su búfer temporal (`descompresion_tkmk00.c:61`). Ese búfer es `tkmk_00_bajo_res_buffer` (`imagenes_menu.inc.c:98-99`), el mismo que usa la transición de disolución (`funcion_8009DB8C`, `letras_y_fundidos.inc.c:764-813`). Una textura MIO0 no lo toca, así que el patrón de disolución ya no se reinicia si se carga una textura traducida a mitad de la transición. Se acepta como diferencia, no como regresión.
+- **Transición de disolución.** El decodificador TKMK00 pone a cero su búfer temporal (`descompresion_tkmk00.c:61`). Ese búfer es `tkmk_00_bajo_res_buffer` (`imagenes_menu.inc.c:98-99`), el mismo que usa la transición de disolución (`funcion_8009DB8C`, `letras_y_fundidos.inc.c:764-813`). Una textura MIO0 no lo toca, así que el patrón de disolución ya no se reinicia si se carga una textura traducida a mitad de la transición. La acepto como diferencia, no como regresión.
 - **Alineación del registro.** `%-26s` alinea por bytes (`codigo/sistema/cronometro_fases.c:167`). Una tilde descuadra una columna en el registro. No afecta a la pantalla.
 
 ## 8. Riesgos y mitigación
@@ -915,14 +915,14 @@ Las diferencias entre lo ejecutado y el plan aprobado están registradas en [CC-
 | La orden `captura` de los guiones (solo DEV) puede perder un pedido y deja el `.tga` transparente. Desde `ae93f71` guarda `host:<nombre>.tga` (`guiones_prueba.c:720-731` y `tarea_graficos.inc.c:373-375`) | Ningún flujo del proyecto usa capturas (CC-10 rechazado, CC-12). La corrección (G2) queda como propuesta para el original ([acta de F8](revisiones/2026-10-11-sincronizacion.md#8-propuestas-para-el-repositorio-original)) |
 | Falta el permiso `workflow` para publicar la CI | No ocurrió: la CI corre en todas las ramas de la traducción y en `feature/idioma-espanol` |
 | Un nombre de pista no tiene fuente oficial confirmada | El glosario cita la fuente y la confianza de cada nombre. Ciudad Bloque y Doble Piso quedan con confianza baja |
-| Conflictos de fusión en archivos compartidos (`Makefile`, `textos_y_tablas.inc.c`, `incluir/menus/elementos_menu.h`) | Dueño por zona ([plan.md §2](plan.md#2-roles)) e integración en el orden fijado. Tras integrar las cinco ramas, `prueba_textos_port.py` detectó una tilde que faltaba en un aviso de texturas; se corrigió en `0ff568e` |
+| Conflictos de fusión en archivos compartidos (`Makefile`, `textos_y_tablas.inc.c`, `incluir/menus/elementos_menu.h`) | Dueño por zona ([plan.md §2](plan.md#2-roles)) e integración en el orden fijado. Tras integrar las cinco ramas, `prueba_textos_port.py` detectó una tilde que faltaba en un aviso de texturas; la corregí en `0ff568e` |
 | El texto de Lakitu es ilegible en los cuadros de canto | Solo se exige no tocar nada fuera de la máscara y una altura ≥ 8 px en el cuadro plano (R-TEX-06) |
 
 ## 9. Límites declarados
 
-Lo que la versión 1.2.0 no puede comprobar sin hardware real ni TV. Sustituye a D-06 y D-17 de [deuda.md](deuda.md), que la CI salda en lo que puede ver ([CC-26](cambios.md) y [CC-27](cambios.md)). Si alguien aporta un registro, una captura o un defecto en hardware, se registra en un CC y se corrige con su prueba.
+Lo que la versión 1.2.0 no puede comprobar sin hardware real ni TV. Sustituye a D-06 y D-17 de [deuda.md](deuda.md), que la CI salda en lo que puede ver ([CC-26](cambios.md) y [CC-27](cambios.md)). Si alguien aporta un registro, una captura o un defecto en hardware, lo registro en un CC y lo corrijo con su prueba.
 
-| Límite | Qué se comprueba en su lugar | Requisitos |
+| Límite | Qué compruebo en su lugar | Requisitos |
 |---|---|---|
 | El tacto del stick y de la cruceta en un mando real | Las funciones puras de `eje_palanca.h` (`prueba_eje_palanca.c`) | CC-14 |
 | El antiparpadeo, las bandas y la posición en una TV: las capturas del emulador leen la VRAM antes del PCRTC | Los valores de registro (`prueba_registros_video.c`) y «vídeo: PMODE 8046» en el registro del emulador | R-VID-01 a R-VID-03, R-INF-07 |
@@ -930,5 +930,5 @@ Lo que la versión 1.2.0 no puede comprobar sin hardware real ni TV. Sustituye a
 | El cambio de Memory Card en caliente | El arnés con libmc simulada (`prueba_memory_card.c`) | R-MC-01, R-MC-02, R-MC-04 |
 | El rendimiento en PANORÁMICO | Nada; el emulador no mide el rendimiento de una consola | R-VID-04 |
 | La lectura de `rom0:ROMVER` en consola real y bajo OPL sin reiniciar el IOP | La ruta con reinicio del IOP, en el emulador con un ROMVER sintético, y `prueba_region_ps2.c` | R-PORT-02 |
-| En PANORÁMICO, objetos o tramos de pista que aparecen tarde en los bordes, porque los tramos se eligen por cuadrante de cámara | Las capturas de carrera de la CI, con el formato por defecto | R-VID-04 |
+| En PANORÁMICO, objetos o tramos de pista que aparecen tarde en los bordes, porque el juego elige los tramos por cuadrante de cámara | Las capturas de carrera de la CI, con el formato por defecto | R-VID-04 |
 | En PANORÁMICO, el marcador sale estirado | Nada; se advierte en el manual de usuario | R-VID-04 |
