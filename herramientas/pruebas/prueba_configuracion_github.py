@@ -9,8 +9,6 @@ import re
 import struct
 import sys
 
-import yaml
-
 RAIZ = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", ".."))
 comprobaciones = 0
 fallos = 0
@@ -42,26 +40,25 @@ def leer(ruta):
         return None
 
 
+def claves_yaml(texto):
+    """Claves de primer nivel del YAML (sin depender de PyYAML, que la CI no trae)."""
+    if not texto or "\t" in texto.split("\n", 1)[0]:
+        return None
+    claves = re.findall(r"^([A-Za-z_][\w-]*):", texto, re.MULTILINE)
+    return set(claves) if claves else None
+
+
 for ruta in ARCHIVOS:
     comprobar(os.path.isfile(os.path.join(RAIZ, ruta)), "falta " + ruta)
 
 for p in PLANTILLAS:
     texto = leer(".github/ISSUE_TEMPLATE/" + p)
-    try:
-        datos = yaml.safe_load(texto) if texto is not None else None
-    except yaml.YAMLError:
-        datos = None
-    comprobar(isinstance(datos, dict), p + " no es YAML válido")
-    if isinstance(datos, dict):
-        for clave in ("name", "description", "body"):
-            comprobar(bool(datos.get(clave)), p + " no tiene " + clave)
+    comprobar(claves_yaml(texto) is not None, p + " no es YAML válido")
+    for clave in ("name", "description", "body"):
+        comprobar(clave in (claves_yaml(texto) or ()), p + " no tiene " + clave)
 
 texto = leer(".github/ISSUE_TEMPLATE/config.yml")
-try:
-    datos = yaml.safe_load(texto) if texto is not None else None
-except yaml.YAMLError:
-    datos = None
-comprobar(isinstance(datos, dict), "config.yml no es YAML válido")
+comprobar(claves_yaml(texto) is not None, "config.yml no es YAML válido")
 
 comprobar(os.path.isfile(os.path.join(RAIZ, "docs/manual/README.md")),
           "falta docs/manual/README.md, que enlazan config.yml y pregunta.yml")

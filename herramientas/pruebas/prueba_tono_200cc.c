@@ -10,11 +10,11 @@
 // (el umbral de dato_800E9DE4 en funcion_800C6108), así que 0.4 sobre el tono
 // que da la rapidez máxima original del personaje es lo que el original tolera.
 //
-// Resultado medido: con 35/32 el tono sube entre 0.38 y 0.56 sobre el original,
-// por encima de 0.4 en 4 de los 5 grupos de personajes. Decisión: se acepta ese
-// sesgo agudo (el código del juego no se toca; el tono final se limita a 4.0 en
-// funcion_800C6108). La prueba protege que el 150cc original siga dentro de su
-// tabla y que el truco no pase de la cota aceptada (0.57, justo sobre lo medido).
+// Resultado medido: sin limitar, con 35/32 el tono sube entre 0.38 y 0.56 sobre
+// el original, por encima de 0.4 en 4 de los 5 grupos de personajes (los avisos
+// que imprime la prueba). Por eso funcion_800C6108 limita el tono con
+// tono_200cc_limitar; la prueba exige que el resultado limitado quede dentro del
+// margen y que el 150cc original no cambie.
 // Modo por defecto: estricto. El tono que sale de funcion_800C6108 con el truco
 // activo no puede pasar de desconocido_18 + 0,4. Con el argumento
 // 'aviso' los casos sobre el margen solo se informan.
