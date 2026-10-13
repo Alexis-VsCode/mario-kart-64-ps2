@@ -3,7 +3,7 @@
 - **Fecha:** 2026-10-11
 - **Rama de integración:** `feature/sincronizacion-upstream`, que nace de `main` (`3f43c005`) y trae el original hasta `ae93f71` con la fusión `9f4d0215`.
 - **Cambios que cubre:** [CC-08 a CC-12](../cambios.md).
-- **Roles:** cada rama la escribió un autor y la revisaron REVISIÓN técnica y REVISIÓN lingüística, nunca el autor. Solo INTEGRACIÓN integró, con `git merge --no-ff`.
+- **Roles:** cada rama la escribió un autor y la revisaron REVISIÓN técnica y REVISIÓN lingüística, nunca quien la escribió. Solo INTEGRACIÓN integró, con `git merge --no-ff`.
 - **Formato:** el del acta de revisión de [CONTRIBUTING.md](../../../CONTRIBUTING.md#acta-de-revisión). La línea «Estado» de cada hallazgo dice cómo quedó: resuelto (con su commit), aceptado (con su motivo) o abierto (con su entrada en [deuda.md](../deuda.md)).
 
 ## Resumen
@@ -32,7 +32,7 @@ En todas las ramas, el diff de dos puntos contra `feature/sincronizacion-upstrea
 
 **Comprobaciones de REVISIÓN técnica:**
 
-- Autor y committer Alexis Barrera, sin firma ni trailers ni menciones a herramientas; el comando de R-GOB-01 sale vacío.
+- Autor y committer, yo; sin firma ni trailers ni menciones a herramientas; el comando de R-GOB-01 sale vacío.
 - El diff de tres puntos solo toca `.github/workflows/compilacion.yml` y la línea de `BUILD_ID` del `Makefile`; nada de `build/` ni `compilaciones/`.
 - `yaml.safe_load` acepta el workflow: 4 entradas a pedido (`base`, `publicar`, `release` y `limpiar_ramas`) y 6 jobs. `bash -n` pasa en cada `run`.
 - La etiqueta de `release` llega por variable de entorno, sin inyección en el script. La ISO coincide con `ISO_NAME` del `Makefile` y la falta de `docs/versiones/<etiqueta>.md` corta con un mensaje.
@@ -109,7 +109,7 @@ En todas las ramas, el diff de dos puntos contra `feature/sincronizacion-upstrea
 - Archivo: `codigo/graficos/interprete_f3dex/combinador_y_recorte.inc.c:35`
 - Riesgo: la lógica es correcta (-64 daba 32 y ahora 0; de 0 a 128 no cambia), pero una regresión futura pasaría sin detectarse.
 - Recomendación: (a) mover el promedio a una función pura de `combinador_color.c` y probarla en `prueba_combinador` (-64 → 0, 64 → 32, 128 → 128), o (b) aprobar por escrito la evidencia de código.
-- Estado: abierto en las dos pasadas. INTEGRACIÓN integró G5 con la evidencia del mensaje de `ce98830c` (opción b); falta la confirmación del responsable del proyecto. La prueba queda como deuda ([deuda.md](../deuda.md)).
+- Estado: abierto en las dos pasadas. INTEGRACIÓN integró G5 con la evidencia del mensaje de `ce98830c` (opción b); falta mi confirmación. La prueba queda como deuda ([deuda.md](../deuda.md)).
 
 **[Media] G4 depende de una captura antes/después que no existe**
 - Archivo: `codigo/graficos/interprete_f3dex/matrices_y_vertices.inc.c:932` (en la rama)
@@ -131,7 +131,7 @@ En todas las ramas, el diff de dos puntos contra `feature/sincronizacion-upstrea
 - Recomendación: opcional.
 - Estado: aceptado. `ce98830c` no añade comentarios a esos archivos.
 
-**Decisión:** se integra solo G5, como `sinc/graficos-g5` (`368a5416`). G2 y G4 salen de CC-11 por decisión del responsable del proyecto (`b4b37c13`): G2 no tiene uso sin capturas y G4 cambia la imagen sin forma de verificarlo. Los dos van a [Propuestas para el repositorio original](#8-propuestas-para-el-repositorio-original).
+**Decisión:** se integra solo G5, como `sinc/graficos-g5` (`368a5416`). G2 y G4 salen de CC-11 por decisión mía (`b4b37c13`): G2 no tiene uso sin capturas y G4 cambia la imagen sin forma de verificarlo. Los dos van a [Propuestas para el repositorio original](#8-propuestas-para-el-repositorio-original).
 
 ## 3. `sinc/sistema`: arranque, cronómetro, ROM y Memory Card (CC-08 y CC-11, E3-E5)
 
@@ -268,7 +268,7 @@ El registro nuevo de `cargar_texturas_menu.inc.c` va en ASCII («menu: reserva d
 - Commits sin firma ni trailers; prueba y cambio en dos commits (forma A del plan).
 - La cuenta de L3: 12 líneas de 9 filas = 108 filas, dentro de las 128 que lee el GS; 128 KB son las 16 páginas CT32 de la textura. El atlas en DEBUG conserva sus 12 filas de páginas antes y después (supone dos framebuffers CT16S de 640 × 448 y Z de 24 bits; no hay registro real de PS2 que lo confirme).
 - Cabeceras compiladas en el PC con un `tamtypes.h` de prueba y `_Static_assert`.
-- Rojo de `4612a508` reproducido (87 comprobaciones, 1 fallo); mutaciones del autor y de REVISIÓN (alto de textura 136, VRAM de 120 KB, alto de línea + 2) en FALLO. R-TEX-07: 671 comprobaciones; dan FALLO `R|DATOS`, `L|OPCIONES`, «Ⓐ OK» y `CONTROLLER|PAK`.
+- Rojo de `4612a508` reproducido (87 comprobaciones, 1 fallo); mutaciones de quien escribió la rama y de REVISIÓN (alto de textura 136, VRAM de 120 KB, alto de línea + 2) en FALLO. R-TEX-07: 671 comprobaciones; dan FALLO `R|DATOS`, `L|OPCIONES`, «Ⓐ OK» y `CONTROLLER|PAK`.
 - `make test` en un worktree limpio: 0 fallos.
 
 **Hallazgos técnicos:**
@@ -338,7 +338,7 @@ El registro nuevo de `cargar_texturas_menu.inc.c` va en ASCII («menu: reserva d
 
 Todos quedan sin efecto con la rama.
 
-**Decisión:** no se integra. El responsable del proyecto rechazó CC-10 (`b4b37c13`): el proyecto se verifica con las pruebas del PC y la CI, sin capturas ni pasos manuales (CC-12). `herramientas/guiones/recorrido_textos.txt` queda como estaba.
+**Decisión:** no se integra. Rechacé CC-10 (`b4b37c13`): el proyecto se verifica con las pruebas del PC y la CI, sin capturas ni pasos manuales (CC-12). `herramientas/guiones/recorrido_textos.txt` queda como estaba.
 
 ## 7. Revisión lingüística de la fusión y de los textos nuevos del original
 
