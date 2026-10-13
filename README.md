@@ -93,7 +93,7 @@ Versión 1.2.1, del 2026-10-11. Qué cambia respecto a la 1.2.0: [CHANGELOG.md](
 
 | Qué | Cómo se verificó | Estado |
 |---|---|---|
-| Textos, glifos, texturas, Memory Card, stick, región, registros de vídeo, vista panorámica, menú y trucos | `make test` en el PC, sin el SDK de PS2, más el comprobador del tope de líneas | 0 fallos[^6] |
+| Textos, glifos, texturas, Memory Card, stick, región, registros de vídeo, vista panorámica, menú y trucos | `make test` en el PC, sin el SDK de PS2, más el comprobador del tope de líneas | todas las pruebas, 0 fallos[^6] |
 | Compilación para PS2 (release, `DEBUG=1`, `DEV=1`), tope de la ROM, compilación incremental | CI de GitHub | En verde[^7] |
 | Arranque, región PAL con ROMVER sintético, `vídeo: PMODE 8046` y capturas del título, el menú, la configuración y la carrera | Job «Guion en el emulador (Play!)», con Play! 0.72 sin BIOS y margen del 0,1 % | En verde[^8] |
 | Tacto del stick, multitap, cambio de Memory Card en marcha, rendimiento en PANORÁMICO | Hardware real y TV | Sin verificar |
