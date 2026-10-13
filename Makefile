@@ -316,7 +316,7 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(
 	$(V)$(PYTHON) herramientas/pruebas/prueba_comparar_capturas.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_comprobar_registro.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_enlaces_docs.py
-	$(V)$(PYTHON) herramientas/pruebas/prueba_voz_docs.py narrativa
+	$(V)$(PYTHON) herramientas/pruebas/prueba_voz_docs.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_estructura_informe.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_configuracion_github.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_tope_rom.py
