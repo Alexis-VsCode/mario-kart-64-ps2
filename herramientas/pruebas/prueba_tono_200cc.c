@@ -15,8 +15,9 @@
 // sesgo agudo (el código del juego no se toca; el tono final se limita a 4.0 en
 // funcion_800C6108). La prueba protege que el 150cc original siga dentro de su
 // tabla y que el truco no pase de la cota aceptada (0.57, justo sobre lo medido).
-// Los casos por encima del margen de la tabla se informan como aviso; con el
-// argumento 'estricto' pasan a ser fallo.
+// Modo por defecto: estricto. El tono que sale de funcion_800C6108 con el truco
+// activo no puede pasar de desconocido_18 + 0,4 (CC-39). Con el argumento
+// 'aviso' los casos sobre el margen solo se informan.
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
@@ -61,7 +62,7 @@ static double tono(const GrupoTono *g, double rapidez) {
 }
 
 int main(int argc, char **argv) {
-    int estricto = argc > 1 && strcmp(argv[1], "estricto") == 0;
+    int estricto = !(argc > 1 && strcmp(argv[1], "aviso") == 0);
     int fuera = 0;
     char caso[128];
 
