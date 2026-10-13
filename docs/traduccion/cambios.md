@@ -959,3 +959,55 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Evidencia requerida:** prueba pura de `DIMX` con mutación y la medición del tablero en el emulador.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-13).
 - **Commit:** —
+
+### CC-36: la documentación habla con mi voz
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-13
+- **Requisitos afectados:** R-DOC-05 (nuevo)
+- **Motivo:** la documentación mezclaba primera, tercera persona e impersonales. Quiero presentar el proyecto yo mismo, hablándote de tú.
+- **Cambio:**
+  - Escribo en primera persona lo que hice, decidí o comprobé, y te hablo de tú.
+  - La tercera persona queda para terceros reales: el autor del port original, Nintendo y Sony.
+  - La revisión independiente se sigue nombrando como tal, porque la hizo otra parte.
+  - La convención vive en `docs/manual/estilo.md` y la vigila `prueba_voz_docs.py`.
+- **Alternativas descartadas:** dejar los documentos de proceso en impersonal.
+- **Evidencia requerida:** prueba en rojo con la redacción actual, mutación que reintroduce «el autor» y verde después. No cambio hechos, cifras ni hashes.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-13).
+- **Commit:** —
+
+### CC-37: referencias en el texto y estructura de informe
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-13
+- **Requisitos afectados:** R-DOC-06 (nuevo)
+- **Motivo:** las notas al pie parecen un anexo y no cuentan mi trabajo.
+- **Cambio:**
+  - Quito las notas al pie del README y de la página.
+  - Cada dato lleva su enlace a un commit, a la CI o a un acta en la misma frase.
+  - Añado las secciones «Qué comprobé y cómo», «Patrones y prácticas que apliqué» y «Mi trayectoria en este proyecto», sin nombrar empleador ni institución.
+- **Evidencia requerida:** la prueba de estructura exige esos encabezados y rechaza `[^n]`; la prueba de enlaces sigue en verde.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-13).
+- **Commit:** —
+
+### CC-38: configuración de GitHub
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-13
+- **Requisitos afectados:** R-DOC-07 (nuevo)
+- **Motivo:** el repositorio no tiene plantillas, política de seguridad, responsables ni vista previa social.
+- **Cambio:** plantillas de incidencias y de PR, `SECURITY.md`, `CODEOWNERS` y `docs/img/social.png` (1280×640). La descripción, el sitio web y los temas se fijan por la API o, si el proxy la rechaza, en Settings.
+- **Evidencia requerida:** prueba que valida que los archivos existen y que sus enlaces responden.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-13).
+- **Commit:** —
+
+### CC-39: tono del motor a 200cc dentro del margen original
+
+- **Estado:** aprobado
+- **Fecha:** 2026-10-13
+- **Requisitos afectados:** R-AUD-03 (nuevo)
+- **Motivo:** con el truco de 200cc el tono sube de 0,42 a 0,56 por encima de `desconocido_18`, más que el margen de 0,4 de la tabla original en 4 de 5 grupos de personajes.
+- **Cambio:** en `funcion_800C6108` limito el tono a `desconocido_18 + 0,4` cuando el truco está activo. Con 150cc no cambia nada.
+- **Evidencia requerida:** `prueba_tono_200cc` en modo estricto, en rojo antes y en verde después, con mutación 37/32.
+- **Aprobación:** responsable del proyecto: aprobado (2026-10-13). Cambia el juego: entra en la versión 1.3.0.
+- **Commit:** —
