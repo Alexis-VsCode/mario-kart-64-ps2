@@ -53,7 +53,8 @@ if not solo_pagina:
 archivos = ["README.md"] if not solo_pagina else []
 archivos += [os.path.relpath(p, RAIZ) for p in sorted(glob.glob(os.path.join(RAIZ, "docs", "**", "*.md"), recursive=True))]
 for a in archivos:
-    comprobar(not re.search(r"\[\^[^\]]+\]", leer(a)), "%s tiene una nota al pie [^n]" % a)
+    texto = re.sub(r"`[^`\n]*`", "", leer(a))  # un [^n] citado en código no es una nota
+    comprobar(not re.search(r"\[\^\w+\]", texto), "%s tiene una nota al pie [^n]" % a)
 
 print("%d comprobaciones, %d fallos" % (comprobaciones, fallos))
 sys.exit(1 if fallos else 0)
