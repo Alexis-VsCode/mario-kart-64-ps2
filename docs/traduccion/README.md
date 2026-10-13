@@ -17,7 +17,7 @@ Hecho en F11:
 
 - **Comparación estricta de capturas:** la tolerancia por defecto de `comparar_capturas.py` baja de 0,02 a 0,001 (0,1 %); una prueba exige detectar un bloque de 32×16 cambiado (0,18 %).
 - **Captura nueva:** el guion de la CI captura también `configuracion`, el menú CONFIGURACIÓN Y TRUCOS. Dos ejecuciones dan un 0,0000 % de diferencia.
-- **Referencias regeneradas en la CI:** la entrada `regenerar_referencias=sí` del workflow escribe las capturas de la primera ejecución como referencias, comprueba la segunda contra ellas, copia `menu`, `carrera` y `configuracion` a `docs/img/` y commitea. Ejecuciones [38179540046](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38179540046) y [38180265814](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38180265814); las referencias se revisaron a ojo.
+- **Referencias regeneradas en la CI:** la entrada `regenerar_referencias=sí` del workflow escribe las capturas de la primera ejecución como referencias, comprueba la segunda contra ellas, copia `menu`, `carrera` y `configuracion` a `docs/img/` y commitea. Ejecuciones [38179540046](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38179540046) y [38180265814](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38180265814); las revisé a ojo.
 - **Defectos visibles corregidos** al mirar las capturas: los valores de CONFIGURACIÓN Y TRUCOS se dibujaban tenues y ahora salen en amarillo opaco, como las etiquetas; el ordinal de los puestos se leía «8º.» y ahora «8.º».
 - **Revisión** de `v121/capturas` y `v121/ordinal` en el [acta de la 1.2.1](revisiones/2026-10-11-version-1.2.1.md).
 
@@ -85,14 +85,14 @@ Integrar la documentación de F10 y lanzar `publicar`, y después fusionar a `ma
 
 ## Cómo se trabaja
 
-Las reglas del proyecto (Definition of Done, autoría, commits, ramas, revisión y acta) están en [CONTRIBUTING.md](../../CONTRIBUTING.md), y cómo compilar, probar y publicar, en el [manual técnico](../manual/tecnico.md). En esta carpeta se añaden dos cosas propias de la localización:
+Las reglas del proyecto (Definition of Done, autoría, commits, ramas, revisión y acta) están en [CONTRIBUTING.md](../../CONTRIBUTING.md), y cómo compilar, probar y publicar, en el [manual técnico](../manual/tecnico.md). En esta carpeta añado dos cosas propias de la localización:
 
-1. **Primero la especificación.** Cada cambio del código responde a un requisito (`R-FUE`, `R-TXT`, `R-MC`, `R-TEX`, `R-PORT`, `R-INF`, `R-GOB`, `R-VID`, `R-TRU`). Si cambia un requisito, un límite, una escala o un término, primero se registra en [cambios.md](cambios.md) y se aprueba. Después se toca el código.
+1. **Primero la especificación.** Cada cambio del código responde a un requisito (`R-FUE`, `R-TXT`, `R-MC`, `R-TEX`, `R-PORT`, `R-INF`, `R-GOB`, `R-VID`, `R-TRU`). Si cambia un requisito, un límite, una escala o un término, primero lo registro en [cambios.md](cambios.md) y lo apruebo. Después toco el código.
 2. **Trazabilidad.** Los identificadores de requisito aparecen en los commits y en esta carpeta, nunca en el código ([trazabilidad.md](trazabilidad.md)).
 
 ## Ramas
 
-F11 se trabaja en `feature/capturas-1.2.1`, con `v121/capturas` y `v121/ordinal`, que salen del registro de CC-31 (`8d94ba8d`); `v121/ordinal` se integra en `73aff9e2`. El esquema está en [plan.md §3.5](plan.md#35-f11).
+Trabajo F11 en `feature/capturas-1.2.1`, con `v121/capturas` y `v121/ordinal`, que salen del registro de CC-31 (`8d94ba8d`); integro `v121/ordinal` en `73aff9e2`. El esquema está en [plan.md §3.5](plan.md#35-f11).
 
 F10 se trabaja en `feature/version-1.2.0`, que nace de `main` (`fc17498f`), con una rama `v120/*` por frente integrada con `git merge --no-ff`. El esquema de las ramas, de dónde sale cada una y su merge están en [plan.md §3.4](plan.md#34-f10).
 
@@ -144,4 +144,4 @@ Comprobado el 2026-10-11 sobre `feature/sincronizacion-upstream` en `d5f95cc5`.
 - **Pruebas.** `make test` terminó con 0 fallos en el worktree de revisión de cada rama integrada ([acta](revisiones/2026-10-11-sincronizacion.md)).
 - **Gobernanza.** Sobre `origin/main..feature/sincronizacion-upstream`: el comando de R-GOB-01 solo devuelve `c2ed147` y `ae93f71`, del original; ningún commit toca `build/` ni `compilaciones/`; no hay trailers; el grep de R-GOB-07 sale vacío.
 - **CI de F8:** ejecución y commit de publicación en [trazabilidad.md](trazabilidad.md#evidencia-común).
-- **Definition of Done:** la de [CONTRIBUTING.md](../../CONTRIBUTING.md), que se cerró con la publicación (`900c9be3`) y la fusión a `main` (`af3bfa05`).
+- **Definition of Done:** la de [CONTRIBUTING.md](../../CONTRIBUTING.md), que cerré con la publicación (`900c9be3`) y la fusión a `main` (`af3bfa05`).
