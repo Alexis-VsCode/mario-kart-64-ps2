@@ -3,8 +3,8 @@
 #include "graficos/hud_panoramico.h"
 
 /* Columnas de cuadrantes si lo que se dibuja ahora es el marcador de la carrera
- * en PANORAMICO (se estrecha a 3/4 en X), o 0 si no se toca. Se decide con la
- * proyeccion cargada (la ortografica de fijar_pantalla_hud_matriz), el estado
+ * en PANORÁMICO (se estrecha a 3/4 en X), o 0 si no se toca. Se decide con la
+ * proyección cargada (la ortográfica de fijar_pantalla_hud_matriz), el estado
  * del juego y el formato: ver hud_panoramico.h. */
 static inline int hud_panoramico_columnas_activas(void)
 {
@@ -615,8 +615,8 @@ static void dibujar_texrect(u32 w0, u32 w1, u32 mitad2, u32 halfc, int voltear)
     t1 = t0 + (voltear ? dsdx : dtdy) * (voltear ? (lrx - ulx) : (lry - uly));
     (void) voltear;
 
-    /* Marcador de la carrera en PANORAMICO: los dos bordes se estrechan alrededor del centro del
-     * cuadrante del rectangulo. Las coordenadas de textura ya se calcularon con el ancho original. */
+    /* Marcador de la carrera en PANORÁMICO: los dos bordes se estrechan alrededor del centro del
+     * cuadrante del rectángulo. Las coordenadas de textura ya se calcularon con el ancho original. */
     px0 = ulx;
     px1 = lrx;
     hud_col = hud_panoramico_columnas_activas();
@@ -737,7 +737,7 @@ static void dibujar_fillrect(u32 w0, u32 w1)
         /* Los rectangulos del RDP no tienen color de sombreado */
     rv.r = rv.g = rv.b = rv.a = 0;
         a_vertice_recorte(&rv, &cv);
-        /* Cajas del marcador en PANORAMICO; un fundido (cubre casi todo el cuadrante) no se toca */
+        /* Cajas del marcador en PANORÁMICO; un fundido (cubre casi todo el cuadrante) no se toca */
         hud_col = hud_panoramico_columnas_activas();
         if (hud_col && hud_panoramico_rect_estrechable(ulx, lrx, hud_col)) {
             float ref = 0.5f * (ulx + lrx);
