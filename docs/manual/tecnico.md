@@ -157,7 +157,7 @@ Los módulos grandes se reparten en partes `.inc.c` dentro de una carpeta con el
 
 | Herramienta | Versión | Uso |
 |---|---|---|
-| Toolchain de PS2 de [ps2dev](https://github.com/ps2dev/ps2dev): `mips64r5900el-ps2-elf-gcc`, ps2sdk y gsKit | La compilación incluida se hizo con EE GCC 15.2.0 | ELF para el EE |
+| Toolchain de PS2 de [ps2dev](https://github.com/ps2dev/ps2dev): `mips64r5900el-ps2-elf-gcc`, ps2sdk y gsKit | Compilé la versión incluida con EE GCC 15.2.0 | ELF para el EE |
 | GNU make | 4.3 o posterior; se recomienda 4.4 | Todo el proceso |
 | `gcc` del PC | C99 (probado con 13.3) | Herramientas del PC (`build/herramientas/`) y `make test` |
 | Python | 3.8 o posterior, solo biblioteca estándar | Scripts de `herramientas/` (entre ellos la conversión a EUC-JP y las texturas en español), `crear_iso.sh` y `make test` |
