@@ -48,15 +48,22 @@ static inline float hud_panoramico_ancho_cuadrante(int columnas)
 
 // Estrecha una x del marcador (columnas de 320) alrededor del centro del
 // cuadrante donde cae: 160 con una columna, 80 o 240 con dos.
-static inline float hud_panoramico_estrechar(float x, int columnas)
+// El cuadrante lo da ref: un rectángulo pasa el centro de sus bordes para que los
+// dos se estrechen alrededor del mismo centro aunque cruce la mitad.
+static inline float hud_panoramico_estrechar_ref(float x, float ref, int columnas)
 {
     float ancho = hud_panoramico_ancho_cuadrante(columnas);
     float centro = HUD_PANORAMICO_ANCHO / 2.0f;
 
     if (columnas >= 2) {
-        centro = x < HUD_PANORAMICO_ANCHO / 2.0f ? ancho / 2.0f : HUD_PANORAMICO_ANCHO - ancho / 2.0f;
+        centro = ref < HUD_PANORAMICO_ANCHO / 2.0f ? ancho / 2.0f : HUD_PANORAMICO_ANCHO - ancho / 2.0f;
     }
     return hud_panoramico_x(x, centro, ancho);
+}
+
+static inline float hud_panoramico_estrechar(float x, int columnas)
+{
+    return hud_panoramico_estrechar_ref(x, x, columnas);
 }
 
 // ¿Lo que se dibuja ahora es el marcador de la carrera en PANORÁMICO? m00, m11,
