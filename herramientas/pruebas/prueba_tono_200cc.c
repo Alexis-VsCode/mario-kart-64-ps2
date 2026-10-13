@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "audio/tono_200cc.h"
 #include "carrera/cilindrada_200cc.h"
 
 #define MARGEN_TABLA 0.4
@@ -90,8 +91,20 @@ int main(int argc, char **argv) {
             }
         }
     }
-    if (estricto) {
-        comprobar("el tono con 200cc está dentro del margen de la tabla", fuera == 0);
+    // El tono que da funcion_800C6108: sin límite con 150cc, limitado con el truco
+    for (unsigned i = 0; i < sizeof(grupos) / sizeof(grupos[0]); i++) {
+        const GrupoTono *g = &grupos[i];
+        double bruto = tono(g, cilindrada_200cc_rapidez((float) rapidez_150[i], 1));
+        double con_truco = tono_200cc_limitar((float) bruto, (float) g->max_tono, 1);
+        double sin_truco = tono(g, rapidez_150[i]);
+
+        snprintf(caso, sizeof(caso), "%s: con 200cc el tono final %.3f no pasa de %.1f", g->personajes, con_truco,
+                 g->max_tono + MARGEN_TABLA);
+        comprobar(caso, !estricto || con_truco <= g->max_tono + MARGEN_TABLA + 1e-5);
+        snprintf(caso, sizeof(caso), "%s: con 150cc el resultado no cambia", g->personajes);
+        comprobar(caso, tono_200cc_limitar((float) sin_truco, (float) g->max_tono, 0) == (float) sin_truco);
+        snprintf(caso, sizeof(caso), "%s: con 200cc no baja un tono que ya cabía", g->personajes);
+        comprobar(caso, tono_200cc_limitar(1.0f, (float) g->max_tono, 1) == 1.0f);
     }
 
     printf("%d comprobaciones, %d %s (%d casos sobre el margen de la tabla)\n", s_comprobaciones, s_fallos,
