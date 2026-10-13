@@ -68,7 +68,7 @@ int main(void) {
     comprobar_estrechar(160.0f, 1, 160.0f);
     comprobar_estrechar(280.0f, 1, 250.0f);
     // Dos columnas: centro de cada cuadrante (80 y 240)
-    comprobar_estrechar(10.0f, 2, 17.5f);
+    comprobar_estrechar(10.0f, 2, 27.5f);
     comprobar_estrechar(80.0f, 2, 80.0f);
     comprobar_estrechar(150.0f, 2, 132.5f);
     comprobar_estrechar(170.0f, 2, 187.5f);
