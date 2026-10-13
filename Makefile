@@ -290,6 +290,9 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(
 	    -o $(PRUEBAS)/prueba_vista_panoramica herramientas/pruebas/prueba_vista_panoramica.c -lm
 	$(V)$(PRUEBAS)/prueba_vista_panoramica
 	$(V)$(CC_PRUEBAS) -fsigned-char -std=gnu99 -Wall -Wextra -O1 -Iincluir -Iincluir/libultra -Icodigo \
+	    -o $(PRUEBAS)/prueba_tono_200cc herramientas/pruebas/prueba_tono_200cc.c -lm
+	$(V)$(PRUEBAS)/prueba_tono_200cc
+	$(V)$(CC_PRUEBAS) -fsigned-char -std=gnu99 -Wall -Wextra -O1 -Iincluir -Iincluir/libultra -Icodigo \
 	    -o $(PRUEBAS)/prueba_menu_configuracion herramientas/pruebas/prueba_menu_configuracion.c
 	$(V)$(PRUEBAS)/prueba_menu_configuracion
 	$(V)$(CC_PRUEBAS) -fsigned-char -std=gnu99 -Wall -Wextra -O1 -Iincluir -Iincluir/libultra -Icodigo \
@@ -306,6 +309,7 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(
 	$(V)$(PRUEBAS)/prueba_rivales_sin_ventaja
 	$(V)$(PYTHON) herramientas/pruebas/prueba_comparar_capturas.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_comprobar_registro.py
+	$(V)$(PYTHON) herramientas/pruebas/prueba_enlaces_docs.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_tope_rom.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_fuente_libdebug.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_ancho_panel.py
