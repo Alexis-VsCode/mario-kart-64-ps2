@@ -27,7 +27,7 @@ Es un proyecto sin fines de lucro, educativo, de preservación y de apoyo a la c
 
 1. **Especificación primero.** Escribí CC-01 a CC-29 en [cambios.md](traduccion/cambios.md), cada uno con sus requisitos, su prueba y su commit en la [trazabilidad](traduccion/trazabilidad.md).
 2. **TDD con mutaciones.** Veo cada prueba en rojo antes del cambio y compruebo que detecta una mutación del código: por ejemplo, [`176651ed`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/176651ed) registra el rojo de `prueba_cronometro_fases.c` con `GRUPOS_MAX` 4 y la mutación a 5.
-3. **Autor distinto del revisor.** Cada fase la revisa otra parte por separado y deja un acta en [revisiones](traduccion/revisiones/). Lo que la revisión independiente encuentra y no corrijo en el momento pasa a la [deuda](traduccion/deuda.md) con un identificador.
+3. **Revisión separada de la escritura.** Cada fase pasa por una revisión aparte de la escritura y deja un acta en [revisiones](traduccion/revisiones/). Lo que la revisión independiente encuentra y no corrijo en el momento pasa a la [deuda](traduccion/deuda.md) con un identificador.
 4. **Ramas en paralelo.** Desarrollé la 1.2.0 en 14 ramas `v120/*` (contrato, memoria, imagen, menú, trucos, deudas, manifiesto, texturas, ci-emulador, texturas-pistas y cuatro de texturas traducidas), cada una con un alcance cerrado.
 5. **Integración con `merge --no-ff`.** Cada rama entra con su propio commit de merge, de [`226a3ce3`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/226a3ce3) (contrato) a [`fd6a4bb7`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/fd6a4bb7) (tx-cruce), y la historia conserva qué cambió en cada bloque.
 
@@ -83,7 +83,7 @@ Calculé estas cifras del repositorio en la rama `feature/version-1.2.0`:
 
 | Afirmación | Cómo lo comprobé | Evidencia |
 |---|---|---|
-| Las pruebas pasan sin el SDK de PS2 | `PS2SDK= make test` en el PC: 44 programas, 0 fallos en la 1.2.0 | [ejecución 38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616) |
+| Las pruebas pasan sin el SDK de PS2 | `PS2SDK= make test` en el PC: 44 pruebas con resumen, 0 fallos en la 1.2.0 | [ejecución 38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616) |
 | El juego compila y arranca en un emulador | Compilación release, `DEBUG` y `DEV`, tope de ROM y arranque en Play! sin BIOS | [ejecución 38181807319](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38181807319) |
 | Las capturas no se desvían | Comparación con tolerancia del 0,1 % | [`632050ac`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/632050ac) y el [acta de la 1.2.1](traduccion/revisiones/2026-10-11-version-1.2.1.md) |
 | Hardware real y TV | Sin comprobar | [Límites declarados](traduccion/especificacion.md) |
@@ -95,7 +95,7 @@ Calculé estas cifras del repositorio en la rama `feature/version-1.2.0`:
 | Especificación antes del código | [cambios.md](traduccion/cambios.md) |
 | Pruebas en rojo con mutación | [`176651ed`](https://github.com/Alexis-VsCode/mario-kart-64-ps2/commit/176651ed) |
 | Funciones puras en cabeceras `static inline` | Las pruebas compilan en el PC la lógica de la PS2 |
-| Autor distinto del revisor | [revisiones](traduccion/revisiones/) |
+| Revisión separada de la escritura | [revisiones](traduccion/revisiones/) |
 | CI con emulador | [ejecución 38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616) |
 | Publicación reproducible con SHA-256 | [notas de la v1.2.1](versiones/v1.2.1.md) |
 | Trazabilidad CC, commit y prueba | [trazabilidad.md](traduccion/trazabilidad.md) |
