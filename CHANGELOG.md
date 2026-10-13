@@ -6,7 +6,13 @@ Cito el commit de cada cambio; el detalle está en [docs/traduccion/](docs/tradu
 
 ## [Sin publicar]
 
-Nada todavía.
+### Añadido
+
+- Una prueba de integración del registro del emulador exige el audio listo y rechaza los avisos de audsrv e IOP (`e3855654`).
+
+### Cambiado
+
+- El comprobador del registro exige el audio listo y rechaza los avisos de audsrv e IOP (`325d2b44`).
 
 ## [1.2.1] - 2026-10-11
 
