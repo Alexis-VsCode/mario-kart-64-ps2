@@ -959,7 +959,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - Guion DEV con un tablero de texels que mide el desplazamiento; si es correcto queda como prueba, y si no, se corrige la constante.
 - **Evidencia requerida:** prueba pura de `DIMX` con mutación y la medición del tablero en el emulador.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-13).
-- **Implementación:** parte B hecha en `v130/imagen` (matriz mágica del RDP restando 4). La matriz está tomada de memoria y debe confirmarse contra angrylion o Mupen; si no se confirma, se usa el cambio mínimo de fijar solo la celda 15 de gsKit. La parte C (medición del medio texel) sigue abierta. CC-35 no está cerrado.
+- **Implementación:** parte B hecha: escribo `DIMX` con la matriz mágica del RDP restando 4. Comprobé la matriz en [`dither.c` de angrylion-rdp-plus (líneas 12 a 18)](https://raw.githubusercontent.com/ata4/angrylion-rdp-plus/master/src/core/n64video/rdp/dither.c) y el defecto de gsKit en [`gsInit.c` (líneas 473, 476 y 530)](https://raw.githubusercontent.com/ps2dev/gsKit/master/ee/gs/src/gsInit.c): copia 15 celdas sobre memoria puesta a cero, así que la celda 15 queda en 0. Lo que no pude comprobar con una fuente es el desplazamiento de −4 que paso del rango 0 a 7 del RDP al de −4 a 3 del GS; es una elección mía y queda para mirarla en las capturas. La parte C (medición del medio texel) sigue abierta. CC-35 no está cerrado.
 - **Commit:** —
 
 ### CC-36: la documentación habla con mi voz
@@ -1012,4 +1012,5 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Cambio:** en `funcion_800C6108` limito el tono a `desconocido_18 + 0,4` cuando el truco está activo. Con 150cc no cambia nada.
 - **Evidencia requerida:** `prueba_tono_200cc` en modo estricto, en rojo antes y en verde después, con mutación 37/32.
 - **Aprobación:** responsable del proyecto: aprobado (2026-10-13). Cambia el juego: entra en la versión 1.3.0.
+- **Implementación:** hecha: `incluir/audio/tono_200cc.h` limita el tono y `funcion_800C6108` lo aplica solo si `cilindrada_200cc_aplica` es cierto. La prueba estricta falló antes (4 casos sobre el margen), pasa ahora con 26 comprobaciones y con la mutación 37/32 vuelve a fallar.
 - **Commit:** —

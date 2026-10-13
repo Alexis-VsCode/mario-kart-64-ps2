@@ -16,7 +16,7 @@
 // funcion_800C6108). La prueba protege que el 150cc original siga dentro de su
 // tabla y que el truco no pase de la cota aceptada (0.57, justo sobre lo medido).
 // Modo por defecto: estricto. El tono que sale de funcion_800C6108 con el truco
-// activo no puede pasar de desconocido_18 + 0,4 (CC-39). Con el argumento
+// activo no puede pasar de desconocido_18 + 0,4. Con el argumento
 // 'aviso' los casos sobre el margen solo se informan.
 #include <math.h>
 #include <stdio.h>

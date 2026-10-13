@@ -147,7 +147,7 @@ void funcion_800C6108(u8 id_jugador) {
         dato_800E9F7C[id_jugador].desconocido_0C = 0.0f;
     }
 #endif
-    // Con el truco de 200cc el tono no pasa del margen de la tabla original (CC-39)
+    // Con el truco de 200cc el tono no pasa del margen de la tabla original
     dato_800E9F7C[id_jugador].desconocido_0C = tono_200cc_limitar(
         dato_800E9F7C[id_jugador].desconocido_0C, dato_800E9F7C[id_jugador].desconocido_18,
         cilindrada_200cc_aplica(opciones_port.truco_200cc, seleccion_modo, seleccion_cc));

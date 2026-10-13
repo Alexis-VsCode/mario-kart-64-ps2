@@ -10,6 +10,12 @@
 // -2,1,-1,-3,3,-4,2,1,-1,0 y un 0 en vez de -2). El port escribe su propio DIMX
 // al empezar cada paquete con la matriz de tramado del RDP de la N64.
 //
+// La matriz la comprobé contra angrylion-rdp-plus, archivo
+// src/core/n64video/rdp/dither.c, líneas 12 a 18 (magic_matrix, las mismas 16
+// cifras en fila-mayor). Y el defecto de gsKit contra ee/gs/src/gsInit.c: la
+// línea 473 declara la matriz, la 476 reserva GSGLOBAL con calloc y la 530 copia
+// solo 15 celdas.
+//
 // Matriz «mágica» del RDP (valores 0 a 7 que se suman al color de 8 bits antes
 // de truncar a 5). La celda del GS es un entero con signo de 3 bits (-4 a 3) que
 // se suma igual, así que se resta 4: la misma disposición con el rango centrado.
