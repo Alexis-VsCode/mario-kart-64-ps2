@@ -1,6 +1,6 @@
 # Manual técnico
 
-Cómo está hecho el port, cómo se compila, se prueba y se publica, y cómo se traen las actualizaciones del repositorio original. Para jugar, ver el [manual de usuario](usuario.md). El proceso de trabajo (Definition of Done, ramas, commits y revisión) está en [CONTRIBUTING.md](../../CONTRIBUTING.md).
+Cómo está hecho el port, cómo compilo, pruebo y publico, y cómo traigo las actualizaciones del repositorio original. Para jugar, ver el [manual de usuario](usuario.md). El proceso de trabajo (Definition of Done, ramas, commits y revisión) está en [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
 ## Arquitectura
 
@@ -48,7 +48,7 @@ Las funciones puras de esas cabeceras son `static inline` y no dependen del SDK 
 
 ## La ROM
 
-El código se enlaza en un ELF del EE (`compilacion/ps2.ld`). La «ROM» se construye por separado:
+Enlazo el código en un ELF del EE (`compilacion/ps2.ld`). Construyo la «ROM» por separado:
 
 ```
 recursos/ y codigo/datos/
@@ -92,7 +92,7 @@ Con los valores por defecto, los registros son los de la 1.1.0; `prueba_registro
 
 - `aspecto_panoramico()` multiplica `aspecto_pantalla` por 4/3 en las asignaciones de la carrera, la vista dividida y la ceremonia (Hor+). No se aplica en `guPerspectiveF`, para que los menús no cambien.
 - `cono_visibilidad()` ensancha 4/3 el cono horizontal de `es_visible_objeto_en_camara`, con tope en una vuelta. El ensanche lineal cubre siempre el campo real, porque atan(4/3·tan a) ≤ 4/3·a entre 0 y 90 grados.
-- Límites declarados: los tramos de pista se eligen por cuadrante de cámara, y en los bordes algún objeto o tramo puede aparecer tarde; el marcador sale estirado.
+- Límites declarados: el juego elige los tramos de pista por cuadrante de cámara, y en los bordes algún objeto o tramo puede aparecer tarde; el marcador sale estirado.
 
 **Configuración de la PS2.** `memory_card.c` lee `configGetTvScreenType()` antes de cargar las opciones: solo `TV_SCREEN_169` cuenta como 16:9 (`pantalla_osd_169`), y entonces FORMATO vale CON BANDAS por defecto.
 
@@ -165,7 +165,7 @@ Los módulos grandes se reparten en partes `.inc.c` dentro de una carpeta con el
 | `git` | Cualquiera | Opcional: fecha de la ISO |
 | GNU coreutils o BusyBox | — | `stat -c`, `md5sum`, `sha256sum`, `touch -d @N` |
 
-Cómo se comprueban estas versiones:
+Cómo compruebo estas versiones:
 
 - **EE GCC:** `strings build/ps2/smk64.elf | grep 'GCC:'` muestra la versión usada en la compilación incluida.
 - **GNU make:** el Makefile usa objetivos agrupados (`&:`), que existen desde la 4.3. Con la 4.4 o posterior, `.NOTINTERMEDIATE` conserva los archivos intermedios de la ROM; con la 4.3, make los borra al terminar.
@@ -210,7 +210,7 @@ sudo apt install make gcc python3 genisoimage git
 
 ### 3. Cargar el entorno
 
-En cada terminal donde vayas a compilar, desde la raíz del repositorio. El script se ejecuta con `.`, no como programa:
+En cada terminal donde vayas a compilar, desde la raíz del repositorio. Ejecuta el script con `.`, no como programa:
 
 ```bash
 export PS2DEV=/ruta/a/ps2dev   # solo si no está en /usr/local/ps2dev
@@ -243,7 +243,7 @@ chown -R "$PROPIETARIO" build compilaciones
 
 - Fija la imagen por su digest (`ps2dev/ps2dev@sha256:…`) para que la compilación no cambie cuando se publique una imagen nueva. La CI usa el digest que figura en [CI y publicación](#ci-y-publicación).
 - `SOURCE_DATE_EPOCH` lleva la fecha del último commit, porque la imagen no tiene `git`. Sin ella, la ISO toma la fecha 0 (1970).
-- El contenedor se ejecuta como root. El `chown` final devuelve los archivos a tu usuario.
+- El contenedor corre como root. El `chown` final devuelve los archivos a tu usuario.
 
 ## Compilar
 
@@ -338,7 +338,7 @@ make test
 git clean -fdq -- build && git checkout -- build
 ```
 
-`make test` no necesita el SDK de PS2 ni el entorno cargado. Las pruebas en C se compilan con el `gcc` del PC y `-fsigned-char` (el `char` del R5900 lleva signo); las demás son scripts de Python. Cualquier comprobación que no se cumple hace fallar `make test` con código de salida distinto de 0. Deja sus copias y ejecutables en `build/`, que está versionado: por eso la limpieza del final.
+`make test` no necesita el SDK de PS2 ni el entorno cargado. Compilo las pruebas en C con el `gcc` del PC y `-fsigned-char` (el `char` del R5900 lleva signo); las demás son scripts de Python. Cualquier comprobación que no se cumple hace fallar `make test` con código de salida distinto de 0. Deja sus copias y ejecutables en `build/`, que está versionado: por eso la limpieza del final.
 
 El objetivo `test` del `Makefile` corre 46 pruebas de `herramientas/pruebas/` (21 en C y 25 en Python) y después el comprobador del tope de líneas, `herramientas/comprobar_lineas.py`. Cada prueba termina con una línea `N comprobaciones, M fallos`, salvo `prueba_caminos_vehiculos`, que informa por camino:
 
@@ -352,7 +352,7 @@ El objetivo `test` del `Makefile` corre 46 pruebas de `herramientas/pruebas/` (2
 | Opciones, menú y trucos | `prueba_opciones_port.c`, `prueba_menu_configuracion.c`, `prueba_trucos.c`, `prueba_truco_objeto.c`, `prueba_cilindrada_200cc.c`, `prueba_rivales_sin_ventaja.c` | Formato de `SMK64CFG.DAT` (firma, versión, tamaño, CRC32 y saneado), valores por defecto según 16:9; navegación y ciclo de valores del menú; DESBLOQUEAR TODO; OBJETO en GP, batalla, contrarreloj y con valores inválidos; fórmula de 200CC contra las tablas originales con el peor caso por debajo de 8,8 por paso; RIVALES SIN VENTAJA |
 | Memory Card (arnés) | `prueba_memory_card.c` | `memory_card.c` compilado en el PC con la libmc simulada de `sdk_simulado/`: carga, guardado, tarjeta nueva, tarjeta que deja de contestar (sin más órdenes en la sesión), espera al arrancar con un reloj simulado y archivo de opciones |
 | CI y emulador | `prueba_tope_rom.py`, `prueba_fuente_libdebug.py`, `prueba_comprobar_registro.py`, `prueba_comparar_capturas.py` | Los scripts de `herramientas/ci/` y `herramientas/emulador/` con datos sintéticos: tope de 256 KiB, glifos CP437 de libdebug, registro (región, pánico, guion) y capturas (tolerancia, tamaño, imagen uniforme) |
-| Arranque y cronómetro | `prueba_arranque.py`, `prueba_cronometro_fases.c` | `inicializar_depuracion()` va en `main()` antes del reinicio del IOP y el cronómetro se abre antes del primer paso; el cronómetro de fases admite los 6 grupos, y `GRUPOS_MAX` es mayor que el número de `GRUPO_` de `marcas_registro.h` |
+| Arranque y cronómetro | `prueba_arranque.py`, `prueba_cronometro_fases.c` | `inicializar_depuracion()` va en `main()` antes del reinicio del IOP y el cronómetro arranca antes del primer paso; el cronómetro de fases admite los 6 grupos, y `GRUPOS_MAX` es mayor que el número de `GRUPO_` de `marcas_registro.h` |
 | Fuente del menú | `prueba_glifos.c`, `prueba_glifos_es.py`, `prueba_tablas_glifos.py`, `prueba_reserva_matrices.py` | Compatibilidad con la N64 (huella de índices y avances) y detector del primer byte que la fuente no dibuja; anchos y arte reproducible de los 11 glifos nuevos; tabla de 247 glifos definida una sola vez, tope de la reserva de matrices (la condición entera) y registro DEV en las tres impresoras de cadenas; `prueba_reserva_matrices.py` exige el tope antes de cada escritura en `efecto_mtx` |
 | Textos | `prueba_textos.c` (con sus tablas `prueba_textos_*.inc.c` y `prueba_textos_tinta.py`) | Todas las tablas en español: glosario y lista negra, número de entradas, glifo para cada carácter, textos esperados byte a byte, zona segura medida por tinta, interlineado y signos de apertura |
 | Texturas | `prueba_png_simple.py`, `prueba_formatos_textura.py`, `prueba_tkmk00.py`, `prueba_invertir_texturas.py`, `prueba_texturas_es.py`, `prueba_cableado_es.py`, `prueba_composicion_es.py`, `prueba_hud_es.py`, `prueba_lakitu_es.py`, `prueba_titulos_es.py`, `prueba_cartel_es.py`, `prueba_hojas_es.py`, `prueba_textura_menu.c` | Herramientas de PNG y formatos, despacho TKMK00/MIO0, manifiesto (sin botones de la N64 en los textos), cableado en la ROM y tamaños, composición del arte, HUD sin solapes de 1 a 4 jugadores, 16 cuadros y paleta de Lakitu, títulos de pista, cartel de la granja y hojas de contacto. El manifiesto clasifica las 1229 texturas con filas de textura, de carpeta (`carpeta:`) y de archivo (`archivo:`), y `TEXTURAS_PENDIENTES` vale 0 |
@@ -360,7 +360,7 @@ El objetivo `test` del `Makefile` corre 46 pruebas de `herramientas/pruebas/` (2
 
 Medido el 2026-10-11 en `fd6a4bb7` (base de la documentación de la versión 1.2.0) con `PS2SDK= make test`: código de salida 0, las 46 pruebas con 0 fallos (`prueba_textos`: 237 426 comprobaciones y 0 tablas pendientes; `prueba_eje_palanca`: 438; `prueba_memory_card`: 83; `prueba_registros_video`: 66; `prueba_menu_configuracion`: 55; `prueba_opciones_port`: 38; `prueba_truco_objeto`: 29; `prueba_cilindrada_200cc`: 19; `prueba_region_ps2`: 17; `prueba_vista_panoramica`: 16; `prueba_trucos`: 13; `prueba_rivales_sin_ventaja`: 5) y 0 archivos por encima del tope de líneas.
 
-**Qué no se comprueba en `make test`.** Ninguna prueba del PC mira la imagen: eso lo hace el job `emulador` de la CI, con capturas del título, del menú, del menú de configuración y de la carrera en Play! (ver [CI y publicación](#ci-y-publicación)). Esas capturas leen la VRAM antes del PCRTC, así que el antiparpadeo, las bandas y la posición solo se comprueban por los valores de registro. Sin hardware real ni TV quedan sin verificar el tacto del stick, el multitap, el cambio de tarjeta en caliente, el rendimiento en PANORÁMICO y la lectura de `rom0:ROMVER` con una BIOS real o lanzado desde OPL sin reinicio del IOP (en la CI solo se lee un ROMVER sintético por la ruta con reinicio). No queda deuda abierta ([deuda.md](../traduccion/deuda.md)); lo que solo se ve en hardware real son los límites declarados.
+**Qué no comprueba `make test`.** Ninguna prueba del PC mira la imagen: eso lo hace el job `emulador` de la CI, con capturas del título, del menú, del menú de configuración y de la carrera en Play! (ver [CI y publicación](#ci-y-publicación)). Esas capturas leen la VRAM antes del PCRTC, así que el antiparpadeo, las bandas y la posición solo los compruebo por los valores de registro. Sin hardware real ni TV quedan sin verificar el tacto del stick, el multitap, el cambio de tarjeta en caliente, el rendimiento en PANORÁMICO y la lectura de `rom0:ROMVER` con una BIOS real o lanzado desde OPL sin reinicio del IOP (en la CI solo se lee un ROMVER sintético por la ruta con reinicio). No queda deuda abierta ([deuda.md](../traduccion/deuda.md)); lo que solo se ve en hardware real son los límites declarados.
 
 ## Depuración
 
@@ -391,7 +391,7 @@ Las líneas del panel dejan una fila libre entre ellas para que las tildes no to
 
 ### Guiones de prueba (`DEV=1`)
 
-Si existe `host:smk64_input.txt`, el guion sustituye a los mandos, el juego ve 4 mandos conectados y el resultado se escribe en `host:smk64_test.txt`. El guion lleva una orden por línea, y `#` inicia un comentario.
+Si existe `host:smk64_input.txt`, el guion sustituye a los mandos, el juego ve 4 mandos conectados y el juego escribe el resultado en `host:smk64_test.txt`. El guion lleva una orden por línea, y `#` inicia un comentario.
 
 | Orden | Efecto |
 |---|---|
@@ -472,7 +472,7 @@ Pasos de `compilar-ps2` que necesitan el SDK (`herramientas/ci/`):
 5. `comparar_capturas.py` compara las capturas con `herramientas/emulador/referencias/` (`titulo`, `menu`, `configuracion`, `carrera`) y las de la segunda ejecución con las de la primera; falla si falta una captura, si cambia de tamaño, si es de un solo color o si difiere en más del 0,1 % de los píxeles. Esa tolerancia por defecto (0,001) bajó de 0,02 en la 1.2.1 ([CC-31](../traduccion/cambios.md)): un bloque de 32×16 cambiado (0,18 %) ya no pasa.
 6. El job falla si dura 30 minutos o más, y guarda como artefacto `emulador` los registros y las capturas.
 
-**Regenerar las referencias.** Si un cambio visible es intencionado, se lanza el workflow a mano sobre la rama con `regenerar_referencias` = `si` o `sí`. El job escribe las capturas de la primera ejecución como referencias, comprueba la segunda contra ellas, copia `menu`, `carrera` y `configuracion` a `docs/img/` y commitea en la rama con el asunto `test(emulador): referencias regeneradas en la CI con el ELF de DEV actual` y la ejecución en el cuerpo. Si nada cambia, termina sin commit. Antes de integrar, las referencias nuevas se revisan a ojo: así aparecieron en la 1.2.1 los valores tenues del menú de configuración y el ordinal «8º.».
+**Regenerar las referencias.** Si un cambio visible es intencionado, lanza el workflow a mano sobre la rama con `regenerar_referencias` = `si` o `sí`. El job escribe las capturas de la primera ejecución como referencias, comprueba la segunda contra ellas, copia `menu`, `carrera` y `configuracion` a `docs/img/` y commitea en la rama con el asunto `test(emulador): referencias regeneradas en la CI con el ELF de DEV actual` y la ejecución en el cuerpo. Si nada cambia, termina sin commit. Antes de integrar, revisa a ojo las referencias nuevas: así aparecieron en la 1.2.1 los valores tenues del menú de configuración y el ordinal «8º.».
 
 Límites: las capturas leen la VRAM antes del PCRTC, así que no muestran el antiparpadeo, las bandas ni la posición; ROMVER solo se lee por la ruta con reinicio del IOP. Ejecución en verde de la 1.2.0: [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616); referencias de la 1.2.1 regeneradas en [38179540046](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38179540046) y [38180265814](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38180265814).
 
@@ -482,17 +482,17 @@ Entradas a pedido (Actions → `compilacion` → Run workflow, o `POST /repos/{d
 |---|---|---|
 | `base` | vacía | Referencia para comparar el binario; vacía, no se compara |
 | `publicar` | `no` | `sí` regenera `build/` y `compilaciones/` y los commitea en la rama |
-| `release` | vacía | Etiqueta de la Release, por ejemplo `v1.0.0`; vacía, no se publica |
+| `release` | vacía | Etiqueta de la Release, por ejemplo `v1.0.0`; vacía, no hay publicación |
 | `limpiar_ramas` | `no` | `sí` borra las ramas remotas que ya están contenidas en `main` |
 
-Una versión se publica en este orden, cada paso con el anterior terminado en verde:
+Publico una versión en este orden, cada paso con el anterior terminado en verde:
 
 1. **`publicar`**, lanzado sobre la rama de integración: deja en ella el commit de publicación con los binarios y la ISO regenerados desde cero.
 2. **Merge a `main`** de la rama de integración, con la revisión aprobada (ver [CONTRIBUTING.md](../../CONTRIBUTING.md)).
 3. **`release`**, lanzado sobre `main` con la etiqueta de la versión: publica la ISO que quedó versionada en `compilaciones/` y el ELF monolítico que compila en ese momento. Las notas (`docs/versiones/<etiqueta>.md`) tienen que estar ya en `main`, con el SHA-256 de la ISO versionada.
 4. **`limpiar-ramas`**, lanzado sobre `main`: solo borra lo que ya está fusionado.
 
-El job `release` comprueba que el SHA-256 de la ISO versionada (`sha256sum compilaciones/SLUS_999.99.SuperMarioKart64.iso`) esté en las notas. El ELF monolítico no se versiona: su suma se conoce cuando termina `release` y queda en el `SHA256SUMS` de la Release. Para la versión 1.0.0: ejecución de CI [38123501282](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38123501282), commit de publicación `900c9be`. Para la 1.1.0: ejecución [38149880694](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38149880694), commit de publicación `45bbe10a`. Para la 1.2.0: ejecución [38167051526](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38167051526), commit de publicación `9ab41422`.
+El job `release` comprueba que el SHA-256 de la ISO versionada (`sha256sum compilaciones/SLUS_999.99.SuperMarioKart64.iso`) esté en las notas. No versiono el ELF monolítico: su suma se conoce cuando termina `release` y queda en el `SHA256SUMS` de la Release. Para la versión 1.0.0: ejecución de CI [38123501282](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38123501282), commit de publicación `900c9be`. Para la 1.1.0: ejecución [38149880694](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38149880694), commit de publicación `45bbe10a`. Para la 1.2.0: ejecución [38167051526](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38167051526), commit de publicación `9ab41422`.
 
 ## Traer actualizaciones del repositorio original
 
@@ -521,7 +521,7 @@ El repositorio original es [anthoo582/mario-kart-64-ps2](https://github.com/anth
    - `build/` y `compilaciones/` quedan como en `main` hasta el commit de publicación;
    - la tabla de glifos (`codigo/menus/elementos_menu/textos_y_tablas.inc.c`, `animaciones_personajes.inc.c` e `incluir/menus/elementos_menu.h`) queda como en `main`: tiene las 236 entradas del original en el mismo orden más las 11 del español;
    - en los archivos del port se toma el código del original y se conservan los textos en español;
-   - `README.md` queda como en `main`; lo nuevo del original se documenta en un commit `docs` aparte.
+   - `README.md` queda como en `main`; lo nuevo del original lo documento en un commit `docs` aparte.
 6. **Comprobar la fusión** `M`: estos diffs tienen que salir vacíos.
 
    ```bash
@@ -530,10 +530,10 @@ El repositorio original es [anthoo582/mario-kart-64-ps2](https://github.com/anth
        codigo/menus/elementos_menu/animaciones_personajes.inc.c incluir/menus/elementos_menu.h
    ```
 
-7. **Traducir los textos nuevos del original** en commits propios: primero se amplía la lista negra de `prueba_textos_port.py` (rojo) y después se traducen (verde). En F8: fusión `9f4d0215`, rojo `748db117`, verde `36fc9e40`. La fusión queda en rojo solo en esa prueba y nunca se sube sola.
+7. **Traducir los textos nuevos del original** en commits propios: primero amplío la lista negra de `prueba_textos_port.py` (rojo) y después traduzco (verde). En F8: fusión `9f4d0215`, rojo `748db117`, verde `36fc9e40`. La fusión queda en rojo solo en esa prueba y nunca se sube sola.
 8. **Cerrar** con `make test` en verde y la CI en verde, incluida la compilación para PS2.
 
-Para leer un archivo de otra rama sin fusionarla: `git show origin/<rama>:<ruta>`. Lo que se quiera proponer al original (por ejemplo G2 y G4 de [CC-11](../traduccion/cambios.md)) se documenta con el caso concreto y no se aplica aquí.
+Para leer un archivo de otra rama sin fusionarla: `git show origin/<rama>:<ruta>`. Lo que quiera proponer al original (por ejemplo G2 y G4 de [CC-11](../traduccion/cambios.md)) lo documento con el caso concreto y no lo aplico aquí.
 
 ## Archivos sensibles
 
@@ -541,7 +541,7 @@ Cambiar cualquiera de estos archivos o ajustes exige un CC aprobado en [cambios.
 
 | Archivo o ajuste | Por qué está así |
 |---|---|
-| Digest de `ps2dev/ps2dev` en `.github/workflows/compilacion.yml` (4 apariciones: `compilar-ps2`, `mismo-binario`, `publicar` y `release`) | Fija el compilador para que el binario sea reproducible. Las cuatro tienen que cambiar juntas, y el cambio se comprueba con `mismo-binario`. El ELF monolítico de la Release sale del mismo toolchain que la ISO |
+| Digest de `ps2dev/ps2dev` en `.github/workflows/compilacion.yml` (4 apariciones: `compilar-ps2`, `mismo-binario`, `publicar` y `release`) | Fija el compilador para que el binario sea reproducible. Las cuatro tienen que cambiar juntas, y compruebo el cambio con `mismo-binario`. El ELF monolítico de la Release sale del mismo toolchain que la ISO |
 | `herramientas/entorno.sh` | Lo cargan todas las compilaciones, locales y de la CI. Define `PS2DEV`, `PS2SDK`, `GSKIT` y el `PATH` del toolchain |
 | `Makefile`: objetivo `test` | Define qué corre `make test` y en qué orden. Una prueba que sale de la lista deja de comprobarse sin aviso |
 | `Makefile`: `BUILD_ID`, `JP_SRC` y `JP_PARTES` | `BUILD_ID` identifica la compilación en la pantalla de fallo. `JP_SRC` y `JP_PARTES` deciden qué fuentes pasan a EUC-JP |
@@ -550,7 +550,7 @@ Cambiar cualquiera de estos archivos o ajustes exige un CC aprobado en [cambios.
 | `incluir/entrada/eje_palanca.h`: `ZONA_MUERTA_PALANCA` y `ZONA_REPOSO_CRUCETA` | Fijan dónde empieza el giro (28 de 127 junto con la zona muerta del juego) y hasta dónde la cruceta hace de stick (25 del centro). `prueba_eje_palanca.c` falla si el giro empieza más allá de 28; el reposo lo comprueba con la propia constante, así que cambiar `ZONA_REPOSO_CRUCETA` no la pone en rojo ([CC-14](../traduccion/cambios.md)) |
 | `incluir/sistema/eleccion_guardado.h` | Decide qué copia se pisa en una tarjeta nueva y con qué generación. Un error pisa la partida más nueva o hace cargar la vieja ([CC-13](../traduccion/cambios.md)) |
 | `GS_MODE_NTSC` en `codigo/graficos/sintetizador_gs.c` | El juego avanza al ritmo del retrazo: a 50 Hz iría un 17 % más lento. Las consolas PAL salen también en NTSC a 60 Hz ([CC-15](../traduccion/cambios.md)) |
-| `recursos/es/texturas.tsv` | Manifiesto de las texturas en español: qué se traduce, qué se excluye y con qué texto |
+| `recursos/es/texturas.tsv` | Manifiesto de las texturas en español: qué traduzco, qué excluyo y con qué texto |
 | `merge.directoryRenames=false` al fusionar el original | Sin él, git mueve archivos de `build/ps2/debug/` a `build/ps2/dev/` |
 
 ## Errores a evitar

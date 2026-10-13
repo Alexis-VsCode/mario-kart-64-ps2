@@ -17,11 +17,11 @@ Todas las subramas salieron de `36fc9e40`, el commit que deja en español los te
 | `sinc/sistema` | Cambios requeridos (1.ª y 2.ª pasada) | Aprobada con observaciones | Integrada (`bbb11eb6`) después de reescribir los mensajes |
 | `sinc/pendientes` | Cambios requeridos; aprobada con observaciones en la 2.ª pasada | Aprobada con observaciones | Integrada (`cf956b42`) |
 | `sinc/panel` | Aprobada con observaciones (dos pasadas) | Aprobada con observaciones | Integrada (`240358fd`) |
-| `sinc/recorrido` | Aprobada con observaciones | Aprobada con observaciones | No se integra: CC-10 rechazado |
+| `sinc/recorrido` | Aprobada con observaciones | Aprobada con observaciones | No la integro: CC-10 rechazado |
 
-En todas las ramas, el diff de dos puntos contra `feature/sincronizacion-upstream` mostraba también `README.md`. No era un cambio de las ramas: la base avanzó con `409a72b9` después de que salieran. El alcance se comprobó con el diff de tres puntos.
+En todas las ramas, el diff de dos puntos contra `feature/sincronizacion-upstream` mostraba también `README.md`. No era un cambio de las ramas: la base avanzó con `409a72b9` después de que salieran. Comprobé el alcance con el diff de tres puntos.
 
-**Hashes revisados e integrados.** Dos ramas se integraron con hashes distintos de los que vio REVISIÓN:
+**Hashes revisados e integrados.** Integré dos ramas con hashes distintos de los que vio REVISIÓN:
 
 - `sinc/sistema` se rehízo para quitar los trailers de cuatro mensajes, con los mismos árboles: `feafb878` → `664d9013`, `98a33c68` → `176651ed`, `21005b69` → `a86960cf`, `63c6ab06` → `61a88a74` y `ab9c784b` → `372f10ed`.
 - `sinc/graficos-g5` lleva solo `ce98830c`, que tiene el mismo parche que `fb6a81c0` (`git patch-id` igual).
@@ -44,7 +44,7 @@ En todas las ramas, el diff de dos puntos contra `feature/sincronizacion-upstrea
 **[Baja] El commit `ci:` agrupa cuatro cambios independientes**
 - Archivo: `.github/workflows/compilacion.yml:17-164` (`24ed39a0`)
 - Riesgo: compilar DEV, el tipo del commit de publicación, el job `release` y el job `limpiar-ramas` van juntos. No se podría revertir uno sin los demás.
-- Recomendación: dividirlo si se aplica R-GOB-01 al pie de la letra; si se acepta la agrupación de CC-09, nada.
+- Recomendación: dividirlo si aplico R-GOB-01 al pie de la letra; si acepto la agrupación de CC-09, nada.
 - Estado: aceptado. CC-09 aprobó los cuatro cambios como uno solo.
 
 **[Baja] Documentación desfasada por este bloque, fuera de sus archivos**
@@ -73,7 +73,7 @@ En todas las ramas, el diff de dos puntos contra `feature/sincronizacion-upstrea
 - Recomendación: «está» y «ningún».
 - Estado: resuelto en `b69f1548`.
 
-**Decisión:** se integra con `1ac5c96f`.
+**Decisión:** integro con `1ac5c96f`.
 
 ## 2. `sinc/graficos`: correcciones de gráficos (CC-11, G5; G2 y G4 retirados)
 
@@ -86,7 +86,7 @@ En todas las ramas, el diff de dos puntos contra `feature/sincronizacion-upstrea
 - Diff de tres puntos dentro de los archivos del bloque; nada de `build/` ni `compilaciones/`; `git diff --check` sin errores.
 - Commits con autor correcto, sin firma ni trailers; las referencias «antes» de los mensajes coinciden con la base.
 - `gcc -fsyntax-only` con cabeceras simuladas del SDK sobre `guiones_prueba.c` e `interprete_f3dex.c` (release, DEBUG y DEV): ningún diagnóstico en las líneas cambiadas. Errores puestos a propósito en copias se detectan.
-- `cc_lee_shade`, extraída con `sed` y compilada con `combinador_color.c` en el PC, sobre los combinadores reales. El programa no se versiona.
+- `cc_lee_shade`, extraída con `sed` y compilada con `combinador_color.c` en el PC, sobre los combinadores reales. No versiono el programa.
 - `ps2_screenshot_file` del ps2sdk copia el byte de alfa del CT32 sin cambiarlo.
 - `make test` en un worktree limpio: 0 fallos.
 - Segunda pasada: `27091745` fija `RGBAQ` a `0xFF808080`; en `30dc154e` la espera previa y la propia comparten el tope de 900 cuadros; `git diff d9c9e2ee~1 HEAD -- matrices_y_vertices.inc.c` sale vacío.
@@ -119,9 +119,9 @@ En todas las ramas, el diff de dos puntos contra `feature/sincronizacion-upstrea
 
 **[Baja] El mensaje de `27091745` da por observado un dato que solo se dedujo del código**
 - Archivo: `codigo/graficos/sintetizador_gs.c:863` (en la rama)
-- Riesgo: dice que el `.tga` «tenía alfa 0x80 en todos los píxeles», pero no se midió.
+- Riesgo: dice que el `.tga` «tenía alfa 0x80 en todos los píxeles», pero no hay ninguna medición.
 - Recomendación: anotarlo como deducido del código.
-- Estado: aceptado; el commit no se integra.
+- Estado: aceptado; no integro el commit.
 
 **Hallazgo lingüístico:**
 
@@ -131,7 +131,7 @@ En todas las ramas, el diff de dos puntos contra `feature/sincronizacion-upstrea
 - Recomendación: opcional.
 - Estado: aceptado. `ce98830c` no añade comentarios a esos archivos.
 
-**Decisión:** se integra solo G5, como `sinc/graficos-g5` (`368a5416`). G2 y G4 salen de CC-11 por decisión mía (`b4b37c13`): G2 no tiene uso sin capturas y G4 cambia la imagen sin forma de verificarlo. Los dos van a [Propuestas para el repositorio original](#8-propuestas-para-el-repositorio-original).
+**Decisión:** integro solo G5, como `sinc/graficos-g5` (`368a5416`). G2 y G4 salen de CC-11 por decisión mía (`b4b37c13`): G2 no tiene uso sin capturas y G4 cambia la imagen sin forma de verificarlo. Los dos van a [Propuestas para el repositorio original](#8-propuestas-para-el-repositorio-original).
 
 ## 3. `sinc/sistema`: arranque, cronómetro, ROM y Memory Card (CC-08 y CC-11, E3-E5)
 
@@ -199,7 +199,7 @@ En todas las ramas, el diff de dos puntos contra `feature/sincronizacion-upstrea
 
 El literal nuevo del registro, «memory card: no se pudo guardar (%d); la tarjeta no contesta y no se reintentará», es correcto y sigue el prefijo de los demás registros del archivo.
 
-**Decisión:** se integra con `bbb11eb6`, después de reescribir los mensajes.
+**Decisión:** integro con `bbb11eb6`, después de reescribir los mensajes.
 
 ## 4. `sinc/pendientes`: R-FUE-05, R-FUE-07 y L2 (CC-08 y CC-11)
 
@@ -232,7 +232,7 @@ El literal nuevo del registro, «memory card: no se pudo guardar (%d); la tarjet
 - Archivo: `README.md` (solo en el diff de dos puntos)
 - Riesgo: integrar aplicando el diff de dos puntos revertiría el README de la base.
 - Recomendación: integrar con merge.
-- Estado: resuelto; se integró con merge (`cf956b42`).
+- Estado: resuelto; lo integré con merge (`cf956b42`).
 
 **[Baja] La docstring nueva de `prueba_tablas_glifos.py` sigue sin tildes** (segunda pasada)
 - Archivo: `herramientas/pruebas/prueba_tablas_glifos.py:18-20` y `:177`
@@ -256,7 +256,7 @@ El literal nuevo del registro, «memory card: no se pudo guardar (%d); la tarjet
 
 El registro nuevo de `cargar_texturas_menu.inc.c` va en ASCII («menu: reserva de matrices agotada…») porque ese archivo se convierte a EUC-JP (R-PORT-02); el de `depuracion.c`, que no se convierte, lleva sus tildes.
 
-**Decisión:** se integra con `cf956b42`.
+**Decisión:** integro con `cf956b42`.
 
 ## 5. `sinc/panel`: interlineado del panel y botones de las texturas (CC-11, L3; R-TEX-07)
 
@@ -311,11 +311,11 @@ El registro nuevo de `cargar_texturas_menu.inc.c` va en ASCII («menu: reserva d
 - Recomendación: opcional.
 - Estado: corregido en `prueba_ancho_panel.py` (`4e4cc6f8`); aceptado en el resto.
 
-**Decisión:** se integra con `240358fd`.
+**Decisión:** integro con `240358fd`.
 
 ## 6. `sinc/recorrido`: guiones de PCSX2 con capturas (CC-10, rechazado)
 
-**Commits revisados:** `bb920d50`, `32747840`, `229b9656`, `8c8b3e5e`, `443358b0`, `9c024f89`, `2ed664cc` y `93cae6c0`. Ninguno se integra.
+**Commits revisados:** `bb920d50`, `32747840`, `229b9656`, `8c8b3e5e`, `443358b0`, `9c024f89`, `2ed664cc` y `93cae6c0`. No integro ninguno.
 
 **Comprobaciones de REVISIÓN técnica:**
 
@@ -338,7 +338,7 @@ El registro nuevo de `cargar_texturas_menu.inc.c` va en ASCII («menu: reserva d
 
 Todos quedan sin efecto con la rama.
 
-**Decisión:** no se integra. Rechacé CC-10 (`b4b37c13`): el proyecto se verifica con las pruebas del PC y la CI, sin capturas ni pasos manuales (CC-12). `herramientas/guiones/recorrido_textos.txt` queda como estaba.
+**Decisión:** no integro. Rechacé CC-10 (`b4b37c13`): verifico el proyecto con las pruebas del PC y la CI, sin capturas ni pasos manuales (CC-12). `herramientas/guiones/recorrido_textos.txt` queda como estaba.
 
 ## 7. Revisión lingüística de la fusión y de los textos nuevos del original
 
