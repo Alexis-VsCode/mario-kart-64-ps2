@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""La configuración de GitHub (CC-38) está completa y sin menciones prohibidas.
+"""La configuración de GitHub está completa y sin menciones prohibidas.
 
 Comprueba plantillas de incidencias y de PR, SECURITY.md, CODEOWNERS y la
 imagen social (1280x640, menos de 1 MB).
