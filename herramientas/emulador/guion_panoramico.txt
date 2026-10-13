@@ -1,4 +1,4 @@
-# Guion del job 'emulador' para el formato PANORÁMICO (CC-34). Igual que
+# Guion del job 'emulador' para el formato PANORÁMICO. Igual que
 # guion_ci.txt hasta la subpantalla de configuración; allí baja a la fila FORMATO
 # (la cuarta: 83) y la pasa dos veces a la derecha (NORMAL, CON BANDAS,
 # PANORÁMICO). Solo captura la carrera, que se compara con
