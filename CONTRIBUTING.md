@@ -191,5 +191,5 @@ Un cambio está terminado cuando se cumplen todos estos puntos:
 6. **Documentación sincronizada** en la misma rama, con cada documento nuevo enlazado desde un índice.
 7. **Limitaciones declaradas:** lo que no comprueban las pruebas ni la CI está escrito como limitación, sin pasos manuales para nadie.
 8. **Árbol limpio:** `git status --short` vacío, con `build/` y `compilaciones/` restaurados.
-9. **Revisión** por un rol distinto del autor, registrada en el acta, sin hallazgos Alta o Media abiertos.
+9. **Revisión** por un rol distinto del que escribió el cambio, registrada en el acta, sin hallazgos Alta o Media abiertos.
 10. **Visto bueno del responsable del proyecto** para integrar en `main`.
