@@ -11,10 +11,12 @@
 // que da la rapidez máxima original del personaje es lo que el original tolera.
 //
 // Resultado medido: con 35/32 el tono sube entre 0.38 y 0.56 sobre el original,
-// por encima de 0.4 en 4 de los 5 grupos de personajes. Eso no rompe la prueba (el
-// código del juego no se toca): se informa como aviso y con el argumento
-// 'estricto' pasa a ser fallo. La prueba sí protege que el 150cc original siga
-// dentro de su tabla y que el truco no empeore lo medido (cota 0.6).
+// por encima de 0.4 en 4 de los 5 grupos de personajes. Decisión: se acepta ese
+// sesgo agudo (el código del juego no se toca; el tono final se limita a 4.0 en
+// funcion_800C6108). La prueba protege que el 150cc original siga dentro de su
+// tabla y que el truco no pase de la cota aceptada (0.57, justo sobre lo medido).
+// Los casos por encima del margen de la tabla se informan como aviso; con el
+// argumento 'estricto' pasan a ser fallo.
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
@@ -22,7 +24,7 @@
 #include "carrera/cilindrada_200cc.h"
 
 #define MARGEN_TABLA 0.4
-#define COTA_MEDIDA 0.6
+#define COTA_MEDIDA 0.57
 
 typedef struct {
     const char *personajes;
@@ -77,7 +79,7 @@ int main(int argc, char **argv) {
             snprintf(caso, sizeof(caso), "%s %g: el 150cc original cabe en su tabla (%.3f <= %.3f)", g->personajes,
                      r150, original, g->max_tono + MARGEN_TABLA);
             comprobar(caso, original <= g->max_tono + MARGEN_TABLA);
-            snprintf(caso, sizeof(caso), "%s %g: el truco sube el tono %.3f, cota %.1f", g->personajes, r150, exceso,
+            snprintf(caso, sizeof(caso), "%s %g: el truco sube el tono %.3f, cota %.2f", g->personajes, r150, exceso,
                      COTA_MEDIDA);
             comprobar(caso, exceso > 0.0 && exceso < COTA_MEDIDA);
             if (exceso > MARGEN_TABLA) {
