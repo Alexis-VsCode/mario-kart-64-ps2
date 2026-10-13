@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Este proyecto es educativo y sin ánimo de lucro. Si eres titular de derechos y me pides que lo retire, lo retiro. Indícame qué contenido te afecta y cómo acreditas la titularidad; actúo en cuanto lo recibo.
+        Este proyecto es educativo y sin ánimo de lucro. Si eres titular de derechos y me pides que lo retire, lo retiro. Indícame qué contenido te afecta y cómo acreditas la titularidad; actúo lo antes que puedo.
   - type: input
     id: titular
     attributes:
