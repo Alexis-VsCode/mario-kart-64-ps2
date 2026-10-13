@@ -7,6 +7,7 @@
 
 #include "graficos/sintetizador_gs.h"
 #include "graficos/registros_video.h"
+#include "graficos/matriz_tramado.h"
 #include "sistema/opciones_port.h"
 #include "sistema/sistema_ps2.h"
 #include "graficos/pantallas_gigantes.h"
@@ -21,6 +22,9 @@
 #define RANURAS_PAQUETE 3
 #define DESPLAZAMIENTO_X_XY   (2048 - GS_ANCHO / 2)
 #define DESPLAZAMIENTO_Y_XY   (2048 - GS_ALTO / 2)
+/* DIMX (0x44): matriz de tramado del GS. gsKit deja la celda 15 en 0 (ver matriz_tramado.h) y el port
+ * escribe la suya al empezar cada paquete */
+#define GSR_DIMX_REG 0x44
 
 typedef union {
     u128 q;
@@ -473,7 +477,7 @@ void empezar_paquete_gs(int paquete, int buffer, int banderas)
         estadisticas_gs.bytes_paquete = 0;
     }
 
-    empezar_ad(&etiqueta, 9);
+    empezar_ad(&etiqueta, 10);
     correccion_frame_nota(act);
     ad(GSR_FRAME_1, frame_reg(buffer_dibujo));
     ad(GSR_ZBUF_1, gs_valor_zbuf(1));
@@ -482,6 +486,7 @@ void empezar_paquete_gs(int paquete, int buffer, int banderas)
     ad(GSR_PRMODECONT, 1);
     ad(GSR_COLCLAMP, 1);
     ad(GSR_DTHE, 0);
+    ad(GSR_DIMX_REG, matriz_tramado_dimx());
     ad(GSR_TEXA, GS_SETREG_TEXA(0, 0, 0x80));
     ad(GSR_FBA_1, 0);
 }
