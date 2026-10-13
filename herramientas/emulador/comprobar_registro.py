@@ -5,7 +5,8 @@ Uso: comprobar_registro.py <carpeta host> <PAL|NTSC|desconocida> [--exige TEXTO 
 
 Pasa si el registro (smk64_log_NN.txt seguidos de smk64_log.txt) llegó al
 bucle principal sin pánico ni cuelgue, tiene la línea de región que da el
-ROMVER sintético, y smk64_test.txt acaba el guion con su orden 'fin', 0
+ROMVER sintético, la línea 'audio: audsrv listo' (sin avisos de libsd,
+audsrv_init ni audsrv_set_format), y smk64_test.txt acaba el guion con su orden 'fin', 0
 fallos y ninguna captura perdida. --exige añade líneas que tienen que estar
 en el registro (por ejemplo, los valores de los registros de vídeo).
 """
@@ -22,6 +23,10 @@ REGIONES = {
     "NTSC": "consola NTSC",
     "desconocida": "región de la consola desconocida",
 }
+# Audio (salida_audio.c y arranque_ps2.c): la línea de éxito y los avisos de fallo
+AUDIO_LISTO = "audio: audsrv listo, anillo"
+AVISOS_AUDIO = ("audsrv_init falló", "audsrv_set_format falló",
+                "libsd.irx no quedó cargado", "audsrv.irx no quedó cargado")
 FIN_BIEN = "FIN DEL GUION (fin): 0 fallos"
 CAPTURA_PERDIDA = "aviso: nadie hizo la captura"
 
@@ -49,6 +54,11 @@ def comprobar(host, region, exige=()):
             errores.append("el registro no llega al bucle principal")
         for linea in registro.splitlines():
             if PANICO in linea or CUELGUE in linea:
+                errores.append("registro: " + linea)
+        if AUDIO_LISTO not in registro:
+            errores.append("falta la línea de audio '%s'" % AUDIO_LISTO)
+        for linea in registro.splitlines():
+            if any(a in linea for a in AVISOS_AUDIO):
                 errores.append("registro: " + linea)
         lineas_region = [l for l in registro.splitlines() if any(t in l for t in REGIONES.values())]
         if not any(REGIONES[region] in l for l in lineas_region):
