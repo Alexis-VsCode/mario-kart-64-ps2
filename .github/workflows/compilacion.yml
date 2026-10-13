@@ -128,10 +128,14 @@ jobs:
         run: sh herramientas/emulador/ejecutar_play.sh "$PLAY" "$ELF" emu/1 herramientas/emulador/guion_ci.txt 900
       - name: Segunda ejecución
         run: sh herramientas/emulador/ejecutar_play.sh "$PLAY" "$ELF" emu/2 herramientas/emulador/guion_ci.txt 900
+      # CC-34: la misma carrera con el formato PANORÁMICO, con el marcador estrechado
+      - name: Tercera ejecución (PANORÁMICO)
+        run: sh herramientas/emulador/ejecutar_play.sh "$PLAY" "$ELF" emu/3 herramientas/emulador/guion_panoramico.txt 900
       - name: Registro, región (ROMVER sintético europeo) y guion
         run: |
           python3 herramientas/emulador/comprobar_registro.py "emu/1/Play Data Files/vfs/host" PAL --exige "vídeo: PMODE 8046"
           python3 herramientas/emulador/comprobar_registro.py "emu/2/Play Data Files/vfs/host" PAL --exige "vídeo: PMODE 8046"
+          python3 herramientas/emulador/comprobar_registro.py "emu/3/Play Data Files/vfs/host" PAL --exige "vídeo: PMODE 8046"
       # Las referencias salen del mismo entorno que las compara; el commit se revisa a ojo antes de integrarlo
       - name: Regenerar las referencias
         if: env.REGENERAR == 'true'
@@ -139,9 +143,13 @@ jobs:
           python3 herramientas/emulador/comparar_capturas.py --generar "emu/1/Play Data Files/vfs/host" herramientas/emulador/referencias
           python3 herramientas/emulador/comparar_capturas.py "emu/2/Play Data Files/vfs/host" herramientas/emulador/referencias
           for n in menu carrera configuracion; do cp "herramientas/emulador/referencias/$n.png" docs/img/; done
+          mkdir -p emu/ref3 herramientas/emulador/referencias_panoramico
+          python3 herramientas/emulador/comparar_capturas.py --generar "emu/3/Play Data Files/vfs/host" emu/ref3
+          cp emu/ref3/carrera.png herramientas/emulador/referencias_panoramico/carrera.png
+          cp emu/ref3/carrera.png docs/img/carrera_panoramico.png
           git config user.name "Alexis Barrera"
           git config user.email "mochobarrera12@gmail.com"
-          git add herramientas/emulador/referencias docs/img
+          git add herramientas/emulador/referencias herramientas/emulador/referencias_panoramico docs/img
           if git diff --cached --quiet; then echo "las referencias no cambian"; exit 0; fi
           git commit -m "test(emulador): referencias regeneradas en la CI con el ELF de DEV actual" \
             -m "Generadas en la ejecución ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}; la segunda ejecución coincide con ellas."
@@ -154,6 +162,7 @@ jobs:
           mkdir -p emu/ref1
           python3 herramientas/emulador/comparar_capturas.py --generar "emu/1/Play Data Files/vfs/host" emu/ref1
           python3 herramientas/emulador/comparar_capturas.py "emu/2/Play Data Files/vfs/host" emu/ref1
+          python3 herramientas/emulador/comparar_capturas.py "emu/3/Play Data Files/vfs/host" herramientas/emulador/referencias_panoramico
       - name: El job dura menos de 30 minutos
         run: |
           DURACION=$(( $(date +%s) - INICIO_JOB ))

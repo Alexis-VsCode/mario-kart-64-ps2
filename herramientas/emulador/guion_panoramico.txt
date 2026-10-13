@@ -1,0 +1,55 @@
+# Guion del job 'emulador' para el formato PANORÁMICO (CC-34). Igual que
+# guion_ci.txt hasta la subpantalla de configuración; allí baja a la fila FORMATO
+# (la cuarta: 83) y la pasa dos veces a la derecha (NORMAL, CON BANDAS,
+# PANORÁMICO). Solo captura la carrera, que se compara con
+# referencias_panoramico/carrera.png: el marcador sale estrechado a 3/4.
+
+espera 300
+
+pulsa START
+espera 120
+pulsa START
+espera 120
+
+pulsa B
+espera 60
+pulsa L
+hasta menu == 5 600
+espera 120
+pulsa ABAJO
+espera 20
+pulsa ABAJO
+espera 20
+pulsa ABAJO
+espera 20
+pulsa ABAJO
+espera 20
+comprueba seleccion == 25
+pulsa A
+hasta seleccion == 80 300
+espera 120
+
+# Fila FORMATO y valor PANORÁMICO
+pulsa ABAJO
+espera 20
+pulsa ABAJO
+espera 20
+pulsa ABAJO
+espera 20
+comprueba seleccion == 83
+pulsa DER
+espera 20
+pulsa DER
+espera 60
+
+pulsa B
+hasta seleccion == 25 300
+espera 60
+pulsa B
+hasta menu == 11 600
+espera 120
+
+pulsa_hasta A estado == 4 3600
+espera 400
+captura carrera
+fin
