@@ -49,7 +49,7 @@ Calculé estas cifras del repositorio en la rama `feature/version-1.2.0`:
 
 | Métrica | Valor |
 |---|---|
-| Contratos de cambio (CC) | 29 (CC-01 a CC-29); CC-30 se registra con los documentos de traducción de la 1.2.0 |
+| Contratos de cambio (CC) | 29 (CC-01 a CC-29); registré CC-30 con los documentos de traducción de la 1.2.0 |
 | Programas de prueba en `make test` | 44, con 294 531 comprobaciones y 0 fallos |
 | Mis commits | 352 de 357 en la rama |
 | Ramas integradas en la 1.2.0 | 14 |

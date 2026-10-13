@@ -114,7 +114,7 @@ def revisar_texto(ruta, texto, comprobar):
         if any(f in linea.lower() for f in FALSOS_POSITIVOS):
             continue
         firma = (ruta in ARCHIVOS_FIRMA or SECCIONES_FIRMA.search(encabezado)
-                 or re.match(r"\s*Alexis Barrera\b", linea))
+                 or re.match(r"\s*(?:Soy )?Alexis Barrera\b", linea))
         for nombre, patron in PATRONES:
             if nombre == "«Alexis»" and firma:
                 continue

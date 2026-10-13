@@ -293,6 +293,12 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(
 	    -o $(PRUEBAS)/prueba_tono_200cc herramientas/pruebas/prueba_tono_200cc.c -lm
 	$(V)$(PRUEBAS)/prueba_tono_200cc
 	$(V)$(CC_PRUEBAS) -fsigned-char -std=gnu99 -Wall -Wextra -O1 -Iincluir -Iincluir/libultra -Icodigo \
+	    -o $(PRUEBAS)/prueba_hud_panoramico herramientas/pruebas/prueba_hud_panoramico.c -lm
+	$(V)$(PRUEBAS)/prueba_hud_panoramico
+	$(V)$(CC_PRUEBAS) -fsigned-char -std=gnu99 -Wall -Wextra -O1 -Iincluir -Iincluir/libultra -Icodigo \
+	    -o $(PRUEBAS)/prueba_matriz_tramado herramientas/pruebas/prueba_matriz_tramado.c
+	$(V)$(PRUEBAS)/prueba_matriz_tramado
+	$(V)$(CC_PRUEBAS) -fsigned-char -std=gnu99 -Wall -Wextra -O1 -Iincluir -Iincluir/libultra -Icodigo \
 	    -o $(PRUEBAS)/prueba_menu_configuracion herramientas/pruebas/prueba_menu_configuracion.c
 	$(V)$(PRUEBAS)/prueba_menu_configuracion
 	$(V)$(CC_PRUEBAS) -fsigned-char -std=gnu99 -Wall -Wextra -O1 -Iincluir -Iincluir/libultra -Icodigo \
@@ -310,6 +316,9 @@ test: $(CAMINOS) $(addprefix $(BUILD)/jp/,$(JP_SRC) $(JP_PARTES)) $(MIO0TOOL) $(
 	$(V)$(PYTHON) herramientas/pruebas/prueba_comparar_capturas.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_comprobar_registro.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_enlaces_docs.py
+	$(V)$(PYTHON) herramientas/pruebas/prueba_voz_docs.py narrativa
+	$(V)$(PYTHON) herramientas/pruebas/prueba_estructura_informe.py
+	$(V)$(PYTHON) herramientas/pruebas/prueba_configuracion_github.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_tope_rom.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_fuente_libdebug.py
 	$(V)$(PYTHON) herramientas/pruebas/prueba_ancho_panel.py
