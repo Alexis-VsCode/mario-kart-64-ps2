@@ -2,9 +2,9 @@
 
 Relaciona cada requisito de la [especificación](especificacion.md) con su prueba, sus commits y su evidencia. Estado a 2026-10-11: la localización de F0 a F7 (cerrada en `dda9a5f`), la sincronización con el original de F8 (cerrada en `main`, `af3bfa05`), la versión 1.1.0 de F9 (publicada en `45bbe10a`), la versión 1.2.0 de F10 (en `feature/version-1.2.0`, `fd6a4bb7`) y la versión 1.2.1 de F11 (en `feature/capturas-1.2.1`, `863cbc45`).
 
-## Cómo se completa
+## Cómo la completo
 
-- **Commits:** hashes cortos, integrados en `feature/idioma-espanol` (F0 a F7), en `feature/sincronizacion-upstream` (F8), en `feature/version-1.1.0` (F9), en `feature/version-1.2.0` (F10) o en `feature/capturas-1.2.1` (F11). Si prueba y cambio van en commits separados, se anotan los dos (rojo → verde).
+- **Commits:** hashes cortos, integrados en `feature/idioma-espanol` (F0 a F7), en `feature/sincronizacion-upstream` (F8), en `feature/version-1.1.0` (F9), en `feature/version-1.2.0` (F10) o en `feature/capturas-1.2.1` (F11). Si prueba y cambio van en commits separados, anoto los dos (rojo → verde).
 - **Rojo:** cómo se demostró que la prueba falla sin el cambio:
   - **comprobado:** la prueba del commit, ejecutada sobre el árbol del commit padre, falla (se indica cuántos fallos);
   - **módulo nuevo:** la prueba cubre un archivo que no existía, así que sin el cambio no puede pasar;
@@ -12,8 +12,8 @@ Relaciona cada requisito de la [especificación](especificacion.md) con su prueb
 - **Mutación restaurada (R-GOB-03):** en F1–F7 está registrada en los mensajes de `4bf57f3`, `d28f950` y `da631b0` (este último para `23055c5` y `29541a4`); para el resto de commits de entonces no quedó registrada. En F8, F9 y F10, cada commit con prueba la registra en su mensaje, y REVISIÓN la reprodujo (actas de [F8](revisiones/2026-10-11-sincronizacion.md), [F9](revisiones/2026-10-11-version-1.1.0.md) y [F10](revisiones/2026-10-11-version-1.2.0.md)).
 - **Estados:** `hecho` (integrado y con su prueba en verde), `parcial` (hecho en parte; se indica qué falta), `pendiente` (sin hacer).
 - **Requisito cerrado:** cuando está `hecho`, tiene la evidencia y REVISIÓN lo aprueba. La aprobación de REVISIÓN de F1–F7 no quedó registrada en el repositorio; las de F8, F9 y F10 están en sus actas ([F8](revisiones/2026-10-11-sincronizacion.md), [F9](revisiones/2026-10-11-version-1.1.0.md), [F10](revisiones/2026-10-11-version-1.2.0.md)). La tabla indica el estado de implementación y prueba.
-- **Criterios de F6:** desde [CC-12](cambios.md), lo que dependía del recorrido en PCSX2 o de una captura en TV se acepta con lo que comprueban las pruebas del PC y la CI. Lo que eso deja sin ver estuvo en la deuda D-06 y desde F10 está en los [límites declarados](especificacion.md#9-límites-declarados); el job `emulador` de la CI arranca el juego (CC-26).
-- **Cambios de especificación:** se anotan en [cambios.md](cambios.md) y se enlazan aquí.
+- **Criterios de F6:** desde [CC-12](cambios.md), lo que dependía del recorrido en PCSX2 o de una captura en TV lo acepto con lo que comprueban las pruebas del PC y la CI. Lo que eso deja sin ver estuvo en la deuda D-06 y desde F10 está en los [límites declarados](especificacion.md#9-límites-declarados); el job `emulador` de la CI arranca el juego (CC-26).
+- **Cambios de especificación:** los anoto en [cambios.md](cambios.md) y los enlazo aquí.
 
 ## Evidencia común
 
@@ -150,7 +150,7 @@ Los commits de `feature/sincronizacion-upstream` sobre `main`, por orden. Las su
 | `240358fd` | feature | merge | Integra `sinc/panel` | — | — | No aplica |
 | `d5f95cc5` | feature | docs | CC-12: verificación sin pasos manuales y manual del proyecto | CC-12 | — | No aplica |
 
-No se integraron `sinc/graficos` (salvo G5) ni `sinc/recorrido` (CC-10 rechazado).
+No integré `sinc/graficos` (salvo G5) ni `sinc/recorrido` (CC-10 rechazado).
 
 ## Commits de F9
 
@@ -165,7 +165,7 @@ Los commits de `feature/version-1.1.0` sobre `main` (`af3bfa05`), por orden de i
 | `2e578b4b` | memoria | test | Elección de la copia que se pisa en una tarjeta nueva | CC-13, R-MC-01, R-MC-02 | `prueba_eleccion_guardado.c` | No compila sin la cabecera; con cuerpos vacíos, 14 fallos de 20 |
 | `b989feca` | memoria | feat | `eleccion_guardado.h`: copia a pisar y generación mínima | CC-13 | `prueba_eleccion_guardado.c` | Mutaciones: comparación invertida, 6 fallos; sin el +1, 10 |
 | `e4937a28` | memoria | fix | Leer la tarjeta nueva antes de guardar en ella | CC-13 | Evidencia de código en el mensaje ([deuda.md](deuda.md), D-16) | No aplica (sin arnés de PC) |
-| `41441ae5` | memoria | fix | La espera de la partida al arrancar se mide con `ciclos_ps2()` | CC-13 | Evidencia de código en el mensaje | No aplica (sin arnés de PC) |
+| `41441ae5` | memoria | fix | La espera de la partida al arrancar usa `ciclos_ps2()` | CC-13 | Evidencia de código en el mensaje | No aplica (sin arnés de PC) |
 | `3e62e63e` | memoria | fix | Segundo borrado solo con `mc_ok` | CC-13 (D-12) | Evidencia de código en el mensaje | No aplica (sin arnés de PC) |
 | `abe7c205` | memoria | fix | `type`, `free` y `format` de `mcGetInfo` pasan a `static` | CC-13 (D-13) | Evidencia de código en el mensaje | No aplica (sin arnés de PC) |
 | `8c69e253` | memoria | fix | La cabecera B solo se lee si la tarjeta sigue contestando | CC-13 | Evidencia de código en el mensaje | No aplica (sin arnés de PC) |
@@ -193,7 +193,7 @@ Los commits de `feature/version-1.1.0` sobre `main` (`af3bfa05`), por orden de i
 | `6519d73e` | feature | docs | CC-14 con el reposo de la cruceta hasta 25 del centro | CC-14 | — | No aplica |
 | `a29bd920` | feature | build | Las tres pruebas nuevas en `make test` | CC-13, CC-14, CC-15 | `make test` | No aplica |
 
-`ddbdc023`, `34ab306d`, `2b37f61f` y `a29bd920` se revisaron con otros hashes y el mismo parche ([acta de F9](revisiones/2026-10-11-version-1.1.0.md#resumen)).
+`ddbdc023`, `34ab306d`, `2b37f61f` y `a29bd920` la revisión independiente los revisó con otros hashes y el mismo parche ([acta de F9](revisiones/2026-10-11-version-1.1.0.md#resumen)).
 
 ### Deuda saldada en F9
 
@@ -202,7 +202,7 @@ Los commits de `feature/version-1.1.0` sobre `main` (`af3bfa05`), por orden de i
 | D-01, D-02 | `ff313bc5`, `d41996f7` | G5 tiene prueba en el PC: la función pura del alfa con tramado y sus casos en `prueba_combinador.c` (CC-17) |
 | D-09 | `bb8d41bd`, `b780d986` | `probar_tope_reserva` exige la condición entera |
 | D-10 | `3e2067a4` | `prueba_cronometro_fases.c` cuenta los `#define GRUPO_` |
-| D-11 | — | Decisión escrita en [CC-13](cambios.md): se mantiene; si solo vence `mcClose`, la tarjeta queda desactivada y la partida de la sesión sigue en la memoria |
+| D-11 | — | Decisión escrita en [CC-13](cambios.md): la mantengo; si solo vence `mcClose`, la tarjeta queda desactivada y la partida de la sesión sigue en la memoria |
 | D-12 | `3e62e63e` | Segundo `mcDelete` solo con `mc_ok` |
 | D-13 | `abe7c205` | `type`, `free` y `format` son `static` |
 | D-14 | `1d8f5670` | «sin multitap» |
@@ -224,7 +224,7 @@ Los commits de `feature/version-1.2.0` sobre `main`, por orden de integración. 
 | `289e9c78` | memoria | test | Ninguna orden a libmc tras vencer una lectura de la carga | D-21 | `prueba_memory_card.c` | 4 fallos de 62 |
 | `2c83c0f8` | memoria | fix | No pedir lecturas ni escrituras con una orden vencida | D-21, R-MC-04 | `prueba_memory_card.c` | Mutación sin la guarda de `leer_archivo_mc`: falla |
 | `c94152e0` | memoria | test | El registro del guardado da la generación escrita | D-20 | `prueba_memory_card.c` | 1 fallo de 64 (el registro decía 3) |
-| `c69d9ef4` | memoria | fix | Registrar la generación que se escribe en la tarjeta | D-20 | `prueba_memory_card.c` | — |
+| `c69d9ef4` | memoria | fix | Registrar la generación que escribe en la tarjeta | D-20 | `prueba_memory_card.c` | — |
 | `b38d42c4` | memoria | docs | Corregir «más que lo pedido» en un comentario | D-22 | Revisión lingüística | No aplica |
 | `2275f2c8` | memoria | refactor | Sacar la creación de la carpeta a preparar_carpeta() | CC-18 | `prueba_memory_card.c` | No aplica (refactor) |
 | `098af916` | memoria | test | Archivo de opciones del port en el hilo de guardado | CC-18, R-MC-04 | `prueba_memory_card.c` | No compilaba sin `ARCHIVO_OPCIONES` |
@@ -353,7 +353,7 @@ Los commits de `feature/version-1.2.0` sobre `main`, por orden de integración. 
 
 ## Commits de F11
 
-Los commits de `feature/capturas-1.2.1` sobre `main`, en orden. `v121/capturas` y `v121/ordinal` salen de `8d94ba8d` (registro de CC-31); `v121/ordinal` se integra con un merge `--no-ff`. Su revisión está en el [acta de la 1.2.1](revisiones/2026-10-11-version-1.2.1.md).
+Los commits de `feature/capturas-1.2.1` sobre `main`, en orden. `v121/capturas` y `v121/ordinal` salen de `8d94ba8d` (registro de CC-31); integré `v121/ordinal` con un merge `--no-ff`. Su revisión está en el [acta de la 1.2.1](revisiones/2026-10-11-version-1.2.1.md).
 
 | Commit | Rama | Tipo | Qué hace | Requisito o CC | Prueba | Rojo y mutación |
 |---|---|---|---|---|---|---|
@@ -434,4 +434,4 @@ Los commits de `feature/capturas-1.2.1` sobre `main`, en orden. `v121/capturas` 
 | R-GOB-05 Árbol limpio | `git status --short`; `git log -- build compilaciones` | todas | hecho | Solo los commits de publicación tocan `build/` y `compilaciones/`: `dda9a5f` en F7 y `900c9be3` en F8. En F9 (`a29bd920`), `git log --name-only origin/main..HEAD -- build compilaciones` sale vacío. En F10 (`fd6a4bb7`) sale vacío; la publicación es `9ab41422` |
 | R-GOB-06 Stage por ruta | `git diff --stat` en la revisión | — | parcial: F1–F7 sin registro; en F8 y F9, REVISIÓN comprobó con el diff de tres puntos que cada rama solo toca sus archivos | Actas de [F8](revisiones/2026-10-11-sincronizacion.md) y [F9](revisiones/2026-10-11-version-1.1.0.md) |
 | R-GOB-07 Sin identificadores en el código | `grep` de identificadores de requisito | todas | parcial: en F10 quedan 8 líneas en 4 archivos de `herramientas/` ([deuda.md](deuda.md), D-25) | Salida vacía en `dda9a5f`, `d5f95cc5` y `a29bd920`. En `fd6a4bb7`: `herramientas/ci/comprobar_incremental.sh`, `herramientas/ci/tope_rom.py`, `herramientas/pruebas/prueba_tope_rom.py` y `herramientas/pruebas/prueba_texturas_es.py` |
-| R-GOB-08 Documentación sincronizada | revisión del PR | — | parcial: en F8, `sinc/manual`, `sinc/proceso` y `sinc/doc-traduccion` se integraron y están en `main` (`af3bfa05`). En F9 falta integrar `v110/doc-manual` y `v110/doc-traduccion` en `feature/version-1.1.0`; pasa a hecho con esa integración, antes de publicar, como en F8. En F10 pasa a hecho cuando se integren las ramas de documentación (`v120/doc-traduccion` y las demás), antes de publicar | Sincronización de F7; en F8, la documentación de [CC-12](cambios.md); en F9, CC-13 a CC-17 con commit y aprobación, el [acta](revisiones/2026-10-11-version-1.1.0.md) y [deuda.md](deuda.md); en F10, CC-18 a CC-29 con commit y aprobación, CC-30, el [acta](revisiones/2026-10-11-version-1.2.0.md) y los [límites declarados](especificacion.md#9-límites-declarados) |
+| R-GOB-08 Documentación sincronizada | revisión del PR | — | parcial: en F8, `sinc/manual`, `sinc/proceso` y `sinc/doc-traduccion` quedaron integradas y están en `main` (`af3bfa05`). En F9 falta integrar `v110/doc-manual` y `v110/doc-traduccion` en `feature/version-1.1.0`; pasa a hecho con esa integración, antes de publicar, como en F8. En F10 pasa a hecho cuando se integren las ramas de documentación (`v120/doc-traduccion` y las demás), antes de publicar | Sincronización de F7; en F8, la documentación de [CC-12](cambios.md); en F9, CC-13 a CC-17 con commit y aprobación, el [acta](revisiones/2026-10-11-version-1.1.0.md) y [deuda.md](deuda.md); en F10, CC-18 a CC-29 con commit y aprobación, CC-30, el [acta](revisiones/2026-10-11-version-1.2.0.md) y los [límites declarados](especificacion.md#9-límites-declarados) |
