@@ -3,131 +3,132 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mario Kart 64 para PS2 en español</title>
-<meta name="description" content="Port de Mario Kart 64 a PlayStation 2, traducido al español, con menú de configuración y trucos. Proyecto de preservación sin fines de lucro.">
+<title>Mario Kart 64 para PlayStation 2, en español</title>
+<meta name="description" content="Traducción completa al español del port de Mario Kart 64 a PlayStation 2, con menú de configuración y trucos. Aporte personal sin ánimo de lucro, publicado para la comunidad.">
+<meta name="theme-color" content="#F7F7F5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#10151C" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<meta property="og:title" content="Mario Kart 64 para PlayStation 2, en español">
+<meta property="og:description" content="Traducción completa al español del port de Mario Kart 64 a PlayStation 2. Sin ánimo de lucro, para la comunidad.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://alexis-vscode.github.io/mario-kart-64-ps2/img/menu.png">
 <style>
 :root{
-  --fondo:#f4f1ea;--superficie:#ffffff;--texto:#1d1d24;--suave:#55556a;
-  --borde:#d7d2c6;--acento:#c8102e;--acento2:#1f4fbf;--oro:#b98a00;
-  --sombra:0 2px 0 rgba(0,0,0,.12);
+  --bg:#F7F7F5;--fg:#1C2430;--soft:#4F5A69;--line:#C9CED6;--acc:#1F4E8C;--marca:#B3261E;--sobre-acc:#F7F7F5;
+  color-scheme:light dark;
 }
 @media (prefers-color-scheme:dark){
-  :root:not([data-theme=light]){
-    --fondo:#101018;--superficie:#1a1a26;--texto:#ecebf2;--suave:#a9a8bd;
-    --borde:#2f2f44;--acento:#ff4d5e;--acento2:#6f9bff;--oro:#ffcb3d;
-    --sombra:0 2px 0 rgba(0,0,0,.5);
-  }
-}
-:root[data-theme=dark]{
-  --fondo:#101018;--superficie:#1a1a26;--texto:#ecebf2;--suave:#a9a8bd;
-  --borde:#2f2f44;--acento:#ff4d5e;--acento2:#6f9bff;--oro:#ffcb3d;
-  --sombra:0 2px 0 rgba(0,0,0,.5);
+  :root{--bg:#10151C;--fg:#E4E8EE;--soft:#A1ABB8;--line:#2B333E;--acc:#7FA8E0;--sobre-acc:#10151C}
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--fondo);color:var(--texto);
-  font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-a{color:var(--acento2)}
-.contenedor{max-width:1040px;margin:0 auto;padding:0 16px}
-header.heroe{border-bottom:4px solid var(--acento);
-  background:repeating-linear-gradient(45deg,transparent 0 14px,rgba(127,127,127,.06) 14px 28px)}
-header.heroe .contenedor{padding-top:64px;padding-bottom:48px}
-.titulo{font-weight:900;letter-spacing:.04em;text-transform:uppercase;
-  font-size:clamp(2rem,6vw,3.6rem);line-height:1.05;margin:0;font-style:italic}
-.titulo span{color:var(--acento)}
-.lema{font-size:1.15rem;color:var(--suave);margin:16px 0 28px;max-width:46ch}
-nav.menu{display:flex;flex-wrap:wrap;gap:8px}
-.boton{display:inline-block;padding:10px 18px;border:2px solid var(--texto);
-  background:var(--superficie);color:var(--texto);text-decoration:none;
-  font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:.85rem;box-shadow:var(--sombra)}
-.boton:hover,.boton:focus-visible{border-color:var(--acento);color:var(--acento)}
-.boton.principal{background:var(--acento);border-color:var(--acento);color:#fff}
-.boton.principal:hover{filter:brightness(1.1);color:#fff}
-section{padding:48px 0;border-bottom:1px solid var(--borde)}
-h2{text-transform:uppercase;letter-spacing:.08em;font-size:1.3rem;margin:0 0 20px;
-  display:flex;align-items:center;gap:10px}
-h2::before{content:"";width:12px;height:12px;background:var(--oro);transform:rotate(45deg)}
-.capturas{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-figure{margin:0;background:var(--superficie);border:2px solid var(--borde);padding:8px}
-figure img{display:block;width:100%;height:auto;image-rendering:pixelated}
-figcaption{font-size:.85rem;color:var(--suave);padding-top:6px;text-align:center}
-.rejilla{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-.tarjeta{background:var(--superficie);border:2px solid var(--borde);border-left:6px solid var(--acento2);padding:16px}
-.tarjeta h3{margin:0 0 6px;font-size:1rem;text-transform:uppercase;letter-spacing:.04em}
-.tarjeta p{margin:0;color:var(--suave);font-size:.95rem}
-ol,ul{padding-left:1.3em}
-li{margin:4px 0}
-code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.9em;
-  background:var(--superficie);border:1px solid var(--borde);padding:1px 5px;overflow-wrap:anywhere}
-.aviso{font-size:.9rem;color:var(--suave)}
-footer{padding:24px 0 40px;font-size:.85rem;color:var(--suave)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:Georgia,"Times New Roman",Times,serif;font-size:17px;line-height:1.65}
+.in{max-width:760px;margin:0 auto;padding:44px 16px 36px}
+a{color:var(--acc)}
+a:focus-visible,.btn:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
+.salto{position:absolute;left:16px;top:-60px;background:var(--acc);color:var(--sobre-acc);padding:8px 14px;font-family:system-ui,sans-serif;z-index:9}
+.salto:focus{top:8px}
+h1,h2,.meta,.btn,nav,th,.notas,footer,.toc,figcaption,.resumen strong{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+h1{font-size:clamp(1.7rem,6vw,2.35rem);line-height:1.15;margin:0 0 6px;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.linea{height:3px;width:72px;background:var(--marca);margin:10px 0 14px}
+.meta{font-size:.82rem;color:var(--soft);margin:0 0 22px}
+h2{font-size:1.05rem;margin:34px 0 10px;padding-top:12px;border-top:1px solid var(--line);font-weight:700;scroll-margin-top:12px}
+h2 b{color:var(--acc);margin-right:.5em}
+.resumen{border-top:1px solid var(--fg);border-bottom:1px solid var(--line);padding:12px 2px;margin:0 0 20px}
+.resumen strong{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em}
+.resumen p{margin:6px 0 0}
+.en{font-style:italic;color:var(--soft);font-size:.95rem}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px}
+.btn{display:inline-block;padding:10px 14px;border:1px solid var(--fg);color:var(--fg);text-decoration:none;font-size:.85rem;font-weight:600;border-radius:3px}
+.btn.p{background:var(--acc);border-color:var(--acc);color:var(--sobre-acc)}
+.toc{font-size:.88rem;color:var(--soft);margin:14px 0 0}
+.toc a{display:inline-block;margin:0 12px 2px 0;text-decoration:none}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+figure{margin:0}
+figure img{display:block;width:100%;height:auto;border:1px solid var(--line);image-rendering:pixelated}
+figcaption{font-size:.82rem;color:var(--soft);padding-top:5px}
+.tabla{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.92rem;border-top:2px solid var(--fg);border-bottom:2px solid var(--fg)}
+th{font-size:.78rem;text-align:left;padding:7px 8px;border-bottom:1px solid var(--fg);text-transform:uppercase;letter-spacing:.05em}
+td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.82em;overflow-wrap:anywhere}
+sup{font-family:system-ui,sans-serif}
+sup a{padding:0 2px}
+.notas{font-size:.84rem;color:var(--soft);border-top:1px solid var(--line);margin-top:30px;padding-top:10px}
+.notas p{margin:3px 0}
+footer{font-size:.8rem;color:var(--soft);margin-top:22px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
-<header class="heroe">
-  <div class="contenedor">
-    <h1 class="titulo">Mario Kart 64 <span>para PS2</span><br>en español</h1>
-    <p class="lema">El clásico de Nintendo 64, portado a PlayStation 2 y traducido por completo, con Ñ y tildes.</p>
-    <nav class="menu" aria-label="Secciones">
-      <a class="boton principal" href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/latest">Descargar</a>
-      <a class="boton" href="#funciones">Funciones</a>
-      <a class="boton" href="#jugar">Cómo jugar</a>
-      <a class="boton" href="caso-de-estudio.html">Caso de estudio</a>
+<a class="salto" href="#contenido">Saltar al contenido</a>
+<div class="in">
+  <header>
+    <h1>Mario Kart 64 para PlayStation 2, en español</h1>
+    <div class="linea" aria-hidden="true"></div>
+    <p class="meta">Alexis Barrera · Desarrollador e ingeniero de observabilidad · Versión 1.2.1</p>
+
+    <div class="resumen">
+      <strong>Resumen</strong>
+      <p>Mario Kart 64 es el juego de mi infancia. Quise mejorarlo, traducirlo por completo y jugarlo en mi PlayStation 2, y la descompilación comunitaria lo hizo posible. Este trabajo aporta la traducción al español, con Ñ y tildes, del port a PS2, un menú de configuración, trucos opcionales y una verificación automática en un emulador. No tiene ánimo de lucro: no se cobra, no hay donaciones, publicidad ni patrocinio. Se publican la ISO y el ELF, como hace el repositorio original, para que la comunidad pueda probarlos. También es una pieza de mi portafolio.</p>
+      <p class="en" lang="en"><strong>Abstract.</strong> A complete Spanish translation of the community PlayStation 2 port of Mario Kart 64, with an options menu, optional cheats and automated emulator checks. A personal, non-profit project: nothing is sold and no money is accepted.
+      The ISO and ELF are published for the community to try; you must own the original game.</p>
+    </div>
+    <nav aria-label="Acciones">
+      <a class="btn p" href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/latest">Descargar ISO</a>
+      <a class="btn" href="https://github.com/Alexis-VsCode/mario-kart-64-ps2">Código en GitHub</a>
+      <a class="btn" href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/docs/caso-de-estudio.md">Caso de estudio</a>
+      <a class="btn" href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/docs/manual/usuario.md">Manual de usuario</a>
     </nav>
-  </div>
-</header>
+    <p class="toc">Contenido: <a href="#capturas">1 Capturas</a> <a href="#incluye">2 Qué incluye</a> <a href="#jugar">3 Cómo jugar</a> <a href="#descarga">4 Descarga y verificación</a> <a href="#autoria">5 Autoría</a> <a href="#legal">6 Aviso legal</a></p>
+  </header>
 
-<main class="contenedor">
-  <section id="capturas" aria-labelledby="t-capturas">
-    <h2 id="t-capturas">Capturas</h2>
-    <div class="capturas">
-      <figure><img src="img/menu.png" width="640" height="448" alt="Menú principal en español" loading="lazy"><figcaption>Menú</figcaption></figure>
-      <figure><img src="img/carrera.png" width="640" height="448" alt="Carrera en curso" loading="lazy"><figcaption>Carrera</figcaption></figure>
-      <figure><img src="img/configuracion.png" width="640" height="448" alt="Menú CONFIGURACIÓN Y TRUCOS con sus nueve filas en español" loading="lazy"><figcaption>Configuración</figcaption></figure>
+  <main id="contenido">
+    <h2 id="capturas"><b>1</b>Capturas</h2>
+    <div class="figs">
+      <figure><img src="img/menu.png" width="640" height="448" alt="Menú principal en español" loading="lazy"><figcaption>Figura 1. Menú principal.</figcaption></figure>
+      <figure><img src="img/carrera.png" width="640" height="448" alt="Carrera en curso con el marcador en español" loading="lazy"><figcaption>Figura 2. Carrera en curso.</figcaption></figure>
+      <figure><img src="img/configuracion.png" width="640" height="448" alt="Menú Configuración y trucos con sus filas en español" loading="lazy"><figcaption>Figura 3. Configuración y trucos.</figcaption></figure>
     </div>
-    <p class="aviso">Capturas tomadas por la CI en el emulador Play!.</p>
-  </section>
+    <p class="meta">Capturas tomadas por la integración continua en el emulador Play!.</p>
 
-  <section id="funciones" aria-labelledby="t-funciones">
-    <h2 id="t-funciones">Funciones</h2>
-    <div class="rejilla">
-      <div class="tarjeta"><h3>Todo en español</h3><p>Menús, mensajes y texturas traducidos: BIENVENIDOS, YA, VUELTA, 1J-4J, PASO A NIVEL y los puestos con «º».</p></div>
-      <div class="tarjeta"><h3>Configuración</h3><p>Antiparpadeo, posición X/Y de la imagen y formato NORMAL, CON BANDAS o PANORÁMICO. Se guarda en la Memory Card.</p></div>
-      <div class="tarjeta"><h3>Trucos</h3><p>Desbloquear todo, elegir objeto, 200cc en GP y VS, y rivales sin ventaja. Los récords se siguen guardando.</p></div>
-      <div class="tarjeta"><h3>Sin ROM</h3><p>La ISO trae el juego completo. También hay un ELF para uLaunchELF desde USB.</p></div>
+    <h2 id="incluye"><b>2</b>Qué incluye<sup><a href="#n1" id="r1" aria-label="Nota 1">1</a></sup></h2>
+    <div class="tabla"><table>
+      <thead><tr><th scope="col">Área</th><th scope="col">Contenido</th></tr></thead>
+      <tbody>
+        <tr><td>Idioma</td><td>Menús, mensajes, texturas y créditos en español, con Ñ, tildes, ¡ y ¿.</td></tr>
+        <tr><td>Imagen</td><td>Antiparpadeo, posición X/Y de la imagen y formato NORMAL, CON BANDAS o PANORÁMICO.</td></tr>
+        <tr><td>Trucos</td><td>Desbloquear todo, elegir objeto, 200cc en GP y VS, y rivales sin ventaja; apagados de fábrica.</td></tr>
+        <tr><td>Calidad</td><td>Pruebas automáticas y arranque del juego en un emulador en cada cambio.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="jugar"><b>3</b>Cómo jugar</h2>
+    <p>Descarga la ISO (o el ELF) y <code>SHA256SUMS</code>, comprueba el archivo con <code>sha256sum -c --ignore-missing SHA256SUMS</code> y ábrelo en PCSX2 o Play!, o cárgalo en una PlayStation 2 con OPL o uLaunchELF. Para guardar, usa una Memory Card formateada en la ranura 1. La imagen sale en NTSC a 60 Hz. Los detalles están en el <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/docs/manual/usuario.md">manual de usuario</a>.</p>
+
+    <h2 id="descarga"><b>4</b>Descarga y verificación<sup><a href="#n2" id="r2" aria-label="Nota 2">2</a></sup></h2>
+    <div class="tabla"><table>
+      <thead><tr><th scope="col">Archivo</th><th scope="col">Tamaño</th><th scope="col">SHA-256</th></tr></thead>
+      <tbody>
+        <tr><td><code>SLUS_999.99.SuperMarioKart64.iso</code></td><td>13 387 776 bytes</td><td><code>3b4321ce86050f1a3bceb5a381ca354cecca1853a784069e56111a232df5eceb</code></td></tr>
+        <tr><td><code>SLUS_999.99.monolitico.elf</code></td><td>12 988 424 bytes</td><td><code>8d79cd1ab153ebd9ea391dc2860f3700a87a542b7fc769091d8a74a262c4e5dd</code></td></tr>
+      </tbody>
+    </table></div>
+    <p>Ambos archivos están en la <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/latest">última Release</a>.</p>
+
+    <h2 id="autoria"><b>5</b>Autoría</h2>
+    <p>Alexis Barrera: traducción, mejoras del port, menú, pruebas y verificación en la integración continua. El port a PS2 es de <a href="https://github.com/anthoo582/mario-kart-64-ps2">anthoo582</a>, sobre la descompilación comunitaria de Mario Kart 64. Es además una pieza de portafolio de un desarrollador e ingeniero de observabilidad.</p>
+
+    <h2 id="legal"><b>6</b>Aviso legal</h2>
+    <p>Proyecto personal sin ánimo de lucro, educativo y de preservación: no se cobra, no se aceptan donaciones y no hay publicidad ni patrocinio. Se publican la ISO y el ELF, como hace el repositorio original, para que la comunidad pueda probarlos. Para jugar debes tener el juego original. No hay afiliación con Nintendo ni con Sony ni cuenta con su aprobación. Mario Kart 64 y sus personajes son marcas de Nintendo; PlayStation 2 es una marca de Sony Interactive Entertainment. El proyecto se retira si el titular de los derechos lo pide. Los aportes propios tienen licencia MIT (<a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/LICENSE">LICENSE</a>); el juego, sus recursos y el código del repositorio original quedan fuera.</p>
+
+    <div class="notas">
+      <p id="n1">1. Detalle en el <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/CHANGELOG.md">registro de cambios</a> del repositorio. <a href="#r1" aria-label="Volver a la nota 1">↩</a></p>
+      <p id="n2">2. Los valores son los de la Release v1.2.1; se comprueban con <code>sha256sum -c SHA256SUMS</code>. <a href="#r2" aria-label="Volver a la nota 2">↩</a></p>
     </div>
-  </section>
-
-  <section id="jugar" aria-labelledby="t-jugar">
-    <h2 id="t-jugar">Cómo jugar</h2>
-    <ol>
-      <li>Descarga la ISO (o el ELF) y <code>SHA256SUMS</code> de la última versión.</li>
-      <li>Comprueba el archivo: <code>sha256sum -c --ignore-missing SHA256SUMS</code>.</li>
-      <li>Ábrelo en PCSX2 o Play!, o cárgalo en una PS2 con OPL o uLaunchELF.</li>
-      <li>Para guardar, usa una Memory Card formateada en la ranura 1.</li>
-    </ol>
-    <p>Los detalles están en el <a href="manual/usuario.html">manual de usuario</a>. La imagen sale en NTSC a 60 Hz; con una consola PAL hace falta una TV que acepte 60 Hz.</p>
-  </section>
-
-  <section id="descarga" aria-labelledby="t-descarga">
-    <h2 id="t-descarga">Descarga</h2>
-    <p>La ISO, el ELF monolítico y las sumas SHA-256 están en la Release de GitHub.</p>
-    <a class="boton principal" href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/releases/latest">Última versión</a>
-  </section>
-
-  <section id="autor" aria-labelledby="t-autor">
-    <h2 id="t-autor">Autor</h2>
-    <p><strong>Alexis Barrera</strong>, desarrollador e ingeniero de observabilidad. Mario Kart 64 es el juego de mi infancia; quise traducirlo, mejorarlo y jugarlo en mi PS2 aprovechando la descompilación.</p>
-    <p>Código, documentación y proceso en el <a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2">repositorio de GitHub</a> y en el <a href="caso-de-estudio.html">caso de estudio</a>.</p>
-    <p>Créditos: el port a PS2 es de <a href="https://github.com/anthoo582/mario-kart-64-ps2">anthoo582</a>, sobre la descompilación comunitaria de Mario Kart 64.</p>
-  </section>
-
-  <section id="aviso" aria-labelledby="t-aviso">
-    <h2 id="t-aviso">Aviso legal</h2>
-    <p class="aviso">Proyecto sin fines de lucro, educativo y de preservación. No tiene afiliación con Nintendo ni con Sony ni cuenta con su aprobación. Mario Kart 64 y sus personajes son marcas de Nintendo; PlayStation 2 es una marca de Sony Interactive Entertainment. Para jugar debes tener el juego original. El proyecto se retira si el titular de los derechos lo pide. Los aportes propios de este fork tienen licencia MIT (<a href="https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/LICENSE">LICENSE</a>); el juego, sus recursos y el código del repositorio original quedan fuera.</p>
-  </section>
-</main>
-
-<footer class="contenedor">Mario Kart 64 para PS2 en español · Alexis Barrera</footer>
+  </main>
+  <footer>Mario Kart 64 para PlayStation 2, en español · Alexis Barrera</footer>
+</div>
 </body>
 </html>
