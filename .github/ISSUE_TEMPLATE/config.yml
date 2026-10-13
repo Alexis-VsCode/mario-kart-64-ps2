@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Aviso de seguridad
+    url: https://github.com/Alexis-VsCode/mario-kart-64-ps2/security/advisories/new
+    about: Si encuentras una vulnerabilidad, avísame en privado en lugar de abrir una incidencia.
+  - name: Manual del proyecto
+    url: https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/docs/manual/README.md
+    about: Antes de preguntar, mira si el manual ya lo responde.

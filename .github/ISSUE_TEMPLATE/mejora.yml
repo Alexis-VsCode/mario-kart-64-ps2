@@ -1,0 +1,22 @@
+name: Mejora
+description: Propón un cambio en la traducción, el menú o la documentación.
+labels: ["mejora"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Reviso las incidencias cuando puedo; es un proyecto personal y sin ánimo de lucro. No puedo prometer plazos, pero leo todas las propuestas.
+  - type: textarea
+    id: propuesta
+    attributes:
+      label: Qué propones
+      description: Describe el cambio, con el texto actual y el que sugieres si es una corrección de traducción.
+    validations:
+      required: true
+  - type: textarea
+    id: motivo
+    attributes:
+      label: Por qué
+      description: Qué problema resuelve o qué mejora para quien juega.
+    validations:
+      required: true
