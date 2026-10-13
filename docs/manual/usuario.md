@@ -18,7 +18,7 @@ La imagen es NTSC 480i: entrelazada a 640×448 y a 60 Hz (`codigo/graficos/sinte
 
 ## Descarga y comprobación
 
-Los enlaces de descarga están en la [Descarga del README](../../README.md#descarga). La Release publica tres archivos:
+Los enlaces de descarga están en la [Descarga del README](../../README.md#2-qué-incluye-y-descarga-verificable). La Release publica tres archivos:
 
 - la ISO, `SLUS_999.99.SuperMarioKart64.iso`, para PCSX2, Play! y OPL;
 - el ELF monolítico, `SLUS_999.99.monolitico.elf`, para uLaunchELF desde USB;
@@ -120,7 +120,7 @@ Una TV 16:9 estira a lo ancho cualquier imagen 4:3: con NORMAL en esa TV, los pe
 
 ### Archivo de opciones (SMK64CFG.DAT)
 
-Las opciones se guardan aparte de la partida, en `SMK64CFG.DAT`, dentro de la misma carpeta de la Memory Card (ver [Memory Card](#memory-card)). Ocupa 32 bytes, con versión y CRC32. Se escribe al salir del menú solo si algo cambió. Si falta, está dañado o es de otra versión, el juego usa los valores por defecto; un valor fuera de rango se lleva a su valor por defecto. Borrarlo desde el navegador de la consola devuelve todo a los valores de fábrica sin tocar la partida.
+Las opciones se guardan aparte de la partida, en `SMK64CFG.DAT`, dentro de la misma carpeta de la Memory Card (ver [Memory Card](#memory-card)). Ocupa 32 bytes, con versión y CRC32. El juego lo escribe al salir del menú solo si algo cambió. Si falta, está dañado o es de otra versión, el juego usa los valores por defecto; un valor fuera de rango se lleva a su valor por defecto. Borrarlo desde el navegador de la consola devuelve todo a los valores de fábrica sin tocar la partida.
 
 ## Multitap: de 1 a 4 jugadores
 
@@ -152,7 +152,7 @@ La partida se guarda en la Memory Card de la ranura 1, en `/BASLUS-99999SMK64/`:
 
 Al arrancar se carga la copia válida más reciente. Si la tarjeta no responde en 5 s, medidos con el reloj, el juego sigue sin la partida y no guarda.
 
-Si arrancas sin tarjeta y la insertas después, o cambias la tarjeta con el juego en marcha, antes del primer guardado se leen las dos copias de la tarjeta nueva. La partida se escribe sobre la copia más vieja y con una generación mayor que la de la más nueva: así la copia más nueva de esa tarjeta no se pisa, y en el siguiente arranque se carga la partida recién guardada. Si deja de responder más tarde, el juego deja de usarla hasta el siguiente arranque, en lugar de tomarla por una tarjeta nueva (`codigo/sistema/memory_card.c`). Los archivos `SMK64.SAV` y `SMK64.TMP` de versiones anteriores se leen y se borran en el primer guardado.
+Si arrancas sin tarjeta y la insertas después, o cambias la tarjeta con el juego en marcha, antes del primer guardado el juego lee las dos copias de la tarjeta nueva. Escribe la partida sobre la copia más vieja y con una generación mayor que la de la más nueva: así no pisa la copia más nueva de esa tarjeta, y en el siguiente arranque carga la partida recién guardada. Si deja de responder más tarde, el juego deja de usarla hasta el siguiente arranque, en lugar de tomarla por una tarjeta nueva (`codigo/sistema/memory_card.c`). Los archivos `SMK64.SAV` y `SMK64.TMP` de versiones anteriores los lee y los borra el juego en el primer guardado.
 
 ## Consolas PAL y NTSC
 
@@ -174,31 +174,31 @@ El juego está en español, sin selección de idioma. La especificación, el pla
 
 - **Textos:** menús, opciones, pausa, tiempos y resultados, fantasmas, mensajes de la Memory Card («RANURA 1», «COPIAR FANTASMAS» con un aviso honesto porque en PS2 no hay otra tarjeta desde la que copiar), intro de la batalla, ceremonia y créditos (la mitad japonesa de los créditos se conserva). Los botones se nombran como en el DualShock 2: CRUZ, CUADRADO, SELECT y R1.
 - **Nombres de pista:** los oficiales de Nintendo en español (Pista Mario, Senda Arco Iris, Granja Mu-Mu…), con su fuente en el [glosario](../traduccion/glosario.md).
-- **Menú del port:** CONFIGURACIÓN Y TRUCOS, con el estilo y la fuente de OPCIONES; desde la 1.2.1, los valores se ven en amarillo opaco, como las etiquetas. La fuente no tiene «:» ni «/», por eso no se escribe «16:9».
-- **Fuente del menú:** 11 glifos nuevos (Á É Í Ó Ú Ñ Ü ¡ ¿ º ª), dibujados a partir de los originales; los ordinales se escriben «1.º».
-- **Texturas con texto:** 55 texturas (títulos de menú, botones, copas, número de jugadores, los 20 títulos de pista, el cartel de la granja, TIEMPO y VUELTA en el HUD, puestos «1.º»…«8.º» y PULSA START) y los 48 cuadros de los carteles de Lakitu (¡ÚLTIMA!, VUELTA 2 y ¡REVÉS!). En la 1.2.0 se reconstruyeron el «º» de los puestos, VUELTA, los botones y copas de dos líneas y el título de la Pista de la Jungla DK (en la 1.2.1, el punto de los puestos pasa a ir antes de la «º», «8.º»), y se tradujeron los carteles de pista con texto: BIENVENIDOS, YA (el GO de la Pista Mario), PASO A NIVEL (la señal de cruce del Desierto Kalimari) y los emblemas 1J a 4J. Salen de PNG versionados en `recursos/es/`, compuestos con letras de las propias texturas del juego. Las 1229 texturas del juego están clasificadas en el manifiesto `recursos/es/texturas.tsv`: traducidas, sin texto, logotipo o cartel comercial, o no visibles en el port.
+- **Menú del port:** CONFIGURACIÓN Y TRUCOS, con el estilo y la fuente de OPCIONES; desde la 1.2.1, los valores se ven en amarillo opaco, como las etiquetas. La fuente no tiene «:» ni «/», por eso no escribo «16:9».
+- **Fuente del menú:** 11 glifos nuevos (Á É Í Ó Ú Ñ Ü ¡ ¿ º ª), dibujados a partir de los originales; escribo los ordinales «1.º».
+- **Texturas con texto:** 55 texturas (títulos de menú, botones, copas, número de jugadores, los 20 títulos de pista, el cartel de la granja, TIEMPO y VUELTA en el HUD, puestos «1.º»…«8.º» y PULSA START) y los 48 cuadros de los carteles de Lakitu (¡ÚLTIMA!, VUELTA 2 y ¡REVÉS!). En la 1.2.0 reconstruí el «º» de los puestos, VUELTA, los botones y copas de dos líneas y el título de la Pista de la Jungla DK (en la 1.2.1, el punto de los puestos pasa a ir antes de la «º», «8.º»), y traduje los carteles de pista con texto: BIENVENIDOS, YA (el GO de la Pista Mario), PASO A NIVEL (la señal de cruce del Desierto Kalimari) y los emblemas 1J a 4J. Salen de PNG versionados en `recursos/es/`, compuestos con letras de las propias texturas del juego. Las 1229 texturas del juego están clasificadas en el manifiesto `recursos/es/texturas.tsv`: traducidas, sin texto, logotipo o cartel comercial, o no visibles en el port.
 - **Pantallas del port:** panel de rendimiento y página de audio (con tildes), nombres de fase, registro y guiones de prueba. La pantalla de fallo escribe con tildes («PARADA DE DIAGNÓSTICO») mediante `scr_putchar` de ps2sdk y los glifos CP437 de su fuente, que la CI comprueba en cada compilación.
 
-**Qué no se traduce:** nombres de personaje, logotipos y carteles comerciales, 50cc/100cc/150cc, VS, onomatopeyas, las voces (son muestras de audio) y las texturas de la pantalla del Controller Pak, que el port no puede abrir. El detalle está en la [especificación](../traduccion/especificacion.md#22-excluido).
+**Qué no traduje:** nombres de personaje, logotipos y carteles comerciales, 50cc/100cc/150cc, VS, onomatopeyas, las voces (son muestras de audio) y las texturas de la pantalla del Controller Pak, que el port no puede abrir. El detalle está en la [especificación](../traduccion/especificacion.md#22-excluido).
 
-Cómo se comprobó la localización está en el [manual técnico](tecnico.md#pruebas).
+Cómo comprobé la localización está en el [manual técnico](tecnico.md#pruebas).
 
 ## Limitaciones conocidas
 
 Al 2026-10-11, versión 1.2.1:
 
-- **Sin probar en PS2 real ni en una TV.** Tampoco con OPL ni uLaunchELF en hardware, ni con un multitap real. Según el autor del port original, se probó en PCSX2 (con BIOS) y en Play!. Desde la 1.2.0, la CI arranca el juego en Play! en cada cambio y compara capturas del título, del menú, del menú de configuración y de la carrera con referencias aprobadas.
+- **Sin probar en PS2 real ni en una TV.** Tampoco con OPL ni uLaunchELF en hardware, ni con un multitap real. Según el autor del port original, lo probó en PCSX2 (con BIOS) y en Play!. Desde la 1.2.0, la CI arranca el juego en Play! en cada cambio y compara capturas del título, del menú, del menú de configuración y de la carrera con referencias aprobadas.
 - **Verificado solo por los valores de los registros de vídeo:** el antiparpadeo, las bandas y la posición. Las capturas del emulador leen la memoria de vídeo antes de la salida a la TV, así que no los muestran. Falta comprobar en una TV cómo se ven.
 - **Sin verificar en una consola real:**
   - el tacto del stick con la zona muerta de 8;
   - el multitap;
   - el cambio de Memory Card con el juego en marcha;
   - el rendimiento en PANORÁMICO, que dibuja más objetos por cuadro;
-  - la lectura de la región en `rom0:ROMVER`: solo se comprobó en Play! por la ruta con reinicio del IOP y con un ROMVER sintético; lanzado desde OPL sin reinicio, o con una BIOS real, no. Si falla, el registro dice «región de la consola desconocida» y el juego sigue igual.
+  - la lectura de la región en `rom0:ROMVER`: solo lo comprobé en Play! por la ruta con reinicio del IOP y con un ROMVER sintético; lanzado desde OPL sin reinicio, o con una BIOS real, no. Si falla, el registro dice «región de la consola desconocida» y el juego sigue igual.
 - **PANORÁMICO:** el marcador sale estirado, y en los bordes algún objeto o tramo de pista puede aparecer tarde.
 - **Los trucos no marcan los récords** (ver [Advertencias de los trucos](#advertencias-de-los-trucos)).
 - **Copiar fantasmas no está disponible:** en PS2 no hay otra tarjeta desde la que copiar, y el menú lo avisa.
-- **La pantalla del Controller Pak** no se abre en el port y sus texturas no se traducen.
+- **La pantalla del Controller Pak:** el port no la abre y no traduje sus texturas.
 - **Con una consola PAL hace falta una TV que acepte 60 Hz** (ver [Consolas PAL y NTSC](#consolas-pal-y-ntsc)).
 
 ## Solución de problemas
@@ -221,9 +221,9 @@ Las últimas líneas del registro también aparecen en la pantalla de fallo, en 
 
 ## Aviso legal
 
-- **Sin fines de lucro.** Es un proyecto educativo, de preservación y de apoyo a la comunidad. No se vende, no se cobra por descargarlo y no lleva publicidad.
+- **Sin fines de lucro.** Es un proyecto educativo, de preservación y de apoyo a la comunidad. No vendo nada, no cobro por descargarlo y no lleva publicidad.
 - **Sin afiliación.** No está afiliado a Nintendo ni a Sony, ni respaldado por ellas. Mario Kart 64, sus personajes y sus marcas son de Nintendo; PlayStation 2 es una marca de Sony Interactive Entertainment.
-- **Qué se publica.** La ISO y el ELF se publican igual que en el repositorio original del port, [anthoo582/mario-kart-64-ps2](https://github.com/anthoo582/mario-kart-64-ps2). El trabajo se apoya en el port de anthoo582 y en el [proyecto de descompilación de Mario Kart 64](https://github.com/n64decomp/mk64); los créditos completos están en [creditos.md](creditos.md).
-- **Licencia.** El repositorio original no declara licencia. Este fork publica con licencia MIT solo sus propios aportes ([LICENSE](../../LICENSE)); el juego, sus recursos, la descompilación y el código del repositorio original quedan fuera.
+- **Qué publico.** Publico la ISO y el ELF igual que en el repositorio original del port, [anthoo582/mario-kart-64-ps2](https://github.com/anthoo582/mario-kart-64-ps2). El trabajo se apoya en el port de anthoo582 y en el [proyecto de descompilación de Mario Kart 64](https://github.com/n64decomp/mk64); los créditos completos están en [creditos.md](creditos.md).
+- **Licencia.** El repositorio original no declara licencia. Publico con licencia MIT solo mis aportes a este fork ([LICENSE](../../LICENSE)); el juego, sus recursos, la descompilación y el código del repositorio original quedan fuera.
 
 El aviso completo está en la [portada del repositorio](../../README.md#aviso-legal).

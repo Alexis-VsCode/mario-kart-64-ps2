@@ -1,6 +1,6 @@
 # Créditos
 
-Quién hizo cada parte de este repositorio. El historial de git registra el autor de cada commit; aquí se resume por áreas, sin contar commits: el primer commit del port original trae el port entero.
+Quién hizo cada parte de este repositorio. El historial de git registra quién firma cada commit; aquí lo resumo por áreas, sin contar commits: el primer commit del port original trae el port entero.
 
 ## Port a PlayStation 2: anthoo582
 
