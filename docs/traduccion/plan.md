@@ -3,22 +3,22 @@
 Este documento dice cómo se cumplió la [especificación](especificacion.md) y el estado de cada fase. El trabajo se repartió en roles que avanzaron en paralelo, cada uno en su propia rama y su propio worktree (`git worktree add`). Solo INTEGRACIÓN integró.
 
 - **F0 a F7** (localización, hasta 2026-09-29) están cerradas y se conservan como histórico: sus ramas se fusionaron en `feature/idioma-espanol`, que se fusionó a `main` (`3f43c005`). F6 se retiró por [CC-12](cambios.md).
-- **F8** (sincronización con el original, 2026-10-11) está cerrada: se integró en `feature/sincronizacion-upstream`, se publicó en `900c9be3` y está en `main` (`af3bfa05`), la versión 1.0.0.
-- **F9** (versión 1.1.0, 2026-10-11) está cerrada: se integró en `feature/version-1.1.0`, se publicó en `45bbe10a` y está en `main`.
+- **F8** (sincronización con el original, 2026-10-11) está cerrada: la integré en `feature/sincronizacion-upstream`, la publiqué en `900c9be3` y está en `main` (`af3bfa05`), la versión 1.0.0.
+- **F9** (versión 1.1.0, 2026-10-11) está cerrada: la integré en `feature/version-1.1.0`, la publiqué en `45bbe10a` y está en `main`.
 - **F10** (versión 1.2.0, 2026-10-11) está integrada en `feature/version-1.2.0` (`fd6a4bb7`). Lo que queda por hacer está en [README.md § Pendiente](README.md#pendiente).
 - **F11** (versión 1.2.1, 2026-10-11, [CC-31](cambios.md)) está en `feature/capturas-1.2.1` (`863cbc45`) y se publicará como `v1.2.1`.
 
 ## 1. Principios
 
 - **Lectura inicial.** Antes de tocar nada se leen el `README.md`, `docs/traduccion/` y la salida de `git status --short`.
-- **Núcleo puro y adaptadores PS2 finos.** Decodificadores, anchos y conversión de formatos compilan en el PC y se prueban con `make test`. Lo que toca el GS, `scr_printf` o el DMA queda en adaptadores finos. Ejemplos ya hechos: `caracteres_es.c` y `descompresion_textura_menu.c` son puros; `tkmk00decode` es el adaptador.
+- **Núcleo puro y adaptadores PS2 finos.** Decodificadores, anchos y conversión de formatos compilan en el PC y los pruebo con `make test`. Lo que toca el GS, `scr_printf` o el DMA queda en adaptadores finos. Ejemplos ya hechos: `caracteres_es.c` y `descompresion_textura_menu.c` son puros; `tkmk00decode` es el adaptador.
 - **Una sola fuente de verdad:**
   - `lista_glifos.inc.c` (X-macro) da a la vez la LUT y los anchos;
   - `recursos/es/texturas.tsv` gobierna las texturas y sus tamaños.
 - **Despacho por firma.** El cargador de texturas elige TKMK00 o MIO0 leyendo la cabecera.
 - **Herramientas deterministas.** Glifos, texturas y cabeceras salen de herramientas del repositorio. No se editan binarios a mano.
 - **Pruebas guiadas por tablas.** Cuentas, límites y textos esperados están versionados.
-- **Sin sobreingeniería.** No se escribe un codificador TKMK00: las traducidas van en MIO0.
+- **Sin sobreingeniería.** No escribo un codificador TKMK00: las traducidas van en MIO0.
 - **Otros principios:**
   - reutilizar antes de crear;
   - medir antes de optimizar;
@@ -78,7 +78,7 @@ origin/main (0e7b7d5)
 
 ### 3.2 F8
 
-Las subramas de F8 salieron de `36fc9e40`, el commit que deja en español los textos nuevos del original, y se integraron en `feature/sincronizacion-upstream` con `git merge --no-ff`. El detalle de cada una está en [F8](#f8-sincronización-con-el-original).
+Las subramas de F8 salieron de `36fc9e40`, el commit que deja en español los textos nuevos del original, y las integré en `feature/sincronizacion-upstream` con `git merge --no-ff`. El detalle de cada una está en [F8](#f8-sincronización-con-el-original).
 
 ```
 main (3f43c005)
@@ -99,7 +99,7 @@ main (3f43c005)
 
 ### 3.3 F9
 
-`feature/version-1.1.0` nace de `main` en `af3bfa05` y empieza con el registro de CC-13 a CC-17. Las cinco ramas de código salieron de `5b1caac8`, el último registro, y se integraron con `git merge --no-ff`; las dos de documentación salen de `a29bd920`, con el código ya integrado. El detalle de cada una está en [F9](#f9-versión-110).
+`feature/version-1.1.0` nace de `main` en `af3bfa05` y empieza con el registro de CC-13 a CC-17. Las cinco ramas de código salieron de `5b1caac8`, el último registro, y las integré con `git merge --no-ff`; las dos de documentación salen de `a29bd920`, con el código ya integrado. El detalle de cada una está en [F9](#f9-versión-110).
 
 ```
 main (af3bfa05)
@@ -117,7 +117,7 @@ main (af3bfa05)
 
 ### 3.4 F10
 
-`feature/version-1.2.0` nace de `main` en `fc17498f` y empieza con el registro de CC-18 a CC-27 (`edad2078`). `v120/contrato` fija las opciones del port y las ramas que las usan salen de su último commit, `93cb4d04`. CC-28 y CC-29 se registraron antes de sus ramas. Todas se integraron con `git merge --no-ff`. El detalle de cada una está en [F10](#f10-versión-120).
+`feature/version-1.2.0` nace de `main` en `fc17498f` y empieza con el registro de CC-18 a CC-27 (`edad2078`). `v120/contrato` fija las opciones del port y las ramas que las usan salen de su último commit, `93cb4d04`. Registré CC-28 y CC-29 antes de sus ramas. Integré todas con `git merge --no-ff`. El detalle de cada una está en [F10](#f10-versión-120).
 
 ```
 main (fc17498f)
@@ -160,7 +160,7 @@ main
 
 ### 3.6 Verificación al crear una rama
 
-Para una rama nueva se ejecuta todo esto y se adjunta la salida al PR. `merge-base` no sirve como prueba.
+Para una rama nueva, ejecuta todo esto y adjunta la salida al PR. `merge-base` no sirve como prueba.
 
 ```sh
 git reflog show <rama> | tail -1                  # punto de creación
@@ -179,7 +179,7 @@ git log --format='%ae' origin/main..<rama> | sort -u
 | F3 | FUENTE | LUT de 236 entradas, caracteres del español, glifos nuevos, tope del pool y cadenas con tildes | `idioma/fuente` | `prueba_tablas_glifos.py`, `prueba_glifos.c`, `prueba_glifos_es.py` y `prueba_caracteres_es.c` en verde | Cerrada (histórico): `418ea18`…`641fe27`. El registro DEV de R-FUE-05 que faltaba lo hice en F8 |
 | F4 | CADENAS ∥ TEXTURAS ∥ PORT | Bloques B1–B7, A0–A6 → B → C y P1–P5 | `idioma/{cadenas,texturas,port}` | Por bloque: rojo → verde → revisión | Cerrada (histórico), integrada en `d3663fd`, `b043668` y `2ae3d3a`. Sin paso G-FALLO (ver P4 y [deuda.md](deuda.md)) |
 | F5 | REVISIÓN ×2 | Revisión adversarial de cada bloque y verificación de las mutaciones restauradas | — | Sin hallazgos Alta o Media abiertos | Cerrada (histórico) sin registro en el repositorio (ver [trazabilidad.md](trazabilidad.md), R-GOB-03 y R-GOB-04). Desde F8 la revisión queda en [revisiones/](revisiones/) |
-| F6 | Responsable del proyecto | Recorrido en PCSX2 con el guion DEV y al menos una captura en TV | — | Capturas aprobadas | **Retirada por [CC-12](cambios.md)**: la versión se verifica con las pruebas del PC y la CI. La falta de verificación visual es una limitación declarada ([deuda.md](deuda.md), D-06) |
+| F6 | Responsable del proyecto | Recorrido en PCSX2 con el guion DEV y al menos una captura en TV | — | Capturas aprobadas | **Retirada por [CC-12](cambios.md)**: verifico la versión con las pruebas del PC y la CI. La falta de verificación visual es una limitación declarada ([deuda.md](deuda.md), D-06) |
 | F7 | INTEGRACIÓN | Integración, regeneración de `build/` y `compilaciones/`, sección «Idioma» del README y requisitos del README sin `iconv` obligatorio | `feature/idioma-espanol` | Definición de terminado de entonces (§8) | Cerrada (histórico): merges, `dda9a5f` (job `publicar`, CI 36518116212) y fusión a `main` (`3f43c005`) |
 | F8 | INTEGRACIÓN, autores por rama y REVISIÓN ×2 | Sincronización con el original hasta `ae93f71` (CC-08), CI con Release y limpieza de ramas (CC-09), correcciones con evidencia (CC-11), pendientes técnicos de F3 y F4 y documentación (CC-12) | `feature/sincronizacion-upstream` y `sinc/*` | [Definition of Done](../../CONTRIBUTING.md) y [acta de revisión](revisiones/2026-10-11-sincronizacion.md) sin hallazgos Alta o Media abiertos, salvo el de G5 | Cerrada: publicación `900c9be3` y fusión a `main` (`af3bfa05`), versión 1.0.0. El hallazgo de G5 se resolvió en F9 (CC-17) |
 | F9 | INTEGRACIÓN, autores por rama y REVISIÓN ×2 | Versión 1.1.0: Memory Card (CC-13), zona muerta del stick (CC-14), región de la consola (CC-15), publicación comprobada y ELF monolítico (CC-16), prueba del alfa con tramado (CC-17) y deudas D-01, D-02 y D-09 a D-15 | `feature/version-1.1.0` y `v110/*` | [Definition of Done](../../CONTRIBUTING.md) y [acta de revisión](revisiones/2026-10-11-version-1.1.0.md) sin hallazgos Alta o Media abiertos | Cerrada: publicada en `45bbe10a` y en `main` |
@@ -193,7 +193,7 @@ git log --format='%ae' origin/main..<rama> | sort -u
 | `f8f9a39` | `OBJETIVOS_PC := test clean herramientas`: solo los demás objetivos exigen `PS2SDK` | R-INF-01 |
 | `727c7ed` | `convertir_eucjp.py` sustituye a `iconv`, con `prueba_convertir_eucjp.py` | R-INF-02 |
 | `ecbfd5c` | Los metadatos de pista entran en la conversión y se buscan primero en `build/ps2/jp` (`-iquote`); `make test` depende de las copias convertidas | R-INF-03, R-INF-04 |
-| `8fdea7c` | Las pruebas se compilan con `-fsigned-char` | R-INF-04 |
+| `8fdea7c` | Las pruebas compilan con `-fsigned-char` | R-INF-04 |
 | `f1f3d3d` | `comprobar_lineas.py` dentro de `make test` | R-INF-06 |
 | `7387d01` | CI: jobs `pruebas-pc` y `compilar-ps2` | R-INF-05 |
 | `6dd12e7` | CI: el job de PS2 empieza con `make clean` | R-INF-05, R-GOB-05 |
@@ -207,7 +207,7 @@ Los esqueletos de prueba con fallos esperados que pedía el plan los hice dentro
 | Orden | Commit | Tipo | Qué hace | Requisito |
 |---|---|---|---|---|
 | 1 | `418ea18` | refactor | Las funciones de glifos pasan a `glifos.inc.c` | R-GOB-02 |
-| 2 | `4e35120` | fix | La LUT pasa a 236 entradas en orden N64, desaparecen los 7 arreglos y se añade el `ASSERT_ESTATICO` | R-FUE-01 |
+| 2 | `4e35120` | fix | La LUT pasa a 236 entradas en orden N64, desaparecen los 7 arreglos y aparece el `ASSERT_ESTATICO` | R-FUE-01 |
 | 3 | `1c9545d` | refactor | `lista_glifos.inc.c` (X-macro) da la LUT y los anchos | R-FUE-01, R-GOB-02 |
 | 4 | `cb36bbc` | build | `comparar_preprocesado.py` para comprobar un refactor sin SDK | R-GOB-02 |
 | 5 | `9e6bec7` | feat | `caracteres_es.c`: lectura en EUC-JP y UTF-8, letra base, signo y `quitar_diacriticos` | R-FUE-03, R-PORT-03 |
@@ -252,7 +252,7 @@ Los esqueletos de prueba con fallos esperados que pedía el plan los hice dentro
 
 `236962b` trae a `idioma/texturas` el final de `idioma/infra`.
 
-Familias del bloque C, en el orden en que se integraron:
+Familias del bloque C, en el orden de integración:
 
 1. Títulos grandes (`03e5967`)
 2. Botones, tarjetas de modo y jugadores, y copas (`788a957`)
@@ -273,11 +273,11 @@ Familias del bloque C, en el orden en que se integraron:
 
 Los cambios de escala o de paso que pidió la maquetación están en [cambios.md](cambios.md) (CC-01, CC-02, CC-03 y CC-07).
 
-R-GOB-01 no se cumplió del todo: `31eaf62` (texturas), `da631b0` y `6794945` (cadenas) y el de publicación `dda9a5f` son de tipo `chore`, que no está entre los admitidos. No se reescribió la historia; está registrado en [CC-06](cambios.md).
+R-GOB-01 no se cumplió del todo: `31eaf62` (texturas), `da631b0` y `6794945` (cadenas) y el de publicación `dda9a5f` son de tipo `chore`, que no está entre los admitidos. No reescribí la historia; está registrado en [CC-06](cambios.md).
 
 ### F8: sincronización con el original
 
-Aprobé el plan de F8 el 2026-10-11. Los cambios se registraron antes de tocar el código (`df07cfa9`, `55cbf083`, `73bb9a8f` y `132d4bf5`: CC-08 a CC-11). Después, en `feature/sincronizacion-upstream`:
+Aprobé el plan de F8 el 2026-10-11. Registré los cambios antes de tocar el código (`df07cfa9`, `55cbf083`, `73bb9a8f` y `132d4bf5`: CC-08 a CC-11). Después, en `feature/sincronizacion-upstream`:
 
 1. **Fusión** del original hasta `ae93f71` (`9f4d0215`), con `git -c merge.directoryRenames=false merge --no-ff` (CC-08).
 2. **Textos nuevos del original en español:** `748db117` (lista negra de `prueba_textos_port.py`, en rojo) y `36fc9e40` (traducción, en verde).
@@ -294,14 +294,14 @@ Aprobé el plan de F8 el 2026-10-11. Los cambios se registraron antes de tocar e
 | `sinc/sistema` | Prueba de arranque (CC-08), E3, E4 y E5 (CC-11) y tildes de las pruebas | `664d9013`, `176651ed`, `a86960cf`, `61a88a74`, `372f10ed` | `bbb11eb6` |
 | `sinc/pendientes` | Tabla de glifos sin alias del original (G1), tope de `funcion_80095BD0` (R-FUE-07), L2 (CC-11), registro DEV de R-FUE-05 en las tres impresoras y tildes de las pruebas | `e600bd6e`, `697f3af6`, `9adc3192`, `a5e97ddf`, `f38d6de6`, `94cdfea5`, `27199b8f` | `cf956b42` |
 | `sinc/panel` | L3 (CC-11), botones de PS2 en el manifiesto (R-TEX-07) y tildes de la prueba | `4612a508`, `ac4fcdae`, `5d901a47`, `4e4cc6f8` | `240358fd` |
-| `sinc/graficos` | G5, G2 y G4 con sus correcciones de revisión | `fb6a81c0`, `ae92ebc4`, `d9c9e2ee`, `27091745`, `30dc154e`, `adf45533` | No se integra: solo G5, como `sinc/graficos-g5` |
-| `sinc/recorrido` | Cinco guiones de PCSX2 con capturas y hoja de capturas (CC-10) | `bb920d50`…`93cae6c0` (8 commits) | No se integra: CC-10 rechazado |
+| `sinc/graficos` | G5, G2 y G4 con sus correcciones de revisión | `fb6a81c0`, `ae92ebc4`, `d9c9e2ee`, `27091745`, `30dc154e`, `adf45533` | Sin integrar: solo G5, como `sinc/graficos-g5` |
+| `sinc/recorrido` | Cinco guiones de PCSX2 con capturas y hoja de capturas (CC-10) | `bb920d50`…`93cae6c0` (8 commits) | Sin integrar: CC-10 rechazado |
 
-`sinc/sistema` se integró con los mensajes reescritos para quitar los trailers que encontró REVISIÓN; los árboles son los revisados. La correspondencia de hashes está en el [acta](revisiones/2026-10-11-sincronizacion.md#resumen).
+Integré `sinc/sistema` con los mensajes reescritos para quitar los trailers que encontró REVISIÓN; los árboles son los revisados. La correspondencia de hashes está en el [acta](revisiones/2026-10-11-sincronizacion.md#resumen).
 
 ### F9: versión 1.1.0
 
-Aprobé el plan de F9 el 2026-10-11. Los cambios se registraron antes de tocar el código (`0c39b416`, `111eb2c7`, `33cbcbb3`, `2857317b` y `5b1caac8`: CC-13 a CC-17). Después, en `feature/version-1.1.0`:
+Aprobé el plan de F9 el 2026-10-11. Registré los cambios antes de tocar el código (`0c39b416`, `111eb2c7`, `33cbcbb3`, `2857317b` y `5b1caac8`: CC-13 a CC-17). Después, en `feature/version-1.1.0`:
 
 1. **Ramas de código**, una por frente, desde `5b1caac8`, cada una con su revisión técnica y lingüística ([acta](revisiones/2026-10-11-version-1.1.0.md)).
 2. **Integración** con `--no-ff`, en este orden: `v110/graficos` (`9289608a`) → `v110/memoria` (`4465f614`) → `v110/region` (`d105a89b`) → `v110/ci-textos` (`12579275`) → `v110/entrada` (`4563d816`). `v110/entrada` esperó al arreglo de la cruceta, el hallazgo Media de su revisión.
@@ -317,11 +317,11 @@ Aprobé el plan de F9 el 2026-10-11. Los cambios se registraron antes de tocar e
 | `v110/ci-textos` | Publicación comprobada y ELF monolítico en la Release (CC-16); D-09, D-10, D-14 y D-15; registro «ritmo» en lugar de «3-4P» | `bb8d41bd`, `3e2067a4`, `1d8f5670`, `7e9edfaa`, `c641d19b`, `4bdd41a8`, `b780d986` | `12579275` |
 | `v110/entrada` | Zona muerta del stick de 24 a 8 y reposo propio de la cruceta (CC-14) | `1fc4c437`, `4a48ff6a`, `dcbe656e`, `ddbdc023`, `34ab306d`, `2b37f61f` | `4563d816` |
 
-El arreglo de la cruceta se revisó con otros hashes y el mismo parche; la correspondencia está en el [acta](revisiones/2026-10-11-version-1.1.0.md#resumen).
+La revisión independiente revisó el arreglo de la cruceta con otros hashes y el mismo parche; la correspondencia está en el [acta](revisiones/2026-10-11-version-1.1.0.md#resumen).
 
 ### F10: versión 1.2.0
 
-Aprobé el plan de F10 el 2026-10-11, con la maqueta del menú. Los cambios se registraron antes de tocar el código: CC-18 a CC-27 en `edad2078`, CC-28 en `0081dca5` y CC-29 en `0f15c448`. CC-30 (portafolio) se registró con la documentación. Después, en `feature/version-1.2.0`:
+Aprobé el plan de F10 el 2026-10-11, con la maqueta del menú. Registré los cambios antes de tocar el código: CC-18 a CC-27 en `edad2078`, CC-28 en `0081dca5` y CC-29 en `0f15c448`. Registré CC-30 (portafolio) con la documentación. Después, en `feature/version-1.2.0`:
 
 1. **Contrato** de las opciones del port en `v120/contrato` (`93cb4d04`), del que salen las ramas que lo usan.
 2. **Ramas de código**, una por frente, cada una con su revisión técnica y lingüística ([acta](revisiones/2026-10-11-version-1.2.0.md)).
@@ -366,7 +366,7 @@ Aprobé CC-31 el 2026-10-11 y lo registré antes de tocar el código (`8d94ba8d`
 
 1. **Rojo (PRUEBAS).** La prueba nueva falla, y su salida se adjunta al PR.
 2. **Verde (rol autor).** La implementación hace pasar la prueba.
-3. **Mutación restaurada (PRUEBAS).** Se rompe a mano la implementación, la prueba vuelve a fallar y se restaura.
+3. **Mutación restaurada (PRUEBAS).** Rompo a mano la implementación, la prueba vuelve a fallar y la restauro.
 4. **Comprobaciones:** `make test` y los comprobadores.
 5. **Árbol limpio:** `git status --short` vacío.
 6. **Revisión (REVISIÓN).**
@@ -410,7 +410,7 @@ Hay una razón para borrar `build/ps2/jp` antes de probar: al restaurar `build/`
 
 ## 6. Puertas de calidad
 
-| Puerta | Condición | Cómo se comprueba | Estado |
+| Puerta | Condición | Cómo lo compruebo | Estado |
 |---|---|---|---|
 | F0 | Especificación aprobada | Mi aprobación en el PR del frente A | Integrada como base de `feature/idioma-espanol`; la aprobación no quedó registrada en el repositorio |
 | F1 | CI verde | Jobs `pruebas-pc` y `compilar-ps2` | Cumplida en `a3d0bae` |
@@ -447,7 +447,7 @@ Hay una razón para borrar `build/ps2/jp` antes de probar: al restaurar `build/`
 
 Desde CC-12, la única Definition of Done es la de [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
-F0 a F7 se cerraron con la lista de entonces: compila en la CI con la imagen `ps2dev/ps2dev` (`make`, `make DEBUG=1` y `make iso`); `make test` pasa sin regresiones; el Markdown está sincronizado; el árbol queda limpio; y yo confirmo el cierre.
+Cerré F0 a F7 con la lista de entonces: compila en la CI con la imagen `ps2dev/ps2dev` (`make`, `make DEBUG=1` y `make iso`); `make test` pasa sin regresiones; el Markdown está sincronizado; el árbol queda limpio; y yo confirmo el cierre.
 
 ## 9. Verificación
 
@@ -465,7 +465,7 @@ git status --short         # vacío
 
 1. `pruebas-pc`: `make test` sin SDK.
 2. `compilar-ps2`: `make clean`, `make`, el tope de crecimiento de la ROM y el build incremental (desde F10), `make DEBUG=1`, `make DEV=1` (desde F8), `make test`, la inspección de la fuente de libdebug (desde F10) y `make iso` en el contenedor `ps2dev/ps2dev`.
-3. `emulador` (desde F10, CC-26): arranca dos veces el ELF de DEV en Play! 0.72 sin BIOS, revisa el registro y compara las capturas de título, menú, configuración (desde F11) y carrera con `herramientas/emulador/referencias/` y entre sí, con una tolerancia del 0,1 % desde F11 (CC-31). Con `regenerar_referencias=sí`, escribe y commitea las referencias nuevas, que se revisan a ojo antes de integrar.
+3. `emulador` (desde F10, CC-26): arranca dos veces el ELF de DEV en Play! 0.72 sin BIOS, revisa el registro y compara las capturas de título, menú, configuración (desde F11) y carrera con `herramientas/emulador/referencias/` y entre sí, con una tolerancia del 0,1 % desde F11 (CC-31). Con `regenerar_referencias=sí`, escribe y commitea las referencias nuevas, que reviso a ojo antes de integrar.
 4. `mismo-binario`, a mano con una `base`.
 5. `publicar`, a mano con `publicar=si` o `sí`: commit de publicación `build(compilaciones): binarios e ISO en español`. Así se generó `dda9a5f` en F7 (entonces con tipo `chore`). Desde F9 solo omite el commit si no hay nada preparado (`git diff --cached --quiet`); cualquier otro fallo detiene el job (CC-16).
 6. `release`, a mano con `release=<etiqueta>`, en el contenedor `ps2dev/ps2dev`: comprueba que el SHA-256 de la ISO versionada está en `docs/versiones/<etiqueta>.md`, compila `make MONOLITICO=1` y publica la ISO, `SLUS_999.99.monolitico.elf` y un `SHA256SUMS` con las dos líneas, con esas notas (CC-16). Se lanza en otra ejecución, sobre `main`, después de fusionar el commit de publicación; el orden completo está en el [manual técnico](../manual/tecnico.md#ci-y-publicación).
@@ -479,4 +479,4 @@ git status --short         # vacío
 
 ### 9.4 En PCSX2 y en TV (retirado)
 
-El recorrido en PCSX2 con `herramientas/guiones/recorrido_textos.txt` y la captura en TV eran la fase F6. [CC-12](cambios.md) la retiró: la versión se verifica con las pruebas del PC y la CI, y nadie corre recorridos ni manda capturas. Desde F10 la CI arranca el juego en Play! (CC-26); lo que eso deja sin comprobar está en los [límites declarados](especificacion.md#9-límites-declarados). Cómo jugar en PCSX2, en Play! o en una PS2 está en el [manual de usuario](../manual/usuario.md).
+El recorrido en PCSX2 con `herramientas/guiones/recorrido_textos.txt` y la captura en TV eran la fase F6. [CC-12](cambios.md) la retiró: verifico la versión con las pruebas del PC y la CI, y nadie corre recorridos ni manda capturas. Desde F10 la CI arranca el juego en Play! (CC-26); lo que eso deja sin comprobar está en los [límites declarados](especificacion.md#9-límites-declarados). Cómo jugar en PCSX2, en Play! o en una PS2 está en el [manual de usuario](../manual/usuario.md).

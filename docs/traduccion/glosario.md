@@ -1,12 +1,12 @@
 # Glosario de la traducción al español
 
-Términos aprobados para el texto que ve el jugador y fuente de cada nombre oficial. Un término que no está aquí no está aprobado: quien lo necesite lo propone en [cambios.md](cambios.md), lo aprueba REVISIÓN y se añade a este glosario antes de que INTEGRACIÓN integre el bloque que lo usa.
+Términos aprobados para el texto que ve el jugador y fuente de cada nombre oficial. Un término que no está aquí no está aprobado: quien lo necesite lo propone en [cambios.md](cambios.md), lo aprueba REVISIÓN y yo lo añado a este glosario antes de que INTEGRACIÓN integre el bloque que lo usa.
 
 - Qué hay que cumplir: [especificacion.md](especificacion.md).
 - Cómo se trabaja: [plan.md](plan.md).
 - Fuentes externas consultadas el 28-09-2026.
 
-El texto del juego se cita por símbolo, no por número de línea. En `main`, las tablas de texto del menú están en `codigo/menus/elementos_menu/textos_y_tablas.inc.c`. Desde el refactor del bloque CADENAS (`15136d3`) están en `codigo/menus/elementos_menu/textos_menu.inc.c`, con los mismos nombres.
+Cito el texto del juego por símbolo, no por número de línea. En `main`, las tablas de texto del menú están en `codigo/menus/elementos_menu/textos_y_tablas.inc.c`. Desde el refactor del bloque CADENAS (`15136d3`) están en `codigo/menus/elementos_menu/textos_menu.inc.c`, con los mismos nombres.
 
 ## 1. Criterios
 
@@ -33,15 +33,15 @@ El texto del juego se cita por símbolo, no por número de línea. En `main`, la
   - Masculino: 1.º … 8.º.
   - Femenino: 2.ª (2.ª VUELTA).
   - No quedan ST, ND, RD ni TH. Detalle en R-TXT-07 de [especificacion.md](especificacion.md).
-- **Signos que no existen en la fuente del menú:** `)`, `:`, `;`, `/` y `%` no tienen glifo, y `(` se dibuja como «cc» (`car_a_indice_glifo`). No se usan. Se escribe «RANURA 1», no «RANURA: 1».
+- **Signos que no existen en la fuente del menú:** `)`, `:`, `;`, `/` y `%` no tienen glifo, y `(` dibuja «cc» (`car_a_indice_glifo`). No los uso. Escribo «RANURA 1», no «RANURA: 1».
   - Signos disponibles: `! ? - ' " . , * + $`, las cifras y las letras.
-- **Se escriben igual:** VS, OK, TOTAL, EXTRA, START, SELECT, R1 y MEMORY CARD.
+- **Van igual que en inglés:** VS, OK, TOTAL, EXTRA, START, SELECT, R1 y MEMORY CARD.
 
 ### 1.3 Caracteres especiales
 
 Los caracteres Á É Í Ó Ú Ñ Ü ¡ ¿ º ª los resuelve `incluir/sistema/caracteres_es.h`, junto con `codigo/sistema/caracteres_es.c` (desde el commit `9e6bec7`).
 
-- Las cadenas se escriben en UTF-8 legible.
+- Las cadenas van en UTF-8 legible.
 - El conversor del build (`herramientas/convertir_eucjp.py`) las pasa a EUC-JP.
 - En EUC-JP, estos caracteres son de JIS X 0212 y ocupan 3 bytes (`8F xx xx`):
   - fila `AA`: mayúsculas;
@@ -69,7 +69,7 @@ Los caracteres Á É Í Ó Ú Ñ Ü ¡ ¿ º ª los resuelve `incluir/sistema/ca
 **Cómo leer las tablas:**
 
 - **CADENAS:** tablas de texto del código, citadas por símbolo.
-- **TEXTURAS:** imágenes con el texto dibujado. Las de menú se citan por su identificador en el manifiesto `recursos/es/texturas.tsv`. Las del HUD y las demás, por el nombre de su archivo.
+- **TEXTURAS:** imágenes con el texto dibujado. Cito las de menú por su identificador en el manifiesto `recursos/es/texturas.tsv`. Cito las del HUD y las demás por el nombre de su archivo.
 - **Rutas de las texturas:**
   - texturas de menú: `recursos/texturas/menus/tkmk00/<id>.rgba16.tkmk00`;
   - texturas del HUD: `recursos/comunes/texturas/<id>.<formato>.inc.c`.
@@ -88,14 +88,14 @@ Todos los términos de esta sección los decidí yo.
 
 **Nota sobre GRAN PREMIO:**
 
-- Nintendo usa «Grand Prix» en España y en Latinoamérica ([MK World ES][mkw-es], [MK World MX][mkw-mx], [manual de MK7][mk7-manual]). Se eligió la forma española.
+- Nintendo usa «Grand Prix» en España y en Latinoamérica ([MK World ES][mkw-es], [MK World MX][mkw-mx], [manual de MK7][mk7-manual]). Elegí la forma española.
 - «GRAN PREMIO» cabe en la textura en dos líneas, «GRAN» / «PREMIO» (`788a957`, [CC-04](cambios.md)); no hizo falta conservar «MARIO GP».
 
 ### 2.2 Carrera, tiempos y HUD
 
 | Inglés | Español | Dónde aparece | Nota |
 |---|---|---|---|
-| LAP | VUELTA | CADENAS: `texto_tiempo_prefijo[0..2]` («LAP 1» pasa a «VUELTA 1»). TEXTURAS del HUD: `vuelta_hud` y `tiempo_vuelta_hud` | En el HUD, palabra completa. Con 3 y 4 jugadores no cabe y se escribe «VTA.» ([CC-07](cambios.md)). |
+| LAP | VUELTA | CADENAS: `texto_tiempo_prefijo[0..2]` («LAP 1» pasa a «VUELTA 1»). TEXTURAS del HUD: `vuelta_hud` y `tiempo_vuelta_hud` | En el HUD, palabra completa. Con 3 y 4 jugadores no cabe y escribo «VTA.» ([CC-07](cambios.md)). |
 | TIME | TIEMPO | TEXTURAS del HUD: `tiempo_hud` | Palabra completa. |
 | BEST RECORDS | RÉCORDS | CADENAS: `texto_tiempo_mejor[0]` | Nintendo ES: «Bate tus propios récords» ([MK World][mkw-es]). |
 | BEST LAP | MEJOR VUELTA | CADENAS: `texto_tiempo_mejor[1]` | |
@@ -110,7 +110,7 @@ Todos los términos de esta sección los decidí yo.
 
 - El plan pedía ¡ÚLTIMA!, 2.ª VUELTA y ¡AL REVÉS!. Los dos últimos no caben en la placa con letras de 8 filas o más, así que los carteles dicen ¡ÚLTIMA!, VUELTA 2 y ¡REVÉS!, los textos de reserva de `recursos/es/lakitu/lakitu.tsv` (`74cbaf6`). El detalle está en R-TEX-06 de [especificacion.md](especificacion.md).
 - No hay texto oficial equivalente. Desde *Double Dash!!* el aviso de sentido contrario es una flecha. Desde *Mario Kart 7*, el cartel de vuelta muestra la vuelta actual sobre el total ([SMW – Lakitu][smw-lakitu]).
-- Si se quiere proponer otro texto, se registra como discrepancia para REVISIÓN.
+- Si quieres proponer otro texto, regístralo como discrepancia para REVISIÓN.
 
 ### 2.3 Pistas, pilotos y fantasmas
 
@@ -137,7 +137,7 @@ Todos los términos de esta sección los decidí yo.
 | round | RONDA | CADENAS: literales de `funcion_800A2EB8` y `funcion_800A34A8` | Pasa a una tabla con nombre en el bloque B3. |
 | WINNER! / LOSER! | ¡VICTORIA! / ¡DERROTA! | CADENAS: `texto_perder_victoria` | |
 | SOUND MODE | SONIDO | CADENAS: `menu_opcion_texto[1]` | |
-| STEREO / HEADPHONE / MONO | ESTÉREO / AURICULARES / MONO | CADENAS: `sonido_nombres_modo` | `depuracion_sonido_modo_nombres` pertenece al menú de depuración de la N64: se traduce solo en ASCII (bloque B7), sin tilde. |
+| STEREO / HEADPHONE / MONO | ESTÉREO / AURICULARES / MONO | CADENAS: `sonido_nombres_modo` | `depuracion_sonido_modo_nombres` pertenece al menú de depuración de la N64: lo traduzco solo en ASCII (bloque B7), sin tilde. |
 | the end | FIN | CADENAS: `texto_creditos` (`codigo/ceremonia/creditos.c`) | |
 | staff («mariokart64 staff») | EQUIPO | CADENAS: `texto_creditos` | |
 
@@ -247,7 +247,7 @@ Además:
 - **D.K.'s Jungle Parkway:** [Wikipedia ES – MK Wii][wp-mkwii] escribe «Pista de la Jungla de DK». Se usa «Pista de la Jungla DK», la forma de la [guía de MK Wii][guia-hoja] y de SMW.
 - **Kalimari Desert:** [Wikipedia ES – MK7][wp-mk7] escribe «Kalamari». Es una errata: Nintendo ES escribe «Kalimari».
 - **Moo Moo Farm:** el guion de «Mu-Mu» sigue el de «Pradera Mu-Mu», que aparece en la página oficial de [MK8 Deluxe][mk8dx].
-- **Wikipedia ES – Mario Kart 64:** en su texto usa formas no oficiales: «Granja Moo Moo», «Autopista de Toad», «Circuito Real» y «Desierto de Kalimari» ([artículo][wp-mk64]). Se descartan porque Nintendo ES o las guías usan otras.
+- **Wikipedia ES – Mario Kart 64:** en su texto usa formas no oficiales: «Granja Moo Moo», «Autopista de Toad», «Circuito Real» y «Desierto de Kalimari» ([artículo][wp-mk64]). Las descarto porque Nintendo ES o las guías usan otras.
 - **MARIO GP:** ver la nota de GRAN PREMIO en 2.1.
 
 ### 3.6 Dónde se usan los nombres
@@ -266,17 +266,17 @@ Además:
 | Vuelta y tiempo | CADENAS | `texto_tiempo_prefijo[0..2]`, `texto_tiempo_mejor`, `texto_tiempo_vuelta` | Ancho por tinta. |
 | Vuelta y tiempo | TEXTURAS | `vuelta_hud`, `tiempo_vuelta_hud`, `tiempo_hud` | Se amplían sin solaparse con lo que se dibuja al lado (R-TEX-05). |
 
-## 4. Lo que no se traduce
+## 4. Lo que no traduzco
 
 | Qué | Dónde | Por qué |
 |---|---|---|
 | Nombres de personaje | TEXTURAS: `nombre_*` (8). CADENAS: `dato_800E76A8` (MARIO … BOWSER, D.K.) y `nombres_personaje_depuracion` | Son nombres propios. Nintendo ES usa los mismos nombres para estos ocho personajes ([MK8 Deluxe][mk8dx]). |
 | Marcas y logotipos | «MARIO KART 64» en los mensajes (por ejemplo, `dato_800E7A48`) y carteles de marca de las pistas (por ejemplo, `cartel_nintendo_*` en `recursos/texturas/generales/`). También MEMORY CARD, START y SELECT. | Son marcas o nombres de producto. |
 | © | `recursos/texturas/sin_comprimir/copyright_1996.rgba16` («© 1996 Nintendo») | Es el aviso legal. |
-| cc | TEXTURAS: `50cc`, `100cc`, `150cc`. CADENAS: `dato_800E76CC` y `dato_800E76DC` («50(», «100(», «150(»; el `(` se dibuja como «cc») | Es una unidad. «extra» se escribe igual. |
+| cc | TEXTURAS: `50cc`, `100cc`, `150cc`. CADENAS: `dato_800E76CC` y `dato_800E76DC` («50(», «100(», «150(»; el `(` dibuja «cc») | Es una unidad. «extra» va igual. |
 | Onomatopeyas | `recursos/texturas/efectos/onomatopeyas/` | Son efectos de sonido dibujados. |
-| Pantalla del Controller Pak | Las 15 texturas ia16 de `recursos/texturas/generales/`, registradas en el manifiesto con el motivo «no se muestra» (`31eaf62`). | En el port no se puede abrir: `funcion_80091D74` devuelve 0 porque `situaciones_mando[0].status` vale 0, ya que `codigo/entrada/mandos.c` lo pone a cero con `memset`. Sus cadenas sí se traducen, porque cuesta poco; sus texturas no. |
-| Otros textos que se escriben igual o no se ven | `modo_vs` (VS); TOTAL (`texto_tiempo_prefijo[3]`, `tiempo_total_hud`); «Km/h» (`velocimetro`); `vuelta_1_hud_en_3` … `vuelta_3_hud_en_3`, que solo muestran «1/3» … «3/3»; `menu_con_item` y `menu_sin_item`, que nunca se muestran | Iguales en español, unidades, cifras sin texto o texto inalcanzable. |
+| Pantalla del Controller Pak | Las 15 texturas ia16 de `recursos/texturas/generales/`, registradas en el manifiesto como texturas que el port no muestra (`31eaf62`). | En el port no se puede abrir: `funcion_80091D74` devuelve 0 porque `situaciones_mando[0].status` vale 0, ya que `codigo/entrada/mandos.c` lo pone a cero con `memset`. Sí traduzco sus cadenas, porque cuesta poco; sus texturas no. |
+| Otros textos que van igual o no se ven | `modo_vs` (VS); TOTAL (`texto_tiempo_prefijo[3]`, `tiempo_total_hud`); «Km/h» (`velocimetro`); `vuelta_1_hud_en_3` … `vuelta_3_hud_en_3`, que solo muestran «1/3» … «3/3»; `menu_con_item` y `menu_sin_item`, que nunca se muestran | Iguales en español, unidades, cifras sin texto o texto inalcanzable. |
 | Créditos en japonés | La mitad japonesa de `texto_creditos` (63 entradas) | Se conservan tal cual. |
 
 ## Fuentes
