@@ -8,7 +8,7 @@ Un port de Mario Kart 64 (versión estadounidense) a PlayStation 2, con todo el 
 
 ## Propósito
 
-Mario Kart 64 es el juego de la infancia de Alexis Barrera. Quiso mejorarlo, traducirlo por completo y jugarlo en su PS2, aprovechando la descompilación del juego. No hay ánimo de lucro: no se cobra, ni hay donaciones, publicidad ni patrocinio. Se publican la ISO y el ELF, como hace el repositorio original, para que la comunidad pueda probarlos. Es también una pieza de portafolio de su trabajo como desarrollador e ingeniero de observabilidad.
+Mario Kart 64 es el juego de mi infancia. Quise mejorarlo, traducirlo por completo y jugarlo en mi PS2, aprovechando la descompilación del juego. No hay ánimo de lucro: no cobro nada y no hay donaciones, publicidad ni patrocinio. Publico la ISO y el ELF, como hace el repositorio original, para que la comunidad pueda probarlos. Es también una pieza de portafolio de mi trabajo como desarrollador e ingeniero de observabilidad.
 
 ## Autoría y créditos
 
@@ -39,8 +39,8 @@ sha256sum -c --ignore-missing SHA256SUMS
 
 ## Aviso legal
 
-- Proyecto sin fines de lucro, educativo y de preservación. No se vende ni se cobra por nada de lo que contiene.
+- Proyecto sin fines de lucro, educativo y de preservación. No vendo ni cobro nada de lo que contiene.
 - Sin afiliación con Nintendo ni con Sony, que no lo patrocinan ni lo respaldan. Las marcas citadas pertenecen a sus dueños.
 - Para jugar debes poseer una copia original de Mario Kart 64.
-- Si eres titular de derechos y quieres que se retire algún contenido, abre un [issue](https://github.com/Alexis-VsCode/mario-kart-64-ps2/issues) y se retirará.
+- Si eres titular de derechos y quieres que retire algún contenido, abre un [issue](https://github.com/Alexis-VsCode/mario-kart-64-ps2/issues) y lo retiraré.
 - Los aportes propios de este fork tienen licencia MIT ([LICENSE](https://github.com/Alexis-VsCode/mario-kart-64-ps2/blob/main/LICENSE)); el juego, sus recursos, la descompilación y el código del repositorio original quedan fuera.

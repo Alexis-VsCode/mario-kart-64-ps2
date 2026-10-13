@@ -2,7 +2,7 @@
 
 Cambios de cada versión de este repositorio. Sigue el formato de [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/), con las secciones Añadido, Cambiado, Corregido, Sincronizado con el original y Conocido. Las versiones se numeran `X.Y.Z` ([CONTRIBUTING.md](CONTRIBUTING.md#publicación-y-versión)).
 
-El detalle de cada cambio está en el commit que se cita y en [docs/traduccion/](docs/traduccion/README.md): los requisitos en la [especificación](docs/traduccion/especificacion.md), los cambios de especificación (`CC-NN`) en [cambios.md](docs/traduccion/cambios.md) y la relación con los commits en la [trazabilidad](docs/traduccion/trazabilidad.md).
+Cito el commit de cada cambio; el detalle está en [docs/traduccion/](docs/traduccion/README.md): los requisitos en la [especificación](docs/traduccion/especificacion.md), los cambios de especificación (`CC-NN`) en [cambios.md](docs/traduccion/cambios.md) y la relación con los commits en la [trazabilidad](docs/traduccion/trazabilidad.md).
 
 ## [Sin publicar]
 
@@ -15,7 +15,7 @@ Versión de mantenimiento con el cambio de especificación CC-31 de [cambios.md]
 ### Añadido
 
 - El guion de la CI captura también el menú CONFIGURACIÓN Y TRUCOS (`configuracion`), con navegación determinista: dos ejecuciones dan un 0,0000 % de diferencia (`a7ab8019`).
-- Entrada `regenerar_referencias` del workflow: con `sí`, el job del emulador escribe las capturas de la primera ejecución como referencias, comprueba la segunda contra ellas, copia `menu`, `carrera` y `configuracion` a `docs/img/` y commitea; las referencias se revisan a ojo antes de integrar (`17901393`). Usada en [38179540046](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38179540046) (`6933dd08`) y [38180265814](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38180265814) (`863cbc45`).
+- Entrada `regenerar_referencias` del workflow: con `sí`, el job del emulador escribe las capturas de la primera ejecución como referencias, comprueba la segunda contra ellas, copia `menu`, `carrera` y `configuracion` a `docs/img/` y commitea; reviso las referencias a ojo antes de integrar (`17901393`). Usada en [38179540046](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38179540046) (`6933dd08`) y [38180265814](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38180265814) (`863cbc45`).
 - Figura del menú de configuración en la página del proyecto (`f4b86834`).
 
 ### Cambiado
@@ -58,7 +58,7 @@ Versión con el menú de configuración y trucos, las opciones de imagen, la ver
 
 ### Corregido
 
-- **Memory Card:** la cabecera B y las demás órdenes a libmc no se envían tras vencer una lectura (`2c83c0f8`, D-21); el registro da la generación que se escribe (`c69d9ef4`, D-20); las opciones quedan escritas antes de subir su versión (`3bbac652`).
+- **Memory Card:** tras vencer una lectura el juego ya no envía la cabecera B ni las demás órdenes a libmc (`2c83c0f8`, D-21); el registro da la generación que escribe el juego (`c69d9ef4`, D-20); las opciones quedan escritas antes de subir su versión (`3bbac652`).
 - **Reserva `efecto_mtx`:** los menús, los globos, las partículas, el kart y los fuegos artificiales no escriben fuera de ella con la reserva llena (`93231a07`, `64805e8c`, `a989c0f5`, `d2ce4c18`; D-08).
 - Las bandas no desbordan MAGH (`d5ee5381`); 200CC no escribe un empuje sin efecto (`a6397211`); RIVALES SIN VENTAJA respeta al rival designado (`4c0323bf`).
 - D-19: la prueba de la región separa la guarda de largo (`0c962092`). D-22: erratas y «1 fallo» en singular (`9a92bc41`).
@@ -67,8 +67,8 @@ Versión con el menú de configuración y trucos, las opciones de imagen, la ver
 
 ### Conocido
 
-- **Sin hardware real ni TV:** el tacto del stick, el multitap, el cambio de Memory Card en caliente y el rendimiento en PANORÁMICO. El antiparpadeo, las bandas y la posición solo se comprueban por los valores de los registros, porque las capturas leen la VRAM antes del PCRTC.
-- ROMVER solo se verificó por la ruta con reinicio del IOP y con un ROMVER sintético.
+- **Sin hardware real ni TV:** no comprobé el tacto del stick, el multitap, el cambio de Memory Card en caliente y el rendimiento en PANORÁMICO. El antiparpadeo, las bandas y la posición solo los comprobé por los valores de los registros, porque las capturas leen la VRAM antes del PCRTC.
+- solo verifiqué ROMVER por la ruta con reinicio del IOP y con un ROMVER sintético.
 - D-06 (verificación visual en una TV o una PS2) y D-17 (ROMVER en consola real y bajo OPL) pasan a los [límites declarados](docs/traduccion/especificacion.md#9-límites-declarados) en lo que la CI no puede ver; el job del emulador cubre el resto (CC-26).
 - En PANORÁMICO, los objetos y la pista pueden aparecer tarde en los bordes, y el marcador sale estirado.
 
@@ -99,10 +99,10 @@ Versión de mantenimiento de la fase F9, con los cambios de especificación CC-1
 
 - **Memory Card** (CC-13):
   - al insertar una tarjeta después de arrancar o cambiarla en caliente, el guardado escribía en la tarjeta nueva sin leer sus copias y podía pisar la partida más nueva; ahora pisa la más vieja y escribe con una generación mayor (`b989feca`, `e4937a28`, `8c69e253`);
-  - la espera de la partida al arrancar se mide con el reloj y no en vueltas del bucle (`41441ae5`);
-  - el segundo borrado de los archivos de versiones anteriores solo se hace si la tarjeta sigue contestando (`3e62e63e`, D-12);
-  - los resultados de `mcGetInfo` ya no se escriben en la pila si la tarjeta contesta tarde (`abe7c205`, D-13);
-  - D-11 se mantiene, con la decisión escrita en CC-13.
+  - la espera de la partida al arrancar mide el reloj y no cuenta vueltas del bucle (`41441ae5`);
+  - el segundo borrado de los archivos de versiones anteriores solo ocurre si la tarjeta sigue contestando (`3e62e63e`, D-12);
+  - los resultados de `mcGetInfo` ya no llegan a la pila si la tarjeta contesta tarde (`abe7c205`, D-13);
+  - mantengo D-11 y dejé la decisión escrita en CC-13.
 - El job `publicar` ya no oculta un fallo del commit: solo omite el commit si no hay nada preparado (`4bdd41a8`, CC-16).
 - Deuda técnica:
   - D-09: la prueba del tope de la reserva de matrices mira la condición entera (`bb8d41bd`, `b780d986`);
@@ -113,7 +113,7 @@ Versión de mantenimiento de la fase F9, con los cambios de especificación CC-1
 ### Conocido
 
 - **Sin verificar en una consola real lo nuevo de esta versión:** el tacto del stick, la lectura de ROMVER con el IOP reiniciado y bajo OPL sin reinicio, y el cambio de Memory Card en caliente (D-06).
-- **Sin probar en una PS2 real**, ni con OPL o uLaunchELF en hardware, ni con un multitap real. Según el autor del port original, se probó en PCSX2 (con BIOS) y en Play!.
+- **Sin probar en una PS2 real**, ni con OPL o uLaunchELF en hardware, ni con un multitap real. Según el autor del port original, lo probó en PCSX2 (con BIOS) y en Play!.
 - **Sin verificación visual registrada** de la versión en español (CC-12).
 - Con una consola PAL hace falta una TV que acepte NTSC a 60 Hz.
 - La deuda técnica abierta, con su motivo, está en [deuda.md](docs/traduccion/deuda.md).
@@ -153,7 +153,7 @@ Primera versión publicada: el port a PS2 de anthoo582, localizado por completo 
 - Los textos nuevos que trajo el original van en español y con tildes; los grupos del cronómetro de la ceremonia y de los créditos pasan a `GRUPO_CARGA_CEREMONIA` y `GRUPO_CARGA_CREDITOS` (`748db117`, `36fc9e40`).
 - El commit de publicación pasa a `build(compilaciones): binarios e ISO en español`, con el commit de origen y la ejecución de la CI en el cuerpo (`24ed39a0`, CC-09).
 - `BUILD_ID` es la fecha de la versión: `2026-10-11` (`6251a4a6`).
-- La versión se verifica con las pruebas del PC y la CI. Se retira el recorrido manual en PCSX2 y la captura en TV (F6), y se rechaza el recorrido con capturas automáticas (CC-10, CC-12).
+- Verifico la versión con las pruebas del PC y la CI. Retiré el recorrido manual en PCSX2 y la captura en TV (F6) y rechacé el recorrido con capturas automáticas (CC-10, CC-12).
 
 ### Corregido
 
@@ -187,7 +187,7 @@ Se conservó la tabla de glifos de este repositorio, que tiene las 236 entradas 
 
 ### Conocido
 
-- **Sin probar en una PS2 real**, ni con OPL o uLaunchELF en hardware. Según el autor del port original, se probó en PCSX2 (con BIOS) y en Play!.
+- **Sin probar en una PS2 real**, ni con OPL o uLaunchELF en hardware. Según el autor del port original, lo probó en PCSX2 (con BIOS) y en Play!.
 - **Sin verificación visual registrada** de la versión en español: las pruebas miden textos, glifos y texturas, pero nadie del proyecto ha revisado la imagen en un emulador ni en un televisor (CC-12).
 - **Multitap sin probar en hardware.**
 - La pantalla de fallo sale sin tildes; el registro las conserva.
