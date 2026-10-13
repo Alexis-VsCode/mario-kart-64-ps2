@@ -1,5 +1,20 @@
 // Combinador y recorte
 
+#include "graficos/hud_panoramico.h"
+
+/* Columnas de cuadrantes si lo que se dibuja ahora es el marcador de la carrera
+ * en PANORAMICO (se estrecha a 3/4 en X), o 0 si no se toca. Se decide con la
+ * proyeccion cargada (la ortografica de fijar_pantalla_hud_matriz), el estado
+ * del juego y el formato: ver hud_panoramico.h. */
+static inline int hud_panoramico_columnas_activas(void)
+{
+    if (!hud_panoramico_activo(opciones_port.formato, estado_juego, St.proy[0][0], St.proy[1][1], St.proy[2][2],
+                               St.proy[3][3])) {
+        return 0;
+    }
+    return hud_panoramico_columnas(modo_pantalla_activo);
+}
+
 struct VtxColor {
     float r, g, b, a;
     float ar, ag, ab;
@@ -189,7 +204,11 @@ static inline void proyectar_wi(const VerticeRecorte *c, VerticeGs *o, float *sn
     float sx = xn * St.escala_vp[0] + St.vp_trans[0];
     float sy = -yn * St.escala_vp[1] + St.vp_trans[1];
     float zf = __builtin_fminf(__builtin_fmaxf((1.0f - zn) * 0.5f, 0.0f), 1.0f);
+    int hud_col = hud_panoramico_columnas_activas();
 
+    if (hud_col) {
+        sx = hud_panoramico_estrechar(sx, hud_col);
+    }
     o->x = sx * (GS_ANCHO / 320.0f);
     o->y = sy * (GS_ALTO / 240.0f);
     o->z = (u32) (s32) (zf * 16777000.0f) + (decal ? 1024 : 0); /* zf en [0, 1]: cabe en s32 */
@@ -564,6 +583,8 @@ static void dibujar_texrect(u32 w0, u32 w1, u32 mitad2, u32 halfc, int voltear)
     VerticeGs a, b;
     const TileRdp *t = &tiles_rdp[tile];
     float s1, t1;
+    int hud_col;
+    float px0, px1;
 
     if (ciclo == (G_CYC_COPY >> G_MDSFT_CYCLETYPE)) {
         dsdx /= 4.0f;
@@ -594,8 +615,19 @@ static void dibujar_texrect(u32 w0, u32 w1, u32 mitad2, u32 halfc, int voltear)
     t1 = t0 + (voltear ? dsdx : dtdy) * (voltear ? (lrx - ulx) : (lry - uly));
     (void) voltear;
 
+    /* Marcador de la carrera en PANORAMICO: los dos bordes se estrechan alrededor del centro del
+     * cuadrante del rectangulo. Las coordenadas de textura ya se calcularon con el ancho original. */
+    px0 = ulx;
+    px1 = lrx;
+    hud_col = hud_panoramico_columnas_activas();
+    if (hud_col) {
+        float ref = 0.5f * (ulx + lrx);
+
+        px0 = hud_panoramico_estrechar_ref(ulx, ref, hud_col);
+        px1 = hud_panoramico_estrechar_ref(lrx, ref, hud_col);
+    }
     memset(&a, 0, sizeof(a));
-    a.x = ulx * (GS_ANCHO / 320.0f);
+    a.x = px0 * (GS_ANCHO / 320.0f);
     a.y = uly * (GS_ALTO / 240.0f);
     a.z = 0;
     a.q = 1.0f;
@@ -605,7 +637,7 @@ static void dibujar_texrect(u32 w0, u32 w1, u32 mitad2, u32 halfc, int voltear)
     a.a = limitar_u8(cv.a > 128.0f ? 128.0f : cv.a);
     a.niebla = 255;
     b = a;
-    b.x = lrx * (GS_ANCHO / 320.0f);
+    b.x = px1 * (GS_ANCHO / 320.0f);
     b.y = lry * (GS_ALTO / 240.0f);
     if (St.valido_tex) {
         float mitad = 0.0f;
@@ -696,6 +728,7 @@ static void dibujar_fillrect(u32 w0, u32 w1)
         VerticeRecorte cv;
         VerticeGs a, bb;
         int tex_guardado = St.tex_en;
+        int hud_col;
 
         St.tex_en = 0;
         construir_estado(0, 1);
@@ -704,6 +737,14 @@ static void dibujar_fillrect(u32 w0, u32 w1)
         /* Los rectangulos del RDP no tienen color de sombreado */
     rv.r = rv.g = rv.b = rv.a = 0;
         a_vertice_recorte(&rv, &cv);
+        /* Cajas del marcador en PANORAMICO; un fundido (cubre casi todo el cuadrante) no se toca */
+        hud_col = hud_panoramico_columnas_activas();
+        if (hud_col && hud_panoramico_rect_estrechable(ulx, lrx, hud_col)) {
+            float ref = 0.5f * (ulx + lrx);
+
+            ulx = hud_panoramico_estrechar_ref(ulx, ref, hud_col);
+            lrx = hud_panoramico_estrechar_ref(lrx, ref, hud_col);
+        }
         memset(&a, 0, sizeof(a));
         a.x = ulx * (GS_ANCHO / 320.0f);
         a.y = uly * (GS_ALTO / 240.0f);
