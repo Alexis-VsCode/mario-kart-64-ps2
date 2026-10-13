@@ -371,6 +371,7 @@ Medido el 2026-10-11 en `fd6a4bb7` (base de la documentación de la versión 1.2
   - el registro en `host:smk64_log.txt` (cuando se llena el búfer, se vuelca a `host:smk64_log_NN.txt`);
   - los guiones de prueba;
   - con `EXTRA_DEFINES=-DSMK64_DEV_FRAMEDUMP`, volcados de pantalla `host:frameNNNNN.tga` en cuadros fijos;
+  - con `EXTRA_DEFINES=-DSMK64_NO_IOP_RESET`, compilación de depuración para OPL: el arranque solo hace `SifInitRpc` y nunca reinicia el IOP, así que conserva los módulos que OPL ya cargó (sin la definición, el IOP se reinicia salvo que OPL lance el juego);
   - avisos en el registro, una vez cada uno, de lo que en pantalla falla en silencio: una cadena del menú con un byte que la fuente no dibuja (`texto del menú con un byte inválido`, en las tres impresoras de `imprimir_texto.inc.c`) y la reserva de matrices del texto agotada (`menu: reserva de matrices agotada`).
 
   No incluye el panel salvo con `MEDIDOR=1`.
