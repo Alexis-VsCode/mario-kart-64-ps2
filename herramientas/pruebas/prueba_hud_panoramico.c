@@ -29,6 +29,16 @@ static void comprobar_estrechar(float x, int columnas, float esperado) {
     }
 }
 
+static void comprobar_ref(float x, float ref, int columnas, float esperado) {
+    float obtenido = hud_panoramico_estrechar_ref(x, ref, columnas);
+
+    s_comprobaciones++;
+    if (fabsf(obtenido - esperado) > 0.001f) {
+        s_fallos++;
+        printf("FALLO estrechar_ref %.2f ref %.2f columnas %d: %.4f, se esperaba %.4f\n", x, ref, columnas, obtenido, esperado);
+    }
+}
+
 static void comprobar_entero(const char *que, int obtenido, int esperado) {
     s_comprobaciones++;
     if (obtenido != esperado) {
@@ -74,6 +84,12 @@ int main(void) {
     comprobar_estrechar(170.0f, 2, 187.5f);
     comprobar_estrechar(240.0f, 2, 240.0f);
     comprobar_estrechar(310.0f, 2, 292.5f);
+
+    // Un rectángulo usa el cuadrante de su centro para los dos bordes: uno que cruza la mitad no se parte
+    comprobar_ref(150.0f, 170.0f, 2, 172.5f);
+    comprobar_ref(190.0f, 170.0f, 2, 202.5f);
+    comprobar_ref(190.0f, 100.0f, 2, 162.5f);
+    comprobar_ref(10.0f, 10.0f, 1, 47.5f);
 
     // Cuándo se aplica: solo PANORÁMICO, en la carrera y con la ortográfica del marcador
     comprobar_entero("HUD 1J panorámico", activo(FORMATO_PANORAMICO, CARRERA, 0, 320, 240, 0, -1, 1), 1);
