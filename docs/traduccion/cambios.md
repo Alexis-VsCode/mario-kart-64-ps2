@@ -8,7 +8,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Estados:** `propuesto`, `aprobado`, `rechazado` o `aplicado`.
 - **Aprobación:**
   - la dan INTEGRACIÓN y REVISIÓN;
-  - si el cambio toca una decisión cerrada de la especificación o el plan aprobado, también el responsable del proyecto.
+  - si el cambio toca una decisión cerrada de la especificación o el plan aprobado, también yo.
 - **Evidencia:** un cambio de maquetación se justifica con medidas y con la prueba del PC que las comprueba. Desde CC-12 no se piden capturas; hasta entonces se pedía una captura antes/después (PCSX2 y, si afectaba a los bordes, TV).
 - **Al aplicarlo:**
   - se anota el commit;
@@ -313,7 +313,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   | L2 | `9adc3192` | Evidencia de código en el mensaje y registro DEV «menu: reserva de matrices agotada»; la tabla de glifos y el tope quedan cubiertos por `prueba_tablas_glifos.py` (`697f3af6`) |
   | L3 | `4612a508` (prueba), `ac4fcdae` (cambio), `4e4cc6f8` (tildes de la prueba) | `prueba_ancho_panel.py`, no `prueba_fuente_5x7.c`: `texto_pantalla.h` incluye `tamtypes.h` del SDK y no compila en el PC |
 
-- **Diferencia en G5.** La tabla pedía `prueba_combinador`, pero `combinar_color` está en `combinador_y_recorte.inc.c`, que solo compila con el SDK, y el arnés compila solo `combinador_color.c`. Para probarlo hay que mover el promedio a `combinador_color.c`/`.h`, fuera de los archivos del bloque. INTEGRACIÓN integró solo G5, en la rama `sinc/graficos-g5`, con la evidencia del mensaje de `ce98830c`; la prueba queda como deuda ([deuda.md](deuda.md)). Como cambia la verificación aprobada, falta la confirmación del responsable del proyecto.
+- **Diferencia en G5.** La tabla pedía `prueba_combinador`, pero `combinar_color` está en `combinador_y_recorte.inc.c`, que solo compila con el SDK, y el arnés compila solo `combinador_color.c`. Para probarlo hay que mover el promedio a `combinador_color.c`/`.h`, fuera de los archivos del bloque. INTEGRACIÓN integró solo G5, en la rama `sinc/graficos-g5`, con la evidencia del mensaje de `ce98830c`; la prueba queda como deuda ([deuda.md](deuda.md)). Como cambia la verificación aprobada, falta mi confirmación.
 - **Diferencia en L3.** `MEDIDOR_VRAM_BYTES` queda en 128 KB y no en los 112 KB de la tabla. Motivo, del mensaje de `ac4fcdae`:
   - el GS guarda CT32 en páginas de 64 × 32 píxeles (8 KB); con TBW 4, la textura de 256 × 108 ocupa 16 páginas (las filas 96..107 caen en la cuarta fila de páginas);
   - con 112 KB (14 páginas), las páginas 14 y 15 del panel serían las 0 y 1 del atlas, que empieza justo detrás (`gs_vram_inicio_texturas`);
@@ -323,7 +323,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Aprobación:**
   - responsable del proyecto: aprobado (2026-10-11); G2 y G4 retirados de la tabla el mismo día (`b4b37c13`);
   - REVISIÓN: `sinc/pendientes` y `sinc/panel`, aprobadas con observaciones después de las correcciones; `sinc/sistema`, con cambios requeridos por los trailers de cuatro mensajes, que se reescribieron antes de integrar; `sinc/graficos`, con cambios requeridos por G5 (ver el [acta de F8](revisiones/2026-10-11-sincronizacion.md));
-  - INTEGRACIÓN: merges `368a5416` (G5), `bbb11eb6` (E3, E4 y E5), `cf956b42` (L2) y `240358fd` (L3). Pendiente: la confirmación del responsable para G5.
+  - INTEGRACIÓN: merges `368a5416` (G5), `bbb11eb6` (E3, E4 y E5), `cf956b42` (L2) y `240358fd` (L3). Pendiente: mi confirmación para G5.
 - **Commit:** los de «Lo aplicado».
 
 ### CC-12: verificación sin pasos manuales y manual del proyecto
@@ -332,7 +332,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-FUE-07, R-TXT-07, R-MC-03, R-TEX-05, R-PORT-02, R-PORT-03, R-GOB-04, R-GOB-08
 - **Motivo:**
-  - El responsable del proyecto decide que nadie corre recorridos ni manda capturas: la versión se publica para la comunidad con lo que verifican las pruebas del PC y la CI.
+  - Decido que nadie corre recorridos ni manda capturas: la versión se publica para la comunidad con lo que verifican las pruebas del PC y la CI.
   - Los documentos repartían el uso, la parte técnica y el proceso entre el README y `docs/traduccion/`. No había créditos ni autoría, ni notas de versión, ni acta de revisión, ni una única Definition of Done.
 - **Cambio:**
   - **Se retira F6** (recorrido en PCSX2 y captura en TV). Los requisitos que dependían de él se aceptan con lo que comprueban `make test` y la CI.
@@ -341,7 +341,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - **Créditos y autoría:**
     - el port a PS2 es de anthoo582;
     - la base es la descompilación de Mario Kart 64;
-    - la localización al español, la sincronización con el original y las mejoras de este repositorio son de Alexis Barrera.
+    - la localización al español, la sincronización con el original y las mejoras de este repositorio son mías.
   - **Proceso:**
     - `CONTRIBUTING.md` es la única fuente de la Definition of Done, las reglas que no se negocian, la lectura previa y el orden de autoridad (código y pruebas medidos, después la especificación aprobada, después los documentos);
     - `CHANGELOG.md` registra los cambios por versión y `docs/versiones/v1.0.0.md` es el cuerpo de la Release;
@@ -520,7 +520,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Estado:** aplicado
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-VID-05 (nuevo), R-TXT-04, R-TXT-05
-- **Motivo:** el jugador necesita cambiar los ajustes de imagen y los trucos sin combinaciones de botones ocultas. El responsable del proyecto eligió una entrada de menú con el mismo estilo que los menús del juego y aprobó la maqueta.
+- **Motivo:** el jugador necesita cambiar los ajustes de imagen y los trucos sin combinaciones de botones ocultas. Elegí una entrada de menú con el mismo estilo que los menús del juego y aprobé la maqueta.
 - **Cambio:**
   - Quinta entrada «CONFIGURACIÓN Y TRUCOS» al final de OPCIONES. Se añade al final para no cambiar la numeración que usan los guiones. El paso entre filas baja para que la quinta quede dentro de la zona segura.
   - Subpantalla con 9 filas:
@@ -591,7 +591,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Requisitos afectados:** R-VID-03, R-VID-04 (nuevos)
 - **Motivo:**
   - Con la PS2 configurada en 16:9, la TV estira la imagen 4:3.
-  - El responsable del proyecto pidió dos modos: proporción correcta, que es el de fábrica en 16:9, y vista ancha opcional.
+  - Pedí dos modos: proporción correcta, que es el de fábrica en 16:9, y vista ancha opcional.
 - **Cambio:**
   - **Configuración de la PS2:** se lee con `configGetTvScreenType()`. Solo `TV_SCREEN_169` es 16:9; `TV_SCREEN_FULL` sigue siendo 4:3.
   - **FORMATO:** NORMAL, CON BANDAS o PANORÁMICO. Si no hay archivo de opciones, vale CON BANDAS con la PS2 en 16:9 y NORMAL en otro caso.
@@ -621,7 +621,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Estado:** aplicado
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-TRU-01 (nuevo)
-- **Motivo:** el responsable del proyecto pidió los trucos de CC-22 a CC-25, apagados de fábrica.
+- **Motivo:** pedí los trucos de CC-22 a CC-25, apagados de fábrica.
 - **Cambio:**
   - La consulta del modo EXTRA (`tiene_modo_extra_desbloqueado`, `guardado.c`) y la de los fantasmas del staff (`repeticiones.c`) aceptan el truco mediante funciones puras.
   - Nunca se escribe el desbloqueo en la partida.
@@ -750,7 +750,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Estado:** aplicado. Queda D-23 en [deuda.md](deuda.md); lo que no se puede comprobar sin hardware pasa a límites declarados.
 - **Fecha:** 2026-10-11
 - **Requisitos afectados:** R-TEX-02, R-TEX-03, R-TEX-08, R-PORT-03, R-FUE-09 (nuevo), R-MC-01, R-MC-02
-- **Motivo:** el responsable del proyecto pidió no dejar deuda. Lo que no se puede saldar sin hardware pasa a límite declarado.
+- **Motivo:** pedí no dejar deuda. Lo que no se puede saldar sin hardware pasa a límite declarado.
 - **Cambio:**
 
   | Deuda | Cómo se cierra |
@@ -805,7 +805,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - una prueba nueva del contorno en el borde de las texturas del HUD (en rojo con VUELTA);
   - `prueba_composicion_es.py` igual al compositor;
   - las pruebas de textura en verde;
-  - la hoja de contacto, revisada por un revisor distinto del autor.
+  - la hoja de contacto, revisada por un revisor distinto de quien escribió la rama.
 - **Lo aplicado:**
   - `3b5e4aef` (prueba): el borde de las palabras del HUD solo lleva contorno, en rojo con VUELTA; `d7b3feb9` lo corrige.
   - `2175d03b` («º» de los puestos), `9d9ac85e` (letra pequeña con contorno y sin placa) y `bace922a` (título de la Jungla DK), todo regenerado con `compositor_es.py`. En la revisión, `prueba_composicion_es.py` da 856 comprobaciones y 0 fallos.
@@ -813,7 +813,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - Los binarios de `build/ps2/es` se regeneran en el commit de publicación (`9ab41422`), como fija R-GOB-05.
 - **Aprobación:**
   - responsable del proyecto: aprobado (2026-10-11);
-  - REVISIÓN: técnica de `v120/texturas`, aprobada con observaciones, con la hoja de contacto revisada por un revisor distinto del autor ([acta de F10](revisiones/2026-10-11-version-1.2.0.md#8-v120texturas-reconstrucción-del-hud-y-de-los-menús-cc-28));
+  - REVISIÓN: técnica de `v120/texturas`, aprobada con observaciones, con la hoja de contacto revisada por un revisor distinto de quien escribió la rama ([acta de F10](revisiones/2026-10-11-version-1.2.0.md#8-v120texturas-reconstrucción-del-hud-y-de-los-menús-cc-28));
   - INTEGRACIÓN: merge `b7b03ee3` (2026-10-11).
 - **Commit:** `3b5e4aef`, `d7b3feb9`, `2175d03b`, `9d9ac85e`, `bace922a` y el merge `b7b03ee3`.
 
@@ -836,7 +836,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Evidencia requerida:**
   - `prueba_texturas_es.py` en verde con `PENDIENTES` vacía y `TEXTURAS_PENDIENTES` a 0;
   - las traducciones con su prueba y su hoja de contacto;
-  - la revisión de un agente distinto del autor.
+  - la revisión de un agente distinto de quien escribió la rama.
 - **Lo aplicado:**
   - `a6fa679e` (prueba) y `4216877e`: las texturas sin revisar quedan clasificadas en `recursos/es/texturas.tsv` y `PENDIENTES` queda vacía. En total, el manifiesto clasifica 1229 texturas.
   - `431c3186` separa las filas `archivo:` de las `carpeta:` (hallazgo Media) y `df9aea49` cuenta las pendientes en `TEXTURAS_PENDIENTES` y registra D-24 (hallazgo Alta).
@@ -856,7 +856,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
 - **Motivo:** el proyecto se publica sin fines de lucro, con fines educativos, de preservación y de apoyo a la comunidad, y distribuye la ISO y el ELF como el repositorio original (`anthoo582/mario-kart-64-ps2`). Hace falta dejar claro quién hizo qué, con qué fin y en qué condiciones, con el crédito a anthoo582 y al proyecto de descompilación de mk64.
 - **Cambio:**
   - **Aviso legal reforzado:** los derechos del juego son de Nintendo; el proyecto no tiene fines de lucro y no está afiliado a Nintendo.
-  - **Autoría:** Alexis Barrera, desarrollador e ingeniero de observabilidad, autor de la localización, la sincronización y las versiones 1.1.0 y 1.2.0, con los créditos al port y a la descompilación.
+  - **Autoría:** soy desarrollador e ingeniero de observabilidad, autor de la localización, la sincronización y las versiones 1.1.0 y 1.2.0, con los créditos al port y a la descompilación.
   - **Caso de estudio:** el motivo (Mario Kart 64 es el juego de su infancia y quería mejorarlo, traducirlo y jugarlo en su PS2 aprovechando la descompilación), cómo se trabajó y qué se aprendió.
   - **Página web** del proyecto con ese contenido.
   - **Licencia MIT** solo para los aportes propios; no cambia las condiciones del código de origen ni cubre los recursos del juego.
@@ -907,7 +907,7 @@ Aquí se registra todo cambio de requisito, límite, escala, paso de interlinead
   - El README y la página no dicen con claridad que es un aporte sin ánimo de lucro, con motivación personal, publicado para la comunidad.
 - **Cambio:**
   - Estilo de artículo técnico en página y README: resumen, secciones numeradas, tablas con reglas, figuras con pie y notas al pie. La página lleva además un resumen en inglés.
-  - Paleta C elegida por el responsable: azul tinta con una línea fina roja bajo el título; modo claro y oscuro.
+  - Paleta C, que elegí yo: azul tinta con una línea fina roja bajo el título; modo claro y oscuro.
   - Enlaces del caso de estudio y del manual absolutos a GitHub.
   - Propósito sin lucro, aviso legal y autoría con las mismas palabras en README, página y notas de versión.
   - Prueba del PC que exige que todo enlace relativo de la página y del README apunte a un archivo que existe y que ningún enlace de la página termine en `.md` sin pasar por GitHub.

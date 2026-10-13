@@ -173,10 +173,10 @@ git log --format='%ae' origin/main..<rama> | sort -u
 
 | Fase | Roles | Contenido | Rama | Puerta | Estado |
 |---|---|---|---|---|---|
-| F0 | INTEGRACIÓN | README profesional y `docs/traduccion/`: especificación, glosario, plan, trazabilidad y cambios | `docs/readme-y-especificacion` | El responsable del proyecto aprueba la especificación | Cerrada (histórico): `c86f72c`…`cbc10e8`, base de `feature/idioma-espanol` |
+| F0 | INTEGRACIÓN | README profesional y `docs/traduccion/`: especificación, glosario, plan, trazabilidad y cambios | `docs/readme-y-especificacion` | Yo apruebo la especificación | Cerrada (histórico): `c86f72c`…`cbc10e8`, base de `feature/idioma-espanol` |
 | F1 | INTEGRACIÓN + PRUEBAS | `make test` sin SDK, conversor EUC-JP, metadatos convertidos, `-fsigned-char`, tope de líneas y CI | `idioma/infra` | CI verde | Cerrada (histórico): `f8f9a39`…`476dd52`, integrada en `3d482a8` |
 | F2 | FUENTE | Refactor sin cambio de comportamiento: `glifos.inc.c`, `lista_glifos.inc.c` y regla única de avance | `idioma/fuente` | Preprocesado o binario idéntico, o prueba de caracterización (R-GOB-02) | Cerrada (histórico), integrada en `6a050d1` |
-| F3 | FUENTE | LUT de 236 entradas, caracteres del español, glifos nuevos, tope del pool y cadenas con tildes | `idioma/fuente` | `prueba_tablas_glifos.py`, `prueba_glifos.c`, `prueba_glifos_es.py` y `prueba_caracteres_es.c` en verde | Cerrada (histórico): `418ea18`…`641fe27`. El registro DEV de R-FUE-05 que faltaba se hizo en F8 |
+| F3 | FUENTE | LUT de 236 entradas, caracteres del español, glifos nuevos, tope del pool y cadenas con tildes | `idioma/fuente` | `prueba_tablas_glifos.py`, `prueba_glifos.c`, `prueba_glifos_es.py` y `prueba_caracteres_es.c` en verde | Cerrada (histórico): `418ea18`…`641fe27`. El registro DEV de R-FUE-05 que faltaba lo hice en F8 |
 | F4 | CADENAS ∥ TEXTURAS ∥ PORT | Bloques B1–B7, A0–A6 → B → C y P1–P5 | `idioma/{cadenas,texturas,port}` | Por bloque: rojo → verde → revisión | Cerrada (histórico), integrada en `d3663fd`, `b043668` y `2ae3d3a`. Sin paso G-FALLO (ver P4 y [deuda.md](deuda.md)) |
 | F5 | REVISIÓN ×2 | Revisión adversarial de cada bloque y verificación de las mutaciones restauradas | — | Sin hallazgos Alta o Media abiertos | Cerrada (histórico) sin registro en el repositorio (ver [trazabilidad.md](trazabilidad.md), R-GOB-03 y R-GOB-04). Desde F8 la revisión queda en [revisiones/](revisiones/) |
 | F6 | Responsable del proyecto | Recorrido en PCSX2 con el guion DEV y al menos una captura en TV | — | Capturas aprobadas | **Retirada por [CC-12](cambios.md)**: la versión se verifica con las pruebas del PC y la CI. La falta de verificación visual es una limitación declarada ([deuda.md](deuda.md), D-06) |
@@ -200,7 +200,7 @@ git log --format='%ae' origin/main..<rama> | sort -u
 | `a3d0bae` | `comparar_binario.sh` y job `mismo-binario` | R-INF-05, R-GOB-02 |
 | `476dd52` | La prueba del conversor no compara con un `iconv` sin JIS X 0212 (el de musl) | R-INF-02 |
 
-Los esqueletos de prueba con fallos esperados que pedía el plan se hicieron dentro de cada bloque. Por ejemplo, `prueba_textos_tablas.inc.c` (`ae9dc3c`) marcaba las tablas `PENDIENTE` como fallo esperado; su número solo podía bajar y terminó en 0.
+Los esqueletos de prueba con fallos esperados que pedía el plan los hice dentro de cada bloque. Por ejemplo, `prueba_textos_tablas.inc.c` (`ae9dc3c`) marcaba las tablas `PENDIENTE` como fallo esperado; su número solo podía bajar y terminó en 0.
 
 ### F2 y F3: fuente (hechas en `idioma/fuente`, ya fusionada, en este orden)
 
@@ -268,7 +268,7 @@ Familias del bloque C, en el orden en que se integraron:
 | P1 | Fuente 5x7 y columnas por carácter | R-PORT-01 | `3db4b80`, `82858b4` |
 | P2 | Panel y página de audio | R-PORT-02 | `0af8ebe`, `1bc10ba` |
 | P3 | Marcas del registro | R-PORT-04 | `9d2b711`, `91b2a89`, `823a0c8` |
-| P4 | Pantalla de fallo y fuente de depuración N64. La puerta G-FALLO no se hizo: la pantalla translitera siempre | R-PORT-03, R-PORT-05 | `0c05c15`, `ba66cf9`, `40ed241`, `37cf760` |
+| P4 | Pantalla de fallo y fuente de depuración N64. La puerta G-FALLO no la hice: la pantalla translitera siempre | R-PORT-03, R-PORT-05 | `0c05c15`, `ba66cf9`, `40ed241`, `37cf760` |
 | P5 | Formatos de `registrar()` y nombres de fase | R-PORT-02, R-PORT-04 | `ead3e9d`, `ac10246`, `7ec08ed`, `ae0cf90`, `d9dbbbc`, `9a74ca2`, `f21bcae`, `3d4e5d8`, `7b88a69`, `cde92e0`, `b7e7fb7`, `7653639` |
 
 Los cambios de escala o de paso que pidió la maquetación están en [cambios.md](cambios.md) (CC-01, CC-02, CC-03 y CC-07).
@@ -277,13 +277,13 @@ R-GOB-01 no se cumplió del todo: `31eaf62` (texturas), `da631b0` y `6794945` (c
 
 ### F8: sincronización con el original
 
-El responsable del proyecto aprobó el plan de F8 el 2026-10-11. Los cambios se registraron antes de tocar el código (`df07cfa9`, `55cbf083`, `73bb9a8f` y `132d4bf5`: CC-08 a CC-11). Después, en `feature/sincronizacion-upstream`:
+Aprobé el plan de F8 el 2026-10-11. Los cambios se registraron antes de tocar el código (`df07cfa9`, `55cbf083`, `73bb9a8f` y `132d4bf5`: CC-08 a CC-11). Después, en `feature/sincronizacion-upstream`:
 
 1. **Fusión** del original hasta `ae93f71` (`9f4d0215`), con `git -c merge.directoryRenames=false merge --no-ff` (CC-08).
 2. **Textos nuevos del original en español:** `748db117` (lista negra de `prueba_textos_port.py`, en rojo) y `36fc9e40` (traducción, en verde).
 3. **README** con lo nuevo del original (`409a72b9`).
 4. **Subramas**, una por frente, desde `36fc9e40`, cada una con su revisión técnica y lingüística ([acta](revisiones/2026-10-11-sincronizacion.md)).
-5. **Decisiones del responsable del proyecto:** CC-10 rechazado y G2 y G4 retirados de CC-11 (`b4b37c13`); verificación sin pasos manuales y manual del proyecto (CC-12, `d5f95cc5`).
+5. **Mis decisiones:** CC-10 rechazado y G2 y G4 retirados de CC-11 (`b4b37c13`); verificación sin pasos manuales y manual del proyecto (CC-12, `d5f95cc5`).
 6. **Integración** con `--no-ff`, en este orden: `sinc/ci` (`1ac5c96f`) → `sinc/graficos-g5` (`368a5416`) → `sinc/sistema` (`bbb11eb6`) → `sinc/pendientes` (`cf956b42`) → `sinc/panel` (`240358fd`).
 7. **Documentación** de CC-12 en `sinc/manual`, `sinc/proceso` y `sinc/doc-traduccion`, que salen de `d5f95cc5`.
 
@@ -301,7 +301,7 @@ El responsable del proyecto aprobó el plan de F8 el 2026-10-11. Los cambios se 
 
 ### F9: versión 1.1.0
 
-El responsable del proyecto aprobó el plan de F9 el 2026-10-11. Los cambios se registraron antes de tocar el código (`0c39b416`, `111eb2c7`, `33cbcbb3`, `2857317b` y `5b1caac8`: CC-13 a CC-17). Después, en `feature/version-1.1.0`:
+Aprobé el plan de F9 el 2026-10-11. Los cambios se registraron antes de tocar el código (`0c39b416`, `111eb2c7`, `33cbcbb3`, `2857317b` y `5b1caac8`: CC-13 a CC-17). Después, en `feature/version-1.1.0`:
 
 1. **Ramas de código**, una por frente, desde `5b1caac8`, cada una con su revisión técnica y lingüística ([acta](revisiones/2026-10-11-version-1.1.0.md)).
 2. **Integración** con `--no-ff`, en este orden: `v110/graficos` (`9289608a`) → `v110/memoria` (`4465f614`) → `v110/region` (`d105a89b`) → `v110/ci-textos` (`12579275`) → `v110/entrada` (`4563d816`). `v110/entrada` esperó al arreglo de la cruceta, el hallazgo Media de su revisión.
@@ -321,7 +321,7 @@ El arreglo de la cruceta se revisó con otros hashes y el mismo parche; la corre
 
 ### F10: versión 1.2.0
 
-El responsable del proyecto aprobó el plan de F10 el 2026-10-11, con la maqueta del menú. Los cambios se registraron antes de tocar el código: CC-18 a CC-27 en `edad2078`, CC-28 en `0081dca5` y CC-29 en `0f15c448`. CC-30 (portafolio) se registró con la documentación. Después, en `feature/version-1.2.0`:
+Aprobé el plan de F10 el 2026-10-11, con la maqueta del menú. Los cambios se registraron antes de tocar el código: CC-18 a CC-27 en `edad2078`, CC-28 en `0081dca5` y CC-29 en `0f15c448`. CC-30 (portafolio) se registró con la documentación. Después, en `feature/version-1.2.0`:
 
 1. **Contrato** de las opciones del port en `v120/contrato` (`93cb4d04`), del que salen las ramas que lo usan.
 2. **Ramas de código**, una por frente, cada una con su revisión técnica y lingüística ([acta](revisiones/2026-10-11-version-1.2.0.md)).
@@ -349,7 +349,7 @@ El responsable del proyecto aprobó el plan de F10 el 2026-10-11, con la maqueta
 
 ### F11: versión 1.2.1
 
-El responsable del proyecto aprobó CC-31 el 2026-10-11 y se registró antes de tocar el código (`8d94ba8d`). Después, en `feature/capturas-1.2.1`:
+Aprobé CC-31 el 2026-10-11 y lo registré antes de tocar el código (`8d94ba8d`). Después, en `feature/capturas-1.2.1`:
 
 1. **Comparación estricta:** la prueba del bloque de 32×16 en rojo (`1bac15d9`) y la tolerancia de 0,001 (`632050ac`).
 2. **Captura nueva** del menú CONFIGURACIÓN Y TRUCOS (`a7ab8019`) y referencias revisadas a ojo (`3a022b42`, `f4b86834`).
@@ -412,16 +412,16 @@ Hay una razón para borrar `build/ps2/jp` antes de probar: al restaurar `build/`
 
 | Puerta | Condición | Cómo se comprueba | Estado |
 |---|---|---|---|
-| F0 | Especificación aprobada | Aprobación del responsable del proyecto en el PR del frente A | Integrada como base de `feature/idioma-espanol`; la aprobación no quedó registrada en el repositorio |
+| F0 | Especificación aprobada | Mi aprobación en el PR del frente A | Integrada como base de `feature/idioma-espanol`; la aprobación no quedó registrada en el repositorio |
 | F1 | CI verde | Jobs `pruebas-pc` y `compilar-ps2` | Cumplida en `a3d0bae` |
 | F2 | Refactor sin cambio de comportamiento | `comparar_preprocesado.py` en el PC; job `mismo-binario` en la CI; prueba de caracterización si el binario cambia | Cumplida (ver [trazabilidad.md](trazabilidad.md)) |
 | F3 | Pruebas de fuente en verde | `make test` y compilación de PS2 en la CI | Cumplida en `641fe27`; el registro DEV de R-FUE-05 se cumplió en F8 |
 | F4 | Cada bloque en rojo → verde → revisión | Evidencia en el PR y [trazabilidad.md](trazabilidad.md) | Verde en `make test` y en la CI 36518116212. Rojo y mutación registrados solo en parte (R-GOB-03) |
-| G-FALLO | Glifos de libdebug inspeccionados antes de P4 | Paso de CI añadido en P4 | No se hizo: la pantalla de fallo translitera siempre (R-PORT-03; [deuda.md](deuda.md), D-07) |
+| G-FALLO | Glifos de libdebug inspeccionados antes de P4 | Paso de CI añadido en P4 | No la hice: la pantalla de fallo translitera siempre (R-PORT-03; [deuda.md](deuda.md), D-07) |
 | F5 | Sin hallazgos Alta o Media abiertos | Registro de revisión | Sin registro en el repositorio |
 | F6 | Capturas aprobadas | Capturas adjuntas al PR | Retirada por CC-12 |
 | F7 | Definición de terminado de entonces | Lista de §8 | Cumplida: `dda9a5f` y fusión a `main` (`3f43c005`) |
-| F8 | Sin hallazgos Alta o Media abiertos | [Acta de revisión](revisiones/2026-10-11-sincronizacion.md) | Cumplida salvo G5, integrado sin la prueba que pedía CC-11 y a la espera de la confirmación del responsable del proyecto |
+| F8 | Sin hallazgos Alta o Media abiertos | [Acta de revisión](revisiones/2026-10-11-sincronizacion.md) | Cumplida salvo G5, integrado sin la prueba que pedía CC-11 y a la espera de mi confirmación |
 
 ## 7. Revisión
 
@@ -440,14 +440,14 @@ Hay una razón para borrar `build/ps2/jp` antes de probar: al restaurar `build/`
   - ordinales;
   - nombres de botón de PS2;
   - naturalidad dentro del espacio disponible.
-- **Regla general:** el autor nunca revisa su propio bloque.
+- **Regla general:** quien escribe un bloque nunca lo revisa.
 - **Registro:** desde F8, la revisión de cada integración queda en un acta en [revisiones/](revisiones/), con el formato de [CONTRIBUTING.md](../../CONTRIBUTING.md). La de F8 es [2026-10-11-sincronizacion.md](revisiones/2026-10-11-sincronizacion.md); la de F9, [2026-10-11-version-1.1.0.md](revisiones/2026-10-11-version-1.1.0.md), la de F10, [2026-10-11-version-1.2.0.md](revisiones/2026-10-11-version-1.2.0.md), y la de F11, [2026-10-11-version-1.2.1.md](revisiones/2026-10-11-version-1.2.1.md).
 
 ## 8. Definición de terminado
 
 Desde CC-12, la única Definition of Done es la de [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
-F0 a F7 se cerraron con la lista de entonces: compila en la CI con la imagen `ps2dev/ps2dev` (`make`, `make DEBUG=1` y `make iso`); `make test` pasa sin regresiones; el Markdown está sincronizado; el árbol queda limpio; y el responsable del proyecto confirma el cierre.
+F0 a F7 se cerraron con la lista de entonces: compila en la CI con la imagen `ps2dev/ps2dev` (`make`, `make DEBUG=1` y `make iso`); `make test` pasa sin regresiones; el Markdown está sincronizado; el árbol queda limpio; y yo confirmo el cierre.
 
 ## 9. Verificación
 
