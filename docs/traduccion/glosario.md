@@ -74,7 +74,7 @@ Los caracteres Á É Í Ó Ú Ñ Ü ¡ ¿ º ª los resuelve `incluir/sistema/ca
   - texturas de menú: `recursos/texturas/menus/tkmk00/<id>.rgba16.tkmk00`;
   - texturas del HUD: `recursos/comunes/texturas/<id>.<formato>.inc.c`.
 
-Todos los términos de esta sección los decidió el responsable del proyecto.
+Todos los términos de esta sección los decidí yo.
 
 ### 2.1 Modos y copas
 

@@ -760,7 +760,7 @@ Un commit `refactor(...)` no cambia el comportamiento, y un commit funcional no 
 - **Aceptación:** `git diff --quiet -- <ruta>` termina con 0 después de restaurar.
 - **Prueba:** evidencia en el PR con las salidas de rojo, verde, mutación y restauración.
 
-**R-GOB-04. Revisa un rol distinto del autor.**
+**R-GOB-04. Revisa un rol distinto del que escribió el bloque.**
 
 - Todo bloque lo revisa REVISIÓN, nunca el rol que lo escribió.
 - Cada hallazgo sigue este formato:

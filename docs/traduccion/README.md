@@ -76,12 +76,12 @@ Integrar la documentación de F10 y lanzar `publicar`, y después fusionar a `ma
 | Documento | Contenido |
 |---|---|
 | [especificacion.md](especificacion.md) | Qué hay que cumplir: alcance, exclusiones, requisitos numerados con criterio de aceptación y prueba, decisiones cerradas y riesgos |
-| [plan.md](plan.md) | Cómo se hizo: fases F0–F11 con su estado, roles y archivos, ramas, puertas de calidad, ciclo por bloque y verificación |
+| [plan.md](plan.md) | Cómo lo hice: fases F0–F11 con su estado, roles y archivos, ramas, puertas de calidad, ciclo por bloque y verificación |
 | [glosario.md](glosario.md) | Términos aprobados y su fuente |
 | [trazabilidad.md](trazabilidad.md) | Relación entre requisito, prueba, commits y evidencia, con el estado de cada requisito y los commits de F8, F9, F10 y F11 |
 | [cambios.md](cambios.md) | Registro de cambios de la especificación (CC-01 a CC-31): límites, escalas, términos, decisiones y diferencias con el plan aprobado |
 | [revisiones/](revisiones/) | Actas de revisión: la de F8, [2026-10-11-sincronizacion.md](revisiones/2026-10-11-sincronizacion.md), con las propuestas para el repositorio original, la de F9, [2026-10-11-version-1.1.0.md](revisiones/2026-10-11-version-1.1.0.md), la de F10, [2026-10-11-version-1.2.0.md](revisiones/2026-10-11-version-1.2.0.md), y la de F11, [2026-10-11-version-1.2.1.md](revisiones/2026-10-11-version-1.2.1.md) |
-| [deuda.md](deuda.md) | Deuda técnica: lo que se sabe que falta, por qué no se hizo y dónde se haría. Lo que no se puede comprobar sin hardware está en los [límites declarados](especificacion.md#9-límites-declarados) |
+| [deuda.md](deuda.md) | Deuda técnica: lo que se sabe que falta, por qué no lo hice y dónde lo haría. Lo que no se puede comprobar sin hardware está en los [límites declarados](especificacion.md#9-límites-declarados) |
 
 ## Cómo se trabaja
 
@@ -118,7 +118,7 @@ Comprobado el 2026-10-11 sobre `feature/version-1.2.0` en `fd6a4bb7`.
 
 - **Especificación → trazabilidad.** `especificacion.md` define 58 requisitos (`R-FUE` 9, `R-TXT` 8, `R-MC` 4, `R-TEX` 8, `R-PORT` 5, `R-INF` 7, `R-GOB` 8, `R-VID` 5, `R-TRU` 4). Los 58 tienen fila en [trazabilidad.md](trazabilidad.md) y la lista coincide con el comando de la [verificación de F8](#verificación-de-f8). Estado: 51 hechos y 7 parciales (R-GOB-01, R-GOB-02, R-GOB-03, R-GOB-04, R-GOB-06, R-GOB-07 y R-GOB-08). R-TEX-02 y R-PORT-03 pasan a hechos; R-GOB-07 pasa a parcial por D-25, y R-GOB-08 sigue parcial hasta integrar la documentación, como en F8 y F9.
 - **Pruebas.** `PS2SDK= make test` termina con 0: las 44 pruebas que imprimen su resumen dan 0 fallos y el tope de líneas, 0 archivos por encima.
-- **Gobernanza.** Sobre `main..feature/version-1.2.0`: 113 commits (99 más 14 merges), todos de Alexis Barrera; el comando de R-GOB-01 sale vacío; ningún commit toca `build/` ni `compilaciones/`; no hay trailers; el grep de R-GOB-07 encuentra 8 líneas en 4 archivos de `herramientas/` (D-25).
+- **Gobernanza.** Sobre `main..feature/version-1.2.0`: 113 commits (99 más 14 merges), todos míos; el comando de R-GOB-01 sale vacío; ningún commit toca `build/` ni `compilaciones/`; no hay trailers; el grep de R-GOB-07 encuentra 8 líneas en 4 archivos de `herramientas/` (D-25).
 - **CI de F10:** [38159323616](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38159323616), en verde. La publicación: [38167051526](https://github.com/Alexis-VsCode/mario-kart-64-ps2/actions/runs/38167051526), commit `9ab41422`.
 
 ## Verificación de F9
@@ -127,7 +127,7 @@ Comprobado el 2026-10-11 sobre `feature/version-1.1.0` en `a29bd920`.
 
 - **Especificación → trazabilidad.** Los 46 requisitos siguen teniendo fila en [trazabilidad.md](trazabilidad.md) y la lista coincide con el comando de la [verificación de F8](#verificación-de-f8). Estado: 38 hechos y 8 parciales (R-TEX-02, R-PORT-03, R-GOB-01, R-GOB-02, R-GOB-03, R-GOB-04, R-GOB-06 y R-GOB-08). R-GOB-08 sigue parcial hasta integrar `v110/doc-manual` y `v110/doc-traduccion`, como en F8; R-GOB-01 suma `b780d986`, de tipo `style`.
 - **Pruebas.** `env -u PS2SDK make test` termina con 0: 31 pruebas y el tope de líneas, 0 fallos.
-- **Gobernanza.** Sobre `origin/main..feature/version-1.1.0`: 38 commits, todos de Alexis Barrera; el comando de R-GOB-01 solo devuelve `b780d986`; ningún commit toca `build/` ni `compilaciones/`; no hay trailers; el grep de R-GOB-07 sale vacío.
+- **Gobernanza.** Sobre `origin/main..feature/version-1.1.0`: 38 commits, todos míos; el comando de R-GOB-01 solo devuelve `b780d986`; ningún commit toca `build/` ni `compilaciones/`; no hay trailers; el grep de R-GOB-07 sale vacío.
 - **CI de F9:** ejecución, commit de publicación y sumas en [trazabilidad.md](trazabilidad.md#evidencia-común).
 
 ## Verificación de F8
