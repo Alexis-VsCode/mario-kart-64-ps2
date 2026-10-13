@@ -22,6 +22,10 @@ on:
         description: "sí: borra las ramas remotas que ya están contenidas en main"
         required: false
         default: "no"
+      sincronizar_notas:
+        description: "sí: reescribe las notas de las Releases ya publicadas con las de docs/versiones/ (sin tocar la ISO ni el ELF)"
+        required: false
+        default: "no"
       regenerar_referencias:
         description: "sí: el job del emulador escribe sus capturas como referencias y las commitea en la rama"
         required: false
@@ -276,6 +280,30 @@ jobs:
           gh release create "$ETIQUETA" "$ISO" "$ELF_MONOLITICO" SHA256SUMS --repo "$GITHUB_REPOSITORY" \
             --target "$GITHUB_SHA" --title "Mario Kart 64 PS2 en español $ETIQUETA" \
             --notes-file "docs/versiones/$ETIQUETA.md"
+
+  notas-releases:
+    name: Sincronizar las notas de las Releases
+    if: github.event_name == 'workflow_dispatch' && (inputs.sincronizar_notas == 'si' || inputs.sincronizar_notas == 'sí')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      # Cada docs/versiones/vX.Y.Z.md es la nota de la Release con esa etiqueta
+      - name: Reescribir las notas
+        run: |
+          for f in docs/versiones/v*.md; do
+            etiqueta=$(basename "$f" .md)
+            if gh release view "$etiqueta" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+              gh release edit "$etiqueta" --repo "$GITHUB_REPOSITORY" \
+                --title "Mario Kart 64 PS2 en español $etiqueta" --notes-file "$f"
+              echo "notas de $etiqueta sincronizadas"
+            else
+              echo "$etiqueta no tiene Release: se salta"
+            fi
+          done
 
   limpiar-ramas:
     name: Borrar las ramas ya contenidas en main

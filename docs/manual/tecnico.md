@@ -451,6 +451,7 @@ El workflow `compilacion` (`.github/workflows/compilacion.yml`) corre en cada pu
 | `mismo-binario` | A pedido, con `base` no vacía | `herramientas/comparar_binario.sh <base>` para release y para `DEBUG=1`: compila la base y el árbol actual desde cero y compara el ELF sin símbolos y `SMK64ROM.BIN`. Un refactor tiene que dar los mismos bytes |
 | `publicar` | A pedido, con `publicar` = `si` o `sí` | Exige GNU make 4.4 o posterior; `make clean`, las variantes release, `DEBUG=1` y `DEV=1`, `make test` y `make iso`. Prepara `build/ps2` y `compilaciones`; si no hay nada preparado (`git diff --cached --quiet`), termina en verde sin commit. Si hay cambios, commitea con el mensaje `build(compilaciones): binarios e ISO en español`, con el commit de origen y la ejecución en el cuerpo, y hace push a la misma rama. Un fallo del commit o del push detiene el job en rojo |
 | `release` | A pedido, con `release` = etiqueta | Corre en el contenedor de ps2dev. Exige `compilaciones/SLUS_999.99.SuperMarioKart64.iso` y `docs/versiones/<etiqueta>.md`, y se detiene si el SHA-256 de la ISO no aparece en esas notas. Después, `make clean` y `make MONOLITICO=1`, que deja el ELF monolítico como `SLUS_999.99.monolitico.elf`. Escribe `SHA256SUMS` con dos líneas, la ISO y el ELF monolítico, y crea la Release `<etiqueta>` sobre el commit lanzado, con el título «Mario Kart 64 PS2 en español <etiqueta>», los tres archivos y esas notas como cuerpo |
+| `notas-releases` | A pedido, con `sincronizar_notas` = `si` o `sí` | Reescribe el título y las notas de cada Release ya publicada con `docs/versiones/<etiqueta>.md`. No toca la ISO ni el ELF |
 | `limpiar-ramas` | A pedido, con `limpiar_ramas` = `si` o `sí` | Borra cada rama remota cuya punta ya está en `main` (`git merge-base --is-ancestor`). Conserva `main` y las ramas con commits propios |
 
 Pasos de `compilar-ps2` que necesitan el SDK (`herramientas/ci/`):
@@ -485,6 +486,7 @@ Entradas a pedido (Actions → `compilacion` → Run workflow, o `POST /repos/{d
 | `publicar` | `no` | `sí` regenera `build/` y `compilaciones/` y los commitea en la rama |
 | `release` | vacía | Etiqueta de la Release, por ejemplo `v1.0.0`; vacía, no hay publicación |
 | `limpiar_ramas` | `no` | `sí` borra las ramas remotas que ya están contenidas en `main` |
+| `sincronizar_notas` | `no` | `sí` reescribe las notas de las Releases publicadas con las de `docs/versiones/` |
 
 Publico una versión en este orden, cada paso con el anterior terminado en verde:
 
